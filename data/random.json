@@ -1,0 +1,23 @@
+<script>
+async function goRandomCountry() {
+  try {
+    const res = await fetch("/data/countries.json?nocache=" + Date.now());
+    const data = await res.json();
+
+    const keys = Object.keys(data);
+    if (!keys.length) {
+      alert("No countries found");
+      return;
+    }
+
+    const randomKey = keys[Math.floor(Math.random() * keys.length)];
+
+    window.location.href =
+      "/countries/country.html?country=" + randomKey;
+
+  } catch (e) {
+    console.error("Random country error:", e);
+    alert("Random failed");
+  }
+}
+</script>

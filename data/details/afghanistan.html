@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Afghanistan — Deep Dive | WiggMap</title>
+  <meta name="description" content="WiggMap Deep Dive: Afghanistan — living, culture, work, and practical facts." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #f6faf7;               /* global background */
+      --card: #ffffff;             /* card background */
+      --text: #121614;
+      --muted: rgba(18,22,20,.72);
+      --border: rgba(18,22,20,.08);
+
+      /* WiggMap soft green identity (always, not aggressive) */
+      --accent: #bfe8c8;           /* pale green */
+      --accent-strong: #2c8a57;    /* dark green for titles */
+      --accent-wash: rgba(191,232,200,.35);
+
+      --radius: 18px;
+      --shadow-soft: 0 6px 18px rgba(0,0,0,.06);
+      --shadow: 0 10px 26px rgba(0,0,0,.08);
+    }
+
+    *{ box-sizing:border-box; margin:0; padding:0; }
+    body{
+      font-family:'Poppins', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+    }
+    .container{
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    /* HERO (no black background) */
+    .hero{
+      position: relative;
+      overflow: hidden;
+      margin: 18px 0 18px;
+      border-radius: 22px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      background:
+        radial-gradient(900px 420px at 20% 20%, rgba(255,255,255,.9), transparent 60%),
+        linear-gradient(135deg, #e9f8ee, #dff3e7);
+    }
+    .hero-inner{
+      display:flex;
+      gap: 18px;
+      align-items: center;
+      padding: 22px 22px;
+    }
+    .flag{
+      font-size: 44px;
+      filter: drop-shadow(0 6px 14px rgba(0,0,0,.10));
+    }
+    .hero-title{
+      font-size: 34px;
+      font-weight: 900;
+      letter-spacing: -0.4px;
+      color: #0f2a1c;
+      line-height: 1.1;
+    }
+    .hero-sub{
+      margin-top: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(15,42,28,.72);
+      max-width: 720px;
+    }
+
+    /* optional hero image (local, no API) */
+    .hero-media{
+      margin-left:auto;
+      width: 320px;
+      height: 140px;
+      border-radius: 16px;
+      border: 1px solid rgba(18,22,20,.10);
+      background:
+        linear-gradient(135deg, rgba(44,138,87,.10), rgba(191,232,200,.45)),
+        url("assets/img/countries/afghanistan-hero.jpg");
+      background-size: cover;
+      background-position: center;
+      overflow:hidden;
+    }
+    @media (max-width: 860px){
+      .hero-inner{ flex-direction: column; align-items:flex-start; }
+      .hero-media{ width: 100%; height: 170px; margin-left:0; }
+    }
+
+    /* GRID */
+    .grid{
+      display:grid;
+      grid-template-columns: 1.35fr .65fr;
+      gap: 16px;
+      padding-bottom: 64px;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    /* CARDS */
+    .card{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+      overflow:hidden;
+    }
+    .card + .card{ margin-top: 14px; }
+
+    .card-head{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      padding: 16px 16px 10px 16px;
+    }
+    .bar{
+      width: 10px;
+      height: 38px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 12px 20px rgba(0,0,0,.06);
+      border: 1px solid rgba(18,22,20,.06);
+    }
+    .title{
+      font-size: 17px;
+      font-weight: 900;
+      letter-spacing: -0.2px;
+      color: var(--accent-strong);
+    }
+    .body{
+      padding: 0 16px 16px 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .body p{ margin-top: 10px; }
+    .body strong{ color: var(--text); font-weight: 800; }
+
+    /* RIGHT SNAPSHOT */
+    .snapshot{
+      padding: 16px;
+    }
+    .snapshot h3{
+      font-size: 15px;
+      font-weight: 900;
+      color: var(--accent-strong);
+      letter-spacing: -0.2px;
+      margin-bottom: 10px;
+    }
+    .kv{
+      display:flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 0;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .kv:first-of-type{ border-top: 0; padding-top: 6px; }
+    .kv b{ color: var(--text); font-weight: 900; }
+
+    .mini-note{
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 14px;
+      background: var(--accent-wash);
+      border: 1px solid rgba(18,22,20,.06);
+      color: rgba(15,42,28,.70);
+      font-size: 12.5px;
+      font-weight: 600;
+    }
+
+    /* LIST (things to know) */
+    .facts{
+      margin-top: 10px;
+      display:grid;
+      gap: 10px;
+    }
+    .fact{
+      border: 1px solid rgba(18,22,20,.08);
+      border-radius: 14px;
+      padding: 12px 12px;
+      background: rgba(0,0,0,.01);
+    }
+    .fact b{
+      display:block;
+      margin-bottom: 4px;
+      color: var(--text);
+      font-weight: 900;
+    }
+
+    /* FOOT LINK */
+    .back{
+      display:inline-block;
+      margin-top: 12px;
+      text-decoration:none;
+      color: rgba(18,22,20,.62);
+      font-weight: 800;
+    }
+    .back:hover{ color: var(--text); }
+  </style>
+</head>
+
+<body>
+
+  <header class="container">
+    <section class="hero">
+      <div class="hero-inner">
+        <div>
+          <div class="flag" aria-label="Flag">🇦🇫</div>
+          <div class="hero-title">Afghanistan</div>
+          <div class="hero-sub">Deep Dive — practical reality, culture, work, and “things you don’t expect”.</div>
+        </div>
+
+        <!-- Optional local image (no API). If you don't have it, keep it: it still looks fine. -->
+        <div class="hero-media" aria-label="Country hero image"></div>
+      </div>
+    </section>
+  </header>
+
+  <main class="container">
+    <section class="grid">
+
+      <!-- LEFT: CONTENT -->
+      <div>
+
+        <article class="card">
+          <div class="card-head">
+            <div class="bar"></div>
+            <div class="title">🧭 Overview</div>
+          </div>
+          <div class="body">
+            <p>Afghanistan sits at the crossroads of Central and South Asia. Daily life can vary drastically by region, infrastructure, and local context.</p>
+            <p><strong>Reality check:</strong> it’s not a “classic relocation” country. When foreigners are there long-term, it’s often for institutional / humanitarian roles.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <div class="bar"></div>
+            <div class="title">👥 People, vibe & language</div>
+          </div>
+          <div class="body">
+            <p><strong>Hospitality</strong> is a big cultural marker: tea, time, and conversation matter.</p>
+            <p><strong>Languages:</strong> Dari and Pashto are the main official languages; English is limited outside specific circles.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <div class="bar"></div>
+            <div class="title">💼 Work & economy (incl. top sectors)</div>
+          </div>
+          <div class="body">
+            <p>The labour market is under structural pressure and opportunities for foreigners are typically concentrated in special contexts.</p>
+            <p><strong>3 major activity channels you’ll see most often:</strong></p>
+            <p>
+              1) <strong>Agriculture & agribusiness</strong> (livelihood backbone)<br>
+              2) <strong>Local trade & services</strong> (small commerce, basics)<br>
+              3) <strong>Humanitarian / NGO / health & logistics</strong> (aid-related ecosystem)
+            </p>
+            <p>If you want this to be “data-driven” later, we’ll plug the 3 sectors from JSON per country.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <div class="bar"></div>
+            <div class="title">🌦️ Climate & landscape</div>
+          </div>
+          <div class="body">
+            <p>Mostly continental and dry: hot summers in many areas, cold winters — especially in higher elevations where snow can be significant.</p>
+            <p>Mountains, valleys, and arid plains mean living conditions change a lot from one province to another.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <div class="bar"></div>
+            <div class="title">🏠 Housing & settling in</div>
+          </div>
+          <div class="body">
+            <p>Housing varies widely by city and local infrastructure. Renting often involves informal negotiation and deposits (commonly 1–3 months).</p>
+            <p>Many expats rely on employer-provided housing (NGO / institutional missions) because standards can vary a lot.</p>
+          </div>
+        </article>
+
+        <!-- MID: NATIONAL DISH -->
+        <article class="card">
+          <div class="card-head">
+            <div class="bar"></div>
+            <div class="title">🍛 National dish</div>
+          </div>
+          <div class="body">
+            <p><strong>Kabuli Pulao</strong>: fragrant rice with lamb, carrots, raisins, and warm spices — a classic shared-meal dish for gatherings.</p>
+          </div>
+        </article>
+
+        <!-- LGBT (only here, not repeated elsewhere) -->
+        <article class="card">
+          <div class="card-head">
+            <div class="bar"></div>
+            <div class="title">🏳️‍🌈 LGBT acceptance</div>
+          </div>
+          <div class="body">
+            <p><strong>Very low / not safe.</strong> The environment is extremely conservative and same-sex relations are criminalised under the current framework; visibility can be dangerous.</p>
+          </div>
+        </article>
+
+        <!-- BIG: THINGS TO KNOW -->
+        <article class="card">
+          <div class="card-head">
+            <div class="bar"></div>
+            <div class="title">💡 Things to know (wow + unusual + history)</div>
+          </div>
+          <div class="body">
+            <p>This is the “you didn’t expect that” box — mixing history, culture, and practical reality.</p>
+
+            <div class="facts">
+              <div class="fact">
+                <b>🏺 “Bactrian Gold” (Tillya Tepe): a real-life treasure story</b>
+                In 1978, archaeologists excavated Tillya Tepe (“Golden Hill”) and found a hoard of ~20,600 artifacts (jewelry, coins, ornaments) from around the 1st century BCE/CE. The treasure was believed lost during the wars, then later recovered from secure vaults and shown again publicly.  
+              </div>
+
+              <div class="fact">
+                <b>🗼 A UNESCO minaret hidden in the mountains</b>
+                The Minaret of Jam is about <strong>65 meters</strong> tall, from the 12th century, set dramatically in a deep valley — one of the most striking medieval monuments in the region, but far less known than it deserves.
+              </div>
+
+              <div class="fact">
+                <b>🤝 Social code: hospitality is “serious business”</b>
+                In many places, refusing tea or rushing the first minutes of a visit can feel rude. Relationship-building can matter more than “efficiency” in daily interactions.
+              </div>
+
+              <div class="fact">
+                <b>🧭 Practical reality: rules and enforcement can be uneven</b>
+                Depending on area/context, everyday constraints can change fast. What feels “normal” in one neighborhood can be different elsewhere — so locals’ guidance matters a lot.
+              </div>
+
+              <div class="fact">
+                <b>💵 Cash-first day-to-day</b>
+                Many transactions still rely heavily on cash. Planning “like in Western Europe” (cards everywhere, predictable services) can lead to friction.
+              </div>
+            </div>
+
+            <a class="back" href="country.html">← Back to country page</a>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- RIGHT: SNAPSHOT -->
+      <aside>
+        <div class="card snapshot">
+          <h3>Quick snapshot</h3>
+          <div class="kv"><span>Capital</span> <b>Kabul</b></div>
+          <div class="kv"><span>Population</span> <b>~43.8M</b></div>
+          <div class="kv"><span>Main languages</span> <b>Dari, Pashto</b></div>
+          <div class="kv"><span>Driving side</span> <b>Right</b></div>
+
+          <div class="mini-note">
+            Tip: later, this box can be auto-filled from your Afghanistan JSON (and every country JSON).
+          </div>
+        </div>
+      </aside>
+
+    </section>
+  </main>
+
+</body>
+</html>

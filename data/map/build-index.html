@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>WiggMap — Build countries_index.json</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;margin:24px;background:#0b0f17;color:#eaf0ff}
+    .box{max-width:900px;margin:0 auto;padding:18px;border:1px solid rgba(255,255,255,.12);border-radius:14px;background:rgba(255,255,255,.04)}
+    code{background:rgba(255,255,255,.08);padding:2px 6px;border-radius:8px}
+    button{padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;cursor:pointer}
+    button:hover{background:rgba(255,255,255,.12)}
+    pre{white-space:pre-wrap;background:rgba(255,255,255,.06);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.1);max-height:320px;overflow:auto}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .muted{opacity:.75}
+    input{width:100%;padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.25);color:#fff}
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Build <code>countries_index.json</code> (sans npm)</h2>
+    <p class="muted">Ce fichier fusionne <code>countries2.json</code> (wigg.level) + <code>geo-by-slug2.json</code> (iso2) et sort un index ISO3 → slug + couleur.</p>
+
+    <div class="row">
+      <button id="buildBtn">Générer & Télécharger</button>
+      <span class="muted" id="stats"></span>
+    </div>
+
+    <h3>Chemins utilisés (à laisser comme ça si ton build-index.html est dans <code>data/map/</code>)</h3>
+    <input id="countriesPath" value="./countries2.json" />
+    <input id="geoPath" value="./geo-by-slug2.json" />
+
+    <h3>Logs</h3>
+    <pre id="log"></pre>
+  </div>
+
+<script>
+  // ISO2 -> ISO3 (table complète intégrée, sans dépendance)
+  // Source: liste standard ISO 3166-1 (alpha-2 to alpha-3)
+  const ISO2_TO_ISO3 = {
+    "AF":"AFG","AL":"ALB","DZ":"DZA","AS":"ASM","AD":"AND","AO":"AGO","AI":"AIA","AQ":"ATA","AG":"ATG","AR":"ARG","AM":"ARM","AW":"ABW","AU":"AUS","AT":"AUT","AZ":"AZE",
+    "BS":"BHS","BH":"BHR","BD":"BGD","BB":"BRB","BY":"BLR","BE":"BEL","BZ":"BLZ","BJ":"BEN","BM":"BMU","BT":"BTN","BO":"BOL","BQ":"BES","BA":"BIH","BW":"BWA","BR":"BRA",
+    "BN":"BRN","BG":"BGR","BF":"BFA","BI":"BDI","CV":"CPV","KH":"KHM","CM":"CMR","CA":"CAN","KY":"CYM","CF":"CAF","TD":"TCD","CL":"CHL","CN":"CHN","CX":"CXR","CC":"CCK",
+    "CO":"COL","KM":"COM","CG":"COG","CD":"COD","CK":"COK","CR":"CRI","CI":"CIV","HR":"HRV","CU":"CUB","CW":"CUW","CY":"CYP","CZ":"CZE","DK":"DNK","DJ":"DJI","DM":"DMA",
+    "DO":"DOM","EC":"ECU","EG":"EGY","SV":"SLV","GQ":"GNQ","ER":"ERI","EE":"EST","SZ":"SWZ","ET":"ETH","FK":"FLK","FO":"FRO","FJ":"FJI","FI":"FIN","FR":"FRA","GF":"GUF",
+    "PF":"PYF","TF":"ATF","GA":"GAB","GM":"GMB","GE":"GEO","DE":"DEU","GH":"GHA","GI":"GIB","GR":"GRC","GL":"GRL","GD":"GRD","GP":"GLP","GU":"GUM","GT":"GTM","GG":"GGY",
+    "GN":"GIN","GW":"GNB","GY":"GUY","HT":"HTI","HM":"HMD","VA":"VAT","HN":"HND","HK":"HKG","HU":"HUN","IS":"ISL","IN":"IND","ID":"IDN","IR":"IRN","IQ":"IRQ","IE":"IRL",
+    "IM":"IMN","IL":"ISR","IT":"ITA","JM":"JAM","JP":"JPN","JE":"JEY","JO":"JOR","KZ":"KAZ","KE":"KEN","KI":"KIR","KP":"PRK","KR":"KOR","KW":"KWT","KG":"KGZ","LA":"LAO",
+    "LV":"LVA","LB":"LBN","LS":"LSO","LR":"LBR","LY":"LBY","LI":"LIE","LT":"LTU","LU":"LUX","MO":"MAC","MG":"MDG","MW":"MWI","MY":"MYS","MV":"MDV","ML":"MLI","MT":"MLT",
+    "MH":"MHL","MQ":"MTQ","MR":"MRT","MU":"MUS","YT":"MYT","MX":"MEX","FM":"FSM","MD":"MDA","MC":"MCO","MN":"MNG","ME":"MNE","MS":"MSR","MA":"MAR","MZ":"MOZ","MM":"MMR",
+    "NA":"NAM","NR":"NRU","NP":"NPL","NL":"NLD","NC":"NCL","NZ":"NZL","NI":"NIC","NE":"NER","NG":"NGA","NU":"NIU","NF":"NFK","MK":"MKD","MP":"MNP","NO":"NOR","OM":"OMN",
+    "PK":"PAK","PW":"PLW","PS":"PSE","PA":"PAN","PG":"PNG","PY":"PRY","PE":"PER","PH":"PHL","PN":"PCN","PL":"POL","PT":"PRT","PR":"PRI","QA":"QAT","RE":"REU","RO":"ROU",
+    "RU":"RUS","RW":"RWA","BL":"BLM","SH":"SHN","KN":"KNA","LC":"LCA","MF":"MAF","PM":"SPM","VC":"VCT","WS":"WSM","SM":"SMR","ST":"STP","SA":"SAU","SN":"SEN","RS":"SRB",
+    "SC":"SYC","SL":"SLE","SG":"SGP","SX":"SXM","SK":"SVK","SI":"SVN","SB":"SLB","SO":"SOM","ZA":"ZAF","GS":"SGS","SS":"SSD","ES":"ESP","LK":"LKA","SD":"SDN","SR":"SUR",
+    "SJ":"SJM","SE":"SWE","CH":"CHE","SY":"SYR","TW":"TWN","TJ":"TJK","TZ":"TZA","TH":"THA","TL":"TLS","TG":"TGO","TK":"TKL","TO":"TON","TT":"TTO","TN":"TUN","TR":"TUR",
+    "TM":"TKM","TC":"TCA","TV":"TUV","UG":"UGA","UA":"UKR","AE":"ARE","GB":"GBR","US":"USA","UM":"UMI","UY":"URY","UZ":"UZB","VU":"VUT","VE":"VEN","VN":"VNM","VG":"VGB",
+    "VI":"VIR","WF":"WLF","EH":"ESH","YE":"YEM","ZM":"ZMB","ZW":"ZWE","AX":"ALA"
+  };
+
+  const logEl = document.getElementById("log");
+  const statsEl = document.getElementById("stats");
+  const countriesPathEl = document.getElementById("countriesPath");
+  const geoPathEl = document.getElementById("geoPath");
+
+  function log(msg){
+    logEl.textContent += msg + "\n";
+  }
+
+  function normalizeLevel(level){
+    const v = String(level || "").toLowerCase().trim();
+    if (v === "green" || v === "yellow" || v === "red") return v;
+    return "yellow";
+  }
+
+  async function loadJson(path){
+    const r = await fetch(path);
+    if (!r.ok) throw new Error(`Fetch failed ${path} (${r.status})`);
+    return r.json();
+  }
+
+  function downloadJson(filename, obj){
+    const blob = new Blob([JSON.stringify(obj, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  document.getElementById("buildBtn").addEventListener("click", async () => {
+    logEl.textContent = "";
+    statsEl.textContent = "";
+
+    const countriesPath = countriesPathEl.value.trim();
+    const geoPath = geoPathEl.value.trim();
+
+    try{
+      log("Loading: " + countriesPath);
+      const countriesJson = await loadJson(countriesPath);
+
+      log("Loading: " + geoPath);
+      const geoJson = await loadJson(geoPath);
+
+      const out = {};
+      let exported = 0;
+      let missingIso = 0;
+      let missingWigg = 0;
+
+      for (const [slug, obj] of Object.entries(countriesJson)) {
+        const rec = geoJson[slug];
+        const iso2 = (rec?.iso2 || rec?.ISO2 || rec?.iso || "").toUpperCase();
+
+        if (!iso2 || !ISO2_TO_ISO3[iso2]) { missingIso++; continue; }
+        const iso3 = ISO2_TO_ISO3[iso2];
+
+        const level = normalizeLevel(obj?.wigg?.level);
+        if (!obj?.wigg?.level) missingWigg++;
+
+        out[iso3] = {
+          name: obj?.name || slug,
+          slug,
+          wiggColor: level
+        };
+        exported++;
+      }
+
+      log("✅ Exported: " + exported);
+      log("⚠️ Missing ISO: " + missingIso);
+      log("⚠️ Missing wigg.level: " + missingWigg + " (fallback yellow)");
+      statsEl.textContent = `Exported ${exported} | Missing ISO ${missingIso} | Missing wigg ${missingWigg}`;
+
+      downloadJson("countries_index.json", out);
+      log("Downloaded: countries_index.json");
+
+    } catch(e){
+      log("❌ Error: " + e.message);
+      log("Astuce: ouvre ce fichier via ton site (http/https) pas en file:// si fetch bloque.");
+    }
+  });
+</script>
+</body>
+</html>

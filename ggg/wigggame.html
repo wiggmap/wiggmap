@@ -1,0 +1,952 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WiggGame</title>
+  <link rel="icon" href="../assets/favicon.ico" />
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#1dd876">
+  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <style>
+    :root {
+      --bg: #f6fbf9; --bg2: #eff8f4; --text: #051410;
+      --muted: rgba(5,20,16,0.58); --border: rgba(0,0,0,0.06);
+      --shadow: 0 16px 48px rgba(0,0,0,0.1);
+      --shadow-sm: 0 4px 12px rgba(0,0,0,0.06);
+      --accent: #1dd876; --accent2: #10a860; --accent3: #0d8f50;
+      --danger: #e74c3c; --success: #27ae60;
+    }
+    * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+    html,body {
+      margin:0; padding:0; height:100%;
+      font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+      color:var(--text);
+      background: radial-gradient(1000px 600px at 50% -5%,rgba(29,216,118,0.2),transparent 55%),
+                  radial-gradient(700px 420px at 8% 2%,rgba(29,216,118,0.1),transparent 55%),
+                  radial-gradient(600px 380px at 92% 10%,rgba(29,216,118,0.08),transparent 60%),
+                  linear-gradient(180deg,var(--bg),var(--bg2));
+      min-height:100vh; overflow-x:hidden;
+    }
+    body { display:flex; flex-direction:column; }
+    .wrap { max-width:1080px; width:100%; margin:0 auto; padding:24px 18px; flex:1; display:flex; flex-direction:column; }
+
+    /* LANG BAR */
+    .langBar { display:flex; justify-content:flex-end; gap:6px; margin-bottom:10px; }
+    .langBtn { border:1.5px solid var(--border); background:rgba(255,255,255,0.85); border-radius:8px; padding:5px 10px; font-size:13px; font-weight:800; cursor:pointer; transition:all 0.15s ease; box-shadow:var(--shadow-sm); }
+    .langBtn:hover { border-color:var(--accent); }
+    .langBtn.active { border-color:var(--accent2); background:rgba(29,216,118,0.15); color:var(--accent2); }
+
+    /* HEADER */
+    .header { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; margin-bottom:20px; }
+    .header > a { flex-shrink:0; display:inline-flex; align-items:center; justify-content:center; padding:6px; border-radius:16px; background:transparent; border:0; }
+    .logo { width:clamp(220px,28vw,420px); height:auto; display:block; object-fit:contain; filter:drop-shadow(0 12px 26px rgba(29,216,118,0.32)); cursor:pointer; transition:transform 0.2s ease; }
+    .logo:hover { transform:translateY(-2px); }
+
+    /* LEVEL BADGE */
+    .levelBadge { display:flex; align-items:center; gap:8px; padding:7px 16px; background:linear-gradient(135deg,rgba(29,216,118,0.18),rgba(16,168,96,0.12)); border:1.5px solid rgba(29,216,118,0.35); border-radius:999px; font-size:13px; font-weight:900; color:var(--accent2); box-shadow:0 4px 16px rgba(29,216,118,0.18); }
+
+    /* STATS */
+    .statsBar { display:flex; flex-direction:row; gap:14px; flex-wrap:wrap; justify-content:center; align-items:center; position:relative; overflow:visible; }
+    .stat { display:flex; flex-direction:column; align-items:center; gap:6px; padding:12px 16px; border-radius:12px; background:rgba(255,255,255,0.85); border:1px solid var(--border); box-shadow:var(--shadow-sm); backdrop-filter:blur(10px); min-width:80px; }
+    .stat .label { color:var(--muted); font-weight:700; font-size:10px; text-transform:uppercase; letter-spacing:0.5px; }
+    .stat .value { font-size:20px; font-weight:950; color:var(--accent2); }
+    .livesContainer { position:relative; overflow:visible !important; }
+    .livesDisplay { display:flex; gap:8px; align-items:center; }
+    .lifeHeart { width:20px; height:20px; border-radius:4px; background:var(--danger); box-shadow:0 4px 12px rgba(231,76,60,0.25); animation:popIn 0.3s cubic-bezier(0.34,1.56,0.64,1); transition:all 0.2s ease; }
+    .lifeHeart.lost { background:rgba(0,0,0,0.08); box-shadow:none; animation:popOut 0.2s ease; }
+    @keyframes popIn { from{transform:scale(0) rotate(-180deg);opacity:0;} to{transform:scale(1) rotate(0);opacity:1;} }
+    @keyframes popOut { to{transform:scale(0.5);opacity:0;} }
+    .bonusIndicator { position:absolute; top:-24px; left:50%; transform:translateX(-50%); font-size:20px; font-weight:900; color:var(--success); white-space:nowrap; animation:floatUp 1.4s ease-out forwards; pointer-events:none; z-index:50; text-shadow:0 2px 8px rgba(0,0,0,0.15); }
+    @keyframes floatUp { 0%{transform:translateX(-50%) translateY(0) scale(1);opacity:1;} 60%{opacity:1;} 100%{transform:translateX(-50%) translateY(-48px) scale(1.2);opacity:0;} }
+
+    /* LEVEL UP POPUP */
+    .levelUpOverlay { display:none; position:fixed; inset:0; place-items:center; z-index:300; pointer-events:none; }
+    .levelUpOverlay.show { display:grid; }
+    .levelUpBox { background:linear-gradient(135deg,#e8faf1,#d4f5e4); border:2px solid rgba(39,174,96,0.4); border-radius:20px; padding:32px 48px; text-align:center; box-shadow:0 24px 64px rgba(29,216,118,0.35); animation:levelPopIn 0.45s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+    @keyframes levelPopIn { from{opacity:0;transform:scale(0.7);} to{opacity:1;transform:scale(1);} }
+    .levelUpEmoji { font-size:52px; line-height:1; margin-bottom:8px; }
+    .levelUpTitle { font-size:13px; font-weight:800; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; }
+    .levelUpName  { font-size:28px; font-weight:950; color:var(--accent2); }
+    .levelUpSub   { font-size:13px; color:var(--muted); font-weight:700; margin-top:6px; }
+
+    /* GAME BOARD */
+    .gameBoard { background:rgba(255,255,255,0.92); border:1px solid var(--border); border-radius:16px; box-shadow:var(--shadow); overflow:hidden; display:flex; flex-direction:column; flex:1; backdrop-filter:blur(12px); }
+    .boardHeader { padding:18px 22px; display:flex; align-items:center; justify-content:space-between; gap:18px; border-bottom:1px solid var(--border); background:linear-gradient(90deg,rgba(29,216,118,0.08),rgba(255,255,255,0.65)); flex-wrap:wrap; }
+    .headerLeft { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+    .badge { padding:7px 12px; border-radius:999px; border:1px solid var(--border); background:rgba(255,255,255,0.95); font-weight:800; font-size:11px; color:var(--text); text-transform:uppercase; letter-spacing:0.4px; box-shadow:var(--shadow-sm); }
+    .progressSection { display:flex; align-items:center; gap:12px; flex-grow:1; min-width:200px; }
+    .progressBar { height:6px; border-radius:999px; background:rgba(0,0,0,0.08); overflow:hidden; border:1px solid var(--border); flex-grow:1; }
+    .progressFill { height:100%; width:0%; background:linear-gradient(90deg,var(--accent),var(--accent2)); transition:width 0.5s cubic-bezier(0.34,1.56,0.64,1); box-shadow:0 0 12px rgba(29,216,118,0.4); }
+    .progressLabel { font-weight:850; font-size:11px; color:var(--muted); white-space:nowrap; letter-spacing:0.3px; }
+    .stage { padding:28px 22px; display:flex; flex-direction:column; gap:22px; flex:1; justify-content:center; }
+    .questionBox { position:relative; border-radius:14px; padding:26px 24px; background:linear-gradient(135deg,rgba(255,255,255,0.98),rgba(29,216,118,0.05)); border:1.5px solid rgba(29,216,118,0.15); box-shadow:0 8px 32px rgba(0,0,0,0.06); animation:slideInQuestion 0.35s cubic-bezier(0.34,1.56,0.64,1); }
+    @keyframes slideInQuestion { from{opacity:0;transform:translateY(12px);} to{opacity:1;transform:translateY(0);} }
+    .qNumber { font-size:11px; font-weight:800; color:var(--accent2); text-transform:uppercase; letter-spacing:0.6px; margin-bottom:8px; }
+    .qTitle { font-size:24px; font-weight:950; letter-spacing:-0.4px; line-height:1.35; margin:0; color:var(--text); }
+    .qMeta { margin-top:14px; display:flex; align-items:center; justify-content:space-between; gap:12px; font-size:12px; font-weight:750; }
+    .status { color:var(--muted); transition:color 0.2s ease; }
+    .status.correct { color:var(--success); font-weight:900; }
+    .status.wrong   { color:var(--danger); font-weight:900; }
+    .answersGrid { display:grid; grid-template-columns:1fr 1fr; gap:14px; animation:fadeInAnswers 0.3s ease; }
+    @keyframes fadeInAnswers { from{opacity:0;} to{opacity:1;} }
+    .answerBtn { position:relative; border:1.5px solid var(--border); background:rgba(255,255,255,0.92); border-radius:12px; padding:16px 14px; display:flex; align-items:center; justify-content:flex-start; gap:12px; cursor:pointer; font-weight:800; font-size:15px; letter-spacing:-0.2px; color:var(--text); box-shadow:var(--shadow-sm); transition:all 0.12s ease; text-align:left; overflow:hidden; width:100%; min-height:72px; }
+    .answerBtn:hover:not(.locked) { border-color:var(--accent); box-shadow:0 12px 32px rgba(29,216,118,0.2); transform:translateY(-3px); }
+    .answerBtn:active:not(.locked) { transform:translateY(-1px); }
+    .answerBtn.locked { pointer-events:none; }
+    .answerBtn.correct { border-color:var(--success); background:rgba(39,174,96,0.12); box-shadow:0 0 0 3px rgba(39,174,96,0.15); }
+    .answerBtn.correct .answerLetter { background:linear-gradient(135deg,var(--success),#229a54); box-shadow:0 4px 16px rgba(39,174,96,0.35); }
+    .answerBtn.wrong { border-color:var(--danger); background:rgba(231,76,60,0.12); box-shadow:0 0 0 3px rgba(231,76,60,0.15); }
+    .answerBtn.wrong .answerLetter { background:linear-gradient(135deg,var(--danger),#c0392b); box-shadow:0 4px 16px rgba(231,76,60,0.35); }
+    .answerLetter { width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-weight:950; font-size:18px; color:white; background:linear-gradient(135deg,var(--accent),var(--accent2)); box-shadow:0 6px 16px rgba(29,216,118,0.3); flex-shrink:0; transition:all 0.12s ease; }
+    .answerBtn:hover:not(.locked) .answerLetter { transform:scale(1.1) rotate(-5deg); }
+    .answerText { flex:1; overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
+
+    /* TOAST */
+    .toast { position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(120px); width:min(520px,calc(100vw - 32px)); border-radius:16px; padding:16px 20px; display:flex; flex-direction:column; gap:6px; z-index:200; box-shadow:0 12px 40px rgba(0,0,0,0.18); transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1),opacity 0.3s ease; opacity:0; pointer-events:none; }
+    .toast.show { transform:translateX(-50%) translateY(0); opacity:1; }
+    .toast.hide { transform:translateX(-50%) translateY(120px); opacity:0; }
+    .toast.correct-toast { background:linear-gradient(135deg,#e8faf1,#d4f5e4); border:1.5px solid rgba(39,174,96,0.3); }
+    .toast.wrong-toast   { background:linear-gradient(135deg,#fdf1f0,#fce4e1); border:1.5px solid rgba(231,76,60,0.25); }
+    .toastVerdict { font-size:13px; font-weight:900; text-transform:uppercase; letter-spacing:0.6px; }
+    .toast.correct-toast .toastVerdict { color:var(--success); }
+    .toast.wrong-toast   .toastVerdict { color:var(--danger); }
+    .toastText { font-size:14px; font-weight:600; line-height:1.55; color:var(--text); }
+    .toastTimer { height:3px; border-radius:999px; background:rgba(0,0,0,0.1); margin-top:4px; overflow:hidden; }
+    .toastTimerFill { height:100%; border-radius:999px; width:100%; }
+    .toast.correct-toast .toastTimerFill { background:var(--success); }
+    .toast.wrong-toast   .toastTimerFill { background:var(--danger); }
+    .toastTimerFill.running { transition:width 9s linear; width:0%; }
+
+    /* CONTROLS */
+    .controls { padding:16px 22px; display:flex; align-items:center; justify-content:space-between; gap:14px; border-top:1px solid var(--border); background:rgba(255,255,255,0.75); flex-wrap:wrap; }
+    .hint { font-size:12px; font-weight:750; color:var(--muted); flex-grow:1; }
+    .ctrlButtons { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+    .btn { border:1px solid var(--border); background:rgba(255,255,255,0.94); border-radius:10px; padding:10px 14px; font-weight:800; font-size:13px; cursor:pointer; box-shadow:var(--shadow-sm); transition:all 0.12s ease; letter-spacing:-0.2px; text-decoration:none; color:var(--text); display:inline-flex; align-items:center; gap:6px; }
+    .btn:hover { border-color:var(--accent); box-shadow:0 6px 16px rgba(29,216,118,0.18); transform:translateY(-2px); }
+    .btn.primary { border-color:var(--accent2); background:rgba(29,216,118,0.14); color:var(--accent2); font-weight:850; }
+    .btn.primary:hover { background:rgba(29,216,118,0.2); }
+    .btn.share { border-color:#1d9bf0; background:rgba(29,155,240,0.08); color:#1d9bf0; }
+    .btn.share:hover { background:rgba(29,155,240,0.15); }
+    .link { color:var(--accent2); text-decoration:none; font-weight:800; border-bottom:2px solid var(--accent2); transition:all 0.12s ease; cursor:pointer; padding:8px 10px; border-radius:6px; }
+    .link:hover { background:rgba(29,216,118,0.08); }
+
+    /* MODAL */
+    .modal { display:none; position:fixed; inset:0; place-items:center; padding:16px; background:rgba(0,0,0,0.38); backdrop-filter:blur(10px); z-index:100; }
+    .modal.show { display:grid; }
+    .modalBox { width:min(580px,100%); border-radius:16px; background:rgba(255,255,255,0.97); border:1px solid var(--border); box-shadow:0 24px 64px rgba(0,0,0,0.24); overflow:hidden; animation:popInModal 0.3s cubic-bezier(0.34,1.56,0.64,1); max-height:90vh; overflow-y:auto; }
+    @keyframes popInModal { from{opacity:0;transform:scale(0.94);} to{opacity:1;transform:scale(1);} }
+    .modalHeader { padding:24px; background:linear-gradient(135deg,rgba(29,216,118,0.12),rgba(255,255,255,0.8)); border-bottom:1px solid var(--border); }
+    .modalHeader h2 { margin:0; font-size:22px; font-weight:950; }
+    .modalHeader p { margin:8px 0 0 0; color:var(--muted); font-weight:800; font-size:13px; line-height:1.4; }
+    .modalBody { padding:24px; display:grid; gap:16px; }
+    .resultBox { text-align:center; padding:20px; border-radius:14px; background:linear-gradient(135deg,rgba(29,216,118,0.12),rgba(29,216,118,0.06)); border:1px solid rgba(29,216,118,0.2); }
+    .resultScore { font-size:48px; font-weight:950; color:var(--accent2); line-height:1; margin-bottom:4px; }
+    .resultRank  { font-size:20px; font-weight:850; margin-bottom:6px; }
+    .resultLabel { color:var(--muted); font-size:12px; font-weight:750; text-transform:uppercase; letter-spacing:0.5px; }
+
+    /* LEADERBOARD */
+    .leaderboard { border-radius:12px; border:1px solid var(--border); overflow:hidden; }
+    .leaderboardTitle { padding:10px 14px; background:linear-gradient(90deg,rgba(29,216,118,0.1),transparent); font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; color:var(--muted); border-bottom:1px solid var(--border); }
+    .lbRow { display:flex; align-items:center; gap:12px; padding:10px 14px; border-bottom:1px solid var(--border); font-size:13px; font-weight:750; }
+    .lbRow:last-child { border-bottom:none; }
+    .lbRow.current { background:rgba(29,216,118,0.07); font-weight:900; }
+    .lbRank { font-weight:950; color:var(--muted); width:20px; text-align:center; }
+    .lbScore { margin-left:auto; font-weight:900; color:var(--accent2); }
+    .lbDate { color:var(--muted); font-size:11px; }
+    .modalButtons { display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap; }
+
+    /* PWA INSTALL BANNER */
+    .pwaBanner {
+      position: fixed;
+      bottom: -120px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(480px, calc(100vw - 24px));
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.97), rgba(240,255,248,0.98));
+      border: 1.5px solid rgba(29,216,118,0.35);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.18), 0 0 0 1px rgba(29,216,118,0.1);
+      z-index: 500;
+      transition: bottom 0.5s cubic-bezier(0.34,1.56,0.64,1);
+      overflow: hidden;
+    }
+    .pwaBanner.show { bottom: 20px; }
+    .pwaBannerContent {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 18px;
+    }
+    .pwaBannerIcon {
+      font-size: 32px;
+      flex-shrink: 0;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(29,216,118,0.18), rgba(16,168,96,0.12));
+      border-radius: 14px;
+      border: 1.5px solid rgba(29,216,118,0.3);
+    }
+    .pwaBannerText { flex: 1; min-width: 0; }
+    .pwaBannerTitle {
+      font-weight: 900;
+      font-size: 15px;
+      color: var(--text);
+      letter-spacing: -0.2px;
+    }
+    .pwaBannerSub {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .pwaBannerBtn {
+      flex-shrink: 0;
+      border: none;
+      background: linear-gradient(135deg, #10a860, #1dd876);
+      color: #fff;
+      font-weight: 900;
+      font-size: 13px;
+      padding: 10px 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(29,216,118,0.35);
+      transition: all 0.15s ease;
+      letter-spacing: -0.2px;
+    }
+    .pwaBannerBtn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(29,216,118,0.4); }
+    .pwaBannerClose {
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+      background: rgba(0,0,0,0.04);
+      color: var(--muted);
+      font-size: 13px;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.12s ease;
+      font-weight: 800;
+    }
+    .pwaBannerClose:hover { background: rgba(231,76,60,0.08); border-color: rgba(231,76,60,0.3); color: var(--danger); }
+    .pwaBannerProgress {
+      height: 3px;
+      background: rgba(0,0,0,0.07);
+      overflow: hidden;
+    }
+    .pwaBannerProgressFill {
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      transform-origin: left;
+      transition: none;
+    }
+    .pwaBannerProgressFill.running {
+      transition: width 5s linear;
+      width: 0%;
+    }
+
+    /* MOBILE */
+    @media (max-width:720px) {
+      .wrap { padding:16px 12px; }
+      .header { align-items:center; }
+      .headerLeft { display:none; }
+      .boardHeader { padding:10px 14px; }
+      .qTitle { font-size:17px !important; line-height:1.3; }
+      .qNumber { font-size:10px; }
+      .statsBar { width:100%; justify-content:center; gap:6px; flex-wrap:nowrap; }
+      .stat { flex:1; min-width:0; width:auto; height:58px; padding:6px 4px; }
+      .stat .label { font-size:8.5px; letter-spacing:0.2px; }
+      .stat .value { font-size:15px; }
+      .livesDisplay { gap:4px; }
+      .lifeHeart { width:13px; height:13px; }
+      .answersGrid { grid-template-columns:1fr 1fr; gap:10px; }
+      .answerBtn { font-size:13px; padding:12px 10px; min-height:64px; }
+      .answerLetter { width:34px; height:34px; font-size:15px; border-radius:8px; }
+      .stage { padding:16px 12px; gap:14px; }
+      .levelUpBox { padding:24px 28px; }
+      .levelUpName { font-size:22px; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Lang selector -->
+  <div class="langBar">
+    <button class="langBtn" id="langEN" onclick="setLang('en')">🇬🇧 EN</button>
+    <button class="langBtn" id="langFR" onclick="setLang('fr')">🇫🇷 FR</button>
+    <button class="langBtn" id="langES" onclick="setLang('es')">🇪🇸 ES</button>
+  </div>
+
+  <div class="header">
+    <a href="../index.html" title="WiggMap">
+      <img src="../assets/wigggame.png" alt="WiggGame" class="logo">
+    </a>
+    <div class="levelBadge" id="levelBadge">🌍 Explorer — Lv.1</div>
+    <div class="statsBar">
+      <div class="stat">
+        <span class="label" id="lScore">Score</span>
+        <span class="value" id="score">0</span>
+      </div>
+      <div class="stat">
+        <span class="label" id="lCombo">Combo</span>
+        <span class="value" id="combo">0x</span>
+      </div>
+      <div class="stat livesContainer">
+        <span class="label" id="lLives">Lives</span>
+        <div class="livesDisplay" id="livesDisplay"></div>
+      </div>
+      <div class="stat">
+        <span class="label" id="lBest">Best</span>
+        <span class="value" id="best">0</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="gameBoard">
+    <div class="boardHeader">
+      <div class="headerLeft">
+        <div class="badge" id="typeTag">MCQ</div>
+        <div class="badge" id="catTag">General</div>
+        <div class="badge" id="diffTag">Difficulty 1</div>
+      </div>
+      <div class="progressSection">
+        <div class="progressBar">
+          <div class="progressFill" id="streakFill"></div>
+        </div>
+        <div class="progressLabel"><span id="streak">0</span>/10</div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="questionBox">
+        <div class="qNumber" id="qNumberLabel">Question <span id="qNumber">1</span></div>
+        <p class="qTitle" id="question">Loading...</p>
+        <div class="qMeta">
+          <div class="status" id="status">Ready</div>
+          <div style="color:var(--muted);font-size:11px;font-weight:750;">
+            <span id="remaining">0</span> <span id="lLeft">left</span>
+          </div>
+        </div>
+      </div>
+      <div class="answersGrid" id="answersGrid"></div>
+    </div>
+
+    <div class="controls">
+      <div class="hint" id="hint"></div>
+      <div class="ctrlButtons">
+        <button class="btn primary" id="restart">↻ Restart</button>
+        <a href="../index.html" class="link" id="lExplore">Explore WiggMap →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Game Over Modal -->
+<div class="modal" id="modal">
+  <div class="modalBox">
+    <div class="modalHeader">
+      <h2 id="lGameOver">Game Over</h2>
+      <p id="modalSubtitle">—</p>
+    </div>
+    <div class="modalBody">
+      <div class="resultBox">
+        <div class="resultScore" id="finalScore">0</div>
+        <div class="resultRank"  id="finalRank">🌍 Explorer</div>
+        <div class="resultLabel" id="lYourScore">Score • Best: <span id="bestInModal">0</span></div>
+      </div>
+      <div class="leaderboard" id="leaderboard"></div>
+      <div class="modalButtons">
+        <button class="btn share" id="shareBtn">📤 <span id="lShare">Share</span></button>
+        <button class="btn" id="playAgain" id="lPlayAgain">Play Again</button>
+        <a href="../index.html" class="btn primary" id="lExplore2">Explore WiggMap</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PWA Install Banner -->
+<div class="pwaBanner" id="pwaBanner">
+  <div class="pwaBannerContent">
+    <div class="pwaBannerIcon">📱</div>
+    <div class="pwaBannerText">
+      <div class="pwaBannerTitle" id="pwaBannerTitle">Install WiggGame</div>
+      <div class="pwaBannerSub" id="pwaBannerSub">Play offline, no browser needed!</div>
+    </div>
+    <button class="pwaBannerBtn" id="pwaInstallBtn">Install</button>
+    <button class="pwaBannerClose" id="pwaBannerClose">✕</button>
+  </div>
+  <div class="pwaBannerProgress"><div class="pwaBannerProgressFill" id="pwaBannerProgressFill"></div></div>
+</div>
+
+<!-- Level Up Overlay -->
+<div class="levelUpOverlay" id="levelUpOverlay">
+  <div class="levelUpBox">
+    <div class="levelUpEmoji" id="lvEmoji">🌍</div>
+    <div class="levelUpTitle" id="lvTitle">LEVEL UP!</div>
+    <div class="levelUpName"  id="lvName">Explorer</div>
+    <div class="levelUpSub"   id="lvSub">Level 1</div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <div class="toastVerdict" id="toastVerdict"></div>
+  <div class="toastText"    id="toastText"></div>
+  <div class="toastTimer"><div class="toastTimerFill" id="toastTimerFill"></div></div>
+</div>
+
+<script>
+/* ══ TRANSLATIONS ══ */
+const LANGS = {
+  en: {
+    score:"Score", combo:"Combo", lives:"Lives", best:"Best", left:"left",
+    explore:"Explore WiggMap →", explore2:"Explore WiggMap",
+    gameOver:"Game Over", yourScore:"Score • Best:",
+    restart:"↻ Restart", playAgain:"Play Again", share:"Share",
+    levelUp:"LEVEL UP!", pickAnswer:"Pick an answer", ready:"Ready to play",
+    correct:"✓ Correct", wrong:"✗ Wrong answer",
+    streakLife:"✓ Streak x10 ! +1 Life",
+    streakBonus:(s,p)=>`✓ Streak x${s} ! +${p} pts`,
+    comboMsg:(c)=>`✓ Correct! Combo x${c}`,
+    lbTitle:"🏆 Top 5 Best Scores",
+    shareText:(s,r)=>`I scored ${s} pts as ${r} on WiggGame! 🌍\nTest your world knowledge → wiggmap.com/gg`,
+    tf_true:"True", tf_false:"False",
+    typeTag:(t)=>t==="tf"?"True/False":"Multiple Choice",
+    diffTag:(d)=>`Difficulty ${d}`,
+    titles:["Explorer","Traveler","Globetrotter","World Expert","WiggMaster"],
+    emojis:["🌍","✈️","🗺️","🏆","👑"],
+    levelSub:(n)=>`Level ${n}`,
+    questionLabel:"Question",
+    pwaTitle:"Install WiggGame",
+    pwaSub:"Play offline, no browser needed!",
+    pwaBtn:"Install",
+  },
+  fr: {
+    score:"Score", combo:"Combo", lives:"Vies", best:"Record", left:"restantes",
+    explore:"Explorer WiggMap →", explore2:"Explorer WiggMap",
+    gameOver:"Partie terminée", yourScore:"Score • Record:",
+    restart:"↻ Rejouer", playAgain:"Rejouer", share:"Partager",
+    levelUp:"NIVEAU SUPÉRIEUR !", pickAnswer:"Choisissez une réponse", ready:"Prêt à jouer",
+    correct:"✓ Correct", wrong:"✗ Mauvaise réponse",
+    streakLife:"✓ Série x10 ! +1 Vie",
+    streakBonus:(s,p)=>`✓ Série x${s} ! +${p} pts`,
+    comboMsg:(c)=>`✓ Correct ! Combo x${c}`,
+    lbTitle:"🏆 Top 5 Meilleurs Scores",
+    shareText:(s,r)=>`J'ai scoré ${s} pts en tant que ${r} sur WiggGame ! 🌍\nTestez vos connaissances → wiggmap.com/gg`,
+    tf_true:"Vrai", tf_false:"Faux",
+    typeTag:(t)=>t==="tf"?"Vrai/Faux":"Choix Multiple",
+    diffTag:(d)=>`Difficulté ${d}`,
+    titles:["Explorateur","Voyageur","Globe-Trotteur","Expert Mondial","WiggMaître"],
+    emojis:["🌍","✈️","🗺️","🏆","👑"],
+    levelSub:(n)=>`Niveau ${n}`,
+    questionLabel:"Question",
+    pwaTitle:"Installer WiggGame",
+    pwaSub:"Jouez hors ligne, sans navigateur !",
+    pwaBtn:"Installer",
+  },
+  es: {
+    score:"Puntos", combo:"Combo", lives:"Vidas", best:"Récord", left:"restantes",
+    explore:"Explorar WiggMap →", explore2:"Explorar WiggMap",
+    gameOver:"Fin del juego", yourScore:"Puntuación • Récord:",
+    restart:"↻ Reiniciar", playAgain:"Jugar de nuevo", share:"Compartir",
+    levelUp:"¡SUBISTE DE NIVEL!", pickAnswer:"Elige una respuesta", ready:"Listo para jugar",
+    correct:"✓ Correcto", wrong:"✗ Respuesta incorrecta",
+    streakLife:"✓ Racha x10 ! +1 Vida",
+    streakBonus:(s,p)=>`✓ Racha x${s} ! +${p} pts`,
+    comboMsg:(c)=>`✓ ¡Correcto! Combo x${c}`,
+    lbTitle:"🏆 Top 5 Mejores Puntuaciones",
+    shareText:(s,r)=>`¡Conseguí ${s} pts como ${r} en WiggGame! 🌍\nPon a prueba tu conocimiento → wiggmap.com/gg`,
+    tf_true:"Verdadero", tf_false:"Falso",
+    typeTag:(t)=>t==="tf"?"Verdadero/Falso":"Opción Múltiple",
+    diffTag:(d)=>`Dificultad ${d}`,
+    titles:["Explorador","Viajero","Trotamundos","Experto Mundial","WiggMaestro"],
+    emojis:["🌍","✈️","🗺️","🏆","👑"],
+    levelSub:(n)=>`Nivel ${n}`,
+    questionLabel:"Pregunta",
+    pwaTitle:"Instalar WiggGame",
+    pwaSub:"¡Juega sin conexión, sin navegador!",
+    pwaBtn:"Instalar",
+  }
+};
+
+const Q_URLS = {
+  en:"questions.json",
+  fr:"Qfr/questionsfr.json",
+  es:"Qes/questionses.json"
+};
+
+/* ══ CONSTANTS ══ */
+const BEST_KEY = "wigggame_best_v2";
+const LB_KEY   = "wigggame_lb_v1";
+const LANG_KEY = "wigggame_lang";
+
+/* ══ STATE ══ */
+let bank=[], deck=[], current=null, qIndex=0;
+let lives=3, maxLives=3, score=0, combo=0, streak=0, wrongCount=0;
+let gameActive=false;
+let lang = localStorage.getItem(LANG_KEY) || "en";
+let seenIdxs = new Set(); // questions already seen this session
+
+/* ══ DOM ══ */
+const $  = id => document.getElementById(id);
+const el = {
+  score:$("score"), combo:$("combo"), best:$("best"),
+  livesDisplay:$("livesDisplay"),
+  typeTag:$("typeTag"), catTag:$("catTag"), diffTag:$("diffTag"),
+  qNumberLabel:$("qNumberLabel"), qNumber:$("qNumber"),
+  question:$("question"), answersGrid:$("answersGrid"),
+  status:$("status"), hint:$("hint"), remaining:$("remaining"),
+  streak:$("streak"), streakFill:$("streakFill"),
+  toast:$("toast"), toastVerdict:$("toastVerdict"),
+  toastText:$("toastText"), toastTimerFill:$("toastTimerFill"),
+  restart:$("restart"), modal:$("modal"),
+  finalScore:$("finalScore"), finalRank:$("finalRank"),
+  bestInModal:$("bestInModal"), playAgain:$("playAgain"),
+  leaderboard:$("leaderboard"), shareBtn:$("shareBtn"),
+  levelBadge:$("levelBadge"),
+  levelUpOverlay:$("levelUpOverlay"),
+  lvEmoji:$("lvEmoji"), lvTitle:$("lvTitle"), lvName:$("lvName"), lvSub:$("lvSub"),
+  langEN:$("langEN"), langFR:$("langFR"), langES:$("langES"),
+  modalSubtitle:$("modalSubtitle"),
+  pwaBanner:$("pwaBanner"), pwaInstallBtn:$("pwaInstallBtn"),
+  pwaBannerClose:$("pwaBannerClose"), pwaBannerProgressFill:$("pwaBannerProgressFill"),
+  pwaBannerTitle:$("pwaBannerTitle"), pwaBannerSub:$("pwaBannerSub"),
+  /* labels */
+  lScore:$("lScore"), lCombo:$("lCombo"), lLives:$("lLives"), lBest:$("lBest"),
+  lLeft:$("lLeft"), lExplore:$("lExplore"), lExplore2:$("lExplore2"),
+  lGameOver:$("lGameOver"), lYourScore:$("lYourScore"),
+  lShare:$("lShare"), lPlayAgain:$("playAgain"),
+};
+
+/* ══ TRANSLATION HELPER ══ */
+function tr() { return LANGS[lang] || LANGS.en; }
+
+function applyTranslations() {
+  const T = tr();
+  el.lScore.textContent    = T.score;
+  el.lCombo.textContent    = T.combo;
+  el.lLives.textContent    = T.lives;
+  el.lBest.textContent     = T.best;
+  el.lLeft.textContent     = T.left;
+  el.lExplore.textContent  = T.explore;
+  el.lExplore2.textContent = T.explore2;
+  el.lGameOver.textContent = T.gameOver;
+  el.lShare.textContent    = T.share;
+  el.playAgain.textContent = T.playAgain;
+  el.restart.textContent   = T.restart;
+  el.status.textContent    = T.ready;
+  el.langEN.classList.toggle("active", lang==="en");
+  el.langFR.classList.toggle("active", lang==="fr");
+  el.langES.classList.toggle("active", lang==="es");
+  // PWA banner labels
+  if (el.pwaBannerTitle) el.pwaBannerTitle.textContent = T.pwaTitle;
+  if (el.pwaBannerSub)   el.pwaBannerSub.textContent   = T.pwaSub;
+  if (el.pwaInstallBtn)  el.pwaInstallBtn.textContent  = T.pwaBtn;
+}
+
+function setLang(l) {
+  lang = l;
+  localStorage.setItem(LANG_KEY, lang);
+  applyTranslations();
+  init();
+}
+
+/* ══ LEVELS ══ */
+function getLevel(s) { return Math.min(Math.floor(s/20)+1, 5); }
+
+function getRankInfo(s) {
+  const T = tr();
+  const lv = getLevel(s);
+  const i  = lv - 1;
+  return { lv, i, emoji: T.emojis[i], title: T.titles[i] };
+}
+
+function updateLevelBadge() {
+  const { lv, emoji, title } = getRankInfo(score);
+  el.levelBadge.textContent = `${emoji} ${title} — Lv.${lv}`;
+}
+
+function checkLevelUp(oldScore, newScore) {
+  if (getLevel(newScore) > getLevel(oldScore)) showLevelUp(getLevel(newScore));
+}
+
+function showLevelUp(lv) {
+  const T = tr();
+  const i = lv - 1;
+  el.lvEmoji.textContent = T.emojis[i];
+  el.lvTitle.textContent = T.levelUp;
+  el.lvName.textContent  = T.titles[i];
+  el.lvSub.textContent   = T.levelSub(lv);
+  el.levelUpOverlay.classList.add("show");
+  setTimeout(() => el.levelUpOverlay.classList.remove("show"), 2800);
+}
+
+/* ══ DIFFICULTY PROGRESSIVE — NO REPEAT ══
+   Each question appears exactly once per cycle.
+   When all questions have been seen, the session resets and a new cycle begins.
+   Within each cycle, questions are ordered so the right difficulty appears first
+   (deck.pop() takes from the END, so higher-priority questions go at the end).
+══ */
+function buildDeck() {
+  const lv = getLevel(score);
+
+  // Only unseen questions; if all seen, start a fresh cycle
+  let available = bank.filter(q => !seenIdxs.has(q._idx));
+  if (available.length === 0) {
+    seenIdxs.clear();
+    available = [...bank];
+  }
+
+  // Compute a priority weight for each question at the current level
+  available.forEach(q => {
+    const d = q.difficulty || 1;
+    let w;
+    if      (lv <= 1) w = d===1 ? 4 : d===2 ? 2 : 1;
+    else if (lv === 2) w = d===2 ? 4 : 2;
+    else if (lv === 3) w = d>=2  ? 3 : 1;
+    else              w = d>=2  ? 4 : 1;
+    q._weight = w;
+  });
+
+  // Sort so higher-priority (higher weight) questions land at the END
+  // (since we use deck.pop(), those come first). Within same weight, shuffle.
+  available.sort((a, b) => {
+    const diff = a._weight - b._weight;
+    return diff !== 0 ? diff : Math.random() - 0.5;
+  });
+
+  return [...available]; // each question exactly once
+}
+
+/* ══ LEADERBOARD ══ */
+function getLB() { try { return JSON.parse(localStorage.getItem(LB_KEY)||"[]"); } catch { return []; } }
+function saveLB(lb) { localStorage.setItem(LB_KEY, JSON.stringify(lb)); }
+
+function addToLB(s) {
+  const { emoji, title } = getRankInfo(s);
+  const entry = { score:s, rank:`${emoji} ${title}`, date:new Date().toLocaleDateString() };
+  const lb = getLB();
+  lb.push(entry);
+  lb.sort((a,b)=>b.score-a.score);
+  const top5 = lb.slice(0,5);
+  saveLB(top5);
+  return top5;
+}
+
+function renderLB(currentScore) {
+  const lb = getLB();
+  if (!lb.length) { el.leaderboard.style.display="none"; return; }
+  el.leaderboard.style.display = "block";
+  const medals = ["🥇","🥈","🥉","4️⃣","5️⃣"];
+  // mark the first entry matching current score as "current"
+  let marked = false;
+  el.leaderboard.innerHTML = `
+    <div class="leaderboardTitle">${tr().lbTitle}</div>
+    ${lb.map((e,i) => {
+      const isCurrent = !marked && e.score === currentScore;
+      if (isCurrent) marked = true;
+      return `<div class="lbRow ${isCurrent?"current":""}">
+        <span class="lbRank">${medals[i]||i+1}</span>
+        <span>${e.rank}</span>
+        <span class="lbDate">${e.date}</span>
+        <span class="lbScore">${e.score} pts</span>
+      </div>`;
+    }).join("")}
+  `;
+}
+
+/* ══ SHARE ══ */
+function shareScore() {
+  const { emoji, title } = getRankInfo(score);
+  const text = tr().shareText(score, `${emoji} ${title}`);
+  if (navigator.share) {
+    navigator.share({ title:"WiggGame", text });
+  } else {
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, "_blank");
+  }
+}
+
+/* ══ GAME LOGIC ══ */
+function shuffle(arr) {
+  for (let i=arr.length-1; i>0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]] = [arr[j],arr[i]];
+  }
+  return arr;
+}
+
+function setLives() {
+  el.livesDisplay.innerHTML = "";
+  for (let i=0; i<maxLives; i++) {
+    const h = document.createElement("div");
+    h.className = `lifeHeart ${i>=lives?"lost":""}`;
+    el.livesDisplay.appendChild(h);
+  }
+}
+
+function gainBonus(label) {
+  const container = el.livesDisplay.parentElement;
+  const b = document.createElement("div");
+  b.className = "bonusIndicator";
+  b.textContent = label || "+1";
+  container.appendChild(b);
+  setTimeout(() => b.remove(), 1400);
+}
+
+function updateStats() {
+  el.score.textContent = score;
+  el.combo.textContent = combo + "x";
+  el.streak.textContent = streak;
+  el.streakFill.style.width = `${(streak/10)*100}%`;
+  setLives();
+  el.best.textContent = Number(localStorage.getItem(BEST_KEY)||"0");
+  updateLevelBadge();
+}
+
+function normalizeQuestion(q, idx) {
+  const T = tr();
+  const out = {...q};
+  out._idx = idx; // unique identifier for this question in the bank
+  if (!out.type) out.type = "mcq";
+  if (!out.category) out.category = "General";
+  if (typeof out.explain !== "string") out.explain = "";
+  if (!out.question) out.question = "?";
+  if (out.type === "tf") {
+    out.choices = [T.tf_true, T.tf_false];
+    if (typeof out.correct !== "number") out.correct = 0;
+  } else {
+    if (!Array.isArray(out.choices)||out.choices.length<2) out.choices=["A","B","C","D"];
+    if (typeof out.correct !== "number") out.correct = 0;
+    if (out.choices.length>4) out.choices = out.choices.slice(0,4);
+  }
+  return out;
+}
+
+function pickNext() {
+  if (deck.length===0) deck = buildDeck();
+  current = deck.pop();
+  if (current) seenIdxs.add(current._idx); // mark as seen this session
+  qIndex++;
+}
+
+function render() {
+  if (!current) return;
+  const T = tr();
+  el.typeTag.textContent = T.typeTag(current.type);
+  el.catTag.textContent  = current.category || "General";
+  el.diffTag.textContent = T.diffTag(current.difficulty||1);
+  el.qNumberLabel.innerHTML = `${T.questionLabel} <span id="qNumber">${qIndex}</span>`;
+  el.question.textContent = current.question;
+  el.status.className = "status";
+  el.status.textContent = T.pickAnswer;
+  el.hint.textContent = "";
+  el.toast.classList.remove("show","hide");
+  el.toast.classList.add("hide");
+  el.remaining.textContent = deck.length;
+  el.answersGrid.innerHTML = "";
+
+  const letters = ["A","B","C","D"];
+  const indices = current.choices.map((_,i)=>i);
+  for (let i=indices.length-1; i>0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [indices[i],indices[j]] = [indices[j],indices[i]];
+  }
+  const shuffled = indices.map(i=>current.choices[i]);
+  current._shuffledCorrect = indices.indexOf(current.correct);
+
+  shuffled.forEach((choice, idx) => {
+    const btn = document.createElement("button");
+    btn.className = "answerBtn";
+    btn.type = "button";
+    btn.innerHTML = `<div class="answerLetter">${letters[idx]||"•"}</div><div class="answerText">${choice}</div>`;
+    btn.addEventListener("click", () => answer(idx));
+    el.answersGrid.appendChild(btn);
+  });
+
+  updateStats();
+  gameActive = true;
+}
+
+function answer(idx) {
+  if (!current || !gameActive) return;
+  gameActive = false;
+  const T = tr();
+  const correctIdx = current._shuffledCorrect ?? current.correct;
+  document.querySelectorAll(".answerBtn").forEach((btn,i) => {
+    btn.classList.add("locked");
+    if (i===correctIdx) btn.classList.add("correct");
+    if (i===idx && i!==correctIdx) btn.classList.add("wrong");
+  });
+
+  const ok = idx === correctIdx;
+  const oldScore = score;
+
+  if (ok) {
+    score += 1; combo += 1; streak += 1;
+    if (streak >= 10) {
+      lives += 1;
+      maxLives = Math.max(maxLives, lives);
+      gainBonus("+1 ❤️");
+      el.status.className = "status correct";
+      el.status.textContent = T.streakLife;
+      streak = 0; combo = 0;
+    } else {
+      el.status.className = "status correct";
+      el.status.textContent = combo>=5 ? T.comboMsg(combo) : T.correct;
+    }
+    checkLevelUp(oldScore, score);
+  } else {
+    wrongCount += 1;
+    combo = 0; streak = 0;
+    if (wrongCount >= 3) {
+      lives -= 1;
+      wrongCount = 0;
+    }
+    el.status.className = "status wrong";
+    el.status.textContent = T.wrong;
+  }
+
+  updateStats();
+
+  const hasExplain = current.explain && current.explain.trim();
+  el.toast.className = "toast " + (ok ? "correct-toast" : "wrong-toast");
+  el.toastVerdict.textContent = ok ? T.correct : T.wrong;
+  el.toastText.textContent = hasExplain ? current.explain : "";
+  el.toastText.style.display = hasExplain ? "block" : "none";
+
+  requestAnimationFrame(() => {
+    el.toast.classList.add("show");
+    el.toastTimerFill.classList.remove("running");
+    void el.toastTimerFill.offsetWidth;
+    el.toastTimerFill.classList.add("running");
+  });
+
+  const nextAction = lives<=0 ? endGame : ()=>{ pickNext(); render(); };
+  setTimeout(() => {
+    el.toast.classList.add("hide");
+    el.toast.classList.remove("show");
+    setTimeout(nextAction, 350);
+  }, 9000);
+}
+
+function endGame() {
+  const best = Number(localStorage.getItem(BEST_KEY)||"0");
+  if (score > best) localStorage.setItem(BEST_KEY, String(score));
+  addToLB(score);
+
+  const T = tr();
+  const { lv, emoji, title } = getRankInfo(score);
+  el.finalScore.textContent = score;
+  el.finalRank.textContent  = `${emoji} ${title}`;
+  el.bestInModal.textContent = Math.max(score, best);
+  el.modalSubtitle.textContent = T.levelSub(lv);
+  el.lYourScore.innerHTML = `${T.yourScore} <span id="bestInModal">${Math.max(score,best)}</span>`;
+
+  renderLB(score);
+  el.modal.classList.add("show");
+
+  // Show PWA install banner 800ms after game over, auto-dismiss in 5s
+  setTimeout(() => showPwaBanner(5000), 800);
+}
+
+function restart() {
+  lives=3; maxLives=3; score=0; combo=0; streak=0; wrongCount=0; qIndex=0;
+  seenIdxs.clear(); // fresh session: all questions available again
+  el.modal.classList.remove("show");
+  deck = buildDeck();
+  pickNext();
+  render();
+}
+
+async function init() {
+  bank=[]; deck=[]; current=null; qIndex=0;
+  lives=3; maxLives=3; score=0; combo=0; streak=0; wrongCount=0;
+  seenIdxs.clear(); // reset seen questions on new game
+  el.modal.classList.remove("show");
+  applyTranslations();
+
+  const url = Q_URLS[lang] || Q_URLS.en;
+  try {
+    const res = await fetch(url, { cache:"no-store" });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const raw = await res.json();
+    if (!Array.isArray(raw)) throw new Error("must be an array");
+    bank = raw.map((q, idx) => normalizeQuestion(q, idx));
+    deck = buildDeck();
+    pickNext();
+    render();
+  } catch(err) {
+    el.question.textContent = `Failed to load: ${url}`;
+    el.status.className = "status wrong";
+    el.status.textContent = "Error";
+    el.hint.textContent = String(err?.message||err);
+  }
+}
+
+el.restart.addEventListener("click", restart);
+el.playAgain.addEventListener("click", restart);
+el.shareBtn.addEventListener("click", shareScore);
+
+/* ══ PWA INSTALL ══ */
+let _deferredInstallPrompt = null;
+
+window.addEventListener("beforeinstallprompt", e => {
+  e.preventDefault();
+  _deferredInstallPrompt = e;
+});
+
+function showPwaBanner(autoHideMs) {
+  if (!_deferredInstallPrompt) return; // not installable (already installed or not supported)
+  el.pwaBanner.classList.add("show");
+  // Animate progress bar countdown
+  requestAnimationFrame(() => {
+    el.pwaBannerProgressFill.classList.remove("running");
+    void el.pwaBannerProgressFill.offsetWidth; // force reflow
+    el.pwaBannerProgressFill.classList.add("running");
+  });
+  if (autoHideMs > 0) {
+    setTimeout(hidePwaBanner, autoHideMs);
+  }
+}
+
+function hidePwaBanner() {
+  el.pwaBanner.classList.remove("show");
+}
+
+el.pwaInstallBtn.addEventListener("click", async () => {
+  if (!_deferredInstallPrompt) return;
+  hidePwaBanner();
+  _deferredInstallPrompt.prompt();
+  const { outcome } = await _deferredInstallPrompt.userChoice;
+  if (outcome === "accepted") _deferredInstallPrompt = null;
+});
+
+el.pwaBannerClose.addEventListener("click", hidePwaBanner);
+
+// Also: if someone clicks the banner title/sub area → trigger install
+el.pwaBannerTitle && el.pwaBannerTitle.closest && (function(){
+  // handled by button click above
+})();
+
+init();
+</script>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("/sw.js").catch(console.error);
+    });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google Tag Manager (comme ton index) -->
+  <script>
+    (function(w,d,s,l,i){w[l]=w[l]||[];
+    w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
+    var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+    j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+    f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-K4MMRD4R');
+  </script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Wigg Chronicles — Articles & analyses | WiggMap</title>
+  <meta name="description" content="Wigg Chronicles : articles premium sur expatriation, visas, fiscalité, coût de la vie, prospective, éducation et qualité de vie.">
+  <link rel="canonical" href="https://wiggmap.com/chronicles/">
+
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#22c55e">
+  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <!-- favicon : version absolue (marche depuis /chronicles/) -->
+  <link rel="icon" href="/assets/favicon.ico" type="image/x-icon" />
+
+  <!-- Font (comme ton index) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Global CSS (comme ton index) -->
+  <link rel="stylesheet" href="/data/style.css">
+
+  <style>
+    /* On reste dans ton style: simple, clean, pas une nouvelle DA */
+    .chron-wrap{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 18px 14px 46px;
+      box-sizing: border-box;
+    }
+    @media (max-width: 520px){
+      .chron-wrap{ padding: 12px 8px 36px; }
+    }
+
+    .chron-hero{
+      border-radius: 22px;
+      overflow: hidden;
+      position: relative;
+      background:
+        radial-gradient(900px 520px at 15% 15%, rgba(16,185,129,.18), transparent 60%),
+        radial-gradient(800px 520px at 80% 20%, rgba(34,197,94,.12), transparent 65%),
+        rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.14);
+      padding: 18px;
+    }
+
+    .chron-hero h1{
+      margin: 0 0 6px;
+      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      font-size: 28px;
+      line-height: 1.1;
+      color: rgba(255,255,255,.92);
+      text-shadow: 0 2px 10px rgba(0,0,0,.20);
+    }
+    .chron-hero p{
+      margin: 0;
+      color: rgba(255,255,255,.70);
+      line-height: 1.6;
+      max-width: 72ch;
+      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .chron-controls{
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: 1.2fr .8fr .8fr;
+      gap: 10px;
+    }
+    @media (max-width: 900px){
+      .chron-controls{ grid-template-columns: 1fr; }
+    }
+
+    .chron-field label{
+      display:block;
+      margin: 0 0 6px;
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.58);
+      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 700;
+    }
+
+    .chron-field input, .chron-field select{
+      width: 100%;
+      height: 44px;
+      padding: 0 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.20);
+      background: rgba(255,255,255,0.65);
+      outline: none;
+      font-size: 14px;
+      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 600;
+      box-sizing: border-box;
+    }
+    .chron-field input:focus, .chron-field select:focus{
+      background: rgba(255,255,255,0.75);
+      border-color: rgba(16,185,129,0.45);
+      box-shadow: 0 0 0 3px rgba(16,185,129,0.12);
+    }
+
+    .chron-section-title{
+      margin: 16px 0 10px;
+      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.70);
+    }
+
+    .chron-grid{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 980px){
+      .chron-grid{ grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 620px){
+      .chron-grid{ grid-template-columns: 1fr; }
+    }
+
+    .chron-card{
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.08);
+      box-shadow: 0 10px 26px rgba(0,0,0,0.22);
+    }
+    .chron-card-top{
+      padding: 12px 12px 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.06);
+    }
+    .chron-meta{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      color: rgba(255,255,255,.62);
+      font-size: 12px;
+      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 700;
+    }
+    .chron-chip{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.07);
+      color: rgba(255,255,255,.78);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .01em;
+      white-space: nowrap;
+    }
+    .chron-chip.accent{
+      border-color: rgba(16,185,129,0.42);
+      background: rgba(16,185,129,0.14);
+      color: rgba(210,255,228,.95);
+    }
+    .chron-card h3{
+      margin: 8px 0 0;
+      color: rgba(255,255,255,.92);
+      font-size: 16px;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 800;
+    }
+    .chron-card-mid{
+      padding: 10px 12px 0;
+      color: rgba(255,255,255,.72);
+      font-size: 13px;
+      line-height: 1.7;
+      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 600;
+      min-height: 64px;
+    }
+    .chron-card-actions{
+      padding: 12px;
+      display:flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .chron-link{
+      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 800;
+      color: rgba(210,255,228,.95);
+      text-decoration: none;
+      letter-spacing: .01em;
+      font-size: 13px;
+    }
+    .chron-link:hover{ text-decoration: underline; }
+
+    .chron-empty{
+      display:none;
+      margin-top: 12px;
+      border-radius: 18px;
+      border: 1px dashed rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.06);
+      padding: 14px;
+      color: rgba(255,255,255,.72);
+      line-height: 1.7;
+      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- GTM noscript (comme ton index) -->
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe>
+  </noscript>
+
+  <!-- Header injecté par /data/header.js (comme ton index) -->
+  <div id="siteHeader"></div>
+
+  <main class="chron-wrap">
+    <section class="chron-hero">
+      <h1 id="chronTitle">Wigg Chronicles</h1>
+      <p id="chronSubtitle">
+        Articles premium sur expatriation, visas, fiscalité, coût de la vie, prospective, éducation et qualité de vie.
+      </p>
+
+      <div class="chron-controls" aria-label="Chronicles filters">
+        <div class="chron-field">
+          <label for="q" id="lblSearch">Search</label>
+          <input id="q" type="search" placeholder="Search (e.g., Australia, offshore, 2056…)" autocomplete="off">
+        </div>
+
+        <div class="chron-field">
+          <label for="theme" id="lblTheme">Theme</label>
+          <select id="theme">
+            <option value="all">All themes</option>
+          </select>
+        </div>
+
+        <div class="chron-field">
+          <label for="region" id="lblRegion">Region</label>
+          <select id="region">
+            <option value="all">All regions</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <h2 class="chron-section-title" id="lblArticles">Articles</h2>
+
+    <section class="chron-grid" id="grid" aria-label="Chronicles list"></section>
+    <div class="chron-empty" id="empty">No articles match your filters.</div>
+  </main>
+
+  <!-- IMPORTANT: ordre identique à ton index -->
+  <script src="/data/header.js"></script>
+
+  <script>
+    // Mini i18n local (on reste compatible avec wigg_lang du header)
+    const I18N = {
+      en: {
+        chronTitle: "Wigg Chronicles",
+        chronSubtitle: "Premium articles on expat life, visas, taxes, cost of living, future trends, education and quality of life.",
+        lblSearch: "Search",
+        phSearch: "Search (e.g., Australia, offshore, 2056…)",
+        lblTheme: "Theme",
+        lblRegion: "Region",
+        allThemes: "All themes",
+        allRegions: "All regions",
+        lblArticles: "Articles",
+        empty: "No articles match your filters."
+      },
+      fr: {
+        chronTitle: "Wigg Chronicles",
+        chronSubtitle: "Articles premium sur expatriation, visas, fiscalité, coût de la vie, prospective, éducation et qualité de vie.",
+        lblSearch: "Recherche",
+        phSearch: "Rechercher (ex : Australie, offshore, 2056…)",
+        lblTheme: "Thème",
+        lblRegion: "Région",
+        allThemes: "Tous les thèmes",
+        allRegions: "Toutes les régions",
+        lblArticles: "Articles",
+        empty: "Aucun article ne correspond à tes filtres."
+      },
+      es: {
+        chronTitle: "Wigg Chronicles",
+        chronSubtitle: "Artículos premium sobre expatriación, visados, impuestos, coste de vida, futuro, educación y calidad de vida.",
+        lblSearch: "Buscar",
+        phSearch: "Buscar (p. ej., Australia, offshore, 2056…)",
+        lblTheme: "Tema",
+        lblRegion: "Región",
+        allThemes: "Todos los temas",
+        allRegions: "Todas las regiones",
+        lblArticles: "Artículos",
+        empty: "Ningún artículo coincide con tus filtros."
+      }
+    };
+
+    function getLang(){
+      return (localStorage.getItem("wigg_lang") || "en").toLowerCase();
+    }
+
+    function applyChronLang(){
+      const l = getLang();
+      const t = I18N[l] || I18N.en;
+
+      document.documentElement.lang = l;
+      document.getElementById("chronTitle").textContent = t.chronTitle;
+      document.getElementById("chronSubtitle").textContent = t.chronSubtitle;
+
+      document.getElementById("lblSearch").textContent = t.lblSearch;
+      const q = document.getElementById("q");
+      q.placeholder = t.phSearch;
+
+      document.getElementById("lblTheme").textContent = t.lblTheme;
+      document.getElementById("lblRegion").textContent = t.lblRegion;
+      document.getElementById("lblArticles").textContent = t.lblArticles;
+      document.getElementById("empty").textContent = t.empty;
+
+      // reset first options (keep selected if possible)
+      const themeSel = document.getElementById("theme");
+      const regionSel = document.getElementById("region");
+      if (themeSel.options.length) themeSel.options[0].textContent = t.allThemes;
+      if (regionSel.options.length) regionSel.options[0].textContent = t.allRegions;
+    }
+
+    // Articles list (tu édites juste ici)
+    const CHRONICLES = [
+      // IMPORTANT: fais 3 index séparés si tu veux des URLs différentes par langue.
+      // Ici, on peut pointer vers les URLs "langées" si tu les as : /chronicles/...-fr.html etc.
+      {
+        title: { en:"Australia 2026: visas, salaries, taxes & regions", fr:"Australie 2026 : visas, salaires, fiscalité & régions", es:"Australia 2026: visados, salarios, impuestos y regiones" },
+        url:   { en:"/chronicles/chronicle-australie-expatriation-2026-en.html", fr:"/chronicles/chronicle-australie-expatriation-2026-fr.html", es:"/chronicles/chronicle-australie-expatriation-2026-es.html" },
+        excerpt:{ en:"A practical guide to visas, key regions, real budgets and trade-offs.", fr:"Guide pratique : visas, régions clés, budgets réalistes et compromis.", es:"Guía práctica: visados, regiones clave, presupuestos reales y compromisos." },
+        date: "2026-02-25",
+        read: "~20 min",
+        theme: "Visa & Installation",
+        region: "Oceania",
+        tags: ["Visa","Salary","Regions"]
+      },
+      {
+        title: { en:"2056: where will we live best in 30 years?", fr:"2056 : où vivra-t-on le mieux dans 30 ans ?", es:"2056: ¿dónde se vivirá mejor en 30 años?" },
+        url:   { en:"/chronicles/chronicle-2056-ou-vivra-t-on-le-mieux-en.html", fr:"/chronicles/chronicle-2056-ou-vivra-t-on-le-mieux-fr.html", es:"/chronicles/chronicle-2056-ou-vivra-t-on-le-mieux-es.html" },
+        excerpt:{ en:"AI, medicine, education, stability, safety, nature — a strategic global outlook.", fr:"IA, médecine, éducation, stabilité, sécurité, nature — une lecture stratégique du monde.", es:"IA, medicina, educación, estabilidad, seguridad, naturaleza — una lectura estratégica." },
+        date: "2026-03-05",
+        read: "~30 min",
+        theme: "Future / Strategy",
+        region: "World",
+        tags: ["AI","Health","Stability"]
+      }
+      // Ajoute le reste ici…
+    ];
+
+    function uniq(arr){ return [...new Set(arr)].sort((a,b)=>a.localeCompare(b)); }
+    function formatDate(iso){
+      if(!iso) return "";
+      const [y,m,d] = iso.split("-").map(n=>parseInt(n,10));
+      if(!y||!m||!d) return iso;
+      const dt = new Date(Date.UTC(y,m-1,d));
+      const lang = getLang();
+      return dt.toLocaleDateString(lang === "fr" ? "fr-FR" : lang === "es" ? "es-ES" : "en-GB",
+        { year:"numeric", month:"short", day:"2-digit" }
+      );
+    }
+
+    const $ = (id) => document.getElementById(id);
+
+    function getText(obj){
+      const l = getLang();
+      if(typeof obj === "string") return obj;
+      return (obj && (obj[l] || obj.en)) || "";
+    }
+
+    function buildFilters(){
+      // Theme/Region are not translated here on purpose: you can translate later if you want.
+      const themes = uniq(CHRONICLES.map(c=>c.theme).filter(Boolean));
+      const regions = uniq(CHRONICLES.map(c=>c.region).filter(Boolean));
+
+      const themeSel = $("theme");
+      const regionSel = $("region");
+
+      // keep first option, clear others
+      while(themeSel.options.length > 1) themeSel.remove(1);
+      while(regionSel.options.length > 1) regionSel.remove(1);
+
+      themes.forEach(t=>{
+        const opt = document.createElement("option");
+        opt.value = t;
+        opt.textContent = t;
+        themeSel.appendChild(opt);
+      });
+
+      regions.forEach(r=>{
+        const opt = document.createElement("option");
+        opt.value = r;
+        opt.textContent = r;
+        regionSel.appendChild(opt);
+      });
+    }
+
+    function matches(c, q, theme, region){
+      const hay = (
+        getText(c.title) + " " +
+        getText(c.excerpt) + " " +
+        (c.theme||"") + " " +
+        (c.region||"") + " " +
+        (c.tags||[]).join(" ")
+      ).toLowerCase();
+
+      const qOk = !q || hay.includes(q);
+      const themeOk = (theme === "all") || (c.theme === theme);
+      const regionOk = (region === "all") || (c.region === region);
+      return qOk && themeOk && regionOk;
+    }
+
+    function cardHTML(c){
+      const title = getText(c.title);
+      const url = getText(c.url);
+      const excerpt = getText(c.excerpt);
+      const dateTxt = c.date ? formatDate(c.date) : "";
+      const readTxt = c.read || "";
+
+      return `
+        <article class="chron-card">
+          <div class="chron-card-top">
+            <div class="chron-meta">
+              <span class="chron-chip accent">${c.theme || ""}</span>
+              <span class="chron-chip">${c.region || ""}</span>
+              ${dateTxt ? `<span style="opacity:.75;">• ${dateTxt}</span>` : ``}
+              ${readTxt ? `<span style="opacity:.75;">• ${readTxt}</span>` : ``}
+            </div>
+            <h3>${title}</h3>
+          </div>
+          <div class="chron-card-mid">${excerpt}</div>
+          <div class="chron-card-actions">
+            <a class="chron-link" href="${url}">Read →</a>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
+              ${(c.tags||[]).slice(0,3).map(t=>`<span class="chron-chip">${t}</span>`).join("")}
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function render(){
+      const q = $("q").value.trim().toLowerCase();
+      const theme = $("theme").value;
+      const region = $("region").value;
+
+      const filtered = CHRONICLES.filter(c => matches(c, q, theme, region));
+
+      $("grid").innerHTML = filtered.map(cardHTML).join("");
+      $("empty").style.display = filtered.length ? "none" : "block";
+    }
+
+    // Init
+    applyChronLang();
+    buildFilters();
+    render();
+
+    $("q").addEventListener("input", render);
+    $("theme").addEventListener("change", render);
+    $("region").addEventListener("change", render);
+
+    // React to header language changes (comme ton index)
+    window.addEventListener("wigg_lang_changed", function(){
+      applyChronLang();
+      buildFilters();
+      render();
+    });
+  </script>
+
+  <script src="/data/footer.js"></script>
+</body>
+</html>

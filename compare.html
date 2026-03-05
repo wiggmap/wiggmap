@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compare Countries — WiggMap</title>
+
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="css/main.css">
+
+  <!-- Fonts (clean + classy title) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #f6f8f7;
+      --card: #ffffff;
+      --text: #14201a;
+      --muted: rgba(20,32,26,.62);
+      --border: rgba(0,0,0,.08);
+      --shadow: 0 10px 28px rgba(0,0,0,.08);
+
+      /* WiggMap-ish accents */
+      --accent: #2ecc71;         /* green */
+      --accent2: #18a957;        /* deeper green */
+      --ink: #0f1a14;
+
+      --radius: 16px;
+    }
+
+    *{ box-sizing: border-box; }
+    body{
+      margin:0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    /* Header (simple + clean) */
+    .hero{
+      padding: 34px 18px 22px;
+      text-align:center;
+      background:
+        radial-gradient(1200px 420px at 50% -50%, rgba(46,204,113,.25), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.85), transparent);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-title{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap: 12px;
+    }
+
+    .hero-icon{
+      width: 34px;
+      height: 34px;
+      display:inline-block;
+      opacity: .92;
+      transform: translateY(1px);
+    }
+
+    .hero h1{
+      margin:0;
+      font-size: 38px;
+      letter-spacing: -0.6px;
+      font-family: "Playfair Display", serif;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .hero p{
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .wrap{
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 18px;
+    }
+
+    /* Selector bar */
+    .selectors{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 14px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .selector-row{
+      display:flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .inputs{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(220px, 1fr));
+      gap: 12px;
+      width: 100%;
+    }
+    @media (max-width: 980px){
+      .inputs{ grid-template-columns: 1fr; }
+    }
+
+    .selector{
+      position: relative;
+    }
+    .selector input{
+      width: 100%;
+      padding: 12px 12px;
+      font-size: 15px;
+      font-weight: 800;
+      border-radius: 14px;
+      border: 1.5px solid rgba(0,0,0,.12);
+      outline: none;
+      background: rgba(246,248,247,.85);
+    }
+    .selector input:focus{
+      border-color: rgba(46,204,113,.75);
+      box-shadow: 0 0 0 4px rgba(46,204,113,.15);
+      background: #fff;
+    }
+    .hint{
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .autocomplete{
+      position:absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 14px 44px rgba(0,0,0,.12);
+      max-height: 320px;
+      overflow-y: auto;
+      display: none;
+      z-index: 50;
+    }
+    .autocomplete-item{
+      padding: 11px 12px;
+      cursor: pointer;
+      font-weight: 800;
+      border-bottom: 1px solid rgba(0,0,0,.06);
+    }
+    .autocomplete-item:hover{
+      background: rgba(46,204,113,.10);
+    }
+    .autocomplete-item:last-child{ border-bottom: none; }
+
+    .actions{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items:center;
+      justify-content: flex-end;
+      width: 100%;
+    }
+
+    .btn{
+      border: 1px solid rgba(0,0,0,.12);
+      background: #fff;
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-weight: 900;
+      cursor:pointer;
+      transition: all .15s;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(0,0,0,.03); }
+    .btn.primary{
+      background: var(--accent);
+      border-color: transparent;
+      color:#fff;
+    }
+    .btn.primary:hover{ background: var(--accent2); }
+
+    /* Table */
+    .table-card{
+      margin-top: 14px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .table-head{
+      padding: 12px 14px;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid rgba(0,0,0,.06);
+      background: linear-gradient(180deg, rgba(246,248,247,.9), #fff);
+    }
+    .table-head .title{
+      font-weight: 900;
+      letter-spacing: .2px;
+    }
+    .table-head .sub{
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .table-scroll{
+      overflow-x: auto; /* key for mobile */
+    }
+
+    table{
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      min-width: 820px; /* force real table feel; scroll on mobile */
+    }
+
+    thead th{
+      position: sticky;
+      top: 0;
+      background: #fff;
+      z-index: 2;
+      border-bottom: 1px solid rgba(0,0,0,.08);
+      padding: 12px 12px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    /* Sticky first column (metric names) */
+    th.metric-col, td.metric-col{
+      position: sticky;
+      left: 0;
+      z-index: 3;
+      background: #fff;
+      border-right: 1px solid rgba(0,0,0,.06);
+    }
+    td{
+      border-bottom: 1px solid rgba(0,0,0,.06);
+      padding: 12px 12px;
+      vertical-align: top;
+      background: #fff;
+    }
+    tbody tr:hover td{
+      background: rgba(46,204,113,.05);
+    }
+    tbody tr:hover td.metric-col{
+      background: rgba(46,204,113,.07);
+    }
+
+    .country-name{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      font-weight: 900;
+      color: var(--ink);
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 900;
+      font-size: 11px;
+      border: 1px solid rgba(0,0,0,.08);
+      background: rgba(246,248,247,.85);
+      white-space: nowrap;
+    }
+    .dot{
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      display:inline-block;
+    }
+    .dot.green{ background: #28a745; }
+    .dot.yellow{ background: #ffc107; }
+    .dot.orange{ background: #fd7e14; }
+    .dot.red{ background: #dc3545; }
+
+    .cell{
+      font-weight: 900;
+      font-size: 15px;
+      color: var(--ink);
+      line-height: 1.25;
+    }
+    .cell-sub{
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .muted{
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .remove{
+      border: 1px solid rgba(0,0,0,.10);
+      background: #fff;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 900;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .remove:hover{ background: rgba(0,0,0,.03); }
+
+    footer{
+      margin: 18px 0 6px;
+      text-align:center;
+      color: rgba(0,0,0,.50);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    footer a{ color: rgba(0,0,0,.55); text-decoration: underline; }
+  </style>
+</head>
+
+<body>
+  <div id="siteHeader"></div>
+
+  <header class="hero">
+    <div class="hero-title">
+      <span class="hero-icon" aria-hidden="true">
+        <!-- Antique scales icon (inline SVG) -->
+        <svg viewBox="0 0 64 64" width="34" height="34" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M32 8v40" stroke="rgba(15,26,20,.9)" stroke-width="3" stroke-linecap="round"/>
+          <path d="M20 16h24" stroke="rgba(15,26,20,.9)" stroke-width="3" stroke-linecap="round"/>
+          <path d="M14 18l6 0" stroke="rgba(15,26,20,.55)" stroke-width="3" stroke-linecap="round"/>
+          <path d="M44 18l6 0" stroke="rgba(15,26,20,.55)" stroke-width="3" stroke-linecap="round"/>
+
+          <!-- left chain + pan -->
+          <path d="M17 18v8" stroke="rgba(15,26,20,.7)" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M11 28h12" stroke="rgba(15,26,20,.7)" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M11 28c1.2 6 4.2 9 6 9s4.8-3 6-9" stroke="rgba(15,26,20,.7)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+          <!-- right chain + pan -->
+          <path d="M47 18v8" stroke="rgba(15,26,20,.7)" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M41 28h12" stroke="rgba(15,26,20,.7)" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M41 28c1.2 6 4.2 9 6 9s4.8-3 6-9" stroke="rgba(15,26,20,.7)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+          <!-- base -->
+          <path d="M24 52h16" stroke="rgba(15,26,20,.9)" stroke-width="3" stroke-linecap="round"/>
+          <path d="M20 56h24" stroke="rgba(15,26,20,.55)" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </span>
+
+      <h1>Compare Countries</h1>
+    </div>
+
+    <p>Pick up to 3 countries and compare key metrics side-by-side.</p>
+  </header>
+
+  <main class="wrap">
+    <section class="selectors">
+      <div class="inputs">
+        <div class="selector">
+          <input id="search1" type="text" placeholder="Search country (1)..." autocomplete="off" />
+          <div class="hint">Tip: type “Estonia” or “Eesti”.</div>
+          <div class="autocomplete" id="list1"></div>
+        </div>
+        <div class="selector">
+          <input id="search2" type="text" placeholder="Search country (2)..." autocomplete="off" />
+          <div class="hint">Compare salaries, rent, taxes, lifestyle.</div>
+          <div class="autocomplete" id="list2"></div>
+        </div>
+        <div class="selector">
+          <input id="search3" type="text" placeholder="Search country (3)..." autocomplete="off" />
+          <div class="hint">Optional third country.</div>
+          <div class="autocomplete" id="list3"></div>
+        </div>
+      </div>
+
+      <div class="selector-row">
+        <div class="muted" id="statusText">Select countries to populate the table.</div>
+        <div class="actions">
+          <button class="btn" onclick="resetComparison()">Reset</button>
+          <button class="btn primary" onclick="copyShareLink()">Copy share link</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="table-card">
+      <div class="table-head">
+        <div>
+          <div class="title">Side-by-side comparison</div>
+          <div class="sub">Mobile: scroll horizontally →</div>
+        </div>
+        <div class="sub" id="detailsNote"></div>
+      </div>
+
+      <div class="table-scroll" id="tableScroll">
+        <div id="tableMount"></div>
+      </div>
+    </section>
+
+    <footer>
+      © 2026 WiggMap — Values are indicative. <a href="about.html">About</a> · <a href="privacy.html">Privacy</a>
+    </footer>
+  </main>
+
+  <script>
+    // =========================
+    // Data loading (countries + details)
+    // =========================
+    let COUNTRIES_DB = null;
+    let allCountries = [];
+    const selected = [null, null, null]; // merged objects
+
+    async function getCountriesDB(){
+      if (COUNTRIES_DB) return COUNTRIES_DB;
+      const _lang = localStorage.getItem("wigg_lang") || "en";
+      const _cf = _lang === "fr" ? "data/countries.fr.json" : _lang === "es" ? "data/countries.es.json" : "data/countries.json";
+      const r = await fetch(_cf, { cache: "no-store" });
+      if(!r.ok) throw new Error(`countries.json not found (${r.status})`);
+      COUNTRIES_DB = await r.json();
+      return COUNTRIES_DB;
+    }
+
+    async function getDetailsByCode(code){
+      try{
+        const _dlang2 = localStorage.getItem("wigg_lang") || "en";
+        const _df2 = _dlang2 === "fr" ? "details-fr" : _dlang2 === "es" ? "details-es" : "details";
+        const r = await fetch(`data/${_df2}/${code}.json`, { cache: "no-store" });
+        if(!r.ok) return null;
+        return await r.json();
+      }catch(e){
+        return null;
+      }
+    }
+
+    // Normalize YOUR details schema (example: italy.json)
+    function normalizeDetails(details){
+      if(!details) return null;
+      return {
+        capital: details.snapshot?.capital ?? null,
+        population: details.snapshot?.population ?? null,
+        languages: details.snapshot?.languages ?? null,
+        driving_side: details.snapshot?.driving_side ?? null,
+        crypto_friendly: details.crypto?.friendly ?? null,
+        crypto_note: details.crypto?.note ?? null,
+        expat_score_label: details.expat_score?.label ?? details.name_note ?? null
+      };
+    }
+
+    function mergeCountry(snapshot, details){
+      const d = normalizeDetails(details);
+
+      // Future-proof: if one day details has fields, we merge
+      const mergedFields = {
+        ...(snapshot.fields || {}),
+        ...(details?.fields || {})
+      };
+
+      return {
+        ...snapshot,
+        fields: mergedFields,
+        __details: d,
+        __hasDetails: !!details
+      };
+    }
+
+    // =========================
+    // Autocomplete
+    // =========================
+    function setupSearch(slot){
+      const input = document.getElementById(`search${slot}`);
+      const list  = document.getElementById(`list${slot}`);
+
+      input.addEventListener("input", () => {
+        const q = input.value.toLowerCase().trim();
+        if(!q){ list.style.display = "none"; return; }
+
+        const filtered = allCountries.filter(c => {
+          if(c.name.toLowerCase().includes(q)) return true;
+          // aliases
+          return (c.aliases || []).some(a => String(a).toLowerCase().includes(q));
+        }).slice(0, 14);
+
+        if(filtered.length === 0){ list.style.display="none"; return; }
+
+        list.innerHTML = filtered.map(c =>
+          `<div class="autocomplete-item" data-code="${c.code}" data-name="${escapeHtml(c.name)}">${escapeHtml(c.name)}</div>`
+        ).join("");
+        list.style.display = "block";
+
+        list.querySelectorAll(".autocomplete-item").forEach(item => {
+          item.addEventListener("click", () => {
+            selectCountry(slot, item.dataset.code, item.dataset.name);
+            list.style.display = "none";
+          });
+        });
+      });
+
+      input.addEventListener("focus", () => {
+        if(input.value.trim()) input.dispatchEvent(new Event("input"));
+      });
+
+      input.addEventListener("blur", () => {
+        setTimeout(() => list.style.display="none", 180);
+      });
+    }
+
+    function escapeHtml(s){
+      return String(s ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    async function selectCountry(slot, code, name){
+      document.getElementById(`search${slot}`).value = name;
+
+      try{
+        const db = await getCountriesDB();
+        const snapshot = db[code];
+        if(!snapshot) throw new Error(`Country not found in countries.json: ${code}`);
+
+        const details = await getDetailsByCode(code);
+        selected[slot - 1] = mergeCountry(snapshot, details);
+
+        updateURLFromSelection();
+        renderTable();
+      }catch(e){
+        console.error(e);
+      }
+    }
+
+    function removeCountry(slot){
+      selected[slot - 1] = null;
+      document.getElementById(`search${slot}`).value = "";
+      updateURLFromSelection();
+      renderTable();
+    }
+
+    function resetComparison(){
+      selected.fill(null);
+      ["search1","search2","search3"].forEach(id => (document.getElementById(id).value=""));
+      history.replaceState({}, "", location.pathname);
+      renderTable();
+    }
+
+    // =========================
+    // Share link (?c=a,b,c)
+    // =========================
+    function updateURLFromSelection(){
+      const codes = selected.filter(Boolean).map(c => findCodeByName(c.name) || null).filter(Boolean);
+      if(codes.length === 0){
+        history.replaceState({}, "", location.pathname);
+        return;
+      }
+      const params = new URLSearchParams(location.search);
+      params.set("c", codes.join(","));
+      history.replaceState({}, "", `${location.pathname}?${params.toString()}`);
+    }
+
+    function findCodeByName(name){
+      const item = allCountries.find(x => x.name === name);
+      return item ? item.code : null;
+    }
+
+    function copyShareLink(){
+      const url = location.href;
+      navigator.clipboard?.writeText(url).then(() => {
+        const el = document.getElementById("statusText");
+        el.textContent = "Share link copied ✅";
+        setTimeout(() => el.textContent = "Select countries to populate the table.", 1600);
+      }).catch(() => {
+        alert("Could not copy the link. Your browser may block clipboard access.");
+      });
+    }
+
+    // =========================
+    // Table rendering
+    // =========================
+    function wiggDotClass(level){
+      const l = String(level || "yellow").toLowerCase();
+      if(l === "green") return "green";
+      if(l === "yellow") return "yellow";
+      if(l === "orange") return "orange";
+      if(l === "red") return "red";
+      return "yellow";
+    }
+
+    function cellHTML(value, note){
+      const v = (value && String(value).trim()) ? escapeHtml(value) : "N/A";
+      const n = (note && String(note).trim()) ? `<div class="cell-sub">${escapeHtml(note)}</div>` : "";
+      return `<div class="cell">${v}</div>${n}`;
+    }
+
+    function getField(country, key){
+      return country?.fields?.[key]?.value ?? null;
+    }
+    function getHint(country, key){
+      return country?.fields?.[key]?.hint ?? null;
+    }
+
+    function row(label, getter){
+      // returns [label, {value,note} for each selected country]
+      const cols = selected.map(c => getter(c));
+      return { label, cols };
+    }
+
+    function renderTable(){
+      const mount = document.getElementById("tableMount");
+      const status = document.getElementById("statusText");
+      const note = document.getElementById("detailsNote");
+
+      const active = selected.filter(Boolean);
+      status.textContent = active.length ? `Comparing ${active.length} country${active.length>1?"ies":"y"}.` : "Select countries to populate the table.";
+
+      const detailsCount = selected.filter(c => c && c.__hasDetails).length;
+      note.textContent = detailsCount ? `${detailsCount}/${active.length} details files loaded` : `Details are optional (data/details/slug.json).`;
+
+      // If no countries, show a small empty state
+      if(active.length === 0){
+        mount.innerHTML = `
+          <div style="padding:18px; color: rgba(0,0,0,.55); font-weight:800;">
+            Start by selecting a country above — the comparison table will appear here.
+          </div>
+        `;
+        return;
+      }
+
+      // Define table rows (clean + relevant)
+      const rows = [
+        // Facts (details)
+        row("Expat score", c => ({ value: c?.__details?.expat_score_label })),
+        row("Capital", c => ({ value: c?.__details?.capital })),
+        row("Population", c => ({ value: c?.__details?.population })),
+        row("Languages", c => ({ value: c?.__details?.languages })),
+        row("Driving side", c => ({ value: c?.__details?.driving_side })),
+        row("Crypto-friendly", c => ({ value: c?.__details?.crypto_friendly, note: c?.__details?.crypto_note })),
+
+        // Snapshot fields (countries.json)
+        row("Average salary (net / month)", c => ({ value: getField(c,"avg_salary"), note: getHint(c,"avg_salary") })),
+        row("Studio rent", c => ({ value: getField(c,"rent_studio"), note: getHint(c,"rent_studio") })),
+        row("Mobile plan", c => ({ value: getField(c,"mobile"), note: getHint(c,"mobile") })),
+        row("Gasoline", c => ({ value: getField(c,"gas"), note: getHint(c,"gas") })),
+        row("Beer (0.5L)", c => ({ value: getField(c,"beer"), note: getHint(c,"beer") })),
+        row("Coffee", c => ({ value: getField(c,"coffee"), note: getHint(c,"coffee") })),
+        row("Main dish", c => ({ value: getField(c,"dish"), note: getHint(c,"dish") })),
+
+        row("VAT", c => ({ value: getField(c,"vat"), note: getHint(c,"vat") })),
+        row("Income tax", c => ({ value: getField(c,"income_tax"), note: getHint(c,"income_tax") })),
+        row("Small business tax", c => ({ value: getField(c,"smallbiz"), note: getHint(c,"smallbiz") })),
+      ];
+
+      // Build headers (always 3 columns for consistent layout)
+      const headers = [1,2,3].map(i => {
+        const c = selected[i-1];
+        if(!c){
+          return `
+            <th>
+              <span class="muted">Country ${i}</span>
+            </th>
+          `;
+        }
+        const dot = wiggDotClass(c.wigg?.level);
+        return `
+          <th>
+            <div class="country-name">
+              <span>${escapeHtml(c.name)}</span>
+              <button class="remove" onclick="removeCountry(${i})">Remove</button>
+            </div>
+            <div class="badge" title="WIGG level">
+              <span class="dot ${dot}"></span>
+              <span>${escapeHtml(String(c.wigg?.label || "WIGG"))}</span>
+            </div>
+          </th>
+        `;
+      }).join("");
+
+      const body = rows.map(r => {
+        const tds = [1,2,3].map(i => {
+          const c = selected[i-1];
+          if(!c) return `<td>${cellHTML("", "")}</td>`;
+          const obj = r.cols[i-1] || {};
+          return `<td>${cellHTML(obj.value, obj.note)}</td>`;
+        }).join("");
+
+        return `
+          <tr>
+            <td class="metric-col">
+              <div class="cell">${escapeHtml(r.label)}</div>
+            </td>
+            ${tds}
+          </tr>
+        `;
+      }).join("");
+
+      mount.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th class="metric-col metric-col">Metric</th>
+              ${headers}
+            </tr>
+          </thead>
+          <tbody>
+            ${body}
+          </tbody>
+        </table>
+      `;
+    }
+
+    // =========================
+    // Init
+    // =========================
+    async function init(){
+      try{
+        const db = await getCountriesDB();
+        allCountries = Object.keys(db).map(code => ({
+          code,
+          name: db[code]?.name || code,
+          aliases: db[code]?.aliases || []
+        }));
+
+        // preselect from ?country=estonia OR ?c=estonia,spain
+        const params = new URLSearchParams(location.search);
+        const single = params.get("country");
+        const multi = params.get("c");
+
+        if(multi){
+          const codes = multi.split(",").map(s => s.trim()).filter(Boolean).slice(0,3);
+          for(let i=0;i<codes.length;i++){
+            const code = codes[i];
+            const item = allCountries.find(x => x.code === code);
+            if(item) await selectCountry(i+1, item.code, item.name);
+          }
+        } else if(single){
+          const item = allCountries.find(x => x.code === single);
+          if(item) await selectCountry(1, item.code, item.name);
+        }
+
+        setupSearch(1);
+        setupSearch(2);
+        setupSearch(3);
+        renderTable();
+      }catch(e){
+        console.error(e);
+        document.getElementById("tableMount").innerHTML =
+          `<div style="padding:18px; color:#b00020; font-weight:900;">Error loading countries.json</div>`;
+      }
+    }
+
+    init();
+  </script>
+
+  <script src="data/header.js"></script>
+</body>
+</html>

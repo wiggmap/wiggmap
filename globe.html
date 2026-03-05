@@ -1,0 +1,756 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>WiggMap Globe</title>
+  <script src="https://unpkg.com/globe.gl"></script>
+  <style>
+    html,body{margin:0;height:100%;background:#06090f;overflow:hidden}
+    #globe{width:100vw;height:100vh}
+
+    .hud{
+      position:fixed;top:14px;left:14px;z-index:10;
+      background:rgba(15,18,28,.62);backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:14px;padding:10px 12px;color:#eaf0ff;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;font-size:13px;
+      display:flex;align-items:center;gap:10px;
+      max-width: calc(100vw - 28px);
+      flex-wrap: wrap;               /* ✅ prevent overflow */
+    }
+    .hud .status{
+      font-weight:800;
+      white-space:nowrap;
+      flex: 0 0 auto;
+    }
+
+    /* Search bar */
+    .searchWrap{
+      position:relative;
+      margin-left:auto;
+      flex: 1 1 260px;               /* ✅ can shrink */
+      min-width: 180px;              /* ✅ smaller */
+      max-width: 360px;
+    }
+    .searchWrap input{
+      width:100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: #eaf0ff;
+      outline: none;
+      font-weight: 800;
+      font-size: 13px;
+      box-sizing: border-box;
+    }
+    .searchWrap input::placeholder{color: rgba(234,240,255,.55); font-weight: 800;}
+    .searchWrap input:focus{
+      border-color: rgba(46,204,113,.65);
+      box-shadow: 0 0 0 4px rgba(46,204,113,.18);
+      background: rgba(255,255,255,.08);
+    }
+    @media (max-width: 520px){
+      .searchWrap{
+        margin-left: 0;
+        width: 100%;
+        max-width: 100%;
+        flex: 1 1 100%;
+      }
+    }
+
+    .acList{
+      position:absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      background: rgba(10,15,25,.96);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 14px 42px rgba(0,0,0,.55);
+      max-height: 320px;
+      overflow-y: auto;
+      display:none;
+      z-index: 999;
+    }
+    .acItem{
+      padding: 10px 12px;
+      cursor:pointer;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      font-weight: 900;
+      color:#eaf0ff;
+    }
+    .acItem:hover{ background: rgba(46,204,113,.14); }
+    .acItem small{display:block;margin-top:4px;font-weight:800;color: rgba(234,240,255,.60);}
+    .acItem:last-child{ border-bottom:none; }
+
+    /* Tooltip */
+    #tooltip{
+      position:fixed;
+      background:rgba(10,15,25,.95);
+      backdrop-filter:blur(12px);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:12px;
+      padding:10px 12px;
+      color:#ffffff;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      opacity:0;
+      transition:opacity 0.15s ease, transform 0.15s ease;
+      z-index:1000;
+      box-shadow:0 8px 24px rgba(0,0,0,0.5);
+      letter-spacing:0.2px;
+      transform: translateY(4px);
+      max-width: min(340px, calc(100vw - 24px));
+      pointer-events:none; /* desktop follow cursor */
+    }
+    #tooltip.visible{ opacity:1; transform: translateY(0); }
+
+    .tt-title{ font-size: 15px; font-weight: 950; margin:0 0 6px; }
+    .tt-grid{ display:grid; grid-template-columns: 1fr; gap: 6px; font-size: 12px; font-weight: 800; color: rgba(234,240,255,.92); }
+    .tt-row{ display:flex; align-items:baseline; justify-content:space-between; gap: 10px; }
+    .tt-row span{ color: rgba(234,240,255,.62); font-weight: 900; }
+    .tt-row b{ font-weight: 950; color:#fff; text-align:right; }
+    .tt-foot{ margin-top: 8px; font-size: 11px; color: rgba(234,240,255,.55); font-weight: 900; display:flex; gap:8px; flex-wrap:wrap; }
+    .pill{
+      display:inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+    }
+    .pill.btn{
+      cursor:pointer;
+      pointer-events:auto; /* allow click on mobile pinned */
+      user-select:none;
+    }
+  </style>
+</head>
+<body>
+  <div class="hud">
+    <div class="status" id="status">Loading…</div>
+    <div class="searchWrap">
+      <input id="countrySearch" type="text" placeholder="Search a country…" autocomplete="off" />
+      <div class="acList" id="acList"></div>
+    </div>
+  </div>
+
+  <div id="tooltip"></div>
+  <div id="globe"></div>
+
+<script>
+const setStatus = (t) => document.getElementById("status").textContent = t;
+const tooltip = document.getElementById("tooltip");
+const searchInput = document.getElementById("countrySearch");
+const acList = document.getElementById("acList");
+
+// ✅ Better desktop detection (Chromebook touch screen != touch UI)
+const HAS_HOVER_POINTER = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+const TOUCH_UI = !HAS_HOVER_POINTER;
+
+function normName(s){
+  return String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();
+}
+function esc(s){
+  return String(s ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+// Mouse tracking for tooltip on desktop
+let mouseX = 20, mouseY = 20;
+
+function placeTooltipNearCursor() {
+  const pad = 12;
+  const w = tooltip.offsetWidth || 260;
+  const h = tooltip.offsetHeight || 140;
+
+  let x = mouseX + 18;
+  let y = mouseY + 18;
+
+  if (x + w + pad > window.innerWidth) x = window.innerWidth - w - pad;
+  if (y + h + pad > window.innerHeight) y = window.innerHeight - h - pad;
+  if (x < pad) x = pad;
+  if (y < pad) y = pad;
+
+  tooltip.style.left = x + "px";
+  tooltip.style.top  = y + "px";
+}
+
+document.addEventListener("mousemove", (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  if(!TOUCH_UI && !tooltipPinned && tooltip.classList.contains("visible")){
+    placeTooltipNearCursor();
+  }
+});
+
+const HOVER_COLORS = {
+  green:  "rgba(0,200,83,0.55)",
+  yellow: "rgba(255,214,0,0.55)",
+  red:    "rgba(255,61,0,0.55)"
+};
+
+// =========================
+// COUNTRY_MAP (TON BLOC, inchangé)
+// =========================
+const COUNTRY_MAP = {
+  "united states of america": {slug: "united-states", color: "yellow"},
+  "united states": {slug: "united-states", color: "yellow"},
+  "usa": {slug: "united-states", color: "yellow"},
+  "u.s.a.": {slug: "united-states", color: "yellow"},
+  "u.s.": {slug: "united-states", color: "yellow"},
+  "us": {slug: "united-states", color: "yellow"},
+  "canada": {slug: "canada", color: "green"},
+  "mexico": {slug: "mexico", color: "yellow"},
+  "costa rica": {slug: "costa-rica", color: "green"},
+  "guatemala": {slug: "guatemala", color: "yellow"},
+  "honduras": {slug: "honduras", color: "red"},
+  "nicaragua": {slug: "nicaragua", color: "yellow"},
+  "el salvador": {slug: "el-salvador", color: "yellow"},
+  "belize": {slug: "belize", color: "green"},
+  "panama": {slug: "panama", color: "green"},
+  "brazil": {slug: "brazil", color: "yellow"},
+  "argentina": {slug: "argentina", color: "yellow"},
+  "chile": {slug: "chile", color: "green"},
+  "colombia": {slug: "colombia", color: "yellow"},
+  "peru": {slug: "peru", color: "yellow"},
+  "uruguay": {slug: "uruguay", color: "green"},
+  "bolivia": {slug: "bolivia", color: "yellow"},
+  "paraguay": {slug: "paraguay", color: "green"},
+  "venezuela": {slug: "venezuela", color: "red"},
+  "ecuador": {slug: "ecuador", color: "yellow"},
+  "guyana": {slug: "guyana", color: "yellow"},
+  "suriname": {slug: "suriname", color: "yellow"},
+  "cuba": {slug: "cuba", color: "red"},
+  "haiti": {slug: "haiti", color: "red"},
+  "dominican republic": {slug: "santo-domingo", color: "yellow"},
+  "jamaica": {slug: "jamaica", color: "yellow"},
+  "bahamas": {slug: "bahamas", color: "green"},
+  "trinidad and tobago": {slug: "trinidad-and-tobago", color: "yellow"},
+  "france": {slug: "france", color: "yellow"},
+  "germany": {slug: "germany", color: "green"},
+  "united kingdom": {slug: "united-kingdom", color: "yellow"},
+  "italy": {slug: "italy", color: "green"},
+  "spain": {slug: "spain", color: "green"},
+  "portugal": {slug: "portugal", color: "green"},
+  "switzerland": {slug: "switzerland", color: "green"},
+  "austria": {slug: "austria", color: "green"},
+  "belgium": {slug: "belgium", color: "yellow"},
+  "netherlands": {slug: "netherlands", color: "green"},
+  "luxembourg": {slug: "luxembourg", color: "green"},
+  "ireland": {slug: "ireland", color: "green"},
+  "andorra": {slug: "andorra", color: "green"},
+  "monaco": {slug: "monaco", color: "green"},
+  "liechtenstein": {slug: "liechtenstein", color: "green"},
+  "san marino": {slug: "san-marino", color: "green"},
+  "vatican": {slug: "vatican", color: "green"},
+  "vatican city": {slug: "vatican", color: "green"},
+  "denmark": {slug: "denmark", color: "green"},
+  "sweden": {slug: "sweden", color: "green"},
+  "norway": {slug: "norway", color: "green"},
+  "finland": {slug: "finland", color: "green"},
+  "iceland": {slug: "iceland", color: "green"},
+  "poland": {slug: "poland", color: "yellow"},
+  "czech republic": {slug: "czech-republic", color: "yellow"},
+  "czechia": {slug: "czech-republic", color: "yellow"},
+  "hungary": {slug: "hungary", color: "yellow"},
+  "romania": {slug: "romania", color: "yellow"},
+  "bulgaria": {slug: "bulgaria", color: "yellow"},
+  "slovakia": {slug: "slovakia", color: "yellow"},
+  "estonia": {slug: "estonia", color: "green"},
+  "latvia": {slug: "latvia", color: "yellow"},
+  "lithuania": {slug: "lithuania", color: "green"},
+  "ukraine": {slug: "ukraine", color: "red"},
+  "belarus": {slug: "belarus", color: "red"},
+  "moldova": {slug: "moldova", color: "red"},
+  "russia": {slug: "russia", color: "red"},
+  "greece": {slug: "greece", color: "green"},
+  "croatia": {slug: "croatia", color: "green"},
+  "serbia": {slug: "serbia", color: "yellow"},
+  "slovenia": {slug: "slovenia", color: "green"},
+  "bosnia and herzegovina": {slug: "bosnia-and-herzegovina", color: "yellow"},
+  "montenegro": {slug: "montenegro", color: "yellow"},
+  "albania": {slug: "albania", color: "yellow"},
+  "north macedonia": {slug: "north-macedonia", color: "yellow"},
+  "macedonia": {slug: "north-macedonia", color: "yellow"},
+  "malta": {slug: "malta", color: "yellow"},
+  "cyprus": {slug: "cyprus", color: "yellow"},
+  "japan": {slug: "japan", color: "green"},
+  "south korea": {slug: "south-korea", color: "green"},
+  "republic of korea": {slug: "south-korea", color: "green"},
+  "china": {slug: "china", color: "yellow"},
+  "taiwan": {slug: "taiwan", color: "green"},
+  "mongolia": {slug: "mongolia", color: "yellow"},
+  "vietnam": {slug: "vietnam", color: "yellow"},
+  "thailand": {slug: "thailand", color: "green"},
+  "malaysia": {slug: "malaysia", color: "green"},
+  "indonesia": {slug: "indonesia", color: "yellow"},
+  "philippines": {slug: "philippines", color: "yellow"},
+  "singapore": {slug: "singapore", color: "green"},
+  "cambodia": {slug: "cambodia", color: "yellow"},
+  "laos": {slug: "laos", color: "red"},
+  "myanmar": {slug: "myanmar", color: "red"},
+  "burma": {slug: "myanmar", color: "red"},
+  "brunei": {slug: "brunei", color: "green"},
+  "timor leste": {slug: "timor-leste", color: "red"},
+  "timor-leste": {slug: "timor-leste", color: "red"},
+  "east timor": {slug: "timor-leste", color: "red"},
+  "india": {slug: "india", color: "yellow"},
+  "pakistan": {slug: "pakistan", color: "red"},
+  "bangladesh": {slug: "bangladesh", color: "red"},
+  "sri lanka": {slug: "sri-lanka", color: "red"},
+  "nepal": {slug: "nepal", color: "red"},
+  "bhutan": {slug: "bhutan", color: "yellow"},
+  "kazakhstan": {slug: "kazakhstan", color: "yellow"},
+  "uzbekistan": {slug: "uzbekistan", color: "yellow"},
+  "turkmenistan": {slug: "turkmenistan", color: "red"},
+  "kyrgyzstan": {slug: "kyrgyzstan", color: "yellow"},
+  "tajikistan": {slug: "tajikistan", color: "red"},
+  "georgia": {slug: "georgia", color: "green"},
+  "armenia": {slug: "armenia", color: "yellow"},
+  "azerbaijan": {slug: "azerbaijan", color: "yellow"},
+  "turkey": {slug: "turkey", color: "yellow"},
+  "saudi arabia": {slug: "saudi-arabia", color: "green"},
+  "united arab emirates": {slug: "united-arab-emirates", color: "green"},
+  "qatar": {slug: "qatar", color: "green"},
+  "kuwait": {slug: "kuwait", color: "green"},
+  "bahrain": {slug: "bahrain", color: "green"},
+  "oman": {slug: "oman", color: "green"},
+  "jordan": {slug: "jordan", color: "yellow"},
+  "lebanon": {slug: "lebanon", color: "yellow"},
+  "israel": {slug: "israel", color: "yellow"},
+  "syria": {slug: "syria", color: "red"},
+  "iraq": {slug: "iraq", color: "red"},
+  "iran": {slug: "iran", color: "red"},
+  "afghanistan": {slug: "afghanistan", color: "red"},
+  "yemen": {slug: "yemen", color: "red"},
+  "palestine": {slug: "palestine", color: "red"},
+  "egypt": {slug: "egypt", color: "red"},
+  "morocco": {slug: "morocco", color: "yellow"},
+  "tunisia": {slug: "tunisia", color: "yellow"},
+  "algeria": {slug: "algeria", color: "yellow"},
+  "libya": {slug: "libya", color: "red"},
+  "mauritania": {slug: "mauritania", color: "red"},
+  "mali": {slug: "mali", color: "red"},
+  "senegal": {slug: "senegal", color: "yellow"},
+  "guinea": {slug: "guinea", color: "red"},
+  "guinea bissau": {slug: "guinea-bissau", color: "red"},
+  "sierra leone": {slug: "sierra-leone", color: "red"},
+  "liberia": {slug: "liberia", color: "red"},
+  "ivory coast": {slug: "cote-d-ivoire", color: "yellow"},
+  "côte d'ivoire": {slug: "cote-d-ivoire", color: "yellow"},
+  "cote d'ivoire": {slug: "cote-d-ivoire", color: "yellow"},
+  "ghana": {slug: "ghana", color: "yellow"},
+  "burkina faso": {slug: "burkina-faso", color: "red"},
+  "togo": {slug: "togo", color: "red"},
+  "benin": {slug: "benin", color: "red"},
+  "nigeria": {slug: "nigeria", color: "red"},
+  "niger": {slug: "niger", color: "red"},
+  "cameroon": {slug: "cameroon", color: "red"},
+  "gabon": {slug: "gabon", color: "yellow"},
+  "republic of the congo": {slug: "republic-of-the-congo", color: "red"},
+  "congo brazzaville": {slug: "republic-of-the-congo", color: "red"},
+  "democratic republic of the congo": {slug: "democratic-republic-of-the-congo", color: "red"},
+  "dr congo": {slug: "democratic-republic-of-the-congo", color: "red"},
+  "congo kinshasa": {slug: "democratic-republic-of-the-congo", color: "red"},
+  "central african republic": {slug: "central-african-republic", color: "red"},
+  "chad": {slug: "chad", color: "red"},
+  "kenya": {slug: "kenya", color: "yellow"},
+  "united republic of tanzania": { slug: "tanzania", color: "yellow" },
+  "uganda": {slug: "uganda", color: "yellow"},
+  "rwanda": {slug: "rwanda", color: "yellow"},
+  "burundi": {slug: "burundi", color: "red"},
+  "ethiopia": {slug: "ethiopia", color: "red"},
+  "somalia": {slug: "somalia", color: "red"},
+  "eritrea": {slug: "eritrea", color: "red"},
+  "djibouti": {slug: "djibouti", color: "red"},
+  "south sudan": {slug: "south-sudan", color: "red"},
+  "south africa": {slug: "south-africa", color: "yellow"},
+  "namibia": {slug: "namibia", color: "yellow"},
+  "botswana": {slug: "botswana", color: "green"},
+  "zimbabwe": {slug: "zimbabwe", color: "red"},
+  "zambia": {slug: "zambia", color: "yellow"},
+  "mozambique": {slug: "mozambique", color: "red"},
+  "malawi": {slug: "malawi", color: "red"},
+  "angola": {slug: "angola", color: "yellow"},
+  "lesotho": {slug: "lesotho", color: "yellow"},
+  "swaziland": {slug: "swaziland", color: "yellow"},
+  "eswatini": {slug: "swaziland", color: "yellow"},
+  "madagascar": {slug: "madagascar", color: "red"},
+  "mauritius": {slug: "mauritius", color: "green"},
+  "seychelles": {slug: "seychelles", color: "green"},
+  "australia": {slug: "australia", color: "green"},
+  "new zealand": {slug: "new-zealand", color: "green"}
+};
+
+// ==== Tooltip data ====
+let COUNTRIES_DB = null;
+let ALL = [];
+const detailsCache = {};
+
+async function loadCountriesDB(){
+  if(COUNTRIES_DB) return COUNTRIES_DB;
+  const _lang = localStorage.getItem("wigg_lang") || "en";
+  const _cf = _lang === "fr" ? "data/countries.fr.json" : _lang === "es" ? "data/countries.es.json" : "data/countries.json";
+  const r = await fetch(_cf, { cache: "no-store" });
+  if(!r.ok) throw new Error("countries.json not found");
+  COUNTRIES_DB = await r.json();
+  ALL = Object.keys(COUNTRIES_DB).map(code => ({
+    code,
+    name: COUNTRIES_DB[code]?.name || code,
+    aliases: COUNTRIES_DB[code]?.aliases || []
+  }));
+  return COUNTRIES_DB;
+}
+
+async function loadDetails(slug){
+  if(slug in detailsCache) return detailsCache[slug];
+  try{
+    const _dlang = localStorage.getItem("wigg_lang") || "en";
+    const _df = _dlang === "fr" ? "details-fr" : _dlang === "es" ? "details-es" : "details";
+    const r = await fetch(`data/${_df}/${slug}.json`, { cache: "no-store" });
+    if(!r.ok){ detailsCache[slug] = null; return null; }
+    const j = await r.json();
+    detailsCache[slug] = j;
+    return j;
+  }catch(e){
+    detailsCache[slug] = null;
+    return null;
+  }
+}
+
+function getAvgSalary(slug){ return COUNTRIES_DB?.[slug]?.fields?.avg_salary?.value || "—"; }
+function getSunnyDays(slug){ return COUNTRIES_DB?.[slug]?.fields?.sun?.value || "—"; }
+function getExpatScoreLabel(details){ return details?.expat_score?.label || details?.name_note || "—"; }
+function getPersonalityName(details){
+  return (
+    details?.goDeeper?.things_to_know?.personality?.name ||
+    details?.things_to_know?.personality?.name ||
+    details?.goDeeper?.personality?.name ||
+    "—"
+  );
+}
+
+let tooltipPinned = false;
+let pinnedSlug = null;
+let lastTapAt = 0;
+
+function tooltipHTML(displayName, slug, details, pinned){
+  const expat = getExpatScoreLabel(details);
+  const salary = getAvgSalary(slug);
+  const sun = getSunnyDays(slug);
+  const persona = getPersonalityName(details);
+
+  if(pinned){
+    return `
+      <div class="tt-title">${esc(displayName)}</div>
+      <div class="tt-grid">
+        <div class="tt-row"><span>Expat score</span><b>${esc(expat)}</b></div>
+        <div class="tt-row"><span>Avg salary</span><b>${esc(salary)}</b></div>
+        <div class="tt-row"><span>Personality</span><b>${esc(persona)}</b></div>
+        <div class="tt-row"><span>Sunny days</span><b>${esc(sun)}</b></div>
+      </div>
+      <div class="tt-foot">
+        <span class="pill">Tap again to open</span>
+        <span class="pill btn" data-action="close">Close</span>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="tt-title">${esc(displayName)}</div>
+    <div class="tt-grid">
+      <div class="tt-row"><span>Expat score</span><b>${esc(expat)}</b></div>
+      <div class="tt-row"><span>Avg salary</span><b>${esc(salary)}</b></div>
+      <div class="tt-row"><span>Personality</span><b>${esc(persona)}</b></div>
+      <div class="tt-row"><span>Sunny days</span><b>${esc(sun)}</b></div>
+    </div>
+    <div class="tt-foot"><span class="pill">Click to open</span></div>
+  `;
+}
+
+function showTooltip(html){
+  tooltip.innerHTML = html;
+  tooltip.classList.add("visible");
+  if(!TOUCH_UI && !tooltipPinned) placeTooltipNearCursor();
+}
+function hideTooltip(){
+  tooltip.classList.remove("visible");
+  if(!tooltipPinned) tooltip.innerHTML = "";
+}
+function pinTooltip(html){
+  tooltipPinned = true;
+  tooltip.innerHTML = html;
+  tooltip.classList.add("visible");
+  // pin top-left (readable)
+  tooltip.style.left = "14px";
+  tooltip.style.top  = "68px";
+  tooltip.style.pointerEvents = "auto"; // allow Close click
+}
+function unpinTooltip(){
+  tooltipPinned = false;
+  pinnedSlug = null;
+  tooltip.style.pointerEvents = "none";
+}
+
+// Close button in tooltip (mobile)
+tooltip.addEventListener("click", (e) => {
+  const btn = e.target && e.target.closest("[data-action='close']");
+  if(btn){
+    unpinTooltip();
+    hideTooltip();
+  }
+});
+
+// ==== Search focuses globe (no navigation) ====
+let featureBySlug = {};
+let hoveredFeature = null;
+
+function centroidOfFeature(feature){
+  const geom = feature?.geometry;
+  if(!geom) return null;
+  const coords = geom.coordinates;
+  let points = [];
+  function pushRing(ring){
+    for(const p of ring){
+      if(Array.isArray(p) && p.length >= 2) points.push(p);
+    }
+  }
+  if(geom.type === "Polygon"){
+    pushRing(coords[0] || []);
+  } else if(geom.type === "MultiPolygon"){
+    let best = null;
+    for(const poly of coords){
+      const ring = poly?.[0] || [];
+      if(!best || ring.length > best.length) best = ring;
+    }
+    if(best) pushRing(best);
+  }
+  if(points.length === 0) return null;
+  let sumLng=0,sumLat=0;
+  for(const [lng,lat] of points){ sumLng+=lng; sumLat+=lat; }
+  return { lng: sumLng/points.length, lat: sumLat/points.length };
+}
+
+async function focusCountryOnGlobe(globe, slug){
+  const feature = featureBySlug[slug];
+  if(!feature){ setStatus(`Not mapped on globe: ${slug}`); return; }
+
+  hoveredFeature = feature;
+  globe.polygonCapColor(globe.polygonCapColor());
+
+  const c = centroidOfFeature(feature);
+  if(c){
+    globe.pointOfView({ lat: c.lat, lng: c.lng, altitude: 1.65 }, 750);
+  }
+
+  const displayName = feature.properties?.name || COUNTRIES_DB?.[slug]?.name || slug;
+  const d = await loadDetails(slug);
+
+  if(TOUCH_UI){
+    pinnedSlug = slug;
+    lastTapAt = Date.now();
+    pinTooltip(tooltipHTML(displayName, slug, d, true));
+    setStatus(`${displayName} — tap again to open`);
+  } else {
+    showTooltip(tooltipHTML(displayName, slug, d, false));
+    setStatus(`${displayName} — click to open`);
+    placeTooltipNearCursor();
+  }
+}
+
+function setupSearch(globe){
+  function renderList(items){
+    if(!items.length){ acList.style.display="none"; return; }
+    acList.innerHTML = items.map(c => `
+      <div class="acItem" data-code="${esc(c.code)}">
+        ${esc(c.name)}<small>${esc(c.code)}</small>
+      </div>
+    `).join("");
+    acList.style.display="block";
+
+    acList.querySelectorAll(".acItem").forEach(el => {
+      el.addEventListener("click", async () => {
+        const code = el.getAttribute("data-code");
+        searchInput.value = (COUNTRIES_DB?.[code]?.name) || code;
+        acList.style.display="none";
+        await focusCountryOnGlobe(globe, code);
+      });
+    });
+  }
+
+  searchInput.addEventListener("input", () => {
+    const q = searchInput.value.toLowerCase().trim();
+    if(!q){ acList.style.display="none"; return; }
+
+    const res = ALL.filter(c => {
+      if(c.name.toLowerCase().includes(q)) return true;
+      return (c.aliases||[]).some(a => String(a).toLowerCase().includes(q));
+    }).slice(0, 12);
+
+    renderList(res);
+  });
+
+  searchInput.addEventListener("blur", () => setTimeout(() => acList.style.display="none", 160));
+
+  searchInput.addEventListener("keydown", async (e) => {
+    if(e.key === "Enter"){
+      const q = searchInput.value.toLowerCase().trim();
+      if(!q) return;
+      const hit = ALL.find(c => c.code === q)
+        || ALL.find(c => c.name.toLowerCase() === q)
+        || ALL.find(c => (c.aliases||[]).some(a => String(a).toLowerCase() === q));
+      if(hit){
+        acList.style.display="none";
+        await focusCountryOnGlobe(globe, hit.code);
+      }
+    }
+    if(e.key === "Escape"){ acList.style.display="none"; searchInput.blur(); }
+  });
+}
+
+async function init(){
+  setStatus("Loading...");
+
+  await loadCountriesDB();
+
+  const world = await fetch("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
+    .then(r => r.json());
+
+  // build slug->feature index + match count
+  featureBySlug = {};
+  let matchCount = 0;
+  world.features.forEach(f => {
+    const dispName = f.properties?.name || "";
+    const key = normName(dispName);
+    const data = COUNTRY_MAP[key];
+    if(data?.slug){
+      matchCount++;
+      if(!featureBySlug[data.slug]) featureBySlug[data.slug] = f;
+    }
+  });
+
+  setStatus(`Ready — ${matchCount} countries clickable`);
+
+  let hoverTimer = null;
+  let lastHoverSlug = null;
+
+  const globe = Globe()(document.getElementById("globe"))
+    .backgroundColor("#06090f")
+    .globeImageUrl("./assets/earth-grass.png")
+    .bumpImageUrl("https://unpkg.com/three-globe/example/img/earth-topology.png")
+    .showAtmosphere(true)
+    .atmosphereAltitude(0.18)
+    .polygonsData(world.features)
+    .polygonAltitude(0.012)
+    .polygonStrokeColor(() => "rgba(255,255,255,0.16)")
+    .polygonSideColor(() => "rgba(255,255,255,0.03)")
+    .polygonCapColor(f => {
+      if (f !== hoveredFeature) return "rgba(0,0,0,0)";
+      const name = normName(f.properties?.name || "");
+      const data = COUNTRY_MAP[name];
+      return data ? HOVER_COLORS[data.color] : "rgba(255,214,0,0.55)";
+    })
+    .onPolygonHover(f => {
+      hoveredFeature = f || null;
+      globe.polygonCapColor(globe.polygonCapColor());
+
+      // On mobile pinned mode: ignore hover behavior
+      if(TOUCH_UI) return;
+      if(tooltipPinned) return;
+
+      if(f){
+        const dispName = f.properties?.name || "Unknown";
+        const key = normName(dispName);
+        const data = COUNTRY_MAP[key];
+
+        if(!data){
+          setStatus(dispName);
+          showTooltip(`<div class="tt-title">${esc(dispName)}</div><div class="tt-foot"><span class="pill">Not mapped</span></div>`);
+          return;
+        }
+
+        const slug = data.slug;
+        setStatus(`${dispName} — click to open`);
+
+        showTooltip(tooltipHTML(dispName, slug, detailsCache[slug] || null, false));
+
+        clearTimeout(hoverTimer);
+        lastHoverSlug = slug;
+        hoverTimer = setTimeout(async () => {
+          const d = await loadDetails(slug);
+          if(lastHoverSlug === slug && !tooltipPinned){
+            showTooltip(tooltipHTML(dispName, slug, d, false));
+          }
+        }, 160);
+
+      } else {
+        hideTooltip();
+      }
+    })
+    .onPolygonClick(async f => {
+      if(!f) return;
+
+      const dispName = f.properties?.name || "Unknown";
+      const key = normName(dispName);
+      const data = COUNTRY_MAP[key];
+      if(!data) return;
+
+      const slug = data.slug;
+
+      // MOBILE: 1st tap pin, 2nd tap open
+      if(TOUCH_UI){
+        const now = Date.now();
+        const same = (pinnedSlug === slug) && (now - lastTapAt < 1500);
+
+        if(!tooltipPinned || !same){
+          pinnedSlug = slug;
+          lastTapAt = now;
+          const d = await loadDetails(slug);
+          pinTooltip(tooltipHTML(dispName, slug, d, true));
+          setStatus(`${dispName} — tap again to open`);
+          return;
+        }
+
+        window.location.href = `/countries/country.html?country=${slug}`;
+        return;
+      }
+
+      // DESKTOP: single click opens
+      window.location.href = `/countries/country.html?country=${slug}`;
+    });
+
+  // Search focuses globe (no navigation)
+  setupSearch(globe);
+
+  // Slower rotation
+  globe.controls().autoRotate = true;
+  globe.controls().autoRotateSpeed = 0.25;
+
+  // Bump animation (unchanged)
+  const scene = globe.scene();
+  const g = scene.children.find(o => o.type === 'Mesh' && o.geometry?.type === 'SphereGeometry');
+  if (g?.material) {
+    g.material.bumpScale = 0.18;
+    let t = 0;
+    function animate(){
+      t += 0.015;
+      if (g?.material) g.material.bumpScale = 0.16 + Math.sin(t) * 0.03;
+      requestAnimationFrame(animate);
+    }
+    animate();
+  }
+}
+
+init().catch(err => {
+  console.error(err);
+  setStatus("Error: " + err.message);
+});
+</script>
+</body>
+</html>
