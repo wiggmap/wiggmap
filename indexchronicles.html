@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <!-- Google Tag Manager (comme ton index) -->
+  <!-- Google Tag Manager -->
   <script>
     (function(w,d,s,l,i){w[l]=w[l]||[];
-    w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
+    w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
     var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
     j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
@@ -12,481 +12,863 @@
     })(window,document,'script','dataLayer','GTM-K4MMRD4R');
   </script>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <title>Wigg Chronicles — Articles & analyses | WiggMap</title>
-  <meta name="description" content="Wigg Chronicles : articles premium sur expatriation, visas, fiscalité, coût de la vie, prospective, éducation et qualité de vie.">
-  <link rel="canonical" href="https://wiggmap.com/chronicles/">
-
   <link rel="manifest" href="/manifest.webmanifest">
   <meta name="theme-color" content="#22c55e">
   <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
 
-  <!-- favicon : version absolue (marche depuis /chronicles/) -->
-  <link rel="icon" href="/assets/favicon.ico" type="image/x-icon" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wigg Chronicles — Articles &amp; analyses | WiggMap</title>
+  <meta name="description" content="Wigg Chronicles : articles premium sur expatriation, visas, fiscalité, coût de la vie, prospective, éducation et qualité de vie à travers le monde.">
+  <link rel="canonical" href="https://wiggmap.com/indexchronicles.html">
+  <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
 
-  <!-- Font (comme ton index) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Global CSS (comme ton index) -->
-  <link rel="stylesheet" href="/data/style.css">
-
   <style>
-    /* On reste dans ton style: simple, clean, pas une nouvelle DA */
-    .chron-wrap{
+    /* ── Reset & base ───────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Poppins", system-ui, -apple-system, Arial, sans-serif;
+      background:
+        radial-gradient(ellipse 1600px 700px at 50% -80px, rgba(34,197,94,.13), transparent 58%),
+        #0d1510;
+      color: rgba(255,255,255,.88);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Page wrapper ───────────────────────────────────────── */
+    .cw {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 18px 14px 46px;
-      box-sizing: border-box;
+      padding: 22px 16px 64px;
     }
-    @media (max-width: 520px){
-      .chron-wrap{ padding: 12px 8px 36px; }
-    }
+    @media (max-width: 520px) { .cw { padding: 14px 12px 48px; } }
 
-    .chron-hero{
-      border-radius: 22px;
-      overflow: hidden;
-      position: relative;
+    /* ── Hero ───────────────────────────────────────────────── */
+    .cw-hero {
+      border-radius: 20px;
+      padding: 38px 34px 30px;
       background:
-        radial-gradient(900px 520px at 15% 15%, rgba(16,185,129,.18), transparent 60%),
-        radial-gradient(800px 520px at 80% 20%, rgba(34,197,94,.12), transparent 65%),
-        rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.14);
-      padding: 18px;
+        radial-gradient(900px 440px at 8% 10%, rgba(22,163,74,.18), transparent 55%),
+        radial-gradient(600px 360px at 90% 20%, rgba(16,185,129,.10), transparent 60%),
+        rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.10);
     }
+    @media (max-width: 600px) { .cw-hero { padding: 26px 20px 22px; } }
 
-    .chron-hero h1{
-      margin: 0 0 6px;
-      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      font-size: 28px;
-      line-height: 1.1;
-      color: rgba(255,255,255,.92);
-      text-shadow: 0 2px 10px rgba(0,0,0,.20);
-    }
-    .chron-hero p{
-      margin: 0;
-      color: rgba(255,255,255,.70);
-      line-height: 1.6;
-      max-width: 72ch;
-      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      font-weight: 600;
-      font-size: 14px;
-    }
-
-    .chron-controls{
-      margin-top: 14px;
-      display: grid;
-      grid-template-columns: 1.2fr .8fr .8fr;
-      gap: 10px;
-    }
-    @media (max-width: 900px){
-      .chron-controls{ grid-template-columns: 1fr; }
-    }
-
-    .chron-field label{
-      display:block;
-      margin: 0 0 6px;
-      font-size: 11px;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.58);
-      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    .cw-hero-eyebrow {
+      margin: 0 0 12px;
       font-weight: 700;
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: #4ade80;
     }
 
-    .chron-field input, .chron-field select{
+    .cw-hero h1 {
+      margin: 0 0 10px;
+      font-weight: 800;
+      font-size: 36px;
+      letter-spacing: -.035em;
+      line-height: 1.06;
+      color: #fff;
+    }
+    @media (max-width: 520px) { .cw-hero h1 { font-size: 26px; } }
+
+    .cw-hero-sub {
+      margin: 0 0 24px;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 1.68;
+      color: rgba(255,255,255,.52);
+      max-width: 60ch;
+    }
+    @media (max-width: 520px) { .cw-hero-sub { font-size: 13px; margin-bottom: 18px; } }
+
+    .cw-search {
+      display: flex;
+      max-width: 460px;
+    }
+    .cw-search input {
       width: 100%;
       height: 44px;
-      padding: 0 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.20);
-      background: rgba(255,255,255,0.65);
-      outline: none;
-      font-size: 14px;
-      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      padding: 0 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.08);
+      color: rgba(255,255,255,.90);
+      font-family: inherit;
       font-weight: 600;
-      box-sizing: border-box;
-    }
-    .chron-field input:focus, .chron-field select:focus{
-      background: rgba(255,255,255,0.75);
-      border-color: rgba(16,185,129,0.45);
-      box-shadow: 0 0 0 3px rgba(16,185,129,0.12);
-    }
-
-    .chron-section-title{
-      margin: 16px 0 10px;
-      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      font-weight: 800;
       font-size: 14px;
-      letter-spacing: .10em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.70);
+      outline: none;
+      transition: background .16s, border-color .16s, box-shadow .16s;
+    }
+    .cw-search input::placeholder { color: rgba(255,255,255,.32); }
+    .cw-search input:focus {
+      background: rgba(255,255,255,.12);
+      border-color: rgba(34,197,94,.50);
+      box-shadow: 0 0 0 3px rgba(34,197,94,.12);
+    }
+    @media (max-width: 520px) { .cw-search { max-width: 100%; } }
+
+    /* ── Featured card ──────────────────────────────────────── */
+    .cw-featured {
+      margin-top: 14px;
     }
 
-    .chron-grid{
+    .cw-feat {
+      border-radius: 18px;
+      border: 1px solid rgba(34,197,94,.24);
+      background:
+        radial-gradient(900px 500px at -5% 50%, rgba(34,197,94,.09), transparent 55%),
+        rgba(255,255,255,.06);
+      box-shadow: 0 0 0 1px rgba(34,197,94,.06) inset;
+      padding: 26px 26px 22px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 28px;
+      align-items: end;
+    }
+    @media (max-width: 700px) {
+      .cw-feat {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 22px 18px 18px;
+      }
+    }
+
+    .cw-feat-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .cw-feat h2 {
+      margin: 0 0 12px;
+      font-weight: 800;
+      font-size: 21px;
+      letter-spacing: -.022em;
+      line-height: 1.20;
+      color: rgba(255,255,255,.96);
+    }
+    @media (max-width: 520px) { .cw-feat h2 { font-size: 17px; } }
+
+    .cw-feat-excerpt {
+      margin: 0;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 1.72;
+      color: rgba(255,255,255,.55);
+      max-width: 72ch;
+    }
+
+    .cw-feat-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+    @media (max-width: 700px) {
+      .cw-feat-actions {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    /* ── Chips ──────────────────────────────────────────────── */
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      height: 24px;
+      padding: 0 10px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: .015em;
+      white-space: nowrap;
+      line-height: 1;
+    }
+
+    /* Star / Featured */
+    .chip-feat {
+      background: rgba(34,197,94,.20);
+      border-color: rgba(34,197,94,.38);
+      color: #86efac;
+    }
+    /* Visa & Installation */
+    .chip-visa {
+      background: rgba(16,185,129,.16);
+      border-color: rgba(16,185,129,.30);
+      color: #6ee7b7;
+    }
+    /* Nomad Life */
+    .chip-nomad {
+      background: rgba(6,182,212,.16);
+      border-color: rgba(6,182,212,.28);
+      color: #67e8f9;
+    }
+    /* Future & Strategy */
+    .chip-future {
+      background: rgba(139,92,246,.18);
+      border-color: rgba(139,92,246,.32);
+      color: #c4b5fd;
+    }
+    /* Family */
+    .chip-family {
+      background: rgba(251,146,60,.16);
+      border-color: rgba(251,146,60,.28);
+      color: #fed7aa;
+    }
+    /* Region / generic */
+    .chip-region {
+      background: rgba(255,255,255,.07);
+      border-color: rgba(255,255,255,.13);
+      color: rgba(255,255,255,.60);
+    }
+    /* Date / read time */
+    .chip-meta {
+      background: transparent;
+      border-color: transparent;
+      color: rgba(255,255,255,.38);
+      padding: 0 6px;
+      font-weight: 600;
+    }
+
+    /* ── Language badges ────────────────────────────────────── */
+    .cw-langs {
+      display: flex;
+      gap: 5px;
+    }
+    .cw-lang {
+      height: 26px;
+      padding: 0 9px;
+      border-radius: 7px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.58);
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: .05em;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      transition: background .14s, border-color .14s, color .14s;
+    }
+    .cw-lang:hover,
+    .cw-lang.active {
+      background: rgba(34,197,94,.18);
+      border-color: rgba(34,197,94,.36);
+      color: #86efac;
+    }
+
+    /* ── CTA button ─────────────────────────────────────────── */
+    .cw-btn {
+      display: inline-flex;
+      align-items: center;
+      height: 40px;
+      padding: 0 20px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+      color: #fff;
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: .02em;
+      text-decoration: none;
+      box-shadow: 0 4px 16px rgba(22,163,74,.28);
+      transition: opacity .16s, transform .16s, box-shadow .16s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .cw-btn:hover {
+      opacity: .92;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 22px rgba(22,163,74,.36);
+    }
+
+    /* ── Filter pills ───────────────────────────────────────── */
+    .cw-filters {
+      margin-top: 20px;
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .cw-pill {
+      height: 34px;
+      padding: 0 15px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.11);
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.58);
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: .02em;
+      cursor: pointer;
+      transition: background .14s, border-color .14s, color .14s;
+      white-space: nowrap;
+    }
+    .cw-pill:hover {
+      background: rgba(255,255,255,.10);
+      color: rgba(255,255,255,.82);
+    }
+    .cw-pill.on {
+      background: rgba(34,197,94,.18);
+      border-color: rgba(34,197,94,.38);
+      color: #86efac;
+    }
+
+    /* ── Section header ─────────────────────────────────────── */
+    .cw-section {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 24px 0 14px;
+    }
+    .cw-section-label {
+      margin: 0;
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.42);
+    }
+    .cw-section-count {
+      height: 20px;
+      padding: 0 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.10);
+      font-weight: 800;
+      font-size: 10px;
+      color: rgba(255,255,255,.38);
+      display: inline-flex;
+      align-items: center;
+    }
+
+    /* ── Articles grid ──────────────────────────────────────── */
+    .cw-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 12px;
     }
-    @media (max-width: 980px){
-      .chron-grid{ grid-template-columns: 1fr 1fr; }
-    }
-    @media (max-width: 620px){
-      .chron-grid{ grid-template-columns: 1fr; }
-    }
+    @media (max-width: 940px) { .cw-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 580px) { .cw-grid { grid-template-columns: 1fr; } }
 
-    .chron-card{
-      border-radius: 18px;
+    /* ── Article card ───────────────────────────────────────── */
+    .cw-card {
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.09);
+      background: rgba(255,255,255,.05);
+      display: flex;
+      flex-direction: column;
       overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.08);
-      box-shadow: 0 10px 26px rgba(0,0,0,0.22);
+      transition: transform .18s, box-shadow .18s, border-color .18s, background .18s;
     }
-    .chron-card-top{
-      padding: 12px 12px 10px;
-      border-bottom: 1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.06);
+    .cw-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 36px rgba(0,0,0,.30);
+      border-color: rgba(255,255,255,.16);
+      background: rgba(255,255,255,.075);
     }
-    .chron-meta{
-      display:flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-      color: rgba(255,255,255,.62);
-      font-size: 12px;
-      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      font-weight: 700;
-    }
-    .chron-chip{
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.16);
-      background: rgba(255,255,255,0.07);
-      color: rgba(255,255,255,.78);
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: .01em;
-      white-space: nowrap;
-    }
-    .chron-chip.accent{
-      border-color: rgba(16,185,129,0.42);
-      background: rgba(16,185,129,0.14);
-      color: rgba(210,255,228,.95);
-    }
-    .chron-card h3{
-      margin: 8px 0 0;
-      color: rgba(255,255,255,.92);
-      font-size: 16px;
-      line-height: 1.25;
-      letter-spacing: -0.01em;
-      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      font-weight: 800;
-    }
-    .chron-card-mid{
-      padding: 10px 12px 0;
-      color: rgba(255,255,255,.72);
-      font-size: 13px;
-      line-height: 1.7;
-      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      font-weight: 600;
-      min-height: 64px;
-    }
-    .chron-card-actions{
-      padding: 12px;
-      display:flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-    }
-    .chron-link{
-      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      font-weight: 800;
-      color: rgba(210,255,228,.95);
-      text-decoration: none;
-      letter-spacing: .01em;
-      font-size: 13px;
-    }
-    .chron-link:hover{ text-decoration: underline; }
 
-    .chron-empty{
-      display:none;
-      margin-top: 12px;
-      border-radius: 18px;
-      border: 1px dashed rgba(255,255,255,0.22);
-      background: rgba(255,255,255,0.06);
-      padding: 14px;
-      color: rgba(255,255,255,.72);
-      line-height: 1.7;
-      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    .cw-card-top {
+      padding: 14px 14px 11px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      background: rgba(0,0,0,.08);
+    }
+    .cw-card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 9px;
+    }
+    .cw-card h3 {
+      margin: 0;
+      font-weight: 800;
+      font-size: 15px;
+      line-height: 1.28;
+      letter-spacing: -.01em;
+      color: rgba(255,255,255,.92);
+    }
+
+    .cw-card-body {
+      padding: 11px 14px 0;
+      flex: 1;
+    }
+    .cw-card-excerpt {
+      margin: 0;
+      font-weight: 500;
+      font-size: 13px;
+      line-height: 1.70;
+      color: rgba(255,255,255,.48);
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .cw-card-footer {
+      padding: 11px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .cw-card-link {
+      font-weight: 800;
+      font-size: 12px;
+      letter-spacing: .04em;
+      color: #86efac;
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: color .14s;
+    }
+    .cw-card-link:hover { color: #4ade80; }
+
+    /* ── Empty state ────────────────────────────────────────── */
+    .cw-empty {
+      display: none;
+      border-radius: 16px;
+      border: 1px dashed rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      padding: 40px 20px;
+      text-align: center;
       font-weight: 600;
+      font-size: 14px;
+      color: rgba(255,255,255,.38);
+      line-height: 1.7;
+      margin-top: 12px;
+    }
+
+    /* ── Divider ────────────────────────────────────────────── */
+    .cw-divider {
+      height: 1px;
+      background: rgba(255,255,255,.06);
+      margin: 20px 0 0;
     }
   </style>
 </head>
 
 <body>
-  <!-- GTM noscript (comme ton index) -->
   <noscript>
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R"
       height="0" width="0" style="display:none;visibility:hidden"></iframe>
   </noscript>
 
-  <!-- Header injecté par /data/header.js (comme ton index) -->
   <div id="siteHeader"></div>
 
-  <main class="chron-wrap">
-    <section class="chron-hero">
-      <h1 id="chronTitle">Wigg Chronicles</h1>
-      <p id="chronSubtitle">
-        Articles premium sur expatriation, visas, fiscalité, coût de la vie, prospective, éducation et qualité de vie.
+  <main class="cw">
+
+    <!-- Hero -->
+    <section class="cw-hero">
+      <p class="cw-hero-eyebrow" id="eyebrow">Chronicles</p>
+      <h1 id="heroTitle">Wigg Chronicles</h1>
+      <p class="cw-hero-sub" id="heroSub">
+        Premium articles on expat life, visas, taxes, cost of living, future trends, education and quality of life.
       </p>
-
-      <div class="chron-controls" aria-label="Chronicles filters">
-        <div class="chron-field">
-          <label for="q" id="lblSearch">Search</label>
-          <input id="q" type="search" placeholder="Search (e.g., Australia, offshore, 2056…)" autocomplete="off">
-        </div>
-
-        <div class="chron-field">
-          <label for="theme" id="lblTheme">Theme</label>
-          <select id="theme">
-            <option value="all">All themes</option>
-          </select>
-        </div>
-
-        <div class="chron-field">
-          <label for="region" id="lblRegion">Region</label>
-          <select id="region">
-            <option value="all">All regions</option>
-          </select>
-        </div>
+      <div class="cw-search">
+        <input id="searchInput" type="search" autocomplete="off"
+          aria-label="Search articles"
+          placeholder="Search articles…">
       </div>
     </section>
 
-    <h2 class="chron-section-title" id="lblArticles">Articles</h2>
+    <!-- Featured article -->
+    <section class="cw-featured" id="featuredSection">
+      <div id="featuredCard"></div>
+    </section>
 
-    <section class="chron-grid" id="grid" aria-label="Chronicles list"></section>
-    <div class="chron-empty" id="empty">No articles match your filters.</div>
+    <!-- Divider -->
+    <div class="cw-divider"></div>
+
+    <!-- Filter pills -->
+    <nav class="cw-filters" id="filters" aria-label="Filter by category"></nav>
+
+    <!-- Section header -->
+    <div class="cw-section">
+      <h2 class="cw-section-label" id="sectionLabel">Articles</h2>
+      <span class="cw-section-count" id="countBadge">0</span>
+    </div>
+
+    <!-- Grid -->
+    <div class="cw-grid" id="grid" role="list"></div>
+
+    <!-- Empty -->
+    <div class="cw-empty" id="empty">No articles match your search.</div>
+
   </main>
 
-  <!-- IMPORTANT: ordre identique à ton index -->
   <script src="/data/header.js"></script>
 
   <script>
-    // Mini i18n local (on reste compatible avec wigg_lang du header)
-    const I18N = {
+    /* ─── i18n strings ──────────────────────────────────────── */
+    var I18N = {
       en: {
-        chronTitle: "Wigg Chronicles",
-        chronSubtitle: "Premium articles on expat life, visas, taxes, cost of living, future trends, education and quality of life.",
-        lblSearch: "Search",
-        phSearch: "Search (e.g., Australia, offshore, 2056…)",
-        lblTheme: "Theme",
-        lblRegion: "Region",
-        allThemes: "All themes",
-        allRegions: "All regions",
-        lblArticles: "Articles",
-        empty: "No articles match your filters."
+        eyebrow:  "Chronicles",
+        title:    "Wigg Chronicles",
+        sub:      "Premium articles on expat life, visas, taxes, cost of living, future trends, education and quality of life.",
+        search:   "Search articles…",
+        all:      "All",
+        section:  "Articles",
+        featured: "★ Featured",
+        read:     "Read →",
+        empty:    "No articles match your search."
       },
       fr: {
-        chronTitle: "Wigg Chronicles",
-        chronSubtitle: "Articles premium sur expatriation, visas, fiscalité, coût de la vie, prospective, éducation et qualité de vie.",
-        lblSearch: "Recherche",
-        phSearch: "Rechercher (ex : Australie, offshore, 2056…)",
-        lblTheme: "Thème",
-        lblRegion: "Région",
-        allThemes: "Tous les thèmes",
-        allRegions: "Toutes les régions",
-        lblArticles: "Articles",
-        empty: "Aucun article ne correspond à tes filtres."
+        eyebrow:  "Chroniques",
+        title:    "Wigg Chronicles",
+        sub:      "Articles premium sur expatriation, visas, fiscalité, coût de la vie, prospective, éducation et qualité de vie.",
+        search:   "Rechercher des articles…",
+        all:      "Tous",
+        section:  "Articles",
+        featured: "★ À la une",
+        read:     "Lire →",
+        empty:    "Aucun article ne correspond à ta recherche."
       },
       es: {
-        chronTitle: "Wigg Chronicles",
-        chronSubtitle: "Artículos premium sobre expatriación, visados, impuestos, coste de vida, futuro, educación y calidad de vida.",
-        lblSearch: "Buscar",
-        phSearch: "Buscar (p. ej., Australia, offshore, 2056…)",
-        lblTheme: "Tema",
-        lblRegion: "Región",
-        allThemes: "Todos los temas",
-        allRegions: "Todas las regiones",
-        lblArticles: "Artículos",
-        empty: "Ningún artículo coincide con tus filtros."
+        eyebrow:  "Crónicas",
+        title:    "Wigg Chronicles",
+        sub:      "Artículos premium sobre expatriación, visados, impuestos, coste de vida, prospectiva, educación y calidad de vida.",
+        search:   "Buscar artículos…",
+        all:      "Todos",
+        section:  "Artículos",
+        featured: "★ Destacado",
+        read:     "Leer →",
+        empty:    "Ningún artículo coincide con tu búsqueda."
       }
     };
 
-    function getLang(){
+    /* ─── Chronicles data ───────────────────────────────────── */
+    var CHRONICLES = [
+      {
+        id: "2056",
+        featured: true,
+        title: {
+          en: "2056: Where will life be best in 30 years?",
+          fr: "2056 : où vivra-t-on le mieux dans 30 ans ?",
+          es: "2056: ¿dónde se vivirá mejor en 30 años?"
+        },
+        url: {
+          en: "/chronicles/chronicle-2056-best-countries-30-years-en.html",
+          fr: "/chronicles/chronicle-2056-ou-vivra-t-on-le-mieux-fr.html",
+          es: "/chronicles/chronicle-2056-mejores-paises-30-anos-es.html"
+        },
+        excerpt: {
+          en: "AI, geopolitics, medicine, democracy, demographics — a strategic and human analysis of the countries that will offer the best quality of life in 30 years.",
+          fr: "IA, géopolitique, médecine, démocratie, démographie — une lecture stratégique et humaine des pays qui offriront la meilleure qualité de vie dans 30 ans.",
+          es: "IA, geopolítica, medicina, democracia, demografía — un análisis estratégico y humano de los países que ofrecerán la mejor calidad de vida en 30 años."
+        },
+        date: "2026-03-05",
+        read: "~30 min",
+        theme: "Future & Strategy",
+        region: "World"
+      },
+      {
+        id: "ameriques-1",
+        title: {
+          en: "Panama, Costa Rica, Puerto Rico: The Americas Expat Comparison 2026",
+          fr: "Panama, Costa Rica, Porto Rico : le comparatif expatriés Amériques 2026",
+          es: "Panamá, Costa Rica, Puerto Rico: la comparativa para expatriados en las Américas 2026"
+        },
+        url: {
+          en: "/chronicles/chronicle-ameriques-partie1-en.html",
+          fr: "/chronicles/chronicle-ameriques-partie1-fr.html",
+          es: "/chronicles/chronicle-ameriques-partie1-es.html"
+        },
+        excerpt: {
+          en: "Visa, territorial taxation, cost of living, retirement and crypto — which Americas base to choose in 2026?",
+          fr: "Visa, fiscalité territoriale, coût de la vie, retraite et crypto — quelle base américaine choisir en 2026 ?",
+          es: "Visa, fiscalidad territorial, coste de vida, jubilación y cripto — ¿qué base americana elegir en 2026?"
+        },
+        date: "2026-03-01",
+        read: "~25 min",
+        theme: "Visa & Installation",
+        region: "Americas"
+      },
+      {
+        id: "children-2026",
+        title: {
+          en: "Best Countries to Raise Children in 2026",
+          fr: "Les meilleurs pays pour élever ses enfants en 2026",
+          es: "Los mejores países para criar hijos en 2026"
+        },
+        url: {
+          en: "/chronicles/chronicle-raise-children-2026-en.html",
+          fr: "/chronicles/chronicle-elever-enfants-2026-fr.html",
+          es: "/chronicles/chronicle-criar-hijos-2026-es.html"
+        },
+        excerpt: {
+          en: "PISA scores, safety, child well-being, school pressure, education costs — a complete guide for expat families.",
+          fr: "Résultats PISA, sécurité, bien-être des enfants, pression scolaire, coûts d'éducation — un guide complet pour les familles expatriées.",
+          es: "Puntuaciones PISA, seguridad, bienestar infantil, presión escolar, costes educativos — una guía completa para familias expatriadas."
+        },
+        date: "2026-02-25",
+        read: "~20 min",
+        theme: "Family",
+        region: "World"
+      },
+      {
+        id: "nomads-2026",
+        title: {
+          en: "Best Countries for Digital Nomads in 2026",
+          fr: "Les meilleurs pays pour les digital nomads en 2026",
+          es: "Los mejores países para nómadas digitales en 2026"
+        },
+        url: {
+          en: "/chronicles/digital-nomads-2026-en.html",
+          fr: "/chronicles/digital-nomads-2026-fr.html",
+          es: "/chronicles/digital-nomads-2026-es.html"
+        },
+        excerpt: {
+          en: "Visas, salaries, taxes, real purchasing power — a practical guide to the best countries for remote workers in 2026.",
+          fr: "Visas, salaires, fiscalité, pouvoir d'achat réel — un guide pratique des meilleurs pays pour les travailleurs à distance en 2026.",
+          es: "Visados, salarios, impuestos, poder adquisitivo real — una guía práctica de los mejores países para trabajadores remotos en 2026."
+        },
+        date: "2026-02-24",
+        read: "~20 min",
+        theme: "Visa & Installation",
+        region: "World"
+      },
+      {
+        id: "expats-crypto-2026",
+        title: {
+          en: "Dubai, Bali, Thailand, Vietnam, Malta: Expats & Crypto 2026",
+          fr: "Dubaï, Bali, Thaïlande, Vietnam, Malte : expatriés & crypto 2026",
+          es: "Dubái, Bali, Tailandia, Vietnam, Malta: expatriados y cripto 2026"
+        },
+        url: {
+          en: "/chronicles/expats-nomads-crypto-2026-en.html",
+          fr: "/chronicles/expatries-nomades-crypto-2026-fr.html",
+          es: "/chronicles/expatriados-nomadas-crypto-2026-es.html"
+        },
+        excerpt: {
+          en: "Visa, cost of living, taxation and crypto-friendly legislation — the 2026 comparison for expats, nomads and influencers.",
+          fr: "Visa, coût de la vie, fiscalité et législation crypto-friendly — le comparatif 2026 pour les expatriés, nomades et influenceurs.",
+          es: "Visa, coste de vida, fiscalidad y legislación cripto-friendly — la comparativa 2026 para expatriados, nómadas e influencers."
+        },
+        date: "2026-02-25",
+        read: "~25 min",
+        theme: "Nomad Life",
+        region: "World"
+      }
+    ];
+
+    /* ─── Theme → chip class mapping ───────────────────────── */
+    var CHIP = {
+      "Visa & Installation": "chip-visa",
+      "Nomad Life":          "chip-nomad",
+      "Future & Strategy":   "chip-future",
+      "Family":              "chip-family"
+    };
+
+    /* ─── State ─────────────────────────────────────────────── */
+    var activeFilter = "all";
+
+    /* ─── Helpers ───────────────────────────────────────────── */
+    function getLang() {
       return (localStorage.getItem("wigg_lang") || "en").toLowerCase();
     }
 
-    function applyChronLang(){
-      const l = getLang();
-      const t = I18N[l] || I18N.en;
-
-      document.documentElement.lang = l;
-      document.getElementById("chronTitle").textContent = t.chronTitle;
-      document.getElementById("chronSubtitle").textContent = t.chronSubtitle;
-
-      document.getElementById("lblSearch").textContent = t.lblSearch;
-      const q = document.getElementById("q");
-      q.placeholder = t.phSearch;
-
-      document.getElementById("lblTheme").textContent = t.lblTheme;
-      document.getElementById("lblRegion").textContent = t.lblRegion;
-      document.getElementById("lblArticles").textContent = t.lblArticles;
-      document.getElementById("empty").textContent = t.empty;
-
-      // reset first options (keep selected if possible)
-      const themeSel = document.getElementById("theme");
-      const regionSel = document.getElementById("region");
-      if (themeSel.options.length) themeSel.options[0].textContent = t.allThemes;
-      if (regionSel.options.length) regionSel.options[0].textContent = t.allRegions;
+    function str(obj) {
+      if (!obj) return "";
+      if (typeof obj === "string") return obj;
+      var l = getLang();
+      return obj[l] || obj.en || "";
     }
 
-    // Articles list (tu édites juste ici)
-    const CHRONICLES = [
-      // IMPORTANT: fais 3 index séparés si tu veux des URLs différentes par langue.
-      // Ici, on peut pointer vers les URLs "langées" si tu les as : /chronicles/...-fr.html etc.
-      {
-        title: { en:"Australia 2026: visas, salaries, taxes & regions", fr:"Australie 2026 : visas, salaires, fiscalité & régions", es:"Australia 2026: visados, salarios, impuestos y regiones" },
-        url:   { en:"/chronicles/chronicle-australie-expatriation-2026-en.html", fr:"/chronicles/chronicle-australie-expatriation-2026-fr.html", es:"/chronicles/chronicle-australie-expatriation-2026-es.html" },
-        excerpt:{ en:"A practical guide to visas, key regions, real budgets and trade-offs.", fr:"Guide pratique : visas, régions clés, budgets réalistes et compromis.", es:"Guía práctica: visados, regiones clave, presupuestos reales y compromisos." },
-        date: "2026-02-25",
-        read: "~20 min",
-        theme: "Visa & Installation",
-        region: "Oceania",
-        tags: ["Visa","Salary","Regions"]
-      },
-      {
-        title: { en:"2056: where will we live best in 30 years?", fr:"2056 : où vivra-t-on le mieux dans 30 ans ?", es:"2056: ¿dónde se vivirá mejor en 30 años?" },
-        url:   { en:"/chronicles/chronicle-2056-ou-vivra-t-on-le-mieux-en.html", fr:"/chronicles/chronicle-2056-ou-vivra-t-on-le-mieux-fr.html", es:"/chronicles/chronicle-2056-ou-vivra-t-on-le-mieux-es.html" },
-        excerpt:{ en:"AI, medicine, education, stability, safety, nature — a strategic global outlook.", fr:"IA, médecine, éducation, stabilité, sécurité, nature — une lecture stratégique du monde.", es:"IA, medicina, educación, estabilidad, seguridad, naturaleza — una lectura estratégica." },
-        date: "2026-03-05",
-        read: "~30 min",
-        theme: "Future / Strategy",
-        region: "World",
-        tags: ["AI","Health","Stability"]
+    function tx() {
+      var l = getLang();
+      return I18N[l] || I18N.en;
+    }
+
+    function fmtDate(iso) {
+      if (!iso) return "";
+      var parts = iso.split("-").map(Number);
+      var dt = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2]));
+      var l = getLang();
+      var locale = l === "fr" ? "fr-FR" : l === "es" ? "es-ES" : "en-GB";
+      return dt.toLocaleDateString(locale, { year: "numeric", month: "short", day: "numeric" });
+    }
+
+    function themeChip(theme) {
+      return CHIP[theme] || "chip-region";
+    }
+
+    function makeLangBadges(c) {
+      var l = getLang();
+      return ["en", "fr", "es"].map(function(code) {
+        var href = (c.url && c.url[code]) ? c.url[code] : "#";
+        var cls  = "cw-lang" + (code === l ? " active" : "");
+        return '<a href="' + href + '" class="' + cls + '">' + code.toUpperCase() + '</a>';
+      }).join("");
+    }
+
+    /* ─── Featured card HTML ────────────────────────────────── */
+    function featuredHTML(c) {
+      var t    = tx();
+      var url  = str(c.url);
+      var tc   = themeChip(c.theme);
+      var date = c.date ? fmtDate(c.date) : "";
+      return [
+        '<div class="cw-feat">',
+          '<div>',
+            '<div class="cw-feat-meta">',
+              '<span class="chip chip-feat">' + t.featured + '</span>',
+              '<span class="chip ' + tc + '">' + (c.theme || "") + '</span>',
+              '<span class="chip chip-region">' + (c.region || "") + '</span>',
+              (date ? '<span class="chip chip-meta">' + date + '</span>' : ''),
+              (c.read ? '<span class="chip chip-meta">· ' + c.read + '</span>' : ''),
+            '</div>',
+            '<h2>' + str(c.title) + '</h2>',
+            '<p class="cw-feat-excerpt">' + str(c.excerpt) + '</p>',
+          '</div>',
+          '<div class="cw-feat-actions">',
+            '<div class="cw-langs">' + makeLangBadges(c) + '</div>',
+            '<a class="cw-btn" href="' + url + '">' + t.read + '</a>',
+          '</div>',
+        '</div>'
+      ].join("");
+    }
+
+    /* ─── Article card HTML ─────────────────────────────────── */
+    function cardHTML(c) {
+      var t    = tx();
+      var url  = str(c.url);
+      var tc   = themeChip(c.theme);
+      var date = c.date ? fmtDate(c.date) : "";
+      return [
+        '<article class="cw-card" role="listitem">',
+          '<div class="cw-card-top">',
+            '<div class="cw-card-meta">',
+              '<span class="chip ' + tc + '">' + (c.theme || "") + '</span>',
+              '<span class="chip chip-region">' + (c.region || "") + '</span>',
+              (date ? '<span class="chip chip-meta">' + date + '</span>' : ''),
+              (c.read ? '<span class="chip chip-meta">· ' + c.read + '</span>' : ''),
+            '</div>',
+            '<h3>' + str(c.title) + '</h3>',
+          '</div>',
+          '<div class="cw-card-body">',
+            '<p class="cw-card-excerpt">' + str(c.excerpt) + '</p>',
+          '</div>',
+          '<div class="cw-card-footer">',
+            '<div class="cw-langs">' + makeLangBadges(c) + '</div>',
+            '<a class="cw-card-link" href="' + url + '">' + t.read + '</a>',
+          '</div>',
+        '</article>'
+      ].join("");
+    }
+
+    /* ─── Filter match ──────────────────────────────────────── */
+    function matches(c) {
+      var q   = document.getElementById("searchInput").value.trim().toLowerCase();
+      var hay = [str(c.title), str(c.excerpt), c.theme || "", c.region || ""].join(" ").toLowerCase();
+      var qOk = !q || hay.indexOf(q) !== -1;
+      var fOk = activeFilter === "all" || c.theme === activeFilter;
+      return qOk && fOk;
+    }
+
+    /* ─── Build filter pills ────────────────────────────────── */
+    function buildFilters() {
+      var t      = tx();
+      var themes = [];
+      CHRONICLES.forEach(function(c) {
+        if (c.theme && themes.indexOf(c.theme) === -1) themes.push(c.theme);
+      });
+
+      var nav = document.getElementById("filters");
+      nav.innerHTML = "";
+
+      function makeBtn(label, val) {
+        var btn = document.createElement("button");
+        btn.className = "cw-pill" + (activeFilter === val ? " on" : "");
+        btn.textContent = label;
+        btn.dataset.f = val;
+        btn.addEventListener("click", function() {
+          activeFilter = val;
+          buildFilters();
+          render();
+        });
+        nav.appendChild(btn);
       }
-      // Ajoute le reste ici…
-    ];
 
-    function uniq(arr){ return [...new Set(arr)].sort((a,b)=>a.localeCompare(b)); }
-    function formatDate(iso){
-      if(!iso) return "";
-      const [y,m,d] = iso.split("-").map(n=>parseInt(n,10));
-      if(!y||!m||!d) return iso;
-      const dt = new Date(Date.UTC(y,m-1,d));
-      const lang = getLang();
-      return dt.toLocaleDateString(lang === "fr" ? "fr-FR" : lang === "es" ? "es-ES" : "en-GB",
-        { year:"numeric", month:"short", day:"2-digit" }
-      );
+      makeBtn(t.all, "all");
+      themes.forEach(function(th) { makeBtn(th, th); });
     }
 
-    const $ = (id) => document.getElementById(id);
+    /* ─── Render ────────────────────────────────────────────── */
+    function render() {
+      var t        = tx();
+      var featured = null;
+      var rest     = [];
 
-    function getText(obj){
-      const l = getLang();
-      if(typeof obj === "string") return obj;
-      return (obj && (obj[l] || obj.en)) || "";
-    }
-
-    function buildFilters(){
-      // Theme/Region are not translated here on purpose: you can translate later if you want.
-      const themes = uniq(CHRONICLES.map(c=>c.theme).filter(Boolean));
-      const regions = uniq(CHRONICLES.map(c=>c.region).filter(Boolean));
-
-      const themeSel = $("theme");
-      const regionSel = $("region");
-
-      // keep first option, clear others
-      while(themeSel.options.length > 1) themeSel.remove(1);
-      while(regionSel.options.length > 1) regionSel.remove(1);
-
-      themes.forEach(t=>{
-        const opt = document.createElement("option");
-        opt.value = t;
-        opt.textContent = t;
-        themeSel.appendChild(opt);
+      CHRONICLES.forEach(function(c) {
+        if (c.featured) featured = c;
+        else rest.push(c);
       });
 
-      regions.forEach(r=>{
-        const opt = document.createElement("option");
-        opt.value = r;
-        opt.textContent = r;
-        regionSel.appendChild(opt);
-      });
+      /* Featured */
+      var featSec  = document.getElementById("featuredSection");
+      var featCard = document.getElementById("featuredCard");
+      if (featured) {
+        var showFeat = matches(featured);
+        featSec.style.display = showFeat ? "" : "none";
+        if (showFeat) featCard.innerHTML = featuredHTML(featured);
+      }
+
+      /* Grid */
+      var filtered = rest.filter(matches);
+      document.getElementById("grid").innerHTML = filtered.map(cardHTML).join("");
+
+      /* Count & empty */
+      var total = (featured && matches(featured) ? 1 : 0) + filtered.length;
+      var emptyEl = document.getElementById("empty");
+      emptyEl.style.display = total === 0 ? "block" : "none";
+      emptyEl.textContent = t.empty;
+
+      document.getElementById("countBadge").textContent = filtered.length;
+      document.getElementById("sectionLabel").textContent = t.section;
     }
 
-    function matches(c, q, theme, region){
-      const hay = (
-        getText(c.title) + " " +
-        getText(c.excerpt) + " " +
-        (c.theme||"") + " " +
-        (c.region||"") + " " +
-        (c.tags||[]).join(" ")
-      ).toLowerCase();
-
-      const qOk = !q || hay.includes(q);
-      const themeOk = (theme === "all") || (c.theme === theme);
-      const regionOk = (region === "all") || (c.region === region);
-      return qOk && themeOk && regionOk;
+    /* ─── Apply static i18n ─────────────────────────────────── */
+    function applyI18n() {
+      var t = tx();
+      var l = getLang();
+      document.documentElement.lang = l;
+      document.getElementById("eyebrow").textContent    = t.eyebrow;
+      document.getElementById("heroTitle").textContent  = t.title;
+      document.getElementById("heroSub").textContent    = t.sub;
+      document.getElementById("searchInput").placeholder = t.search;
     }
 
-    function cardHTML(c){
-      const title = getText(c.title);
-      const url = getText(c.url);
-      const excerpt = getText(c.excerpt);
-      const dateTxt = c.date ? formatDate(c.date) : "";
-      const readTxt = c.read || "";
-
-      return `
-        <article class="chron-card">
-          <div class="chron-card-top">
-            <div class="chron-meta">
-              <span class="chron-chip accent">${c.theme || ""}</span>
-              <span class="chron-chip">${c.region || ""}</span>
-              ${dateTxt ? `<span style="opacity:.75;">• ${dateTxt}</span>` : ``}
-              ${readTxt ? `<span style="opacity:.75;">• ${readTxt}</span>` : ``}
-            </div>
-            <h3>${title}</h3>
-          </div>
-          <div class="chron-card-mid">${excerpt}</div>
-          <div class="chron-card-actions">
-            <a class="chron-link" href="${url}">Read →</a>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
-              ${(c.tags||[]).slice(0,3).map(t=>`<span class="chron-chip">${t}</span>`).join("")}
-            </div>
-          </div>
-        </article>
-      `;
+    /* ─── Init ──────────────────────────────────────────────── */
+    function init() {
+      applyI18n();
+      buildFilters();
+      render();
     }
 
-    function render(){
-      const q = $("q").value.trim().toLowerCase();
-      const theme = $("theme").value;
-      const region = $("region").value;
+    init();
 
-      const filtered = CHRONICLES.filter(c => matches(c, q, theme, region));
+    document.getElementById("searchInput").addEventListener("input", render);
 
-      $("grid").innerHTML = filtered.map(cardHTML).join("");
-      $("empty").style.display = filtered.length ? "none" : "block";
-    }
-
-    // Init
-    applyChronLang();
-    buildFilters();
-    render();
-
-    $("q").addEventListener("input", render);
-    $("theme").addEventListener("change", render);
-    $("region").addEventListener("change", render);
-
-    // React to header language changes (comme ton index)
-    window.addEventListener("wigg_lang_changed", function(){
-      applyChronLang();
+    window.addEventListener("wigg_lang_changed", function() {
+      applyI18n();
       buildFilters();
       render();
     });
