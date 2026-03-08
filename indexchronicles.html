@@ -102,21 +102,26 @@
       position:relative;
       z-index:1;
       display:grid;
-      grid-template-columns:minmax(0, 1.2fr) 320px;
-      gap:34px;
-      padding:42px 42px 34px;
-      align-items:end;
+      grid-template-columns:minmax(0, 1fr) 340px;
+      gap:0;
+      padding:32px 0 26px 36px;
+      align-items:stretch;
     }
     @media (max-width:980px){
       .masthead-inner{
         grid-template-columns:1fr;
-        gap:20px;
-        padding:28px 22px 22px;
+        gap:0;
+        padding:24px 22px 20px;
       }
     }
 
     .masthead-copy{
-      max-width:760px;
+      max-width:680px;
+      padding-right:32px;
+      padding-bottom:6px;
+    }
+    @media (max-width:980px){
+      .masthead-copy{ padding-right:0; }
     }
 
     .masthead-label{
@@ -128,7 +133,7 @@
       letter-spacing:.24em;
       text-transform:uppercase;
       color:var(--green);
-      margin-bottom:18px;
+      margin-bottom:14px;
     }
     .masthead-label::before{
       content:"";
@@ -140,12 +145,12 @@
 
     .masthead h1{
       font-family:"Playfair Display", Georgia, serif;
-      font-size:clamp(40px, 7vw, 86px);
+      font-size:clamp(32px, 5vw, 66px);
       line-height:.96;
       letter-spacing:-.03em;
       font-weight:700;
-      max-width:9ch;
-      margin-bottom:16px;
+      max-width:10ch;
+      margin-bottom:12px;
     }
     .masthead h1 em{
       color:var(--green);
@@ -154,16 +159,16 @@
     }
 
     .masthead-sub{
-      max-width:58ch;
-      font-size:15px;
-      line-height:1.8;
+      max-width:54ch;
+      font-size:14px;
+      line-height:1.76;
       color:var(--ink-soft);
-      margin-bottom:28px;
+      margin-bottom:22px;
     }
 
     .masthead-search{
       position:relative;
-      max-width:420px;
+      max-width:380px;
     }
     .masthead-search svg{
       position:absolute;
@@ -175,18 +180,18 @@
     }
     .masthead-search input{
       width:100%;
-      height:52px;
+      height:46px;
       border:none;
       outline:none;
-      border-radius:16px;
+      border-radius:14px;
       background:rgba(255,255,255,.84);
       box-shadow:
         inset 0 0 0 1px rgba(23,23,20,.09),
-        0 10px 24px rgba(23,23,20,.04);
+        0 8px 20px rgba(23,23,20,.04);
       padding:0 16px 0 46px;
       font:600 14px "Inter",system-ui,sans-serif;
       color:var(--ink);
-      transition:box-shadow .18s ease, transform .18s ease;
+      transition:box-shadow .18s ease;
       backdrop-filter: blur(8px);
     }
     .masthead-search input::placeholder{
@@ -196,55 +201,34 @@
       box-shadow:
         inset 0 0 0 1px rgba(29,127,72,.28),
         0 0 0 4px rgba(29,127,72,.08),
-        0 12px 28px rgba(23,23,20,.05);
+        0 10px 24px rgba(23,23,20,.05);
     }
 
-    .masthead-side{
+    /* ── Image bannière ── */
+    .masthead-img{
       align-self:stretch;
-      border-left:1px solid rgba(23,23,20,.08);
-      padding-left:28px;
-      display:flex;
-      flex-direction:column;
-      justify-content:flex-end;
-      gap:18px;
+      overflow:hidden;
+      border-left:1px solid rgba(23,23,20,.07);
+      margin-top:-32px;
+      margin-bottom:-26px;
+      margin-right:0;
+    }
+    .masthead-img img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      object-position:center top;
+      display:block;
     }
     @media (max-width:980px){
-      .masthead-side{
-        border-left:none;
-        padding-left:0;
-        padding-top:4px;
-      }
-    }
-
-    .masthead-note{
-      padding:18px 18px 16px;
-      background:rgba(255,253,248,.74);
-      border:1px solid rgba(23,23,20,.07);
-      border-radius:18px;
-      box-shadow:0 8px 24px rgba(23,23,20,.04);
-      backdrop-filter: blur(8px);
-    }
-    .masthead-note-kicker{
-      display:block;
-      margin-bottom:9px;
-      font-size:10px;
-      font-weight:800;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      color:rgba(23,23,20,.45);
-    }
-    .masthead-note p{
-      font-family:"Playfair Display", Georgia, serif;
-      font-size:18px;
-      line-height:1.4;
-      color:var(--ink);
+      .masthead-img{ display:none; }
     }
 
     .masthead-rule{
       display:flex;
       align-items:center;
       gap:14px;
-      padding:0 42px 24px;
+      padding:0 36px 20px;
     }
     .masthead-rule::before,
     .masthead-rule::after{
@@ -345,14 +329,14 @@
     .feat-body{
       position:relative;
       z-index:1;
-      padding:38px 38px 34px;
+      padding:26px 28px 22px;
       display:flex;
       flex-direction:column;
-      gap:24px;
+      gap:18px;
     }
     @media (max-width:700px){
       .feat-body{
-        padding:24px 20px 22px;
+        padding:20px 18px 18px;
       }
     }
 
@@ -391,11 +375,11 @@
 
     .feat-title{
       font-family:"Playfair Display", Georgia, serif;
-      font-size:clamp(28px, 3.6vw, 46px);
-      line-height:1.06;
-      letter-spacing:-.03em;
+      font-size:clamp(22px, 2.8vw, 36px);
+      line-height:1.08;
+      letter-spacing:-.025em;
       font-weight:700;
-      max-width:13ch;
+      max-width:16ch;
     }
     .feat-excerpt{
       max-width:62ch;
@@ -420,12 +404,11 @@
       color:rgba(23,23,20,.42);
     }
     .feat-cta{
-      position:relative;
       display:inline-flex;
       align-items:center;
       gap:10px;
-      min-height:42px;
-      padding:0 18px;
+      min-height:38px;
+      padding:0 16px;
       border-radius:999px;
       background:#161714;
       color:#fff;
@@ -434,16 +417,19 @@
       letter-spacing:.16em;
       text-transform:uppercase;
       transition:transform .15s ease, opacity .15s ease;
-      box-shadow:0 12px 24px rgba(23,23,20,.16);
+      box-shadow:0 10px 22px rgba(23,23,20,.14);
+      position:static;
     }
     .feat-cta:hover{
       transform:translateY(-1px);
       opacity:.94;
     }
+    /* stretch-link : couvre toute la feat-card */
     .feat-cta::after{
       content:"";
       position:absolute;
       inset:0;
+      border-radius:inherit;
     }
 
     .feat-panel{
@@ -452,11 +438,11 @@
       border-left:1px solid rgba(23,23,20,.08);
       background:
         linear-gradient(180deg, rgba(247,241,231,.88), rgba(255,255,255,.74));
-      padding:28px;
+      padding:20px 22px;
       display:flex;
       flex-direction:column;
       justify-content:center;
-      gap:18px;
+      gap:14px;
     }
     @media (max-width:960px){
       .feat-panel{
@@ -644,7 +630,6 @@
       color:rgba(23,23,20,.40);
     }
     .card-read{
-      position:relative;
       color:var(--card-accent, var(--green));
       font-size:11px;
       font-weight:800;
@@ -652,10 +637,12 @@
       text-transform:uppercase;
       transition:letter-spacing .16s ease;
       flex-shrink:0;
+      position:static;
     }
     .cw-card:hover .card-read{
       letter-spacing:.20em;
     }
+    /* stretch-link : couvre toute la cw-card */
     .card-read::after{
       content:"";
       position:absolute;
@@ -719,12 +706,9 @@
           </div>
         </div>
 
-        <aside class="masthead-side" aria-hidden="true">
-          <div class="masthead-note">
-            <span class="masthead-note-kicker">Editorial line</span>
-            <p>Strategy, mobility, tax, quality of life and where the grass may really be greener.</p>
-          </div>
-        </aside>
+        <div class="masthead-img" aria-hidden="true">
+          <img src="/assets/bannierechroniques.png" alt="" loading="eager" decoding="async">
+        </div>
       </div>
 
       <div class="masthead-rule">
@@ -819,7 +803,6 @@
         theme: "Future & Strategy",
         region: "World",
         stats: [
-          { val: "30", label: "ans d'analyse" },
           { val: "150+", label: "pays comparés" },
           { val: "~30", label: "min de lecture" }
         ]
