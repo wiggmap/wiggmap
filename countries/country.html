@@ -1100,6 +1100,14 @@
       if(crypto.note)     rows += `<div class="kv-note">${esc(crypto.note)}</div>`;
       if(s.driving_side)  rows += `<div class="kv"><span>Driving side</span><b>${esc(s.driving_side)}</b></div>`;
 
+      // Top sectors from goDeeper
+      const sectors = data?.goDeeper?.top_sectors;
+      if(Array.isArray(sectors) && sectors.length){
+        rows += `<div class="kv" style="align-items:flex-start;gap:6px"><span style="flex-shrink:0">Top sectors</span><div style="display:flex;flex-wrap:wrap;gap:4px;justify-content:flex-end">${
+          sectors.map(s => `<span style="background:rgba(34,197,94,.10);border:1px solid rgba(34,197,94,.25);border-radius:999px;padding:2px 9px;font-size:11px;font-weight:700;color:var(--green-dk)">${esc(s)}</span>`).join("")
+        }</div></div>`;
+      }
+
       if(!rows) return;
 
       const card = document.getElementById("snapshotCard");
@@ -1112,16 +1120,22 @@
 
     function renderPersonaCard(data){
       const gd = data?.goDeeper || data;
-      const persona = gd?.persona || gd?.personality;
+      // personality is inside things_to_know, or directly on goDeeper as fallback
+      const ttk = gd?.things_to_know || {};
+      const persona = ttk?.personality || gd?.persona || gd?.personality;
       if(!persona) return;
 
-      const title = persona.title || persona.name || "";
-      const why   = persona.why   || persona.description || "";
-      if(!title && !why) return;
+      const name  = persona.name  || persona.title || "";
+      const era   = persona.era   || "";
+      const story = persona.story || persona.why || persona.description || "";
+      if(!name && !story) return;
 
-      let html = "";
-      if(title) html += `<div class="snapshot-title">${esc(title)}</div>`;
-      if(why)   html += `<div class="wg-persona-why">${esc(why)}</div>`;
+      let title = name;
+      if(era) title += ` <span style="font-weight:500;opacity:.6;font-size:11px">${esc(era)}</span>`;
+
+      let html = `<div class="snapshot-title">Icon of the country</div>`;
+      html += `<div style="font-weight:800;font-size:13px;margin-bottom:6px">${title}</div>`;
+      if(story) html += `<div class="wg-persona-why">${esc(story)}</div>`;
 
       const card    = document.getElementById("personaCard");
       const content = document.getElementById("personaContent");
@@ -1135,12 +1149,32 @@
       const gd = data?.goDeeper || data;
       if(!gd) return "";
 
-      const cards = Array.isArray(gd.cards) ? gd.cards
-                  : Array.isArray(gd.things) ? gd.things
+      // cards live inside things_to_know object
+      const ttk   = gd?.things_to_know || {};
+      const cards = Array.isArray(ttk.cards)  ? ttk.cards
+                  : Array.isArray(gd.cards)   ? gd.cards
+                  : Array.isArray(gd.things)  ? gd.things
                   : [];
-      if(!cards.length) return "";
 
-      const cardsHtml = cards.map(card => {
+      // Extra cards from national_dish and lgbt_acceptance
+      const extraCards = [];
+      if(gd.national_dish?.name){
+        extraCards.push({
+          title: `🍽️ National dish: ${gd.national_dish.name}`,
+          text:  gd.national_dish.note || ""
+        });
+      }
+      if(gd.lgbt_acceptance?.level){
+        extraCards.push({
+          title: `🏳️‍🌈 LGBT+ acceptance: ${gd.lgbt_acceptance.level}`,
+          text:  gd.lgbt_acceptance.note || ""
+        });
+      }
+
+      const allCards = [...cards, ...extraCards];
+      if(!allCards.length) return "";
+
+      const cardsHtml = allCards.map(card => {
         const t = card.title || card.heading || "";
         const b = card.body  || card.text    || "";
         return `<div class="fact-card">
