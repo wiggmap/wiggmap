@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-36BWEJGCTB"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-36BWEJGCTB');
+  </script>
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-K4MMRD4R');</script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="../assets/favicon.ico" type="image/x-icon" />
+
+  <title id="seo-title">Country — WiggMap</title>
+  <meta id="seo-desc" name="description" content="WiggMap country snapshot: salaries, rent, utilities, taxes, tech, gasoline, immigration, happiness, climate — WiggMap." />
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── Tokens ────────────────────────────────────────────── */
+    :root {
+      --bg:       #f4f6f5;
+      --card:     #ffffff;
+      --text:     #18201c;
+      --muted:    #5b6b62;
+      --border:   rgba(0,0,0,.08);
+      --shadow:   0 2px 12px rgba(0,0,0,.07);
+      --green:    #22c55e;
+      --green-dk: #16a34a;
+      --yellow:   #f5c84c;
+      --red:      #ef4444;
+      --radius:   12px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Syne", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Breadcrumbs ───────────────────────────────────────── */
+    .breadcrumbs {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 12px 0 0;
+      letter-spacing: .03em;
+    }
+    .breadcrumbs a { color: var(--muted); border-bottom: 1px solid rgba(0,0,0,.15); }
+    .breadcrumbs a:hover { color: var(--text); }
+
+    /* ── Wrap ──────────────────────────────────────────────── */
+    .wrap { max-width: 1140px; margin: 0 auto; padding: 0 20px 60px; }
+
+    /* ── Country header ────────────────────────────────────── */
+    .country-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 0 18px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 22px;
+    }
+
+    .country-title {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -.5px;
+      line-height: 1.1;
+    }
+    .country-subtitle {
+      margin-top: 6px;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .head-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 13px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      box-shadow: var(--shadow);
+      white-space: nowrap;
+    }
+    .dot { width: 9px; height: 9px; border-radius: 999px; display: inline-block; }
+    .dot.green  { background: var(--green); }
+    .dot.yellow { background: var(--yellow); }
+    .dot.red    { background: var(--red); }
+
+    .local-time {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+      text-align: right;
+    }
+
+    @media (max-width: 540px) {
+      .country-head { flex-direction: column; gap: 10px; }
+      .head-right { align-items: flex-start; }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       MAIN GRID: LEFT sidebar + RIGHT content
+    ═══════════════════════════════════════════════════════ */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+    @media (max-width: 900px) { .main-grid { grid-template-columns: 1fr; } }
+
+    /* ── Left sidebar ──────────────────────────────────────── */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: sticky;
+      top: 80px;
+      align-self: start;
+    }
+    @media (max-width: 900px) { .sidebar { position: static; } }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    /* Hero photo */
+    .hero-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+    .hero-actions {
+      padding: 12px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 13px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      cursor: pointer;
+      transition: background .14s;
+    }
+    .btn.primary { background: var(--green); color: #fff; border-color: transparent; }
+    .btn.primary:hover { background: var(--green-dk); }
+    .btn:hover { background: rgba(0,0,0,.04); }
+
+    /* Snapshot card (left sidebar) */
+    .snapshot-card {
+      padding: 14px;
+    }
+    .snapshot-title {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .snapshot-title::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .kv {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(0,0,0,.05);
+      font-size: 13px;
+    }
+    .kv:last-child { border-bottom: none; }
+    .kv span { color: var(--muted); font-weight: 600; flex-shrink: 0; }
+    .kv b { color: var(--text); font-weight: 800; text-align: right; }
+    .kv-note {
+      font-size: 11px;
+      color: rgba(0,0,0,.45);
+      font-style: italic;
+      padding: 2px 0 8px;
+      font-weight: 600;
+    }
+
+    /* Persona card */
+    .persona-card {
+      padding: 14px;
+    }
+    .persona-card .wg-persona-why {
+      margin: 0;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,.06);
+      background: rgba(34,197,94,.08);
+      color: rgba(0,0,0,.78);
+      font-weight: 700;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* ── Right column ──────────────────────────────────────── */
+    .right-col {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       DATA TABLE
+    ═══════════════════════════════════════════════════════ */
+    .data-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    /* Section header row */
+    .trow-section td {
+      padding: 10px 16px 8px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: rgba(0,0,0,.025);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .data-table tbody:first-child .trow-section td {
+      border-top: none;
+    }
+
+    /* Data row */
+    .trow-data {
+      transition: background .12s;
+      position: relative;
+    }
+    .trow-data:hover { background: rgba(0,0,0,.02); }
+
+    .trow-data td {
+      padding: 10px 16px;
+      border-bottom: 1px solid rgba(0,0,0,.04);
+      vertical-align: middle;
+    }
+    .trow-data:last-child td { border-bottom: none; }
+
+    /* Col 1: label */
+    .td-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      width: 44%;
+    }
+    .td-label-inner {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .td-icon {
+      font-size: 15px;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    /* Col 2: value */
+    .td-value {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -.2px;
+      white-space: nowrap;
+      width: 28%;
+    }
+
+    /* Col 3: hint */
+    .td-hint {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      width: 28%;
+    }
+
+    /* Edit pencil */
+    .td-edit {
+      width: 36px;
+      padding: 0 8px 0 0;
+    }
+    .edit-btn {
+      display: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: var(--card);
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--muted);
+      transition: background .12s;
+    }
+    .trow-data:hover .edit-btn { display: flex; }
+    .edit-btn:hover { background: rgba(0,0,0,.05); }
+
+    @media (max-width: 600px) {
+      .td-hint { display: none; }
+      .td-label { width: 60%; }
+      .td-value { width: 40%; }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       DEEP CONTENT (auto-loaded)
+    ═══════════════════════════════════════════════════════ */
+
+    /* Things to know */
+    .things-section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .section-head h2 {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: .01em;
+    }
+
+    .facts-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    @media (max-width: 700px) { .facts-grid { grid-template-columns: 1fr; } }
+
+    .fact-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 14px 14px 22px;
+      position: relative;
+      background: rgba(0,0,0,.01);
+    }
+    .fact-bar {
+      position: absolute;
+      left: 10px; top: 14px;
+      width: 4px; height: 28px;
+      border-radius: 999px;
+      background: var(--green);
+      opacity: .5;
+    }
+    .fact-title {
+      font-weight: 800;
+      font-size: 13px;
+      color: rgba(0,0,0,.88);
+      margin-bottom: 5px;
+    }
+    .fact-text {
+      color: rgba(0,0,0,.70);
+      font-weight: 600;
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    /* Expat score badge */
+    .score-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 12px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      white-space: nowrap;
+    }
+    .wg-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 11px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--muted);
+    }
+
+    /* Article */
+    .article-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+    .article-card p {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.85;
+      color: rgba(0,0,0,.78);
+      margin-bottom: 12px;
+    }
+    .article-card p:last-child { margin-bottom: 0; }
+
+    /* Loading spinner */
+    .deep-loading {
+      padding: 32px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+    }
+    .deep-loading::before {
+      content: "";
+      display: block;
+      width: 24px;
+      height: 24px;
+      border: 2px solid rgba(0,0,0,.08);
+      border-top-color: var(--green);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+      margin: 0 auto 10px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ═══════════════════════════════════════════════════════
+       MAP
+    ═══════════════════════════════════════════════════════ */
+    .map-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .map-header {
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .map-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      font-size: 14px;
+    }
+    .map-styles { display: flex; gap: 6px; }
+    .map-style-btn {
+      padding: 5px 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--bg);
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .map-style-btn:hover { background: var(--card); }
+    .map-style-btn.active { background: var(--green); color: #fff; border-color: var(--green); }
+    .map-container { position: relative; width: 100%; height: 400px; }
+    #wigg-country-map { width: 100%; height: 100%; }
+    .map-loading {
+      position: absolute; inset: 0;
+      background: rgba(255,255,255,.9);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      font-weight: 700; font-size: 13px; color: var(--muted);
+      gap: 10px;
+    }
+    .map-loading.hidden { display: none; }
+    .map-spinner {
+      width: 28px; height: 28px;
+      border: 2px solid rgba(0,0,0,.08);
+      border-top-color: var(--green);
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+    @media (max-width: 600px) { .map-container { height: 300px; } }
+
+    /* ═══════════════════════════════════════════════════════
+       MODAL
+    ═══════════════════════════════════════════════════════ */
+    .modal-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.45);
+      display: none; align-items: center; justify-content: center;
+      padding: 18px; z-index: 200;
+    }
+    .modal {
+      width: min(540px,100%);
+      background: #fff;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      box-shadow: 0 18px 60px rgba(0,0,0,.20);
+      overflow: hidden;
+    }
+    .modal-head {
+      padding: 14px 16px;
+      display: flex; align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-head strong { font-size: 14px; }
+    .modal-body { padding: 14px 16px; }
+    .modal-body p { margin: 0 0 12px; color: var(--muted); font-weight: 600; font-size: 13px; line-height: 1.5; }
+    .modal-body label { display: block; font-weight: 800; font-size: 12px; color: var(--text); margin: 10px 0 5px; }
+    .modal-body input, .modal-body textarea {
+      width: 100%; padding: 9px 12px;
+      border-radius: 8px; border: 1px solid var(--border);
+      font-family: inherit; font-size: 14px; outline: none;
+    }
+    .modal-body textarea { min-height: 80px; resize: vertical; }
+    .modal-actions {
+      display: flex; justify-content: flex-end; gap: 10px;
+      padding: 12px 16px; border-top: 1px solid var(--border);
+      background: #fafbfa;
+    }
+    .req { color: var(--red); margin-left: 3px; }
+
+    /* ── Footer ─────────────────────────────────────────────── */
+    footer {
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+      padding: 16px 0 6px;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+
+<body>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+  <div id="siteHeader"></div>
+  <script src="../data/header.js"></script>
+
+  <main class="wrap">
+    <div class="breadcrumbs">
+      <a href="../index.html">Home</a> / <span id="crumb-country">Country</span>
+    </div>
+
+    <!-- Country title + badge -->
+    <div class="country-head">
+      <div>
+        <h1 class="country-title" id="country-name">Country</h1>
+        <p class="country-subtitle" id="country-subtitle"></p>
+      </div>
+      <div class="head-right">
+        <div class="badge" title="WiggMap level">
+          <span class="dot" id="wigg-dot"></span>
+          <span id="wigg-label">WIGG</span>
+        </div>
+        <div class="local-time">
+          <span style="opacity:.65">Local time</span>
+          <span id="localTime" style="margin-left:5px;font-weight:800;">--:--</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main grid -->
+    <div class="main-grid">
+
+      <!-- ── Left sidebar ───────────────────────────────────── -->
+      <aside class="sidebar">
+
+        <!-- Hero photo + actions -->
+        <div class="card">
+          <img class="hero-img" id="hero-img" src="" alt=""
+               onerror="this.onerror=null;this.src='../assets/hero-fallback.jpg';" />
+          <div class="hero-actions">
+            <button class="btn primary" onclick="openModal('general')">Correct data</button>
+            <button class="btn" type="button" id="btnShare">Share</button>
+            <a class="btn" id="btnCompare" href="#">Compare</a>
+          </div>
+        </div>
+
+        <!-- Quick snapshot (populated by deep JSON) -->
+        <div class="card snapshot-card" id="snapshotCard" style="display:none;">
+          <div class="snapshot-title">Quick snapshot</div>
+          <div id="snapshotContent"></div>
+        </div>
+
+        <!-- Personality (populated by deep JSON) -->
+        <div class="card persona-card" id="personaCard" style="display:none;">
+          <div id="personaContent"></div>
+        </div>
+
+      </aside>
+
+      <!-- ── Right column ───────────────────────────────────── -->
+      <div class="right-col">
+
+        <!-- ══ DATA TABLE ══════════════════════════════════════ -->
+        <div class="data-card">
+          <table class="data-table">
+
+            <tbody>
+              <tr class="trow-section"><td colspan="4">💼 Salaries <small style="font-weight:600;letter-spacing:0;text-transform:none;font-size:11px;margin-left:6px;opacity:.7">net / month</small></td></tr>
+              <tr class="trow-data">
+                <td class="td-label"><div class="td-label-inner"><span class="td-icon">🧾</span>Minimum wage</div></td>
+                <td class="td-value" id="min_wage_value"></td>
+                <td class="td-hint" id="min_wage_hint"></td>
+                <td class="td-edit"><button class="edit-btn" onclick="openModal('min_wage')" title="Suggest correction">✎</button></td>
+              </tr>
+              <tr class="trow-data">
+                <td class="td-label"><div class="td-label-inner"><span class="td-icon">📊</span>Average salary</div></td>
+                <td class="td-value" id="avg_salary_value"></td>
+                <td class="td-hint" id="avg_salary_hint"></td>
+                <td class="td-edit"><button class="edit-btn" onclick="openModal('avg_salary')" title="Suggest correction">✎</button></td>
+              </tr>
+              <tr class="trow-data">
+                <td class="td-label"><div class="td-label-inner"><span class="td-icon">🩺</span>Doctor (GP)</div></td>
+                <td class="td-value" id="doctor_salary_value"></td>
+                <td class="td-hint" id="doctor_salary_hint"></td>
+                <td class="td-edit"><button class="edit-btn" onclick="openModal('doctor_salary')" title="Suggest correction">✎</button></td>
+              </tr>
+            </tbody>
+
+            <tbody>
+              <tr class="trow-section"><td colspan="4">🏠 Housing & Utilities <small style="font-weight:600;letter-spacing:0;text-transform:none;font-size:11px;margin-left:6px;opacity:.7">studio reference</small></td></tr>
+              <tr class="trow-data">
+                <td class="td-label"><div class="td-label-inner"><span class="td-icon">🏚️</span>Studio rent</div></td>
+                <td class="td-value" id="rent_studio_value"></td>
+                <td class="td-hint" id="rent_studio_hint"></td>
+                <td class="td-edit"><button class="edit-btn" onclick="openModal('rent_studio')" title="Suggest correction">✎</button></td>
+              </tr>
+              <tr class="trow-data">
+                <td class="td-label"><div class="td-label-inner"><span class="td-icon">⚡</span>Electricity</div></td>
+                <td class="td-value" id="electricity_value"></td>
+                <td class="td-hint" id="electricity_hint"></td>
+                <td class="td-edit"><button class="edit-btn" onclick="openModal('electricity')" title="Suggest correction">✎</button></td>
+              </tr>
+              <tr class="trow-data">
+                <td class="td-label"><div class="td-label-inner"><span class="td-icon">💧</span>Water</div></td>
+                <td class="td-value" id="water_value"></td>
+                <td class="td-hint" id="water_hint"></td>
+                <td class="td-edit"><button class="edit-btn" onclick="openModal('water')" title="Suggest correction">✎</button></td>
+              </tr>
+              <tr class="trow-data">
+                <td class="td-label"><div class="td-label-inner"><span class="td-icon">📱</span>Mobile plan</div></td>
+                <td class="td-value" id="mobile_value"></td>
+                <td class="td-hint" id="mobile_hint"></td>
+                <td class="td-edit"><button class="edit-btn" onclick="openModal('mobile')" title="Suggest correction">✎</button></td>
+              </tr>
+            </tbody>
+
+            <tbody>
+              <tr class="trow-section"><td colspan="4">🍽️ Food & Drink <small style="font-weight:600;letter-spacing:0;text-transform:none;font-size:11px;margin-left:6px;opacity:.7">typical prices</small></td></tr>
+              <tr class="trow-data">
+                <td class="td-label"><div class="td-label-inner"><span class="td-icon">🍺</span>Beer (pint 0.5L)</div></td>
+                <td class="td-value" id="beer_value"></td>
+                <td class="td-hint" id="beer_hint"></td>
+                <td class="td-edit"><button class="edit-btn" onclick="openModal('beer')" title="Suggest correction">✎</button></td>
+              </tr>
+              <tr class="trow-data">
+                <td class="td-label"><div class="td-label-inner"><span class="td-icon">☕</span>Coffee</div></td>
+                <td class="td-value" id="coffee_value"></td>
+                <td class="td-hint" id="coffee_hint"></td>
+                <td class="td-edit"><button class="edit-btn" onclick="openModal('coffee')" title="Suggest correction">✎</button></td>
+              </tr>
+              <tr class="trow-data">
+                <td class="td-label"><div class="td-label-inner"><span class="td-icon">🍲</span>Main dish</div></td>
+                <td class="td-value" id="dish_value"></td>
+                <td class="td-hint" id="dish_hint"></td>
+                <td class="td-edit"><button class="edit-btn" onclick="openModal('dish')" title="Suggest correction">✎</button></td>
+              </tr>
+            </tbody>
+
+            <tbody>
+              <tr class="trow-section"><td colspan="4">⛽ Transport</td></tr>
+              <tr class="trow-data">
+                <td class="td-label"><div class="td-label-inner"><span class="td-icon">⛽</span>Gasoline / litre</div></td>
+                <td class="td-value" id="gas_value"></td>
+                <td class="td-hint" id="gas_hint"></td>
+                <td class="td-edit"><button class="edit-btn" onclick="openModal('gas')" title="Suggest correction">✎</button></td>
+              </tr>
+            </tbody>
+
+            <tbody>
+              <tr class="trow-section"><td colspan="4">🧾 Taxes <small style="font-weight:600;letter-spacing:0;text-transform:none;font-size:11px;margin-left:6px;opacity:.7">indicative</small></td></tr>
+              <tr class="trow-data">
+                <td class="td-label"><div class="td-label-inner"><span class="td-icon">🏷️</span>VAT</div></td>
+                <td class="td-value" id="vat_value"></td>
+                <td class="td-hint" id="vat_hint"></td>
+                <td class="td-edit"><button class="edit-btn" onclick="openModal('vat')" title="Suggest correction">✎</button></td>
+              </tr>
+              <tr class="trow-data">
+                <td class="td-label"><div class="td-label-inner"><span class="td-icon">👤</span>Income tax</div></td>
+                <td class="td-value" id="income_tax_value"></td>
+                <td class="td-hint" id="income_tax_hint"></td>
+                <td class="td-edit"><button class="edit-btn" onclick="openModal('income_tax')" title="Suggest correction">✎</button></td>
+              </tr>
+              <tr class="trow-data">
+                <td class="td-label"><div class="td-label-inner"><span class="td-icon">🏪</span>Small business</div></td>
+                <td class="td-value" id="smallbiz_value"></td>
+                <td class="td-hint" id="smallbiz_hint"></td>
+                <td class="td-edit"><button class="edit-btn" onclick="openModal('smallbiz')" title="Suggest correction">✎</button></td>
+              </tr>
+            </tbody>
+
+            <tbody>
+              <tr class="trow-section"><td colspan="4">📱 Tech <small style="font-weight:600;letter-spacing:0;text-transform:none;font-size:11px;margin-left:6px;opacity:.7">indicative prices</small></td></tr>
+              <tr class="trow-data">
+                <td class="td-label"><div class="td-label-inner"><span class="td-icon">🍎</span>iPhone (latest 256GB)</div></td>
+                <td class="td-value" id="iphone_value"></td>
+                <td class="td-hint" id="iphone_hint"></td>
+                <td class="td-edit"><button class="edit-btn" onclick="openModal('iphone')" title="Suggest correction">✎</button></td>
+              </tr>
+              <tr class="trow-data">
+                <td class="td-label"><div class="td-label-inner"><span class="td-icon">📲</span>Galaxy S (latest 256GB)</div></td>
+                <td class="td-value" id="samsung_value"></td>
+                <td class="td-hint" id="samsung_hint"></td>
+                <td class="td-edit"><button class="edit-btn" onclick="openModal('samsung')" title="Suggest correction">✎</button></td>
+              </tr>
+            </tbody>
+
+            <tbody>
+              <tr class="trow-section"><td colspan="4">🛂 Moving & Immigration <small style="font-weight:600;letter-spacing:0;text-transform:none;font-size:11px;margin-left:6px;opacity:.7">ease score</small></td></tr>
+              <tr class="trow-data">
+                <td class="td-label"><div class="td-label-inner"><span class="td-icon">🛂</span>Immigration-friendly</div></td>
+                <td class="td-value" id="immigration_value"></td>
+                <td class="td-hint" id="immigration_hint"></td>
+                <td class="td-edit"><button class="edit-btn" onclick="openModal('immigration')" title="Suggest correction">✎</button></td>
+              </tr>
+            </tbody>
+
+            <tbody>
+              <tr class="trow-section"><td colspan="4">🌤️ Quality of Life</td></tr>
+              <tr class="trow-data">
+                <td class="td-label"><div class="td-label-inner"><span class="td-icon">🙂</span>Happiness</div></td>
+                <td class="td-value" id="happiness_value"></td>
+                <td class="td-hint" id="happiness_hint"></td>
+                <td class="td-edit"><button class="edit-btn" onclick="openModal('happiness')" title="Suggest correction">✎</button></td>
+              </tr>
+              <tr class="trow-data">
+                <td class="td-label"><div class="td-label-inner"><span class="td-icon">☀️</span>Sunny days / year</div></td>
+                <td class="td-value" id="sun_value"></td>
+                <td class="td-hint" id="sun_hint"></td>
+                <td class="td-edit"><button class="edit-btn" onclick="openModal('sun')" title="Suggest correction">✎</button></td>
+              </tr>
+              <tr class="trow-data">
+                <td class="td-label"><div class="td-label-inner"><span class="td-icon">🏥</span>Public healthcare</div></td>
+                <td class="td-value" id="health_value"></td>
+                <td class="td-hint" id="health_hint"></td>
+                <td class="td-edit"><button class="edit-btn" onclick="openModal('health')" title="Suggest correction">✎</button></td>
+              </tr>
+              <tr class="trow-data">
+                <td class="td-label"><div class="td-label-inner"><span class="td-icon">🧑‍⚕️</span>Private insurance / mo</div></td>
+                <td class="td-value" id="insurance_value"></td>
+                <td class="td-hint" id="insurance_hint"></td>
+                <td class="td-edit"><button class="edit-btn" onclick="openModal('insurance')" title="Suggest correction">✎</button></td>
+              </tr>
+            </tbody>
+
+            <tbody>
+              <tr class="trow-section"><td colspan="4">📈 Indices</td></tr>
+              <tr class="trow-data">
+                <td class="td-label"><div class="td-label-inner"><span class="td-icon">🚔</span>Crime Index</div></td>
+                <td class="td-value" id="crime_value"></td>
+                <td class="td-hint" id="crime_hint"></td>
+                <td class="td-edit"><button class="edit-btn" onclick="openModal('crime')" title="Suggest correction">✎</button></td>
+              </tr>
+              <tr class="trow-data">
+                <td class="td-label"><div class="td-label-inner"><span class="td-icon">💶</span>Purchasing Power</div></td>
+                <td class="td-value" id="pp_value"></td>
+                <td class="td-hint" id="pp_hint"></td>
+                <td class="td-edit"><button class="edit-btn" onclick="openModal('pp')" title="Suggest correction">✎</button></td>
+              </tr>
+            </tbody>
+
+            <tbody>
+              <tr class="trow-section"><td colspan="4">🕍 Religion snapshot</td></tr>
+              <tr class="trow-data">
+                <td class="td-label"><div class="td-label-inner"><span class="td-icon">✝️</span>Christian</div></td>
+                <td class="td-value" id="religion_christian_value"></td>
+                <td class="td-hint" id="religion_christian_hint"></td>
+                <td class="td-edit"><button class="edit-btn" onclick="openModal('religion_christian')" title="Suggest correction">✎</button></td>
+              </tr>
+              <tr class="trow-data">
+                <td class="td-label"><div class="td-label-inner"><span class="td-icon">☪️</span>Muslim</div></td>
+                <td class="td-value" id="religion_muslim_value"></td>
+                <td class="td-hint" id="religion_muslim_hint"></td>
+                <td class="td-edit"><button class="edit-btn" onclick="openModal('religion_muslim')" title="Suggest correction">✎</button></td>
+              </tr>
+              <tr class="trow-data">
+                <td class="td-label"><div class="td-label-inner"><span class="td-icon">☸️</span>Buddhist</div></td>
+                <td class="td-value" id="religion_buddhist_value"></td>
+                <td class="td-hint" id="religion_buddhist_hint"></td>
+                <td class="td-edit"><button class="edit-btn" onclick="openModal('religion_buddhist')" title="Suggest correction">✎</button></td>
+              </tr>
+              <tr class="trow-data">
+                <td class="td-label"><div class="td-label-inner"><span class="td-icon">✡️</span>Jewish</div></td>
+                <td class="td-value" id="religion_jewish_value"></td>
+                <td class="td-hint" id="religion_jewish_hint"></td>
+                <td class="td-edit"><button class="edit-btn" onclick="openModal('religion_jewish')" title="Suggest correction">✎</button></td>
+              </tr>
+              <tr class="trow-data">
+                <td class="td-label"><div class="td-label-inner"><span class="td-icon">🕊️</span>Other / None</div></td>
+                <td class="td-value" id="religion_other_value"></td>
+                <td class="td-hint" id="religion_other_hint"></td>
+                <td class="td-edit"><button class="edit-btn" onclick="openModal('religion_other')" title="Suggest correction">✎</button></td>
+              </tr>
+            </tbody>
+
+          </table>
+        </div>
+
+        <!-- ══ DEEP CONTENT (auto-loaded) ══════════════════════ -->
+        <div id="deepContent">
+          <div class="deep-loading">Loading details…</div>
+        </div>
+
+      </div><!-- /right-col -->
+    </div><!-- /main-grid -->
+
+    <footer>
+      WiggMap — Values are indicative. Use "Correct data" to improve accuracy with local input.
+    </footer>
+  </main>
+
+  <!-- Modal -->
+  <div class="modal-backdrop" id="backdrop" onclick="closeModal(event)">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="Suggest correction">
+      <div class="modal-head">
+        <strong>Suggest a correction</strong>
+        <button class="btn" onclick="hideModal()">Close</button>
+      </div>
+      <div class="modal-body">
+        <p>Tell us what should be updated for <strong id="modal-country">Country</strong>. This will be reviewed before publishing.</p>
+        <label>Field</label>
+        <input id="fieldInput" type="text" placeholder="e.g., Electricity / month" />
+        <label>Your suggested value</label>
+        <input id="valueInput" type="text" placeholder="e.g., $120" />
+        <label>Your email<span class="req">*</span></label>
+        <input id="emailInput" type="email" placeholder="name@email.com" required />
+        <label>Notes (optional)</label>
+        <textarea id="notesInput" placeholder="City/region, provider, date, anything helpful…"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="btn" onclick="hideModal()">Cancel</button>
+        <button class="btn primary" onclick="submitCorrection()">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../data/share.js"></script>
+  <script src="../data/correction-form.js"></script>
+
+  <!-- ══ DATA LOADER ══════════════════════════════════════════ -->
+  <script>
+    function getSlug(){
+      return new URLSearchParams(location.search).get("country");
+    }
+
+    async function loadTimezonesBySlug(){
+      try{
+        const res = await fetch("../data/timezones-by-slug.json",{cache:"no-store"});
+        if(!res.ok) return {};
+        return await res.json();
+      }catch(e){ return {}; }
+    }
+
+    function startLocalClock(timeZone){
+      const el = document.getElementById("localTime");
+      if(!el||!timeZone) return;
+      function tick(){
+        el.textContent = new Intl.DateTimeFormat("en-GB",{
+          timeZone, hour:"2-digit", minute:"2-digit"
+        }).format(new Date());
+      }
+      tick();
+      setInterval(tick,30000);
+    }
+
+    function setSeo(seo){
+      const title = seo?.title || "WiggMap — Country";
+      const desc  = seo?.description || "WiggMap country snapshot.";
+      document.title = title;
+      const t = document.getElementById("seo-title");
+      if(t) t.textContent = title;
+      const d = document.getElementById("seo-desc");
+      if(d) d.setAttribute("content", desc);
+    }
+
+    function setText(id, txt){
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.textContent = txt || "";
+      if(id.endsWith("_hint")){
+        el.style.display = (txt && String(txt).trim()) ? "" : "none";
+      }
+    }
+
+    function setWigg(wigg){
+      const dot = document.getElementById("wigg-dot");
+      if(!dot) return;
+      dot.classList.remove("green","yellow","red");
+      dot.classList.add(wigg?.level || "yellow");
+      setText("wigg-label", wigg?.label || "WIGG");
+    }
+
+    async function init(){
+      const slug = getSlug();
+      if(!slug){
+        setText("country-name","Country not specified");
+        setText("country-subtitle","Use ?country=new-zealand");
+        return;
+      }
+
+      const _lang = localStorage.getItem("wigg_lang") || "en";
+      const _cf = _lang==="fr" ? "../data/countries.fr.json"
+                : _lang==="es" ? "../data/countries.es.json"
+                : "../data/countries.json";
+      let res = await fetch(_cf,{cache:"no-store"});
+      if(!res.ok) res = await fetch("../data/countries.json",{cache:"no-store"});
+      const all = await res.json();
+      const c = all[slug];
+
+      if(!c){
+        setText("country-name","Country not found");
+        setText("country-subtitle","Check slug in countries.json");
+        return;
+      }
+
+      setSeo(c.seo);
+      setText("crumb-country", c.name);
+      setText("country-name", c.name);
+      setText("country-subtitle", c.subtitle);
+      setText("modal-country", c.name);
+
+      const img = document.getElementById("hero-img");
+      if(img){ img.src = c.hero?.src||""; img.alt = c.hero?.alt||c.name; }
+
+      setWigg(c.wigg);
+
+      const tzBySlug = await loadTimezonesBySlug();
+      startLocalClock(tzBySlug[slug] || null);
+
+      const fields = c.fields || {};
+      for(const key in fields){
+        setText(key+"_value", fields[key]?.value);
+        setText(key+"_hint",  fields[key]?.hint);
+      }
+
+      window.__WIGGMAP_COUNTRY__ = { slug, name: c.name };
+      window.COUNTRY_SLUG = slug;
+
+      // Auto-load deep content
+      loadDeepContent(slug);
+    }
+
+    init();
+  </script>
+
+  <!-- ══ LEAFLET ══════════════════════════════════════════════ -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- ══ DEEP CONTENT LOADER ══════════════════════════════════ -->
+  <script>
+  (function(){
+
+    const FLAGS = {
+      'AF':'🇦🇫','AL':'🇦🇱','DZ':'🇩🇿','AD':'🇦🇩','AO':'🇦🇴','AR':'🇦🇷','AM':'🇦🇲','AU':'🇦🇺',
+      'AT':'🇦🇹','AZ':'🇦🇿','BS':'🇧🇸','BH':'🇧🇭','BD':'🇧🇩','BY':'🇧🇾','BE':'🇧🇪','BZ':'🇧🇿',
+      'BJ':'🇧🇯','BT':'🇧🇹','BO':'🇧🇴','BA':'🇧🇦','BW':'🇧🇼','BR':'🇧🇷','BN':'🇧🇳','BG':'🇧🇬',
+      'BF':'🇧🇫','KH':'🇰🇭','CM':'🇨🇲','CA':'🇨🇦','CL':'🇨🇱','CN':'🇨🇳','CO':'🇨🇴','CR':'🇨🇷',
+      'CI':'🇨🇮','HR':'🇭🇷','CU':'🇨🇺','CY':'🇨🇾','CZ':'🇨🇿','CD':'🇨🇩','DK':'🇩🇰','DO':'🇩🇴',
+      'EC':'🇪🇨','EG':'🇪🇬','SV':'🇸🇻','EE':'🇪🇪','ET':'🇪🇹','FI':'🇫🇮','FR':'🇫🇷','GA':'🇬🇦',
+      'GE':'🇬🇪','DE':'🇩🇪','GH':'🇬🇭','GR':'🇬🇷','GT':'🇬🇹','GF':'🇬🇫','HT':'🇭🇹','HN':'🇭🇳',
+      'HU':'🇭🇺','IS':'🇮🇸','IN':'🇮🇳','ID':'🇮🇩','IR':'🇮🇷','IQ':'🇮🇶','IE':'🇮🇪','IT':'🇮🇹',
+      'JM':'🇯🇲','JP':'🇯🇵','JO':'🇯🇴','KZ':'🇰🇿','KE':'🇰🇪','XK':'🇽🇰','KW':'🇰🇼','KG':'🇰🇬',
+      'LA':'🇱🇦','LV':'🇱🇻','LB':'🇱🇧','LR':'🇱🇷','LY':'🇱🇾','LI':'🇱🇮','LT':'🇱🇹','LU':'🇱🇺',
+      'MW':'🇲🇼','MY':'🇲🇾','ML':'🇲🇱','MT':'🇲🇹','MR':'🇲🇷','MX':'🇲🇽','MD':'🇲🇩','MC':'🇲🇨',
+      'MN':'🇲🇳','ME':'🇲🇪','MA':'🇲🇦','MZ':'🇲🇿','MM':'🇲🇲','NA':'🇳🇦','NP':'🇳🇵','NL':'🇳🇱',
+      'NZ':'🇳🇿','NI':'🇳🇮','NG':'🇳🇬','MK':'🇲🇰','NO':'🇳🇴','OM':'🇴🇲','PK':'🇵🇰','PA':'🇵🇦',
+      'PY':'🇵🇾','PE':'🇵🇪','PH':'🇵🇭','PL':'🇵🇱','PT':'🇵🇹','QA':'🇶🇦','CG':'🇨🇬','RO':'🇷🇴',
+      'RW':'🇷🇼','SM':'🇸🇲','SA':'🇸🇦','SN':'🇸🇳','RS':'🇷🇸','SL':'🇸🇱','SG':'🇸🇬','SK':'🇸🇰',
+      'SI':'🇸🇮','ZA':'🇿🇦','KR':'🇰🇷','ES':'🇪🇸','LK':'🇱🇰','SR':'🇸🇷','SE':'🇸🇪','CH':'🇨🇭',
+      'SY':'🇸🇾','TW':'🇹🇼','TJ':'🇹🇯','TZ':'🇹🇿','TH':'🇹🇭','TL':'🇹🇱','TG':'🇹🇬','TT':'🇹🇹',
+      'TN':'🇹🇳','TM':'🇹🇲','UG':'🇺🇬','UA':'🇺🇦','AE':'🇦🇪','GB':'🇬🇧','US':'🇺🇸','UY':'🇺🇾',
+      'UZ':'🇺🇿','VA':'🇻🇦','VE':'🇻🇪','VN':'🇻🇳','YE':'🇾🇪','ZM':'🇿🇲','ZW':'🇿🇼',
+      'SO':'🇸🇴','CF':'🇨🇫','NE':'🇳🇪','TD':'🇹🇩','PS':'🇵🇸','TR':'🇹🇷','SD':'🇸🇩'
+    };
+
+    let wiggMap=null, wiggCurrentLayer=null, wiggMarker=null;
+
+    const wiggMapStyles = {
+      light:     { url:'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', attr:'© OpenStreetMap, CARTO' },
+      dark:      { url:'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',  attr:'© OpenStreetMap, CARTO' },
+      satellite: { url:'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', attr:'© Esri' }
+    };
+
+    function esc(s){
+      return String(s??"")
+        .replaceAll("&","&amp;").replaceAll("<","&lt;")
+        .replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+    }
+
+    function parseScore(article){
+      if(!article) return null;
+      const m = article.match(/expat\s*score[:\s]+([0-9]+(?:\.[0-9]+)?)\s*\/\s*10/i);
+      return m ? m[1] : null;
+    }
+
+    function renderSnapshotCard(data){
+      const s   = data?.snapshot || data?.quick || data?.sidebar || {};
+      const curr = data?.crypto || {};
+      const crypto = data?.crypto || {};
+
+      let rows = "";
+      if(s.capital)       rows += `<div class="kv"><span>Capital</span><b>${esc(s.capital)}</b></div>`;
+      if(s.population)    rows += `<div class="kv"><span>Population</span><b>${esc(s.population)}</b></div>`;
+      if(s.languages)     rows += `<div class="kv"><span>Languages</span><b>${esc(s.languages)}</b></div>`;
+      const dn = data?.currency?.name;
+      if(dn)              rows += `<div class="kv"><span>Currency</span><b>${esc(dn)}</b></div>`;
+      const rate = data?.currency?.rate;
+      if(rate)            rows += `<div class="kv" style="padding-left:12px;font-size:12px"><span>Exchange rate</span><b>${esc(rate)}</b></div>`;
+      const cn = data?.currency?.note;
+      if(cn)              rows += `<div class="kv-note">${esc(cn)}</div>`;
+      if(crypto.friendly) rows += `<div class="kv"><span>Crypto friendly</span><b>${esc(crypto.friendly)}</b></div>`;
+      if(crypto.note)     rows += `<div class="kv-note">${esc(crypto.note)}</div>`;
+      if(s.driving_side)  rows += `<div class="kv"><span>Driving side</span><b>${esc(s.driving_side)}</b></div>`;
+
+      if(!rows) return;
+
+      const card = document.getElementById("snapshotCard");
+      const content = document.getElementById("snapshotContent");
+      if(card && content){
+        content.innerHTML = rows;
+        card.style.display = "";
+      }
+    }
+
+    function renderPersonaCard(data){
+      const gd = data?.goDeeper || data;
+      const persona = gd?.persona || gd?.personality;
+      if(!persona) return;
+
+      const title = persona.title || persona.name || "";
+      const why   = persona.why   || persona.description || "";
+      if(!title && !why) return;
+
+      let html = "";
+      if(title) html += `<div class="snapshot-title">${esc(title)}</div>`;
+      if(why)   html += `<div class="wg-persona-why">${esc(why)}</div>`;
+
+      const card    = document.getElementById("personaCard");
+      const content = document.getElementById("personaContent");
+      if(card && content){
+        content.innerHTML = html;
+        card.style.display = "";
+      }
+    }
+
+    function renderThingsToKnow(data){
+      const gd = data?.goDeeper || data;
+      if(!gd) return "";
+
+      const cards = Array.isArray(gd.cards) ? gd.cards
+                  : Array.isArray(gd.things) ? gd.things
+                  : [];
+      if(!cards.length) return "";
+
+      const cardsHtml = cards.map(card => {
+        const t = card.title || card.heading || "";
+        const b = card.body  || card.text    || "";
+        return `<div class="fact-card">
+          <div class="fact-bar"></div>
+          <div class="fact-title">${esc(t)}</div>
+          <div class="fact-text">${esc(b)}</div>
+        </div>`;
+      }).join("");
+
+      return `<div class="things-section">
+        <div class="section-head">
+          <h2>Things to know</h2>
+          <span class="wg-badge">Must-reads</span>
+        </div>
+        <div class="facts-grid">${cardsHtml}</div>
+      </div>`;
+    }
+
+    function renderArticleBodyWithMap(article){
+      if(!article) return "";
+      const paras = article.split(/\n{2,}/).filter(p=>p.trim());
+      const mid   = Math.floor(paras.length / 2);
+      const mapBlock = `
+        <div class="map-card" style="margin:18px 0;">
+          <div class="map-header">
+            <div class="map-title">
+              <span id="wiggMapFlagDeep">🗺️</span>
+              <span id="wiggMapTitleDeep">Map</span>
+            </div>
+            <div class="map-styles">
+              <button class="map-style-btn active" onclick="wiggSwitchStyle('light',this)">Light</button>
+              <button class="map-style-btn" onclick="wiggSwitchStyle('dark',this)">Dark</button>
+              <button class="map-style-btn" onclick="wiggSwitchStyle('satellite',this)">Satellite</button>
+            </div>
+          </div>
+          <div class="map-container">
+            <div id="wigg-country-map"></div>
+            <div class="map-loading" id="wiggMapLoadingDeep">
+              <div class="map-spinner"></div>Loading map…
+            </div>
+          </div>
+        </div>`;
+
+      const before = paras.slice(0, mid).map(p=>`<p>${esc(p)}</p>`).join("");
+      const after  = paras.slice(mid).map(p=>`<p>${esc(p)}</p>`).join("");
+      return before + mapBlock + after;
+    }
+
+    function renderArticle(data){
+      const countryName = window.__WIGGMAP_COUNTRY__?.name || "this country";
+      const article = (data && typeof data.article === "string") ? data.article : "";
+      if(!article) return "";
+
+      const score = parseScore(article);
+      const badge = score ? `<span class="score-badge">⭐ Expat Score: ${esc(score)} / 10</span>` : "";
+
+      return `<div class="article-card">
+        <div class="section-head">
+          <h2>Living in ${esc(countryName)}</h2>
+          ${badge}
+        </div>
+        ${renderArticleBodyWithMap(article)}
+      </div>`;
+    }
+
+    async function fetchFirstOk(urls){
+      for(const url of urls){
+        try{
+          const res = await fetch(url,{cache:"no-store"});
+          if(res.ok) return res;
+        }catch(e){}
+      }
+      return null;
+    }
+
+    // ─── Map ─────────────────────────────────────────────────
+    async function loadGeoData(){
+      try{
+        const r = await fetch("../data/geo-by-slug.json",{cache:"no-store"});
+        if(r.ok) return await r.json();
+      }catch(e){}
+      return null;
+    }
+
+    async function getCoordinates(iso2){
+      try{
+        const r = await fetch(`https://nominatim.openstreetmap.org/search?country=${encodeURIComponent(iso2)}&format=json&limit=1`);
+        const d = await r.json();
+        if(d&&d[0]) return {lat:+d[0].lat,lon:+d[0].lon};
+      }catch(e){}
+      return null;
+    }
+
+    function initMap(lat,lon){
+      const el = document.getElementById("wigg-country-map");
+      if(!el) return;
+      if(wiggMap){ try{wiggMap.remove();}catch(e){} }
+      const style = wiggMapStyles.light;
+      wiggMap = L.map("wigg-country-map",{zoomControl:true}).setView([lat,lon],5);
+      wiggCurrentLayer = L.tileLayer(style.url,{attribution:style.attr,maxZoom:18}).addTo(wiggMap);
+      wiggMarker = L.marker([lat,lon]).addTo(wiggMap);
+      const loading = document.getElementById("wiggMapLoadingDeep");
+      if(loading) loading.classList.add("hidden");
+    }
+
+    window.wiggSwitchStyle = function(styleName, btn){
+      if(!wiggMap) return;
+      const style = wiggMapStyles[styleName];
+      if(!style) return;
+      if(wiggCurrentLayer){ wiggMap.removeLayer(wiggCurrentLayer); }
+      wiggCurrentLayer = L.tileLayer(style.url,{attribution:style.attr,maxZoom:18}).addTo(wiggMap);
+      document.querySelectorAll(".map-style-btn").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+    };
+
+    async function loadCountryMap(){
+      const slug = window.COUNTRY_SLUG;
+      if(!slug) return;
+
+      const geoData = await loadGeoData();
+      const entry   = geoData?.[slug];
+      const iso2    = entry?.iso2 || entry?.iso || null;
+      const flag    = iso2 ? (FLAGS[iso2]||"🗺️") : "🗺️";
+      const cName   = window.__WIGGMAP_COUNTRY__?.name || "";
+
+      const ft = document.getElementById("wiggMapFlagDeep");
+      const tt = document.getElementById("wiggMapTitleDeep");
+      if(ft) ft.textContent = flag;
+      if(tt) tt.textContent = `${flag} ${cName}`;
+
+      if(entry?.lat && entry?.lon){ initMap(+entry.lat,+entry.lon); return; }
+      if(iso2){
+        const coords = await getCoordinates(iso2);
+        if(coords){ initMap(coords.lat,coords.lon); return; }
+      }
+      const loading = document.getElementById("wiggMapLoadingDeep");
+      if(loading) loading.textContent = "Map unavailable";
+    }
+
+    // ─── Main load function (called automatically) ────────────
+    window.loadDeepContent = async function(slug){
+      const deepEl = document.getElementById("deepContent");
+      if(!deepEl) return;
+
+      const _dlang = localStorage.getItem("wigg_lang") || "en";
+      const _df = _dlang==="fr" ? "details-fr" : _dlang==="es" ? "details-es" : "details";
+      const urlsToTry = [
+        `/data/${_df}/${slug}.json`,
+        `../data/${_df}/${slug}.json`,
+        `/data/details/${slug}.json`,
+        `../data/details/${slug}.json`
+      ];
+
+      const res = await fetchFirstOk(urlsToTry);
+      if(!res){
+        deepEl.innerHTML = "";
+        return; // no details yet, just hide silently
+      }
+
+      let data = null;
+      try{ data = await res.json(); }catch(e){
+        deepEl.innerHTML = "";
+        return;
+      }
+
+      // Populate sidebar cards
+      renderSnapshotCard(data);
+      renderPersonaCard(data);
+
+      // Build deep content
+      const thingsHtml  = renderThingsToKnow(data);
+      const articleHtml = renderArticle(data);
+
+      if(!thingsHtml && !articleHtml){
+        deepEl.innerHTML = "";
+        return;
+      }
+
+      deepEl.innerHTML = thingsHtml + articleHtml;
+
+      // Init map if present
+      if(deepEl.querySelector("#wigg-country-map")){
+        await loadCountryMap();
+      }
+    };
+
+  })();
+  </script>
+
+  <!-- Compare button -->
+  <script>
+    document.getElementById("btnCompare").addEventListener("click", function(e){
+      e.preventDefault();
+      const slug = window.COUNTRY_SLUG || "";
+      if(slug) window.location.href = `../compare.html?country=${slug}`;
+    });
+  </script>
+
+  <script src="../data/footer.js"></script>
+</body>
+</html>
