@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 <head>
   <!-- Google Tag Manager -->
   <script>
@@ -19,7 +19,7 @@
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Wigg Chronicles — Articles &amp; analyses | WiggMap</title>
+  <title>Wigg Chronicles — Articles & analyses | WiggMap</title>
   <meta name="description" content="Wigg Chronicles : articles premium sur expatriation, visas, fiscalité, coût de la vie, prospective, éducation et qualité de vie à travers le monde.">
   <link rel="canonical" href="https://wiggmap.com/indexchronicles.html">
   <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
@@ -30,17 +30,16 @@
 
   <style>
     :root{
-      --bg:#f5f1e8;
+      --bg:#f6f1e8;
       --bg-soft:#fbf8f2;
       --paper:#fffdf8;
-      --paper-2:#f7f1e7;
+      --paper-2:#f8f2e9;
       --ink:#171714;
-      --ink-soft:#4e504b;
+      --ink-soft:#54554e;
       --line:rgba(23,23,20,.10);
-      --line-strong:rgba(23,23,20,.18);
       --green:#1d7f48;
       --green-soft:rgba(29,127,72,.10);
-      --shadow-1:0 10px 30px rgba(25,20,12,.06);
+      --shadow-1:0 12px 34px rgba(25,20,12,.06);
       --shadow-2:0 24px 70px rgba(25,20,12,.10);
 
       --theme-visa:#178a5b;
@@ -57,12 +56,13 @@
       color:var(--ink);
       min-height:100vh;
       background:
-        radial-gradient(circle at top left, rgba(255,255,255,.85), transparent 30%),
-        radial-gradient(circle at top right, rgba(29,127,72,.05), transparent 24%),
-        linear-gradient(180deg, #f8f4ec 0%, #f3eee4 100%);
+        radial-gradient(circle at top left, rgba(255,255,255,.9), transparent 28%),
+        radial-gradient(circle at top right, rgba(29,127,72,.045), transparent 22%),
+        linear-gradient(180deg, #f9f5ed 0%, #f3ede3 100%);
       -webkit-font-smoothing:antialiased;
       overflow-x:hidden;
     }
+
     a{text-decoration:none;color:inherit}
 
     .cw{
@@ -70,6 +70,7 @@
       margin:0 auto;
       padding:28px 0 88px;
     }
+
     @media (max-width:700px){
       .cw{
         width:min(100% - 24px, 1280px);
@@ -77,51 +78,45 @@
       }
     }
 
-    /* ===== Masthead ===== */
+    /* ===== MASTHEAD ===== */
     .masthead{
       position:relative;
       margin:14px 0 28px;
-      border:1px solid rgba(23,23,20,.08);
+      border:1px solid rgba(23,23,20,.07);
       background:
-        linear-gradient(180deg, rgba(255,255,255,.75), rgba(255,255,255,.68)),
-        linear-gradient(135deg, rgba(29,127,72,.035), transparent 32%);
+        linear-gradient(180deg, rgba(255,255,255,.82), rgba(255,255,255,.72)),
+        linear-gradient(135deg, rgba(29,127,72,.03), transparent 34%);
       box-shadow:var(--shadow-1);
-      border-radius:28px;
+      border-radius:30px;
       overflow:hidden;
     }
+
     .masthead::before{
       content:"";
       position:absolute;
       inset:0;
       background:
-        radial-gradient(circle at 85% 18%, rgba(29,127,72,.06), transparent 18%),
-        radial-gradient(circle at 10% 90%, rgba(0,0,0,.03), transparent 24%);
+        radial-gradient(circle at 88% 18%, rgba(29,127,72,.05), transparent 18%),
+        radial-gradient(circle at 8% 92%, rgba(0,0,0,.025), transparent 24%);
       pointer-events:none;
     }
+
     .masthead-inner{
       position:relative;
       z-index:1;
       display:grid;
-      grid-template-columns:minmax(0, 1fr) 340px;
-      gap:0;
-      padding:32px 0 26px 36px;
+      grid-template-columns:minmax(0, 1.05fr) minmax(320px, 470px);
+      gap:26px;
       align-items:stretch;
-    }
-    @media (max-width:980px){
-      .masthead-inner{
-        grid-template-columns:1fr;
-        gap:0;
-        padding:24px 22px 20px;
-      }
+      padding:24px;
     }
 
     .masthead-copy{
-      max-width:680px;
-      padding-right:32px;
-      padding-bottom:6px;
-    }
-    @media (max-width:980px){
-      .masthead-copy{ padding-right:0; }
+      min-width:0;
+      padding:18px 14px 14px 14px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
     }
 
     .masthead-label{
@@ -133,8 +128,9 @@
       letter-spacing:.24em;
       text-transform:uppercase;
       color:var(--green);
-      margin-bottom:14px;
+      margin-bottom:16px;
     }
+
     .masthead-label::before{
       content:"";
       width:28px;
@@ -145,13 +141,14 @@
 
     .masthead h1{
       font-family:"Playfair Display", Georgia, serif;
-      font-size:clamp(32px, 5vw, 66px);
-      line-height:.96;
-      letter-spacing:-.03em;
+      font-size:clamp(42px, 6vw, 82px);
+      line-height:.92;
+      letter-spacing:-.04em;
       font-weight:700;
-      max-width:10ch;
-      margin-bottom:12px;
+      max-width:8.5ch;
+      margin-bottom:16px;
     }
+
     .masthead h1 em{
       color:var(--green);
       font-style:italic;
@@ -159,17 +156,18 @@
     }
 
     .masthead-sub{
-      max-width:54ch;
-      font-size:14px;
-      line-height:1.76;
+      max-width:58ch;
+      font-size:15px;
+      line-height:1.85;
       color:var(--ink-soft);
-      margin-bottom:22px;
+      margin-bottom:24px;
     }
 
     .masthead-search{
       position:relative;
-      max-width:380px;
+      max-width:430px;
     }
+
     .masthead-search svg{
       position:absolute;
       left:15px;
@@ -178,25 +176,27 @@
       color:rgba(23,23,20,.42);
       pointer-events:none;
     }
+
     .masthead-search input{
       width:100%;
-      height:46px;
+      height:52px;
       border:none;
       outline:none;
-      border-radius:14px;
-      background:rgba(255,255,255,.84);
+      border-radius:15px;
+      background:rgba(255,255,255,.88);
       box-shadow:
-        inset 0 0 0 1px rgba(23,23,20,.09),
-        0 8px 20px rgba(23,23,20,.04);
+        inset 0 0 0 1px rgba(23,23,20,.08),
+        0 8px 18px rgba(23,23,20,.03);
       padding:0 16px 0 46px;
       font:600 14px "Inter",system-ui,sans-serif;
       color:var(--ink);
       transition:box-shadow .18s ease;
-      backdrop-filter: blur(8px);
     }
+
     .masthead-search input::placeholder{
       color:rgba(23,23,20,.42);
     }
+
     .masthead-search input:focus{
       box-shadow:
         inset 0 0 0 1px rgba(29,127,72,.28),
@@ -204,32 +204,50 @@
         0 10px 24px rgba(23,23,20,.05);
     }
 
-    /* ── Image bannière ── */
-    .masthead-img{
-      align-self:stretch;
-      overflow:hidden;
-      border-left:1px solid rgba(23,23,20,.07);
-      margin-top:-32px;
-      margin-bottom:-26px;
-      margin-right:0;
+    .masthead-media{
+      min-width:0;
+      display:flex;
+      align-items:stretch;
     }
-    .masthead-img img{
+
+    .masthead-art{
+      position:relative;
+      width:100%;
+      min-height:320px;
+      border-radius:24px;
+      overflow:hidden;
+      border:1px solid rgba(23,23,20,.06);
+      box-shadow:
+        0 14px 34px rgba(23,23,20,.06),
+        inset 0 1px 0 rgba(255,255,255,.55);
+      background:#efe7da;
+    }
+
+    .masthead-art::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.16), transparent 30%),
+        linear-gradient(0deg, rgba(255,250,244,.10), rgba(255,250,244,.10));
+      pointer-events:none;
+    }
+
+    .masthead-art img{
+      display:block;
       width:100%;
       height:100%;
       object-fit:cover;
-      object-position:center top;
-      display:block;
-    }
-    @media (max-width:980px){
-      .masthead-img{ display:none; }
+      object-position:center;
     }
 
     .masthead-rule{
       display:flex;
       align-items:center;
       gap:14px;
-      padding:0 36px 20px;
+      padding:0 28px 22px;
     }
+
     .masthead-rule::before,
     .masthead-rule::after{
       content:"";
@@ -237,6 +255,7 @@
       height:1px;
       background:var(--line);
     }
+
     .masthead-rule-dot{
       width:7px;
       height:7px;
@@ -245,11 +264,52 @@
       box-shadow:0 0 0 6px rgba(29,127,72,.08);
       flex:0 0 auto;
     }
+
     @media (max-width:980px){
-      .masthead-rule{padding:0 22px 18px}
+      .masthead-inner{
+        grid-template-columns:1fr;
+        gap:16px;
+      }
+
+      .masthead-copy{
+        padding:6px 4px 0;
+      }
+
+      .masthead-art{
+        min-height:230px;
+      }
     }
 
-    /* ===== Filters ===== */
+    @media (max-width:640px){
+      .masthead{
+        border-radius:24px;
+      }
+
+      .masthead-inner{
+        padding:16px;
+      }
+
+      .masthead h1{
+        font-size:clamp(34px, 12vw, 56px);
+        max-width:9ch;
+      }
+
+      .masthead-sub{
+        font-size:14px;
+        line-height:1.7;
+      }
+
+      .masthead-art{
+        min-height:190px;
+        border-radius:18px;
+      }
+
+      .masthead-rule{
+        padding:0 16px 16px;
+      }
+    }
+
+    /* ===== FILTERS ===== */
     .filterbar{
       display:flex;
       gap:10px;
@@ -257,6 +317,7 @@
       align-items:center;
       margin:0 0 34px;
     }
+
     .fpill{
       border:none;
       outline:none;
@@ -274,6 +335,7 @@
         0 8px 20px rgba(23,23,20,.03);
       transition:transform .15s ease, box-shadow .15s ease, color .15s ease, background .15s ease;
     }
+
     .fpill:hover{
       transform:translateY(-1px);
       color:var(--ink);
@@ -282,6 +344,7 @@
         inset 0 0 0 1px rgba(23,23,20,.12),
         0 12px 22px rgba(23,23,20,.05);
     }
+
     .fpill.on{
       color:#fff;
       background:linear-gradient(135deg, #228b51, #1d7f48);
@@ -290,10 +353,11 @@
         inset 0 1px 0 rgba(255,255,255,.18);
     }
 
-    /* ===== Featured ===== */
+    /* ===== FEATURED ===== */
     .feat-wrap{
       margin-bottom:38px;
     }
+
     .feat-card{
       position:relative;
       display:grid;
@@ -306,20 +370,23 @@
       box-shadow:var(--shadow-2);
       transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
     }
+
     .feat-card:hover{
       transform:translateY(-2px);
       box-shadow:0 30px 80px rgba(25,20,12,.13);
       border-color:rgba(23,23,20,.14);
     }
+
     .feat-card::before{
       content:"";
       position:absolute;
       inset:0;
       background:
         radial-gradient(circle at top right, rgba(29,127,72,.08), transparent 24%),
-        linear-gradient(90deg, transparent, rgba(255,255,255,.2));
+        linear-gradient(90deg, transparent, rgba(255,255,255,.18));
       pointer-events:none;
     }
+
     @media (max-width:960px){
       .feat-card{
         grid-template-columns:1fr;
@@ -333,7 +400,9 @@
       display:flex;
       flex-direction:column;
       gap:18px;
+      min-width:0;
     }
+
     @media (max-width:700px){
       .feat-body{
         padding:20px 18px 18px;
@@ -346,6 +415,7 @@
       gap:10px;
       flex-wrap:wrap;
     }
+
     .feat-kicker{
       display:inline-flex;
       align-items:center;
@@ -357,16 +427,19 @@
       letter-spacing:.16em;
       text-transform:uppercase;
     }
+
     .feat-kicker-star{
       color:#fff;
       background:linear-gradient(135deg, #1f8b50, #186d40);
       box-shadow:0 10px 22px rgba(29,127,72,.18);
     }
+
     .feat-kicker-theme{
       color:var(--theme-color, var(--green));
       background:rgba(255,255,255,.72);
-      box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--theme-color, var(--green)) 18%, rgba(23,23,20,.08));
+      box-shadow:inset 0 0 0 1px rgba(23,23,20,.08);
     }
+
     .feat-kicker-region{
       color:rgba(23,23,20,.52);
       background:rgba(255,255,255,.58);
@@ -381,21 +454,24 @@
       font-weight:700;
       max-width:16ch;
     }
+
     .feat-excerpt{
       max-width:62ch;
       color:var(--ink-soft);
       font-size:15px;
       line-height:1.86;
     }
+
     .feat-footer{
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:14px;
       flex-wrap:wrap;
-      padding-top:8px;
+      padding-top:10px;
       border-top:1px solid rgba(23,23,20,.08);
     }
+
     .feat-meta{
       font-size:11px;
       font-weight:700;
@@ -403,12 +479,13 @@
       text-transform:uppercase;
       color:rgba(23,23,20,.42);
     }
+
     .feat-cta{
       display:inline-flex;
       align-items:center;
       gap:10px;
-      min-height:38px;
-      padding:0 16px;
+      min-height:42px;
+      padding:0 18px;
       border-radius:999px;
       background:#161714;
       color:#fff;
@@ -417,19 +494,14 @@
       letter-spacing:.16em;
       text-transform:uppercase;
       transition:transform .15s ease, opacity .15s ease;
-      box-shadow:0 10px 22px rgba(23,23,20,.14);
-      position:static;
+      box-shadow:0 12px 24px rgba(23,23,20,.16);
+      position:relative;
+      z-index:2;
     }
+
     .feat-cta:hover{
       transform:translateY(-1px);
       opacity:.94;
-    }
-    /* stretch-link : couvre toute la feat-card */
-    .feat-cta::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      border-radius:inherit;
     }
 
     .feat-panel{
@@ -444,6 +516,7 @@
       justify-content:center;
       gap:14px;
     }
+
     @media (max-width:960px){
       .feat-panel{
         border-left:none;
@@ -453,6 +526,7 @@
         grid-template-columns:repeat(3, 1fr);
       }
     }
+
     @media (max-width:560px){
       .feat-panel{
         grid-template-columns:1fr;
@@ -467,20 +541,24 @@
       color:rgba(23,23,20,.42);
       margin-bottom:2px;
     }
+
     .feat-stat{
       padding:14px 0;
       border-top:1px solid rgba(23,23,20,.08);
     }
+
     .feat-stat:first-of-type{
       border-top:none;
       padding-top:2px;
     }
+
     @media (max-width:960px){
       .feat-stat{
         border-top:none;
         padding:4px 0;
       }
     }
+
     .feat-stat-val{
       font-family:"Playfair Display", Georgia, serif;
       font-size:33px;
@@ -490,6 +568,7 @@
       font-weight:700;
       margin-bottom:5px;
     }
+
     .feat-stat-label{
       font-size:10px;
       font-weight:800;
@@ -499,13 +578,14 @@
       line-height:1.5;
     }
 
-    /* ===== Section heading ===== */
+    /* ===== SECTION HEAD ===== */
     .sec-head{
       display:flex;
       align-items:center;
       gap:14px;
       margin:0 0 18px;
     }
+
     .sec-label{
       font-size:11px;
       font-weight:800;
@@ -514,28 +594,32 @@
       color:rgba(23,23,20,.45);
       white-space:nowrap;
     }
+
     .sec-count{
       font-family:"Playfair Display", Georgia, serif;
       font-size:16px;
       color:var(--green);
       white-space:nowrap;
     }
+
     .sec-rule{
       height:1px;
       flex:1;
       background:linear-gradient(90deg, rgba(23,23,20,.12), rgba(23,23,20,.04));
     }
 
-    /* ===== Grid ===== */
+    /* ===== GRID ===== */
     .cw-grid{
       display:grid;
       grid-template-columns:repeat(3, 1fr);
       gap:18px;
       align-items:stretch;
     }
+
     @media (max-width:1040px){
       .cw-grid{grid-template-columns:1fr 1fr}
     }
+
     @media (max-width:640px){
       .cw-grid{grid-template-columns:1fr}
     }
@@ -553,11 +637,13 @@
       box-shadow:0 10px 28px rgba(23,23,20,.05);
       transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
     }
+
     .cw-card:hover{
       transform:translateY(-3px);
       border-color:rgba(23,23,20,.14);
       box-shadow:0 22px 46px rgba(23,23,20,.10);
     }
+
     .cw-card::before{
       content:"";
       position:absolute;
@@ -571,6 +657,7 @@
     .card-head{
       padding:24px 22px 14px;
     }
+
     .card-theme{
       display:inline-flex;
       align-items:center;
@@ -582,6 +669,7 @@
       text-transform:uppercase;
       color:var(--card-accent, rgba(23,23,20,.54));
     }
+
     .card-theme-dot{
       width:6px;
       height:6px;
@@ -603,6 +691,7 @@
       flex:1;
       padding:0 22px 18px;
     }
+
     .card-excerpt{
       color:var(--ink-soft);
       font-size:14px;
@@ -614,7 +703,6 @@
     }
 
     .card-footer{
-      position:relative;
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -622,6 +710,7 @@
       padding:16px 22px 18px;
       border-top:1px solid rgba(23,23,20,.08);
     }
+
     .card-meta{
       font-size:10px;
       font-weight:800;
@@ -629,6 +718,7 @@
       text-transform:uppercase;
       color:rgba(23,23,20,.40);
     }
+
     .card-read{
       color:var(--card-accent, var(--green));
       font-size:11px;
@@ -637,16 +727,12 @@
       text-transform:uppercase;
       transition:letter-spacing .16s ease;
       flex-shrink:0;
-      position:static;
+      position:relative;
+      z-index:2;
     }
+
     .cw-card:hover .card-read{
       letter-spacing:.20em;
-    }
-    /* stretch-link : couvre toute la cw-card */
-    .card-read::after{
-      content:"";
-      position:absolute;
-      inset:0;
     }
 
     .t-visa   { --card-accent: var(--theme-visa); }
@@ -670,6 +756,7 @@
       from{opacity:0;transform:translateY(16px)}
       to{opacity:1;transform:translateY(0)}
     }
+
     .masthead{animation:fadeUp .55s ease both}
     .filterbar{animation:fadeUp .55s .08s ease both}
     .feat-wrap{animation:fadeUp .55s .16s ease both}
@@ -687,14 +774,13 @@
   <div id="siteHeader"></div>
 
   <main class="cw">
-
     <header class="masthead">
       <div class="masthead-inner">
         <div class="masthead-copy">
-          <p class="masthead-label" id="eyebrow">Chronicles</p>
-          <h1 id="heroTitle">Wigg <em>Chronicles</em></h1>
+          <p class="masthead-label" id="eyebrow">Chroniques</p>
+          <h1 id="heroTitle">Wigg <em>Chroniques</em></h1>
           <p class="masthead-sub" id="heroSub">
-            Premium articles on expat life, visas, taxes, cost of living, future trends, education and quality of life.
+            Articles premium sur expatriation, visas, fiscalité, coût de la vie, prospective, éducation et qualité de vie.
           </p>
 
           <div class="masthead-search">
@@ -702,12 +788,14 @@
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            <input id="searchInput" type="search" autocomplete="off" aria-label="Search articles" placeholder="Search articles…">
+            <input id="searchInput" type="search" autocomplete="off" aria-label="Search articles" placeholder="Rechercher des articles…">
           </div>
         </div>
 
-        <div class="masthead-img" aria-hidden="true">
-          <img src="/assets/bannierechroniques.png" alt="" loading="eager" decoding="async">
+        <div class="masthead-media">
+          <div class="masthead-art">
+            <img src="assets/bannierechroniques.png" alt="Wigg Chronicles banner" loading="eager" decoding="async">
+          </div>
         </div>
       </div>
 
@@ -729,57 +817,62 @@
     </div>
 
     <div class="cw-grid" id="grid" role="list">
-      <div class="cw-empty" id="empty">No articles match your search.</div>
+      <div class="cw-empty" id="empty">Aucun article ne correspond à ta recherche.</div>
     </div>
-
   </main>
 
   <script src="/data/header.js"></script>
 
   <script>
-    var I18N = {
+    const I18N = {
       en: {
         eyebrow:  "Chronicles",
-        title:    "Wigg Chronicles",
+        titleWord:"Chronicles",
         sub:      "Premium articles on expat life, visas, taxes, cost of living, future trends, education and quality of life.",
         search:   "Search articles…",
         all:      "All",
         section:  "Articles",
         featured: "Featured",
-        featuredlab: "Editor's pick",
         read:     "Read article",
         panel:    "At a glance",
-        empty:    "No articles match your search."
+        empty:    "No articles match your search.",
+        statsYears:"years outlook",
+        statsCountries:"countries compared",
+        statsRead:"min read"
       },
       fr: {
         eyebrow:  "Chroniques",
-        title:    "Wigg Chronicles",
+        titleWord:"Chroniques",
         sub:      "Articles premium sur expatriation, visas, fiscalité, coût de la vie, prospective, éducation et qualité de vie.",
         search:   "Rechercher des articles…",
         all:      "Tous",
         section:  "Articles",
         featured: "À la une",
-        featuredlab: "Choix de la rédaction",
         read:     "Lire l'article",
         panel:    "En bref",
-        empty:    "Aucun article ne correspond à ta recherche."
+        empty:    "Aucun article ne correspond à ta recherche.",
+        statsYears:"ans d'analyse",
+        statsCountries:"pays comparés",
+        statsRead:"min de lecture"
       },
       es: {
         eyebrow:  "Crónicas",
-        title:    "Wigg Chronicles",
+        titleWord:"Crónicas",
         sub:      "Artículos premium sobre expatriación, visados, impuestos, coste de vida, prospectiva, educación y calidad de vida.",
         search:   "Buscar artículos…",
         all:      "Todos",
         section:  "Artículos",
         featured: "Destacado",
-        featuredlab: "Selección editorial",
         read:     "Leer artículo",
         panel:    "De un vistazo",
-        empty:    "Ningún artículo coincide con tu búsqueda."
+        empty:    "Ningún artículo coincide con tu búsqueda.",
+        statsYears:"años de análisis",
+        statsCountries:"países comparados",
+        statsRead:"min de lectura"
       }
     };
 
-    var CHRONICLES = [
+    const CHRONICLES = [
       {
         id: "2056",
         featured: true,
@@ -801,11 +894,7 @@
         date: "2026-03-05",
         read: "~30 min",
         theme: "Future & Strategy",
-        region: "World",
-        stats: [
-          { val: "150+", label: "pays comparés" },
-          { val: "~30", label: "min de lecture" }
-        ]
+        region: "World"
       },
       {
         id: "ameriques-1",
@@ -919,130 +1008,137 @@
       }
     ];
 
-    var THEME_CLASS = {
+    const THEME_CLASS = {
       "Visa & Installation": "t-visa",
-      "Nomad Life":          "t-nomad",
-      "Future & Strategy":   "t-future",
-      "Family":              "t-family"
-    };
-    var THEME_COLOR = {
-      "Visa & Installation": "#178a5b",
-      "Nomad Life":          "#0f82a2",
-      "Future & Strategy":   "#7d55d8",
-      "Family":              "#d7731d"
+      "Nomad Life": "t-nomad",
+      "Future & Strategy": "t-future",
+      "Family": "t-family"
     };
 
-    var activeFilter = "all";
+    const THEME_COLOR = {
+      "Visa & Installation": "#178a5b",
+      "Nomad Life": "#0f82a2",
+      "Future & Strategy": "#7d55d8",
+      "Family": "#d7731d"
+    };
+
+    let activeFilter = "all";
 
     function getLang() {
       return (localStorage.getItem("wigg_lang") || "en").toLowerCase();
     }
+
     function str(obj) {
       if (!obj) return "";
       if (typeof obj === "string") return obj;
-      var l = getLang();
+      const l = getLang();
       return obj[l] || obj.en || "";
     }
+
     function tx() {
-      var l = getLang();
+      const l = getLang();
       return I18N[l] || I18N.en;
     }
+
     function fmtDate(iso) {
       if (!iso) return "";
-      var parts = iso.split("-").map(Number);
-      var dt = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2]));
-      var l = getLang();
-      var locale = l === "fr" ? "fr-FR" : l === "es" ? "es-ES" : "en-GB";
+      const parts = iso.split("-").map(Number);
+      const dt = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2]));
+      const l = getLang();
+      const locale = l === "fr" ? "fr-FR" : l === "es" ? "es-ES" : "en-GB";
       return dt.toLocaleDateString(locale, { year: "numeric", month: "short", day: "numeric" });
     }
 
     function featuredHTML(c) {
-      var t     = tx();
-      var url   = str(c.url);
-      var color = THEME_COLOR[c.theme] || "#1d7f48";
-      var date  = c.date ? fmtDate(c.date) : "";
+      const t = tx();
+      const url = str(c.url);
+      const color = THEME_COLOR[c.theme] || "#1d7f48";
+      const date = c.date ? fmtDate(c.date) : "";
 
-      var statsHTML = "";
-      if (c.stats && c.stats.length) {
-        statsHTML = c.stats.map(function(s) {
-          return '<div class="feat-stat">' +
-            '<div class="feat-stat-val">' + s.val + '</div>' +
-            '<div class="feat-stat-label">' + s.label + '</div>' +
-          '</div>';
-        }).join("");
-      } else {
-        var readNum = c.read ? c.read.replace(/[^0-9]/g, "") : "";
-        statsHTML = [
-          '<div class="feat-stat"><div class="feat-stat-val">150+</div><div class="feat-stat-label">countries</div></div>',
-          readNum ? '<div class="feat-stat"><div class="feat-stat-val">~' + readNum + '</div><div class="feat-stat-label">min read</div></div>' : ''
-        ].join("");
-      }
+      let yearsLabel = t.statsYears;
+      let countriesLabel = t.statsCountries;
+      let readLabel = t.statsRead;
 
-      return '<article class="feat-card" style="--theme-color:' + color + '">' +
-        '<div class="feat-body">' +
-          '<div class="feat-topline">' +
-            '<span class="feat-kicker feat-kicker-star">' + t.featured + '</span>' +
-            '<span class="feat-kicker feat-kicker-theme">' + (c.theme || "") + '</span>' +
-            (c.region ? '<span class="feat-kicker feat-kicker-region">' + c.region + '</span>' : '') +
-          '</div>' +
-          '<div class="feat-title">' + str(c.title) + '</div>' +
-          '<p class="feat-excerpt">' + str(c.excerpt) + '</p>' +
-          '<div class="feat-footer">' +
-            '<span class="feat-meta">' + (date || "") + (c.read ? " · " + c.read : "") + '</span>' +
-            '<a class="feat-cta" href="' + url + '">' + t.read + '</a>' +
-          '</div>' +
-        '</div>' +
-        '<aside class="feat-panel">' +
-          '<div class="feat-panel-label">' + t.panel + '</div>' +
-          statsHTML +
-        '</aside>' +
-      '</article>';
+      return `
+        <article class="feat-card" style="--theme-color:${color}">
+          <div class="feat-body">
+            <div class="feat-topline">
+              <span class="feat-kicker feat-kicker-star">${t.featured}</span>
+              <span class="feat-kicker feat-kicker-theme">${c.theme || ""}</span>
+              ${c.region ? `<span class="feat-kicker feat-kicker-region">${c.region}</span>` : ""}
+            </div>
+
+            <div class="feat-title">${str(c.title)}</div>
+            <p class="feat-excerpt">${str(c.excerpt)}</p>
+
+            <div class="feat-footer">
+              <span class="feat-meta">${date}${c.read ? " · " + c.read : ""}</span>
+              <a class="feat-cta" href="${url}">${t.read}</a>
+            </div>
+          </div>
+
+          <aside class="feat-panel">
+            <div class="feat-panel-label">${t.panel}</div>
+            <div class="feat-stat">
+              <div class="feat-stat-val">150+</div>
+              <div class="feat-stat-label">${countriesLabel}</div>
+            </div>
+            <div class="feat-stat">
+              <div class="feat-stat-val">~30</div>
+              <div class="feat-stat-label">${readLabel}</div>
+            </div>
+          </aside>
+        </article>
+      `;
     }
 
     function cardHTML(c) {
-      var t   = tx();
-      var url = str(c.url);
-      var cls = THEME_CLASS[c.theme] || "";
-      var date = c.date ? fmtDate(c.date) : "";
+      const t = tx();
+      const url = str(c.url);
+      const cls = THEME_CLASS[c.theme] || "";
+      const date = c.date ? fmtDate(c.date) : "";
 
-      return '<article class="cw-card ' + cls + '" role="listitem">' +
-        '<div class="card-head">' +
-          '<div class="card-theme">' +
-            '<span class="card-theme-dot"></span>' +
-            (c.theme || "") +
-          '</div>' +
-          '<h3>' + str(c.title) + '</h3>' +
-        '</div>' +
-        '<div class="card-body">' +
-          '<p class="card-excerpt">' + str(c.excerpt) + '</p>' +
-        '</div>' +
-        '<div class="card-footer">' +
-          '<span class="card-meta">' + (date || "") + (c.read ? " · " + c.read : "") + '</span>' +
-          '<a class="card-read" href="' + url + '">' + t.read + '</a>' +
-        '</div>' +
-      '</article>';
+      return `
+        <article class="cw-card ${cls}" role="listitem">
+          <div class="card-head">
+            <div class="card-theme">
+              <span class="card-theme-dot"></span>
+              ${c.theme || ""}
+            </div>
+            <h3>${str(c.title)}</h3>
+          </div>
+          <div class="card-body">
+            <p class="card-excerpt">${str(c.excerpt)}</p>
+          </div>
+          <div class="card-footer">
+            <span class="card-meta">${date}${c.read ? " · " + c.read : ""}</span>
+            <a class="card-read" href="${url}">${t.read}</a>
+          </div>
+        </article>
+      `;
     }
 
     function matches(c) {
-      var q = document.getElementById("searchInput").value.trim().toLowerCase();
-      var hay = [str(c.title), str(c.excerpt), c.theme || "", c.region || ""].join(" ").toLowerCase();
-      var qOk = !q || hay.indexOf(q) !== -1;
-      var fOk = activeFilter === "all" || c.theme === activeFilter;
+      const q = document.getElementById("searchInput").value.trim().toLowerCase();
+      const hay = [str(c.title), str(c.excerpt), c.theme || "", c.region || ""].join(" ").toLowerCase();
+      const qOk = !q || hay.includes(q);
+      const fOk = activeFilter === "all" || c.theme === activeFilter;
       return qOk && fOk;
     }
 
     function buildFilters() {
-      var t = tx();
-      var themes = [];
+      const t = tx();
+      const themes = [];
+
       CHRONICLES.forEach(function(c) {
-        if (c.theme && themes.indexOf(c.theme) === -1) themes.push(c.theme);
+        if (c.theme && !themes.includes(c.theme)) themes.push(c.theme);
       });
 
-      var nav = document.getElementById("filters");
+      const nav = document.getElementById("filters");
       nav.innerHTML = "";
 
       function makeBtn(label, val) {
-        var btn = document.createElement("button");
+        const btn = document.createElement("button");
         btn.className = "fpill" + (activeFilter === val ? " on" : "");
         btn.textContent = label;
         btn.addEventListener("click", function() {
@@ -1058,29 +1154,29 @@
     }
 
     function render() {
-      var t = tx();
-      var featured = null;
-      var rest = [];
+      const t = tx();
+      let featured = null;
+      let rest = [];
 
       CHRONICLES.forEach(function(c) {
         if (c.featured) featured = c;
         else rest.push(c);
       });
 
-      var featSec  = document.getElementById("featuredSection");
-      var featCard = document.getElementById("featuredCard");
+      const featSec = document.getElementById("featuredSection");
+      const featCard = document.getElementById("featuredCard");
 
       if (featured) {
-        var showFeat = matches(featured);
+        const showFeat = matches(featured);
         featSec.style.display = showFeat ? "" : "none";
         if (showFeat) featCard.innerHTML = featuredHTML(featured);
       } else {
         featSec.style.display = "none";
       }
 
-      var filtered = rest.filter(matches);
-      var grid = document.getElementById("grid");
-      var emptyEl = document.getElementById("empty");
+      const filtered = rest.filter(matches);
+      const grid = document.getElementById("grid");
+      const emptyEl = document.getElementById("empty");
 
       if (filtered.length === 0) {
         grid.innerHTML = "";
@@ -1097,13 +1193,16 @@
     }
 
     function applyI18n() {
-      var t = tx();
-      var l = getLang();
+      const t = tx();
+      const l = getLang();
+
       document.documentElement.lang = l;
       document.getElementById("eyebrow").textContent = t.eyebrow;
-      document.getElementById("heroTitle").innerHTML = "Wigg <em>" + (l === "fr" ? "Chroniques" : l === "es" ? "Crónicas" : "Chronicles") + "</em>";
+      document.getElementById("heroTitle").innerHTML = "Wigg <em>" + t.titleWord + "</em>";
       document.getElementById("heroSub").textContent = t.sub;
       document.getElementById("searchInput").placeholder = t.search;
+      document.getElementById("sectionLabel").textContent = t.section;
+      document.getElementById("empty").textContent = t.empty;
     }
 
     function init() {

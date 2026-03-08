@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-36BWEJGCTB"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-36BWEJGCTB');
+  </script>
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-K4MMRD4R');</script>
+  <!-- End Google Tag Manager -->
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <!-- ✅ FAVICON (chemins cohérents avec ../assets déjà utilisé dans ce fichier) -->
+  <link rel="icon" href="../assets/favicon.ico" type="image/x-icon" />    
+
+  <!-- SEO filled by JS -->
+  <title id="seo-title">Country — WiggMap</title>
+  <meta id="seo-desc" name="description" content="WiggMap country snapshot: salaries, rent, utilities, taxes, tech, gasoline, immigration, happiness, climate — WiggMap." />
+
+  <!-- ✅ Leaflet (map) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <style>
+    :root{
+      --bg:#f6f8f7;
+      --card:#ffffff;
+      --text:#18201c;
+      --muted:#5b6b62;
+      --border:rgba(0,0,0,.08);
+      --shadow:0 6px 18px rgba(0,0,0,.06);
+      --green:#2ecc71;
+      --yellow:#f5c84c;
+      --red:#ff5a5f;
+      --radius:14px;
+    }
+    *{box-sizing:border-box;}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);}
+    a{color:inherit;text-decoration:none;}
+
+    /* Header */
+    .topbar{
+      position:sticky;top:0;z-index:50;
+      background:rgba(246,248,247,.92);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid var(--border);
+    }
+    .topbar-inner{
+      max-width:1100px;margin:0 auto;padding:14px 18px;
+      display:flex;align-items:center;justify-content:space-between;gap:14px;
+    }
+    .brand{display:flex;align-items:center;gap:10px;min-width:200px;}
+    .brand img{width:44px;height:44px;object-fit:contain;}
+    .brand .name{font-weight:900;letter-spacing:.2px;}
+    .brand .tag{display:block;font-size:12px;color:var(--muted);font-weight:700;margin-top:2px;}
+    .nav{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:flex-end;}
+    .nav a{font-weight:800;font-size:14px;color:var(--muted);padding:8px 10px;border-radius:10px;}
+    .nav a:hover{background:rgba(0,0,0,.05);color:var(--text);}
+    .nav .cta{background:var(--green);color:#fff;padding:10px 12px;border-radius:12px;font-weight:900;}
+    .nav .cta:hover{background:#27ae60;}
+
+    /* Layout */
+    .wrap{max-width:1100px;margin:0 auto;padding:22px 18px 40px;}
+    .breadcrumbs{color:var(--muted);font-size:13px;font-weight:700;margin:10px 0 14px;}
+    .breadcrumbs a{color:var(--muted);text-decoration:underline;text-underline-offset:3px;}
+    .breadcrumbs a:hover{color:var(--text);}
+
+    .country-header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin:6px 0 16px;}
+    .country-title{margin:0;font-size:34px;letter-spacing:-.4px;}
+    .subtitle{margin:6px 0 0;color:var(--muted);font-weight:700;font-size:14px;}
+
+    .badge{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:10px 12px;border-radius:999px;
+      font-weight:900;border:1px solid var(--border);
+      background:rgba(255,255,255,.7);white-space:nowrap;
+    }
+    .dot{width:10px;height:10px;border-radius:999px;display:inline-block;}
+    .dot.green{background:var(--green);}
+    .dot.yellow{background:var(--yellow);}
+    .dot.red{background:var(--red);}
+
+    /* ✅ WIGG badge + time (no layout shift) */
+    .badge-wrap{
+      display:flex;
+      flex-direction:column;
+      align-items:flex-end;
+      gap:6px;
+    }
+    .wigg-time{
+      font-size:12px;
+      line-height:16px;
+      height:16px;         /* reserve space => no shift */
+      opacity:.78;
+      white-space:nowrap;
+    }
+    .wigg-time-label{ margin-right:6px; opacity:.75; }
+
+    .grid{display:grid;grid-template-columns:360px 1fr;gap:18px;align-items:start;}
+    @media (max-width: 980px){.grid{grid-template-columns:1fr;}}
+
+    /* Left hero card */
+    .hero{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;}
+    .hero-img{width:100%;height:320px;object-fit:cover;display:block;}
+    .hero-body{padding:14px 14px 16px;}
+    .hero-kicker{color:var(--muted);font-weight:800;font-size:13px;margin:0 0 10px;}
+    .hero-actions{display:flex;gap:10px;flex-wrap:wrap;}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      padding:10px 12px;border-radius:12px;font-weight:900;
+      border:1px solid var(--border);background:#fff;cursor:pointer;
+    }
+    .btn.primary{background:var(--green);color:#fff;border-color:transparent;}
+    .btn.primary:hover{background:#27ae60;}
+    .btn:hover{background:rgba(0,0,0,.04);}
+
+    /* Right content */
+    .sections{display:grid;gap:14px;}
+    .section{
+      background:var(--card);border:1px solid var(--border);
+      border-radius:var(--radius);box-shadow:var(--shadow);
+      padding:14px;
+    }
+    .section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 10px;}
+    .section-title h2{margin:0;font-size:16px;letter-spacing:.2px;}
+    .section-title small{color:var(--muted);font-weight:800;}
+
+    .tiles{display:grid;grid-template-columns: repeat(3, minmax(0, 1fr));gap:10px;}
+    @media (max-width: 720px){.tiles{grid-template-columns: repeat(2, minmax(0, 1fr));}}
+    @media (max-width: 420px){.tiles{grid-template-columns: 1fr;}}
+
+    .tile{
+      border:1px solid var(--border);border-radius:12px;
+      padding:12px;background:rgba(255,255,255,.85);
+      position:relative;
+    }
+    .label{display:flex;align-items:center;gap:8px;color:var(--muted);font-weight:900;font-size:12px;}
+    .value{margin-top:8px;font-size:18px;font-weight:900;letter-spacing:-.2px;}
+    .hint{margin-top:6px;color:var(--muted);font-size:12px;font-weight:700;}
+
+    .edit{
+      position:absolute;top:10px;right:10px;width:30px;height:30px;
+      border-radius:10px;border:1px solid var(--border);background:#fff;
+      display:none;align-items:center;justify-content:center;cursor:pointer;
+      font-weight:900;color:#3a4a42;
+    }
+    .tile:hover .edit{display:flex;}
+    .edit:hover{background:rgba(0,0,0,.05);}
+
+    footer{margin-top:18px;color:var(--muted);font-size:12px;font-weight:700;text-align:center;padding:18px 0 8px;}
+
+    /* Modal */
+    .modal-backdrop{
+      position:fixed;inset:0;background:rgba(0,0,0,.45);
+      display:none;align-items:center;justify-content:center;
+      padding:18px;z-index:200;
+    }
+    .modal{
+      width:min(560px,100%);background:#fff;border-radius:16px;
+      border:1px solid var(--border);
+      box-shadow:0 18px 60px rgba(0,0,0,.25);
+      overflow:hidden;
+    }
+    .modal-head{
+      padding:14px 16px;display:flex;align-items:center;
+      justify-content:space-between;border-bottom:1px solid var(--border);
+    }
+    .modal-head strong{font-size:15px;}
+    .modal-body{padding:14px 16px;}
+    .modal-body p{margin:0 0 12px;color:var(--muted);font-weight:700;font-size:13px;line-height:1.4;}
+    .modal-body label{display:block;font-weight:900;font-size:12px;color:#2a3a32;margin:10px 0 6px;}
+    .modal-body input,.modal-body textarea{
+      width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--border);
+      font-size:14px;outline:none;
+    }
+    .modal-body textarea{min-height:90px;resize:vertical;}
+    .modal-actions{
+      display:flex;justify-content:flex-end;gap:10px;
+      padding:14px 16px;border-top:1px solid var(--border);
+      background:#fafbfa;
+    }
+    .req{color:var(--red);font-weight:900;margin-left:4px;}
+
+    /* ===== ✅ Details CTA + section ===== */
+    .wg-details-cta{
+      margin: 16px 0 10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      flex-wrap:wrap;
+      text-align:center;
+    }
+    .wg-details-note{
+      margin:0;
+      font-weight:700;
+      font-size:13px;
+      color: rgba(0,0,0,.62);
+    }
+    .wg-details{ margin-top: 10px; }
+    .wg-details-card{
+      background:#fff;
+      border:1px solid rgba(0,0,0,.08);
+      border-radius:14px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.06);
+      padding:16px;
+    }
+
+    
+    /* ===== ✅ Go Deeper layout (2 columns) + cards ===== */
+    .wg-details-grid{
+      display:grid;
+      grid-template-columns: 1fr 320px;
+      gap:14px;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .wg-details-grid{ 
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      /* ✅ Unwrap containers so children can be reordered */
+      .wg-article-col {
+        display: contents;
+      }
+      .wg-side {
+        display: contents;
+      }
+      /* ✅ Mobile order: Personality (1st), Quick snapshot, Things to know, Article */
+      .wg-persona-card {
+        order: -4; /* 1st: Personality */
+      }
+      .wg-snapshot-card {
+        order: -3; /* 2nd: Quick snapshot */
+      }
+      .wg-things-section {
+        order: -2; /* 3rd: Things to know */
+      }
+      .wg-article {
+        order: -1; /* 4th: Article */
+      }
+    }
+
+    .wg-side{
+      display:grid;
+      gap:12px;
+      position: sticky;
+      top: 84px;
+      align-self:start;
+    }
+    @media (max-width: 980px){
+      .wg-side{ 
+        display: contents; /* Unwrap sidebar children for reordering */
+        position: static; 
+        top:auto; 
+      }
+    }
+
+    .wg-things-section {
+      background:#fff;
+      border:1px solid rgba(0,0,0,.08);
+      border-radius:14px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.06);
+      padding:16px;
+      margin-bottom: 14px;
+    }
+    @media (max-width: 980px){
+      .wg-things-section {
+        margin-bottom: 0; /* Gap handled by flex parent */
+      }
+    }
+
+    .wg-side-card{
+      background:#fff;
+      border:1px solid rgba(0,0,0,.08);
+      border-radius:14px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.06);
+      padding:14px;
+    }
+    .wg-side-card + .wg-side-card{
+      margin-top:14px;
+    }
+    @media (max-width: 980px){
+      /* Reset spacing when using display:contents */
+      .wg-side-card + .wg-side-card{
+        margin-top:0;
+      }
+    }
+    .wg-side-title{
+      margin:0 0 10px;
+      font-weight:900;
+      font-size:14px;
+      letter-spacing:.2px;
+      color: rgba(0,0,0,.88);
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .wg-kv{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      padding:10px 0;
+      border-top:1px solid rgba(0,0,0,.08);
+      font-size:13px;
+      font-weight:700;
+      color: var(--muted);
+    }
+    .wg-kv:first-of-type{ border-top:0; padding-top:6px; }
+    .wg-kv b{ color: rgba(0,0,0,.86); font-weight:900; }
+    
+    /* ✅ Exchange rate indent */
+    .wg-kv-indent {
+      padding-left: 16px;
+      font-size: 12px;
+      padding-top: 6px;
+      padding-bottom: 6px;
+      border-top: none;
+    }
+    
+    /* ✅ Currency/crypto notes */
+    .wg-kv-note {
+      font-size: 11px;
+      line-height: 1.4;
+      color: rgba(0,0,0,.55);
+      font-weight: 700;
+      padding: 6px 0 10px;
+      font-style: italic;
+    }
+
+    .wg-facts-grid{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap:12px;
+      margin-top: 12px;
+    }
+    @media (max-width: 900px){
+      .wg-facts-grid{ grid-template-columns: 1fr; }
+    }
+
+    .wg-fact-card{
+      background:#fff;
+      border:1px solid rgba(0,0,0,.08);
+      border-radius:14px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.06);
+      padding:14px;
+      position:relative;
+    }
+    .wg-fact-bar{
+      position:absolute;
+      left:12px; top:14px;
+      width:8px; height:34px;
+      border-radius:999px;
+      background: rgba(46,204,113,.25); /* soft green bar */
+      border:1px solid rgba(0,0,0,.05);
+    }
+    .wg-fact-title{
+      margin:0 0 8px 18px;
+      font-weight:900;
+      font-size:14px;
+      letter-spacing:.1px;
+      color: rgba(0,0,0,.88);
+    }
+    .wg-fact-text{
+      margin:0 0 0 18px;
+      color: rgba(0,0,0,.74);
+      font-weight:700;
+      font-size:13.5px;
+      line-height:1.65;
+    }
+
+    .wg-persona-why{
+      margin: 10px 0 0;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(0,0,0,.06);
+      background: rgba(46,204,113,.10);
+      color: rgba(0,0,0,.78);
+      font-weight:800;
+      font-size:13px;
+      line-height:1.55;
+    }
+
+/* ✅ Premium “blog” rendering + score */
+    .wg-article{
+      background:#fff;
+      border:1px solid rgba(0,0,0,.08);
+      border-radius:14px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.06);
+      padding:16px;
+      color: rgba(0,0,0,.82);
+      font-weight:700;
+      font-size:15px;
+      line-height:1.8;
+      max-width: 860px;
+      margin: 0 auto;
+      white-space: normal;
+    }
+    @media (max-width: 980px){
+      .wg-article {
+        max-width: 100%;
+      }
+    }
+    .wg-article-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:12px;
+      margin: 0 0 10px;
+    }
+    .wg-article-head h2{
+      margin: 0;
+      font-size:18px;
+      letter-spacing:.2px;
+      color: rgba(0,0,0,.9);
+    }
+    .wg-score{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      font-weight:900;
+      border:1px solid rgba(0,0,0,.10);
+      background: rgba(246,248,247,.85);
+      white-space:nowrap;
+    }
+    .wg-score .star{ font-size:16px; line-height:1; }
+    .wg-article p{ margin: 0 0 12px; }
+    .wg-article p:last-child{ margin-bottom:0; }
+
+    .wg-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      font-weight:900;
+      border:1px solid rgba(0,0,0,.08);
+      background: rgba(255,255,255,.7);
+    }
+
+    /* ===== ✅ Leaflet map card (inside Go deeper) ===== */
+    .wigg-map-section{ margin: 14px 0; }
+    .wigg-map-card{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .wigg-map-header{
+      padding: 14px 18px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .wigg-map-title{
+      display:flex;align-items:center;gap:10px;
+      font-weight:900;font-size:17px;
+    }
+    .wigg-map-title .flag{ font-size: 22px; }
+    .wigg-map-styles{ display:flex; gap:6px; flex-wrap:wrap; }
+    .wigg-style-btn{
+      padding: 6px 12px;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      font-weight: 800;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .wigg-style-btn:hover{ background: rgba(255,255,255,0.2); }
+    .wigg-style-btn.active{ background: white; color: #667eea; }
+
+    .wigg-map-container{ position:relative; width:100%; height:450px; }
+    #wigg-country-map{ width:100%; height:100%; }
+
+    .wigg-map-loading{
+      position:absolute;inset:0;
+      background: rgba(255,255,255,0.95);
+      display:flex;flex-direction:column;
+      align-items:center;justify-content:center;
+      z-index: 1000;
+    }
+    .wigg-map-loading.hidden{ display:none; }
+    .wigg-spinner{
+      width: 35px;height: 35px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #667eea;
+      border-radius: 50%;
+      animation: wigg-spin 1s linear infinite;
+    }
+    @keyframes wigg-spin{ 0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);} }
+
+    @media (max-width: 768px){
+      .wigg-map-container{ height: 350px; }
+      .wigg-map-header{ flex-direction: column; align-items:flex-start; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <div id="siteHeader"></div>
+  <script src="../data/header.js"></script>
+
+  <main class="wrap">
+    <div class="breadcrumbs">
+      <a href="../index.html">Home</a> / <span id="crumb-country">Country</span>
+    </div>
+
+    <div class="country-header">
+      <div>
+        <h1 class="country-title" id="country-name">Country</h1>
+        <p class="subtitle" id="country-subtitle"></p>
+      </div>
+
+      <div class="badge-wrap" title="WiggMap level">
+        <div class="badge">
+          <span class="dot" id="wigg-dot"></span>
+          <span id="wigg-label">WIGG</span>
+        </div>
+
+        <div class="wigg-time" aria-label="Local time">
+          <span class="wigg-time-label">Local time:</span>
+          <span id="localTime" class="wigg-time-value">--:--</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <aside class="hero">
+        <img class="hero-img" id="hero-img"
+             src=""
+             alt=""
+             onerror="this.onerror=null; this.src='../assets/hero-fallback.jpg';" />
+        <div class="hero-body">
+          <p class="hero-kicker">Quick actions</p>
+          <div class="hero-actions">
+            <button class="btn primary" onclick="openModal('general')">Correct data</button>
+            <button class="btn" type="button" id="btnShare">Share</button>
+            <a class="btn" id="btnCompare" href="#">Compare</a>
+          </div>
+        </div>
+      </aside>
+
+      <section class="sections">
+        <!-- Salaries -->
+        <div class="section">
+          <div class="section-title">
+            <h2>💼 Salaries</h2><small>net / month</small>
+          </div>
+          <div class="tiles">
+            <div class="tile">
+              <div class="label">🧾 Minimum wage</div>
+              <div class="value" id="min_wage_value"></div>
+              <div class="hint" id="min_wage_hint"></div>
+              <div class="edit" onclick="openModal('min_wage')" title="Suggest correction">✎</div>
+            </div>
+            <div class="tile">
+              <div class="label">📊 Average salary</div>
+              <div class="value" id="avg_salary_value"></div>
+              <div class="hint" id="avg_salary_hint"></div>
+              <div class="edit" onclick="openModal('avg_salary')" title="Suggest correction">✎</div>
+            </div>
+            <div class="tile">
+              <div class="label">🩺 Doctor (GP)</div>
+              <div class="value" id="doctor_salary_value"></div>
+              <div class="hint" id="doctor_salary_hint"></div>
+              <div class="edit" onclick="openModal('doctor_salary')" title="Suggest correction">✎</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Housing & Utilities -->
+        <div class="section">
+          <div class="section-title">
+            <h2>🏠 Housing & Utilities</h2><small>studio reference</small>
+          </div>
+          <div class="tiles">
+            <div class="tile">
+              <div class="label">🏚️ Studio rent</div>
+              <div class="value" id="rent_studio_value"></div>
+              <div class="hint" id="rent_studio_hint"></div>
+              <div class="edit" onclick="openModal('rent_studio')" title="Suggest correction">✎</div>
+            </div>
+            <div class="tile">
+              <div class="label">⚡ Electricity</div>
+              <div class="value" id="electricity_value"></div>
+              <div class="hint" id="electricity_hint"></div>
+              <div class="edit" onclick="openModal('electricity')" title="Suggest correction">✎</div>
+            </div>
+            <div class="tile">
+              <div class="label">💧 Water</div>
+              <div class="value" id="water_value"></div>
+              <div class="hint" id="water_hint"></div>
+              <div class="edit" onclick="openModal('water')" title="Suggest correction">✎</div>
+            </div>
+            <div class="tile">
+              <div class="label">📱 Mobile plan</div>
+              <div class="value" id="mobile_value"></div>
+              <div class="hint" id="mobile_hint"></div>
+              <div class="edit" onclick="openModal('mobile')" title="Suggest correction">✎</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Food & Drink -->
+        <div class="section">
+          <div class="section-title">
+            <h2>🍽️ Food & Drink</h2><small>typical prices</small>
+          </div>
+          <div class="tiles">
+            <div class="tile">
+              <div class="label">🍺 Beer (pint 0.5L)</div>
+              <div class="value" id="beer_value"></div>
+              <div class="hint" id="beer_hint"></div>
+              <div class="edit" onclick="openModal('beer')" title="Suggest correction">✎</div>
+            </div>
+            <div class="tile">
+              <div class="label">☕ Coffee</div>
+              <div class="value" id="coffee_value"></div>
+              <div class="hint" id="coffee_hint"></div>
+              <div class="edit" onclick="openModal('coffee')" title="Suggest correction">✎</div>
+            </div>
+            <div class="tile">
+              <div class="label">🍲 Main dish</div>
+              <div class="value" id="dish_value"></div>
+              <div class="hint" id="dish_hint"></div>
+              <div class="edit" onclick="openModal('dish')" title="Suggest correction">✎</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Transport -->
+        <div class="section">
+          <div class="section-title">
+            <h2>⛽ Transport</h2><small>reference</small>
+          </div>
+          <div class="tiles">
+            <div class="tile">
+              <div class="label">⛽ Gasoline</div>
+              <div class="value" id="gas_value"></div>
+              <div class="hint" id="gas_hint"></div>
+              <div class="edit" onclick="openModal('gas')" title="Suggest correction">✎</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Taxes -->
+        <div class="section">
+          <div class="section-title">
+            <h2>🧾 Taxes</h2><small>indicative</small>
+          </div>
+          <div class="tiles">
+            <div class="tile">
+              <div class="label">🏷️ VAT</div>
+              <div class="value" id="vat_value"></div>
+              <div class="hint" id="vat_hint"></div>
+              <div class="edit" onclick="openModal('vat')" title="Suggest correction">✎</div>
+            </div>
+            <div class="tile">
+              <div class="label">👤 Income tax</div>
+              <div class="value" id="income_tax_value"></div>
+              <div class="hint" id="income_tax_hint"></div>
+              <div class="edit" onclick="openModal('income_tax')" title="Suggest correction">✎</div>
+            </div>
+            <div class="tile">
+              <div class="label">🏪 Small business taxes</div>
+              <div class="value" id="smallbiz_value"></div>
+              <div class="hint" id="smallbiz_hint"></div>
+              <div class="edit" onclick="openModal('smallbiz')" title="Suggest correction">✎</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tech -->
+        <div class="section">
+          <div class="section-title">
+            <h2>📱 Tech</h2><small>indicative prices</small>
+          </div>
+          <div class="tiles">
+            <div class="tile">
+              <div class="label">🍎 iPhone (latest, 256GB)</div>
+              <div class="value" id="iphone_value"></div>
+              <div class="hint" id="iphone_hint"></div>
+              <div class="edit" onclick="openModal('iphone')" title="Suggest correction">✎</div>
+            </div>
+            <div class="tile">
+              <div class="label">📲 Galaxy S (latest, 256GB)</div>
+              <div class="value" id="samsung_value"></div>
+              <div class="hint" id="samsung_hint"></div>
+              <div class="edit" onclick="openModal('samsung')" title="Suggest correction">✎</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Moving & Immigration -->
+        <div class="section">
+          <div class="section-title">
+            <h2>🛂 Moving & Immigration</h2><small>ease score</small>
+          </div>
+          <div class="tiles">
+            <div class="tile">
+              <div class="label">🛂 Immigration-friendly</div>
+              <div class="value" id="immigration_value"></div>
+              <div class="hint" id="immigration_hint"></div>
+              <div class="edit" onclick="openModal('immigration')" title="Suggest correction">✎</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quality of life -->
+        <div class="section">
+          <div class="section-title">
+            <h2>🌤️ Quality of life</h2><small>quick indicators</small>
+          </div>
+          <div class="tiles">
+            <div class="tile">
+              <div class="label">🙂 Happiness</div>
+              <div class="value" id="happiness_value"></div>
+              <div class="hint" id="happiness_hint"></div>
+              <div class="edit" onclick="openModal('happiness')" title="Suggest correction">✎</div>
+            </div>
+            <div class="tile">
+              <div class="label">☀️ Sunny days</div>
+              <div class="value" id="sun_value"></div>
+              <div class="hint" id="sun_hint"></div>
+              <div class="edit" onclick="openModal('sun')" title="Suggest correction">✎</div>
+            </div>
+            <div class="tile">
+              <div class="label">🏥 Public healthcare</div>
+              <div class="value" id="health_value"></div>
+              <div class="hint" id="health_hint"></div>
+              <div class="edit" onclick="openModal('health')" title="Suggest correction">✎</div>
+            </div>
+            <div class="tile">
+              <div class="label">🧑‍⚕️ Private insurance</div>
+              <div class="value" id="insurance_value"></div>
+              <div class="hint" id="insurance_hint"></div>
+              <div class="edit" onclick="openModal('insurance')" title="Suggest correction">✎</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Indices -->
+        <div class="section">
+          <div class="section-title">
+            <h2>📈 Indices</h2><small>comparative</small>
+          </div>
+          <div class="tiles">
+            <div class="tile">
+              <div class="label">🚔 Crime Index</div>
+              <div class="value" id="crime_value"></div>
+              <div class="hint" id="crime_hint"></div>
+              <div class="edit" onclick="openModal('crime')" title="Suggest correction">✎</div>
+            </div>
+            <div class="tile">
+              <div class="label">💶 Purchasing Power</div>
+              <div class="value" id="pp_value"></div>
+              <div class="hint" id="pp_hint"></div>
+              <div class="edit" onclick="openModal('pp')" title="Suggest correction">✎</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Culture -->
+        <div class="section">
+          <div class="section-title">
+            <h2>🕍 Culture</h2><small>religion snapshot</small>
+          </div>
+          <div class="tiles">
+            <div class="tile">
+              <div class="label">✝️ Christian</div>
+              <div class="value" id="religion_christian_value"></div>
+              <div class="hint" id="religion_christian_hint"></div>
+              <div class="edit" onclick="openModal('religion_christian')" title="Suggest correction">✎</div>
+            </div>
+            <div class="tile">
+              <div class="label">🕊️ Other / None</div>
+              <div class="value" id="religion_other_value"></div>
+              <div class="hint" id="religion_other_hint"></div>
+              <div class="edit" onclick="openModal('religion_other')" title="Suggest correction">✎</div>
+            </div>
+            <div class="tile">
+              <div class="label">☸️ Buddhist</div>
+              <div class="value" id="religion_buddhist_value"></div>
+              <div class="hint" id="religion_buddhist_hint"></div>
+              <div class="edit" onclick="openModal('religion_buddhist')" title="Suggest correction">✎</div>
+            </div>
+            <div class="tile">
+              <div class="label">☪️ Muslim</div>
+              <div class="value" id="religion_muslim_value"></div>
+              <div class="hint" id="religion_muslim_hint"></div>
+              <div class="edit" onclick="openModal('religion_muslim')" title="Suggest correction">✎</div>
+            </div>
+            <div class="tile">
+              <div class="label">✡️ Jewish</div>
+              <div class="value" id="religion_jewish_value"></div>
+              <div class="hint" id="religion_jewish_hint"></div>
+              <div class="edit" onclick="openModal('religion_jewish')" title="Suggest correction">✎</div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+    </div>
+
+    <!-- ✅ Go deeper toggle -->
+    <div class="wg-details-cta">
+      <button type="button" class="btn" id="wgLoadDetailsBtn" aria-expanded="false">Go deeper ↓</button>
+      <p class="wg-details-note" id="wgDetailsNote" style="display:none;"></p>
+    </div>
+
+    <section class="wg-details" id="wgDetailsSection" style="display:none;">
+      <div class="wg-details-card" id="wgDetailsContent"></div>
+    </section>
+
+    <footer>
+      WiggMap — Values are indicative. Use “Suggest a correction” to improve accuracy with local input.
+    </footer>
+  </main>
+
+  <div class="modal-backdrop" id="backdrop" onclick="closeModal(event)">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="Suggest correction">
+      <div class="modal-head">
+        <strong>Suggest a correction</strong>
+        <button class="btn" onclick="hideModal()">Close</button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Tell us what should be updated for <strong id="modal-country">Country</strong>. This will be reviewed before publishing.
+        </p>
+
+        <label>Field</label>
+        <input id="fieldInput" type="text" placeholder="e.g., Electricity / month" />
+
+        <label>Your suggested value</label>
+        <input id="valueInput" type="text" placeholder="e.g., $120" />
+
+        <label>Your email<span class="req">*</span></label>
+        <input id="emailInput" type="email" placeholder="name@email.com" required />
+
+        <label>Notes (optional)</label>
+        <textarea id="notesInput" placeholder="City/region, provider, date, anything helpful…"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="btn" onclick="hideModal()">Cancel</button>
+        <button class="btn primary" onclick="submitCorrection()">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Your existing scripts -->
+  <script src="../data/share.js"></script>
+  <script src="../data/correction-form.js"></script>
+
+  <!-- Data loader -->
+  <script>
+    function getSlug(){
+      return new URLSearchParams(location.search).get("country");
+    }
+
+    async function loadTimezonesBySlug(){
+      try{
+        const res = await fetch("../data/timezones-by-slug.json", { cache: "no-store" });
+        if(!res.ok) return {};
+        return await res.json();
+      }catch(e){ return {}; }
+    }
+
+    function startLocalClock(timeZone){
+      const el = document.getElementById("localTime");
+      if(!el) return;
+      if(!timeZone) return;
+      function tick(){
+        el.textContent = new Intl.DateTimeFormat("en-GB", {
+          timeZone,
+          hour: "2-digit",
+          minute: "2-digit"
+        }).format(new Date());
+      }
+      tick();
+      setInterval(tick, 30_000);
+    }
+
+    function setSeo(seo){
+      const title = seo?.title || "WiggMap — Country";
+      const desc  = seo?.description || "WiggMap country snapshot.";
+      document.title = title;
+
+      const t = document.getElementById("seo-title");
+      if(t) t.textContent = title;
+
+      const d = document.getElementById("seo-desc");
+      if(d) d.setAttribute("content", desc);
+    }
+
+    function setText(id, txt){
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.textContent = txt || "";
+      if(id.endsWith("_hint")){
+        el.style.display = (txt && String(txt).trim()) ? "block" : "none";
+      }
+    }
+
+    function setWigg(wigg){
+      const dot = document.getElementById("wigg-dot");
+      if(!dot) return;
+      dot.classList.remove("green","yellow","red");
+      dot.classList.add(wigg?.level || "yellow");
+      setText("wigg-label", wigg?.label || "WIGG");
+    }
+
+    async function init(){
+      const slug = getSlug();
+      if(!slug){
+        setText("country-name", "Country not specified");
+        setText("country-subtitle", "Use ?country=new-zealand");
+        return;
+      }
+
+      const _lang = localStorage.getItem("wigg_lang") || "en";
+      const _cf = _lang === "fr" ? "../data/countries.fr.json" : _lang === "es" ? "../data/countries.es.json" : "../data/countries.json";
+      let res = await fetch(_cf, { cache: "no-store" });
+      if(!res.ok) res = await fetch("../data/countries.json", { cache: "no-store" });
+      const all = await res.json();
+      const c = all[slug];
+
+      if(!c){
+        setText("country-name", "Country not found");
+        setText("country-subtitle", "Check slug in countries.json");
+        return;
+      }
+
+      setSeo(c.seo);
+      setText("crumb-country", c.name);
+      setText("country-name", c.name);
+      setText("country-subtitle", c.subtitle);
+      setText("modal-country", c.name);
+
+      const img = document.getElementById("hero-img");
+      if(img){
+        img.src = c.hero?.src || "";
+        img.alt = c.hero?.alt || c.name;
+      }
+
+      setWigg(c.wigg);
+
+      const tzBySlug = await loadTimezonesBySlug();
+      const tz = tzBySlug[slug] || null;
+      startLocalClock(tz);
+
+      const fields = c.fields || {};
+      for(const key in fields){
+        setText(key + "_value", fields[key]?.value);
+        setText(key + "_hint", fields[key]?.hint);
+      }
+
+      window.__WIGGMAP_COUNTRY__ = { slug, name: c.name };
+      window.COUNTRY_SLUG = slug;
+    }
+
+    init();
+  </script>
+
+  <!-- ✅ Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- ✅ Go deeper + Details loader + Map in the middle (NO DUPLICATES) -->
+  <script>
+  (function(){
+    const btn = document.getElementById("wgLoadDetailsBtn");
+    const section = document.getElementById("wgDetailsSection");
+    const content = document.getElementById("wgDetailsContent");
+    const note = document.getElementById("wgDetailsNote");
+
+    if(!btn || !section || !content) return;
+
+    let isOpen = false;
+
+    // ===== Leaflet map engine (one map instance) =====
+    let wiggMap = null;
+    let wiggCurrentLayer = null;
+    let wiggMarker = null;
+
+    const wiggMapStyles = {
+      light: {
+        url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+        attr: '© OpenStreetMap, CARTO'
+      },
+      dark: {
+        url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+        attr: '© OpenStreetMap, CARTO'
+      },
+      satellite: {
+        url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+        attr: '© Esri'
+      }
+    };
+
+    const FLAGS = {
+      'AF':'🇦🇫','AL':'🇦🇱','DZ':'🇩🇿','AD':'🇦🇩','AO':'🇦🇴','AR':'🇦🇷','AM':'🇦🇲','AU':'🇦🇺',
+      'AT':'🇦🇹','AZ':'🇦🇿','BS':'🇧🇸','BH':'🇧🇭','BD':'🇧🇩','BY':'🇧🇾','BE':'🇧🇪','BZ':'🇧🇿',
+      'BJ':'🇧🇯','BT':'🇧🇹','BO':'🇧🇴','BA':'🇧🇦','BW':'🇧🇼','BR':'🇧🇷','BN':'🇧🇳','BG':'🇧🇬',
+      'BF':'🇧🇫','KH':'🇰🇭','CM':'🇨🇲','CA':'🇨🇦','CL':'🇨🇱','CN':'🇨🇳','CO':'🇨🇴','CR':'🇨🇷',
+      'CI':'🇨🇮','HR':'🇭🇷','CU':'🇨🇺','CY':'🇨🇾','CZ':'🇨🇿','CD':'🇨🇩','DK':'🇩🇰','DO':'🇩🇴',
+      'EC':'🇪🇨','EG':'🇪🇬','SV':'🇸🇻','EE':'🇪🇪','ET':'🇪🇹','FI':'🇫🇮','FR':'🇫🇷','GA':'🇬🇦',
+      'GE':'🇬🇪','DE':'🇩🇪','GH':'🇬🇭','GR':'🇬🇷','GT':'🇬🇹','GF':'🇬🇫','HT':'🇭🇹','HN':'🇭🇳',
+      'HU':'🇭🇺','IS':'🇮🇸','IN':'🇮🇳','ID':'🇮🇩','IR':'🇮🇷','IQ':'🇮🇶','IE':'🇮🇪','IT':'🇮🇹',
+      'JM':'🇯🇲','JP':'🇯🇵','JO':'🇯🇴','KZ':'🇰🇿','KE':'🇰🇪','XK':'🇽🇰','KW':'🇰🇼','KG':'🇰🇬',
+      'LA':'🇱🇦','LV':'🇱🇻','LB':'🇱🇧','LR':'🇱🇷','LY':'🇱🇾','LI':'🇱🇮','LT':'🇱🇹','LU':'🇱🇺',
+      'MW':'🇲🇼','MY':'🇲🇾','ML':'🇲🇱','MT':'🇲🇹','MR':'🇲🇷','MX':'🇲🇽','MD':'🇲🇩','MC':'🇲🇨',
+      'MN':'🇲🇳','ME':'🇲🇪','MA':'🇲🇦','MZ':'🇲🇿','MM':'🇲🇲','NA':'🇳🇦','NP':'🇳🇵','NL':'🇳🇱',
+      'NZ':'🇳🇿','NI':'🇳🇮','NG':'🇳🇬','MK':'🇲🇰','NO':'🇳🇴','OM':'🇴🇲','PK':'🇵🇰','PA':'🇵🇦',
+      'PY':'🇵🇾','PE':'🇵🇪','PH':'🇵🇭','PL':'🇵🇱','PT':'🇵🇹','QA':'🇶🇦','CG':'🇨🇬','RO':'🇷🇴',
+      'RW':'🇷🇼','SM':'🇸🇲','SA':'🇸🇦','SN':'🇸🇳','RS':'🇷🇸','SL':'🇸🇱','SG':'🇸🇬','SK':'🇸🇰',
+      'SI':'🇸🇮','ZA':'🇿🇦','KR':'🇰🇷','ES':'🇪🇸','LK':'🇱🇰','SR':'🇸🇷','SE':'🇸🇪','CH':'🇨🇭',
+      'SY':'🇸🇾','TW':'🇹🇼','TJ':'🇹🇯','TZ':'🇹🇿','TH':'🇹🇭','TL':'🇹🇱','TG':'🇹🇬','TT':'🇹🇹',
+      'TN':'🇹🇳','TM':'🇹🇲','UG':'🇺🇬','UA':'🇺🇦','AE':'🇦🇪','GB':'🇬🇧','US':'🇺🇸','UY':'🇺🇾',
+      'UZ':'🇺🇿','VA':'🇻🇦','VE':'🇻🇪','VN':'🇻🇳','YE':'🇾🇪','ZM':'🇿🇲','ZW':'🇿🇼',
+      'SO':'🇸🇴','CF':'🇨🇫','NE':'🇳🇪','TD':'🇹🇩','PS':'🇵🇸','TR':'🇹🇷','SD':'🇸🇩'
+    };
+
+    function esc(s){
+      return String(s ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    function formatName(slug){
+      return String(slug || "").split('-').map(w => w ? (w.charAt(0).toUpperCase() + w.slice(1)) : w).join(' ');
+    }
+
+    async function loadGeoData(){
+      try{
+        const r = await fetch("../data/geo-by-slug.json", { cache: "no-store" });
+        if(r.ok) return await r.json();
+      }catch(e){}
+      return null;
+    }
+
+    async function getCoordinates(iso2){
+      try{
+        const url = `https://nominatim.openstreetmap.org/search?country=${encodeURIComponent(iso2)}&format=json&limit=1`;
+        const r = await fetch(url);
+        const data = await r.json();
+        if(data && data[0]) return { lat:+data[0].lat, lon:+data[0].lon };
+      }catch(e){}
+      return null;
+    }
+
+    async function getCapital(iso2){
+      try{
+        const url = `https://nominatim.openstreetmap.org/search?country=${encodeURIComponent(iso2)}&featuretype=city&format=json&limit=1`;
+        const r = await fetch(url);
+        const data = await r.json();
+        if(data && data[0]){
+          return {
+            name: String(data[0].display_name || "").split(",")[0] || "Capital",
+            lat:+data[0].lat,
+            lon:+data[0].lon
+          };
+        }
+      }catch(e){}
+      return null;
+    }
+
+    function initMap(lat, lon){
+      const el = document.getElementById("wigg-country-map");
+      if(!el) return;
+
+      if(wiggMap){
+        try{ wiggMap.remove(); }catch(e){}
+        wiggMap = null;
+      }
+
+      wiggMap = L.map("wigg-country-map", {
+        center: [lat, lon],
+        zoom: 6,
+        zoomControl: true,
+        scrollWheelZoom: true
+      });
+
+      wiggCurrentLayer = L.tileLayer(wiggMapStyles.light.url, {
+        attribution: wiggMapStyles.light.attr,
+        maxZoom: 19
+      }).addTo(wiggMap);
+    }
+
+    window.wiggChangeMapStyle = function(style, button){
+      if(!wiggMap || !wiggMapStyles[style]) return;
+      document.querySelectorAll(".wigg-style-btn").forEach(b => b.classList.remove("active"));
+      if(button) button.classList.add("active");
+
+      try{ wiggMap.removeLayer(wiggCurrentLayer); }catch(e){}
+      wiggCurrentLayer = L.tileLayer(wiggMapStyles[style].url, {
+        attribution: wiggMapStyles[style].attr,
+        maxZoom: 19
+      }).addTo(wiggMap);
+    };
+
+    async function loadCountryMapIntoDetails(){
+      const loading = document.getElementById("wigg-map-loading");
+      const slug = (window.COUNTRY_SLUG || "").toLowerCase();
+      if(!slug){ if(loading) loading.classList.add("hidden"); return; }
+
+      const geo = await loadGeoData();
+      const row = geo?.[slug];
+      if(!row?.iso2){ if(loading) loading.classList.add("hidden"); return; }
+
+      const iso2 = String(row.iso2).toUpperCase();
+      const flag = FLAGS[iso2] || "🌍";
+
+      const titleEl = document.getElementById("wigg-map-country-name");
+      const flagEl  = document.getElementById("wigg-map-flag");
+      if(titleEl) titleEl.textContent = formatName(slug);
+      if(flagEl) flagEl.textContent = flag;
+
+      const coords = await getCoordinates(iso2);
+      if(!coords){ if(loading) loading.classList.add("hidden"); return; }
+
+      initMap(coords.lat, coords.lon);
+
+      const capital = await getCapital(iso2);
+      if(capital && wiggMap){
+        const icon = L.divIcon({
+          className: 'custom-marker',
+          html: `
+            <div style="
+              background: linear-gradient(135deg, #667eea, #764ba2);
+              width: 32px; height: 32px;
+              border-radius: 50% 50% 50% 0;
+              transform: rotate(-45deg);
+              border: 3px solid white;
+              box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            ">
+              <span style="transform: rotate(45deg); font-size: 16px;">📍</span>
+            </div>
+          `,
+          iconSize: [32, 32],
+          iconAnchor: [16, 32]
+        });
+
+        try{
+          wiggMarker = L.marker([capital.lat, capital.lon], { icon })
+            .bindPopup(`
+              <div style="padding:8px;">
+                <strong style="font-size:15px;">🏛️ ${esc(capital.name)}</strong><br>
+                <span style="color:#666;font-size:12px;">Capital</span>
+              </div>
+            `)
+            .addTo(wiggMap);
+        }catch(e){}
+      }
+
+      if(loading) loading.classList.add("hidden");
+      setTimeout(() => { try{ wiggMap.invalidateSize(); }catch(e){} }, 60);
+    }
+
+    // ===== Details renderer (ARTICLE + Things-to-know + Right sidebar) =====
+    function parseScore(text){
+      const m = String(text || "").match(/Expat\s*Score\s*[—-]\s*([0-9]+(?:\.[0-9])?)\s*\/\s*10/i);
+      return m ? m[1] : null;
+    }
+
+    function mapHtml(){
+      const countryName = window.__WIGGMAP_COUNTRY__?.name || "Country";
+      return `
+        <div class="wigg-map-section" id="wiggMapInDetails">
+          <div class="wigg-map-card">
+            <div class="wigg-map-header">
+              <div class="wigg-map-title">
+                <span class="flag" id="wigg-map-flag">🌍</span>
+                <span id="wigg-map-country-name">${esc(countryName)}</span>
+              </div>
+              <div class="wigg-map-styles">
+                <button class="wigg-style-btn active" onclick="wiggChangeMapStyle('light', this)">Clair</button>
+                <button class="wigg-style-btn" onclick="wiggChangeMapStyle('dark', this)">Sombre</button>
+                <button class="wigg-style-btn" onclick="wiggChangeMapStyle('satellite', this)">Satellite</button>
+              </div>
+            </div>
+
+            <div class="wigg-map-container">
+              <div class="wigg-map-loading" id="wigg-map-loading">
+                <div class="wigg-spinner"></div>
+                <div style="margin-top:10px;font-weight:700;font-size:13px;color:var(--muted);">
+                  Chargement de la carte...
+                </div>
+              </div>
+              <div id="wigg-country-map"></div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderArticleBodyWithMap(articleText){
+      const raw = String(articleText || "").replace(/\r\n/g, "\n").trim();
+      const body = raw.replace(/^\s*⭐?\s*Expat\s*Score\s*[—-].*$/gmi, "").trim();
+
+      const parts = body
+        .split(/\n{2,}/g)
+        .map(p => p.trim())
+        .filter(Boolean);
+
+      const hasMarker = parts.includes("[[MAP]]");
+      let out = "";
+      let injected = false;
+
+      for(let i=0;i<parts.length;i++){
+        const p = parts[i];
+
+        if(p === "[[MAP]]"){
+          if(!injected){
+            out += mapHtml();
+            injected = true;
+          }
+          continue;
+        }
+
+        out += `<p>${esc(p)}</p>`;
+
+        // fallback injection after 2nd paragraph ONLY if marker missing
+        if(!hasMarker && !injected && i === 1){
+          out += mapHtml();
+          injected = true;
+        }
+      }
+
+      if(!hasMarker && !injected){
+        out += mapHtml();
+      }
+
+      return out;
+    }
+
+    function renderThingsToKnow(data){
+      const t = data?.things_to_know || data?.thingsToKnow || null;
+      if(!t) return "";
+
+      const cards = Array.isArray(t.cards) ? t.cards : (Array.isArray(t.items) ? t.items : []);
+      // Enforce "at least" (we still render what exists)
+      const persona = t.personality || null;
+
+      let personaHtml = "";
+      if(persona?.name){
+        personaHtml = `
+          <div class="wg-side-card wg-persona-card">
+            <h3 class="wg-side-title">🧠 Personality</h3>
+            <div style="font-weight:900;color:rgba(0,0,0,.88);font-size:14px;">${esc(persona.name)}</div>
+            ${persona.era ? `<div style="margin-top:6px;color:var(--muted);font-weight:800;font-size:12.5px;">${esc(persona.era)}</div>` : ""}
+            ${persona.story ? `<div class="wg-persona-story" style="margin-top:10px;color:rgba(0,0,0,.75);font-weight:700;font-size:13px;line-height:1.5;">${esc(persona.story)}</div>` : ""}
+          </div>
+        `;
+      }
+
+      let factsHtml = "";
+      if(cards.length){
+        factsHtml = `
+          <div class="wg-facts-grid">
+            ${cards.map(c => `
+              <article class="wg-fact-card">
+                <span class="wg-fact-bar" aria-hidden="true"></span>
+                <h3 class="wg-fact-title">${esc(c.title || "")}</h3>
+                <p class="wg-fact-text">${esc(c.text || "")}</p>
+              </article>
+            `).join("")}
+          </div>
+        `;
+      }
+
+      // A small note if missing minimum
+      const warn = (cards.length < 4)
+        ? `<p style="margin-top:10px;color:rgba(0,0,0,.55);font-weight:800;font-size:12.5px;">
+             Tip: add at least 4 facts cards in JSON (currently ${cards.length}).
+           </p>`
+        : "";
+
+      return { personaHtml, factsHtml, warn };
+    }
+
+    function renderRightSnapshot(detailsData){
+      // Expected in details json (recommended):
+      // detailsData.snapshot = { population, languages, capital, driving_side }
+      const s = detailsData?.snapshot || detailsData?.quick || detailsData?.sidebar || {};
+      const population = s.population || "—";
+      const languages  = s.languages  || "—";
+      const capital    = s.capital    || "—";
+      const driving    = s.driving_side || s.drivingSide || "—";
+
+      // ✅ Currency info
+      const curr = detailsData?.currency || {};
+      const currencyName = curr.name || "—";
+      const exchangeRate = curr.rate || "—";
+      const currencyNote = curr.note || "";
+
+      // ✅ Crypto info
+      const crypto = detailsData?.crypto || {};
+      const cryptoFriendly = crypto.friendly || "—";
+      const cryptoNote = crypto.note || "";
+
+      return `
+        <div class="wg-side-card wg-snapshot-card">
+          <h3 class="wg-side-title">📌 Quick snapshot</h3>
+          <div class="wg-kv"><span>Capital</span><b>${esc(capital)}</b></div>
+          <div class="wg-kv"><span>Population</span><b>${esc(population)}</b></div>
+          <div class="wg-kv"><span>Languages</span><b>${esc(languages)}</b></div>
+          <div class="wg-kv"><span>Currency</span><b>${esc(currencyName)}</b></div>
+          ${exchangeRate !== "—" ? `<div class="wg-kv wg-kv-indent"><span>Exchange rate</span><b>${esc(exchangeRate)}</b></div>` : ""}
+          ${currencyNote ? `<div class="wg-kv-note">${esc(currencyNote)}</div>` : ""}
+          <div class="wg-kv"><span>Crypto friendly</span><b>${esc(cryptoFriendly)}</b></div>
+          ${cryptoNote ? `<div class="wg-kv-note">${esc(cryptoNote)}</div>` : ""}
+          <div class="wg-kv"><span>Driving side</span><b>${esc(driving)}</b></div>
+        </div>
+      `;
+    }
+
+    function renderDetails(data){
+      const countryName = window.__WIGGMAP_COUNTRY__?.name || "this country";
+      const article = (data && typeof data.article === "string") ? data.article : "";
+      const score = parseScore(article);
+
+      const badge = (score != null)
+        ? `<span class="wg-score"><span class="star">⭐</span> Expat Score: ${esc(score)} / 10</span>`
+        : "";
+
+      // ✅ Things to know section (rendered BEFORE article)
+      const thingsToKnowHtml = (() => {
+        const r = renderThingsToKnow(data?.goDeeper || data);
+        if(!r || (!r.factsHtml && !r.warn)) return "";
+        return `
+          <div class="wg-things-section">
+            <div class="wg-article-head">
+              <h2>Things to know</h2>
+              <span class="wg-badge">4–6+ facts</span>
+            </div>
+            ${r.factsHtml || ""}
+            ${r.warn || ""}
+          </div>
+        `;
+      })();
+
+      const articleHtml = `
+        <div class="wg-article">
+          <div class="wg-article-head">
+            <h2>Living in ${esc(countryName)}</h2>
+            ${badge}
+          </div>
+          ${renderArticleBodyWithMap(article)}
+        </div>
+      `;
+
+      // Right side: Snapshot + Personality card
+      const t = renderThingsToKnow(data?.goDeeper || data);
+      const personalityCard = t?.personaHtml || "";
+      const snapshotCard = renderRightSnapshot(data);
+
+      return `
+        <div class="wg-details-grid">
+          <div class="wg-article-col">
+            ${thingsToKnowHtml}
+            ${articleHtml}
+          </div>
+          <aside class="wg-side">
+            ${snapshotCard}
+            ${personalityCard}
+          </aside>
+        </div>
+      `;
+    }
+
+    function cleanupDuplicateMaps(){
+
+      const wraps = content.querySelectorAll("#wiggMapInDetails");
+      if(wraps.length > 1){
+        for(let i=1;i<wraps.length;i++) wraps[i].remove();
+      }
+    }
+
+    // ===== Toggle + load =====
+    async function fetchFirstOk(urls){
+      for(const url of urls){
+        try{
+          const res = await fetch(url, { cache: "no-store" });
+          if(res.ok) return res;
+        }catch(e){}
+      }
+      return null;
+    }
+
+    async function openDetails(){
+      const slug = (window.COUNTRY_SLUG || "").trim().toLowerCase();
+      if(!slug){
+        note.style.display = "block";
+        note.textContent = "Country slug missing.";
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = "Loading…";
+      note.style.display = "none";
+      note.textContent = "";
+
+      const _dlang = localStorage.getItem("wigg_lang") || "en";
+      const _df = _dlang === "fr" ? "details-fr" : _dlang === "es" ? "details-es" : "details";
+      const urlsToTry = [
+        `/data/${_df}/${slug}.json`,
+        `../data/${_df}/${slug}.json`,
+        `/data/details/${slug}.json`,
+        `../data/details/${slug}.json`
+      ];
+
+      const res = await fetchFirstOk(urlsToTry);
+      if(!res){
+        note.style.display = "block";
+        note.textContent = "Details coming soon for this country.";
+        btn.disabled = false;
+        btn.textContent = "Go deeper ↓";
+        return;
+      }
+
+      let data = null;
+      try{
+        data = await res.json();
+      }catch(e){
+        note.style.display = "block";
+        note.textContent = "Details JSON error.";
+        btn.disabled = false;
+        btn.textContent = "Go deeper ↓";
+        return;
+      }
+
+      // ✅ article format
+      if(data && typeof data.article === "string" && data.article.trim()){
+        content.innerHTML = renderDetails(data);
+      }else{
+        // fallback message if no article
+        content.innerHTML = `<div class="wg-article"><p>${esc("Details file exists but has no article yet.")}</p></div>`;
+      }
+
+      cleanupDuplicateMaps();
+
+      section.style.display = "block";
+      isOpen = true;
+      btn.setAttribute("aria-expanded","true");
+      btn.textContent = "Close ↑";
+      btn.disabled = false;
+
+      // If map exists in the injected content, hydrate it
+      if(content.querySelector("#wigg-country-map")){
+        await loadCountryMapIntoDetails();
+      }
+    }
+
+    function closeDetails(){
+      section.style.display = "none";
+      isOpen = false;
+      btn.setAttribute("aria-expanded","false");
+      btn.textContent = "Go deeper ↓";
+      note.style.display = "none";
+      note.textContent = "";
+
+      // Clean map instance (prevents glitches on reopen)
+      if(wiggMap){
+        try{ wiggMap.remove(); }catch(e){}
+        wiggMap = null;
+        wiggCurrentLayer = null;
+        wiggMarker = null;
+      }
+      content.innerHTML = "";
+    }
+
+    btn.addEventListener("click", async () => {
+      if(isOpen){
+        closeDetails();
+      }else{
+        await openDetails();
+      }
+    });
+  })();
+
+  // Bouton Compare
+  document.getElementById('btnCompare').addEventListener('click', function(e) {
+    e.preventDefault();
+    const slug = window.COUNTRY_SLUG || '';
+    if(slug) {
+      window.location.href = `../compare.html?country=${slug}`;
+    }
+  });
+  </script>
+
+<script src="../data/footer.js"></script>
+</body>
+
+</html>
