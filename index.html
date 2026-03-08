@@ -22,7 +22,13 @@
 
     html, body {
       height: 100%;
-      background: #b8d8e8;
+      /*
+        Fond écho de l'image : très légère résonance chromatique
+        ciel (haut) → neutre (milieu) → herbe (bas).
+        Tellement subtil qu'il se lit comme "blanc cassé",
+        mais l'image s'y pose naturellement.
+      */
+      background: #ffffff;
       overflow: hidden;
       font-family: "Poppins", system-ui, sans-serif;
     }
@@ -38,20 +44,87 @@
       overflow: hidden;
     }
 
+    /* ── Hero card wrapper ────────────────────────────────── */
+    #heroCard {
+      position: relative;
+      z-index: 1;
+      max-width: 100%;
+      max-height: 100dvh;
+      border-radius: 16px;
+      overflow: hidden;
+      /*
+        6 couches d'ombre :
+        1. contact  — ancrage au sol, très proche
+        2. proche   — profondeur immédiate
+        3. moyen    — élévation perceptible
+        4. large    — halo ambiant
+        5. très large — nuage de lumière diffuse
+        6. XL       — présence environnementale
+      */
+      box-shadow:
+        0 1px 4px   rgba(0,0,0,.08),
+        0 4px 12px  rgba(0,0,0,.09),
+        0 14px 36px rgba(0,0,0,.10),
+        0 36px 90px rgba(0,0,0,.08),
+        0 80px 180px rgba(0,0,0,.06),
+        0 130px 300px rgba(0,0,0,.04);
+    }
+
+    /* Reflet diagonal très discret — surface en verre dépoli */
+    #heroCard::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(158deg,
+        rgba(255,255,255,.11) 0%,
+        rgba(255,255,255,.03) 22%,
+        transparent 45%
+      );
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Liseré intérieur — bord en verre, presque imperceptible */
+    #heroCard::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.68);
+      z-index: 2;
+      pointer-events: none;
+    }
+
     #bgImg {
       display: block;
       max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
+      max-height: 100dvh;
+      width: auto;
+      height: auto;
       user-select: none;
       pointer-events: none;
       -webkit-user-drag: none;
+      vertical-align: bottom;
+    }
+
+    /* Mobile : image plein écran, traitement carte désactivé */
+    @media (max-width: 600px) {
+      html, body { background: #ffffff; }
+      #heroCard {
+        border-radius: 0;
+        box-shadow: none;
+        max-height: 100dvh;
+      }
+      #heroCard::before,
+      #heroCard::after { display: none; }
     }
 
     /* ── Overlay ──────────────────────────────────────────── */
     #overlay {
       position: absolute;
       pointer-events: none;
+      z-index: 2;
     }
 
     /* ──────────────────────────────────────────────────────
@@ -398,7 +471,9 @@
 
   <!-- ── Scene ─────────────────────────────────────────────── -->
   <div class="scene">
-    <img id="bgImg" src="assets/accueilv2.png" alt="WiggMap — Where is the grass greener?">
+    <div id="heroCard">
+      <img id="bgImg" src="assets/accueilv2.png" alt="WiggMap — Where is the grass greener?">
+    </div>
 
     <div id="overlay">
 
