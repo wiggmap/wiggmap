@@ -1,7 +1,8 @@
 // data/header.js
 (function () {
-  const isCountryPage = document.location.pathname.includes("/countries/");
-  const prefix = isCountryPage ? "../" : "";
+  const isSubPage = document.location.pathname.includes("/countries/")
+                 || document.location.pathname.includes("/chronicles/");
+  const prefix = isSubPage ? "../" : "";
   const homeLink = prefix + "index.html";
   const globeLink = prefix + "globe.html";
   const aboutLink = prefix + "about.html";
@@ -165,7 +166,7 @@
       <div class="wmh-inner">
         <div class="wmh-left">
           <a class="wmh-brand" href="${homeLink}" aria-label="WiggMap home">
-            <img src="${prefix}assets/logo.png" alt="WiggMap logo">
+            <img src="/assets/logo.png" alt="WiggMap logo">
           </a>
         </div>
         <div class="wmh-right">
@@ -202,14 +203,14 @@
           <nav class="wmh-nav">
             <a class="wmh-btn" href="${globeLink}" target="_blank" rel="noopener noreferrer">🌍 Globe</a>
             <a class="wmh-btn" href="#" id="btnRandom">🎲 Random</a>
-            <a class="wmh-btn wmh-btn--game" href="${prefix}ggg/wigggame.html"><img src="${prefix}assets/wigggame2.png" alt="WiggGame" style="height:22px;width:auto;display:block;"></a>
+            <a class="wmh-btn wmh-btn--game" href="${prefix}ggg/wigggame.html"><img src="/assets/wigggame2.png" alt="WiggGame" style="height:22px;width:auto;display:block;"></a>
           </nav>
         </div>
 
         <nav class="wmh-nav-mobile">
           <a class="wmh-btn" href="${globeLink}" target="_blank" rel="noopener noreferrer">🌍 Globe</a>
           <a class="wmh-btn" href="#" id="btnRandomMobile">🎲 Random</a>
-          <a class="wmh-btn wmh-btn--game" href="${prefix}ggg/wigggame.html"><img src="${prefix}assets/wigggame2.png" alt="WiggGame" style="height:20px;width:auto;display:block;"></a>
+          <a class="wmh-btn wmh-btn--game" href="${prefix}ggg/wigggame.html"><img src="/assets/wigggame2.png" alt="WiggGame" style="height:20px;width:auto;display:block;"></a>
         </nav>
       </div>
     </header>
@@ -246,11 +247,40 @@
   initDropdown("wmhLangTrigger", "wmhLangDropdown");
   initDropdown("wmhSocialTrigger", "wmhSocialDropdown");
 
+  // Chronicle URL mapping — for language switching on article pages
+  const CHRONICLE_LANGS = {
+    "/chronicles/chronicle-2056-best-countries-30-years-en.html": { en: "/chronicles/chronicle-2056-best-countries-30-years-en.html", fr: "/chronicles/chronicle-2056-ou-vivra-t-on-le-mieux-fr.html",       es: "/chronicles/chronicle-2056-mejores-paises-30-anos-es.html" },
+    "/chronicles/chronicle-2056-ou-vivra-t-on-le-mieux-fr.html":  { en: "/chronicles/chronicle-2056-best-countries-30-years-en.html", fr: "/chronicles/chronicle-2056-ou-vivra-t-on-le-mieux-fr.html",       es: "/chronicles/chronicle-2056-mejores-paises-30-anos-es.html" },
+    "/chronicles/chronicle-2056-mejores-paises-30-anos-es.html":  { en: "/chronicles/chronicle-2056-best-countries-30-years-en.html", fr: "/chronicles/chronicle-2056-ou-vivra-t-on-le-mieux-fr.html",       es: "/chronicles/chronicle-2056-mejores-paises-30-anos-es.html" },
+
+    "/chronicles/digital-nomads-2026-en.html": { en: "/chronicles/digital-nomads-2026-en.html", fr: "/chronicles/digital-nomads-2026-fr.html", es: "/chronicles/digital-nomads-2026-es.html" },
+    "/chronicles/digital-nomads-2026-fr.html": { en: "/chronicles/digital-nomads-2026-en.html", fr: "/chronicles/digital-nomads-2026-fr.html", es: "/chronicles/digital-nomads-2026-es.html" },
+    "/chronicles/digital-nomads-2026-es.html": { en: "/chronicles/digital-nomads-2026-en.html", fr: "/chronicles/digital-nomads-2026-fr.html", es: "/chronicles/digital-nomads-2026-es.html" },
+
+    "/chronicles/expats-nomads-crypto-2026-en.html":      { en: "/chronicles/expats-nomads-crypto-2026-en.html",      fr: "/chronicles/expatries-nomades-crypto-2026-fr.html",    es: "/chronicles/expatriados-nomadas-crypto-2026-es.html" },
+    "/chronicles/expatries-nomades-crypto-2026-fr.html":  { en: "/chronicles/expats-nomads-crypto-2026-en.html",      fr: "/chronicles/expatries-nomades-crypto-2026-fr.html",    es: "/chronicles/expatriados-nomadas-crypto-2026-es.html" },
+    "/chronicles/expatriados-nomadas-crypto-2026-es.html":{ en: "/chronicles/expats-nomads-crypto-2026-en.html",      fr: "/chronicles/expatries-nomades-crypto-2026-fr.html",    es: "/chronicles/expatriados-nomadas-crypto-2026-es.html" },
+
+    "/chronicles/chronicle-ameriques-partie1-en.html": { en: "/chronicles/chronicle-ameriques-partie1-en.html", fr: "/chronicles/chronicle-ameriques-partie1-fr.html", es: "/chronicles/chronicle-ameriques-partie1-es.html" },
+    "/chronicles/chronicle-ameriques-partie1-fr.html": { en: "/chronicles/chronicle-ameriques-partie1-en.html", fr: "/chronicles/chronicle-ameriques-partie1-fr.html", es: "/chronicles/chronicle-ameriques-partie1-es.html" },
+    "/chronicles/chronicle-ameriques-partie1-es.html": { en: "/chronicles/chronicle-ameriques-partie1-en.html", fr: "/chronicles/chronicle-ameriques-partie1-fr.html", es: "/chronicles/chronicle-ameriques-partie1-es.html" },
+
+    "/chronicles/chronicle-raise-children-2026-en.html": { en: "/chronicles/chronicle-raise-children-2026-en.html", fr: "/chronicles/chronicle-elever-enfants-2026-fr.html", es: "/chronicles/chronicle-criar-hijos-2026-es.html" },
+    "/chronicles/chronicle-elever-enfants-2026-fr.html": { en: "/chronicles/chronicle-raise-children-2026-en.html", fr: "/chronicles/chronicle-elever-enfants-2026-fr.html", es: "/chronicles/chronicle-criar-hijos-2026-es.html" },
+    "/chronicles/chronicle-criar-hijos-2026-es.html":    { en: "/chronicles/chronicle-raise-children-2026-en.html", fr: "/chronicles/chronicle-elever-enfants-2026-fr.html", es: "/chronicles/chronicle-criar-hijos-2026-es.html" },
+  };
+
   // Lang selection
   document.querySelectorAll("[data-lang]").forEach(item => {
     item.addEventListener("click", () => {
-      localStorage.setItem("wigg_lang", item.dataset.lang);
-      location.reload();
+      const newLang = item.dataset.lang;
+      localStorage.setItem("wigg_lang", newLang);
+      const mapping = CHRONICLE_LANGS[document.location.pathname];
+      if (mapping && mapping[newLang]) {
+        window.location.href = mapping[newLang];
+      } else {
+        location.reload();
+      }
     });
   });
 

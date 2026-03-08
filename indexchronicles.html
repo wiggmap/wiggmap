@@ -26,442 +26,566 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    /* ── Reset & base ───────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; }
+    /* ── Tokens ─────────────────────────────────────────────── */
+    :root {
+      --bg:        #f7f9f7;
+      --bg2:       #eef2ee;
+      --bg3:       #ffffff;
+      --green:     #22c55e;
+      --green-dim: rgba(34,197,94,.12);
+      --green-glow:rgba(34,197,94,.08);
+      --ink:       #111c14;
+      --muted:     #6b7a6c;
+      --border:    rgba(0,0,0,.08);
+      --border2:   rgba(0,0,0,.14);
+
+      --theme-visa:   #0d9e6e;
+      --theme-nomad:  #0891b2;
+      --theme-future: #7c3aed;
+      --theme-family: #ea6c0a;
+    }
+
+    /* ── Reset ──────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
     body {
-      margin: 0;
-      font-family: "Poppins", system-ui, -apple-system, Arial, sans-serif;
-      background:
-        radial-gradient(ellipse 1600px 700px at 50% -80px, rgba(34,197,94,.13), transparent 58%),
-        #0d1510;
-      color: rgba(255,255,255,.88);
+      font-family: "Syne", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
     a { color: inherit; text-decoration: none; }
 
     /* ── Page wrapper ───────────────────────────────────────── */
     .cw {
-      max-width: 1200px;
+      max-width: 1240px;
       margin: 0 auto;
-      padding: 22px 16px 64px;
+      padding: 28px 24px 80px;
     }
-    @media (max-width: 520px) { .cw { padding: 14px 12px 48px; } }
+    @media (max-width: 520px) { .cw { padding: 16px 14px 56px; } }
 
-    /* ── Hero ───────────────────────────────────────────────── */
-    .cw-hero {
-      border-radius: 20px;
-      padding: 38px 34px 30px;
-      background:
-        radial-gradient(900px 440px at 8% 10%, rgba(22,163,74,.18), transparent 55%),
-        radial-gradient(600px 360px at 90% 20%, rgba(16,185,129,.10), transparent 60%),
-        rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.10);
+    /* ═══════════════════════════════════════════════════════════
+       MASTHEAD
+    ═══════════════════════════════════════════════════════════ */
+    .masthead {
+      position: relative;
+      padding: 52px 0 40px;
+      overflow: hidden;
     }
-    @media (max-width: 600px) { .cw-hero { padding: 26px 20px 22px; } }
 
-    .cw-hero-eyebrow {
-      margin: 0 0 12px;
-      font-weight: 700;
+    /* Vertical rule on left */
+    .masthead::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--green) 0%, transparent 100%);
+      border-radius: 3px;
+    }
+
+    .masthead-inner {
+      padding-left: 28px;
+    }
+
+    .masthead-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       font-size: 11px;
-      letter-spacing: .18em;
+      font-weight: 700;
+      letter-spacing: .22em;
       text-transform: uppercase;
-      color: #4ade80;
+      color: var(--green);
+      margin-bottom: 16px;
+    }
+    .masthead-label span {
+      display: inline-block;
+      width: 18px;
+      height: 1px;
+      background: var(--green);
+      opacity: .7;
     }
 
-    .cw-hero h1 {
-      margin: 0 0 10px;
-      font-weight: 800;
-      font-size: 36px;
-      letter-spacing: -.035em;
-      line-height: 1.06;
-      color: #fff;
+    .masthead h1 {
+      font-family: "Playfair Display", Georgia, serif;
+      font-weight: 900;
+      font-size: clamp(44px, 7vw, 82px);
+      letter-spacing: -.02em;
+      line-height: 1.0;
+      color: var(--ink);
+      margin-bottom: 18px;
     }
-    @media (max-width: 520px) { .cw-hero h1 { font-size: 26px; } }
 
-    .cw-hero-sub {
-      margin: 0 0 24px;
-      font-weight: 500;
+    .masthead h1 em {
+      font-style: italic;
+      color: var(--green);
+    }
+
+    .masthead-sub {
       font-size: 14px;
-      line-height: 1.68;
-      color: rgba(255,255,255,.52);
-      max-width: 60ch;
+      font-weight: 500;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 56ch;
+      margin-bottom: 28px;
     }
-    @media (max-width: 520px) { .cw-hero-sub { font-size: 13px; margin-bottom: 18px; } }
 
-    .cw-search {
-      display: flex;
-      max-width: 460px;
+    /* Search ─── */
+    .masthead-search {
+      position: relative;
+      max-width: 380px;
     }
-    .cw-search input {
+    .masthead-search svg {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+      flex-shrink: 0;
+    }
+    .masthead-search input {
       width: 100%;
-      height: 44px;
-      padding: 0 16px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.08);
-      color: rgba(255,255,255,.90);
-      font-family: inherit;
+      height: 46px;
+      padding: 0 16px 0 44px;
+      border-radius: 6px;
+      border: 1px solid var(--border2);
+      background: #fff;
+      color: var(--ink);
+      font-family: "Syne", sans-serif;
       font-weight: 600;
       font-size: 14px;
       outline: none;
-      transition: background .16s, border-color .16s, box-shadow .16s;
+      transition: border-color .16s, box-shadow .16s;
+      box-shadow: 0 1px 4px rgba(0,0,0,.06);
     }
-    .cw-search input::placeholder { color: rgba(255,255,255,.32); }
-    .cw-search input:focus {
-      background: rgba(255,255,255,.12);
-      border-color: rgba(34,197,94,.50);
-      box-shadow: 0 0 0 3px rgba(34,197,94,.12);
+    .masthead-search input::placeholder { color: rgba(0,0,0,.28); }
+    .masthead-search input:focus {
+      border-color: rgba(34,197,94,.55);
+      box-shadow: 0 0 0 3px rgba(34,197,94,.10);
     }
-    @media (max-width: 520px) { .cw-search { max-width: 100%; } }
+    @media (max-width: 520px) { .masthead-search { max-width: 100%; } }
 
-    /* ── Featured card ──────────────────────────────────────── */
-    .cw-featured {
-      margin-top: 14px;
+    /* Big decorative letter ─── */
+    .masthead-deco {
+      position: absolute;
+      right: -10px;
+      top: 10px;
+      font-family: "Playfair Display", Georgia, serif;
+      font-weight: 900;
+      font-size: clamp(120px, 18vw, 220px);
+      letter-spacing: -.04em;
+      line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(34,197,94,.15);
+      user-select: none;
+      pointer-events: none;
     }
+    @media (max-width: 700px) { .masthead-deco { display: none; } }
 
-    .cw-feat {
-      border-radius: 18px;
-      border: 1px solid rgba(34,197,94,.24);
-      background:
-        radial-gradient(900px 500px at -5% 50%, rgba(34,197,94,.09), transparent 55%),
-        rgba(255,255,255,.06);
-      box-shadow: 0 0 0 1px rgba(34,197,94,.06) inset;
-      padding: 26px 26px 22px;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 28px;
-      align-items: end;
-    }
-    @media (max-width: 700px) {
-      .cw-feat {
-        grid-template-columns: 1fr;
-        gap: 20px;
-        padding: 22px 18px 18px;
-      }
-    }
-
-    .cw-feat-meta {
+    /* Thin horizontal rule ─── */
+    .masthead-rule {
       display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
       align-items: center;
-      margin-bottom: 14px;
+      gap: 12px;
+      margin-top: 36px;
+    }
+    .masthead-rule::before,
+    .masthead-rule::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .masthead-rule-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--green);
+      opacity: .6;
     }
 
-    .cw-feat h2 {
-      margin: 0 0 12px;
-      font-weight: 800;
-      font-size: 21px;
-      letter-spacing: -.022em;
-      line-height: 1.20;
-      color: rgba(255,255,255,.96);
-    }
-    @media (max-width: 520px) { .cw-feat h2 { font-size: 17px; } }
-
-    .cw-feat-excerpt {
-      margin: 0;
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 1.72;
-      color: rgba(255,255,255,.55);
-      max-width: 72ch;
+    /* ═══════════════════════════════════════════════════════════
+       FILTER BAR
+    ═══════════════════════════════════════════════════════════ */
+    .filterbar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      padding: 16px 0 20px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 32px;
     }
 
-    .cw-feat-actions {
+    .fpill {
+      height: 30px;
+      padding: 0 14px;
+      border-radius: 4px;
+      border: 1px solid var(--border2);
+      background: #fff;
+      color: var(--muted);
+      font-family: "Syne", sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all .15s;
+      box-shadow: 0 1px 3px rgba(0,0,0,.04);
+    }
+    .fpill:hover {
+      border-color: rgba(34,197,94,.45);
+      color: var(--ink);
+      background: #f0faf3;
+    }
+    .fpill.on {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(34,197,94,.25);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       FEATURED — BIG CARD
+    ═══════════════════════════════════════════════════════════ */
+    .feat-wrap {
+      margin-bottom: 40px;
+    }
+
+    .feat-card {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 0;
+      border: 1px solid rgba(34,197,94,.22);
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: border-color .2s, box-shadow .2s;
+      background: var(--bg3);
+      box-shadow: 0 4px 20px rgba(0,0,0,.07);
+    }
+    .feat-card:hover {
+      border-color: rgba(34,197,94,.50);
+      box-shadow: 0 16px 48px rgba(0,0,0,.12), 0 0 0 1px rgba(34,197,94,.10) inset;
+    }
+    @media (max-width: 860px) {
+      .feat-card { grid-template-columns: 1fr; }
+    }
+
+    .feat-body {
+      padding: 40px 44px;
       display: flex;
       flex-direction: column;
-      align-items: flex-end;
-      gap: 14px;
-      flex-shrink: 0;
+      justify-content: space-between;
+      gap: 24px;
+      border-right: 1px solid var(--border);
     }
-    @media (max-width: 700px) {
-      .cw-feat-actions {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-      }
+    @media (max-width: 860px) {
+      .feat-body { padding: 28px 24px; border-right: none; border-bottom: 1px solid var(--border); }
     }
 
-    /* ── Chips ──────────────────────────────────────────────── */
-    .chip {
-      display: inline-flex;
-      align-items: center;
-      height: 24px;
-      padding: 0 10px;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      font-weight: 800;
-      font-size: 11px;
-      letter-spacing: .015em;
-      white-space: nowrap;
-      line-height: 1;
-    }
-
-    /* Star / Featured */
-    .chip-feat {
-      background: rgba(34,197,94,.20);
-      border-color: rgba(34,197,94,.38);
-      color: #86efac;
-    }
-    /* Visa & Installation */
-    .chip-visa {
-      background: rgba(16,185,129,.16);
-      border-color: rgba(16,185,129,.30);
-      color: #6ee7b7;
-    }
-    /* Nomad Life */
-    .chip-nomad {
-      background: rgba(6,182,212,.16);
-      border-color: rgba(6,182,212,.28);
-      color: #67e8f9;
-    }
-    /* Future & Strategy */
-    .chip-future {
-      background: rgba(139,92,246,.18);
-      border-color: rgba(139,92,246,.32);
-      color: #c4b5fd;
-    }
-    /* Family */
-    .chip-family {
-      background: rgba(251,146,60,.16);
-      border-color: rgba(251,146,60,.28);
-      color: #fed7aa;
-    }
-    /* Region / generic */
-    .chip-region {
-      background: rgba(255,255,255,.07);
-      border-color: rgba(255,255,255,.13);
-      color: rgba(255,255,255,.60);
-    }
-    /* Date / read time */
-    .chip-meta {
-      background: transparent;
-      border-color: transparent;
-      color: rgba(255,255,255,.38);
-      padding: 0 6px;
-      font-weight: 600;
-    }
-
-    /* ── Language badges ────────────────────────────────────── */
-    .cw-langs {
+    .feat-tags {
       display: flex;
-      gap: 5px;
-    }
-    .cw-lang {
-      height: 26px;
-      padding: 0 9px;
-      border-radius: 7px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      color: rgba(255,255,255,.58);
-      font-weight: 700;
-      font-size: 11px;
-      letter-spacing: .05em;
-      text-decoration: none;
-      display: inline-flex;
+      gap: 8px;
+      flex-wrap: wrap;
       align-items: center;
-      transition: background .14s, border-color .14s, color .14s;
-    }
-    .cw-lang:hover,
-    .cw-lang.active {
-      background: rgba(34,197,94,.18);
-      border-color: rgba(34,197,94,.36);
-      color: #86efac;
     }
 
-    /* ── CTA button ─────────────────────────────────────────── */
-    .cw-btn {
+    .feat-badge {
       display: inline-flex;
       align-items: center;
-      height: 40px;
+      gap: 5px;
+      height: 22px;
+      padding: 0 9px;
+      border-radius: 3px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+    }
+    .feat-badge-star {
+      background: var(--green);
+      color: #fff;
+    }
+    .feat-badge-theme {
+      background: transparent;
+      border: 1px solid;
+    }
+
+    .feat-title {
+      font-family: "Playfair Display", Georgia, serif;
+      font-weight: 700;
+      font-size: clamp(22px, 3vw, 34px);
+      line-height: 1.15;
+      letter-spacing: -.01em;
+      color: var(--ink);
+    }
+
+    .feat-excerpt {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.80;
+      color: var(--muted);
+    }
+
+    .feat-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .feat-meta {
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(0,0,0,.35);
+      letter-spacing: .04em;
+    }
+
+    .feat-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 38px;
       padding: 0 20px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+      border-radius: 5px;
+      background: var(--green);
       color: #fff;
       font-weight: 800;
-      font-size: 13px;
-      letter-spacing: .02em;
-      text-decoration: none;
-      box-shadow: 0 4px 16px rgba(22,163,74,.28);
-      transition: opacity .16s, transform .16s, box-shadow .16s;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-    .cw-btn:hover {
-      opacity: .92;
-      transform: translateY(-1px);
-      box-shadow: 0 6px 22px rgba(22,163,74,.36);
-    }
-
-    /* ── Filter pills ───────────────────────────────────────── */
-    .cw-filters {
-      margin-top: 20px;
-      display: flex;
-      gap: 7px;
-      flex-wrap: wrap;
-    }
-
-    .cw-pill {
-      height: 34px;
-      padding: 0 15px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.11);
-      background: rgba(255,255,255,.05);
-      color: rgba(255,255,255,.58);
-      font-family: inherit;
-      font-weight: 700;
       font-size: 12px;
-      letter-spacing: .02em;
-      cursor: pointer;
-      transition: background .14s, border-color .14s, color .14s;
-      white-space: nowrap;
-    }
-    .cw-pill:hover {
-      background: rgba(255,255,255,.10);
-      color: rgba(255,255,255,.82);
-    }
-    .cw-pill.on {
-      background: rgba(34,197,94,.18);
-      border-color: rgba(34,197,94,.38);
-      color: #86efac;
-    }
-
-    /* ── Section header ─────────────────────────────────────── */
-    .cw-section {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 24px 0 14px;
-    }
-    .cw-section-label {
-      margin: 0;
-      font-weight: 800;
-      font-size: 11px;
-      letter-spacing: .16em;
+      letter-spacing: .06em;
       text-transform: uppercase;
-      color: rgba(255,255,255,.42);
+      transition: opacity .15s, transform .15s;
+      flex-shrink: 0;
+      box-shadow: 0 2px 10px rgba(34,197,94,.30);
     }
-    .cw-section-count {
-      height: 20px;
-      padding: 0 8px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.07);
-      border: 1px solid rgba(255,255,255,.10);
-      font-weight: 800;
-      font-size: 10px;
-      color: rgba(255,255,255,.38);
-      display: inline-flex;
-      align-items: center;
+    .feat-cta:hover { opacity: .88; transform: translateY(-1px); }
+    /* Stretch link */
+    .feat-cta::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
     }
 
-    /* ── Articles grid ──────────────────────────────────────── */
+    /* Right panel — stat block */
+    .feat-panel {
+      padding: 36px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 28px;
+      background: linear-gradient(145deg, rgba(34,197,94,.06) 0%, #f7f9f7 60%);
+    }
+    @media (max-width: 860px) {
+      .feat-panel { padding: 22px 24px; flex-direction: row; flex-wrap: wrap; gap: 20px; }
+    }
+
+    .feat-stat {
+      border-left: 2px solid rgba(34,197,94,.35);
+      padding-left: 16px;
+    }
+    .feat-stat-val {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--green);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .feat-stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION HEADER
+    ═══════════════════════════════════════════════════════════ */
+    .sec-head {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .sec-label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .20em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,.38);
+    }
+    .sec-count {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 13px;
+      font-style: italic;
+      color: var(--green);
+    }
+    .sec-rule {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       ARTICLE GRID
+    ═══════════════════════════════════════════════════════════ */
     .cw-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
+      gap: 16px;
     }
-    @media (max-width: 940px) { .cw-grid { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 580px) { .cw-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 960px) { .cw-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 580px)  { .cw-grid { grid-template-columns: 1fr; } }
 
-    /* ── Article card ───────────────────────────────────────── */
+    /* ─── Card ─── */
     .cw-card {
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,.09);
-      background: rgba(255,255,255,.05);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--bg3);
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      transition: transform .18s, box-shadow .18s, border-color .18s, background .18s;
+      position: relative;
+      cursor: pointer;
+      transition: transform .18s, box-shadow .18s, border-color .18s;
+      box-shadow: 0 2px 8px rgba(0,0,0,.05);
     }
     .cw-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 14px 36px rgba(0,0,0,.30);
-      border-color: rgba(255,255,255,.16);
-      background: rgba(255,255,255,.075);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,.10);
+      border-color: rgba(34,197,94,.30);
     }
 
-    .cw-card-top {
-      padding: 14px 14px 11px;
-      border-bottom: 1px solid rgba(255,255,255,.06);
-      background: rgba(0,0,0,.08);
+    /* Colored top accent line per theme */
+    .cw-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--card-accent, rgba(0,0,0,.07));
+      border-radius: 10px 10px 0 0;
     }
-    .cw-card-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 9px;
+
+    .card-head {
+      padding: 20px 18px 14px;
     }
+    .card-theme {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--card-accent, var(--muted));
+      margin-bottom: 12px;
+    }
+    .card-theme-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: currentColor;
+      flex-shrink: 0;
+    }
+
     .cw-card h3 {
-      margin: 0;
-      font-weight: 800;
-      font-size: 15px;
+      font-family: "Playfair Display", Georgia, serif;
+      font-weight: 700;
+      font-size: 17px;
       line-height: 1.28;
       letter-spacing: -.01em;
-      color: rgba(255,255,255,.92);
+      color: var(--ink);
     }
 
-    .cw-card-body {
-      padding: 11px 14px 0;
+    .card-body {
+      padding: 0 18px 14px;
       flex: 1;
     }
-    .cw-card-excerpt {
-      margin: 0;
-      font-weight: 500;
+    .card-excerpt {
       font-size: 13px;
-      line-height: 1.70;
-      color: rgba(255,255,255,.48);
+      font-weight: 500;
+      line-height: 1.75;
+      color: var(--muted);
       display: -webkit-box;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
       overflow: hidden;
     }
 
-    .cw-card-footer {
-      padding: 11px 14px;
+    .card-footer {
+      padding: 12px 18px;
+      border-top: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 8px;
     }
-    .cw-card-link {
-      font-weight: 800;
-      font-size: 12px;
+    .card-meta {
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(0,0,0,.30);
       letter-spacing: .04em;
-      color: #86efac;
-      text-decoration: none;
-      white-space: nowrap;
-      flex-shrink: 0;
-      transition: color .14s;
     }
-    .cw-card-link:hover { color: #4ade80; }
+    .card-read {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--card-accent, var(--green));
+      flex-shrink: 0;
+      transition: letter-spacing .15s;
+    }
+    .cw-card:hover .card-read { letter-spacing: .14em; }
+    /* Stretch */
+    .card-read::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+    }
+
+    /* Theme color assignments */
+    .t-visa   { --card-accent: var(--theme-visa);   }
+    .t-nomad  { --card-accent: var(--theme-nomad);  }
+    .t-future { --card-accent: var(--theme-future); }
+    .t-family { --card-accent: var(--theme-family); }
 
     /* ── Empty state ────────────────────────────────────────── */
     .cw-empty {
       display: none;
-      border-radius: 16px;
-      border: 1px dashed rgba(255,255,255,.12);
-      background: rgba(255,255,255,.03);
-      padding: 40px 20px;
+      grid-column: 1 / -1;
+      padding: 60px 20px;
       text-align: center;
-      font-weight: 600;
       font-size: 14px;
-      color: rgba(255,255,255,.38);
-      line-height: 1.7;
-      margin-top: 12px;
+      font-weight: 600;
+      color: rgba(0,0,0,.28);
+      border: 1px dashed var(--border2);
+      border-radius: 10px;
     }
 
-    /* ── Divider ────────────────────────────────────────────── */
-    .cw-divider {
-      height: 1px;
-      background: rgba(255,255,255,.06);
-      margin: 20px 0 0;
+    /* ── Page-in animation ──────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
+    .masthead        { animation: fadeUp .5s ease both; }
+    .filterbar       { animation: fadeUp .5s .10s ease both; }
+    .feat-wrap       { animation: fadeUp .5s .18s ease both; }
+    .sec-head        { animation: fadeUp .5s .24s ease both; }
+    .cw-grid         { animation: fadeUp .5s .30s ease both; }
+
   </style>
 </head>
 
@@ -475,49 +599,53 @@
 
   <main class="cw">
 
-    <!-- Hero -->
-    <section class="cw-hero">
-      <p class="cw-hero-eyebrow" id="eyebrow">Chronicles</p>
-      <h1 id="heroTitle">Wigg Chronicles</h1>
-      <p class="cw-hero-sub" id="heroSub">
-        Premium articles on expat life, visas, taxes, cost of living, future trends, education and quality of life.
-      </p>
-      <div class="cw-search">
-        <input id="searchInput" type="search" autocomplete="off"
-          aria-label="Search articles"
-          placeholder="Search articles…">
+    <!-- Masthead -->
+    <header class="masthead">
+      <div class="masthead-deco" aria-hidden="true">W</div>
+      <div class="masthead-inner">
+        <p class="masthead-label"><span></span><span id="eyebrow">Chronicles</span></p>
+        <h1 id="heroTitle">Wigg <em>Chronicles</em></h1>
+        <p class="masthead-sub" id="heroSub">
+          Premium articles on expat life, visas, taxes, cost of living, future trends, education and quality of life.
+        </p>
+        <div class="masthead-search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input id="searchInput" type="search" autocomplete="off"
+            aria-label="Search articles"
+            placeholder="Search articles…">
+        </div>
       </div>
-    </section>
+      <div class="masthead-rule"><div class="masthead-rule-dot"></div></div>
+    </header>
 
-    <!-- Featured article -->
-    <section class="cw-featured" id="featuredSection">
+    <!-- Filter bar -->
+    <nav class="filterbar" id="filters" aria-label="Filter by category"></nav>
+
+    <!-- Featured -->
+    <section class="feat-wrap" id="featuredSection">
       <div id="featuredCard"></div>
     </section>
 
-    <!-- Divider -->
-    <div class="cw-divider"></div>
-
-    <!-- Filter pills -->
-    <nav class="cw-filters" id="filters" aria-label="Filter by category"></nav>
-
     <!-- Section header -->
-    <div class="cw-section">
-      <h2 class="cw-section-label" id="sectionLabel">Articles</h2>
-      <span class="cw-section-count" id="countBadge">0</span>
+    <div class="sec-head">
+      <p class="sec-label" id="sectionLabel">Articles</p>
+      <span class="sec-count" id="countBadge">0</span>
+      <div class="sec-rule"></div>
     </div>
 
     <!-- Grid -->
-    <div class="cw-grid" id="grid" role="list"></div>
-
-    <!-- Empty -->
-    <div class="cw-empty" id="empty">No articles match your search.</div>
+    <div class="cw-grid" id="grid" role="list">
+      <div class="cw-empty" id="empty">No articles match your search.</div>
+    </div>
 
   </main>
 
   <script src="/data/header.js"></script>
 
   <script>
-    /* ─── i18n strings ──────────────────────────────────────── */
+    /* ─── i18n ──────────────────────────────────────────────── */
     var I18N = {
       en: {
         eyebrow:  "Chronicles",
@@ -577,7 +705,12 @@
         date: "2026-03-05",
         read: "~30 min",
         theme: "Future & Strategy",
-        region: "World"
+        region: "World",
+        stats: [
+          { val: "30", label: "ans d'analyse" },
+          { val: "150+", label: "pays comparés" },
+          { val: "~30", label: "min de lecture" }
+        ]
       },
       {
         id: "ameriques-1",
@@ -624,6 +757,28 @@
         region: "World"
       },
       {
+        id: "australia-2026",
+        title: {
+          en: "Australia 2026: The Complete Expat Guide",
+          fr: "Australie 2026 : le guide complet de l'expatriation",
+          es: "Australia 2026: La guía completa del expatriado"
+        },
+        url: {
+          en: "/chronicles/australia-expat-guide-2026-en.html",
+          fr: "/chronicles/guide-expatriation-australie-2026-fr.html",
+          es: "/chronicles/guia-expatriacion-australia-2026-es.html"
+        },
+        excerpt: {
+          en: "Visa, salary, cost of living, housing, healthcare and culture shock — everything you need to know before moving to Australia.",
+          fr: "Visa, salaire, coût de la vie, logement, santé et choc culturel — tout ce qu'il faut savoir avant de s'installer en Australie.",
+          es: "Visa, salario, coste de vida, vivienda, sanidad y choque cultural — todo lo que necesitas saber antes de mudarte a Australia."
+        },
+        date: "2026-02-20",
+        read: "~25 min",
+        theme: "Visa & Installation",
+        region: "Oceania"
+      },
+      {
         id: "nomads-2026",
         title: {
           en: "Best Countries for Digital Nomads in 2026",
@@ -642,7 +797,7 @@
         },
         date: "2026-02-24",
         read: "~20 min",
-        theme: "Visa & Installation",
+        theme: "Nomad Life",
         region: "World"
       },
       {
@@ -669,34 +824,35 @@
       }
     ];
 
-    /* ─── Theme → chip class mapping ───────────────────────── */
-    var CHIP = {
-      "Visa & Installation": "chip-visa",
-      "Nomad Life":          "chip-nomad",
-      "Future & Strategy":   "chip-future",
-      "Family":              "chip-family"
+    /* ─── Theme → CSS class + color ────────────────────────── */
+    var THEME_CLASS = {
+      "Visa & Installation": "t-visa",
+      "Nomad Life":          "t-nomad",
+      "Future & Strategy":   "t-future",
+      "Family":              "t-family"
+    };
+    var THEME_COLOR = {
+      "Visa & Installation": "#10b981",
+      "Nomad Life":          "#06b6d4",
+      "Future & Strategy":   "#8b5cf6",
+      "Family":              "#f97316"
     };
 
-    /* ─── State ─────────────────────────────────────────────── */
     var activeFilter = "all";
 
-    /* ─── Helpers ───────────────────────────────────────────── */
     function getLang() {
       return (localStorage.getItem("wigg_lang") || "en").toLowerCase();
     }
-
     function str(obj) {
       if (!obj) return "";
       if (typeof obj === "string") return obj;
       var l = getLang();
       return obj[l] || obj.en || "";
     }
-
     function tx() {
       var l = getLang();
       return I18N[l] || I18N.en;
     }
-
     function fmtDate(iso) {
       if (!iso) return "";
       var parts = iso.split("-").map(Number);
@@ -706,72 +862,72 @@
       return dt.toLocaleDateString(locale, { year: "numeric", month: "short", day: "numeric" });
     }
 
-    function themeChip(theme) {
-      return CHIP[theme] || "chip-region";
-    }
-
-    function makeLangBadges(c) {
-      var l = getLang();
-      return ["en", "fr", "es"].map(function(code) {
-        var href = (c.url && c.url[code]) ? c.url[code] : "#";
-        var cls  = "cw-lang" + (code === l ? " active" : "");
-        return '<a href="' + href + '" class="' + cls + '">' + code.toUpperCase() + '</a>';
-      }).join("");
-    }
-
     /* ─── Featured card HTML ────────────────────────────────── */
     function featuredHTML(c) {
-      var t    = tx();
-      var url  = str(c.url);
-      var tc   = themeChip(c.theme);
-      var date = c.date ? fmtDate(c.date) : "";
-      return [
-        '<div class="cw-feat">',
-          '<div>',
-            '<div class="cw-feat-meta">',
-              '<span class="chip chip-feat">' + t.featured + '</span>',
-              '<span class="chip ' + tc + '">' + (c.theme || "") + '</span>',
-              '<span class="chip chip-region">' + (c.region || "") + '</span>',
-              (date ? '<span class="chip chip-meta">' + date + '</span>' : ''),
-              (c.read ? '<span class="chip chip-meta">· ' + c.read + '</span>' : ''),
-            '</div>',
-            '<h2>' + str(c.title) + '</h2>',
-            '<p class="cw-feat-excerpt">' + str(c.excerpt) + '</p>',
-          '</div>',
-          '<div class="cw-feat-actions">',
-            '<div class="cw-langs">' + makeLangBadges(c) + '</div>',
-            '<a class="cw-btn" href="' + url + '">' + t.read + '</a>',
-          '</div>',
-        '</div>'
-      ].join("");
+      var t     = tx();
+      var url   = str(c.url);
+      var color = THEME_COLOR[c.theme] || "var(--green)";
+      var date  = c.date ? fmtDate(c.date) : "";
+
+      var statsHTML = "";
+      if (c.stats && c.stats.length) {
+        statsHTML = c.stats.map(function(s) {
+          return '<div class="feat-stat">' +
+            '<div class="feat-stat-val">' + s.val + '</div>' +
+            '<div class="feat-stat-label">' + s.label + '</div>' +
+          '</div>';
+        }).join("");
+      } else {
+        // Fallback stats from data
+        var readNum = c.read ? c.read.replace(/[^0-9]/g, "") : "";
+        statsHTML = [
+          '<div class="feat-stat"><div class="feat-stat-val">150+</div><div class="feat-stat-label">countries</div></div>',
+          readNum ? '<div class="feat-stat"><div class="feat-stat-val">~' + readNum + '</div><div class="feat-stat-label">min read</div></div>' : ''
+        ].join("");
+      }
+
+      return '<div class="feat-card">' +
+        '<div class="feat-body">' +
+          '<div class="feat-tags">' +
+            '<span class="feat-badge feat-badge-star">' + t.featured + '</span>' +
+            '<span class="feat-badge feat-badge-theme" style="color:' + color + ';border-color:' + color + '40">' + (c.theme || "") + '</span>' +
+            (c.region ? '<span class="feat-badge feat-badge-theme" style="color:rgba(255,255,255,.35);border-color:rgba(255,255,255,.12)">' + c.region + '</span>' : '') +
+          '</div>' +
+          '<div class="feat-title">' + str(c.title) + '</div>' +
+          '<p class="feat-excerpt">' + str(c.excerpt) + '</p>' +
+          '<div class="feat-footer">' +
+            '<span class="feat-meta">' + (date || "") + (c.read ? "  ·  " + c.read : "") + '</span>' +
+            '<a class="feat-cta" href="' + url + '">' + t.read + '</a>' +
+          '</div>' +
+        '</div>' +
+        '<div class="feat-panel">' + statsHTML + '</div>' +
+      '</div>';
     }
 
     /* ─── Article card HTML ─────────────────────────────────── */
     function cardHTML(c) {
-      var t    = tx();
-      var url  = str(c.url);
-      var tc   = themeChip(c.theme);
-      var date = c.date ? fmtDate(c.date) : "";
-      return [
-        '<article class="cw-card" role="listitem">',
-          '<div class="cw-card-top">',
-            '<div class="cw-card-meta">',
-              '<span class="chip ' + tc + '">' + (c.theme || "") + '</span>',
-              '<span class="chip chip-region">' + (c.region || "") + '</span>',
-              (date ? '<span class="chip chip-meta">' + date + '</span>' : ''),
-              (c.read ? '<span class="chip chip-meta">· ' + c.read + '</span>' : ''),
-            '</div>',
-            '<h3>' + str(c.title) + '</h3>',
-          '</div>',
-          '<div class="cw-card-body">',
-            '<p class="cw-card-excerpt">' + str(c.excerpt) + '</p>',
-          '</div>',
-          '<div class="cw-card-footer">',
-            '<div class="cw-langs">' + makeLangBadges(c) + '</div>',
-            '<a class="cw-card-link" href="' + url + '">' + t.read + '</a>',
-          '</div>',
-        '</article>'
-      ].join("");
+      var t     = tx();
+      var url   = str(c.url);
+      var cls   = THEME_CLASS[c.theme] || "";
+      var color = THEME_COLOR[c.theme] || "rgba(255,255,255,.35)";
+      var date  = c.date ? fmtDate(c.date) : "";
+
+      return '<article class="cw-card ' + cls + '" role="listitem">' +
+        '<div class="card-head">' +
+          '<div class="card-theme">' +
+            '<span class="card-theme-dot"></span>' +
+            (c.theme || "") +
+          '</div>' +
+          '<h3>' + str(c.title) + '</h3>' +
+        '</div>' +
+        '<div class="card-body">' +
+          '<p class="card-excerpt">' + str(c.excerpt) + '</p>' +
+        '</div>' +
+        '<div class="card-footer">' +
+          '<span class="card-meta">' + (date || "") + (c.read ? " · " + c.read : "") + '</span>' +
+          '<a class="card-read" href="' + url + '">' + t.read + '</a>' +
+        '</div>' +
+      '</article>';
     }
 
     /* ─── Filter match ──────────────────────────────────────── */
@@ -783,7 +939,7 @@
       return qOk && fOk;
     }
 
-    /* ─── Build filter pills ────────────────────────────────── */
+    /* ─── Build filters ─────────────────────────────────────── */
     function buildFilters() {
       var t      = tx();
       var themes = [];
@@ -796,9 +952,8 @@
 
       function makeBtn(label, val) {
         var btn = document.createElement("button");
-        btn.className = "cw-pill" + (activeFilter === val ? " on" : "");
+        btn.className = "fpill" + (activeFilter === val ? " on" : "");
         btn.textContent = label;
-        btn.dataset.f = val;
         btn.addEventListener("click", function() {
           activeFilter = val;
           buildFilters();
@@ -822,38 +977,43 @@
         else rest.push(c);
       });
 
-      /* Featured */
       var featSec  = document.getElementById("featuredSection");
       var featCard = document.getElementById("featuredCard");
       if (featured) {
         var showFeat = matches(featured);
         featSec.style.display = showFeat ? "" : "none";
         if (showFeat) featCard.innerHTML = featuredHTML(featured);
+      } else {
+        featSec.style.display = "none";
       }
 
-      /* Grid */
       var filtered = rest.filter(matches);
-      document.getElementById("grid").innerHTML = filtered.map(cardHTML).join("");
-
-      /* Count & empty */
-      var total = (featured && matches(featured) ? 1 : 0) + filtered.length;
+      var grid = document.getElementById("grid");
       var emptyEl = document.getElementById("empty");
-      emptyEl.style.display = total === 0 ? "block" : "none";
-      emptyEl.textContent = t.empty;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = "";
+        emptyEl.style.display = "block";
+        emptyEl.textContent = t.empty;
+        grid.appendChild(emptyEl);
+      } else {
+        grid.innerHTML = filtered.map(cardHTML).join("");
+        emptyEl.style.display = "none";
+      }
 
       document.getElementById("countBadge").textContent = filtered.length;
       document.getElementById("sectionLabel").textContent = t.section;
     }
 
-    /* ─── Apply static i18n ─────────────────────────────────── */
+    /* ─── Apply i18n ────────────────────────────────────────── */
     function applyI18n() {
       var t = tx();
       var l = getLang();
       document.documentElement.lang = l;
-      document.getElementById("eyebrow").textContent    = t.eyebrow;
-      document.getElementById("heroTitle").textContent  = t.title;
-      document.getElementById("heroSub").textContent    = t.sub;
-      document.getElementById("searchInput").placeholder = t.search;
+      document.getElementById("eyebrow").textContent      = t.eyebrow;
+      document.getElementById("heroTitle").innerHTML      = "Wigg <em>" + (l === "fr" ? "Chroniques" : l === "es" ? "Crónicas" : "Chronicles") + "</em>";
+      document.getElementById("heroSub").textContent      = t.sub;
+      document.getElementById("searchInput").placeholder  = t.search;
     }
 
     /* ─── Init ──────────────────────────────────────────────── */

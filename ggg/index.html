@@ -1,0 +1,810 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google Tag Manager -->
+  <script>
+    (function(w,d,s,l,i){w[l]=w[l]||[];
+    w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
+    var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+    j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+    f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-K4MMRD4R');
+  </script>
+  <!-- End Google Tag Manager -->
+
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#22c55e">
+  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WiggMap — Where is the grass greener?</title>
+  <meta name="description" content="WiggMap helps you compare countries and find where opportunities fit you best.">
+
+  <!-- ✅ FAVICON (chemins cohérents avec ../assets déjà utilisé dans ce fichier) -->
+  <link rel="icon" href="../assets/favicon.ico" type="image/x-icon" />
+
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Global CSS -->
+  <link rel="stylesheet" href="data/style.css">
+
+  <style>
+    .home-wrap{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 18px 14px 34px;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 520px){
+      .home-wrap{
+        padding: 12px 8px 28px;
+      }
+    }
+
+    .home-hero{
+      position: relative;
+      overflow: hidden;
+      border-radius: 22px;
+      background: url("assets/banner.jpg") center/cover no-repeat;
+      min-height: 520px;
+    }
+
+    @media (min-width: 900px){
+      .home-hero{ height: 520px; background-position: 60% 45%; }
+    }
+    @media (max-width: 899px){
+      .home-hero{
+        height: 70vh;
+        min-height: 480px;
+        background-position: 55% 40%;
+      }
+    }
+
+    .home-hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(to bottom, rgba(0,0,0,.18), rgba(0,0,0,.05));
+      pointer-events:none;
+    }
+
+    /* ✅ CENTRAGE FIXÉ - Desktop ET Mobile */
+    .home-hero__content{
+      position: relative;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 20px;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 899px){
+      .home-hero__content{
+        /* ✅ Reste centré verticalement sur mobile aussi */
+        align-items: center;
+        padding: 16px 16px;
+      }
+    }
+
+    @media (max-width: 520px){
+      .home-hero__content{
+        padding: 16px 12px;
+      }
+    }
+
+    /* ✅ Stack toujours centré et jamais coupé */
+    .home-hero__stack{
+      width: 100%;
+      max-width: 620px;
+      margin: 0 auto;
+      display: grid;
+      gap: 14px;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 520px){
+      .home-hero__stack{
+        max-width: 100%;
+        gap: 12px;
+      }
+    }
+
+    .home-headline{
+      padding: 0 12px;
+      text-align: center;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 520px){
+      .home-headline{
+        padding: 0 6px;
+      }
+    }
+
+    /* ✅ NOUVEAU : Couleurs harmonieuses avec vert pâle */
+    .home-title{
+      margin: 0 0 10px;
+      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 800;
+      font-size: 32px;
+      letter-spacing: -0.035em;
+      line-height: 1.08;
+      color: #FFFFFF;
+      /* ✅ Text-shadow multi-couches avec glow vert subtil */
+      text-shadow:
+        0 2px 4px rgba(0,0,0,0.35),
+        0 4px 12px rgba(0,0,0,0.25),
+        0 1px 20px rgba(16,185,129,0.15);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    @media (max-width: 520px){
+      .home-title{
+        font-size: 20px;
+        margin-bottom: 6px;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+      }
+    }
+
+    @media (max-width: 380px){
+      .home-title{
+        font-size: 18px;
+      }
+    }
+
+    /* ✅ NOUVEAU : Sous-titre vert menthe pâle harmonieux */
+    .home-subtitle{
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      /* ✅ Vert menthe pâle élégant */
+      color: #d1fae5;
+      line-height: 1.3;
+      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      /* ✅ Ombre pour lisibilité + léger glow */
+      text-shadow:
+        0 2px 6px rgba(0,0,0,0.4),
+        0 1px 12px rgba(5,150,105,0.2);
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    @media (max-width: 520px){
+      .home-subtitle{
+        font-size: 14px;
+        line-height: 1.4;
+      }
+    }
+
+    @media (max-width: 380px){
+      .home-subtitle{
+        font-size: 13px;
+      }
+    }
+
+    /* ✅ Glass card amélioré */
+    .home-card{
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.16);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.22);
+      box-shadow:
+        0 10px 30px rgba(0,0,0,0.15),
+        0 1px 0 rgba(255,255,255,0.1) inset;
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    @media (max-width: 520px){
+      .home-card{
+        padding: 12px;
+        border-radius: 16px;
+      }
+    }
+
+    .home-search{
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      box-sizing: border-box;
+    }
+
+    /* ✅ Input avec teinte vert pâle subtile */
+    .home-search input{
+      flex: 1;
+      min-width: 0;
+      height: 44px;
+      padding: 0 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.25);
+      /* ✅ Légère teinte verte */
+      background: rgba(255,255,255,0.65);
+      outline: none;
+      font-size: 15px;
+      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      box-sizing: border-box;
+    }
+
+    .home-search input:focus{
+      background: rgba(255,255,255,0.75);
+      border-color: rgba(16,185,129,0.4);
+      box-shadow: 0 0 0 3px rgba(16,185,129,0.1);
+    }
+
+    /* ✅ NOUVEAU : Bouton Search gradient vert moderne */
+    .btn-search{
+      height: 44px;
+      padding: 0 22px;
+      border-radius: 14px;
+      border: none;
+      /* ✅ Gradient vert émeraude élégant */
+      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+      color: #fff;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      white-space: nowrap;
+      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      min-width: 110px;
+      box-shadow:
+        0 4px 12px rgba(5,150,105,0.25),
+        0 2px 4px rgba(0,0,0,0.1);
+      transition: all 0.2s ease;
+    }
+
+    .btn-search:hover{
+      background: linear-gradient(135deg, #047857 0%, #059669 100%);
+      box-shadow:
+        0 6px 16px rgba(5,150,105,0.3),
+        0 2px 6px rgba(0,0,0,0.15);
+      transform: translateY(-1px);
+    }
+
+    .btn-search:active{
+      transform: translateY(0);
+      box-shadow:
+        0 2px 8px rgba(5,150,105,0.2),
+        0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .btn-random{
+      height: 44px;
+      width: 44px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.65);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: rgba(0,0,0,0.75);
+      user-select: none;
+      padding: 0;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    .btn-random:hover{
+      background: rgba(255,255,255,0.75);
+      transform: scale(1.05);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    }
+
+    /* ✅ MOBILE FIX : Prevent cutting / overflow */
+    @media (max-width: 520px){
+      .home-search{
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .home-search input{
+        /* ✅ Prend toute la largeur */
+        flex: 1 1 100%;
+        height: 46px;
+        padding: 0 12px;
+        font-size: 14px;
+      }
+
+      .btn-search{
+        /* ✅ Prend l'espace restant */
+        flex: 1 1 auto;
+        min-width: 0;
+        height: 46px;
+        padding: 0 18px;
+      }
+
+      .btn-random{
+        /* ✅ Taille fixe à droite */
+        flex: 0 0 46px;
+        height: 46px;
+        width: 46px;
+      }
+    }
+
+    @media (max-width: 380px){
+      .home-search input{
+        padding: 0 10px;
+        font-size: 13px;
+      }
+
+      .btn-search{
+        padding: 0 14px;
+        font-size: 14px;
+      }
+    }
+
+    /* Suggestions dropdown */
+    .home-suggest{
+      margin-top: 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.20);
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(10px);
+      overflow: hidden;
+      max-height: 320px;
+      overflow-y: auto;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    .home-suggest-item{
+      padding: 12px 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      color: rgba(0,0,0,0.80);
+      transition: background 0.15s ease;
+    }
+
+    .home-suggest-item:hover,
+    .home-suggest-item[aria-selected="true"]{
+      background: rgba(16,185,129,0.12);
+      color: rgba(0,0,0,0.90);
+    }
+
+    .home-suggest-sub{
+      font-weight: 700;
+      font-size: 12px;
+      color: rgba(5,150,105,0.60);
+    }
+  </style>
+</head>
+
+<body>
+  <script>
+    // Force SW update so new index.html is always served fresh
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function(regs){
+        regs.forEach(function(reg){ reg.update(); });
+      });
+    }
+  </script>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe>
+  </noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <!-- Header injected by header.js -->
+  <div id="siteHeader"></div>
+
+  <main class="home-wrap">
+    <section class="home-hero">
+      <div class="home-hero__content">
+        <div class="home-hero__stack">
+
+          <div class="home-headline">
+            <!-- ✅ i18n targets (ONLY THESE TWO PHRASES) -->
+            <h1 class="home-title" id="heroTitle">What if your life looked different somewhere else?</h1>
+            <p class="home-subtitle" id="heroSubtitle">Explore living conditions across 160+ countries</p>
+            <script>
+              (function(){
+                var l = localStorage.getItem('wigg_lang') || 'en';
+                var T = {
+                  heroTitle: {
+                    en: 'What if your life looked different somewhere else?',
+                    fr: 'Et si votre vie était différente ailleurs ?',
+                    es: '¿Y si tu vida fuera diferente en otro lugar?'
+                  },
+                  heroSubtitle: {
+                    en: 'Explore living conditions across 160+ countries',
+                    fr: 'Explorez les conditions de vie dans plus de 160 pays',
+                    es: 'Explora las condiciones de vida en más de 160 países'
+                  }
+                };
+                document.getElementById('heroTitle').textContent    = T.heroTitle[l]    || T.heroTitle.en;
+                document.getElementById('heroSubtitle').textContent = T.heroSubtitle[l] || T.heroSubtitle.en;
+              })();
+            </script>
+          </div>
+
+          <div class="home-card">
+            <form class="home-search" id="homeSearchForm">
+              <input
+                id="homeQuery"
+                type="text"
+                name="q"
+                placeholder="Start exploring (e.g., Switzerland)"
+                autocomplete="off"
+              />
+              <button class="btn-search" type="submit">Search</button>
+              <button class="btn-random" type="button" title="Random" id="homeRandomBtn">🎲</button>
+            </form>
+
+            <div class="home-suggest" id="homeSuggest" aria-label="Suggestions" style="display:none;"></div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- i18n : doit être défini AVANT header.js -->
+ <script>
+  // Home i18n (hero + search UI)
+  var HOME_I18N = {
+    en: {
+      heroTitle: "What if your life looked different somewhere else?",
+      heroSubtitle: "Explore living conditions across 160+ countries",
+      searchPlaceholder: "Start exploring (e.g., Switzerland)",
+      searchBtn: "Search",
+      randomTitle: "Random",
+      noMatch: "No match found. Try another spelling (or pick from suggestions)."
+    },
+    fr: {
+      heroTitle: "Et si votre vie était différente ailleurs ?",
+      heroSubtitle: "Explorez les conditions de vie dans plus de 160 pays",
+      searchPlaceholder: "Commencez à explorer (ex: Suisse)",
+      searchBtn: "Rechercher",
+      randomTitle: "Au hasard",
+      noMatch: "Aucun résultat. Essayez une autre orthographe (ou choisissez dans les suggestions)."
+    },
+    es: {
+      heroTitle: "¿Y si tu vida fuera diferente en otro lugar?",
+      heroSubtitle: "Explora las condiciones de vida en más de 160 países",
+      searchPlaceholder: "Empieza a explorar (p. ej., Suiza)",
+      searchBtn: "Buscar",
+      randomTitle: "Aleatorio",
+      noMatch: "No se encontró coincidencia. Prueba otra ortografía (o elige en las sugerencias)."
+    }
+  };
+
+  function getLang(){
+    return (localStorage.getItem("wigg_lang") || "en").toLowerCase();
+  }
+
+  // Keep your old name for compatibility with header.js
+  window.applyHeroLang = function(){
+    window.applyLang();
+  };
+
+  // New unified apply
+  window.applyLang = function(){
+    var lang = getLang();
+    var t = HOME_I18N[lang] || HOME_I18N.en;
+
+    // Hero
+    var el1 = document.getElementById("heroTitle");
+    var el2 = document.getElementById("heroSubtitle");
+    // CSS inline script handles hero text
+    // if(el1) el1.textContent = t.heroTitle;
+    // if(el2) el2.textContent = t.heroSubtitle;
+
+    // Search UI
+    var input = document.getElementById("homeQuery");
+    if(input) input.placeholder = t.searchPlaceholder;
+
+    var btn = document.querySelector("#homeSearchForm .btn-search");
+    if(btn) btn.textContent = t.searchBtn;
+
+    var rnd = document.getElementById("homeRandomBtn");
+    if(rnd) rnd.title = t.randomTitle;
+
+    document.documentElement.setAttribute("lang", lang);
+
+    // store message for later use in alerts
+    window.__HOME_NO_MATCH = t.noMatch;
+  };
+
+  // Apply immediately
+  window.applyLang();
+
+  // React to header language changes
+  window.addEventListener("wigg_lang_changed", function(){
+    window.applyLang();
+
+    // IMPORTANT: reload country dataset in the new language
+    if (typeof window.__resetHomeCountries === "function") {
+      window.__resetHomeCountries();
+    }
+  });
+</script>
+
+  <!-- ✅ IMPORTANT: ORDER IS CRUCIAL -->
+  <script src="data/countries.js"></script>
+  <script src="data/header.js"></script>
+
+  <script>
+        /* i18n moved above header.js */
+
+    function norm(s){
+      return (s || "")
+        .toString()
+        .trim()
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[-_]/g, " ")
+        .replace(/\s+/g, " ");
+    }
+
+    function escapeHtml(s){
+      return String(s ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    const UI = {
+      input: document.getElementById("homeQuery"),
+      form: document.getElementById("homeSearchForm"),
+      btnRandom: document.getElementById("homeRandomBtn"),
+      suggest: document.getElementById("homeSuggest")
+    };
+
+    let COUNTRY_DATA = null;
+    let COUNTRY_LIST = [];
+      window.__resetHomeCountries = function(){
+  COUNTRY_DATA = null;
+  COUNTRY_LIST = [];
+  hideSuggest();
+};
+    async function loadCountriesOnce(){
+      if(COUNTRY_DATA) return COUNTRY_DATA;
+
+      const _lang = localStorage.getItem("wigg_lang") || "en";
+      const _cf = _lang === "fr" ? "/data/countries.fr.json" : _lang === "es" ? "/data/countries.es.json" : "/data/countries.json";
+      const res = await fetch(_cf + "?nocache=" + Date.now(), { cache: "no-store" });
+      if(!res.ok) throw new Error("countries.json HTTP " + res.status);
+
+      COUNTRY_DATA = await res.json();
+
+      COUNTRY_LIST = Object.keys(COUNTRY_DATA).map(slug => {
+        const c = COUNTRY_DATA[slug] || {};
+        const aliases = Array.isArray(c.aliases) ? c.aliases : [];
+        return {
+          slug,
+          name: c.name || slug,
+          nameNorm: norm(c.name || slug),
+          aliasesNorm: aliases.map(norm)
+        };
+      }).sort((a,b) => a.name.localeCompare(b.name));
+
+      return COUNTRY_DATA;
+    }
+
+    function buildUrl(slug){
+      return "/countries/country.html?country=" + encodeURIComponent(slug);
+    }
+
+    function findBestMatch(queryNorm){
+      if(!queryNorm) return null;
+
+      let hit = COUNTRY_LIST.find(x => x.nameNorm === queryNorm || x.aliasesNorm.includes(queryNorm));
+      if(hit) return hit;
+
+      hit = COUNTRY_LIST.find(x => x.nameNorm.startsWith(queryNorm) || x.aliasesNorm.some(a => a.startsWith(queryNorm)));
+      if(hit) return hit;
+
+      hit = COUNTRY_LIST.find(x => x.nameNorm.includes(queryNorm) || x.aliasesNorm.some(a => a.includes(queryNorm)));
+      return hit || null;
+    }
+
+    function getSuggestions(queryNorm, limit=10){
+      if(!queryNorm) return [];
+
+      const starts = [];
+      const contains = [];
+
+      for(const x of COUNTRY_LIST){
+        if(x.nameNorm.startsWith(queryNorm) || x.aliasesNorm.some(a => a.startsWith(queryNorm))){
+          starts.push(x);
+        } else if (x.nameNorm.includes(queryNorm) || x.aliasesNorm.some(a => a.includes(queryNorm))){
+          contains.push(x);
+        }
+      }
+      return starts.concat(contains).slice(0, limit);
+    }
+
+    let activeIndex = -1;
+    let currentSugs = [];
+    let tDebounce = null;
+
+    function hideSuggest(){
+      UI.suggest.style.display = "none";
+      UI.suggest.innerHTML = "";
+      activeIndex = -1;
+      currentSugs = [];
+    }
+
+    function showSuggest(items){
+      currentSugs = items;
+      activeIndex = -1;
+
+      if(!items.length){
+        hideSuggest();
+        return;
+      }
+
+      UI.suggest.innerHTML = items.map((x, i) => {
+        return `
+          <div class="home-suggest-item" data-i="${i}" role="option" aria-selected="false">
+            <span>${escapeHtml(x.name)}</span>
+            <span class="home-suggest-sub">${escapeHtml(x.slug)}</span>
+          </div>
+        `;
+      }).join("");
+
+      UI.suggest.style.display = "block";
+    }
+
+    function setActive(idx){
+      const children = Array.from(UI.suggest.querySelectorAll(".home-suggest-item"));
+      children.forEach((el) => el.setAttribute("aria-selected","false"));
+      if(idx >= 0 && idx < children.length){
+        children[idx].setAttribute("aria-selected","true");
+        activeIndex = idx;
+      } else {
+        activeIndex = -1;
+      }
+    }
+
+    function goToSlug(slug, openNewTab=false){
+      const url = buildUrl(slug);
+      if(openNewTab) window.open(url, "_blank", "noopener,noreferrer");
+      else window.location.href = url;
+    }
+
+    UI.suggest.addEventListener("click", (e) => {
+      const item = e.target.closest(".home-suggest-item");
+      if(!item) return;
+      const i = Number(item.getAttribute("data-i"));
+      if(Number.isFinite(i) && currentSugs[i]){
+        goToSlug(currentSugs[i].slug, false);
+      }
+    });
+
+    UI.input.addEventListener("input", async () => {
+      clearTimeout(tDebounce);
+      tDebounce = setTimeout(async () => {
+        await loadCountriesOnce();
+        const q = norm(UI.input.value);
+        const sugs = getSuggestions(q, 10);
+        showSuggest(sugs);
+      }, 80);
+    });
+
+    UI.input.addEventListener("keydown", (e) => {
+      if(UI.suggest.style.display !== "block") return;
+
+      const max = currentSugs.length - 1;
+
+      if(e.key === "ArrowDown"){
+        e.preventDefault();
+        const next = activeIndex < max ? activeIndex + 1 : 0;
+        setActive(next);
+      }
+
+      if(e.key === "ArrowUp"){
+        e.preventDefault();
+        const prev = activeIndex > 0 ? activeIndex - 1 : max;
+        setActive(prev);
+      }
+
+      if(e.key === "Enter"){
+        if(activeIndex >= 0 && currentSugs[activeIndex]){
+          e.preventDefault();
+          goToSlug(currentSugs[activeIndex].slug, false);
+        }
+      }
+
+      if(e.key === "Escape"){
+        hideSuggest();
+      }
+    });
+
+    document.addEventListener("click", (e) => {
+      if(e.target.closest("#homeSearchForm") || e.target.closest("#homeSuggest")) return;
+      hideSuggest();
+    });
+
+    UI.form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      await loadCountriesOnce();
+
+      const q = norm(UI.input.value);
+
+      if(!q){
+        return goRandom(false);
+      }
+
+      if(activeIndex >= 0 && currentSugs[activeIndex]){
+        return goToSlug(currentSugs[activeIndex].slug, false);
+      }
+
+      const match = findBestMatch(q);
+      if(match){
+        goToSlug(match.slug, false);
+      }else{
+        alert(window.__HOME_NO_MATCH || "No match found. Try another spelling (or pick from suggestions).");
+        hideSuggest();
+        UI.input.focus();
+      }
+    });
+
+    async function goRandom(openNewTab=false){
+      await loadCountriesOnce();
+      const keys = Object.keys(COUNTRY_DATA || {});
+      if(!keys.length){
+        alert("No countries in countries.json");
+        return;
+      }
+      const slug = keys[Math.floor(Math.random() * keys.length)];
+      goToSlug(slug, openNewTab);
+    }
+
+    UI.btnRandom.addEventListener("click", (e) => {
+      e.preventDefault();
+      goRandom(true);
+    });
+
+    loadCountriesOnce().catch(console.error);
+
+    (function(){
+      const btnHeader = document.getElementById("btnRandom");
+      if(btnHeader){
+        btnHeader.addEventListener("click", (e) => {
+          e.preventDefault();
+          goRandom(false);
+        });
+      }
+    })();
+  </script>
+
+  <script src="data/footer.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("/sw.js").catch(console.error);
+      });
+    }
+  </script>
+
+</body>
+</html>
