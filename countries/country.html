@@ -1058,7 +1058,8 @@
       'SY':'🇸🇾','TW':'🇹🇼','TJ':'🇹🇯','TZ':'🇹🇿','TH':'🇹🇭','TL':'🇹🇱','TG':'🇹🇬','TT':'🇹🇹',
       'TN':'🇹🇳','TM':'🇹🇲','UG':'🇺🇬','UA':'🇺🇦','AE':'🇦🇪','GB':'🇬🇧','US':'🇺🇸','UY':'🇺🇾',
       'UZ':'🇺🇿','VA':'🇻🇦','VE':'🇻🇪','VN':'🇻🇳','YE':'🇾🇪','ZM':'🇿🇲','ZW':'🇿🇼',
-      'SO':'🇸🇴','CF':'🇨🇫','NE':'🇳🇪','TD':'🇹🇩','PS':'🇵🇸','TR':'🇹🇷','SD':'🇸🇩'
+      'SO':'🇸🇴','CF':'🇨🇫','NE':'🇳🇪','TD':'🇹🇩','PS':'🇵🇸','TR':'🇹🇷','SD':'🇸🇩',
+      'RU':'🇷🇺','IL':'🇮🇱'
     };
 
     let wiggMap=null, wiggCurrentLayer=null, wiggMarker=null;
@@ -1303,7 +1304,7 @@
       const ft = document.getElementById("wiggMapFlagDeep");
       const tt = document.getElementById("wiggMapTitleDeep");
       if(ft) ft.textContent = flag;
-      if(tt) tt.textContent = `${flag} ${cName}`;
+      if(tt) tt.textContent = cName;
 
       if(entry?.lat && entry?.lon){ initMap(+entry.lat,+entry.lon); return; }
       if(iso2){

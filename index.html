@@ -108,16 +108,51 @@
       vertical-align: bottom;
     }
 
-    /* Mobile : image plein écran, traitement carte désactivé */
+    /* Mobile : image plein écran bord à bord */
     @media (max-width: 600px) {
-      html, body { background: #ffffff; }
+      html, body { background: #000; overflow: hidden; }
+
+      /* La scène prend tout l'écran */
+      .scene {
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100dvh;
+      }
+
+      /* La carte = plein écran, sans marges, sans ombre */
       #heroCard {
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100dvh;
+        max-width: none;
+        max-height: none;
         border-radius: 0;
         box-shadow: none;
-        max-height: 100dvh;
       }
       #heroCard::before,
       #heroCard::after { display: none; }
+
+      /* L'image couvre tout le cadre */
+      #bgImg {
+        width: 100vw;
+        height: 100dvh;
+        max-width: none;
+        max-height: none;
+        object-fit: cover;
+        object-position: center top;
+      }
+
+      /* L'overlay suit l'image plein écran */
+      #overlay {
+        position: fixed;
+        inset: 0;
+        width: 100vw !important;
+        height: 100dvh !important;
+        left: 0 !important;
+        top: 0 !important;
+      }
     }
 
     /* ── Overlay ──────────────────────────────────────────── */
