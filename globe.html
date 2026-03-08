@@ -6,129 +6,156 @@
   <title>WiggMap Globe</title>
   <script src="https://unpkg.com/globe.gl"></script>
   <style>
-    html,body{margin:0;height:100%;background:#06090f;overflow:hidden}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{
+      height:100%;overflow:hidden;
+      background: radial-gradient(ellipse at 50% 40%, #0e1a2e 0%, #060c18 55%, #030710 100%);
+    }
     #globe{width:100vw;height:100vh}
 
     .hud{
       position:fixed;top:14px;left:14px;z-index:10;
-      background:rgba(15,18,28,.62);backdrop-filter:blur(10px);
+      background:rgba(8,14,28,.70);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
       border:1px solid rgba(255,255,255,.10);
-      border-radius:14px;padding:10px 12px;color:#eaf0ff;
+      border-radius:16px;padding:10px 14px;color:#e8f0ff;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;font-size:13px;
-      display:flex;align-items:center;gap:10px;
+      display:flex;align-items:center;gap:12px;
       max-width: calc(100vw - 28px);
-      flex-wrap: wrap;               /* ✅ prevent overflow */
+      flex-wrap: wrap;
     }
+    .hud-logo{
+      font-weight:900;font-size:14px;letter-spacing:-.3px;color:#fff;
+      white-space:nowrap;flex-shrink:0;
+    }
+    .hud-logo span{color:rgba(46,204,113,.9);}
     .hud .status{
-      font-weight:800;
-      white-space:nowrap;
-      flex: 0 0 auto;
+      font-weight:700;font-size:12px;color:rgba(200,215,255,.65);
+      white-space:nowrap;flex:0 0 auto;
     }
 
     /* Search bar */
     .searchWrap{
-      position:relative;
-      margin-left:auto;
-      flex: 1 1 260px;               /* ✅ can shrink */
-      min-width: 180px;              /* ✅ smaller */
-      max-width: 360px;
+      position:relative;margin-left:auto;
+      flex: 1 1 240px;min-width:180px;max-width:320px;
     }
     .searchWrap input{
-      width:100%;
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
-      color: #eaf0ff;
-      outline: none;
-      font-weight: 800;
-      font-size: 13px;
-      box-sizing: border-box;
+      width:100%;padding:9px 14px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.13);
+      background:rgba(255,255,255,.07);
+      color:#e8f0ff;outline:none;
+      font-weight:700;font-size:13px;
     }
-    .searchWrap input::placeholder{color: rgba(234,240,255,.55); font-weight: 800;}
+    .searchWrap input::placeholder{color:rgba(220,235,255,.45);}
     .searchWrap input:focus{
-      border-color: rgba(46,204,113,.65);
-      box-shadow: 0 0 0 4px rgba(46,204,113,.18);
-      background: rgba(255,255,255,.08);
+      border-color:rgba(46,204,113,.6);
+      box-shadow:0 0 0 3px rgba(46,204,113,.15);
+      background:rgba(255,255,255,.09);
     }
-    @media (max-width: 520px){
-      .searchWrap{
-        margin-left: 0;
-        width: 100%;
-        max-width: 100%;
-        flex: 1 1 100%;
-      }
+    @media(max-width:520px){
+      .searchWrap{margin-left:0;width:100%;max-width:100%;flex:1 1 100%;}
     }
 
     .acList{
-      position:absolute;
-      top: calc(100% + 8px);
-      left: 0;
-      right: 0;
-      background: rgba(10,15,25,.96);
-      border: 1px solid rgba(255,255,255,.10);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 14px 42px rgba(0,0,0,.55);
-      max-height: 320px;
-      overflow-y: auto;
-      display:none;
-      z-index: 999;
+      position:absolute;top:calc(100% + 6px);left:0;right:0;
+      background:rgba(8,14,28,.97);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:12px;overflow:hidden;
+      box-shadow:0 16px 48px rgba(0,0,0,.65);
+      max-height:300px;overflow-y:auto;display:none;z-index:999;
     }
     .acItem{
-      padding: 10px 12px;
-      cursor:pointer;
-      border-bottom: 1px solid rgba(255,255,255,.07);
-      font-weight: 900;
-      color:#eaf0ff;
+      display:flex;align-items:center;gap:10px;
+      padding:9px 12px;cursor:pointer;
+      border-bottom:1px solid rgba(255,255,255,.06);
+      font-weight:800;color:#e8f0ff;font-size:13px;
     }
-    .acItem:hover{ background: rgba(46,204,113,.14); }
-    .acItem small{display:block;margin-top:4px;font-weight:800;color: rgba(234,240,255,.60);}
-    .acItem:last-child{ border-bottom:none; }
+    .acItem img{width:36px;height:24px;object-fit:cover;border-radius:4px;flex-shrink:0;opacity:.85;}
+    .acItem:hover{background:rgba(46,204,113,.12);}
+    .acItem small{display:block;margin-top:2px;font-weight:700;font-size:11px;color:rgba(200,215,255,.55);}
+    .acItem:last-child{border-bottom:none;}
 
-    /* Tooltip */
+    /* ── Tooltip ─────────────────────────────────────────────── */
     #tooltip{
       position:fixed;
-      background:rgba(10,15,25,.95);
-      backdrop-filter:blur(12px);
-      border:1px solid rgba(255,255,255,.12);
-      border-radius:12px;
-      padding:10px 12px;
-      color:#ffffff;
+      background:rgba(8,14,28,.97);
+      backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+      border:1px solid rgba(255,255,255,.11);
+      border-radius:14px;
+      color:#fff;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
       opacity:0;
-      transition:opacity 0.15s ease, transform 0.15s ease;
+      transition:opacity 0.18s ease, transform 0.18s ease;
       z-index:1000;
-      box-shadow:0 8px 24px rgba(0,0,0,0.5);
-      letter-spacing:0.2px;
-      transform: translateY(4px);
-      max-width: min(340px, calc(100vw - 24px));
-      pointer-events:none; /* desktop follow cursor */
+      box-shadow:0 12px 40px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.04) inset;
+      letter-spacing:0.15px;
+      transform:translateY(6px);
+      max-width:min(300px, calc(100vw - 24px));
+      pointer-events:none;
+      overflow:hidden;
     }
-    #tooltip.visible{ opacity:1; transform: translateY(0); }
+    #tooltip.visible{opacity:1;transform:translateY(0);}
 
-    .tt-title{ font-size: 15px; font-weight: 950; margin:0 0 6px; }
-    .tt-grid{ display:grid; grid-template-columns: 1fr; gap: 6px; font-size: 12px; font-weight: 800; color: rgba(234,240,255,.92); }
-    .tt-row{ display:flex; align-items:baseline; justify-content:space-between; gap: 10px; }
-    .tt-row span{ color: rgba(234,240,255,.62); font-weight: 900; }
-    .tt-row b{ font-weight: 950; color:#fff; text-align:right; }
-    .tt-foot{ margin-top: 8px; font-size: 11px; color: rgba(234,240,255,.55); font-weight: 900; display:flex; gap:8px; flex-wrap:wrap; }
+    /* Hero image */
+    .tt-img-wrap{
+      position:relative;height:120px;overflow:hidden;
+      background:rgba(255,255,255,.05);
+    }
+    .tt-img-wrap img{
+      width:100%;height:100%;object-fit:cover;display:block;
+      transition:transform .3s ease;
+    }
+    .tt-img-wrap::after{
+      content:"";position:absolute;inset:0;
+      background:linear-gradient(to bottom, rgba(8,14,28,0) 40%, rgba(8,14,28,.85) 100%);
+    }
+    .tt-img-name{
+      position:absolute;bottom:8px;left:10px;right:10px;
+      font-size:16px;font-weight:900;color:#fff;
+      text-shadow:0 1px 6px rgba(0,0,0,.7);
+      z-index:1;letter-spacing:-.2px;
+    }
+    .tt-no-img{ display:none; }
+
+    /* Body */
+    .tt-body{padding:10px 12px 10px;}
+    .tt-grid{display:grid;grid-template-columns:1fr;gap:5px;font-size:12px;font-weight:800;color:rgba(220,235,255,.9);}
+    .tt-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+    .tt-row span{color:rgba(200,215,255,.55);font-weight:700;font-size:11px;}
+    .tt-row b{font-weight:900;color:#fff;text-align:right;}
+    .tt-wigg{
+      display:inline-flex;align-items:center;gap:5px;
+      padding:2px 8px;border-radius:999px;font-size:11px;font-weight:800;
+      border:1px solid rgba(255,255,255,.12);
+    }
+    .tt-wigg.green{background:rgba(34,197,94,.18);color:#4ade80;border-color:rgba(34,197,94,.25);}
+    .tt-wigg.yellow{background:rgba(245,200,76,.15);color:#fcd34d;border-color:rgba(245,200,76,.25);}
+    .tt-wigg.red{background:rgba(239,68,68,.15);color:#f87171;border-color:rgba(239,68,68,.25);}
+    .tt-foot{
+      padding:8px 12px 10px;
+      font-size:11px;color:rgba(200,215,255,.5);font-weight:800;
+      display:flex;gap:7px;flex-wrap:wrap;
+      border-top:1px solid rgba(255,255,255,.07);
+    }
     .pill{
-      display:inline-block;
-      padding: 4px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.06);
+      display:inline-flex;align-items:center;gap:5px;
+      padding:4px 10px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.05);
+      font-size:11px;font-weight:800;color:rgba(220,235,255,.7);
+    }
+    .pill.green-pill{
+      background:rgba(34,197,94,.15);border-color:rgba(34,197,94,.3);color:#4ade80;
     }
     .pill.btn{
-      cursor:pointer;
-      pointer-events:auto; /* allow click on mobile pinned */
-      user-select:none;
+      cursor:pointer;pointer-events:auto;user-select:none;
     }
+    .pill.btn:hover{background:rgba(255,255,255,.10);}
   </style>
 </head>
 <body>
   <div class="hud">
+    <div class="hud-logo">Wigg<span>Map</span></div>
     <div class="status" id="status">Loading…</div>
     <div class="searchWrap">
       <input id="countrySearch" type="text" placeholder="Search a country…" autocomplete="off" />
@@ -426,14 +453,22 @@ async function loadDetails(slug){
 
 function getAvgSalary(slug){ return COUNTRIES_DB?.[slug]?.fields?.avg_salary?.value || "—"; }
 function getSunnyDays(slug){ return COUNTRIES_DB?.[slug]?.fields?.sun?.value || "—"; }
-function getExpatScoreLabel(details){ return details?.expat_score?.label || details?.name_note || "—"; }
+function getWiggColor(slug){ return COUNTRIES_DB?.[slug]?.wigg?.level || "yellow"; }
+function getWiggLabel(slug){ return COUNTRIES_DB?.[slug]?.wigg?.label || "WIGG"; }
+function getExpatScoreLabel(details){ return details?.expat_score?.label || details?.name_note || null; }
 function getPersonalityName(details){
   return (
     details?.goDeeper?.things_to_know?.personality?.name ||
     details?.things_to_know?.personality?.name ||
     details?.goDeeper?.personality?.name ||
-    "—"
+    null
   );
+}
+function getHeroSrc(slug){
+  // countries.json stores paths as "../assets/hero-xxx.jpg" (relative to /countries/)
+  // globe.html is at root, so we strip the leading ../
+  const raw = COUNTRIES_DB?.[slug]?.hero?.src || "";
+  return raw.replace(/^\.\.\//,"");
 }
 
 let tooltipPinned = false;
@@ -441,37 +476,37 @@ let pinnedSlug = null;
 let lastTapAt = 0;
 
 function tooltipHTML(displayName, slug, details, pinned){
-  const expat = getExpatScoreLabel(details);
-  const salary = getAvgSalary(slug);
-  const sun = getSunnyDays(slug);
+  const expat   = getExpatScoreLabel(details);
+  const salary  = getAvgSalary(slug);
+  const sun     = getSunnyDays(slug);
   const persona = getPersonalityName(details);
+  const wiggColor = getWiggColor(slug);
+  const wiggLabel = getWiggLabel(slug);
+  const heroSrc   = getHeroSrc(slug);
 
-  if(pinned){
-    return `
-      <div class="tt-title">${esc(displayName)}</div>
-      <div class="tt-grid">
-        <div class="tt-row"><span>Expat score</span><b>${esc(expat)}</b></div>
-        <div class="tt-row"><span>Avg salary</span><b>${esc(salary)}</b></div>
-        <div class="tt-row"><span>Personality</span><b>${esc(persona)}</b></div>
-        <div class="tt-row"><span>Sunny days</span><b>${esc(sun)}</b></div>
-      </div>
-      <div class="tt-foot">
-        <span class="pill">Tap again to open</span>
-        <span class="pill btn" data-action="close">Close</span>
-      </div>
-    `;
-  }
+  const imgBlock = heroSrc
+    ? `<div class="tt-img-wrap">
+         <img src="${esc(heroSrc)}" alt="${esc(displayName)}" onerror="this.parentElement.style.display='none'" />
+         <div class="tt-img-name">${esc(displayName)}</div>
+       </div>`
+    : `<div class="tt-body" style="padding-bottom:4px"><div style="font-size:15px;font-weight:900;margin-bottom:6px">${esc(displayName)}</div></div>`;
 
-  return `
-    <div class="tt-title">${esc(displayName)}</div>
-    <div class="tt-grid">
-      <div class="tt-row"><span>Expat score</span><b>${esc(expat)}</b></div>
-      <div class="tt-row"><span>Avg salary</span><b>${esc(salary)}</b></div>
-      <div class="tt-row"><span>Personality</span><b>${esc(persona)}</b></div>
-      <div class="tt-row"><span>Sunny days</span><b>${esc(sun)}</b></div>
+  const rows = [];
+  rows.push(`<div class="tt-row"><span>Expat score</span><b>${esc(expat || "—")}</b></div>`);
+  rows.push(`<div class="tt-row"><span>Avg salary</span><b>${esc(salary)}</b></div>`);
+  if(persona) rows.push(`<div class="tt-row"><span>Icon</span><b>${esc(persona)}</b></div>`);
+  rows.push(`<div class="tt-row"><span>Sunny days / yr</span><b>${esc(sun)}</b></div>`);
+  rows.push(`<div class="tt-row"><span>WIGG level</span><b><span class="tt-wigg ${esc(wiggColor)}">${esc(wiggLabel)}</span></b></div>`);
+
+  const footAction = pinned
+    ? `<span class="pill btn green-pill" data-action="open" data-slug="${esc(slug)}">↗ Open page</span><span class="pill btn" data-action="close">✕ Close</span>`
+    : `<span class="pill">Click to open</span>`;
+
+  return `${imgBlock}
+    <div class="tt-body">
+      <div class="tt-grid">${rows.join("")}</div>
     </div>
-    <div class="tt-foot"><span class="pill">Click to open</span></div>
-  `;
+    <div class="tt-foot">${footAction}</div>`;
 }
 
 function showTooltip(html){
@@ -498,12 +533,17 @@ function unpinTooltip(){
   tooltip.style.pointerEvents = "none";
 }
 
-// Close button in tooltip (mobile)
+// Buttons in tooltip (mobile)
 tooltip.addEventListener("click", (e) => {
-  const btn = e.target && e.target.closest("[data-action='close']");
-  if(btn){
+  const btn = e.target && e.target.closest("[data-action]");
+  if(!btn) return;
+  const action = btn.getAttribute("data-action");
+  if(action === "close"){
     unpinTooltip();
     hideTooltip();
+  } else if(action === "open"){
+    const slug = btn.getAttribute("data-slug");
+    if(slug) window.location.href = `/countries/country.html?country=${slug}`;
   }
 });
 
@@ -567,11 +607,11 @@ async function focusCountryOnGlobe(globe, slug){
 function setupSearch(globe){
   function renderList(items){
     if(!items.length){ acList.style.display="none"; return; }
-    acList.innerHTML = items.map(c => `
-      <div class="acItem" data-code="${esc(c.code)}">
-        ${esc(c.name)}<small>${esc(c.code)}</small>
-      </div>
-    `).join("");
+    acList.innerHTML = items.map(c => {
+      const hero = getHeroSrc(c.code);
+      const imgTag = hero ? `<img src="${esc(hero)}" alt="" onerror="this.style.display='none'" />` : "";
+      return `<div class="acItem" data-code="${esc(c.code)}">${imgTag}<div>${esc(c.name)}<small>${esc(c.code)}</small></div></div>`;
+    }).join("");
     acList.style.display="block";
 
     acList.querySelectorAll(".acItem").forEach(el => {
@@ -641,15 +681,16 @@ async function init(){
   let lastHoverSlug = null;
 
   const globe = Globe()(document.getElementById("globe"))
-    .backgroundColor("#06090f")
+    .backgroundColor("rgba(0,0,0,0)")
     .globeImageUrl("./assets/earth-grass.png")
     .bumpImageUrl("https://unpkg.com/three-globe/example/img/earth-topology.png")
     .showAtmosphere(true)
-    .atmosphereAltitude(0.18)
+    .atmosphereColor("rgba(60,120,255,0.7)")
+    .atmosphereAltitude(0.22)
     .polygonsData(world.features)
-    .polygonAltitude(0.012)
-    .polygonStrokeColor(() => "rgba(255,255,255,0.16)")
-    .polygonSideColor(() => "rgba(255,255,255,0.03)")
+    .polygonAltitude(f => f === hoveredFeature ? 0.025 : 0.012)
+    .polygonStrokeColor(() => "rgba(255,255,255,0.18)")
+    .polygonSideColor(() => "rgba(60,120,255,0.08)")
     .polygonCapColor(f => {
       if (f !== hoveredFeature) return "rgba(0,0,0,0)";
       const name = normName(f.properties?.name || "");
@@ -659,6 +700,7 @@ async function init(){
     .onPolygonHover(f => {
       hoveredFeature = f || null;
       globe.polygonCapColor(globe.polygonCapColor());
+      globe.polygonAltitude(globe.polygonAltitude());
 
       // On mobile pinned mode: ignore hover behavior
       if(TOUCH_UI) return;
@@ -671,7 +713,7 @@ async function init(){
 
         if(!data){
           setStatus(dispName);
-          showTooltip(`<div class="tt-title">${esc(dispName)}</div><div class="tt-foot"><span class="pill">Not mapped</span></div>`);
+          showTooltip(`<div class="tt-body"><div style="font-size:15px;font-weight:900;margin-bottom:4px">${esc(dispName)}</div></div><div class="tt-foot"><span class="pill">No data yet</span></div>`);
           return;
         }
 
