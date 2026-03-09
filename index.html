@@ -162,7 +162,10 @@
       position: absolute;
       pointer-events: none;
       z-index: 2;
+      opacity: 0;
+      transition: opacity .35s ease;
     }
+    #overlay.ready { opacity: 1; }
 
     /* ──────────────────────────────────────────────────────
        SIGN POSITIONS — edit these CSS variables to realign.
@@ -486,6 +489,132 @@
       from { opacity: 0; transform: translateY(-18px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+
+    /* ── Side panels — desktop only ──────────────────────── */
+    .side-panel {
+      position: fixed;
+      top: 0; bottom: 0;
+      width: calc((100vw - min(100dvh * 0.52, 100vw)) / 2 - 12px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      pointer-events: none;
+      opacity: 0;
+      animation: sideFadeIn .9s .3s cubic-bezier(.22,1,.36,1) forwards;
+    }
+
+    .side-panel.left  { left: 0; }
+    .side-panel.right { right: 0; }
+
+    @keyframes sideFadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .side-question {
+      text-align: center;
+      padding: 0 16px;
+      max-width: 220px;
+    }
+
+    .side-question .sq-pre {
+      display: block;
+      font-family: "Poppins", system-ui, sans-serif;
+      font-size: clamp(9px, 1vw, 11px);
+      font-weight: 700;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: rgba(80,120,85,.55);
+      margin-bottom: 14px;
+    }
+
+    .side-question .sq-line {
+      display: block;
+      font-family: "Poppins", system-ui, sans-serif;
+      font-weight: 800;
+      font-size: clamp(14px, 1.5vw, 21px);
+      line-height: 1.22;
+      color: #1a2e1c;
+      letter-spacing: -.01em;
+    }
+
+    .side-question .sq-line em {
+      font-style: normal;
+      color: #2e8028;
+      position: relative;
+      display: inline-block;
+    }
+
+    .side-question .sq-line em::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -3px;
+      width: 100%; height: 2px;
+      background: currentColor;
+      border-radius: 2px;
+      opacity: .45;
+    }
+
+    .side-question .sq-ornament {
+      display: block;
+      width: 28px; height: 2px;
+      background: rgba(46,128,40,.3);
+      margin: 18px auto 0;
+      border-radius: 2px;
+    }
+
+    .side-stat {
+      text-align: center;
+      padding: 0 16px;
+      max-width: 220px;
+    }
+
+    .side-stat .ss-number {
+      font-family: "Poppins", system-ui, sans-serif;
+      font-weight: 800;
+      font-size: clamp(36px, 4.2vw, 64px);
+      line-height: 1;
+      color: #1a2e1c;
+      letter-spacing: -.04em;
+      display: block;
+    }
+
+    .side-stat .ss-number span { color: #2e8028; }
+
+    .side-stat .ss-label {
+      display: block;
+      font-family: "Poppins", system-ui, sans-serif;
+      font-weight: 700;
+      font-size: clamp(9px, 1vw, 12px);
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: rgba(26,46,28,.5);
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    .side-stat .ss-divider {
+      width: 32px; height: 2px;
+      background: linear-gradient(90deg, #2e8028, transparent);
+      border-radius: 2px;
+      margin: 14px auto;
+    }
+
+    .side-stat .ss-sub {
+      display: block;
+      font-family: "Poppins", system-ui, sans-serif;
+      font-weight: 600;
+      font-size: clamp(9px, .95vw, 12px);
+      color: rgba(26,46,28,.42);
+      line-height: 1.6;
+      letter-spacing: .01em;
+    }
+
+    @media (max-width: 900px) {
+      .side-panel { display: none; }
+    }
   </style>
 </head>
 
@@ -639,7 +768,11 @@
         search:"Search",        searchSub:"Find Your Country",
         searchTitle:"Search a Country",
         placeholder:"e.g. Switzerland, Japan…",
-        btn:"Go →", noMatch:"No match found."
+        btn:"Go →", noMatch:"No match found.",
+        sidePre:"Ask yourself",
+        sideLine1:"What if your life", sideLine2:"looked", sideEm:"different", sideLine3:"somewhere else?",
+        sideLabel:"Countries",
+        sideSub:"Explore living conditions,<br>salaries & cost of life<br>across the world"
       },
       fr: {
         chron:"Chroniques",     chronSub:"Articles & Analyses",
@@ -650,7 +783,11 @@
         search:"Chercher",      searchSub:"Trouver un Pays",
         searchTitle:"Rechercher un pays",
         placeholder:"ex. Suisse, Japon…",
-        btn:"Go →", noMatch:"Aucun résultat."
+        btn:"Go →", noMatch:"Aucun résultat.",
+        sidePre:"Pose-toi la question",
+        sideLine1:"Et si ta vie était", sideLine2:"", sideEm:"différente", sideLine3:"ailleurs ?",
+        sideLabel:"Pays",
+        sideSub:"Comparez les conditions de vie,<br>salaires et coût de la vie<br>dans le monde entier"
       },
       es: {
         chron:"Crónicas",       chronSub:"Artículos y Análisis",
@@ -661,7 +798,11 @@
         search:"Buscar",        searchSub:"Encuentra tu País",
         searchTitle:"Buscar un País",
         placeholder:"p. ej. Suiza, Japón…",
-        btn:"Ir →", noMatch:"Sin resultados."
+        btn:"Ir →", noMatch:"Sin resultados.",
+        sidePre:"Pregúntate",
+        sideLine1:"¿Y si tu vida fuera", sideLine2:"", sideEm:"diferente", sideLine3:"en otro lugar?",
+        sideLabel:"Países",
+        sideSub:"Explora condiciones de vida,<br>salarios y coste de la vida<br>en más de 150 países"
       }
     };
 
@@ -687,6 +828,17 @@
       $('homeQuery').placeholder     = t.placeholder;
       $('searchGoBtn').textContent   = t.btn;
       window.__HOME_NO_MATCH = t.noMatch;
+      // Side panels
+      $('sidePre').textContent  = t.sidePre;
+      $('sideEm').textContent   = t.sideEm;
+      // Rebuild the line with correct word order per language
+      var sl = $('sideLine');
+      if (sl) {
+        sl.innerHTML = t.sideLine1 + (t.sideLine2 ? '<br>' + t.sideLine2 + ' ' : ' ') +
+          '<em id="sideEm">' + t.sideEm + '</em><br>' + t.sideLine3;
+      }
+      $('sideLabel').textContent = t.sideLabel;
+      $('sideSub').innerHTML     = t.sideSub;
       document.documentElement.lang = getLang();
     })();
 
@@ -780,8 +932,13 @@
       });
     }
 
-    if (img.complete && img.naturalWidth) { positionAll(); }
-    img.addEventListener('load', positionAll);
+    function revealOverlay() {
+      positionAll();
+      overlay.classList.add('ready');
+    }
+
+    if (img.complete && img.naturalWidth) { revealOverlay(); }
+    img.addEventListener('load', revealOverlay);
     window.addEventListener('resize', positionAll);
   </script>
 
@@ -911,6 +1068,26 @@
 
     loadOnce().catch(console.error);
   </script>
+
+
+  <!-- ── Left panel ──────────────────────────────────────── -->
+  <div class="side-panel left" aria-hidden="true">
+    <div class="side-question">
+      <span class="sq-pre" id="sidePre">Ask yourself</span>
+      <span class="sq-line" id="sideLine">What if your life<br>looked <em id="sideEm">different</em><br>somewhere else?</span>
+      <span class="sq-ornament"></span>
+    </div>
+  </div>
+
+  <!-- ── Right panel ─────────────────────────────────────── -->
+  <div class="side-panel right" aria-hidden="true">
+    <div class="side-stat">
+      <span class="ss-number">150<span>+</span></span>
+      <span class="ss-label" id="sideLabel">Countries</span>
+      <div class="ss-divider"></div>
+      <span class="ss-sub" id="sideSub">Explore living conditions,<br>salaries &amp; cost of life<br>across the world</span>
+    </div>
+  </div>
 
   <script src="data/footer.js"></script>
   <script>
