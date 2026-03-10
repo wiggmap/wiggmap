@@ -268,6 +268,18 @@
     "/chronicles/chronicle-raise-children-2026-en.html": { en: "/chronicles/chronicle-raise-children-2026-en.html", fr: "/chronicles/chronicle-elever-enfants-2026-fr.html", es: "/chronicles/chronicle-criar-hijos-2026-es.html" },
     "/chronicles/chronicle-elever-enfants-2026-fr.html": { en: "/chronicles/chronicle-raise-children-2026-en.html", fr: "/chronicles/chronicle-elever-enfants-2026-fr.html", es: "/chronicles/chronicle-criar-hijos-2026-es.html" },
     "/chronicles/chronicle-criar-hijos-2026-es.html":    { en: "/chronicles/chronicle-raise-children-2026-en.html", fr: "/chronicles/chronicle-elever-enfants-2026-fr.html", es: "/chronicles/chronicle-criar-hijos-2026-es.html" },
+
+    "/chronicles/chronicle-ameriques-partie2-en.html": { en: "/chronicles/chronicle-ameriques-partie2-en.html", fr: "/chronicles/chronicle-ameriques-partie2-fr.html", es: "/chronicles/chronicle-ameriques-partie2-es.html" },
+    "/chronicles/chronicle-ameriques-partie2-fr.html": { en: "/chronicles/chronicle-ameriques-partie2-en.html", fr: "/chronicles/chronicle-ameriques-partie2-fr.html", es: "/chronicles/chronicle-ameriques-partie2-es.html" },
+    "/chronicles/chronicle-ameriques-partie2-es.html": { en: "/chronicles/chronicle-ameriques-partie2-en.html", fr: "/chronicles/chronicle-ameriques-partie2-fr.html", es: "/chronicles/chronicle-ameriques-partie2-es.html" },
+
+    "/chronicles/chronicle-ameriques-partie3-en.html": { en: "/chronicles/chronicle-ameriques-partie3-en.html", fr: "/chronicles/chronicle-ameriques-partie3-fr.html", es: "/chronicles/chronicle-ameriques-partie3-es.html" },
+    "/chronicles/chronicle-ameriques-partie3-fr.html": { en: "/chronicles/chronicle-ameriques-partie3-en.html", fr: "/chronicles/chronicle-ameriques-partie3-fr.html", es: "/chronicles/chronicle-ameriques-partie3-es.html" },
+    "/chronicles/chronicle-ameriques-partie3-es.html": { en: "/chronicles/chronicle-ameriques-partie3-en.html", fr: "/chronicles/chronicle-ameriques-partie3-fr.html", es: "/chronicles/chronicle-ameriques-partie3-es.html" },
+
+    "/chronicles/chronicle-australia-expat-guide-2026-en.html":    { en: "/chronicles/chronicle-australia-expat-guide-2026-en.html", fr: "/chronicles/chronicle-australie-expatriation-2026-fr.html", es: "/chronicles/chronicle-australia-guia-expatriados-2026-es.html" },
+    "/chronicles/chronicle-australie-expatriation-2026-fr.html":   { en: "/chronicles/chronicle-australia-expat-guide-2026-en.html", fr: "/chronicles/chronicle-australie-expatriation-2026-fr.html", es: "/chronicles/chronicle-australia-guia-expatriados-2026-es.html" },
+    "/chronicles/chronicle-australia-guia-expatriados-2026-es.html": { en: "/chronicles/chronicle-australia-expat-guide-2026-en.html", fr: "/chronicles/chronicle-australie-expatriation-2026-fr.html", es: "/chronicles/chronicle-australia-guia-expatriados-2026-es.html" },
   };
 
   // Lang selection
