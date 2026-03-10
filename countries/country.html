@@ -472,6 +472,46 @@
     }
     .article-card p:last-child { margin-bottom: 0; }
 
+    /* ── Related Chronicles ──────────────────────────────── */
+    .rc-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .rc-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px 12px 22px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      position: relative;
+      background: rgba(0,0,0,.01);
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 13px;
+      line-height: 1.4;
+      transition: background .15s, border-color .15s;
+    }
+    .rc-item:hover {
+      background: rgba(34,197,94,.05);
+      border-color: rgba(34,197,94,.30);
+    }
+    .rc-bar {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 28px;
+      border-radius: 999px;
+      background: var(--green);
+      opacity: .5;
+    }
+    .rc-label { flex: 1; }
+    .rc-arrow  { margin-left: auto; color: var(--muted); font-size: 15px; flex-shrink: 0; }
+
     /* Loading spinner */
     .deep-loading {
       padding: 32px;
@@ -892,6 +932,16 @@
       </div><!-- /right-col -->
     </div><!-- /main-grid -->
 
+    <!-- ══ RELATED CHRONICLES ════════════════════════════════ -->
+    <div id="related-chronicles" style="display:none; margin-top:28px">
+      <div class="things-section">
+        <div class="section-head">
+          <h2 id="rc-heading">Related Chronicles</h2>
+        </div>
+        <div id="rc-list" class="rc-list"></div>
+      </div>
+    </div>
+
     <footer>
       WiggMap — Values are indicative. Use "Correct data" to improve accuracy with local input.
     </footer>
@@ -951,6 +1001,143 @@
       setInterval(tick,30000);
     }
 
+    // ── Related Chronicles ────────────────────────────────
+    const CHRONICLES = {
+      _index: {
+        'chronicle-2056': {
+          en: { title: '2056: Where Will Life Be Best in 30 Years?',                      url: '../chronicles/chronicle-2056-best-countries-30-years-en.html' },
+          fr: { title: '2056 : Où Vivra-t-on le Mieux dans 30 Ans ?',                    url: '../chronicles/chronicle-2056-ou-vivra-t-on-le-mieux-fr.html' },
+          es: { title: '2056: ¿Dónde se Vivirá Mejor en 30 Años?',                       url: '../chronicles/chronicle-2056-mejores-paises-30-anos-es.html' }
+        },
+        'ameriques-1': {
+          en: { title: 'Panama, Costa Rica, Puerto Rico: The Americas Expat 2026 — Part 1',          url: '../chronicles/chronicle-ameriques-partie1-en.html' },
+          fr: { title: 'Panama, Costa Rica, Puerto Rico : le comparatif expatriation 2026 — Partie 1', url: '../chronicles/chronicle-ameriques-partie1-fr.html' },
+          es: { title: 'Panamá, Costa Rica, Puerto Rico: Comparativa Expatriados 2026 — Parte 1',     url: '../chronicles/chronicle-ameriques-partie1-es.html' }
+        },
+        'ameriques-2': {
+          en: { title: 'St. Kitts, Bahamas, Antigua: Zero Tax & Second Passport 2026 — Part 2',          url: '../chronicles/chronicle-ameriques-partie2-en.html' },
+          fr: { title: 'Saint Kitts, Bahamas, Antigua : Zéro Impôt et Second Passeport 2026 — Partie 2', url: '../chronicles/chronicle-ameriques-partie2-fr.html' },
+          es: { title: 'St. Kitts, Bahamas, Antigua: Cero Impuestos y Segundo Pasaporte 2026 — Parte 2', url: '../chronicles/chronicle-ameriques-partie2-es.html' }
+        },
+        'ameriques-3': {
+          en: { title: 'Anguilla, BVI, Sint Maarten: Ultra-HNW Offshore 2026 — Part 3',          url: '../chronicles/chronicle-ameriques-partie3-en.html' },
+          fr: { title: 'Anguilla, Îles Vierges, Sint Maarten : Offshore Ultra-HNW 2026 — Partie 3', url: '../chronicles/chronicle-ameriques-partie3-fr.html' },
+          es: { title: 'Anguila, Islas Vírgenes, Sint Maarten: Offshore Ultra-HNW 2026 — Parte 3',  url: '../chronicles/chronicle-ameriques-partie3-es.html' }
+        },
+        'australia-guide': {
+          en: { title: 'Australia 2026: Visas, Salaries, Quality of Life — Complete Expat Guide', url: '../chronicles/chronicle-australia-expat-guide-2026-en.html' },
+          fr: { title: 'Australie 2026 : Visas, Salaires, Qualité de Vie — Guide Complet',        url: '../chronicles/chronicle-australie-expatriation-2026-fr.html' },
+          es: { title: 'Australia 2026: Visas, Salarios, Calidad de Vida — Guía Completa',        url: '../chronicles/chronicle-australia-guia-expatriados-2026-es.html' }
+        },
+        'raise-children': {
+          en: { title: 'Best Countries to Raise Children in 2026 — Education & Safety', url: '../chronicles/chronicle-raise-children-2026-en.html' },
+          fr: { title: 'Où Élever ses Enfants en 2026 ? Les Meilleurs Pays',            url: '../chronicles/chronicle-elever-enfants-2026-fr.html' },
+          es: { title: 'Mejores Países para Criar Hijos en 2026 — Educación y Seguridad', url: '../chronicles/chronicle-criar-hijos-2026-es.html' }
+        },
+        'digital-nomads': {
+          en: { title: 'Best Countries for Digital Nomads in 2026: Visa & Cost of Living',        url: '../chronicles/digital-nomads-2026-en.html' },
+          fr: { title: 'Meilleurs pays pour digital nomads en 2026 : visa et coût de la vie',     url: '../chronicles/digital-nomads-2026-fr.html' },
+          es: { title: 'Mejores países para nómadas digitales en 2026: visado y coste de vida',   url: '../chronicles/digital-nomads-2026-es.html' }
+        },
+        'expats-crypto': {
+          en: { title: 'Best Country for Expats, Nomads & Crypto Traders 2026',         url: '../chronicles/expats-nomads-crypto-2026-en.html' },
+          fr: { title: 'Meilleur pays pour expatriés, nomades et traders crypto 2026',   url: '../chronicles/expatries-nomades-crypto-2026-fr.html' },
+          es: { title: 'Mejor país para expatriados, nómadas y traders crypto 2026',     url: '../chronicles/expatriados-nomadas-crypto-2026-es.html' }
+        }
+      },
+      countries: {
+        'afghanistan':        ['ameriques-2'],
+        'argentina':          ['ameriques-3'],
+        'armenia':            ['chronicle-2056'],
+        'australia':          ['australia-guide','ameriques-3','raise-children'],
+        'austria':            ['raise-children','chronicle-2056'],
+        'bahamas':            ['ameriques-1','ameriques-2','ameriques-3'],
+        'belarus':            ['ameriques-2'],
+        'belgium':            ['ameriques-1','ameriques-3','expats-crypto'],
+        'bulgaria':           ['expats-crypto','digital-nomads'],
+        'cambodia':           ['expats-crypto'],
+        'canada':             ['ameriques-1','ameriques-2','ameriques-3'],
+        'chile':              ['chronicle-2056'],
+        'china':              ['raise-children','chronicle-2056'],
+        'colombia':           ['ameriques-3','raise-children','chronicle-2056'],
+        'costa-rica':         ['ameriques-1','ameriques-2','ameriques-3'],
+        'croatia':            ['digital-nomads'],
+        'cuba':               ['ameriques-2'],
+        'czech-republic':     ['chronicle-2056'],
+        'denmark':            ['raise-children','chronicle-2056'],
+        'estonia':            ['expats-crypto','raise-children','chronicle-2056'],
+        'finland':            ['raise-children','chronicle-2056'],
+        'france':             ['raise-children','expats-crypto','chronicle-2056'],
+        'georgia':            ['expats-crypto','chronicle-2056'],
+        'germany':            ['ameriques-3','expats-crypto','raise-children'],
+        'greece':             ['ameriques-1','digital-nomads','chronicle-2056'],
+        'hungary':            ['digital-nomads','chronicle-2056'],
+        'iceland':            ['raise-children','chronicle-2056'],
+        'indonesia':          ['expats-crypto'],
+        'iran':               ['ameriques-2','chronicle-2056'],
+        'ireland':            ['ameriques-3'],
+        'israel':             ['chronicle-2056'],
+        'italy':              ['digital-nomads','chronicle-2056'],
+        'japan':              ['raise-children','chronicle-2056'],
+        'laos':               ['expats-crypto'],
+        'lebanon':            ['chronicle-2056'],
+        'luxembourg':         ['ameriques-2'],
+        'malaysia':           ['chronicle-2056'],
+        'malta':              ['expats-crypto'],
+        'mexico':             ['ameriques-2','ameriques-3'],
+        'moldova':            ['chronicle-2056'],
+        'monaco':             ['ameriques-2'],
+        'netherlands':        ['ameriques-2','ameriques-3','raise-children'],
+        'new-zealand':        ['raise-children','chronicle-2056'],
+        'norway':             ['raise-children','chronicle-2056'],
+        'panama':             ['ameriques-1','ameriques-2','ameriques-3'],
+        'philippines':        ['chronicle-2056'],
+        'poland':             ['chronicle-2056'],
+        'portugal':           ['expats-crypto','digital-nomads','raise-children'],
+        'russia':             ['ameriques-2','chronicle-2056'],
+        'saudi-arabia':       ['chronicle-2056'],
+        'singapore':          ['ameriques-2','expats-crypto','raise-children'],
+        'slovenia':           ['digital-nomads','chronicle-2056'],
+        'south-korea':        ['raise-children','chronicle-2056'],
+        'spain':              ['ameriques-2','ameriques-3','expats-crypto'],
+        'sweden':             ['raise-children','chronicle-2056'],
+        'switzerland':        ['ameriques-1','ameriques-2','expats-crypto'],
+        'taiwan':             ['chronicle-2056'],
+        'thailand':           ['expats-crypto','digital-nomads'],
+        'turkey':             ['chronicle-2056'],
+        'ukraine':            ['chronicle-2056'],
+        'united-arab-emirates':['expats-crypto'],
+        'united-kingdom':     ['ameriques-2','ameriques-3','raise-children'],
+        'united-states':      ['ameriques-1','ameriques-2','expats-crypto'],
+        'uruguay':            ['chronicle-2056'],
+        'venezuela':          ['chronicle-2056'],
+        'vietnam':            ['expats-crypto','chronicle-2056'],
+        'yemen':              ['chronicle-2056']
+      }
+    };
+
+    function renderRelatedChronicles(slug) {
+      const ids = CHRONICLES.countries[slug];
+      if (!ids || !ids.length) return;
+      const lang   = (localStorage.getItem('wigg_lang') || 'en').toLowerCase();
+      const labels = { en:'Related Chronicles', fr:'Chroniques liées', es:'Crónicas relacionadas' };
+      const hd = document.getElementById('rc-heading');
+      if (hd) hd.textContent = labels[lang] || labels.en;
+      const list = document.getElementById('rc-list');
+      if (!list) return;
+      list.innerHTML = ids.map(function(id) {
+        const c   = CHRONICLES._index[id];
+        const loc = c[lang] || c.en;
+        return '<a class="rc-item" href="' + loc.url + '">'
+             + '<span class="rc-bar"></span>'
+             + '<span class="rc-label">' + loc.title + '</span>'
+             + '<span class="rc-arrow">\u2192</span>'
+             + '</a>';
+      }).join('');
+      const section = document.getElementById('related-chronicles');
+      if (section) section.style.display = 'block';
+    }
+
     function setSeo(seo){
       const title = seo?.title || "WiggMap — Country";
       const desc  = seo?.description || "WiggMap country snapshot.";
@@ -1002,6 +1189,7 @@
       }
 
       setSeo(c.seo);
+      renderRelatedChronicles(slug);
       setText("crumb-country", c.name);
       setText("country-name", c.name);
       setText("country-subtitle", c.subtitle);

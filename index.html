@@ -615,6 +615,57 @@
     @media (max-width: 900px) {
       .side-panel { display: none; }
     }
+
+    /* ── PWA install banner ──────────────────────────────── */
+    #pwa-banner {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #18201c;
+      color: #fff;
+      border-radius: 14px;
+      padding: 13px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 6px 28px rgba(0,0,0,.38);
+      z-index: 9999;
+      max-width: calc(100vw - 32px);
+      width: max-content;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .35s ease;
+    }
+    #pwa-banner.pwa-visible { opacity: 1; pointer-events: auto; }
+    #pwa-banner .pwa-icon { font-size: 20px; flex-shrink: 0; }
+    #pwa-banner .pwa-msg  { flex: 1; line-height: 1.4; }
+    #pwa-install-btn {
+      background: #22c55e;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 7px 13px;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    #pwa-install-btn:hover { background: #16a34a; }
+    #pwa-close-btn {
+      background: none;
+      border: none;
+      color: rgba(255,255,255,.5);
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0 2px;
+      flex-shrink: 0;
+    }
+    #pwa-close-btn:hover { color: #fff; }
   </style>
 </head>
 
@@ -828,18 +879,26 @@
       $('homeQuery').placeholder     = t.placeholder;
       $('searchGoBtn').textContent   = t.btn;
       window.__HOME_NO_MATCH = t.noMatch;
-      // Side panels
-      $('sidePre').textContent  = t.sidePre;
-      $('sideEm').textContent   = t.sideEm;
-      // Rebuild the line with correct word order per language
-      var sl = $('sideLine');
-      if (sl) {
-        sl.innerHTML = t.sideLine1 + (t.sideLine2 ? '<br>' + t.sideLine2 + ' ' : ' ') +
-          '<em id="sideEm">' + t.sideEm + '</em><br>' + t.sideLine3;
-      }
-      $('sideLabel').textContent = t.sideLabel;
-      $('sideSub').innerHTML     = t.sideSub;
       document.documentElement.lang = getLang();
+      // Side panels are below this script block — defer until DOM is ready
+      (function(t) {
+        function applySide() {
+          var $$ = function(id) { return document.getElementById(id); };
+          if ($$('sidePre')) $$('sidePre').textContent = t.sidePre;
+          var sl = $$('sideLine');
+          if (sl) {
+            sl.innerHTML = t.sideLine1 + (t.sideLine2 ? '<br>' + t.sideLine2 + ' ' : ' ') +
+              '<em id="sideEm">' + t.sideEm + '</em><br>' + t.sideLine3;
+          }
+          if ($$('sideLabel')) $$('sideLabel').textContent = t.sideLabel;
+          if ($$('sideSub'))   $$('sideSub').innerHTML     = t.sideSub;
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', applySide);
+        } else {
+          applySide();
+        }
+      })(t);
     })();
 
     // Language switcher init
@@ -1090,6 +1149,72 @@
   </div>
 
   <script src="data/footer.js"></script>
+
+  <!-- ══ PWA INSTALL BANNER ══════════════════════════════════ -->
+  <div id="pwa-banner" role="status" aria-live="polite">
+    <span class="pwa-icon">📲</span>
+    <span class="pwa-msg" id="pwa-msg">Install WiggMap on your device</span>
+    <button id="pwa-install-btn">Install</button>
+    <button id="pwa-close-btn" aria-label="Close">✕</button>
+  </div>
+
+  <script>
+    (function () {
+      // Already installed as PWA — don't show
+      var isStandalone = window.navigator.standalone === true
+        || window.matchMedia('(display-mode: standalone)').matches;
+      if (isStandalone) return;
+
+      var isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) && !window.MSStream;
+      var deferredPrompt = null;
+      var banner   = document.getElementById('pwa-banner');
+      var msg      = document.getElementById('pwa-msg');
+      var installBtn = document.getElementById('pwa-install-btn');
+      var closeBtn = document.getElementById('pwa-close-btn');
+      var hideTimer = null;
+
+      function showBanner() {
+        banner.classList.add('pwa-visible');
+        // Auto-hide after 5 s
+        hideTimer = setTimeout(function () {
+          banner.classList.remove('pwa-visible');
+        }, 5000);
+      }
+
+      function hideBanner() {
+        clearTimeout(hideTimer);
+        banner.classList.remove('pwa-visible');
+      }
+
+      closeBtn.addEventListener('click', hideBanner);
+
+      if (isIOS) {
+        // iOS: explain the Share → Add to Home Screen flow
+        msg.innerHTML = 'Install WiggMap&nbsp;&nbsp;·&nbsp;&nbsp;tap&nbsp;<strong>Share</strong>&nbsp;then&nbsp;<strong>Add to Home Screen</strong>';
+        installBtn.style.display = 'none';
+        setTimeout(showBanner, 2000);
+      } else {
+        // Android / Chrome Desktop: use beforeinstallprompt
+        window.addEventListener('beforeinstallprompt', function (e) {
+          e.preventDefault();
+          deferredPrompt = e;
+          msg.textContent = 'Install WiggMap on your device';
+          installBtn.style.display = '';
+          setTimeout(showBanner, 2000);
+        });
+
+        installBtn.addEventListener('click', function () {
+          if (!deferredPrompt) return;
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then(function () {
+            deferredPrompt = null;
+            hideBanner();
+          });
+        });
+      }
+    })();
+  </script>
+
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function() { navigator.serviceWorker.register('/sw.js').catch(console.error); });
