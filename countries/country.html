@@ -20,6 +20,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" href="../assets/favicon.ico" type="image/x-icon" />
+  <link rel="canonical" id="seo-canonical" href="" />
 
   <title id="seo-title">Country — WiggMap</title>
   <meta id="seo-desc" name="description" content="WiggMap country snapshot: salaries, rent, utilities, taxes, tech, gasoline, immigration, happiness, climate — WiggMap." />
@@ -661,7 +662,7 @@
     <!-- Country title + badge -->
     <div class="country-head">
       <div>
-        <h1 class="country-title" id="country-name">Country</h1>
+        <h1 class="country-title" id="country-name"></h1>
         <p class="country-subtitle" id="country-subtitle"></p>
       </div>
       <div class="head-right">
@@ -1138,7 +1139,7 @@
       if (section) section.style.display = 'block';
     }
 
-    function setSeo(seo){
+    function setSeo(seo, slug){
       const title = seo?.title || "WiggMap — Country";
       const desc  = seo?.description || "WiggMap country snapshot.";
       document.title = title;
@@ -1146,6 +1147,8 @@
       if(t) t.textContent = title;
       const d = document.getElementById("seo-desc");
       if(d) d.setAttribute("content", desc);
+      const c = document.getElementById("seo-canonical");
+      if(c && slug) c.setAttribute("href", "https://wiggmap.com/countries/country.html?country=" + slug);
     }
 
     function setText(id, txt){
@@ -1188,7 +1191,7 @@
         return;
       }
 
-      setSeo(c.seo);
+      setSeo(c.seo, slug);
       renderRelatedChronicles(slug);
       setText("crumb-country", c.name);
       setText("country-name", c.name);
