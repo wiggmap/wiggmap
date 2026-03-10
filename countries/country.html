@@ -943,6 +943,16 @@
       </div>
     </div>
 
+    <!-- ══ COMPARE PAIRS ════════════════════════════════════ -->
+    <div id="compare-section" style="display:none; margin-top:28px">
+      <div class="things-section">
+        <div class="section-head">
+          <h2 id="cmp-heading">Compare with other countries</h2>
+        </div>
+        <div id="cmp-list" class="rc-list"></div>
+      </div>
+    </div>
+
     <footer>
       WiggMap — Values are indicative. Use "Correct data" to improve accuracy with local input.
     </footer>
@@ -1139,6 +1149,64 @@
       if (section) section.style.display = 'block';
     }
 
+    // ── Compare pairs ─────────────────────────────────────────
+    const COMPARE_PAIRS = {
+      'australia':            ['australia-vs-canada','australia-vs-new-zealand','singapore-vs-australia'],
+      'brazil':               ['brazil-vs-colombia'],
+      'canada':               ['australia-vs-canada'],
+      'colombia':             ['colombia-vs-peru','mexico-vs-colombia','brazil-vs-colombia','panama-vs-colombia'],
+      'costa-rica':           ['mexico-vs-costa-rica'],
+      'france':               ['france-vs-germany','spain-vs-france','france-vs-thailand'],
+      'georgia':              ['georgia-vs-portugal'],
+      'germany':              ['germany-vs-netherlands','switzerland-vs-germany','france-vs-germany','portugal-vs-germany'],
+      'greece':               ['portugal-vs-greece'],
+      'indonesia':            ['thailand-vs-indonesia','vietnam-vs-indonesia'],
+      'italy':                ['spain-vs-italy','portugal-vs-italy'],
+      'malaysia':             ['thailand-vs-malaysia'],
+      'malta':                ['malta-vs-portugal'],
+      'mexico':               ['mexico-vs-colombia','mexico-vs-costa-rica','panama-vs-mexico'],
+      'netherlands':          ['germany-vs-netherlands','switzerland-vs-netherlands'],
+      'new-zealand':          ['australia-vs-new-zealand'],
+      'panama':               ['panama-vs-colombia','panama-vs-mexico','portugal-vs-panama','thailand-vs-panama'],
+      'peru':                 ['colombia-vs-peru'],
+      'philippines':          ['thailand-vs-philippines','vietnam-vs-philippines'],
+      'portugal':             ['portugal-vs-spain','portugal-vs-thailand','portugal-vs-germany','georgia-vs-portugal','portugal-vs-greece','portugal-vs-italy','portugal-vs-vietnam','portugal-vs-panama','malta-vs-portugal'],
+      'singapore':            ['singapore-vs-australia','united-arab-emirates-vs-singapore'],
+      'spain':                ['portugal-vs-spain','spain-vs-france','spain-vs-italy','spain-vs-thailand'],
+      'switzerland':          ['switzerland-vs-germany','switzerland-vs-netherlands'],
+      'thailand':             ['thailand-vs-vietnam','thailand-vs-indonesia','portugal-vs-thailand','france-vs-thailand','thailand-vs-malaysia','germany-vs-thailand','spain-vs-thailand','thailand-vs-philippines','thailand-vs-panama'],
+      'united-arab-emirates': ['united-arab-emirates-vs-singapore'],
+      'vietnam':              ['vietnam-vs-indonesia','vietnam-vs-philippines','portugal-vs-vietnam','thailand-vs-vietnam'],
+    };
+
+    function renderComparePairs(slug) {
+      const pairs = COMPARE_PAIRS[slug];
+      if (!pairs || !pairs.length) return;
+      const lang = (localStorage.getItem('wigg_lang') || 'en').toLowerCase();
+      const labels = {
+        en: 'Compare with other countries',
+        fr: 'Comparer avec d\'autres pays',
+        es: 'Comparar con otros países'
+      };
+      const hd = document.getElementById('cmp-heading');
+      if (hd) hd.textContent = labels[lang] || labels.en;
+      const list = document.getElementById('cmp-list');
+      if (!list) return;
+      const shown = pairs.slice(0, 4);
+      list.innerHTML = shown.map(function(pair) {
+        const parts = pair.split('-vs-');
+        const n1 = parts[0].split('-').map(function(w){ return w.charAt(0).toUpperCase()+w.slice(1); }).join(' ');
+        const n2 = parts[1].split('-').map(function(w){ return w.charAt(0).toUpperCase()+w.slice(1); }).join(' ');
+        return '<a class="rc-item" href="/compare/static/' + pair + '/">'
+             + '<span class="rc-bar"></span>'
+             + '<span class="rc-label">' + n1 + ' vs ' + n2 + '</span>'
+             + '<span class="rc-arrow">\u2192</span>'
+             + '</a>';
+      }).join('');
+      const section = document.getElementById('compare-section');
+      if (section) section.style.display = 'block';
+    }
+
     function setSeo(seo, slug){
       const title = seo?.title || "WiggMap — Country";
       const desc  = seo?.description || "WiggMap country snapshot.";
@@ -1193,6 +1261,7 @@
 
       setSeo(c.seo, slug);
       renderRelatedChronicles(slug);
+      renderComparePairs(slug);
       setText("crumb-country", c.name);
       setText("country-name", c.name);
       setText("country-subtitle", c.subtitle);
