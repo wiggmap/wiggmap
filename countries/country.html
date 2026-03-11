@@ -513,6 +513,32 @@
     .rc-label { flex: 1; }
     .rc-arrow  { margin-left: auto; color: var(--muted); font-size: 15px; flex-shrink: 0; }
 
+    /* ── Compare inline ── */
+    .cmp-inline {
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.8;
+      margin: 0;
+    }
+    .cmp-inline-lbl { font-weight: 700; }
+    .cmp-colon { margin-right: 4px; }
+    #cmp-list a {
+      color: var(--muted);
+      font-weight: 600;
+      text-decoration: underline;
+      text-decoration-color: transparent;
+      transition: color .12s, text-decoration-color .12s;
+    }
+    #cmp-list a:hover {
+      color: var(--green-dk);
+      text-decoration-color: currentColor;
+    }
+    #cmp-list .cmp-sep {
+      margin: 0 4px;
+      opacity: .4;
+      font-weight: 400;
+    }
+
     /* Loading spinner */
     .deep-loading {
       padding: 32px;
@@ -944,13 +970,11 @@
     </div>
 
     <!-- ══ COMPARE PAIRS ════════════════════════════════════ -->
-    <div id="compare-section" style="display:none; margin-top:28px">
-      <div class="things-section">
-        <div class="section-head">
-          <h2 id="cmp-heading">Compare with other countries</h2>
-        </div>
-        <div id="cmp-list" class="rc-list"></div>
-      </div>
+    <div id="compare-section" style="display:none; margin-top:16px">
+      <p class="cmp-inline">
+        <span class="cmp-inline-lbl" id="cmp-heading">Compare with</span><span class="cmp-colon">:</span>
+        <span id="cmp-list"></span>
+      </p>
     </div>
 
     <footer>
@@ -1183,25 +1207,18 @@
       const pairs = COMPARE_PAIRS[slug];
       if (!pairs || !pairs.length) return;
       const lang = (localStorage.getItem('wigg_lang') || 'en').toLowerCase();
-      const labels = {
-        en: 'Compare with other countries',
-        fr: 'Comparer avec d\'autres pays',
-        es: 'Comparar con otros países'
-      };
+      const labels = { en: 'Compare with', fr: 'Comparer avec', es: 'Comparar con' };
       const hd = document.getElementById('cmp-heading');
       if (hd) hd.textContent = labels[lang] || labels.en;
       const list = document.getElementById('cmp-list');
       if (!list) return;
       const shown = pairs.slice(0, 4);
-      list.innerHTML = shown.map(function(pair) {
+      list.innerHTML = shown.map(function(pair, i) {
         const parts = pair.split('-vs-');
         const n1 = parts[0].split('-').map(function(w){ return w.charAt(0).toUpperCase()+w.slice(1); }).join(' ');
         const n2 = parts[1].split('-').map(function(w){ return w.charAt(0).toUpperCase()+w.slice(1); }).join(' ');
-        return '<a class="rc-item" href="/compare/static/' + pair + '/">'
-             + '<span class="rc-bar"></span>'
-             + '<span class="rc-label">' + n1 + ' vs ' + n2 + '</span>'
-             + '<span class="rc-arrow">\u2192</span>'
-             + '</a>';
+        const sep = i < shown.length - 1 ? '<span class="cmp-sep">·</span> ' : '';
+        return '<a href="/compare/static/' + pair + '/">' + n1 + ' vs ' + n2 + '</a> ' + sep;
       }).join('');
       const section = document.getElementById('compare-section');
       if (section) section.style.display = 'block';
