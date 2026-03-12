@@ -281,6 +281,18 @@
     "/chronicles/chronicle-australia-expat-guide-2026-en.html":    { en: "/chronicles/chronicle-australia-expat-guide-2026-en.html", fr: "/chronicles/chronicle-australie-expatriation-2026-fr.html", es: "/chronicles/chronicle-australia-guia-expatriados-2026-es.html" },
     "/chronicles/chronicle-australie-expatriation-2026-fr.html":   { en: "/chronicles/chronicle-australia-expat-guide-2026-en.html", fr: "/chronicles/chronicle-australie-expatriation-2026-fr.html", es: "/chronicles/chronicle-australia-guia-expatriados-2026-es.html" },
     "/chronicles/chronicle-australia-guia-expatriados-2026-es.html": { en: "/chronicles/chronicle-australia-expat-guide-2026-en.html", fr: "/chronicles/chronicle-australie-expatriation-2026-fr.html", es: "/chronicles/chronicle-australia-guia-expatriados-2026-es.html" },
+
+    "/chronicles/chronicle-retirement-visas-2026-en.html":           { en: "/chronicles/chronicle-retirement-visas-2026-en.html",           fr: "/chronicles/chronicle-visas-retraite-2026-fr.html",              es: "/chronicles/chronicle-visas-jubilacion-2026-es.html" },
+    "/chronicles/chronicle-visas-retraite-2026-fr.html":             { en: "/chronicles/chronicle-retirement-visas-2026-en.html",           fr: "/chronicles/chronicle-visas-retraite-2026-fr.html",              es: "/chronicles/chronicle-visas-jubilacion-2026-es.html" },
+    "/chronicles/chronicle-visas-jubilacion-2026-es.html":           { en: "/chronicles/chronicle-retirement-visas-2026-en.html",           fr: "/chronicles/chronicle-visas-retraite-2026-fr.html",              es: "/chronicles/chronicle-visas-jubilacion-2026-es.html" },
+
+    "/chronicles/chronicle-digital-nomad-visas-2026-en.html":        { en: "/chronicles/chronicle-digital-nomad-visas-2026-en.html",        fr: "/chronicles/chronicle-visas-digital-nomads-2026-fr.html",        es: "/chronicles/chronicle-visas-nomadas-digitales-2026-es.html" },
+    "/chronicles/chronicle-visas-digital-nomads-2026-fr.html":       { en: "/chronicles/chronicle-digital-nomad-visas-2026-en.html",        fr: "/chronicles/chronicle-visas-digital-nomads-2026-fr.html",        es: "/chronicles/chronicle-visas-nomadas-digitales-2026-es.html" },
+    "/chronicles/chronicle-visas-nomadas-digitales-2026-es.html":    { en: "/chronicles/chronicle-digital-nomad-visas-2026-en.html",        fr: "/chronicles/chronicle-visas-digital-nomads-2026-fr.html",        es: "/chronicles/chronicle-visas-nomadas-digitales-2026-es.html" },
+
+    "/chronicles/chronicle-expat-work-visas-2026-en.html":           { en: "/chronicles/chronicle-expat-work-visas-2026-en.html",           fr: "/chronicles/chronicle-visas-expatriation-durable-2026-fr.html", es: "/chronicles/chronicle-visas-expatriacion-2026-es.html" },
+    "/chronicles/chronicle-visas-expatriation-durable-2026-fr.html": { en: "/chronicles/chronicle-expat-work-visas-2026-en.html",           fr: "/chronicles/chronicle-visas-expatriation-durable-2026-fr.html", es: "/chronicles/chronicle-visas-expatriacion-2026-es.html" },
+    "/chronicles/chronicle-visas-expatriacion-2026-es.html":         { en: "/chronicles/chronicle-expat-work-visas-2026-en.html",           fr: "/chronicles/chronicle-visas-expatriation-durable-2026-fr.html", es: "/chronicles/chronicle-visas-expatriacion-2026-es.html" },
   };
 
   // Lang selection
