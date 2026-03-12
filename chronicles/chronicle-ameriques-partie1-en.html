@@ -153,6 +153,15 @@
     details p{margin:12px 0 0;color:rgba(20,32,26,.78);font-size:17px;line-height:1.8;}
     @media(max-width:860px){.hero-grid{grid-template-columns:1fr;}.hero-copy{padding:28px 22px 18px;}.profile-grid{grid-template-columns:1fr;}}
     @media(max-width:560px){.dbox-grid{grid-template-columns:1fr;}.dbox-cell{border-right:none;}.table-wrap table{min-width:550px;}article p{font-size:17px;line-height:1.78;}article p.lead::first-letter{font-size:54px;}}
+
+    .series-strip{background:linear-gradient(135deg,#f0fdf7,#ecfdf5);border-top:1px solid rgba(5,150,105,.12);border-bottom:1px solid rgba(5,150,105,.15);padding:14px 20px;}
+    .series-strip-inner{width:min(1120px,94vw);margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+    .series-strip-label{font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#059669;white-space:nowrap;padding-right:12px;border-right:1px solid rgba(5,150,105,.25);margin-right:4px;}
+    .series-strip-nav{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+    .series-strip-current{font-size:13px;font-weight:700;color:#1a1a1a;}
+    .series-strip-link{font-size:13px;font-weight:500;color:#059669;text-decoration:none;padding:5px 14px;border-radius:999px;background:rgba(255,255,255,.75);border:1px solid rgba(5,150,105,.22);transition:background .15s,border-color .15s;}
+    .series-strip-link:hover{background:#fff;border-color:#059669;}
+    @media(max-width:600px){.series-strip-inner{gap:10px;}.series-strip-label{border-right:none;padding-right:0;}}
   </style>
 </head>
 <body>
@@ -178,6 +187,16 @@
     </div>
   </div>
 </section>
+<div class="series-strip">
+  <div class="series-strip-inner">
+    <span class="series-strip-label">Series: Americas 2026</span>
+    <nav class="series-strip-nav">
+      <span class="series-strip-current">→ Part 1: Panama · Costa Rica · Puerto Rico</span>
+      <a href="/chronicles/chronicle-ameriques-partie2-en.html" class="series-strip-link">Part 2: St Kitts · Bahamas · Antigua</a>
+      <a href="/chronicles/chronicle-ameriques-partie3-en.html" class="series-strip-link">Part 3: Anguilla · BVI · Sint Maarten</a>
+    </nav>
+  </div>
+</div>
 
 <main class="wrap">
 <section class="paper">

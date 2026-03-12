@@ -106,6 +106,15 @@
     .link-card:hover { border-color: var(--green); background: #f0fdf4; }
     footer { text-align: center; padding: 32px 24px; font-family: 'Poppins', sans-serif; font-size: .76rem; color: var(--muted); border-top: 1px solid var(--border); }
     @media (max-width: 600px) { .hero { padding: 52px 20px 44px; } .article-wrap { padding: 40px 20px 60px; } .conclusion { padding: 30px 22px; } }
+
+    .series-strip{background:linear-gradient(135deg,#f0fdf7,#ecfdf5);border-top:1px solid rgba(5,150,105,.12);border-bottom:1px solid rgba(5,150,105,.15);padding:14px 20px;}
+    .series-strip-inner{width:min(1120px,94vw);margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+    .series-strip-label{font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#059669;white-space:nowrap;padding-right:12px;border-right:1px solid rgba(5,150,105,.25);margin-right:4px;}
+    .series-strip-nav{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+    .series-strip-current{font-size:13px;font-weight:700;color:#1a1a1a;}
+    .series-strip-link{font-size:13px;font-weight:500;color:#059669;text-decoration:none;padding:5px 14px;border-radius:999px;background:rgba(255,255,255,.75);border:1px solid rgba(5,150,105,.22);transition:background .15s,border-color .15s;}
+    .series-strip-link:hover{background:#fff;border-color:#059669;}
+    @media(max-width:600px){.series-strip-inner{gap:10px;}.series-strip-label{border-right:none;padding-right:0;}}
   </style>
 </head>
 <body>
@@ -133,6 +142,16 @@
     </div>
   </div>
 </section>
+<div class="series-strip">
+  <div class="series-strip-inner">
+    <span class="series-strip-label">Serie: Visas 2026</span>
+    <nav class="series-strip-nav">
+      <span class="series-strip-current">→ Parte 2: Visas nómadas digitales</span>
+      <a href="/chronicles/chronicle-visas-jubilacion-2026-es.html" class="series-strip-link">Parte 1: Visados de jubilación</a>
+      <a href="/chronicles/chronicle-visas-expatriacion-2026-es.html" class="series-strip-link">Parte 3: Visados de expatriación</a>
+    </nav>
+  </div>
+</div>
 
 <main class="article-wrap">
 
