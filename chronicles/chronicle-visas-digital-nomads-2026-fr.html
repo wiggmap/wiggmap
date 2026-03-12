@@ -62,46 +62,19 @@
     }
 
     /* ── Hero ── */
-    .hero {
-      background: linear-gradient(135deg, #0a1628 0%, #1a2d4a 50%, #243b55 100%);
-      color: #fff;
-      padding: 76px 24px 64px;
-      text-align: center;
-    }
-    .hero-tag {
-      display: inline-block;
-      font-family: 'Poppins', sans-serif;
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--green);
-      margin-bottom: 22px;
-    }
-    .hero h1 {
-      font-family: 'Fraunces', serif;
-      font-size: clamp(1.9rem, 5vw, 3rem);
-      font-weight: 700;
-      line-height: 1.2;
-      max-width: 840px;
-      margin: 0 auto 20px;
-      color: #fff;
-    }
-    .hero-sub {
-      font-family: 'Poppins', sans-serif;
-      font-size: .95rem;
-      color: rgba(255,255,255,.7);
-      max-width: 620px;
-      margin: 0 auto 30px;
-      line-height: 1.65;
-    }
-    .hero-meta {
-      font-family: 'Poppins', sans-serif;
-      font-size: 0.76rem;
-      color: rgba(255,255,255,.45);
-      letter-spacing: .04em;
-    }
-    .hero-meta span { margin: 0 8px; }
+    .hero{width:min(1120px,94vw);margin:22px auto 0;border-radius:26px;overflow:hidden;background:linear-gradient(180deg,#ffffff,#f4f7f6);border:1px solid rgba(0,0,0,.08);box-shadow:var(--shadow);}
+    .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;align-items:stretch;min-height:340px;}
+    .hero-copy{padding:34px 34px 30px;display:flex;flex-direction:column;justify-content:center;}
+    .kicker{display:flex;align-items:center;gap:10px;font-family:'Poppins',sans-serif;letter-spacing:.22em;text-transform:uppercase;font-size:12px;color:rgba(20,32,26,.70);margin-bottom:12px;}
+    .kicker .dot{width:7px;height:7px;border-radius:999px;background:var(--green);box-shadow:0 0 0 4px rgba(5,150,105,.15);}
+    .series-badge{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#059669,#10b981);color:#fff;font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:7px 14px;border-radius:999px;margin-bottom:14px;box-shadow:0 4px 12px rgba(5,150,105,.30);}
+    .hero h1{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(34px,4vw,52px);line-height:1.04;margin:0 0 12px;letter-spacing:-0.01em;}
+    .hero p.hero-desc{font-family:'Poppins',sans-serif;font-size:16px;line-height:1.65;color:rgba(20,32,26,.78);margin:0 0 18px;max-width:62ch;}
+    .hero-badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px;}
+    .hero .badge{font-family:'Poppins',sans-serif;font-weight:700;font-size:12px;color:rgba(20,32,26,.75);border:1px solid rgba(0,0,0,.10);background:rgba(255,255,255,.78);padding:7px 10px;border-radius:999px;}
+    .hero-art{background:radial-gradient(600px 360px at 50% 40%,rgba(5,150,105,.14),transparent 55%);display:flex;align-items:center;justify-content:center;padding:16px;}
+    .hero-art img{width:100%;max-height:380px;object-fit:contain;border-radius:18px;border:1px solid rgba(0,0,0,.08);box-shadow:0 12px 28px rgba(0,0,0,.12);background:rgba(255,255,255,.90);padding:10px;}
+    @media(max-width:860px){.hero-grid{grid-template-columns:1fr;}.hero-copy{padding:28px 22px 18px;}}
 
     /* ── Layout ── */
     .article-wrap {
@@ -263,11 +236,22 @@
 <div id="siteHeader"></div>
 
 <section class="hero">
-  <div class="hero-tag">● Expatriation · Visa &amp; Résidence · Travail à distance</div>
-  <h1>Visas digital nomad en 2026 :<br>les 25 meilleures options</h1>
-  <p class="hero-sub">Visas officiels, titres de séjour pour travailleurs à distance, programmes d'accueil des indépendants — ce que chaque option permet concrètement, à qui elle s'adresse, et ce que les classements habituels ne disent pas.</p>
-  <div class="hero-meta">
-    <span>Mars 2026</span>·<span>~40 min de lecture</span>·<span>WiggMap</span>
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <div class="kicker"><span class="dot"></span>Chronique · Analyse &amp; Décryptage</div>
+      <div class="series-badge">🌐 Visas 2026 — Partie 2/3</div>
+      <h1>Les Wigg Chroniques</h1>
+      <p class="hero-desc">La section éditoriale de WiggMap : analyses longues, données concrètes et contexte réel pour comparer les pays, évaluer les options de visa nomade et choisir où travailler intelligemment.</p>
+      <div class="hero-badges">
+        <span class="badge">Nomad Digital</span>
+        <span class="badge">Visa Télétravail</span>
+        <span class="badge">25 Pays</span>
+        <span class="badge">Travailler Partout</span>
+      </div>
+    </div>
+    <div class="hero-art">
+      <img src="../assets/chronicles.png" alt="Les Wigg Chroniques">
+    </div>
   </div>
 </section>
 
