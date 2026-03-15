@@ -97,9 +97,9 @@ Composants spécifiques :
 - `.orn` — `· · ✦ · ·` séparateur entre H2
 
 ### Style B — Visa / Guide pratique
-*(Série Visa 2026)*
+*(Série Visa 2026, Healthcare 2026...)*
 
-Palette : fond blanc `#ffffff`, vert `#22c55e`, hero navy `#0a1628→#243b55`
+Palette : fond blanc `#ffffff`, vert `#22c55e`
 
 Composants spécifiques :
 - `.visa-section` avec `.visa-num` (cercle vert numéroté)
@@ -112,6 +112,61 @@ Structure par entrée pays (3 paragraphes) :
 - §1 : conditions exactes (seuil, durée, éligibilité, procédure)
 - §2 : nuances, pièges fréquents, ce que les gens comprennent mal
 - §3 : cadre de vie réel, pour quel profil exact, verdict pratique
+
+---
+
+## Format hero des chronicles — règle absolue
+
+**Tous les articles** (Style A et B) utilisent le même format de hero. Ne jamais mettre le titre complet de l'article dans le `<h1>` du hero — ça le rend trop imposant.
+
+### HTML du hero (copier-coller exact)
+
+```html
+<section class="hero">
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <div class="kicker"><span class="dot"></span>Chronicle · Analysis &amp; Insight</div>
+      <div class="series-badge">🏷️ [Thème] [Année]</div>
+      <h1>The Wigg Chronicles</h1>        <!-- EN -->
+      <!-- <h1>Les Wigg Chroniques</h1>   → FR -->
+      <!-- <h1>Las Wigg Crónicas</h1>     → ES -->
+      <p class="hero-desc">[Description courte de l'article, 1-2 phrases, 60ch max]</p>
+      <div class="hero-badges">
+        <span class="badge">[badge 1]</span>
+        <span class="badge">[badge 2]</span>
+        <span class="badge">⏱ ~XX min read</span>
+      </div>
+    </div>
+    <div class="hero-art">
+      <img src="../assets/chronicles.png" alt="Wigg Chronicles">
+    </div>
+  </div>
+</section>
+```
+
+### CSS hero (identique pour tous les articles)
+
+```css
+.hero{width:min(1120px,94vw);margin:22px auto 0;border-radius:26px;overflow:hidden;background:linear-gradient(180deg,#ffffff,#f4f7f6);border:1px solid rgba(0,0,0,.08);box-shadow:0 10px 32px rgba(0,0,0,.08);}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;align-items:stretch;min-height:340px;}
+.hero-copy{padding:34px 34px 30px;display:flex;flex-direction:column;justify-content:center;}
+.kicker{display:flex;align-items:center;gap:10px;font-family:'Poppins',sans-serif;letter-spacing:.22em;text-transform:uppercase;font-size:12px;color:rgba(20,32,26,.70);margin-bottom:12px;}
+.kicker .dot{width:7px;height:7px;border-radius:999px;background:var(--green);box-shadow:0 0 0 4px rgba(5,150,105,.15);}
+.series-badge{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#059669,#10b981);color:#fff;font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:7px 14px;border-radius:999px;margin-bottom:14px;box-shadow:0 4px 12px rgba(5,150,105,.30);}
+.hero h1{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(34px,4vw,52px);line-height:1.04;margin:0 0 12px;letter-spacing:-0.01em;}
+.hero p.hero-desc{font-family:'Poppins',sans-serif;font-size:16px;line-height:1.65;color:rgba(20,32,26,.78);margin:0 0 18px;max-width:62ch;}
+.hero-badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px;}
+.hero .badge{font-family:'Poppins',sans-serif;font-weight:700;font-size:12px;color:rgba(20,32,26,.75);border:1px solid rgba(0,0,0,.10);background:rgba(255,255,255,.78);padding:7px 10px;border-radius:999px;}
+.hero-art{background:radial-gradient(600px 360px at 50% 40%,rgba(5,150,105,.14),transparent 55%);display:flex;align-items:center;justify-content:center;padding:16px;}
+.hero-art img{width:100%;max-height:380px;object-fit:contain;border-radius:18px;border:1px solid rgba(0,0,0,.08);box-shadow:0 12px 28px rgba(0,0,0,.12);background:rgba(255,255,255,.90);padding:10px;}
+@media(max-width:860px){.hero-grid{grid-template-columns:1fr;}.hero-copy{padding:28px 22px 18px;}}
+```
+
+### Points clés à retenir
+- `<h1>` = toujours le nom de la section ("The Wigg Chronicles" / "Les Wigg Chroniques" / "Las Wigg Crónicas") — **jamais le titre de l'article**
+- Image hero = toujours `../assets/chronicles.png` (chemin relatif depuis `/chronicles/`)
+- Fond hero = toujours **blanc/gris clair** (`linear-gradient(180deg,#ffffff,#f4f7f6)`) — pas de dark navy
+- `series-badge` = thème + année de l'article (emoji + label court)
 
 ---
 

@@ -57,20 +57,19 @@
     }
     body { font-family: 'Source Serif 4', Georgia, serif; color: var(--text); background: var(--bg); line-height: 1.8; font-size: 1.05rem; }
 
-    .hero{width:min(1120px,94vw);margin:22px auto 0;border-radius:26px;overflow:hidden;background:linear-gradient(160deg,#0a1628 0%,#243b55 60%,#0e2a1e 100%);border:1px solid rgba(255,255,255,.07);box-shadow:0 24px 60px rgba(0,0,0,.30);}
-    .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;align-items:stretch;min-height:340px;}
-    .hero-copy{padding:44px 42px 38px;display:flex;flex-direction:column;justify-content:center;}
-    .kicker{display:flex;align-items:center;gap:10px;font-family:'Poppins',sans-serif;letter-spacing:.22em;text-transform:uppercase;font-size:11px;color:rgba(255,255,255,.45);margin-bottom:14px;}
-    .kicker .dot{width:7px;height:7px;border-radius:999px;background:var(--green);box-shadow:0 0 0 4px rgba(34,197,94,.18);}
-    .series-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(34,197,94,.18);border:1px solid rgba(34,197,94,.32);color:rgba(134,239,172,.92);font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:7px 14px;border-radius:999px;margin-bottom:16px;}
-    .hero h1{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(30px,3.8vw,50px);line-height:1.06;margin:0 0 14px;letter-spacing:-0.01em;color:#fff;}
-    .hero h1 em{color:rgba(134,239,172,.88);font-style:normal;}
-    .hero p.hero-desc{font-family:'Poppins',sans-serif;font-size:15px;line-height:1.68;color:rgba(255,255,255,.62);margin:0 0 18px;max-width:58ch;}
-    .hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;}
-    .hero .badge{font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;color:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.07);padding:6px 11px;border-radius:999px;}
-    .hero-art{background:radial-gradient(500px 360px at 50% 40%,rgba(34,197,94,.10),transparent 60%);display:flex;align-items:center;justify-content:center;padding:20px;}
-    .hero-art img{width:100%;height:100%;max-height:340px;object-fit:contain;border-radius:18px;border:1px solid rgba(0,0,0,.08);box-shadow:0 12px 28px rgba(0,0,0,.12);background:rgba(255,255,255,.90);padding:10px;}
-    @media(max-width:860px){.hero-grid{grid-template-columns:1fr;}.hero-art{display:none;}.hero-copy{padding:32px 24px 26px;}}
+    .hero{width:min(1120px,94vw);margin:22px auto 0;border-radius:26px;overflow:hidden;background:linear-gradient(180deg,#ffffff,#f4f7f6);border:1px solid rgba(0,0,0,.08);box-shadow:0 10px 32px rgba(0,0,0,.08);}
+    .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;align-items:stretch;min-height:340px;}
+    .hero-copy{padding:34px 34px 30px;display:flex;flex-direction:column;justify-content:center;}
+    .kicker{display:flex;align-items:center;gap:10px;font-family:'Poppins',sans-serif;letter-spacing:.22em;text-transform:uppercase;font-size:12px;color:rgba(20,32,26,.70);margin-bottom:12px;}
+    .kicker .dot{width:7px;height:7px;border-radius:999px;background:var(--green);box-shadow:0 0 0 4px rgba(5,150,105,.15);}
+    .series-badge{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#059669,#10b981);color:#fff;font-family:'Poppins',sans-serif;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:7px 14px;border-radius:999px;margin-bottom:14px;box-shadow:0 4px 12px rgba(5,150,105,.30);}
+    .hero h1{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(34px,4vw,52px);line-height:1.04;margin:0 0 12px;letter-spacing:-0.01em;}
+    .hero p.hero-desc{font-family:'Poppins',sans-serif;font-size:16px;line-height:1.65;color:rgba(20,32,26,.78);margin:0 0 18px;max-width:62ch;}
+    .hero-badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px;}
+    .hero .badge{font-family:'Poppins',sans-serif;font-weight:700;font-size:12px;color:rgba(20,32,26,.75);border:1px solid rgba(0,0,0,.10);background:rgba(255,255,255,.78);padding:7px 10px;border-radius:999px;}
+    .hero-art{background:radial-gradient(600px 360px at 50% 40%,rgba(5,150,105,.14),transparent 55%);display:flex;align-items:center;justify-content:center;padding:16px;}
+    .hero-art img{width:100%;max-height:380px;object-fit:contain;border-radius:18px;border:1px solid rgba(0,0,0,.08);box-shadow:0 12px 28px rgba(0,0,0,.12);background:rgba(255,255,255,.90);padding:10px;}
+    @media(max-width:860px){.hero-grid{grid-template-columns:1fr;}.hero-copy{padding:28px 22px 18px;}}
 
     .article-wrap { max-width: var(--max); margin: 0 auto; padding: 60px 24px 88px; }
     .article-wrap p { margin-bottom: 1.45em; }
@@ -141,7 +140,7 @@
     <div class="hero-copy">
       <div class="kicker"><span class="dot"></span>Crónica · Análisis &amp; Perspectiva</div>
       <div class="series-badge">🏥 Salud &amp; Vida Expat 2026</div>
-      <h1>Los <em>25 mejores</em> sistemas de salud para expatriados en 2026</h1>
+      <h1>Las Wigg Crónicas</h1>
       <p class="hero-desc">Clasificados de mejor a peor para residentes extranjeros. Taiwán, Corea del Sur, Japón, Alemania, Francia... con las condiciones reales de acceso, cotizaciones y lo que el seguro complementario cubre además.</p>
       <div class="hero-badges">
         <span class="badge">25 países clasificados</span>
