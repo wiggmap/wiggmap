@@ -666,6 +666,23 @@ ALL_PAIRS=[
     'thailand-vs-indonesia','thailand-vs-malaysia','thailand-vs-panama','thailand-vs-philippines',
     'thailand-vs-vietnam','united-arab-emirates-vs-singapore','vietnam-vs-indonesia',
     'vietnam-vs-philippines',
+    # Europe
+    'france-vs-italy','france-vs-portugal','france-vs-switzerland',
+    'spain-vs-germany','spain-vs-colombia','spain-vs-mexico','italy-vs-greece',
+    # France vs Asie / reste du monde
+    'france-vs-vietnam','australia-vs-france','canada-vs-france',
+    # UAE élargi
+    'united-arab-emirates-vs-thailand','united-arab-emirates-vs-france',
+    'united-arab-emirates-vs-germany','united-arab-emirates-vs-australia',
+    # Portugal élargi
+    'portugal-vs-colombia','portugal-vs-mexico','portugal-vs-costa-rica',
+    # Amérique Latine élargie
+    'panama-vs-costa-rica','costa-rica-vs-colombia','mexico-vs-brazil',
+    'mexico-vs-peru','brazil-vs-peru',
+    # Asie élargie
+    'malaysia-vs-indonesia','malaysia-vs-vietnam','malaysia-vs-philippines',
+    'singapore-vs-thailand','singapore-vs-malaysia','georgia-vs-thailand',
+    'georgia-vs-colombia',
 ]
 def get_also(s1,s2,current):
     res=[]
