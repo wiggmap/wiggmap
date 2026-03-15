@@ -655,7 +655,7 @@
     }
 
     .card-head{
-      padding:24px 22px 14px;
+      padding:16px 18px 10px;
     }
 
     .card-theme{
@@ -680,24 +680,24 @@
 
     .cw-card h3{
       font-family:"Playfair Display", Georgia, serif;
-      font-size:24px;
-      line-height:1.16;
-      letter-spacing:-.02em;
+      font-size:18px;
+      line-height:1.22;
+      letter-spacing:-.01em;
       font-weight:700;
       color:var(--ink);
     }
 
     .card-body{
       flex:1;
-      padding:0 22px 18px;
+      padding:0 18px 12px;
     }
 
     .card-excerpt{
       color:var(--ink-soft);
-      font-size:14px;
-      line-height:1.82;
+      font-size:13px;
+      line-height:1.72;
       display:-webkit-box;
-      -webkit-line-clamp:4;
+      -webkit-line-clamp:3;
       -webkit-box-orient:vertical;
       overflow:hidden;
     }
@@ -707,7 +707,7 @@
       align-items:center;
       justify-content:space-between;
       gap:12px;
-      padding:16px 22px 18px;
+      padding:12px 18px 14px;
       border-top:1px solid rgba(23,23,20,.08);
     }
 
@@ -773,7 +773,7 @@
       display:flex;
       align-items:center;
       gap:14px;
-      padding:20px 24px 14px;
+      padding:18px 22px 14px;
       border-bottom:1px solid rgba(23,23,20,.08);
       flex-wrap:wrap;
     }
@@ -795,56 +795,93 @@
       color:var(--ink);
       letter-spacing:-.01em;
     }
-    .series-rows{padding:4px 0}
-    .series-row{
+    .series-cards{
       display:grid;
-      grid-template-columns:auto 1fr auto auto;
-      align-items:center;
-      gap:14px;
-      padding:14px 24px;
-      border-bottom:1px solid rgba(23,23,20,.06);
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+      padding:16px 20px 20px;
+    }
+    .series-card{
+      display:flex;
+      flex-direction:column;
+      border-radius:14px;
+      border:1px solid rgba(23,23,20,.08);
+      background:rgba(255,255,255,.72);
+      padding:16px 16px 14px 19px;
       text-decoration:none;
       color:inherit;
-      transition:background .15s;
+      position:relative;
+      overflow:hidden;
+      transition:background .15s,border-color .15s,transform .15s;
     }
-    .series-row:last-child{border-bottom:none}
-    .series-row:hover{background:rgba(23,23,20,.025)}
-    .series-row-part{
+    .series-card::before{
+      content:"";
+      position:absolute;
+      top:0;left:0;bottom:0;
+      width:3px;
+      background:var(--card-accent,rgba(23,23,20,.15));
+    }
+    .series-card:hover{
+      background:rgba(255,255,255,.96);
+      border-color:rgba(23,23,20,.15);
+      transform:translateY(-2px);
+    }
+    .series-card-part{
       font-size:9px;
       font-weight:800;
-      letter-spacing:.15em;
+      letter-spacing:.16em;
       text-transform:uppercase;
       color:var(--card-accent,var(--green));
-      border:1px solid var(--card-accent,rgba(23,23,20,.18));
-      padding:4px 10px;
-      border-radius:999px;
-      white-space:nowrap;
+      margin-bottom:8px;
     }
-    .series-row-title{
+    .series-card-title{
       font-family:"Playfair Display",Georgia,serif;
-      font-size:15px;
+      font-size:14px;
       font-weight:700;
       line-height:1.3;
       color:var(--ink);
+      margin-bottom:8px;
+      flex:1;
     }
-    .series-row-meta{
+    .series-card-excerpt{
+      font-size:12px;
+      line-height:1.6;
+      color:var(--ink-soft);
+      display:-webkit-box;
+      -webkit-line-clamp:2;
+      -webkit-box-orient:vertical;
+      overflow:hidden;
+      margin-bottom:10px;
+    }
+    .series-card-meta{
       font-size:9px;
       font-weight:800;
-      letter-spacing:.15em;
+      letter-spacing:.14em;
       text-transform:uppercase;
-      color:rgba(23,23,20,.38);
-      white-space:nowrap;
+      color:rgba(23,23,20,.36);
     }
-    .series-row-arrow{
-      color:var(--card-accent,var(--green));
-      font-size:15px;
-      font-weight:700;
-      transition:transform .15s;
+    @media(max-width:860px){.series-cards{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:540px){.series-cards{grid-template-columns:1fr}}
+
+    /* ===== GRID DIVIDER ===== */
+    .grid-divider{
+      grid-column:1 / -1;
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding:10px 0 4px;
     }
-    .series-row:hover .series-row-arrow{transform:translateX(4px)}
-    @media(max-width:640px){
-      .series-row{grid-template-columns:auto 1fr auto}
-      .series-row-meta{display:none}
+    .grid-divider-line{
+      flex:1;
+      height:1px;
+      background:rgba(23,23,20,.10);
+    }
+    .grid-divider-label{
+      font-size:9px;
+      font-weight:800;
+      letter-spacing:.22em;
+      text-transform:uppercase;
+      color:rgba(23,23,20,.32);
     }
 
     @keyframes fadeUp{
@@ -1407,15 +1444,16 @@
       const sorted = entries.slice().sort(function(a, b) {
         return (a.date || "").localeCompare(b.date || "");
       });
-      const rowsHTML = sorted.map(function(c) {
+      const cardsHTML = sorted.map(function(c) {
         const url = str(c.url);
         const date = c.date ? fmtDate(c.date) : "";
         const p = seriesItemParts(c);
-        return `<a class="series-row" href="${url}">
-          <span class="series-row-part">${p.part}</span>
-          <span class="series-row-title">${p.title}</span>
-          <span class="series-row-meta">${date}${c.read ? " · " + c.read : ""}</span>
-          <span class="series-row-arrow">→</span>
+        const excerpt = str(c.excerpt);
+        return `<a class="series-card" href="${url}">
+          <div class="series-card-part">${p.part}</div>
+          <div class="series-card-title">${p.title}</div>
+          <div class="series-card-excerpt">${excerpt}</div>
+          <div class="series-card-meta">${date}${c.read ? " · " + c.read : ""}</div>
         </a>`;
       }).join("");
       return `<div class="series-block ${cls}">
@@ -1423,7 +1461,7 @@
           <span class="series-badge-pill">${t.series} · ${entries.length} ${t.parts}</span>
           <span class="series-name-text">${seriesName}</span>
         </div>
-        <div class="series-rows">${rowsHTML}</div>
+        <div class="series-cards">${cardsHTML}</div>
       </div>`;
     }
 
@@ -1506,8 +1544,16 @@
             groups.push({ type: "card", item: c });
           }
         });
+        const hasSeries = groups.some(function(g) { return g.type === "series"; });
+        let dividerInserted = false;
         grid.innerHTML = groups.map(function(g) {
-          return g.type === "series" ? seriesHTML(g.items) : cardHTML(g.item);
+          if (g.type === "series") return seriesHTML(g.items);
+          let prefix = "";
+          if (hasSeries && !dividerInserted) {
+            dividerInserted = true;
+            prefix = `<div class="grid-divider"><span class="grid-divider-line"></span><span class="grid-divider-label">${t.section}</span><span class="grid-divider-line"></span></div>`;
+          }
+          return prefix + cardHTML(g.item);
         }).join("");
         emptyEl.style.display = "none";
       }
