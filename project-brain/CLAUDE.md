@@ -17,6 +17,22 @@
 6. Toujours maintenir EN / FR / ES sur tout nouveau contenu
 7. Zéro npm, zéro build — les fichiers sont servis tels quels
 8. Avant toute action massive : montrer la liste et attendre validation
+9. **À chaque création d'un nouvel article chronicle : ajouter ses 3 URLs dans `CHRONICLE_LANGS` dans `data/header.js`** — sans ça, le sélecteur de langue ne fonctionne pas dans l'article
+
+## Changement de langue dans les articles chronicles — mécanisme obligatoire
+
+Le changement de langue dans les articles est géré par `data/header.js` via l'objet `CHRONICLE_LANGS` (ligne ~252).
+
+**Quand un nouvel article chronicle est créé (EN + FR + ES), il FAUT impérativement ajouter ses 3 URLs dans `CHRONICLE_LANGS` :**
+
+```javascript
+// Dans data/header.js, dans l'objet CHRONICLE_LANGS :
+"/chronicles/[slug]-en.html": { en: "/chronicles/[slug]-en.html", fr: "/chronicles/[slug]-fr.html", es: "/chronicles/[slug]-es.html" },
+"/chronicles/[slug]-fr.html": { en: "/chronicles/[slug]-en.html", fr: "/chronicles/[slug]-fr.html", es: "/chronicles/[slug]-es.html" },
+"/chronicles/[slug]-es.html": { en: "/chronicles/[slug]-en.html", fr: "/chronicles/[slug]-fr.html", es: "/chronicles/[slug]-es.html" },
+```
+
+Sans ce mapping, le sélecteur de langue dans le header fait `location.reload()` au lieu de naviguer vers la bonne version — l'utilisateur reste bloqué dans la même langue.
 
 ## URLs exactes du site
 

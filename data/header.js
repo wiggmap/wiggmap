@@ -293,6 +293,10 @@
     "/chronicles/chronicle-expat-work-visas-2026-en.html":           { en: "/chronicles/chronicle-expat-work-visas-2026-en.html",           fr: "/chronicles/chronicle-visas-expatriation-durable-2026-fr.html", es: "/chronicles/chronicle-visas-expatriacion-2026-es.html" },
     "/chronicles/chronicle-visas-expatriation-durable-2026-fr.html": { en: "/chronicles/chronicle-expat-work-visas-2026-en.html",           fr: "/chronicles/chronicle-visas-expatriation-durable-2026-fr.html", es: "/chronicles/chronicle-visas-expatriacion-2026-es.html" },
     "/chronicles/chronicle-visas-expatriacion-2026-es.html":         { en: "/chronicles/chronicle-expat-work-visas-2026-en.html",           fr: "/chronicles/chronicle-visas-expatriation-durable-2026-fr.html", es: "/chronicles/chronicle-visas-expatriacion-2026-es.html" },
+
+    "/chronicles/chronicle-healthcare-expats-2026-en.html":  { en: "/chronicles/chronicle-healthcare-expats-2026-en.html",  fr: "/chronicles/chronicle-sante-expats-2026-fr.html",  es: "/chronicles/chronicle-salud-expats-2026-es.html" },
+    "/chronicles/chronicle-sante-expats-2026-fr.html":       { en: "/chronicles/chronicle-healthcare-expats-2026-en.html",  fr: "/chronicles/chronicle-sante-expats-2026-fr.html",  es: "/chronicles/chronicle-salud-expats-2026-es.html" },
+    "/chronicles/chronicle-salud-expats-2026-es.html":       { en: "/chronicles/chronicle-healthcare-expats-2026-en.html",  fr: "/chronicles/chronicle-sante-expats-2026-fr.html",  es: "/chronicles/chronicle-salud-expats-2026-es.html" },
   };
 
   // Lang selection
