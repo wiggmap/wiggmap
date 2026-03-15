@@ -1531,19 +1531,21 @@
         emptyEl.textContent = t.empty;
         grid.appendChild(emptyEl);
       } else {
-        const groups = [];
+        const seriesGroups = [];
+        const cardGroups = [];
         const processedSeries = new Set();
         filtered.forEach(function(c) {
           if (c.series) {
             if (!processedSeries.has(c.series)) {
               processedSeries.add(c.series);
               const seriesItems = filtered.filter(function(x) { return x.series === c.series; });
-              groups.push({ type: "series", items: seriesItems });
+              seriesGroups.push({ type: "series", items: seriesItems });
             }
           } else {
-            groups.push({ type: "card", item: c });
+            cardGroups.push({ type: "card", item: c });
           }
         });
+        const groups = seriesGroups.concat(cardGroups);
         const hasSeries = groups.some(function(g) { return g.type === "series"; });
         let dividerInserted = false;
         grid.innerHTML = groups.map(function(g) {
