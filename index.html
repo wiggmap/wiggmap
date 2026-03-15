@@ -141,7 +141,7 @@
         width: 100vw;
         height: 100dvh;
         max-width: none;
-        max-height: none;
+        max-height: calc(100vw * 2);
         object-fit: cover;
         object-position: center top;
       }
@@ -1178,7 +1178,7 @@
         // Auto-hide after 5 s
         hideTimer = setTimeout(function () {
           banner.classList.remove('pwa-visible');
-        }, 5000);
+        }, 10000);
       }
 
       function hideBanner() {
