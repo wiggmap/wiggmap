@@ -752,6 +752,101 @@
       font-weight:700;
     }
 
+    /* ===== SERIES BLOCK ===== */
+    .series-block{
+      grid-column:1 / -1;
+      border-radius:24px;
+      border:1px solid rgba(23,23,20,.10);
+      background:linear-gradient(180deg,rgba(255,255,255,.97),rgba(255,252,247,.94));
+      box-shadow:0 10px 28px rgba(23,23,20,.05);
+      overflow:hidden;
+      position:relative;
+    }
+    .series-block::before{
+      content:"";
+      position:absolute;
+      top:0;left:0;right:0;
+      height:3px;
+      background:var(--card-accent,rgba(23,23,20,.1));
+    }
+    .series-hd{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      padding:20px 24px 14px;
+      border-bottom:1px solid rgba(23,23,20,.08);
+      flex-wrap:wrap;
+    }
+    .series-badge-pill{
+      font-size:9px;
+      font-weight:800;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:var(--card-accent,var(--green));
+      border:1px solid var(--card-accent,rgba(23,23,20,.18));
+      padding:4px 12px;
+      border-radius:999px;
+      flex-shrink:0;
+    }
+    .series-name-text{
+      font-family:"Playfair Display",Georgia,serif;
+      font-size:16px;
+      font-weight:700;
+      color:var(--ink);
+      letter-spacing:-.01em;
+    }
+    .series-rows{padding:4px 0}
+    .series-row{
+      display:grid;
+      grid-template-columns:auto 1fr auto auto;
+      align-items:center;
+      gap:14px;
+      padding:14px 24px;
+      border-bottom:1px solid rgba(23,23,20,.06);
+      text-decoration:none;
+      color:inherit;
+      transition:background .15s;
+    }
+    .series-row:last-child{border-bottom:none}
+    .series-row:hover{background:rgba(23,23,20,.025)}
+    .series-row-part{
+      font-size:9px;
+      font-weight:800;
+      letter-spacing:.15em;
+      text-transform:uppercase;
+      color:var(--card-accent,var(--green));
+      border:1px solid var(--card-accent,rgba(23,23,20,.18));
+      padding:4px 10px;
+      border-radius:999px;
+      white-space:nowrap;
+    }
+    .series-row-title{
+      font-family:"Playfair Display",Georgia,serif;
+      font-size:15px;
+      font-weight:700;
+      line-height:1.3;
+      color:var(--ink);
+    }
+    .series-row-meta{
+      font-size:9px;
+      font-weight:800;
+      letter-spacing:.15em;
+      text-transform:uppercase;
+      color:rgba(23,23,20,.38);
+      white-space:nowrap;
+    }
+    .series-row-arrow{
+      color:var(--card-accent,var(--green));
+      font-size:15px;
+      font-weight:700;
+      transition:transform .15s;
+    }
+    .series-row:hover .series-row-arrow{transform:translateX(4px)}
+    @media(max-width:640px){
+      .series-row{grid-template-columns:auto 1fr auto}
+      .series-row-meta{display:none}
+    }
+
     @keyframes fadeUp{
       from{opacity:0;transform:translateY(16px)}
       to{opacity:1;transform:translateY(0)}
@@ -838,7 +933,9 @@
         empty:    "No articles match your search.",
         statsYears:"years outlook",
         statsCountries:"countries compared",
-        statsRead:"min read"
+        statsRead:"min read",
+        series:"Series",
+        parts:"parts"
       },
       fr: {
         eyebrow:  "Chroniques",
@@ -853,7 +950,9 @@
         empty:    "Aucun article ne correspond à ta recherche.",
         statsYears:"ans d'analyse",
         statsCountries:"pays comparés",
-        statsRead:"min de lecture"
+        statsRead:"min de lecture",
+        series:"Série",
+        parts:"parties"
       },
       es: {
         eyebrow:  "Crónicas",
@@ -868,14 +967,45 @@
         empty:    "Ningún artículo coincide con tu búsqueda.",
         statsYears:"años de análisis",
         statsCountries:"países comparados",
-        statsRead:"min de lectura"
+        statsRead:"min de lectura",
+        series:"Serie",
+        parts:"partes"
       }
     };
 
     const CHRONICLES = [
       {
-        id: "visas-2026-3",
+        id: "healthcare-2026",
         featured: true,
+        stats: { countries: "25", read: "~35" },
+        title: {
+          en: "The 25 Best Healthcare Systems for Expats in 2026",
+          fr: "Les 25 meilleurs systèmes de santé pour les expatriés en 2026",
+          es: "Los 25 mejores sistemas sanitarios para expatriados en 2026"
+        },
+        url: {
+          en: "/chronicles/chronicle-healthcare-expats-2026-en.html",
+          fr: "/chronicles/chronicle-sante-expats-2026-fr.html",
+          es: "/chronicles/chronicle-salud-expats-2026-es.html"
+        },
+        excerpt: {
+          en: "Taiwan, South Korea, Japan, Germany, France, Spain... The 25 countries ranked best to worst for foreign residents in 2026. Real access conditions, contributions, and whether you need supplemental insurance.",
+          fr: "Taïwan, Corée du Sud, Japon, Allemagne, France, Espagne... Les 25 pays classés du meilleur au moins bon pour les résidents étrangers en 2026. Conditions réelles, cotisations et mutuelle indispensable.",
+          es: "Taiwán, Corea del Sur, Japón, Alemania, Francia, España... Los 25 países clasificados de mejor a peor para residentes extranjeros en 2026. Condiciones reales, cotizaciones y seguro complementario."
+        },
+        date: "2026-03-15",
+        read: "~35 min",
+        theme: "Visa & Installation",
+        region: "World"
+      },
+      {
+        id: "visas-2026-3",
+        series: "visas-2026",
+        seriesLabel: {
+          en: "Visas 2026 — Retirement, Nomad & Work",
+          fr: "Visas 2026 — Retraite, Nomade & Travail",
+          es: "Visas 2026 — Jubilación, Nómada y Trabajo"
+        },
         title: {
           en: "Series: Visas 2026 → Part 3: Expat Work Visas in 2026: the 25 Best Countries to Relocate and Work",
           fr: "Série : Visas 2026 → Partie 3 : Visas expatriation en 2026 : les 25 meilleures destinations pour s\'installer et travailler",
@@ -898,6 +1028,12 @@
       },
       {
         id: "visas-2026-2",
+        series: "visas-2026",
+        seriesLabel: {
+          en: "Visas 2026 — Retirement, Nomad & Work",
+          fr: "Visas 2026 — Retraite, Nomade & Travail",
+          es: "Visas 2026 — Jubilación, Nómada y Trabajo"
+        },
         title: {
           en: "Series: Visas 2026 → Part 2: The 25 Best Digital Nomad Visas in 2026",
           fr: "Série : Visas 2026 → Partie 2 : Visas digital nomad en 2026 : les 25 meilleures options",
@@ -920,6 +1056,12 @@
       },
       {
         id: "visas-2026-1",
+        series: "visas-2026",
+        seriesLabel: {
+          en: "Visas 2026 — Retirement, Nomad & Work",
+          fr: "Visas 2026 — Retraite, Nomade & Travail",
+          es: "Visas 2026 — Jubilación, Nómada y Trabajo"
+        },
         title: {
           en: "Series: Visas 2026 → Part 1: Retirement Visas in 2026: the 25 Best Options to Retire Abroad",
           fr: "Série : Visas 2026 → Partie 1 : Visas retraite en 2026 : les 25 meilleures options pour prendre sa retraite à l\'étranger",
@@ -964,6 +1106,12 @@
       },
       {
         id: "ameriques-3",
+        series: "ameriques",
+        seriesLabel: {
+          en: "Americas — Expats, Crypto & Retirees 2026",
+          fr: "Amériques — Expatriés, Crypto & Retraités 2026",
+          es: "Américas — Expatriados, Cripto & Jubilados 2026"
+        },
         title: {
           en: "Series: Americas — Expats, Crypto & Retirees 2026 → Part 3: Anguilla · BVI · Sint Maarten",
           fr: "Série : Amériques — Expatriés, Crypto & Retraités 2026 → Partie 3 : Anguilla · Îles Vierges · Sint Maarten",
@@ -986,6 +1134,12 @@
       },
       {
         id: "ameriques-2",
+        series: "ameriques",
+        seriesLabel: {
+          en: "Americas — Expats, Crypto & Retirees 2026",
+          fr: "Amériques — Expatriés, Crypto & Retraités 2026",
+          es: "Américas — Expatriados, Cripto & Jubilados 2026"
+        },
         title: {
           en: "Series: Americas — Expats, Crypto & Retirees 2026 → Part 2: St Kitts · Bahamas · Antigua",
           fr: "Série : Amériques — Expatriés, Crypto & Retraités 2026 → Partie 2 : Saint-Kitts · Bahamas · Antigua",
@@ -1008,6 +1162,12 @@
       },
       {
         id: "ameriques-1",
+        series: "ameriques",
+        seriesLabel: {
+          en: "Americas — Expats, Crypto & Retirees 2026",
+          fr: "Amériques — Expatriés, Crypto & Retraités 2026",
+          es: "Américas — Expatriados, Cripto & Jubilados 2026"
+        },
         title: {
           en: "Series: Americas — Expats, Crypto & Retirees 2026 → Part 1: Panama · Costa Rica · Puerto Rico",
           fr: "Série : Amériques — Expatriés, Crypto & Retraités 2026 → Partie 1 : Panama · Costa Rica · Puerto Rico",
@@ -1165,9 +1325,10 @@
       const color = THEME_COLOR[c.theme] || "#1d7f48";
       const date = c.date ? fmtDate(c.date) : "";
 
-      let yearsLabel = t.statsYears;
       let countriesLabel = t.statsCountries;
       let readLabel = t.statsRead;
+      const statCountries = (c.stats && c.stats.countries) ? c.stats.countries : "150+";
+      const statRead = (c.stats && c.stats.read) ? c.stats.read : "~30";
 
       return `
         <article class="feat-card" style="--theme-color:${color}">
@@ -1190,11 +1351,11 @@
           <aside class="feat-panel">
             <div class="feat-panel-label">${t.panel}</div>
             <div class="feat-stat">
-              <div class="feat-stat-val">150+</div>
+              <div class="feat-stat-val">${statCountries}</div>
               <div class="feat-stat-label">${countriesLabel}</div>
             </div>
             <div class="feat-stat">
-              <div class="feat-stat-val">~30</div>
+              <div class="feat-stat-val">${statRead}</div>
               <div class="feat-stat-label">${readLabel}</div>
             </div>
           </aside>
@@ -1226,6 +1387,44 @@
           </div>
         </article>
       `;
+    }
+
+    function seriesItemParts(c) {
+      const full = str(c.title);
+      const arrow = full.indexOf("→");
+      const afterArrow = arrow !== -1 ? full.slice(arrow + 1).trim() : full;
+      const colon = afterArrow.indexOf(":");
+      const part = colon !== -1 ? afterArrow.slice(0, colon).trim() : "";
+      const title = colon !== -1 ? afterArrow.slice(colon + 1).trim() : afterArrow;
+      return { part, title };
+    }
+
+    function seriesHTML(entries) {
+      const t = tx();
+      const first = entries[0];
+      const cls = THEME_CLASS[first.theme] || "";
+      const seriesName = str(first.seriesLabel);
+      const sorted = entries.slice().sort(function(a, b) {
+        return (a.date || "").localeCompare(b.date || "");
+      });
+      const rowsHTML = sorted.map(function(c) {
+        const url = str(c.url);
+        const date = c.date ? fmtDate(c.date) : "";
+        const p = seriesItemParts(c);
+        return `<a class="series-row" href="${url}">
+          <span class="series-row-part">${p.part}</span>
+          <span class="series-row-title">${p.title}</span>
+          <span class="series-row-meta">${date}${c.read ? " · " + c.read : ""}</span>
+          <span class="series-row-arrow">→</span>
+        </a>`;
+      }).join("");
+      return `<div class="series-block ${cls}">
+        <div class="series-hd">
+          <span class="series-badge-pill">${t.series} · ${entries.length} ${t.parts}</span>
+          <span class="series-name-text">${seriesName}</span>
+        </div>
+        <div class="series-rows">${rowsHTML}</div>
+      </div>`;
     }
 
     function matches(c) {
@@ -1294,7 +1493,22 @@
         emptyEl.textContent = t.empty;
         grid.appendChild(emptyEl);
       } else {
-        grid.innerHTML = filtered.map(cardHTML).join("");
+        const groups = [];
+        const processedSeries = new Set();
+        filtered.forEach(function(c) {
+          if (c.series) {
+            if (!processedSeries.has(c.series)) {
+              processedSeries.add(c.series);
+              const seriesItems = filtered.filter(function(x) { return x.series === c.series; });
+              groups.push({ type: "series", items: seriesItems });
+            }
+          } else {
+            groups.push({ type: "card", item: c });
+          }
+        });
+        grid.innerHTML = groups.map(function(g) {
+          return g.type === "series" ? seriesHTML(g.items) : cardHTML(g.item);
+        }).join("");
         emptyEl.style.display = "none";
       }
 
