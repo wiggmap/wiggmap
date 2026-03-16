@@ -19,10 +19,26 @@
   };
 
   const SOCIALS = [
-    { href: X_URL,        label: "X (Twitter)",  svg: `<svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M18.9 2H22l-6.6 7.6L23.5 22h-6.7l-5.2-6.8L5.6 22H2.5l7.1-8.2L.5 2h6.8l4.7 6.1L18.9 2Zm-1.2 18h1.8L6.2 3.9H4.3L17.7 20Z"/></svg>` },
-    { href: IG_URL,       label: "Instagram",    svg: `<svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4A5.8 5.8 0 0 1 16.2 22H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2Zm0 2A3.8 3.8 0 0 0 4 7.8v8.4A3.8 3.8 0 0 0 7.8 20h8.4a3.8 3.8 0 0 0 3.8-3.8V7.8A3.8 3.8 0 0 0 16.2 4H7.8Z"/><path fill="currentColor" d="M12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/><circle fill="currentColor" cx="17.5" cy="6.5" r="1.1"/></svg>` },
-    { href: TELEGRAM_URL, label: "Telegram",     svg: `<svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M21.9 4.6c.2-.8-.5-1.5-1.3-1.2L2.7 10.4c-.9.4-.9 1.7.1 2l4.6 1.5 1.8 5.6c.3 1 1.6 1.1 2.1.3l2.6-3.7 4.9 3.6c.7.5 1.7.1 1.9-.8l1.2-14.3ZM8.3 13.2l9.9-6.1-7.6 7.4-.3 3.9-1.7-5.1-2.5-.8Z"/></svg>` },
+    { href: X_URL,        label: "X (Twitter)",  svg: `<svg viewBox="0 0 24 24" width="16" height="16"><path fill="#000000" d="M18.9 2H22l-6.6 7.6L23.5 22h-6.7l-5.2-6.8L5.6 22H2.5l7.1-8.2L.5 2h6.8l4.7 6.1L18.9 2Zm-1.2 18h1.8L6.2 3.9H4.3L17.7 20Z"/></svg>` },
+    { href: IG_URL,       label: "Instagram",    svg: `<svg viewBox="0 0 24 24" width="16" height="16"><defs><linearGradient id="ig_wmh2" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#FCAF45"/><stop offset="35%" stop-color="#FD1D1D"/><stop offset="65%" stop-color="#C13584"/><stop offset="100%" stop-color="#405DE6"/></linearGradient></defs><path fill="url(#ig_wmh2)" d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4A5.8 5.8 0 0 1 16.2 22H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2Zm0 2A3.8 3.8 0 0 0 4 7.8v8.4A3.8 3.8 0 0 0 7.8 20h8.4a3.8 3.8 0 0 0 3.8-3.8V7.8A3.8 3.8 0 0 0 16.2 4H7.8Z"/><path fill="url(#ig_wmh2)" d="M12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/><circle fill="url(#ig_wmh2)" cx="17.5" cy="6.5" r="1.1"/></svg>` },
+    { href: TELEGRAM_URL, label: "Telegram",     svg: `<svg viewBox="0 0 24 24" width="16" height="16"><path fill="#29B6F6" d="M21.9 4.6c.2-.8-.5-1.5-1.3-1.2L2.7 10.4c-.9.4-.9 1.7.1 2l4.6 1.5 1.8 5.6c.3 1 1.6 1.1 2.1.3l2.6-3.7 4.9 3.6c.7.5 1.7.1 1.9-.8l1.2-14.3ZM8.3 13.2l9.9-6.1-7.6 7.4-.3 3.9-1.7-5.1-2.5-.8Z"/></svg>` },
   ];
+
+  const NAV_I18N = {
+    en: { search: "Search", chronicles: "Chronicles", compare: "Compare", globe: "Globe" },
+    fr: { search: "Recherche", chronicles: "Chroniques", compare: "Comparer", globe: "Globe" },
+    es: { search: "Buscar", chronicles: "Crónicas", compare: "Comparar", globe: "Globo" },
+  };
+
+  const svgSearch = `<svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>`;
+
+  const svgBurger = `<svg viewBox="0 0 24 24" width="17" height="17"><rect fill="currentColor" x="3" y="5" width="18" height="2" rx="1"/><rect fill="currentColor" x="3" y="11" width="18" height="2" rx="1"/><rect fill="currentColor" x="3" y="17" width="18" height="2" rx="1"/></svg>`;
+
+  const svgChronicles = `<svg viewBox="0 0 24 24" width="17" height="17"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>`;
+
+  const svgCompare = `<svg viewBox="0 0 24 24" width="17" height="17"><path fill="currentColor" d="M9.01 14H2v2h7.01v3L13 15l-3.99-4v3zm5.98-1v-3H22V8h-7.01V5L11 9l3.99 4z"/></svg>`;
+
+  const svgGlobe = `<svg viewBox="0 0 24 24" width="17" height="17"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
 
   if (!document.getElementById("wmhStyle")) {
     const st = document.createElement("style");
@@ -64,8 +80,12 @@
         transition:background .15s;
       }
       .wmh-ico:hover{ background:#fff; }
-      .wmh-ico--tg{ background:rgba(0,136,204,.12); border-color:rgba(0,136,204,.22); }
-      .wmh-ico--tg:hover{ background:rgba(0,136,204,.20); }
+      .wmh-ico--x{ background:rgba(0,0,0,.05); border-color:rgba(0,0,0,.18); }
+      .wmh-ico--x:hover{ background:rgba(0,0,0,.10); }
+      .wmh-ico--ig{ background:rgba(193,53,132,.07); border-color:rgba(193,53,132,.22); }
+      .wmh-ico--ig:hover{ background:rgba(193,53,132,.14); }
+      .wmh-ico--tg{ background:rgba(41,182,246,.12); border-color:rgba(41,182,246,.30); }
+      .wmh-ico--tg:hover{ background:rgba(41,182,246,.22); }
 
       /* Nav buttons */
       .wmh-nav{ display:flex; align-items:center; gap:8px; flex-wrap:nowrap !important; }
@@ -75,6 +95,7 @@
         border:1px solid rgba(0,0,0,.10);
         background:rgba(255,255,255,.80);
         display:inline-flex; align-items:center; gap:6px;
+        cursor:pointer;
         transition:background .15s, color .15s;
       }
       .wmh-btn:hover{ background:#fff; color:#18201c; }
@@ -108,6 +129,7 @@
         z-index:10000;
       }
       .wmh-dropdown.open .wmh-drop-menu{ display:block; }
+      .wmh-drop-left{ left:0 !important; right:auto !important; }
 
       .wmh-drop-item{
         display:flex; align-items:center; gap:9px;
@@ -120,12 +142,26 @@
       .wmh-drop-item.active{ background:rgba(0,0,0,.07); }
       .wmh-drop-item + .wmh-drop-item{ border-top:1px solid rgba(0,0,0,.05); }
 
+      /* Search panel */
+      .wmh-search-panel{ min-width:300px; padding:10px 10px 8px; }
+      .wmh-search-panel input{
+        width:100%; padding:8px 12px; font-size:14px;
+        border:1px solid rgba(0,0,0,.15); border-radius:8px;
+        background:#fff; color:#18201c; outline:none;
+        font-family:Arial,Helvetica,sans-serif !important;
+      }
+      .wmh-search-panel input:focus{ border-color:#22c55e; box-shadow:0 0 0 2px rgba(34,197,94,.15); }
+      .wmh-search-results{ max-height:230px; overflow-y:auto; margin-top:6px; }
+      .wmh-search-results .wmh-drop-item{ padding:8px 10px; font-size:13px; white-space:normal; }
+      .wmh-search-empty{ padding:10px 12px; font-size:13px; color:#999; text-align:center; }
+
       /* Mobile */
       @media (max-width: 640px){
         .wmh-inner{ padding:8px 12px; gap:8px; flex-wrap:wrap; }
         .wmh-brand img{ height:44px; }
         .wmh-social{ display:none !important; }
         .wmh-right .wmh-nav{ display:none !important; }
+        .wmh-right .wmh-lang-wrap{ display:none !important; }
         .wmh-right{ flex:1 1 auto; justify-content:flex-end; gap:7px; }
         .wmh-nav-mobile{
           display:grid !important;
@@ -134,15 +170,11 @@
         }
         .wmh-btn{ justify-content:center; padding:8px 6px; font-size:12px; }
         .wmh-drop-trigger{ font-size:14px; padding:6px 9px; }
-      }
-      .wmh-btn--game{
-        border-color:rgba(29,216,118,0.4) !important;
-        background:rgba(29,216,118,0.10) !important;
-        padding:5px 10px !important;
-      }
-      .wmh-btn--game:hover{
-        background:rgba(29,216,118,0.22) !important;
-        border-color:rgba(29,216,118,0.7) !important;
+        .wmh-search-panel{ min-width:calc(100vw - 32px); }
+        /* Mobile lang dropdown stays visible */
+        .wmh-nav-mobile .wmh-dropdown .wmh-drop-menu{ right:auto; left:auto; }
+        .wmh-nav-mobile .wmh-dropdown:last-child .wmh-drop-menu{ right:0; left:auto; }
+        .wmh-nav-mobile .wmh-dropdown:first-child .wmh-drop-menu{ left:0; right:auto; }
       }
       .wmh-nav-mobile{ display:none; }
     `;
@@ -151,6 +183,7 @@
 
   const currentLang = localStorage.getItem("wigg_lang") || "en";
   const currentLangData = LANGS[currentLang] || LANGS.en;
+  const ni = NAV_I18N[currentLang] || NAV_I18N.en;
 
   const socialItems = SOCIALS.map(s =>
     `<a class="wmh-drop-item" href="${s.href}" target="_blank" rel="noopener noreferrer">${s.svg} ${s.label}</a>`
@@ -161,6 +194,28 @@
   ).join("");
 
   const svgShare = `<svg viewBox="0 0 24 24" width="17" height="17"><path fill="currentColor" d="M18 16c-.8 0-1.4.3-1.9.8L8.9 12.7c.1-.2.1-.5.1-.7s0-.5-.1-.7l7.1-4.1c.5.5 1.2.8 2 .8 1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3c0 .2 0 .5.1.7L7.9 9.8C7.4 9.3 6.7 9 6 9c-1.7 0-3 1.3-3 3s1.3 3 3 3c.7 0 1.4-.3 1.9-.8l7.2 4.1c-.1.2-.1.4-.1.7 0 1.6 1.3 2.9 2.9 2.9s2.9-1.3 2.9-2.9S19.6 16 18 16z"/></svg>`;
+
+  const menuItemsHTML = `
+    <a class="wmh-drop-item" href="${prefix}indexchronicles.html">${svgChronicles} ${ni.chronicles}</a>
+    <a class="wmh-drop-item" href="${prefix}compare.html">${svgCompare} ${ni.compare}</a>
+    <a class="wmh-drop-item" href="${globeLink}" target="_blank" rel="noopener noreferrer">${svgGlobe} ${ni.globe}</a>
+    <a class="wmh-drop-item" href="${prefix}ggg/wigggame.html"><img src="/assets/wigggame2.png" alt="WiggGame" style="height:18px;width:auto;display:block;"> WiggGame</a>
+  `;
+
+  const searchDropHTML = (id, inputId, resultsId, panelClass) => `
+    <div class="wmh-dropdown" id="${id}">
+      <button class="wmh-btn" id="${id}Trig">${svgSearch} ${ni.search}</button>
+      <div class="wmh-drop-menu wmh-search-panel wmh-drop-left ${panelClass}" id="${id}Panel">
+        <input type="text" id="${inputId}" autocomplete="off" placeholder="${ni.search}…">
+        <div class="wmh-search-results" id="${resultsId}"></div>
+      </div>
+    </div>`;
+
+  const burgerDropHTML = (id, menuClass) => `
+    <div class="wmh-dropdown" id="${id}">
+      <button class="wmh-btn" id="${id}Trig">${svgBurger}</button>
+      <div class="wmh-drop-menu ${menuClass}">${menuItemsHTML}</div>
+    </div>`;
 
   const headerHTML = `
     <header class="wmh-bar">
@@ -174,14 +229,19 @@
 
           <!-- Icônes sociales — desktop uniquement -->
           <div class="wmh-social">
-            <a class="wmh-ico" href="${X_URL}" target="_blank" rel="noopener noreferrer" title="X">
-              <svg viewBox="0 0 24 24" width="17" height="17"><path fill="currentColor" d="M18.9 2H22l-6.6 7.6L23.5 22h-6.7l-5.2-6.8L5.6 22H2.5l7.1-8.2L.5 2h6.8l4.7 6.1L18.9 2Zm-1.2 18h1.8L6.2 3.9H4.3L17.7 20Z"/></svg>
+            <a class="wmh-ico wmh-ico--x" href="${X_URL}" target="_blank" rel="noopener noreferrer" title="X">
+              <svg viewBox="0 0 24 24" width="17" height="17"><path fill="#000000" d="M18.9 2H22l-6.6 7.6L23.5 22h-6.7l-5.2-6.8L5.6 22H2.5l7.1-8.2L.5 2h6.8l4.7 6.1L18.9 2Zm-1.2 18h1.8L6.2 3.9H4.3L17.7 20Z"/></svg>
             </a>
-            <a class="wmh-ico" href="${IG_URL}" target="_blank" rel="noopener noreferrer" title="Instagram">
-              <svg viewBox="0 0 24 24" width="17" height="17"><path fill="currentColor" d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4A5.8 5.8 0 0 1 16.2 22H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2Zm0 2A3.8 3.8 0 0 0 4 7.8v8.4A3.8 3.8 0 0 0 7.8 20h8.4a3.8 3.8 0 0 0 3.8-3.8V7.8A3.8 3.8 0 0 0 16.2 4H7.8Z"/><path fill="currentColor" d="M12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/><circle fill="currentColor" cx="17.5" cy="6.5" r="1.1"/></svg>
+            <a class="wmh-ico wmh-ico--ig" href="${IG_URL}" target="_blank" rel="noopener noreferrer" title="Instagram">
+              <svg viewBox="0 0 24 24" width="17" height="17">
+                <defs><linearGradient id="ig_wmh" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#FCAF45"/><stop offset="35%" stop-color="#FD1D1D"/><stop offset="65%" stop-color="#C13584"/><stop offset="100%" stop-color="#405DE6"/></linearGradient></defs>
+                <path fill="url(#ig_wmh)" d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4A5.8 5.8 0 0 1 16.2 22H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2Zm0 2A3.8 3.8 0 0 0 4 7.8v8.4A3.8 3.8 0 0 0 7.8 20h8.4a3.8 3.8 0 0 0 3.8-3.8V7.8A3.8 3.8 0 0 0 16.2 4H7.8Z"/>
+                <path fill="url(#ig_wmh)" d="M12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/>
+                <circle fill="url(#ig_wmh)" cx="17.5" cy="6.5" r="1.1"/>
+              </svg>
             </a>
             <a class="wmh-ico wmh-ico--tg" href="${TELEGRAM_URL}" target="_blank" rel="noopener noreferrer" title="Telegram">
-              <svg viewBox="0 0 24 24" width="17" height="17"><path fill="currentColor" d="M21.9 4.6c.2-.8-.5-1.5-1.3-1.2L2.7 10.4c-.9.4-.9 1.7.1 2l4.6 1.5 1.8 5.6c.3 1 1.6 1.1 2.1.3l2.6-3.7 4.9 3.6c.7.5 1.7.1 1.9-.8l1.2-14.3ZM8.3 13.2l9.9-6.1-7.6 7.4-.3 3.9-1.7-5.1-2.5-.8Z"/></svg>
+              <svg viewBox="0 0 24 24" width="17" height="17"><path fill="#29B6F6" d="M21.9 4.6c.2-.8-.5-1.5-1.3-1.2L2.7 10.4c-.9.4-.9 1.7.1 2l4.6 1.5 1.8 5.6c.3 1 1.6 1.1 2.1.3l2.6-3.7 4.9 3.6c.7.5 1.7.1 1.9-.8l1.2-14.3ZM8.3 13.2l9.9-6.1-7.6 7.4-.3 3.9-1.7-5.1-2.5-.8Z"/></svg>
             </a>
           </div>
 
@@ -193,26 +253,30 @@
             <div class="wmh-drop-menu">${socialItems}</div>
           </div>
 
-          <!-- Dropdown langue — partout -->
-          <div class="wmh-dropdown" id="wmhLangDropdown">
+          <!-- Nav desktop : Search + Random + Hamburger -->
+          <nav class="wmh-nav">
+            ${searchDropHTML("wmhSearchDrop", "wmhSearchInput", "wmhSearchResults", "")}
+            <a class="wmh-btn" href="#" id="btnRandom">🎲 Random</a>
+            ${burgerDropHTML("wmhMenuDrop", "")}
+          </nav>
+
+          <!-- Dropdown langue — desktop : tout à droite -->
+          <div class="wmh-dropdown wmh-lang-wrap" id="wmhLangDropdown">
             <div class="wmh-drop-trigger" id="wmhLangTrigger">
               <span>${currentLangData.flag}</span><span class="arrow">▾</span>
             </div>
             <div class="wmh-drop-menu">${langItems}</div>
           </div>
-
-          <nav class="wmh-nav">
-            <a class="wmh-btn" href="${globeLink}" target="_blank" rel="noopener noreferrer">🌍 Globe</a>
-            <a class="wmh-btn" href="#" id="btnRandom">🎲 Random</a>
-            <a class="wmh-btn wmh-btn--game" href="${prefix}ggg/wigggame.html"><img src="/assets/wigggame2.png" alt="WiggGame" style="height:22px;width:auto;display:block;"></a>
-          </nav>
         </div>
 
+        <!-- Mobile grid : Search + Random + Hamburger -->
         <nav class="wmh-nav-mobile">
-          <a class="wmh-btn" href="${globeLink}" target="_blank" rel="noopener noreferrer">🌍 Globe</a>
+          ${searchDropHTML("wmhSearchDropM", "wmhSearchInputM", "wmhSearchResultsM", "")}
           <a class="wmh-btn" href="#" id="btnRandomMobile">🎲 Random</a>
-          <a class="wmh-btn wmh-btn--game" href="${prefix}ggg/wigggame.html"><img src="/assets/wigggame2.png" alt="WiggGame" style="height:20px;width:auto;display:block;"></a>
+          ${burgerDropHTML("wmhMenuDropM", "")}
         </nav>
+
+        <!-- Langue mobile — dans wmh-right (affiché par défaut, masqué sur desktop) -->
       </div>
     </header>
   `;
@@ -221,15 +285,40 @@
   if (!mount) return console.warn("siteHeader not found");
   mount.innerHTML = headerHTML;
 
-  // Social dropdown visible sur mobile seulement
+  // Sur mobile : afficher le sélecteur de langue dans wmh-right,
+  // Sur desktop : le wmh-lang-wrap est déjà dans wmh-right
   function updateSocialVisibility(){
     const el = document.getElementById("wmhSocialDropdown");
     if(el) el.style.display = window.innerWidth <= 640 ? "block" : "none";
+    // Sur mobile, le wmh-lang-wrap est caché par CSS (.wmh-right .wmh-lang-wrap)
+    // Le sélecteur de langue mobile est le même élément wmhLangDropdown,
+    // mais il est dans wmh-right — sur mobile on le réaffiche via JS
+    const langWrap = document.getElementById("wmhLangDropdown");
+    if(langWrap){
+      if(window.innerWidth <= 640){
+        langWrap.style.display = "block";
+        langWrap.classList.remove("wmh-lang-wrap");
+      } else {
+        langWrap.style.display = "";
+        langWrap.classList.add("wmh-lang-wrap");
+      }
+    }
   }
   updateSocialVisibility();
   window.addEventListener("resize", updateSocialVisibility);
 
-  // Dropdown toggle
+  // Dropdown toggle générique
+  function initDropdownBtn(triggerId, dropdownId){
+    const trigger = document.getElementById(triggerId);
+    const dropdown = document.getElementById(dropdownId);
+    if(!trigger || !dropdown) return;
+    trigger.addEventListener("click", e => {
+      e.stopPropagation();
+      const wasOpen = dropdown.classList.contains("open");
+      document.querySelectorAll(".wmh-dropdown.open").forEach(d => d.classList.remove("open"));
+      if(!wasOpen) dropdown.classList.add("open");
+    });
+  }
   function initDropdown(triggerId, dropdownId){
     const trigger = document.getElementById(triggerId);
     const dropdown = document.getElementById(dropdownId);
@@ -247,6 +336,77 @@
 
   initDropdown("wmhLangTrigger", "wmhLangDropdown");
   initDropdown("wmhSocialTrigger", "wmhSocialDropdown");
+  initDropdownBtn("wmhMenuDropTrig", "wmhMenuDrop");
+  initDropdownBtn("wmhMenuDropMTrig", "wmhMenuDropM");
+
+  // Search logic
+  let countriesCache = null;
+  async function loadCountries(){
+    if(countriesCache) return countriesCache;
+    const f = currentLang === "fr" ? "/data/countries.fr.json" :
+              currentLang === "es" ? "/data/countries.es.json" : "/data/countries.json";
+    try{
+      const r = await fetch(f + "?nc=" + Date.now(), { cache:"no-store" });
+      countriesCache = await r.json();
+    }catch(e){ countriesCache = {}; }
+    return countriesCache;
+  }
+
+  function slugToName(slug){
+    return slug.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+  }
+
+  function renderResults(query, data, resultsEl){
+    const q = query.toLowerCase().trim();
+    if(!q){ resultsEl.innerHTML = ""; return; }
+    const entries = Object.entries(data || {});
+    const matches = entries.filter(([slug, info]) => {
+      const name = (info && (info.name || info.country || info.pays || info.pais) || slugToName(slug)).toLowerCase();
+      return name.includes(q) || slug.replace(/-/g," ").includes(q);
+    }).slice(0, 8);
+    if(!matches.length){
+      resultsEl.innerHTML = `<div class="wmh-search-empty">—</div>`;
+      return;
+    }
+    resultsEl.innerHTML = matches.map(([slug, info]) => {
+      const name = (info && (info.name || info.country || info.pays || info.pais)) || slugToName(slug);
+      const flag = (info && info.flag) ? info.flag + " " : "";
+      return `<a class="wmh-drop-item" href="/countries/country.html?country=${encodeURIComponent(slug)}">${flag}${name}</a>`;
+    }).join("");
+  }
+
+  function initSearch(dropId, inputId, resultsId){
+    const drop = document.getElementById(dropId);
+    const trigBtn = document.getElementById(dropId + "Trig");
+    const input = document.getElementById(inputId);
+    const resultsEl = document.getElementById(resultsId);
+    if(!drop || !trigBtn || !input || !resultsEl) return;
+
+    trigBtn.addEventListener("click", e => {
+      e.stopPropagation();
+      const wasOpen = drop.classList.contains("open");
+      document.querySelectorAll(".wmh-dropdown.open").forEach(d => d.classList.remove("open"));
+      if(!wasOpen){
+        drop.classList.add("open");
+        setTimeout(() => input.focus(), 50);
+        loadCountries();
+      }
+    });
+
+    input.addEventListener("click", e => e.stopPropagation());
+
+    input.addEventListener("input", async () => {
+      const data = await loadCountries();
+      renderResults(input.value, data, resultsEl);
+    });
+
+    input.addEventListener("keydown", e => {
+      if(e.key === "Escape"){ drop.classList.remove("open"); input.value = ""; resultsEl.innerHTML = ""; }
+    });
+  }
+
+  initSearch("wmhSearchDrop", "wmhSearchInput", "wmhSearchResults");
+  initSearch("wmhSearchDropM", "wmhSearchInputM", "wmhSearchResultsM");
 
   // Chronicle URL mapping — for language switching on article pages
   const CHRONICLE_LANGS = {
