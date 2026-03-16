@@ -1240,3 +1240,71 @@ img {
 
 .wc-lang__option:last-child { border-bottom: none; }
 .wc-lang__option:active     { background: var(--wigg-surface); }
+
+/* Nouvelles classes du markup statique */
+.wc-lang-switcher {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.wc-lang-active {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--wigg-text-2);
+  background: var(--wigg-surface);
+  border: var(--border);
+  border-radius: var(--r-pill);
+  padding: 4px 10px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.wc-lang-active:active { background: var(--wigg-border); }
+
+.wc-lang-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  background: var(--wigg-card);
+  border: var(--border);
+  border-radius: var(--r-card);
+  overflow: hidden;
+  min-width: 70px;
+  z-index: 200;
+}
+
+.wc-lang-option {
+  display: block;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--wigg-text-1);
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: var(--border);
+}
+
+.wc-lang-option:last-child { border-bottom: none; }
+.wc-lang-option:active     { background: var(--wigg-surface); }
+
+/* Footer Connect */
+.wc-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-sm);
+  padding: var(--sp-lg) var(--sp-md);
+  font-size: 11px;
+  color: var(--wigg-text-4);
+  border-top: var(--border);
+}
+
+.wc-footer a {
+  color: var(--wigg-text-3);
+}
+
+.wc-footer a:active { color: var(--wigg-text-2); }
