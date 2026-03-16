@@ -136,7 +136,7 @@
       #heroCard::before,
       #heroCard::after { display: none; }
 
-      /* L'image couvre tout le cadre — browser mobile */
+      /* L'image couvre tout le cadre */
       #bgImg {
         width: 100vw;
         height: 100dvh;
@@ -157,23 +157,18 @@
       }
     }
 
-    /* PWA standalone — image entière sans zoom (viewport plus haut = cover zoomait trop) */
+    /* PWA standalone — même comportement que mobile browser */
     @media (display-mode: standalone) {
-      html, body { background: #000; }
       #bgImg {
         width: 100vw;
         height: 100dvh;
         max-width: none;
         max-height: none;
-        object-fit: contain;
+        object-fit: cover;
         object-position: center top;
       }
       #heroCard {
-        position: fixed;
-        inset: 0;
         max-height: none;
-        border-radius: 0;
-        box-shadow: none;
       }
     }
 
