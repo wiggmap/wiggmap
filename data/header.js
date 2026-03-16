@@ -161,22 +161,36 @@
       .wmh-menu-top-m{ display:none; }
 
       /* Mobile */
-      @media (max-width: 640px){
-        .wmh-inner{ padding:8px 12px; gap:8px; flex-wrap:wrap; }
+      @media (max-width: 768px){
+        .wmh-inner{ padding:8px 12px; gap:6px; flex-wrap:wrap; }
         .wmh-brand img{ height:44px; }
         .wmh-social{ display:none !important; }
         .wmh-right .wmh-nav{ display:none !important; }
         .wmh-right .wmh-lang-wrap{ display:none !important; }
-        .wmh-right{ flex:1 1 auto; justify-content:flex-end; gap:7px; }
-        .wmh-menu-top-m{ display:block !important; }
+        .wmh-right{ flex:1 1 auto; justify-content:flex-end; align-items:center; gap:6px; }
+
+        /* Hamburger top row — inline-flex pour ne pas casser le layout du trigger */
+        .wmh-menu-top-m{ display:inline-flex !important; }
+        /* Masquer la flèche ▾ dans le hamburger mobile (redondant avec l'icône ☰) */
+        #wmhMenuTopM .arrow{ display:none !important; }
+
+        /* Grille 2 colonnes égales pour Recherche + Random */
         .wmh-nav-mobile{
           display:grid !important;
-          grid-template-columns:repeat(2,1fr);
+          grid-template-columns:1fr 1fr;
           gap:8px; width:100%; flex-basis:100%;
         }
-        .wmh-btn{ justify-content:center; padding:9px 8px; font-size:13px; }
-        .wmh-drop-trigger{ font-size:14px; padding:6px 9px; }
-        .wmh-search-panel{ min-width:calc(100vw - 32px); }
+        /* Le dropdown search prend toute la cellule */
+        .wmh-nav-mobile .wmh-dropdown{ width:100%; display:block; }
+        /* Boutons : pleine largeur, bien centrés, hauteur uniforme */
+        .wmh-nav-mobile .wmh-btn,
+        .wmh-nav-mobile .wmh-dropdown .wmh-btn{
+          width:100%; justify-content:center;
+          padding:10px 8px; font-size:13px; font-weight:700;
+        }
+        /* Panneau de recherche plein écran */
+        .wmh-search-panel{ min-width:calc(100vw - 28px); }
+        /* Positionnement des menus déroulants dans la grille */
         .wmh-nav-mobile .wmh-dropdown:first-child .wmh-drop-menu{ left:0; right:auto; }
         .wmh-nav-mobile .wmh-dropdown:last-child .wmh-drop-menu{ right:0; left:auto; }
       }
