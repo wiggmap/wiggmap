@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="../assets/favicon.ico" />
+  <link rel="manifest" href="../manifest.webmanifest" />
+  <meta name="theme-color" content="#22c55e" />
+
+  <title>WiggMap Connect — Le réseau des expats et locaux · WiggMap</title>
+  <meta name="description" content="WiggMap Connect : trouve quelqu'un qui vit là où tu veux aller. Échange ton vécu. Trouve ton miroir. Le réseau d'entraide pour les expatriés et curieux du monde." />
+
+  <!-- Design system Connect -->
+  <link rel="stylesheet" href="assets/connect.css" />
+
+  <style>
+    /* Styles spécifiques landing — non répétables ailleurs */
+    body {
+      /* Pas de topbar fixe sur la landing non connectée */
+      padding-top: 0;
+    }
+
+    /* Header landing dédié */
+    .landing-header {
+      padding: 20px var(--sp-md) var(--sp-md);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--wigg-night);
+      z-index: 10;
+    }
+
+    .landing-header__logo {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--wigg-text-1);
+    }
+
+    .landing-header__logo span {
+      color: var(--wigg-green);
+    }
+
+    .landing-header__login {
+      font-size: 12px;
+      color: var(--wigg-text-3);
+      padding: 6px 12px;
+      border: var(--border);
+      border-radius: var(--r-btn);
+    }
+
+    /* Section testimonials */
+    .testimonials-grid {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-sm);
+    }
+
+    /* Section CTA finale */
+    .cta-section {
+      text-align: center;
+      padding: var(--sp-xl) 0 var(--sp-2xl);
+    }
+
+    .cta-section__title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--wigg-text-1);
+      margin-bottom: var(--sp-sm);
+    }
+
+    .cta-section__sub {
+      font-size: 12px;
+      color: var(--wigg-text-2);
+      margin-bottom: var(--sp-lg);
+      line-height: 1.6;
+    }
+
+    .cta-section__login-link {
+      display: block;
+      margin-top: var(--sp-md);
+      font-size: 12px;
+      color: var(--wigg-text-3);
+      text-decoration: underline;
+    }
+
+    /* Compteur fictif de membres */
+    .members-count {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-xs);
+      font-size: 11px;
+      color: var(--wigg-text-3);
+      margin-bottom: var(--sp-lg);
+    }
+
+    .members-count__avatars {
+      display: flex;
+    }
+
+    .members-count__dot {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--wigg-night);
+      background: var(--wigg-surface);
+      margin-left: -6px;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .members-count__dot:first-child {
+      margin-left: 0;
+    }
+
+    /* Bandeau de pays */
+    .countries-band {
+      display: flex;
+      gap: var(--sp-sm);
+      overflow-x: auto;
+      padding: var(--sp-sm) 0 var(--sp-md);
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .countries-band::-webkit-scrollbar {
+      display: none;
+    }
+
+    .country-pill-band {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      background: var(--wigg-card);
+      border: var(--border);
+      border-radius: var(--r-pill);
+      font-size: 11px;
+      color: var(--wigg-text-2);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* Section miroir illustré */
+    .mirror-section {
+      margin-bottom: var(--sp-xl);
+    }
+
+    .mirror-section__title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--wigg-text-3);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      text-align: center;
+      margin-bottom: var(--sp-md);
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header WiggMap (injecté par header.js) -->
+<div id="siteHeader"></div>
+
+<!-- ================================================
+     Header landing Connect
+     ================================================ -->
+<header class="landing-header">
+  <div class="landing-header__logo">
+    WiggMap <span>Connect</span>
+  </div>
+  <a href="onboarding.html" class="landing-header__login">Se connecter</a>
+</header>
+
+<!-- ================================================
+     Contenu principal
+     ================================================ -->
+<main>
+  <div class="connect-wrap" style="padding-top: var(--sp-xl); padding-bottom: var(--sp-2xl);">
+
+    <!-- ---- HERO ---- -->
+    <section class="hero-section" style="padding-top: var(--sp-lg);">
+
+      <div class="members-count">
+        <div class="members-count__avatars">
+          <div class="members-count__dot">🇫🇷</div>
+          <div class="members-count__dot">🇧🇷</div>
+          <div class="members-count__dot">🇯🇵</div>
+          <div class="members-count__dot">🇲🇦</div>
+        </div>
+        <span>Rejoins des milliers d'expats &amp; locaux</span>
+      </div>
+
+      <h1 class="hero-section__title">
+        Trouve quelqu'un qui vit<br>
+        <em>là où tu veux aller.</em>
+      </h1>
+
+      <p class="hero-section__subtitle">
+        Pas des influenceurs. Pas des agences. Des gens réels,
+        qui ont fait le chemin que tu envisages — et qui veulent
+        souvent faire le tien.
+      </p>
+
+      <!-- Exemple miroir -->
+      <div class="mirror-example">
+        <div class="mirror-example__row">
+          <div class="mirror-example__flag">🇫🇷</div>
+          <div class="mirror-example__text">
+            <strong>Lucas, Lyon</strong>
+            Veut partir au Brésil — cherche un appart à São Paulo
+          </div>
+        </div>
+        <div style="text-align:center; padding: 6px 0;">
+          <span style="color: var(--wigg-green); font-size: 20px;">⇅</span>
+          <span style="font-size: 10px; color: var(--wigg-text-3); margin-left: 6px;">Miroir parfait</span>
+          <span class="mirror-example__score" style="margin-left: 8px;">100/100</span>
+        </div>
+        <div class="mirror-example__row">
+          <div class="mirror-example__flag">🇧🇷</div>
+          <div class="mirror-example__text">
+            <strong>Maria, São Paulo</strong>
+            Veut venir en France — cherche un quartier à Lyon
+          </div>
+        </div>
+      </div>
+
+      <p style="font-size: 12px; color: var(--wigg-text-3); text-align: center; margin-bottom: var(--sp-lg);">
+        Ils ont exactement ce que l'autre cherche.<br>
+        C'est ça, <strong style="color: var(--wigg-green);">WiggMap Connect</strong>.
+      </p>
+
+      <a href="onboarding.html" class="btn btn--primary btn--full" style="font-size: 15px; height: 50px;">
+        Créer mon profil gratuitement
+      </a>
+
+    </section>
+
+    <!-- ---- PAYS POPULAIRES ---- -->
+    <div class="countries-band">
+      <div class="country-pill-band">🇫🇷 France</div>
+      <div class="country-pill-band">🇧🇷 Brésil</div>
+      <div class="country-pill-band">🇵🇹 Portugal</div>
+      <div class="country-pill-band">🇨🇦 Canada</div>
+      <div class="country-pill-band">🇲🇦 Maroc</div>
+      <div class="country-pill-band">🇹🇭 Thaïlande</div>
+      <div class="country-pill-band">🇦🇺 Australie</div>
+      <div class="country-pill-band">🇩🇪 Allemagne</div>
+      <div class="country-pill-band">🇯🇵 Japon</div>
+      <div class="country-pill-band">🇪🇸 Espagne</div>
+    </div>
+
+    <div class="section-sep"></div>
+
+    <!-- ---- BLOCS DE VALEUR ---- -->
+    <div class="section-header">
+      <span class="section-title">Pourquoi Connect ?</span>
+    </div>
+
+    <div class="value-blocks">
+      <div class="value-block">
+        <div class="value-block__icon">🤝</div>
+        <div>
+          <div class="value-block__title">Vrais expats + Locaux</div>
+          <div class="value-block__desc">
+            Pose des vraies questions à des gens qui vivent dans le pays
+            qui t'intéresse. Logement, fiscalité, scolarité, quotidien —
+            sans filtre commercial.
+          </div>
+        </div>
+      </div>
+
+      <div class="value-block">
+        <div class="value-block__icon">🔀</div>
+        <div>
+          <div class="value-block__title">WiggSwipe — Trouve ton miroir</div>
+          <div class="value-block__desc">
+            Notre algorithme repère les profils en miroir parfait :
+            quelqu'un qui vient d'où tu veux aller, et qui veut aller
+            d'où tu viens. Échange direct, sans intermédiaire.
+          </div>
+        </div>
+      </div>
+
+      <div class="value-block">
+        <div class="value-block__icon">✦</div>
+        <div>
+          <div class="value-block__title">Entraide réelle</div>
+          <div class="value-block__desc">
+            Ici on mesure les "personnes aidées", pas les followers.
+            Chaque contribution utile est reconnue par la communauté
+            avec un seul geste : "✦ Aidé".
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-sep"></div>
+
+    <!-- ---- TÉMOIGNAGES ---- -->
+    <div class="section-header">
+      <span class="section-title">Ils ont trouvé leur miroir</span>
+    </div>
+
+    <div class="testimonials-grid">
+
+      <!-- Témoignage 1 -->
+      <div class="testimonial-card">
+        <div class="testimonial-card__route">
+          <div class="life-route">
+            <span class="life-route__flag">🇫🇷</span>
+            <span class="life-route__city">Paris</span>
+            <span class="life-route__arrow">──→</span>
+            <span class="life-route__flag">🇵🇹</span>
+            <span class="life-route__city">Lisbonne</span>
+          </div>
+        </div>
+        <p class="testimonial-card__text">
+          "En 3 échanges avec Carlos, j'avais un appart et une liste
+          d'écoles pour mes enfants. Il cherchait exactement le même
+          type de quartier à Paris. On s'est vraiment aidés."
+        </p>
+        <div class="testimonial-card__author">
+          <div class="avatar avatar--sm" style="background: var(--wigg-green-bg); color: var(--wigg-green);">S</div>
+          <div>
+            <div class="testimonial-card__name">Sophie D.</div>
+            <div class="testimonial-card__meta">Installée à Lisbonne depuis 8 mois · <span style="color: var(--wigg-green);">✦ 12 personnes aidées</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Témoignage 2 -->
+      <div class="testimonial-card">
+        <div class="testimonial-card__route">
+          <div class="life-route">
+            <span class="life-route__flag">🇧🇷</span>
+            <span class="life-route__city">São Paulo</span>
+            <span class="life-route__arrow">──→</span>
+            <span class="life-route__flag">🇩🇪</span>
+            <span class="life-route__city">Berlin</span>
+          </div>
+        </div>
+        <p class="testimonial-card__text">
+          "J'avais des centaines de questions sur les visas allemands.
+          Ici j'ai trouvé une avocate franco-brésilienne installée à
+          Berlin depuis 5 ans. Ses réponses valaient 3h de recherches."
+        </p>
+        <div class="testimonial-card__author">
+          <div class="avatar avatar--sm" style="background: var(--badge-journal-bg); color: var(--wigg-blue);">R</div>
+          <div>
+            <div class="testimonial-card__name">Rafael M.</div>
+            <div class="testimonial-card__meta">En transition · Développeur web</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Témoignage 3 -->
+      <div class="testimonial-card">
+        <div class="testimonial-card__route">
+          <div class="life-route">
+            <span class="life-route__flag">🇲🇦</span>
+            <span class="life-route__city">Casablanca</span>
+            <span class="life-route__arrow">──→</span>
+            <span class="life-route__flag">🇨🇦</span>
+            <span class="life-route__city">Montréal</span>
+          </div>
+        </div>
+        <p class="testimonial-card__text">
+          "Ce qui m'a décidé, c'est un journal en 8 épisodes écrit par
+          un Marocain arrivé à Montréal l'année dernière. Tout y était :
+          les galères, les surprises, les vraies bonnes adresses."
+        </p>
+        <div class="testimonial-card__author">
+          <div class="avatar avatar--sm" style="background: var(--badge-flash-bg); color: var(--wigg-amber);">A</div>
+          <div>
+            <div class="testimonial-card__name">Amina K.</div>
+            <div class="testimonial-card__meta">Planificatrice · Départ prévu juin 2026</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="section-sep"></div>
+
+    <!-- ---- CTA FINAL ---- -->
+    <section class="cta-section">
+      <h2 class="cta-section__title">Prêt à trouver ton miroir ?</h2>
+      <p class="cta-section__sub">
+        Crée ton profil en 5 minutes.<br>
+        Gratuit, sans publicité, sans algorithme opaque.
+      </p>
+      <a href="onboarding.html" class="btn btn--primary btn--full" style="font-size: 15px; height: 50px;">
+        Créer mon profil
+      </a>
+      <a href="onboarding.html" class="cta-section__login-link">
+        Déjà membre ? Se connecter
+      </a>
+    </section>
+
+  </div><!-- /connect-wrap -->
+</main>
+
+<!-- Footer WiggMap (injecté par footer.js) -->
+<div id="siteFooter"></div>
+
+<!-- Scripts WiggMap -->
+<script src="../data/header.js"></script>
+<script src="../data/footer.js"></script>
+<!-- Service worker WiggMap -->
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('../sw.js').catch(function() {});
+  }
+</script>
+</body>
+</html>

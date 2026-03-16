@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="../assets/favicon.ico" />
+  <meta name="theme-color" content="#22c55e" />
+  <meta name="robots" content="noindex" />
+
+  <title>Mon profil · WiggMap Connect</title>
+
+  <link rel="stylesheet" href="assets/connect.css" />
+
+  <style>
+    /* Styles spécifiques page profil */
+
+    /* Hero profil */
+    .profile-hero {
+      background: var(--wigg-card);
+      border: var(--border);
+      border-radius: var(--r-card);
+      padding: var(--sp-lg) var(--sp-md);
+      margin-bottom: var(--sp-sm);
+      text-align: center;
+    }
+
+    .profile-hero__route {
+      margin-bottom: var(--sp-md);
+    }
+
+    .profile-hero__avatar-wrap {
+      position: relative;
+      display: inline-block;
+      margin-bottom: var(--sp-md);
+    }
+
+    .profile-hero__name {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--wigg-text-1);
+      margin-bottom: 4px;
+    }
+
+    .profile-hero__meta {
+      font-size: 12px;
+      color: var(--wigg-text-2);
+      margin-bottom: var(--sp-sm);
+    }
+
+    .profile-hero__status {
+      margin-bottom: var(--sp-md);
+      display: flex;
+      justify-content: center;
+    }
+
+    .profile-hero__bio {
+      font-size: 13px;
+      font-style: italic;
+      color: var(--wigg-text-2);
+      line-height: 1.6;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    /* Section vide */
+    .empty-section {
+      padding: var(--sp-lg);
+      text-align: center;
+      color: var(--wigg-text-4);
+      font-size: 12px;
+      border: 0.5px dashed var(--wigg-border);
+      border-radius: var(--r-card);
+    }
+
+    /* Langues dans le profil */
+    .lang-row {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-sm);
+      padding: 6px 0;
+      border-bottom: var(--border);
+      font-size: 13px;
+    }
+
+    .lang-row:last-child { border-bottom: none; }
+
+    .lang-row__flag { font-size: 18px; }
+    .lang-row__name { flex: 1; color: var(--wigg-text-1); }
+
+    .lang-level-dots {
+      display: flex;
+      gap: 3px;
+    }
+
+    .lang-level-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--wigg-border);
+    }
+
+    .lang-level-dot.active {
+      background: var(--wigg-green);
+    }
+
+    /* Pays favoris — vide pour MVP */
+    .countries-fav-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-sm);
+    }
+
+    .country-fav-item {
+      aspect-ratio: 1;
+      background: var(--wigg-surface);
+      border: var(--border);
+      border-radius: var(--r-card);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 10px;
+      color: var(--wigg-text-3);
+    }
+
+    .country-fav-item__flag { font-size: 24px; }
+
+    /* Page d'erreur (profil non trouvé) */
+    .no-profile {
+      text-align: center;
+      padding: var(--sp-2xl) var(--sp-md);
+    }
+
+    .no-profile__icon { font-size: 48px; margin-bottom: var(--sp-md); }
+    .no-profile__title { font-size: 18px; font-weight: 600; color: var(--wigg-text-1); margin-bottom: var(--sp-sm); }
+    .no-profile__sub { font-size: 13px; color: var(--wigg-text-2); margin-bottom: var(--sp-xl); }
+
+    /* Targets visuelles sur le profil */
+    .targets-display {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-xs);
+      margin-top: var(--sp-xs);
+    }
+
+    /* Section complète */
+    .profile-section {
+      margin-bottom: var(--sp-sm);
+    }
+  </style>
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="connect-topbar">
+  <div class="connect-topbar__logo">
+    <div class="connect-topbar__logo-text">WiggMap <span>Connect</span></div>
+  </div>
+  <div class="connect-topbar__actions">
+    <a href="onboarding.html" class="connect-topbar__icon-btn" title="Modifier le profil">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+    </a>
+  </div>
+</nav>
+
+<!-- Contenu -->
+<div class="connect-wrap" id="profileContent">
+  <!-- Rempli par JS -->
+</div>
+
+<!-- Bottom nav -->
+<nav class="connect-bottombar">
+  <a href="index.html" class="connect-bottombar__item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+    </svg>
+    <span class="connect-bottombar__label">Accueil</span>
+  </a>
+  <a href="#" class="connect-bottombar__item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+    <span class="connect-bottombar__label">Feed</span>
+  </a>
+  <a href="#" class="connect-bottombar__item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+    </svg>
+    <span class="connect-bottombar__label">Swipe</span>
+  </a>
+  <a href="profile.html" class="connect-bottombar__item active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+    </svg>
+    <span class="connect-bottombar__label">Profil</span>
+  </a>
+</nav>
+
+<!-- Footer WiggMap -->
+<div id="siteFooter"></div>
+
+<!-- Scripts -->
+<script src="../data/header.js"></script>
+<script src="../data/footer.js"></script>
+<script src="assets/connect.js"></script>
+<script>
+/* ============================================================
+   Profile — rendu depuis localStorage
+   ============================================================ */
+(function() {
+  'use strict';
+
+  const { getProfile, LIFE_STATUSES, SECTORS, LANGUAGES, getFlag, showToast } = window.WiggConnect;
+  const profile = getProfile();
+  const contentEl = document.getElementById('profileContent');
+
+  /* -------------------------------------------------------
+     Profil inexistant
+     ------------------------------------------------------- */
+  if (!profile || !profile.display_name) {
+    contentEl.innerHTML =
+      '<div class="no-profile">' +
+        '<div class="no-profile__icon">🌐</div>' +
+        '<div class="no-profile__title">Tu n\'as pas encore de profil</div>' +
+        '<p class="no-profile__sub">Crée ton profil en 5 minutes pour rejoindre WiggMap Connect.</p>' +
+        '<a href="onboarding.html" class="btn btn--primary btn--full" style="font-size:15px;height:50px;">Créer mon profil</a>' +
+      '</div>';
+    return;
+  }
+
+  /* -------------------------------------------------------
+     Helpers
+     ------------------------------------------------------- */
+
+  // Initiales pour l'avatar
+  function getInitials(name) {
+    return name.split(' ').map(function(w) { return w[0]; }).join('').toUpperCase().slice(0, 2);
+  }
+
+  // Trouver un statut de vie
+  function findStatus(id) {
+    return LIFE_STATUSES.find(function(s) { return s.id === id; }) || null;
+  }
+
+  // Trouver un secteur
+  function findSector(id) {
+    return SECTORS.find(function(s) { return s.id === id; }) || null;
+  }
+
+  // Trouver une langue
+  function findLang(id) {
+    return LANGUAGES.find(function(l) { return l.id === id; }) || null;
+  }
+
+  // Dots de niveau langue
+  function renderLevelDots(level) {
+    return [1,2,3,4,5].map(function(n) {
+      return '<div class="lang-level-dot' + (n <= level ? ' active' : '') + '"></div>';
+    }).join('');
+  }
+
+  /* -------------------------------------------------------
+     Construction de la route géographique
+     ------------------------------------------------------- */
+  const originFlag  = getFlag(profile.country_origin);
+  const currentFlag = getFlag(profile.country_current || profile.country_origin);
+  const targets     = profile.targets_data || (profile.country_targets || []).map(function(slug) {
+    return { slug: slug, name: slug };
+  });
+
+  const routeParts = [
+    '<span class="life-route__flag">' + originFlag + '</span>',
+    '<span class="life-route__city">' + (profile.origin_city || profile.origin_name || '') + '</span>',
+  ];
+
+  // Afficher le pays actuel si différent de l'origine
+  if (profile.country_current && profile.country_current !== profile.country_origin) {
+    routeParts.push('<span class="life-route__arrow">──</span>');
+    routeParts.push('<span class="life-route__flag">' + currentFlag + '</span>');
+    routeParts.push('<span class="life-route__city">' + (profile.current_city || profile.current_name || '') + '</span>');
+  }
+
+  // Flèche vers destinations
+  if (targets.length > 0) {
+    routeParts.push('<span class="life-route__arrow">──→</span>');
+    targets.forEach(function(t, i) {
+      routeParts.push('<span class="life-route__flag">' + getFlag(t.slug) + '</span>');
+      routeParts.push('<span class="life-route__city">' + t.name + '</span>');
+      if (i < targets.length - 1) {
+        routeParts.push('<span style="color:var(--wigg-text-4);margin:0 2px;">/</span>');
+      }
+    });
+  }
+
+  /* -------------------------------------------------------
+     Statut badge
+     ------------------------------------------------------- */
+  const statusDef = findStatus(profile.life_status);
+  const isOpen = ['curious', 'planning', 'transition'].includes(profile.life_status);
+  const statusHTML = statusDef
+    ? '<div class="pill' + (isOpen ? ' pill--open' : '') + '">' +
+      (isOpen ? '' : statusDef.icon + ' ') +
+      statusDef.label +
+      '</div>'
+    : '';
+
+  /* -------------------------------------------------------
+     Secteur
+     ------------------------------------------------------- */
+  const sectorDef = findSector(profile.sector);
+
+  /* -------------------------------------------------------
+     Langues
+     ------------------------------------------------------- */
+  const langsHTML = (profile.languages && profile.languages.length)
+    ? profile.languages.map(function(l) {
+        const langDef = findLang(l.lang || l.id);
+        if (!langDef) return '';
+        return '<div class="lang-row">' +
+          '<span class="lang-row__flag">' + langDef.flag + '</span>' +
+          '<span class="lang-row__name">' + langDef.label + '</span>' +
+          '<div class="lang-level-dots">' + renderLevelDots(l.level) + '</div>' +
+          '</div>';
+      }).join('')
+    : '<p class="text-caption" style="color:var(--wigg-text-4);padding:8px 0;">Non renseigné</p>';
+
+  /* -------------------------------------------------------
+     Date membre
+     ------------------------------------------------------- */
+  let memberSince = '';
+  if (profile.created_at) {
+    const d = new Date(profile.created_at);
+    memberSince = 'Membre depuis ' + d.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+  }
+
+  /* -------------------------------------------------------
+     Type de compte badge
+     ------------------------------------------------------- */
+  const typeLabels = { individu: '🧑 Individu', commerce: '🏪 Commerce', association: '🤲 Association' };
+  const typeLabel = typeLabels[profile.member_type] || profile.member_type || '';
+
+  /* -------------------------------------------------------
+     Rendu HTML complet
+     ------------------------------------------------------- */
+  contentEl.innerHTML =
+
+    /* ---- Hero ---- */
+    '<div class="profile-hero profile-section">' +
+
+      '<div class="profile-hero__route">' +
+        '<div class="life-route life-route--hero" style="justify-content:center;flex-wrap:wrap;">' +
+          routeParts.join('') +
+        '</div>' +
+      '</div>' +
+
+      '<div class="profile-hero__avatar-wrap">' +
+        '<div class="avatar avatar--xl" style="margin:0 auto;background:var(--wigg-green-bg);color:var(--wigg-green);font-size:28px;">' +
+          getInitials(profile.display_name) +
+        '</div>' +
+      '</div>' +
+
+      '<div class="profile-hero__name">' + escapeHTML(profile.display_name) + '</div>' +
+
+      '<div class="profile-hero__meta">' +
+        (sectorDef ? escapeHTML(sectorDef.label) : '') +
+        (sectorDef && memberSince ? ' · ' : '') +
+        (memberSince ? memberSince : '') +
+        (typeLabel ? ' · ' + typeLabel : '') +
+      '</div>' +
+
+      '<div class="profile-hero__status">' + statusHTML + '</div>' +
+
+      (profile.bio
+        ? '<p class="profile-hero__bio">"' + escapeHTML(profile.bio) + '"</p>'
+        : '<p class="profile-hero__bio" style="color:var(--wigg-text-4);">Aucune bio renseignée.</p>') +
+
+    '</div>' +
+
+    /* ---- Reconnu par la communauté ---- */
+    '<div class="card profile-section">' +
+      '<div class="section-header">' +
+        '<span class="section-title">Reconnu par la communauté sur</span>' +
+      '</div>' +
+      '<div class="empty-section" style="border:none;padding:8px 0;">' +
+        '<span style="font-size:20px;">✦</span><br>' +
+        '<span style="font-size:11px;color:var(--wigg-text-4);">Tes contributions seront reconnues ici</span>' +
+      '</div>' +
+    '</div>' +
+
+    /* ---- Stats ---- */
+    '<div class="profile-section">' +
+      '<div class="stats-row">' +
+        '<div class="stat-box">' +
+          '<div class="stat-box__value">0</div>' +
+          '<div class="stat-box__label">Contributions</div>' +
+        '</div>' +
+        '<div class="stat-box">' +
+          '<div class="stat-box__value">0</div>' +
+          '<div class="stat-box__label">Personnes aidées</div>' +
+        '</div>' +
+        '<div class="stat-box">' +
+          '<div class="stat-box__value">0</div>' +
+          '<div class="stat-box__label">Miroirs actifs</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+
+    /* ---- Destinations ---- */
+    (targets.length > 0
+      ? '<div class="card profile-section">' +
+          '<div class="section-header">' +
+            '<span class="section-title">Destinations visées</span>' +
+          '</div>' +
+          '<div class="targets-display">' +
+            targets.map(function(t) {
+              return '<div class="pill">' + getFlag(t.slug) + ' ' + escapeHTML(t.name) + '</div>';
+            }).join('') +
+          '</div>' +
+          (profile.seeking_message
+            ? '<p class="bio-text" style="margin-top:12px;">' + escapeHTML(profile.seeking_message) + '</p>'
+            : '') +
+        '</div>'
+      : '') +
+
+    /* ---- Langues ---- */
+    '<div class="card profile-section">' +
+      '<div class="section-header">' +
+        '<span class="section-title">Langues parlées</span>' +
+      '</div>' +
+      langsHTML +
+    '</div>' +
+
+    /* ---- Pays favoris (vide au MVP) ---- */
+    '<div class="card profile-section">' +
+      '<div class="section-header">' +
+        '<span class="section-title">Mes pays favoris</span>' +
+      '</div>' +
+      '<div class="empty-section">' +
+        'Tes pays favoris WiggMap apparaîtront ici.' +
+      '</div>' +
+    '</div>' +
+
+    /* ---- Bouton modifier ---- */
+    '<div style="margin-top: var(--sp-lg);">' +
+      '<a href="onboarding.html" class="btn btn--ghost btn--full">' +
+        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>' +
+        'Modifier mon profil' +
+      '</a>' +
+    '</div>';
+
+  /* -------------------------------------------------------
+     Sécurité — échappement HTML
+     ------------------------------------------------------- */
+  function escapeHTML(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  // Re-render avec la fonction d'escape disponible avant le innerHTML
+  // (la fonction est définie après mais on l'appelle dans contentEl.innerHTML
+  //  via les fermetures — on doit donc replacer après déclaration)
+  // Note : on déclare escapeHTML avant l'utilisation dans innerHTML ci-dessus
+  // via hoisting de la déclaration de fonction. OK.
+
+})();
+</script>
+</body>
+</html>
