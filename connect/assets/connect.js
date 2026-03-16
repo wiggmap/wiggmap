@@ -290,67 +290,6 @@ function getFlag(slug) {
    Switcher de langue — header partagé
    ------------------------------------------------------- */
 
-/**
- * Initialise le switcher de langue dans l'élément #wcLangSwitcher.
- * Lit et écrit localStorage wigg_lang (valeurs : 'en' | 'fr' | 'es').
- * Appeler au DOMContentLoaded sur chaque page.
- */
-function wcInitLangSwitcher() {
-  var LANGS = ['en', 'fr', 'es'];
-  var btn      = document.getElementById('wcLangBtn');
-  var dropdown = document.getElementById('wcLangDropdown');
-  if (!btn || !dropdown) return;
-
-  function getCurrentLang() {
-    var stored = localStorage.getItem(LS_LANG_KEY);
-    return LANGS.indexOf(stored) !== -1 ? stored : 'en';
-  }
-
-  function closeDropdown() {
-    dropdown.innerHTML = '';
-    dropdown.style.display = 'none';
-  }
-
-  function openDropdown() {
-    var current = getCurrentLang();
-    var others  = LANGS.filter(function(l) { return l !== current; });
-
-    dropdown.innerHTML = others.map(function(l) {
-      return '<div class="wc-lang-option" data-lang="' + l + '">' +
-               l.toUpperCase() +
-             '</div>';
-    }).join('');
-    dropdown.style.display = 'block';
-
-    dropdown.querySelectorAll('.wc-lang-option').forEach(function(opt) {
-      opt.addEventListener('click', function(e) {
-        e.stopPropagation();
-        localStorage.setItem(LS_LANG_KEY, opt.dataset.lang);
-        btn.textContent = opt.dataset.lang.toUpperCase();
-        closeDropdown();
-      });
-    });
-  }
-
-  // Init — afficher la langue active sur le bouton
-  btn.textContent = getCurrentLang().toUpperCase();
-
-  // Toggle au clic sur le bouton
-  btn.addEventListener('click', function(e) {
-    e.stopPropagation();
-    if (dropdown.style.display === 'block') {
-      closeDropdown();
-    } else {
-      openDropdown();
-    }
-  });
-
-  // Fermer au clic ailleurs
-  document.addEventListener('click', function() { closeDropdown(); });
-
-  closeDropdown();
-}
-
 /* -------------------------------------------------------
    Exports (pour les autres pages)
    ------------------------------------------------------- */
@@ -372,9 +311,26 @@ window.WiggConnect = {
   getCountryName,
   getCountriesList,
   getFlag,
-  // Header
-  wcInitLangSwitcher,
 };
 
-/* Exposition directe pour appel sans préfixe depuis les pages */
-window.wcInitLangSwitcher = wcInitLangSwitcher;
+/* -------------------------------------------------------
+   wcInitLangSwitcher — garantie globale
+   ------------------------------------------------------- */
+window.wcInitLangSwitcher = function() {
+  var btn = document.getElementById('wcLangBtn');
+  var dropdown = document.getElementById('wcLangDropdown');
+  if (!btn || !dropdown) return;
+  var lang = localStorage.getItem('wigg_lang') || 'en';
+  btn.textContent = lang.toUpperCase();
+  var all = ['en','fr','es'].filter(function(l){ return l !== lang; });
+  dropdown.innerHTML = all.map(function(l){
+    return '<button onclick="localStorage.setItem(\'wigg_lang\',\''+l+'\');location.reload()">'+l.toUpperCase()+'</button>';
+  }).join('');
+  btn.onclick = function(e){
+    e.stopPropagation();
+    dropdown.classList.toggle('open');
+  };
+  document.addEventListener('click', function(){
+    dropdown.classList.remove('open');
+  });
+};
