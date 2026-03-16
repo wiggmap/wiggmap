@@ -375,3 +375,6 @@ window.WiggConnect = {
   // Header
   wcInitLangSwitcher,
 };
+
+/* Exposition directe pour appel sans préfixe depuis les pages */
+window.wcInitLangSwitcher = wcInitLangSwitcher;
