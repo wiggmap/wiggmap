@@ -15,41 +15,6 @@
 
   <style>
     /* Styles spécifiques landing — non répétables ailleurs */
-    body {
-      /* Pas de topbar fixe sur la landing non connectée */
-      padding-top: 0;
-    }
-
-    /* Header landing dédié */
-    .landing-header {
-      padding: 20px var(--sp-md) var(--sp-md);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: var(--border);
-      position: sticky;
-      top: 0;
-      background: var(--wigg-night);
-      z-index: 10;
-    }
-
-    .landing-header__logo {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--wigg-text-1);
-    }
-
-    .landing-header__logo span {
-      color: var(--wigg-green);
-    }
-
-    .landing-header__login {
-      font-size: 12px;
-      color: var(--wigg-text-3);
-      padding: 6px 12px;
-      border: var(--border);
-      border-radius: var(--r-btn);
-    }
 
     /* Section testimonials */
     .testimonials-grid {
@@ -169,11 +134,10 @@
 <!-- ================================================
      Header landing Connect
      ================================================ -->
-<header class="landing-header">
-  <div class="landing-header__logo">
-    WiggMap <span>Connect</span>
-  </div>
-  <a href="onboarding.html" class="landing-header__login">Se connecter</a>
+<header class="wc-header">
+  <a href="/" class="wc-header__back">← wiggmap.com</a>
+  <img src="../assets/wiggmap-connect-logo.png" height="32" alt="WiggMap Connect" class="wc-header__logo" />
+  <div class="wc-header__lang" id="wcLangSwitcher"></div>
 </header>
 
 <!-- ================================================
@@ -411,11 +375,15 @@
 <!-- Scripts WiggMap -->
 <script src="../data/header.js"></script>
 <script src="../data/footer.js"></script>
+<script src="assets/connect.js"></script>
 <!-- Service worker WiggMap -->
 <script>
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('../sw.js').catch(function() {});
   }
+  document.addEventListener('DOMContentLoaded', function() {
+    window.WiggConnect.wcInitLangSwitcher();
+  });
 </script>
 </body>
 </html>

@@ -1156,3 +1156,87 @@ img {
   color: var(--wigg-text-2);
   line-height: 1.6;
 }
+
+/* -------------------------------------------------------
+   Header partagé — wc-header (index, onboarding, profile)
+   ------------------------------------------------------- */
+.wc-header {
+  position: sticky;
+  top: 0;
+  height: 52px;
+  background: var(--wigg-night);
+  border-bottom: var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--sp-md);
+  z-index: 100;
+}
+
+.wc-header__back {
+  font-size: 12px;
+  color: var(--wigg-text-3);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.wc-header__back:active { color: var(--wigg-text-2); }
+
+.wc-header__logo {
+  height: 32px;
+  width: auto;
+  display: block;
+  /* Si le fichier logo n'existe pas encore, masquer l'espace cassé */
+  object-fit: contain;
+}
+
+/* -------------------------------------------------------
+   Lang switcher
+   ------------------------------------------------------- */
+.wc-lang {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.wc-lang__btn {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--wigg-text-2);
+  background: var(--wigg-surface);
+  border: var(--border);
+  border-radius: var(--r-pill);
+  padding: 4px 10px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.wc-lang__btn:active { background: var(--wigg-border); }
+
+.wc-lang__dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  background: var(--wigg-card);
+  border: var(--border);
+  border-radius: var(--r-card);
+  overflow: hidden;
+  min-width: 70px;
+  z-index: 200;
+}
+
+.wc-lang__option {
+  display: block;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--wigg-text-1);
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: var(--border);
+}
+
+.wc-lang__option:last-child { border-bottom: none; }
+.wc-lang__option:active     { background: var(--wigg-surface); }

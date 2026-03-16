@@ -287,6 +287,75 @@ function getFlag(slug) {
 }
 
 /* -------------------------------------------------------
+   Switcher de langue — header partagé
+   ------------------------------------------------------- */
+
+/**
+ * Initialise le switcher de langue dans l'élément #wcLangSwitcher.
+ * Lit et écrit localStorage wigg_lang (valeurs : 'en' | 'fr' | 'es').
+ * Appeler au DOMContentLoaded sur chaque page.
+ */
+function wcInitLangSwitcher() {
+  var LANGS = ['en', 'fr', 'es'];
+  var container = document.getElementById('wcLangSwitcher');
+  if (!container) return;
+
+  var isOpen = false;
+
+  function getCurrentLang() {
+    var stored = localStorage.getItem(LS_LANG_KEY);
+    return LANGS.indexOf(stored) !== -1 ? stored : 'en';
+  }
+
+  function render() {
+    var current = getCurrentLang();
+    var others  = LANGS.filter(function(l) { return l !== current; });
+
+    container.innerHTML =
+      '<div class="wc-lang">' +
+        '<button class="wc-lang__btn" id="wcLangBtn">' +
+          current.toUpperCase() + ' ▾' +
+        '</button>' +
+        (isOpen
+          ? '<div class="wc-lang__dropdown">' +
+              others.map(function(l) {
+                return '<div class="wc-lang__option" data-lang="' + l + '">' +
+                         l.toUpperCase() +
+                       '</div>';
+              }).join('') +
+            '</div>'
+          : '') +
+      '</div>';
+
+    // Bouton — toggle dropdown
+    document.getElementById('wcLangBtn').addEventListener('click', function(e) {
+      e.stopPropagation();
+      isOpen = !isOpen;
+      render();
+    });
+
+    // Options — sélection
+    if (isOpen) {
+      container.querySelectorAll('.wc-lang__option').forEach(function(opt) {
+        opt.addEventListener('click', function(e) {
+          e.stopPropagation();
+          localStorage.setItem(LS_LANG_KEY, opt.dataset.lang);
+          isOpen = false;
+          render();
+        });
+      });
+    }
+  }
+
+  // Fermer au clic ailleurs
+  document.addEventListener('click', function() {
+    if (isOpen) { isOpen = false; render(); }
+  });
+
+  render();
+}
+
+/* -------------------------------------------------------
    Exports (pour les autres pages)
    ------------------------------------------------------- */
 window.WiggConnect = {
@@ -307,4 +376,6 @@ window.WiggConnect = {
   getCountryName,
   getCountriesList,
   getFlag,
+  // Header
+  wcInitLangSwitcher,
 };

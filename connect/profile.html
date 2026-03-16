@@ -153,19 +153,14 @@
 <body>
 
 <!-- Top bar -->
-<nav class="connect-topbar">
-  <div class="connect-topbar__logo">
-    <div class="connect-topbar__logo-text">WiggMap <span>Connect</span></div>
-  </div>
-  <div class="connect-topbar__actions">
-    <a href="onboarding.html" class="connect-topbar__icon-btn" title="Modifier le profil">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-    </a>
-  </div>
-</nav>
+<header class="wc-header">
+  <a href="/" class="wc-header__back">← wiggmap.com</a>
+  <img src="../assets/wiggmap-connect-logo.png" height="32" alt="WiggMap Connect" class="wc-header__logo" />
+  <div class="wc-header__lang" id="wcLangSwitcher"></div>
+</header>
 
 <!-- Contenu -->
-<div class="connect-wrap" id="profileContent">
+<div class="connect-wrap" id="profileContent" style="padding-top: var(--sp-md);">
   <!-- Rempli par JS -->
 </div>
 
@@ -467,6 +462,7 @@
   //  via les fermetures — on doit donc replacer après déclaration)
   // Note : on déclare escapeHTML avant l'utilisation dans innerHTML ci-dessus
   // via hoisting de la déclaration de fonction. OK.
+  window.WiggConnect.wcInitLangSwitcher();
 
 })();
 </script>

@@ -354,13 +354,14 @@
      Top bar onboarding
      ================================================ -->
 <div class="onboarding-topbar" id="onboardingTopbar">
-  <div class="onboarding-topbar__row">
-    <button class="onboarding-topbar__back" id="btnBack" aria-label="Étape précédente">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
-      Retour
-    </button>
-    <span class="onboarding-topbar__step-label" id="stepLabel">Étape 1 sur 5</span>
-  </div>
+  <header class="wc-header" style="position:static;border-bottom:none;height:44px;padding:0;">
+    <a href="/" class="wc-header__back">← wiggmap.com</a>
+    <img src="../assets/wiggmap-connect-logo.png" height="32" alt="WiggMap Connect" class="wc-header__logo" />
+    <div class="wc-header__lang" id="wcLangSwitcher"></div>
+  </header>
+  <!-- Éléments conservés pour la logique JS (navigation entre étapes) -->
+  <button id="btnBack" style="display:none" aria-hidden="true"></button>
+  <span id="stepLabel" style="display:none">Étape 1 sur 5</span>
   <!-- Barre de progression -->
   <div class="progress-bar" id="progressBar">
     <div class="progress-bar__step active" id="pb1"></div>
@@ -1204,6 +1205,7 @@
   renderTargets();
   renderLangItems();
   updateProgress();
+  window.WiggConnect.wcInitLangSwitcher();
 
 })();
 </script>
