@@ -30,15 +30,17 @@
     es: { search: "Buscar", chronicles: "Crónicas", compare: "Comparar", globe: "Globo" },
   };
 
-  const svgSearch = `<svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>`;
+  const svgSearch = `<svg viewBox="0 0 24 24" width="16" height="16"><path fill="#6366F1" d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>`;
 
   const svgBurger = `<svg viewBox="0 0 24 24" width="17" height="17"><rect fill="currentColor" x="3" y="5" width="18" height="2" rx="1"/><rect fill="currentColor" x="3" y="11" width="18" height="2" rx="1"/><rect fill="currentColor" x="3" y="17" width="18" height="2" rx="1"/></svg>`;
 
-  const svgChronicles = `<svg viewBox="0 0 24 24" width="17" height="17"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>`;
+  const svgGame = `<svg viewBox="0 0 24 24" width="18" height="18"><path fill="#8B5CF6" d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5S14.67 12 15.5 12s1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 9 19.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>`;
 
-  const svgCompare = `<svg viewBox="0 0 24 24" width="17" height="17"><path fill="currentColor" d="M9.01 14H2v2h7.01v3L13 15l-3.99-4v3zm5.98-1v-3H22V8h-7.01V5L11 9l3.99 4z"/></svg>`;
+  const svgChronicles = `<svg viewBox="0 0 24 24" width="17" height="17"><path fill="#D97706" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>`;
 
-  const svgGlobe = `<svg viewBox="0 0 24 24" width="17" height="17"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
+  const svgCompare = `<svg viewBox="0 0 24 24" width="17" height="17"><path fill="#3B82F6" d="M9.01 14H2v2h7.01v3L13 15l-3.99-4v3zm5.98-1v-3H22V8h-7.01V5L11 9l3.99 4z"/></svg>`;
+
+  const svgGlobe = `<svg viewBox="0 0 24 24" width="17" height="17"><path fill="#22C55E" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
 
   if (!document.getElementById("wmhStyle")) {
     const st = document.createElement("style");
@@ -155,6 +157,9 @@
       .wmh-search-results .wmh-drop-item{ padding:8px 10px; font-size:13px; white-space:normal; }
       .wmh-search-empty{ padding:10px 12px; font-size:13px; color:#999; text-align:center; }
 
+      /* Mobile hamburger (top row) — caché sur desktop */
+      .wmh-menu-top-m{ display:none; }
+
       /* Mobile */
       @media (max-width: 640px){
         .wmh-inner{ padding:8px 12px; gap:8px; flex-wrap:wrap; }
@@ -163,18 +168,17 @@
         .wmh-right .wmh-nav{ display:none !important; }
         .wmh-right .wmh-lang-wrap{ display:none !important; }
         .wmh-right{ flex:1 1 auto; justify-content:flex-end; gap:7px; }
+        .wmh-menu-top-m{ display:block !important; }
         .wmh-nav-mobile{
           display:grid !important;
-          grid-template-columns:repeat(3,1fr);
-          gap:5px; width:100%; flex-basis:100%;
+          grid-template-columns:repeat(2,1fr);
+          gap:8px; width:100%; flex-basis:100%;
         }
-        .wmh-btn{ justify-content:center; padding:8px 6px; font-size:12px; }
+        .wmh-btn{ justify-content:center; padding:9px 8px; font-size:13px; }
         .wmh-drop-trigger{ font-size:14px; padding:6px 9px; }
         .wmh-search-panel{ min-width:calc(100vw - 32px); }
-        /* Mobile lang dropdown stays visible */
-        .wmh-nav-mobile .wmh-dropdown .wmh-drop-menu{ right:auto; left:auto; }
-        .wmh-nav-mobile .wmh-dropdown:last-child .wmh-drop-menu{ right:0; left:auto; }
         .wmh-nav-mobile .wmh-dropdown:first-child .wmh-drop-menu{ left:0; right:auto; }
+        .wmh-nav-mobile .wmh-dropdown:last-child .wmh-drop-menu{ right:0; left:auto; }
       }
       .wmh-nav-mobile{ display:none; }
     `;
@@ -199,22 +203,22 @@
     <a class="wmh-drop-item" href="${prefix}indexchronicles.html">${svgChronicles} ${ni.chronicles}</a>
     <a class="wmh-drop-item" href="${prefix}compare.html">${svgCompare} ${ni.compare}</a>
     <a class="wmh-drop-item" href="${globeLink}" target="_blank" rel="noopener noreferrer">${svgGlobe} ${ni.globe}</a>
-    <a class="wmh-drop-item" href="${prefix}ggg/wigggame.html"><img src="/assets/wigggame2.png" alt="WiggGame" style="height:18px;width:auto;display:block;"> WiggGame</a>
+    <a class="wmh-drop-item" href="${prefix}ggg/wigggame.html">${svgGame} WiggGame</a>
   `;
 
-  const searchDropHTML = (id, inputId, resultsId, panelClass) => `
+  const searchDropHTML = (id, inputId, resultsId, icon) => `
     <div class="wmh-dropdown" id="${id}">
-      <button class="wmh-btn" id="${id}Trig">${svgSearch} ${ni.search}</button>
-      <div class="wmh-drop-menu wmh-search-panel wmh-drop-left ${panelClass}" id="${id}Panel">
+      <button class="wmh-btn" id="${id}Trig">${icon} ${ni.search}</button>
+      <div class="wmh-drop-menu wmh-search-panel wmh-drop-left" id="${id}Panel">
         <input type="text" id="${inputId}" autocomplete="off" placeholder="${ni.search}…">
         <div class="wmh-search-results" id="${resultsId}"></div>
       </div>
     </div>`;
 
-  const burgerDropHTML = (id, menuClass) => `
+  const burgerDropHTML = (id, trigClass) => `
     <div class="wmh-dropdown" id="${id}">
-      <button class="wmh-btn" id="${id}Trig">${svgBurger}</button>
-      <div class="wmh-drop-menu ${menuClass}">${menuItemsHTML}</div>
+      <div class="${trigClass}" id="${id}Trig">${svgBurger}<span class="arrow">▾</span></div>
+      <div class="wmh-drop-menu">${menuItemsHTML}</div>
     </div>`;
 
   const headerHTML = `
@@ -253,11 +257,14 @@
             <div class="wmh-drop-menu">${socialItems}</div>
           </div>
 
+          <!-- Hamburger — mobile top row (entre réseaux et langue) -->
+          ${burgerDropHTML("wmhMenuTopM", "wmh-drop-trigger wmh-menu-top-m")}
+
           <!-- Nav desktop : Search + Random + Hamburger -->
           <nav class="wmh-nav">
-            ${searchDropHTML("wmhSearchDrop", "wmhSearchInput", "wmhSearchResults", "")}
+            ${searchDropHTML("wmhSearchDrop", "wmhSearchInput", "wmhSearchResults", svgSearch)}
             <a class="wmh-btn" href="#" id="btnRandom">🎲 Random</a>
-            ${burgerDropHTML("wmhMenuDrop", "")}
+            ${burgerDropHTML("wmhMenuDrop", "wmh-drop-trigger")}
           </nav>
 
           <!-- Dropdown langue — desktop : tout à droite -->
@@ -269,14 +276,11 @@
           </div>
         </div>
 
-        <!-- Mobile grid : Search + Random + Hamburger -->
+        <!-- Mobile grid : Search + Random seulement (2 colonnes) -->
         <nav class="wmh-nav-mobile">
-          ${searchDropHTML("wmhSearchDropM", "wmhSearchInputM", "wmhSearchResultsM", "")}
+          ${searchDropHTML("wmhSearchDropM", "wmhSearchInputM", "wmhSearchResultsM", "🔍")}
           <a class="wmh-btn" href="#" id="btnRandomMobile">🎲 Random</a>
-          ${burgerDropHTML("wmhMenuDropM", "")}
         </nav>
-
-        <!-- Langue mobile — dans wmh-right (affiché par défaut, masqué sur desktop) -->
       </div>
     </header>
   `;
@@ -285,40 +289,19 @@
   if (!mount) return console.warn("siteHeader not found");
   mount.innerHTML = headerHTML;
 
-  // Sur mobile : afficher le sélecteur de langue dans wmh-right,
-  // Sur desktop : le wmh-lang-wrap est déjà dans wmh-right
-  function updateSocialVisibility(){
-    const el = document.getElementById("wmhSocialDropdown");
-    if(el) el.style.display = window.innerWidth <= 640 ? "block" : "none";
-    // Sur mobile, le wmh-lang-wrap est caché par CSS (.wmh-right .wmh-lang-wrap)
-    // Le sélecteur de langue mobile est le même élément wmhLangDropdown,
-    // mais il est dans wmh-right — sur mobile on le réaffiche via JS
+  function updateMobileVisibility(){
+    const isMobile = window.innerWidth <= 640;
+    const social = document.getElementById("wmhSocialDropdown");
+    if(social) social.style.display = isMobile ? "block" : "none";
     const langWrap = document.getElementById("wmhLangDropdown");
     if(langWrap){
-      if(window.innerWidth <= 640){
-        langWrap.style.display = "block";
-        langWrap.classList.remove("wmh-lang-wrap");
-      } else {
-        langWrap.style.display = "";
-        langWrap.classList.add("wmh-lang-wrap");
-      }
+      if(isMobile){ langWrap.style.display = "block"; langWrap.classList.remove("wmh-lang-wrap"); }
+      else { langWrap.style.display = ""; langWrap.classList.add("wmh-lang-wrap"); }
     }
   }
-  updateSocialVisibility();
-  window.addEventListener("resize", updateSocialVisibility);
+  updateMobileVisibility();
+  window.addEventListener("resize", updateMobileVisibility);
 
-  // Dropdown toggle générique
-  function initDropdownBtn(triggerId, dropdownId){
-    const trigger = document.getElementById(triggerId);
-    const dropdown = document.getElementById(dropdownId);
-    if(!trigger || !dropdown) return;
-    trigger.addEventListener("click", e => {
-      e.stopPropagation();
-      const wasOpen = dropdown.classList.contains("open");
-      document.querySelectorAll(".wmh-dropdown.open").forEach(d => d.classList.remove("open"));
-      if(!wasOpen) dropdown.classList.add("open");
-    });
-  }
   function initDropdown(triggerId, dropdownId){
     const trigger = document.getElementById(triggerId);
     const dropdown = document.getElementById(dropdownId);
@@ -336,8 +319,8 @@
 
   initDropdown("wmhLangTrigger", "wmhLangDropdown");
   initDropdown("wmhSocialTrigger", "wmhSocialDropdown");
-  initDropdownBtn("wmhMenuDropTrig", "wmhMenuDrop");
-  initDropdownBtn("wmhMenuDropMTrig", "wmhMenuDropM");
+  initDropdown("wmhMenuDropTrig", "wmhMenuDrop");
+  initDropdown("wmhMenuTopMTrig", "wmhMenuTopM");
 
   // Search logic
   let countriesCache = null;
