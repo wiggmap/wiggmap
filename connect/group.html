@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="../assets/favicon.ico" />
+  <meta name="robots" content="noindex" />
+  <title>Groupe pays · WiggMap Connect</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/connect.css" />
+</head>
+<body>
+
+<!-- Barre retour -->
+<div style="background:#060b14; padding:6px 16px; border-bottom:0.5px solid #1a2535;">
+  <a href="feed.html" style="font-size:11px; color:#3a4a5e; text-decoration:none;">← Feed</a>
+</div>
+
+<!-- Header principal -->
+<header style="display:flex; align-items:center; justify-content:center;
+               position:relative; padding:10px 16px; background:#0a0f1e;
+               border-bottom:0.5px solid #1e2a3a;">
+  <a href="/connect/">
+    <img src="assets/wiggmap-connect-logo.png"
+         style="height:52px; width:auto; display:block;"
+         alt="WiggMap Connect" />
+  </a>
+  <div style="position:absolute; right:16px; top:50%; transform:translateY(-50%);"
+       id="wcLangWrap">
+    <button id="wcLangBtn"
+            onclick="document.getElementById('wcLangDd').style.display=
+                     document.getElementById('wcLangDd').style.display==='block'?'none':'block'"
+            style="background:none; border:0.5px solid #1e2a3a; border-radius:20px;
+                   padding:5px 12px; font-size:12px; font-weight:500;
+                   color:#22c55e; cursor:pointer;"></button>
+    <div id="wcLangDd"
+         style="display:none; position:absolute; right:0; top:calc(100% + 6px);
+                background:#0d1629; border:0.5px solid #1e2a3a; border-radius:10px;
+                overflow:hidden; min-width:60px; z-index:999;"></div>
+  </div>
+</header>
+
+<!-- ================================================
+     Hero pays (généré par JS selon ?country=)
+     ================================================ -->
+<div id="groupHeroWrap"></div>
+
+<!-- City tiles (uniquement pour grands pays) -->
+<div id="cityGridWrap"></div>
+
+<!-- ================================================
+     Group tabs
+     ================================================ -->
+<div class="group-tabs" id="groupTabs">
+  <button class="group-tab active" onclick="switchGroupTab('now',this)">En ce moment</button>
+  <button class="group-tab" onclick="switchGroupTab('journaux',this)">Journaux</button>
+  <button class="group-tab" onclick="switchGroupTab('questions',this)">Questions</button>
+  <button class="group-tab" onclick="switchGroupTab('doc',this)">Doc Vivant</button>
+  <button class="group-tab" onclick="switchGroupTab('membres',this)">Membres</button>
+</div>
+
+<!-- ================================================
+     TAB : EN CE MOMENT
+     ================================================ -->
+<div id="tabNow" class="tab-panel active group-section">
+
+  <!-- Flash terrain -->
+  <div class="feed-card" style="border-color:rgba(239,159,39,0.35);margin-bottom:10px;">
+    <div class="feed-card__header">
+      <span class="badge badge--flash" style="display:flex;align-items:center;gap:6px;">
+        <span class="pulse-dot pulse-dot--amber"></span>
+        Flash terrain
+      </span>
+      <span class="feed-card__confirm">✓ 12 confirmations</span>
+    </div>
+    <h3 class="feed-card__title" id="groupFlashTitle">Les loyers à Porto reculent de 7% en Q1 2026</h3>
+    <p class="feed-card__body">Après 3 ans de hausse continue, le marché commence à se corriger dans les quartiers nord et Matosinhos.</p>
+    <div class="feed-card__footer">
+      <span style="font-size:11px;color:var(--wigg-text-3);">2h</span>
+      <button class="helped-btn" onclick="toggleHelped(this)">✦ Aidé (12)</button>
+    </div>
+  </div>
+
+  <!-- Journal récent -->
+  <div class="feed-card" style="border-color:rgba(55,138,221,0.3);margin-bottom:10px;">
+    <div class="feed-card__header">
+      <span class="badge badge--journal">Journal · Ep. 9</span>
+      <span class="text-micro">🇵🇹 Lisbonne</span>
+    </div>
+    <h3 class="feed-card__title">Ouvrir un compte bancaire à distance — 2026</h3>
+    <p class="feed-card__body">Millenium, Novobanco ou ActivoBank ? Ce qui a fonctionné (et ce qui n'a pas fonctionné) pour 3 profils différents.</p>
+    <div class="journal-progress"><div class="journal-progress__bar" style="width:55%;"></div></div>
+    <div class="feed-card__footer">
+      <div class="life-route">
+        <span class="life-route__flag">🇫🇷</span>
+        <span class="life-route__city">Nice</span>
+        <span class="life-route__arrow">→</span>
+        <span class="life-route__flag">🇵🇹</span>
+        <span class="life-route__city">Lisbonne</span>
+      </div>
+      <span style="font-size:11px;color:var(--wigg-text-3);">Antoine R.</span>
+    </div>
+  </div>
+
+  <!-- Profil qui vient d'arriver -->
+  <div class="feed-card" style="margin-bottom:10px;">
+    <div class="section-title" style="margin-bottom:10px;">
+      <span class="pulse-dot" style="margin-right:5px;"></span>
+      Vient d'arriver
+    </div>
+    <div class="profile-disc">
+      <div class="profile-disc__avatar">YK</div>
+      <div class="profile-disc__info">
+        <div class="profile-disc__name">Yuki K.</div>
+        <div class="profile-disc__traj">🇯🇵 Osaka → 🇵🇹 Porto</div>
+        <div class="profile-disc__bio">Arrivée il y a 3 semaines. Nomade digitale, graphiste. Cherche co-working recommandations.</div>
+      </div>
+    </div>
+    <div style="margin-top:10px;display:flex;gap:8px;">
+      <button class="btn btn--ghost btn--sm flex-1">Message</button>
+      <button class="btn btn--primary btn--sm flex-1">Suivre</button>
+    </div>
+  </div>
+
+  <!-- Question urgente -->
+  <div class="feed-card" style="border-color:rgba(212,83,126,0.3);margin-bottom:10px;">
+    <div class="feed-card__header">
+      <span class="badge badge--question" style="display:flex;align-items:center;gap:6px;">
+        <span class="pulse-dot pulse-dot--pink"></span>
+        Urgente · 48h sans réponse
+      </span>
+    </div>
+    <h3 class="feed-card__title">Déclaration de revenus étrangers — NIF + IFICI ?</h3>
+    <p class="feed-card__body">J'ai mon NIF, je suis sous IFICI. Dois-je déclarer mes revenus de location meublée en France sur la déclaration portugaise ?</p>
+    <div class="feed-card__footer">
+      <span style="font-size:11px;color:var(--wigg-text-3);">🇫🇷 Paris → 🇵🇹 Porto · Juliette M.</span>
+      <button class="question-card__reply">Répondre</button>
+    </div>
+  </div>
+
+  <!-- Reel mini -->
+  <div class="feed-card" style="padding:0;overflow:hidden;margin-bottom:10px;">
+    <div style="height:140px;position:relative;background:linear-gradient(160deg,#241508,#4a2810);display:flex;align-items:flex-end;">
+      <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,15,30,0.95) 0%,transparent 65%);"></div>
+      <div style="position:relative;padding:14px;">
+        <span class="badge badge--temoignage" style="margin-bottom:6px;display:inline-flex;">Reel · Porto</span>
+        <p style="font-size:13px;font-weight:600;color:#fff;">"Mon quartier à Porto — Bonfim vs. Cedofeita"</p>
+      </div>
+    </div>
+    <div class="feed-card__footer" style="padding:10px 14px;">
+      <span style="font-size:11px;color:var(--wigg-text-3);">54 vues · 🇫🇷 Lyon → 🇵🇹 Porto</span>
+      <button class="helped-btn" onclick="toggleHelped(this)">✦ Aidé (7)</button>
+    </div>
+  </div>
+
+</div><!-- /tabNow -->
+
+<!-- ================================================
+     TAB : JOURNAUX
+     ================================================ -->
+<div id="tabJournaux" class="tab-panel group-section">
+
+  <div class="section-header">
+    <span class="section-title">Journaux en cours</span>
+    <span style="font-size:10px;color:var(--wigg-text-4);">4 séries actives</span>
+  </div>
+
+  <div class="journal-series-card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+      <span class="badge badge--journal">En cours · Ep. 9</span>
+      <span class="text-micro">247 abonnés</span>
+    </div>
+    <div class="journal-series__title">Mon installation à Porto, pas à pas</div>
+    <div class="journal-series__meta">Sophie D. · 🇫🇷 Lyon → 🇵🇹 Porto · Solo · Démarrée janv. 2026</div>
+    <div class="journal-series__bar"><div class="journal-series__bar-fill" style="width:75%;"></div></div>
+    <div class="journal-series__footer">
+      <span style="font-size:11px;color:var(--wigg-text-3);">Ep. 9 / ~12 prévus</span>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn--ghost btn--sm">Ep. 1</button>
+        <button class="question-card__reply">Ep. suivant →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="journal-series-card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+      <span class="badge badge--journal">En cours · Ep. 4</span>
+      <span class="text-micro">89 abonnés</span>
+    </div>
+    <div class="journal-series__title">Famille Franco-Portugaise — S'installer à Cascais</div>
+    <div class="journal-series__meta">Pierre &amp; Ana · 🇫🇷 Bordeaux → 🇵🇹 Cascais · Famille · Démarrée mars 2026</div>
+    <div class="journal-series__bar"><div class="journal-series__bar-fill" style="width:35%;"></div></div>
+    <div class="journal-series__footer">
+      <span style="font-size:11px;color:var(--wigg-text-3);">Ep. 4 / ~12 prévus</span>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn--ghost btn--sm">Ep. 1</button>
+        <button class="question-card__reply">Ep. suivant →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="journal-series-card" style="opacity:0.7;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+      <span class="badge badge--green">Terminé</span>
+      <span class="text-micro">314 abonnés</span>
+    </div>
+    <div class="journal-series__title">D7 Visa en 90 jours — le vrai parcours</div>
+    <div class="journal-series__meta">Marc T. · 🇩🇪 Berlin → 🇵🇹 Porto · Nomade · 2025</div>
+    <div class="journal-series__bar"><div class="journal-series__bar-fill" style="width:100%;background:var(--wigg-green);"></div></div>
+    <div class="journal-series__footer">
+      <span style="font-size:11px;color:var(--wigg-text-3);">10 épisodes · Terminé</span>
+      <button class="question-card__reply">Lire depuis le début</button>
+    </div>
+  </div>
+
+</div><!-- /tabJournaux -->
+
+<!-- ================================================
+     TAB : QUESTIONS
+     ================================================ -->
+<div id="tabQuestions" class="tab-panel group-section">
+
+  <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+    <button class="group-tab active" style="padding:5px 12px;border-radius:20px;font-size:11px;border:0.5px solid var(--wigg-green);color:var(--wigg-green);background:var(--wigg-green-bg);">Toutes</button>
+    <button class="group-tab" style="padding:5px 12px;border-radius:20px;font-size:11px;color:var(--wigg-pink);">🔴 Urgentes</button>
+    <button class="group-tab" style="padding:5px 12px;border-radius:20px;font-size:11px;color:var(--wigg-text-3);">✅ Résolues</button>
+    <button class="group-tab" style="padding:5px 12px;border-radius:20px;font-size:11px;color:var(--wigg-amber);">💎 Référence</button>
+  </div>
+
+  <div class="question-card">
+    <div class="question-card__header">
+      <span class="badge badge--question" style="display:flex;align-items:center;gap:5px;">
+        <span class="pulse-dot pulse-dot--pink" style="width:5px;height:5px;"></span>
+        Urgente · 48h
+      </span>
+    </div>
+    <div class="question-card__title">Déclaration de revenus étrangers avec IFICI — modèle 3 ou autre ?</div>
+    <div class="question-card__footer">
+      <span class="question-card__author">🇫🇷 → 🇵🇹 · Juliette M. · 48h</span>
+      <button class="question-card__reply">Répondre</button>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <div class="question-card__header">
+      <span class="badge badge--question">Question</span>
+    </div>
+    <div class="question-card__title">Meilleur quartier pour famille avec 2 enfants — Porto ou Matosinhos ?</div>
+    <div class="question-card__footer">
+      <span class="question-card__author">🇧🇪 → 🇵🇹 · David &amp; Sophie · 6h</span>
+      <button class="question-card__reply">Répondre</button>
+    </div>
+  </div>
+
+  <div class="question-card" style="opacity:0.75;">
+    <div class="question-card__header">
+      <span class="badge badge--green">✅ Résolu</span>
+      <span style="font-size:10px;color:var(--wigg-text-3);">4 réponses</span>
+    </div>
+    <div class="question-card__title">Ouvrir un compte Millennium Bank sans être résident ?</div>
+    <div class="question-card__footer">
+      <span class="question-card__author">🇬🇧 → 🇵🇹 · James K. · 3 jours</span>
+      <button class="question-card__reply" style="color:var(--wigg-text-3);background:none;border-color:var(--wigg-border);">Voir les réponses</button>
+    </div>
+  </div>
+
+  <div class="question-card" style="border-color:rgba(239,159,39,0.4);">
+    <div class="question-card__header">
+      <span class="badge badge--flash">💎 Référence Doc Vivant</span>
+    </div>
+    <div class="question-card__title">Processus NIF complet pour non-résident — guide consolidé communauté</div>
+    <div class="question-card__footer">
+      <span class="question-card__author">Communauté · 127 confirmations · mis à jour fév. 2026</span>
+      <button class="question-card__reply">Lire</button>
+    </div>
+  </div>
+
+  <div style="margin-top:16px;text-align:center;">
+    <button class="btn btn--primary btn--sm" style="font-size:12px;">
+      + Poser une question
+    </button>
+  </div>
+
+</div><!-- /tabQuestions -->
+
+<!-- ================================================
+     TAB : DOC VIVANT
+     ================================================ -->
+<div id="tabDoc" class="tab-panel group-section">
+
+  <p style="font-size:11px;color:var(--wigg-text-3);margin-bottom:16px;line-height:1.6;">
+    Informations terrain validées par la communauté. La barre de couleur indique la fraîcheur.
+  </p>
+
+  <!-- Section Visa -->
+  <div class="doc-section-title">Visa &amp; Immigration</div>
+
+  <div class="doc-block">
+    <div class="doc-block__freshbar doc-block__freshbar--green"></div>
+    <div class="doc-block__content">
+      <div class="doc-block__category">D7 Visa</div>
+      <div class="doc-block__fact">Seuil de revenus passifs : 820€/mois minimum (1er demandeur). Conjoint +50%, enfant à charge +30%.</div>
+      <div class="doc-block__confirm">✓ 34 confirmations · mis à jour mars 2026</div>
+    </div>
+    <button class="doc-block__validate">✓ Exact</button>
+  </div>
+
+  <div class="doc-block">
+    <div class="doc-block__freshbar doc-block__freshbar--green"></div>
+    <div class="doc-block__content">
+      <div class="doc-block__category">IFICI (ex-NHR)</div>
+      <div class="doc-block__fact">Taux flat 20% sur revenus de source portugaise. Revenus étrangers exonérés sous conditions. Valable 10 ans.</div>
+      <div class="doc-block__confirm">✓ 28 confirmations · mis à jour fév. 2026</div>
+    </div>
+    <button class="doc-block__validate">✓ Exact</button>
+  </div>
+
+  <div class="doc-block">
+    <div class="doc-block__freshbar doc-block__freshbar--yellow"></div>
+    <div class="doc-block__content">
+      <div class="doc-block__category">Visa Digital Nomad (VITEM)</div>
+      <div class="doc-block__fact">Seuil : 3 280€/mois (4× RMMG). Contrat de travail étranger requis. Délai SEF : 8-12 semaines en 2026.</div>
+      <div class="doc-block__confirm">✓ 14 confirmations · mis à jour janv. 2026</div>
+    </div>
+    <button class="doc-block__validate">✓ Exact</button>
+  </div>
+
+  <!-- Section Logement -->
+  <div class="doc-section-title" style="margin-top:16px;">Logement</div>
+
+  <div class="doc-block">
+    <div class="doc-block__freshbar doc-block__freshbar--green"></div>
+    <div class="doc-block__content">
+      <div class="doc-block__category">Loyer · Porto (hors centre)</div>
+      <div class="doc-block__fact">T1 meublé : 650-850€/mois. T2 : 900-1 200€. Centre (Bonfim, Cedofeita) : +20-30%.</div>
+      <div class="doc-block__confirm">✓ 22 confirmations · mars 2026</div>
+    </div>
+    <button class="doc-block__validate">✓ Exact</button>
+  </div>
+
+  <div class="doc-block">
+    <div class="doc-block__freshbar doc-block__freshbar--orange"></div>
+    <div class="doc-block__content">
+      <div class="doc-block__category">Loyer · Lisbonne</div>
+      <div class="doc-block__fact">T1 meublé : 900-1 300€. Alfama/Intendente plus cher. Almada ou Setúbal = alternative -30%.</div>
+      <div class="doc-block__confirm">✓ 11 confirmations · oct. 2025</div>
+    </div>
+    <button class="doc-block__validate">✓ Exact</button>
+  </div>
+
+  <!-- Section Banque -->
+  <div class="doc-section-title" style="margin-top:16px;">Banque</div>
+
+  <div class="doc-block">
+    <div class="doc-block__freshbar doc-block__freshbar--green"></div>
+    <div class="doc-block__content">
+      <div class="doc-block__category">Compte à distance · Non-résident</div>
+      <div class="doc-block__fact">ActivoBank : ouverture 100% en ligne, possible sans être résident. NIF obligatoire. Visa Debit gratuit.</div>
+      <div class="doc-block__confirm">✓ 19 confirmations · mars 2026</div>
+    </div>
+    <button class="doc-block__validate">✓ Exact</button>
+  </div>
+
+  <div class="doc-block">
+    <div class="doc-block__freshbar doc-block__freshbar--red"></div>
+    <div class="doc-block__content">
+      <div class="doc-block__category">Millennium BCP · Non-résident</div>
+      <div class="doc-block__fact">⚠ Passage en agence requis depuis 2025. Certaines agences refusent sans preuve de revenus PT. Processus variable.</div>
+      <div class="doc-block__warn">⚠ À vérifier — info datant de +180 jours</div>
+    </div>
+    <button class="doc-block__validate">✓ Toujours vrai</button>
+  </div>
+
+  <div style="margin-top:16px;text-align:center;">
+    <button class="btn btn--ghost btn--sm" style="font-size:11px;">+ Ajouter une information</button>
+  </div>
+
+</div><!-- /tabDoc -->
+
+<!-- ================================================
+     TAB : MEMBRES
+     ================================================ -->
+<div id="tabMembres" class="tab-panel group-section">
+
+  <!-- Miroirs en premier -->
+  <div class="mirrors-teaser">
+    <div class="mirrors-teaser__count" id="mirrorsCount">23</div>
+    <div class="mirrors-teaser__label">profils miroir disponibles dans ce groupe<br><span style="font-size:11px;color:var(--wigg-text-3);">Des gens qui viennent d'où tu vas — et veulent aller d'où tu viens</span></div>
+    <a href="swipe.html" class="btn btn--primary btn--sm" style="font-size:12px;">Voir les miroirs →</a>
+  </div>
+
+  <div class="section-title" style="margin-bottom:12px;">🏠 Installés ici</div>
+
+  <div class="member-row">
+    <div class="member-row__avatar">SD</div>
+    <div class="member-row__info">
+      <div class="member-row__name">Sophie D.</div>
+      <div class="member-row__meta">🇫🇷 Lyon → 🇵🇹 Porto · 14 mois · Tech</div>
+    </div>
+    <button class="member-row__follow">Suivre</button>
+  </div>
+
+  <div class="member-row">
+    <div class="member-row__avatar">MT</div>
+    <div class="member-row__info">
+      <div class="member-row__name">Marc T.</div>
+      <div class="member-row__meta">🇩🇪 Berlin → 🇵🇹 Porto · 3 ans · Finance</div>
+    </div>
+    <button class="member-row__follow">Suivre</button>
+  </div>
+
+  <div class="member-row">
+    <div class="member-row__avatar" style="background:rgba(55,138,221,0.12);color:#378add;">YK</div>
+    <div class="member-row__info">
+      <div class="member-row__name">Yuki K.</div>
+      <div class="member-row__meta">🇯🇵 Osaka → 🇵🇹 Porto · 3 semaines · Design</div>
+    </div>
+    <button class="member-row__follow">Suivre</button>
+  </div>
+
+  <div class="section-title" style="margin-top:20px;margin-bottom:12px;">🚀 En transition</div>
+
+  <div class="member-row">
+    <div class="member-row__avatar" style="background:rgba(239,159,39,0.12);color:#ef9f27;">JM</div>
+    <div class="member-row__info">
+      <div class="member-row__name">Juliette M.</div>
+      <div class="member-row__meta">🇫🇷 Bordeaux → 🇵🇹 Lisbonne · Arrivée dans 6 sem.</div>
+    </div>
+    <button class="member-row__follow">Suivre</button>
+  </div>
+
+  <div class="member-row">
+    <div class="member-row__avatar">PB</div>
+    <div class="member-row__info">
+      <div class="member-row__name">Pierre B.</div>
+      <div class="member-row__meta">🇨🇭 Genève → 🇵🇹 Cascais · Départ mars 2026</div>
+    </div>
+    <button class="member-row__follow">Suivre</button>
+  </div>
+
+  <div style="text-align:center;margin-top:20px;">
+    <a href="swipe.html" class="btn btn--ghost btn--sm" style="font-size:11px;">Voir tous les membres →</a>
+  </div>
+
+</div><!-- /tabMembres -->
+
+<!-- Bottom nav -->
+<nav class="connect-bottombar">
+  <a href="index.html" class="connect-bottombar__item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+      <polyline points="9 22 9 12 15 12 15 22"/>
+    </svg>
+    <span class="connect-bottombar__label">Accueil</span>
+  </a>
+  <a href="feed.html" class="connect-bottombar__item active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/>
+      <line x1="8" y1="18" x2="21" y2="18"/>
+    </svg>
+    <span class="connect-bottombar__label">Feed</span>
+  </a>
+  <a href="swipe.html" class="connect-bottombar__item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+    </svg>
+    <span class="connect-bottombar__label">Swipe</span>
+  </a>
+  <a href="profile.html" class="connect-bottombar__item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+      <circle cx="12" cy="7" r="4"/>
+    </svg>
+    <span class="connect-bottombar__label">Profil</span>
+  </a>
+</nav>
+
+<footer class="wc-footer">
+  <a href="/">wiggmap.com</a>
+  <span>·</span>
+  <a href="/connect/">WiggMap Connect</a>
+  <span>·</span>
+  <span>Beta</span>
+</footer>
+
+<script src="assets/connect.js"></script>
+<script>
+'use strict';
+
+/* ============================================================
+   Données pays pour le hero dynamique
+   ============================================================ */
+var COUNTRY_DATA = {
+  'portugal': {
+    flag: '🇵🇹', name: 'Portugal', bgClass: 'group-hero__bg--portugal',
+    actifs: 84, journaux: 4, flash: 'Loyers Porto : -7% Q1 2026',
+    bigCountry: true,
+    cities: [
+      { name: 'Lisbonne', slug: 'lisbon',  actifs: 38, fill: 90, cls: 'city-tile--warm' },
+      { name: 'Porto',    slug: 'porto',   actifs: 31, fill: 75, cls: 'city-tile--cool' },
+      { name: 'Algarve',  slug: 'algarve', actifs: 9,  fill: 35, cls: 'city-tile--green' },
+      { name: 'Autre',    slug: 'other',   actifs: 6,  fill: 20, cls: 'city-tile--base' },
+    ]
+  },
+  'france': {
+    flag: '🇫🇷', name: 'France', bgClass: 'group-hero__bg--france',
+    actifs: 112, journaux: 6, flash: 'Vie à Paris vs province — 2026',
+    bigCountry: true,
+    cities: [
+      { name: 'Paris',   slug: 'paris',   actifs: 68, fill: 95, cls: 'city-tile--cool' },
+      { name: 'Lyon',    slug: 'lyon',    actifs: 22, fill: 55, cls: 'city-tile--warm' },
+      { name: 'Bordeaux',slug: 'bordeaux',actifs: 14, fill: 40, cls: 'city-tile--green' },
+      { name: 'Autre',   slug: 'other',   actifs: 8,  fill: 22, cls: 'city-tile--base' },
+    ]
+  },
+  'thailand': {
+    flag: '🇹🇭', name: 'Thaïlande', bgClass: 'group-hero__bg--thailand',
+    actifs: 61, journaux: 3, flash: 'LTR Visa accepte désormais les revenus Crypto',
+    bigCountry: true,
+    cities: [
+      { name: 'Bangkok',    slug: 'bangkok',    actifs: 28, fill: 80, cls: 'city-tile--warm' },
+      { name: 'Chiang Mai', slug: 'chiangmai',  actifs: 20, fill: 65, cls: 'city-tile--green' },
+      { name: 'Phuket',     slug: 'phuket',     actifs: 10, fill: 35, cls: 'city-tile--cool' },
+      { name: 'Autre',      slug: 'other',      actifs: 3,  fill: 12, cls: 'city-tile--base' },
+    ]
+  },
+  'japan': {
+    flag: '🇯🇵', name: 'Japon', bgClass: 'group-hero__bg--japan',
+    actifs: 48, journaux: 2, flash: 'Nouveau: passeport talent tech facilité',
+    bigCountry: true,
+    cities: [
+      { name: 'Tokyo',  slug: 'tokyo',  actifs: 30, fill: 88, cls: 'city-tile--cool' },
+      { name: 'Osaka',  slug: 'osaka',  actifs: 13, fill: 50, cls: 'city-tile--warm' },
+      { name: 'Kyoto',  slug: 'kyoto',  actifs: 4,  fill: 22, cls: 'city-tile--green' },
+      { name: 'Autre',  slug: 'other',  actifs: 1,  fill: 8,  cls: 'city-tile--base' },
+    ]
+  },
+  'germany': {
+    flag: '🇩🇪', name: 'Allemagne', bgClass: 'group-hero__bg--germany',
+    actifs: 73, journaux: 3, flash: 'Berlin : hausses de loyers stoppées 2026',
+    bigCountry: true,
+    cities: [
+      { name: 'Berlin',  slug: 'berlin',  actifs: 42, fill: 90, cls: 'city-tile--cool' },
+      { name: 'Munich',  slug: 'munich',  actifs: 20, fill: 60, cls: 'city-tile--warm' },
+      { name: 'Hambourg',slug: 'hamburg', actifs: 8,  fill: 30, cls: 'city-tile--green' },
+      { name: 'Autre',   slug: 'other',   actifs: 3,  fill: 12, cls: 'city-tile--base' },
+    ]
+  },
+};
+
+var DEFAULT_COUNTRY = 'portugal';
+
+/* ============================================================
+   Init page
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', function() {
+  // Déterminer le pays depuis l'URL
+  var params  = new URLSearchParams(window.location.search);
+  var country = params.get('country') || DEFAULT_COUNTRY;
+  var data    = COUNTRY_DATA[country] || COUNTRY_DATA[DEFAULT_COUNTRY];
+
+  renderHero(data);
+  if (data.bigCountry) renderCityGrid(data.cities);
+  updateFlash(data);
+
+  if (typeof wcInitLangSwitcher === 'function') wcInitLangSwitcher();
+});
+
+function renderHero(data) {
+  document.title = data.name + ' · WiggMap Connect';
+  document.getElementById('groupHeroWrap').innerHTML =
+    '<div class="group-hero">' +
+      '<div class="group-hero__bg ' + data.bgClass + '"></div>' +
+      '<svg class="skyline-svg" viewBox="0 0 480 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax slice">' +
+        '<path d="M0 60 L0 35 L20 35 L20 22 L30 22 L30 35 L60 35 L60 18 L72 18 L72 10 L80 10 L80 18 L92 18 L92 35 ' +
+        'L120 35 L120 26 L132 26 L132 35 L160 35 L160 20 L168 20 L168 12 L176 12 L176 20 L184 20 L184 35 ' +
+        'L220 35 L220 28 L240 28 L240 35 L270 35 L270 18 L280 18 L280 8 L288 8 L288 18 L298 18 L298 35 ' +
+        'L330 35 L330 24 L350 24 L350 35 L380 35 L380 28 L396 28 L396 35 L430 35 L430 22 L448 22 L448 35 L480 35 L480 60 Z"' +
+        ' fill="#22c55e" opacity="0.18"/>' +
+      '</svg>' +
+      '<div class="group-hero__overlay">' +
+        '<div class="group-hero__info">' +
+          '<div class="group-hero__name">' + data.flag + ' ' + data.name + '</div>' +
+          '<div class="group-hero__meta">' +
+            '<span class="active-count"><span class="pulse-dot" style="width:5px;height:5px;"></span> ' + data.actifs + ' actifs</span>' +
+            '<span>· ' + data.journaux + ' journaux</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="group-hero__actions">' +
+          '<button class="group-hero__btn group-hero__btn--follow">Suivre</button>' +
+          '<button class="group-hero__btn group-hero__btn--join">Rejoindre</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+}
+
+function renderCityGrid(cities) {
+  var html = '<div class="city-grid">';
+  cities.forEach(function(c) {
+    html += '<div class="city-tile ' + c.cls + '" onclick="filterByCity(\'' + c.slug + '\')">' +
+      '<div class="city-tile__name">' + c.name + '</div>' +
+      '<div class="city-tile__actifs">' + c.actifs + ' actifs</div>' +
+      '<div class="city-tile__bar"><div class="city-tile__bar-fill" style="width:' + c.fill + '%;"></div></div>' +
+    '</div>';
+  });
+  html += '</div>';
+  document.getElementById('cityGridWrap').innerHTML = html;
+}
+
+function updateFlash(data) {
+  var el = document.getElementById('groupFlashTitle');
+  if (el) el.textContent = data.flash;
+}
+
+function filterByCity(slug) {
+  // MVP : toast seulement
+  if (typeof showToast === 'function') {
+    showToast('Filtre : ' + slug + ' (bientôt disponible)');
+  }
+}
+
+/* ============================================================
+   Tab switching
+   ============================================================ */
+function switchGroupTab(tabId, btn) {
+  document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.group-tab').forEach(function(b){ b.classList.remove('active'); });
+  var map = { now:'Now', journaux:'Journaux', questions:'Questions', doc:'Doc', membres:'Membres' };
+  var el = document.getElementById('tab' + (map[tabId] || tabId));
+  if (el) el.classList.add('active');
+  btn.classList.add('active');
+}
+
+function toggleHelped(btn) {
+  btn.classList.toggle('done');
+  var m = btn.textContent.match(/\((\d+)\)/);
+  if (m) {
+    var n = parseInt(m[1]);
+    btn.textContent = btn.classList.contains('done')
+      ? btn.textContent.replace('('+n+')', '('+(n+1)+')')
+      : btn.textContent.replace('('+n+')', '('+(n-1)+')');
+  }
+}
+</script>
+</body>
+</html>

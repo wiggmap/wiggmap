@@ -293,11 +293,17 @@ function getFlag(slug) {
 /* -------------------------------------------------------
    Exports (pour les autres pages)
    ------------------------------------------------------- */
+/* Alias globaux pour usage direct dans les pages */
+window.showToast  = showToast;
+window.getFlag    = getFlag;
+
 window.WiggConnect = {
   // Données
   LIFE_STATUSES,
   SECTORS,
   LANGUAGES,
+  WC_HELP_TOPICS,
+  FLAG_MAP,
   // Profil
   getProfile,
   saveProfile,
@@ -305,6 +311,7 @@ window.WiggConnect = {
   // Logique
   getMirrorScore,
   redirectIfProfile,
+  detectHighValueSector,
   // UI
   showToast,
   // Pays
@@ -314,23 +321,56 @@ window.WiggConnect = {
 };
 
 /* -------------------------------------------------------
+   Sujets d'aide
+   ------------------------------------------------------- */
+const WC_HELP_TOPICS = [
+  { id: 'visa',       label: 'Visa & immigration' },
+  { id: 'banking',    label: 'Banque & finance' },
+  { id: 'housing',    label: 'Logement & quartiers' },
+  { id: 'tax',        label: 'Fiscalité & impôts' },
+  { id: 'health',     label: 'Santé & assurance' },
+  { id: 'school',     label: 'École & enfants' },
+  { id: 'business',   label: 'Créer une entreprise' },
+  { id: 'daily',      label: 'Vie quotidienne' },
+  { id: 'leisure',    label: 'Sport & loisirs' },
+  { id: 'work',       label: 'Trouver du travail' },
+];
+
+/**
+ * Détecte si le secteur est "haute valeur terrain"
+ * (finance, droit, immobilier, santé, éducation, comptabilité)
+ * @param {string} sectorId
+ * @returns {boolean}
+ */
+function detectHighValueSector(sectorId) {
+  const HIGH_VALUE = ['finance', 'law', 'real-estate', 'health', 'education', 'accounting'];
+  return HIGH_VALUE.includes(sectorId);
+}
+
+/* -------------------------------------------------------
    wcInitLangSwitcher — garantie globale
+   Supporte wcLangDd (nouveau header) et wcLangDropdown (ancien)
    ------------------------------------------------------- */
 window.wcInitLangSwitcher = function() {
   var btn = document.getElementById('wcLangBtn');
-  var dropdown = document.getElementById('wcLangDropdown');
-  if (!btn || !dropdown) return;
+  var dropdown = document.getElementById('wcLangDd') || document.getElementById('wcLangDropdown');
+  if (!btn) return;
   var lang = localStorage.getItem('wigg_lang') || 'en';
   btn.textContent = lang.toUpperCase();
-  var all = ['en','fr','es'].filter(function(l){ return l !== lang; });
-  dropdown.innerHTML = all.map(function(l){
-    return '<button onclick="localStorage.setItem(\'wigg_lang\',\''+l+'\');location.reload()">'+l.toUpperCase()+'</button>';
+  if (!dropdown) return;
+  var others = ['en','fr','es'].filter(function(l){ return l !== lang; });
+  var itemStyle = 'display:block;width:100%;padding:8px 16px;text-align:center;' +
+                  'font-size:12px;font-weight:600;color:#22c55e;background:none;' +
+                  'border:none;cursor:pointer;letter-spacing:0.05em;';
+  dropdown.innerHTML = others.map(function(l){
+    return '<button style="' + itemStyle + '" ' +
+           'onclick="localStorage.setItem(\'wigg_lang\',\'' + l + '\');location.reload()">' +
+           l.toUpperCase() + '</button>';
   }).join('');
-  btn.onclick = function(e){
-    e.stopPropagation();
-    dropdown.classList.toggle('open');
-  };
-  document.addEventListener('click', function(){
-    dropdown.classList.remove('open');
+  document.addEventListener('click', function(e){
+    if (e.target !== btn) {
+      dropdown.style.display = 'none';
+      dropdown.classList && dropdown.classList.remove('open');
+    }
   });
 };

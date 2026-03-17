@@ -6,182 +6,485 @@
   <link rel="icon" href="../assets/favicon.ico" />
   <meta name="theme-color" content="#22c55e" />
   <meta name="robots" content="noindex" />
-
   <title>Mon profil · WiggMap Connect</title>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/connect.css" />
 
   <style>
-    /* Styles spécifiques page profil */
+    /* ============================================================
+       Profile-specific styles
+       ============================================================ */
 
-    /* Hero profil */
-    .profile-hero {
-      background: var(--wigg-card);
-      border: var(--border);
-      border-radius: var(--r-card);
-      padding: var(--sp-lg) var(--sp-md);
-      margin-bottom: var(--sp-sm);
-      text-align: center;
-    }
-
-    .profile-hero__route {
-      margin-bottom: var(--sp-md);
-    }
-
-    .profile-hero__avatar-wrap {
+    /* Cover */
+    .prof-cover {
+      width: 100%;
+      height: 160px;
       position: relative;
-      display: inline-block;
-      margin-bottom: var(--sp-md);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .prof-cover__img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+    .prof-cover__overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, rgba(10,15,30,0.85) 100%);
     }
 
-    .profile-hero__name {
-      font-size: 20px;
+    /* Edit button overlay on cover */
+    .prof-cover__edit {
+      position: absolute; top: 10px; right: 12px;
+      background: rgba(10,15,30,0.7); border: 0.5px solid #1e2a3a;
+      border-radius: 20px; padding: 5px 12px;
+      font-size: 11px; color: var(--wigg-text-3);
+      text-decoration: none; cursor: pointer;
+    }
+
+    /* Avatar block */
+    .prof-avatar-row {
+      display: flex;
+      align-items: flex-end;
+      padding: 0 16px;
+      margin-top: -36px;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 2;
+    }
+    .prof-avatar {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      border: 3px solid #0a0f1e;
+      background: var(--wigg-green-bg);
+      color: var(--wigg-green);
+      font-size: 26px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .prof-avatar img {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .prof-avatar__dot {
+      position: absolute;
+      bottom: 3px; right: 3px;
+      width: 12px; height: 12px;
+      background: var(--wigg-green);
+      border: 2px solid #0a0f1e;
+      border-radius: 50%;
+    }
+
+    /* Identity block */
+    .prof-identity {
+      padding: 0 16px 12px;
+    }
+    .prof-traj {
+      font-family: 'Poppins', sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--wigg-text-1);
+      line-height: 1.25;
+      margin-bottom: 6px;
+    }
+    .prof-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--wigg-text-1);
+      margin-bottom: 2px;
+    }
+    .prof-meta {
+      font-size: 12px;
+      color: var(--wigg-text-3);
+      margin-bottom: 8px;
+    }
+    .prof-bio {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--wigg-text-2);
+      margin-bottom: 10px;
+    }
+
+    /* Tags spécialités */
+    .prof-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    .prof-tag {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--wigg-green);
+      background: var(--wigg-green-bg);
+      border: 0.5px solid rgba(34,197,94,0.2);
+      border-radius: 20px;
+      padding: 3px 10px;
+    }
+
+    /* Action buttons */
+    .prof-actions {
+      display: flex;
+      gap: 8px;
+      padding: 0 16px 16px;
+    }
+    .prof-btn {
+      flex: 1;
+      height: 38px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: opacity 0.15s;
+    }
+    .prof-btn:active { opacity: 0.7; }
+    .prof-btn--primary {
+      background: var(--wigg-green);
+      color: #0a0f1e;
+    }
+    .prof-btn--ghost {
+      background: none;
+      border: 0.5px solid #1e2a3a;
+      color: var(--wigg-text-2);
+    }
+    .prof-btn--compat {
+      background: none;
+      border: 0.5px solid rgba(34,197,94,0.3);
+      color: var(--wigg-green);
+    }
+
+    /* Stats row */
+    .prof-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 0.5px solid #1e2a3a;
+      border-bottom: 0.5px solid #1e2a3a;
+      margin-bottom: 0;
+    }
+    .prof-stat {
+      padding: 12px 4px;
+      text-align: center;
+      border-right: 0.5px solid #1e2a3a;
+    }
+    .prof-stat:last-child { border-right: none; }
+    .prof-stat__val {
+      font-size: 17px;
       font-weight: 700;
       color: var(--wigg-text-1);
+      line-height: 1;
+      margin-bottom: 3px;
+    }
+    .prof-stat__lbl {
+      font-size: 9px;
+      color: var(--wigg-text-4);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      line-height: 1.2;
+    }
+
+    /* Tabs */
+    .prof-tabs {
+      display: flex;
+      border-bottom: 0.5px solid #1e2a3a;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .prof-tabs::-webkit-scrollbar { display: none; }
+    .prof-tab {
+      flex: 1;
+      min-width: 0;
+      padding: 12px 8px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--wigg-text-3);
+      text-align: center;
+      cursor: pointer;
+      border: none;
+      background: none;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+    .prof-tab.active {
+      color: var(--wigg-green);
+      border-bottom-color: var(--wigg-green);
+    }
+
+    /* Tab panels */
+    .prof-panel { display: none; padding: 16px; }
+    .prof-panel.active { display: block; }
+
+    /* Journal series card */
+    .journal-series {
+      background: var(--wigg-card);
+      border: 0.5px solid #1e2a3a;
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+    .journal-series__header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .journal-series__flag {
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+    .journal-series__meta {
+      flex: 1;
+      min-width: 0;
+    }
+    .journal-series__title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--wigg-text-1);
+      margin-bottom: 3px;
+    }
+    .journal-series__sub {
+      font-size: 11px;
+      color: var(--wigg-text-3);
+    }
+    .journal-progress-track {
+      height: 4px;
+      background: var(--wigg-surface);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+    .journal-progress-fill {
+      height: 100%;
+      background: var(--wigg-green);
+      border-radius: 2px;
+      transition: width 0.3s;
+    }
+    .journal-series__episodes {
+      font-size: 10px;
+      color: var(--wigg-text-4);
+      text-align: right;
+    }
+    .journal-entry-preview {
+      background: var(--wigg-card);
+      border: 0.5px solid #1e2a3a;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin-bottom: 8px;
+    }
+    .journal-entry-preview__date {
+      font-size: 10px;
+      color: var(--wigg-text-4);
       margin-bottom: 4px;
     }
-
-    .profile-hero__meta {
-      font-size: 12px;
-      color: var(--wigg-text-2);
-      margin-bottom: var(--sp-sm);
-    }
-
-    .profile-hero__status {
-      margin-bottom: var(--sp-md);
-      display: flex;
-      justify-content: center;
-    }
-
-    .profile-hero__bio {
+    .journal-entry-preview__text {
       font-size: 13px;
-      font-style: italic;
       color: var(--wigg-text-2);
-      line-height: 1.6;
-      max-width: 320px;
-      margin: 0 auto;
+      line-height: 1.5;
     }
 
-    /* Section vide */
-    .empty-section {
-      padding: var(--sp-lg);
-      text-align: center;
+    /* Reels grid */
+    .reels-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .reel-thumb {
+      aspect-ratio: 9/16;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+    .reel-thumb__bg {
+      width: 100%; height: 100%;
+    }
+    .reel-thumb__dur {
+      position: absolute;
+      bottom: 6px; right: 6px;
+      font-size: 10px;
+      color: #fff;
+      background: rgba(0,0,0,0.5);
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    /* Posts list */
+    .post-item {
+      padding: 12px 0;
+      border-bottom: 0.5px solid #1e2a3a;
+    }
+    .post-item:last-child { border-bottom: none; }
+    .post-item__date {
+      font-size: 10px;
       color: var(--wigg-text-4);
-      font-size: 12px;
-      border: 0.5px dashed var(--wigg-border);
-      border-radius: var(--r-card);
+      margin-bottom: 4px;
+    }
+    .post-item__text {
+      font-size: 13px;
+      color: var(--wigg-text-2);
+      line-height: 1.5;
+    }
+    .post-item__actions {
+      display: flex;
+      gap: 14px;
+      margin-top: 8px;
+    }
+    .post-item__action {
+      font-size: 11px;
+      color: var(--wigg-text-4);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+    }
+    .post-item__action.helped {
+      color: var(--wigg-green);
     }
 
-    /* Langues dans le profil */
+    /* Infos tab */
+    .info-block {
+      margin-bottom: 20px;
+    }
+    .info-block__title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--wigg-text-4);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 10px;
+    }
+    .info-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 0.5px solid #1e2a3a;
+      font-size: 13px;
+    }
+    .info-row:last-child { border-bottom: none; }
+    .info-row__icon { font-size: 16px; flex-shrink: 0; width: 20px; text-align: center; }
+    .info-row__label { color: var(--wigg-text-3); flex: 0 0 90px; }
+    .info-row__val { color: var(--wigg-text-1); flex: 1; }
+
+    /* Lang row */
     .lang-row {
       display: flex;
       align-items: center;
-      gap: var(--sp-sm);
-      padding: 6px 0;
-      border-bottom: var(--border);
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 0.5px solid #1e2a3a;
       font-size: 13px;
     }
-
     .lang-row:last-child { border-bottom: none; }
-
-    .lang-row__flag { font-size: 18px; }
-    .lang-row__name { flex: 1; color: var(--wigg-text-1); }
-
-    .lang-level-dots {
-      display: flex;
-      gap: 3px;
+    .lang-dot-row {
+      display: flex; gap: 3px; margin-left: auto;
     }
-
-    .lang-level-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--wigg-border);
+    .lang-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #1e2a3a;
     }
+    .lang-dot.on { background: var(--wigg-green); }
 
-    .lang-level-dot.active {
-      background: var(--wigg-green);
+    /* Empty state */
+    .prof-empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--wigg-text-4);
+      font-size: 12px;
     }
+    .prof-empty__icon { font-size: 32px; margin-bottom: 10px; }
 
-    /* Pays favoris — vide pour MVP */
-    .countries-fav-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--sp-sm);
-    }
-
-    .country-fav-item {
-      aspect-ratio: 1;
-      background: var(--wigg-surface);
-      border: var(--border);
-      border-radius: var(--r-card);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      font-size: 10px;
-      color: var(--wigg-text-3);
-    }
-
-    .country-fav-item__flag { font-size: 24px; }
-
-    /* Page d'erreur (profil non trouvé) */
+    /* No profile */
     .no-profile {
       text-align: center;
-      padding: var(--sp-2xl) var(--sp-md);
+      padding: 60px 24px;
+    }
+    .no-profile__icon { font-size: 48px; margin-bottom: 16px; }
+    .no-profile__title { font-size: 18px; font-weight: 600; color: var(--wigg-text-1); margin-bottom: 8px; }
+    .no-profile__sub { font-size: 13px; color: var(--wigg-text-2); margin-bottom: 28px; line-height: 1.6; }
+
+    /* Separator */
+    .prof-sep {
+      height: 8px;
+      background: var(--wigg-surface);
     }
 
-    .no-profile__icon { font-size: 48px; margin-bottom: var(--sp-md); }
-    .no-profile__title { font-size: 18px; font-weight: 600; color: var(--wigg-text-1); margin-bottom: var(--sp-sm); }
-    .no-profile__sub { font-size: 13px; color: var(--wigg-text-2); margin-bottom: var(--sp-xl); }
-
-    /* Targets visuelles sur le profil */
-    .targets-display {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--sp-xs);
-      margin-top: var(--sp-xs);
+    /* Aidé button */
+    .helped-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--wigg-green);
+      background: var(--wigg-green-bg);
+      border: none;
+      border-radius: 20px;
+      padding: 4px 10px;
+      cursor: pointer;
+      transition: opacity 0.15s;
     }
-
-    /* Section complète */
-    .profile-section {
-      margin-bottom: var(--sp-sm);
-    }
+    .helped-btn:active { opacity: 0.7; }
   </style>
 </head>
 <body>
 
-<!-- Top bar -->
-<header class="wc-header">
-  <a href="/" class="wc-header__back">← wiggmap.com</a>
-  <img src="assets/wiggmap-connect-logo.png" style="height:36px; width:auto;" alt="WiggMap Connect" />
-  <div class="wc-lang-switcher" id="wcLang">
-    <button class="wc-lang-active" id="wcLangBtn">FR</button>
-    <div class="wc-lang-dropdown" id="wcLangDropdown"></div>
+<!-- Barre retour -->
+<div style="background:#060b14; padding:6px 16px; border-bottom:0.5px solid #1a2535;">
+  <a href="/" style="font-size:11px; color:#3a4a5e; text-decoration:none;">← wiggmap.com</a>
+</div>
+
+<!-- Header principal -->
+<header style="display:flex; align-items:center; justify-content:center;
+               position:relative; padding:10px 16px; background:#0a0f1e;
+               border-bottom:0.5px solid #1e2a3a;">
+  <a href="/connect/">
+    <img src="assets/wiggmap-connect-logo.png"
+         style="height:52px; width:auto; display:block;"
+         alt="WiggMap Connect" />
+  </a>
+  <div style="position:absolute; right:16px; top:50%; transform:translateY(-50%);">
+    <button id="wcLangBtn"
+            onclick="document.getElementById('wcLangDd').style.display=
+                     document.getElementById('wcLangDd').style.display==='block'?'none':'block'"
+            style="background:none; border:0.5px solid #1e2a3a; border-radius:20px;
+                   padding:5px 12px; font-size:12px; font-weight:500;
+                   color:#22c55e; cursor:pointer;"></button>
+    <div id="wcLangDd"
+         style="display:none; position:absolute; right:0; top:calc(100% + 6px);
+                background:#0d1629; border:0.5px solid #1e2a3a; border-radius:10px;
+                overflow:hidden; min-width:60px; z-index:999;"></div>
   </div>
 </header>
 
-<!-- Contenu -->
-<div class="connect-wrap" id="profileContent" style="padding-top: var(--sp-md);">
-  <!-- Rempli par JS -->
-</div>
+<!-- Profile content (filled by JS) -->
+<div id="profileRoot" style="padding-bottom:80px;"></div>
 
 <!-- Bottom nav -->
 <nav class="connect-bottombar">
   <a href="index.html" class="connect-bottombar__item">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+      <polyline points="9 22 9 12 15 12 15 22"/>
     </svg>
     <span class="connect-bottombar__label">Accueil</span>
   </a>
-  <a href="#" class="connect-bottombar__item">
+  <a href="feed.html" class="connect-bottombar__item">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
       <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
     </svg>
     <span class="connect-bottombar__label">Feed</span>
   </a>
-  <a href="#" class="connect-bottombar__item">
+  <a href="swipe.html" class="connect-bottombar__item">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
       <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
     </svg>
@@ -189,7 +492,8 @@
   </a>
   <a href="profile.html" class="connect-bottombar__item active">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+      <circle cx="12" cy="7" r="4"/>
     </svg>
     <span class="connect-bottombar__label">Profil</span>
   </a>
@@ -205,272 +509,458 @@
 
 <script src="assets/connect.js"></script>
 <script>
+'use strict';
 /* ============================================================
-   Profile — rendu depuis localStorage
+   Profile page — rendered from localStorage wigg_profile
    ============================================================ */
-(function() {
-  'use strict';
+(function () {
 
-  const { getProfile, LIFE_STATUSES, SECTORS, LANGUAGES, getFlag, showToast } = window.WiggConnect;
-  const profile = getProfile();
-  const contentEl = document.getElementById('profileContent');
+  var WC      = window.WiggConnect;
+  var profile = WC.getProfile();
+  var root    = document.getElementById('profileRoot');
 
   /* -------------------------------------------------------
-     Profil inexistant
+     Security helper
+     ------------------------------------------------------- */
+  function esc(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  /* -------------------------------------------------------
+     No profile → redirect
      ------------------------------------------------------- */
   if (!profile || !profile.display_name) {
-    contentEl.innerHTML =
+    root.innerHTML =
       '<div class="no-profile">' +
         '<div class="no-profile__icon">🌐</div>' +
-        '<div class="no-profile__title">Tu n\'as pas encore de profil</div>' +
+        '<div class="no-profile__title">Pas encore de profil</div>' +
         '<p class="no-profile__sub">Crée ton profil en 5 minutes pour rejoindre WiggMap Connect.</p>' +
-        '<a href="onboarding.html" class="btn btn--primary btn--full" style="font-size:15px;height:50px;">Créer mon profil</a>' +
+        '<a href="onboarding.html" class="btn btn--primary btn--full" style="font-size:15px;height:50px;">' +
+          'Créer mon profil' +
+        '</a>' +
       '</div>';
     return;
   }
 
   /* -------------------------------------------------------
-     Helpers
+     Build trajectory line — 4 situations
      ------------------------------------------------------- */
+  function buildTrajectory(p) {
+    var originFlag  = WC.getFlag(p.country_origin  || '');
+    var currentFlag = WC.getFlag(p.country_current || p.country_origin || '');
+    var targetFlag  = p.country_targets && p.country_targets[0]
+                        ? WC.getFlag(p.country_targets[0]) : '🌍';
 
-  // Initiales pour l'avatar
-  function getInitials(name) {
-    return name.split(' ').map(function(w) { return w[0]; }).join('').toUpperCase().slice(0, 2);
+    var originCity  = esc(p.origin_city  || p.origin_name  || 'Origine');
+    var currentCity = esc(p.current_city || p.current_name || 'Ville');
+    var targetName  = esc(p.targets_data && p.targets_data[0]
+                            ? p.targets_data[0].name
+                            : (p.country_targets && p.country_targets[0]) || 'À définir');
+
+    var sit = p.situation || 'curious';
+
+    if (sit === 'curious') {
+      // "🇫🇷 Lyon · En exploration"
+      return originFlag + ' ' + originCity + ' · En exploration';
+    }
+    if (sit === 'thinking') {
+      // "🇫🇷 Lyon → 🌍 À définir"
+      return originFlag + ' ' + originCity + ' → ' + targetFlag + ' À définir';
+    }
+    if (sit === 'confirmed') {
+      // "🇫🇷 Lyon → 🇵🇹 Porto · Départ T3 2026"
+      return originFlag + ' ' + originCity + ' → ' + targetFlag + ' ' + targetName + ' · Départ T3 2026';
+    }
+    // installed / settled / veteran / transition
+    var months = p.months_there || 14;
+    // "🇫🇷 Lyon → 🇵🇹 Porto · 14 mois"
+    return originFlag + ' ' + originCity + ' → ' + currentFlag + ' ' + currentCity + ' · ' + months + ' mois';
   }
 
-  // Trouver un statut de vie
-  function findStatus(id) {
-    return LIFE_STATUSES.find(function(s) { return s.id === id; }) || null;
+  /* -------------------------------------------------------
+     Cover gradient — based on country
+     ------------------------------------------------------- */
+  var COVER_GRADIENTS = {
+    'portugal':      'linear-gradient(135deg, #006600 0%, #ff0000 50%, #1a4c1a 100%)',
+    'france':        'linear-gradient(135deg, #002395 0%, #f0f0f0 50%, #ED2939 100%)',
+    'thailand':      'linear-gradient(135deg, #A51931 0%, #F4F5F8 40%, #2D2A4A 100%)',
+    'japan':         'linear-gradient(135deg, #BC002D 0%, #fff 60%, #BC002D 100%)',
+    'germany':       'linear-gradient(135deg, #000 0%, #D00 50%, #FFCE00 100%)',
+    'spain':         'linear-gradient(135deg, #c60b1e 0%, #ffc400 50%, #c60b1e 100%)',
+    'brazil':        'linear-gradient(135deg, #009c3b 0%, #ffdf00 50%, #002776 100%)',
+    'canada':        'linear-gradient(135deg, #d52b1e 0%, #fff 40%, #d52b1e 100%)',
+    'united-states': 'linear-gradient(135deg, #3c3b6e 0%, #B22234 50%, #fff 100%)',
+    'australia':     'linear-gradient(135deg, #00008b 0%, #cc0000 50%, #fff 100%)',
+    'default':       'linear-gradient(135deg, #0d1a2e 0%, #1a3a5c 50%, #0d2a1a 100%)',
+  };
+
+  function getCoverGradient(p) {
+    var key = p.country_current || (p.country_targets && p.country_targets[0]) || '';
+    return COVER_GRADIENTS[key] || COVER_GRADIENTS['default'];
   }
 
-  // Trouver un secteur
-  function findSector(id) {
-    return SECTORS.find(function(s) { return s.id === id; }) || null;
+  /* -------------------------------------------------------
+     Avatar HTML
+     ------------------------------------------------------- */
+  function buildAvatar(p) {
+    var initials = (p.display_name || 'U')
+      .split(' ').map(function(w){ return w[0]; }).join('').toUpperCase().slice(0, 2);
+    var inner = p.avatar_url
+      ? '<img src="' + esc(p.avatar_url) + '" alt="' + esc(p.display_name) + '" />'
+      : initials;
+    return '<div class="prof-avatar">' + inner + '<span class="prof-avatar__dot"></span></div>';
   }
 
-  // Trouver une langue
-  function findLang(id) {
-    return LANGUAGES.find(function(l) { return l.id === id; }) || null;
+  /* -------------------------------------------------------
+     Sector label
+     ------------------------------------------------------- */
+  function getSectorLabel(p) {
+    if (p.sector_label) return esc(p.sector_label);
+    if (p.sector) {
+      var def = WC.SECTORS.find(function(s){ return s.id === p.sector; });
+      return def ? esc(def.label) : esc(p.sector);
+    }
+    return '';
   }
 
-  // Dots de niveau langue
-  function renderLevelDots(level) {
-    return [1,2,3,4,5].map(function(n) {
-      return '<div class="lang-level-dot' + (n <= level ? ' active' : '') + '"></div>';
+  /* -------------------------------------------------------
+     Specialties / help topics as tags
+     ------------------------------------------------------- */
+  function buildTags(p) {
+    var topics = p.help_topics || [];
+    if (!topics.length) return '';
+    var topicDefs = WC.WC_HELP_TOPICS || [];
+    var tags = topics.slice(0, 5).map(function(tid) {
+      var def = topicDefs.find(function(t){ return t.id === tid; });
+      return '<span class="prof-tag">✦ ' + esc(def ? def.label : tid) + '</span>';
+    });
+    return '<div class="prof-tags">' + tags.join('') + '</div>';
+  }
+
+  /* -------------------------------------------------------
+     Status pill
+     ------------------------------------------------------- */
+  function buildStatusPill(p) {
+    var sid = p.life_status || '';
+    var def = WC.LIFE_STATUSES.find(function(s){ return s.id === sid; });
+    if (!def) return '';
+    var open = ['curious', 'planning', 'transition'].includes(sid);
+    return '<div class="pill' + (open ? ' pill--open' : '') + '" style="display:inline-flex;">' +
+           esc(def.icon || '') + ' ' + esc(def.label) + '</div>';
+  }
+
+  /* -------------------------------------------------------
+     Languages rows
+     ------------------------------------------------------- */
+  function buildLangs(p) {
+    var langs = p.languages || [];
+    if (!langs.length) return '<p style="font-size:12px;color:var(--wigg-text-4);padding:8px 0;">Non renseigné</p>';
+    return langs.map(function(l) {
+      var id  = l.lang || l.id;
+      var def = WC.LANGUAGES.find(function(x){ return x.id === id; });
+      var lbl = def ? def.label : id;
+      var flg = def ? def.flag : '';
+      var lvl = l.level || 3;
+      var dots = [1,2,3,4,5].map(function(n){
+        return '<span class="lang-dot' + (n <= lvl ? ' on' : '') + '"></span>';
+      }).join('');
+      return '<div class="lang-row">' +
+               '<span style="font-size:18px;">' + flg + '</span>' +
+               '<span style="flex:1;color:var(--wigg-text-1);">' + esc(lbl) + '</span>' +
+               '<div class="lang-dot-row">' + dots + '</div>' +
+             '</div>';
     }).join('');
   }
 
   /* -------------------------------------------------------
-     Construction de la route géographique
+     Determine tab order (Journal first if installed/veteran)
      ------------------------------------------------------- */
-  const originFlag  = getFlag(profile.country_origin);
-  const currentFlag = getFlag(profile.country_current || profile.country_origin);
-  const targets     = profile.targets_data || (profile.country_targets || []).map(function(slug) {
-    return { slug: slug, name: slug };
-  });
+  var sit = profile.situation || 'curious';
+  var showJournalFirst = ['installed', 'veteran', 'returned', 'settled'].includes(sit) ||
+                         ['settled', 'veteran', 'returned', 'transition'].includes(profile.life_status);
 
-  const routeParts = [
-    '<span class="life-route__flag">' + originFlag + '</span>',
-    '<span class="life-route__city">' + (profile.origin_city || profile.origin_name || '') + '</span>',
-  ];
+  var tabs = showJournalFirst
+    ? ['journal', 'reels', 'posts', 'infos']
+    : ['reels', 'posts', 'journal', 'infos'];
 
-  // Afficher le pays actuel si différent de l'origine
-  if (profile.country_current && profile.country_current !== profile.country_origin) {
-    routeParts.push('<span class="life-route__arrow">──</span>');
-    routeParts.push('<span class="life-route__flag">' + currentFlag + '</span>');
-    routeParts.push('<span class="life-route__city">' + (profile.current_city || profile.current_name || '') + '</span>');
+  var tabLabels = {
+    journal: 'Journal',
+    reels:   'Reels',
+    posts:   'Posts',
+    infos:   'Infos',
+  };
+
+  /* -------------------------------------------------------
+     Mock journal entries (based on target country)
+     ------------------------------------------------------- */
+  var targetCountry = (profile.targets_data && profile.targets_data[0])
+    ? profile.targets_data[0].name
+    : (profile.country_targets && profile.country_targets[0]) || 'Portugal';
+  var targetFlag = profile.country_targets && profile.country_targets[0]
+    ? WC.getFlag(profile.country_targets[0]) : '🌍';
+
+  function buildJournalPanel() {
+    return '<div class="journal-series">' +
+             '<div class="journal-series__header">' +
+               '<div class="journal-series__flag">' + targetFlag + '</div>' +
+               '<div class="journal-series__meta">' +
+                 '<div class="journal-series__title">Mon déménagement à ' + esc(targetCountry) + '</div>' +
+                 '<div class="journal-series__sub">3 épisodes · En cours</div>' +
+               '</div>' +
+             '</div>' +
+             '<div class="journal-progress-track">' +
+               '<div class="journal-progress-fill" style="width:40%;"></div>' +
+             '</div>' +
+             '<div class="journal-series__episodes">2/5 épisodes publiés</div>' +
+           '</div>' +
+           '<div class="journal-entry-preview">' +
+             '<div class="journal-entry-preview__date">Il y a 3 jours</div>' +
+             '<div class="journal-entry-preview__text">' +
+               'Premier contact avec le consulat — les délais sont plus longs que prévu, ' +
+               'mais la procédure est claire une fois qu\'on a tous les documents.' +
+             '</div>' +
+           '</div>' +
+           '<div class="journal-entry-preview">' +
+             '<div class="journal-entry-preview__date">Il y a 2 semaines</div>' +
+             '<div class="journal-entry-preview__text">' +
+               'Visite de repérage à ' + esc(targetCountry) + ' — les quartiers Nord sont vraiment accessibles ' +
+               'par rapport à Paris. J\'ai visité 4 apparts en 2 jours.' +
+             '</div>' +
+           '</div>';
   }
 
-  // Flèche vers destinations
-  if (targets.length > 0) {
-    routeParts.push('<span class="life-route__arrow">──→</span>');
-    targets.forEach(function(t, i) {
-      routeParts.push('<span class="life-route__flag">' + getFlag(t.slug) + '</span>');
-      routeParts.push('<span class="life-route__city">' + t.name + '</span>');
-      if (i < targets.length - 1) {
-        routeParts.push('<span style="color:var(--wigg-text-4);margin:0 2px;">/</span>');
-      }
-    });
-  }
-
-  /* -------------------------------------------------------
-     Statut badge
-     ------------------------------------------------------- */
-  const statusDef = findStatus(profile.life_status);
-  const isOpen = ['curious', 'planning', 'transition'].includes(profile.life_status);
-  const statusHTML = statusDef
-    ? '<div class="pill' + (isOpen ? ' pill--open' : '') + '">' +
-      (isOpen ? '' : statusDef.icon + ' ') +
-      statusDef.label +
-      '</div>'
-    : '';
-
-  /* -------------------------------------------------------
-     Secteur
-     ------------------------------------------------------- */
-  const sectorDef = findSector(profile.sector);
-
-  /* -------------------------------------------------------
-     Langues
-     ------------------------------------------------------- */
-  const langsHTML = (profile.languages && profile.languages.length)
-    ? profile.languages.map(function(l) {
-        const langDef = findLang(l.lang || l.id);
-        if (!langDef) return '';
-        return '<div class="lang-row">' +
-          '<span class="lang-row__flag">' + langDef.flag + '</span>' +
-          '<span class="lang-row__name">' + langDef.label + '</span>' +
-          '<div class="lang-level-dots">' + renderLevelDots(l.level) + '</div>' +
-          '</div>';
-      }).join('')
-    : '<p class="text-caption" style="color:var(--wigg-text-4);padding:8px 0;">Non renseigné</p>';
-
-  /* -------------------------------------------------------
-     Date membre
-     ------------------------------------------------------- */
-  let memberSince = '';
-  if (profile.created_at) {
-    const d = new Date(profile.created_at);
-    memberSince = 'Membre depuis ' + d.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
-  }
-
-  /* -------------------------------------------------------
-     Type de compte badge
-     ------------------------------------------------------- */
-  const typeLabels = { individu: '🧑 Individu', commerce: '🏪 Commerce', association: '🤲 Association' };
-  const typeLabel = typeLabels[profile.member_type] || profile.member_type || '';
-
-  /* -------------------------------------------------------
-     Rendu HTML complet
-     ------------------------------------------------------- */
-  contentEl.innerHTML =
-
-    /* ---- Hero ---- */
-    '<div class="profile-hero profile-section">' +
-
-      '<div class="profile-hero__route">' +
-        '<div class="life-route life-route--hero" style="justify-content:center;flex-wrap:wrap;">' +
-          routeParts.join('') +
-        '</div>' +
-      '</div>' +
-
-      '<div class="profile-hero__avatar-wrap">' +
-        '<div class="avatar avatar--xl" style="margin:0 auto;background:var(--wigg-green-bg);color:var(--wigg-green);font-size:28px;">' +
-          getInitials(profile.display_name) +
-        '</div>' +
-      '</div>' +
-
-      '<div class="profile-hero__name">' + escapeHTML(profile.display_name) + '</div>' +
-
-      '<div class="profile-hero__meta">' +
-        (sectorDef ? escapeHTML(sectorDef.label) : '') +
-        (sectorDef && memberSince ? ' · ' : '') +
-        (memberSince ? memberSince : '') +
-        (typeLabel ? ' · ' + typeLabel : '') +
-      '</div>' +
-
-      '<div class="profile-hero__status">' + statusHTML + '</div>' +
-
-      (profile.bio
-        ? '<p class="profile-hero__bio">"' + escapeHTML(profile.bio) + '"</p>'
-        : '<p class="profile-hero__bio" style="color:var(--wigg-text-4);">Aucune bio renseignée.</p>') +
-
-    '</div>' +
-
-    /* ---- Reconnu par la communauté ---- */
-    '<div class="card profile-section">' +
-      '<div class="section-header">' +
-        '<span class="section-title">Reconnu par la communauté sur</span>' +
-      '</div>' +
-      '<div class="empty-section" style="border:none;padding:8px 0;">' +
-        '<span style="font-size:20px;">✦</span><br>' +
-        '<span style="font-size:11px;color:var(--wigg-text-4);">Tes contributions seront reconnues ici</span>' +
-      '</div>' +
-    '</div>' +
-
-    /* ---- Stats ---- */
-    '<div class="profile-section">' +
-      '<div class="stats-row">' +
-        '<div class="stat-box">' +
-          '<div class="stat-box__value">0</div>' +
-          '<div class="stat-box__label">Contributions</div>' +
-        '</div>' +
-        '<div class="stat-box">' +
-          '<div class="stat-box__value">0</div>' +
-          '<div class="stat-box__label">Personnes aidées</div>' +
-        '</div>' +
-        '<div class="stat-box">' +
-          '<div class="stat-box__value">0</div>' +
-          '<div class="stat-box__label">Miroirs actifs</div>' +
-        '</div>' +
-      '</div>' +
-    '</div>' +
-
-    /* ---- Destinations ---- */
-    (targets.length > 0
-      ? '<div class="card profile-section">' +
-          '<div class="section-header">' +
-            '<span class="section-title">Destinations visées</span>' +
-          '</div>' +
-          '<div class="targets-display">' +
-            targets.map(function(t) {
-              return '<div class="pill">' + getFlag(t.slug) + ' ' + escapeHTML(t.name) + '</div>';
-            }).join('') +
-          '</div>' +
-          (profile.seeking_message
-            ? '<p class="bio-text" style="margin-top:12px;">' + escapeHTML(profile.seeking_message) + '</p>'
-            : '') +
-        '</div>'
-      : '') +
-
-    /* ---- Langues ---- */
-    '<div class="card profile-section">' +
-      '<div class="section-header">' +
-        '<span class="section-title">Langues parlées</span>' +
-      '</div>' +
-      langsHTML +
-    '</div>' +
-
-    /* ---- Pays favoris (vide au MVP) ---- */
-    '<div class="card profile-section">' +
-      '<div class="section-header">' +
-        '<span class="section-title">Mes pays favoris</span>' +
-      '</div>' +
-      '<div class="empty-section">' +
-        'Tes pays favoris WiggMap apparaîtront ici.' +
-      '</div>' +
-    '</div>' +
-
-    /* ---- Bouton modifier ---- */
-    '<div style="margin-top: var(--sp-lg);">' +
-      '<a href="onboarding.html" class="btn btn--ghost btn--full">' +
-        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>' +
-        'Modifier mon profil' +
-      '</a>' +
+  function buildReelsPanel() {
+    var colors = ['#1a3a2a','#2a1a3a','#1a2a3a','#3a2a1a','#1a3a3a','#2a3a1a'];
+    var durs   = ['0:42','1:15','0:58','2:03','0:31','1:47'];
+    return '<div class="reels-grid">' +
+      colors.map(function(c, i) {
+        return '<div class="reel-thumb">' +
+                 '<div class="reel-thumb__bg" style="background:' + c + ';height:100%;"></div>' +
+                 '<span class="reel-thumb__dur">' + durs[i] + '</span>' +
+               '</div>';
+      }).join('') +
     '</div>';
-
-  /* -------------------------------------------------------
-     Sécurité — échappement HTML
-     ------------------------------------------------------- */
-  function escapeHTML(str) {
-    if (!str) return '';
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;');
   }
 
-  // Re-render avec la fonction d'escape disponible avant le innerHTML
-  // (la fonction est définie après mais on l'appelle dans contentEl.innerHTML
-  //  via les fermetures — on doit donc replacer après déclaration)
-  // Note : on déclare escapeHTML avant l'utilisation dans innerHTML ci-dessus
-  // via hoisting de la déclaration de fonction. OK.
+  function buildPostsPanel() {
+    var posts = [
+      {
+        date: 'Il y a 5 jours',
+        text: 'Question sur le visa D7 — quelqu\'un a tenté la procédure en ligne ? ' +
+              'L\'ambassade de France répond mal aux mails.',
+        helped: 4,
+      },
+      {
+        date: 'Il y a 12 jours',
+        text: 'Retour après ma première semaine ici. Le coût de la vie est vraiment ' +
+              'différent de ce qu\'on lit sur les forums.',
+        helped: 7,
+      },
+    ];
+    return posts.map(function(p, i) {
+      return '<div class="post-item">' +
+               '<div class="post-item__date">' + p.date + '</div>' +
+               '<div class="post-item__text">' + esc(p.text) + '</div>' +
+               '<div class="post-item__actions">' +
+                 '<button class="helped-btn" onclick="togglePostHelped(this,' + i + ')">' +
+                   '✦ Aidé <span class="helped-count">' + p.helped + '</span>' +
+                 '</button>' +
+               '</div>' +
+             '</div>';
+    }).join('');
+  }
+
+  function buildInfosPanel(p) {
+    var memberDate = '';
+    if (p.created_at) {
+      var d = new Date(p.created_at);
+      memberDate = d.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+    }
+    var typeLabels = { individu: '🧑 Individu', commerce: '🏪 Commerce', association: '🤲 Association' };
+    var typeLabel  = typeLabels[p.member_type] || '🧑 Individu';
+
+    return '<div class="info-block">' +
+             '<div class="info-block__title">Profil</div>' +
+             (memberDate
+               ? '<div class="info-row"><span class="info-row__icon">📅</span><span class="info-row__label">Membre depuis</span><span class="info-row__val">' + esc(memberDate) + '</span></div>'
+               : '') +
+             '<div class="info-row"><span class="info-row__icon">👤</span><span class="info-row__label">Type</span><span class="info-row__val">' + typeLabel + '</span></div>' +
+             (getSectorLabel(p)
+               ? '<div class="info-row"><span class="info-row__icon">💼</span><span class="info-row__label">Secteur</span><span class="info-row__val">' + getSectorLabel(p) + '</span></div>'
+               : '') +
+           '</div>' +
+           '<div class="info-block">' +
+             '<div class="info-block__title">Langues</div>' +
+             buildLangs(p) +
+           '</div>' +
+           (p.country_targets && p.country_targets.length
+             ? '<div class="info-block">' +
+                 '<div class="info-block__title">Destinations</div>' +
+                 '<div style="display:flex;flex-wrap:wrap;gap:6px;">' +
+                   (p.targets_data || p.country_targets.map(function(s){ return {slug:s, name:s}; }))
+                     .map(function(t) {
+                       return '<div class="pill">' + WC.getFlag(t.slug) + ' ' + esc(t.name) + '</div>';
+                     }).join('') +
+                 '</div>' +
+               '</div>'
+             : '');
+  }
+
+  /* -------------------------------------------------------
+     Build tabs HTML
+     ------------------------------------------------------- */
+  function buildTabsHTML() {
+    var btns = tabs.map(function(tid, i) {
+      return '<button class="prof-tab' + (i === 0 ? ' active' : '') + '" ' +
+               'onclick="switchProfTab(\'' + tid + '\')" id="ptab-' + tid + '">' +
+               tabLabels[tid] +
+             '</button>';
+    }).join('');
+
+    var panels = tabs.map(function(tid, i) {
+      var content = '';
+      if (tid === 'journal') content = buildJournalPanel();
+      if (tid === 'reels')   content = buildReelsPanel();
+      if (tid === 'posts')   content = buildPostsPanel();
+      if (tid === 'infos')   content = buildInfosPanel(profile);
+      return '<div class="prof-panel' + (i === 0 ? ' active' : '') + '" id="ppanel-' + tid + '">' +
+               content +
+             '</div>';
+    }).join('');
+
+    return '<div class="prof-tabs">' + btns + '</div>' + panels;
+  }
+
+  /* -------------------------------------------------------
+     Render everything
+     ------------------------------------------------------- */
+  var coverGradient  = getCoverGradient(profile);
+  var trajectory     = buildTrajectory(profile);
+  var memberDate     = '';
+  if (profile.created_at) {
+    var d = new Date(profile.created_at);
+    memberDate = d.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+  }
+
+  root.innerHTML =
+
+    /* Cover */
+    '<div class="prof-cover" style="background:' + coverGradient + ';">' +
+      '<div class="prof-cover__overlay"></div>' +
+      '<a href="onboarding.html" class="prof-cover__edit">Modifier</a>' +
+    '</div>' +
+
+    /* Avatar row */
+    '<div class="prof-avatar-row">' +
+      buildAvatar(profile) +
+    '</div>' +
+
+    /* Identity */
+    '<div class="prof-identity">' +
+      '<div class="prof-traj">' + trajectory + '</div>' +
+      '<div class="prof-name">' + esc(profile.display_name) + '</div>' +
+      '<div class="prof-meta">' +
+        (getSectorLabel(profile) || '') +
+        (getSectorLabel(profile) && memberDate ? ' · ' : '') +
+        (memberDate ? 'Membre ' + memberDate : '') +
+      '</div>' +
+      buildStatusPill(profile) +
+      (profile.bio
+        ? '<p class="prof-bio">' + esc(profile.bio) + '</p>'
+        : '<p class="prof-bio" style="color:var(--wigg-text-4);">Aucune bio renseignée.</p>') +
+      buildTags(profile) +
+    '</div>' +
+
+    /* Action buttons */
+    '<div class="prof-actions">' +
+      '<button class="prof-btn prof-btn--primary" onclick="toggleFollow(this)">+ Suivre</button>' +
+      '<button class="prof-btn prof-btn--ghost">' +
+        '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' +
+          '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>' +
+        '</svg>' +
+        'Message' +
+      '</button>' +
+      '<button class="prof-btn prof-btn--compat" onclick="showCompat()">~ Compat.</button>' +
+    '</div>' +
+
+    /* Stats */
+    '<div class="prof-stats">' +
+      '<div class="prof-stat"><div class="prof-stat__val">0</div><div class="prof-stat__lbl">aidés</div></div>' +
+      '<div class="prof-stat"><div class="prof-stat__val">0</div><div class="prof-stat__lbl">reconnu</div></div>' +
+      '<div class="prof-stat"><div class="prof-stat__val">0</div><div class="prof-stat__lbl">rencontres</div></div>' +
+      '<div class="prof-stat"><div class="prof-stat__val">0</div><div class="prof-stat__lbl">miroirs</div></div>' +
+    '</div>' +
+
+    /* Separator */
+    '<div class="prof-sep"></div>' +
+
+    /* Tabs */
+    buildTabsHTML();
+
+  /* -------------------------------------------------------
+     Tab switcher
+     ------------------------------------------------------- */
+  window.switchProfTab = function(tid) {
+    document.querySelectorAll('.prof-tab').forEach(function(b) { b.classList.remove('active'); });
+    document.querySelectorAll('.prof-panel').forEach(function(p) { p.classList.remove('active'); });
+    var btn   = document.getElementById('ptab-'   + tid);
+    var panel = document.getElementById('ppanel-' + tid);
+    if (btn)   btn.classList.add('active');
+    if (panel) panel.classList.add('active');
+  };
+
+  /* -------------------------------------------------------
+     Follow toggle
+     ------------------------------------------------------- */
+  window.toggleFollow = function(btn) {
+    var following = btn.getAttribute('data-following') === '1';
+    if (following) {
+      btn.textContent = '+ Suivre';
+      btn.style.background = 'var(--wigg-green)';
+      btn.style.color = '#0a0f1e';
+      btn.removeAttribute('data-following');
+    } else {
+      btn.textContent = '✓ Suivi';
+      btn.style.background = 'none';
+      btn.style.border = '0.5px solid var(--wigg-green)';
+      btn.style.color = 'var(--wigg-green)';
+      btn.setAttribute('data-following', '1');
+      window.showToast('Profil suivi ✓', 'success');
+    }
+  };
+
+  /* -------------------------------------------------------
+     Compat
+     ------------------------------------------------------- */
+  window.showCompat = function() {
+    window.showToast('Score de compatibilité disponible bientôt 🔜');
+  };
+
+  /* -------------------------------------------------------
+     Post helped toggle
+     ------------------------------------------------------- */
+  window.togglePostHelped = function(btn, idx) {
+    var countEl = btn.querySelector('.helped-count');
+    var helped  = btn.getAttribute('data-helped') === '1';
+    var n       = parseInt(countEl.textContent, 10) || 0;
+    if (helped) {
+      countEl.textContent = n - 1;
+      btn.removeAttribute('data-helped');
+    } else {
+      countEl.textContent = n + 1;
+      btn.setAttribute('data-helped', '1');
+      window.showToast('✦ Aidé !', 'success', 1500);
+    }
+  };
+
 })();
 </script>
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     if (typeof wcInitLangSwitcher === 'function') {
       wcInitLangSwitcher();
     }

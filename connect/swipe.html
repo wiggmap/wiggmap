@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="../assets/favicon.ico" />
+  <meta name="robots" content="noindex" />
+  <title>WiggSwipe · WiggMap Connect</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/connect.css" />
+</head>
+<body>
+
+<!-- Barre retour -->
+<div style="background:#060b14; padding:6px 16px; border-bottom:0.5px solid #1a2535;">
+  <a href="feed.html" style="font-size:11px; color:#3a4a5e; text-decoration:none;">← Feed</a>
+</div>
+
+<!-- Header principal -->
+<header style="display:flex; align-items:center; justify-content:center;
+               position:relative; padding:10px 16px; background:#0a0f1e;
+               border-bottom:0.5px solid #1e2a3a;">
+  <a href="/connect/">
+    <img src="assets/wiggmap-connect-logo.png"
+         style="height:52px; width:auto; display:block;"
+         alt="WiggMap Connect" />
+  </a>
+  <div style="position:absolute; right:16px; top:50%; transform:translateY(-50%);"
+       id="wcLangWrap">
+    <button id="wcLangBtn"
+            onclick="document.getElementById('wcLangDd').style.display=
+                     document.getElementById('wcLangDd').style.display==='block'?'none':'block'"
+            style="background:none; border:0.5px solid #1e2a3a; border-radius:20px;
+                   padding:5px 12px; font-size:12px; font-weight:500;
+                   color:#22c55e; cursor:pointer;"></button>
+    <div id="wcLangDd"
+         style="display:none; position:absolute; right:0; top:calc(100% + 6px);
+                background:#0d1629; border:0.5px solid #1e2a3a; border-radius:10px;
+                overflow:hidden; min-width:60px; z-index:999;"></div>
+  </div>
+</header>
+
+<!-- Titre -->
+<div class="swipe-header">
+  <div class="swipe-title">Explorer des vies que tu envisages</div>
+  <div class="swipe-subtitle">Profils triés par activité récente · Miroirs en tête de liste</div>
+  <div class="swipe-counter" id="swipeCounter" style="text-align:left;padding:0;margin-top:4px;"></div>
+</div>
+
+<!-- Card stack -->
+<div class="swipe-stage">
+  <!-- Shadow hint — profil suivant -->
+  <div class="swipe-stack-hint swipe-stack-hint-2"></div>
+  <div class="swipe-stack-hint"></div>
+  <!-- Card principale -->
+  <div id="swipeCard"></div>
+</div>
+
+<!-- Actions -->
+<div class="swipe-actions" id="swipeActions">
+  <button class="swipe-btn swipe-btn--pass" onclick="handleSwipe('pass')">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+    Passer
+  </button>
+  <button class="swipe-btn swipe-btn--follow" onclick="handleSwipe('follow')">
+    ✦ Suivre
+  </button>
+  <button class="swipe-btn swipe-btn--profile" onclick="handleSwipe('profile')">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+      <circle cx="12" cy="7" r="4"/>
+    </svg>
+    Profil
+  </button>
+</div>
+
+<!-- Bottom nav -->
+<nav class="connect-bottombar">
+  <a href="index.html" class="connect-bottombar__item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+      <polyline points="9 22 9 12 15 12 15 22"/>
+    </svg>
+    <span class="connect-bottombar__label">Accueil</span>
+  </a>
+  <a href="feed.html" class="connect-bottombar__item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/>
+      <line x1="8" y1="18" x2="21" y2="18"/>
+    </svg>
+    <span class="connect-bottombar__label">Feed</span>
+  </a>
+  <a href="swipe.html" class="connect-bottombar__item active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+    </svg>
+    <span class="connect-bottombar__label">Swipe</span>
+  </a>
+  <a href="profile.html" class="connect-bottombar__item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+      <circle cx="12" cy="7" r="4"/>
+    </svg>
+    <span class="connect-bottombar__label">Profil</span>
+  </a>
+</nav>
+
+<footer class="wc-footer">
+  <a href="/">wiggmap.com</a>
+  <span>·</span>
+  <a href="/connect/">WiggMap Connect</a>
+  <span>·</span>
+  <span>Beta</span>
+</footer>
+
+<script src="assets/connect.js"></script>
+<script>
+'use strict';
+
+/* ============================================================
+   Données mock — profils triés : miroirs d'abord, actifs en tête
+   ============================================================ */
+var PROFILES = [
+  {
+    id: 'cm1',
+    initials: 'CM',
+    name: 'Carlos M.',
+    traj: '🇧🇷 São Paulo → 🇫🇷 Lyon',
+    origin: 'brazil', current: 'france',
+    city_origin: 'São Paulo', city_current: 'Lyon',
+    status: '🏠 Installé · 8 mois',
+    statusId: 'settled',
+    sector: 'finance',
+    bio: '"Finance corporate à Lyon. Tout ce que personne ne dit sur les impôts franco-brésiliens."',
+    highlight: { type: 'expertise', text: 'Répond sur : Fiscalité PT · Banque · Visa' },
+    mirror: 92,
+    bg: 'linear-gradient(160deg,#1a0808 0%,#2d1010 50%,#0f1508 100%)',
+    avatarBg: 'rgba(55,138,221,0.15)', avatarColor: '#378add',
+  },
+  {
+    id: 'sd1',
+    initials: 'SD',
+    name: 'Sophie D.',
+    traj: '🇫🇷 Lyon → 🇵🇹 Porto',
+    origin: 'france', current: 'portugal',
+    city_origin: 'Lyon', city_current: 'Porto',
+    status: '🏠 Installée · 14 mois',
+    statusId: 'settled',
+    sector: 'tech',
+    bio: '"Dev frontend à Porto. Je réponds volontiers sur le logement et la fiscalité IFICI."',
+    highlight: { type: 'journal', text: 'Journal actif · Ep. 9 · 247 abonnés' },
+    mirror: 78,
+    bg: 'linear-gradient(160deg,#241508 0%,#4a2810 50%,#181208 100%)',
+    avatarBg: 'rgba(34,197,94,0.12)', avatarColor: '#22c55e',
+  },
+  {
+    id: 'mt1',
+    initials: 'MT',
+    name: 'Marc T.',
+    traj: '🇩🇪 Berlin → 🇵🇹 Porto',
+    origin: 'germany', current: 'portugal',
+    city_origin: 'Berlin', city_current: 'Porto',
+    status: '🌐 Vétéran · 3 ans',
+    statusId: 'veteran',
+    sector: 'finance',
+    bio: '"3 ans à Porto. D7, NHR, banque, visa — je connais le parcours de A à Z."',
+    highlight: { type: 'expertise', text: 'Répond sur : D7 Visa · NHR/IFICI · Logement' },
+    mirror: 65,
+    bg: 'linear-gradient(160deg,#08101a 0%,#0a1828 50%,#060d0f 100%)',
+    avatarBg: 'rgba(239,159,39,0.12)', avatarColor: '#ef9f27',
+  },
+  {
+    id: 'yk1',
+    initials: 'YK',
+    name: 'Yuki K.',
+    traj: '🇯🇵 Osaka → 🇵🇹 Porto',
+    origin: 'japan', current: 'portugal',
+    city_origin: 'Osaka', city_current: 'Porto',
+    status: '🚀 En transition · 3 semaines',
+    statusId: 'transition',
+    sector: 'creative',
+    bio: '"Graphiste nomade. Arrivée à Porto il y a 3 semaines. Je cherche encore mes repères."',
+    highlight: { type: 'depart', text: 'Départ prévu · Osaka → Porto · En cours' },
+    mirror: 44,
+    bg: 'linear-gradient(160deg,#1a0a15 0%,#2d1525 50%,#100a1a 100%)',
+    avatarBg: 'rgba(212,83,126,0.12)', avatarColor: '#d4537e',
+  },
+  {
+    id: 'lb1',
+    initials: 'LB',
+    name: 'Laure B.',
+    traj: '🇫🇷 Paris → 🇯🇵 Tokyo',
+    origin: 'france', current: 'japan',
+    city_origin: 'Paris', city_current: 'Tokyo',
+    status: '🏠 Installée · 2 ans',
+    statusId: 'settled',
+    sector: 'law',
+    bio: '"Avocate reconvertie en freelance à Tokyo. Visa talent tech, école franco-japonaise."',
+    highlight: { type: 'expertise', text: 'Répond sur : Visa JP · Droit du travail · Scolarité' },
+    mirror: 38,
+    bg: 'linear-gradient(160deg,#1a0a15 0%,#2d1525 50%,#100a1a 100%)',
+    avatarBg: 'rgba(55,138,221,0.15)', avatarColor: '#378add',
+  },
+  {
+    id: 'jm1',
+    initials: 'JM',
+    name: 'Juliette M.',
+    traj: '🇫🇷 Bordeaux → 🇵🇹 Lisbonne',
+    origin: 'france', current: 'france',
+    city_origin: 'Bordeaux', city_current: 'Lisbonne (dans 6 sem.)',
+    status: '🚀 Projet confirmé · Départ T2 2026',
+    statusId: 'planning',
+    sector: 'health',
+    bio: '"Infirmière qui part à Lisbonne. IFICI, assurance santé, scolarité — plein de questions."',
+    highlight: { type: 'depart', text: 'Départ confirmé T2 2026 · Bordeaux → Lisbonne' },
+    mirror: 29,
+    bg: 'linear-gradient(160deg,#0a0f1e 0%,#141f33 100%)',
+    avatarBg: 'rgba(34,197,94,0.1)', avatarColor: '#22c55e',
+  },
+];
+
+/* ============================================================
+   État
+   ============================================================ */
+var state = {
+  currentIndex: 0,
+  followed: [],
+  passed: [],
+};
+
+/* ============================================================
+   Rendu
+   ============================================================ */
+function renderCard() {
+  var cardEl     = document.getElementById('swipeCard');
+  var actionsEl  = document.getElementById('swipeActions');
+  var counterEl  = document.getElementById('swipeCounter');
+  var remaining  = PROFILES.length - state.currentIndex;
+
+  counterEl.textContent = remaining + ' profil' + (remaining > 1 ? 's' : '') + ' restant' + (remaining > 1 ? 's' : '');
+
+  if (state.currentIndex >= PROFILES.length) {
+    // État vide
+    cardEl.innerHTML =
+      '<div class="empty-state">' +
+        '<div class="empty-state__icon">✦</div>' +
+        '<div class="empty-state__title">Tu as tout vu !</div>' +
+        '<p class="empty-state__sub">Tu as parcouru tous les profils disponibles.<br>Reviens demain — de nouvelles personnes s\'installent chaque jour.</p>' +
+        '<a href="group.html" class="btn btn--primary btn--sm" style="font-size:12px;">Explorer les groupes pays</a>' +
+      '</div>';
+    actionsEl.style.visibility = 'hidden';
+    counterEl.textContent = '';
+    // Cacher les shadow hints
+    document.querySelectorAll('.swipe-stack-hint').forEach(function(el){ el.style.display = 'none'; });
+    return;
+  }
+
+  var p = PROFILES[state.currentIndex];
+  var mirrorHTML = p.mirror >= 50
+    ? '<div class="swipe-card__mirror-row">' +
+        '<span class="swipe-mirror-label">Score miroir</span>' +
+        '<span class="swipe-mirror-badge">🔀 ' + p.mirror + '/100</span>' +
+      '</div>'
+    : '';
+
+  var highlightText = '';
+  if (p.highlight.type === 'journal') {
+    highlightText = '📖 ' + p.highlight.text;
+  } else if (p.highlight.type === 'expertise') {
+    highlightText = '✦ ' + p.highlight.text;
+  } else if (p.highlight.type === 'depart') {
+    highlightText = '🗓 ' + p.highlight.text;
+  }
+
+  cardEl.innerHTML =
+    '<div class="swipe-card">' +
+
+      /* Cover */
+      '<div class="swipe-card__cover">' +
+        '<div class="swipe-card__cover-bg" style="background:' + p.bg + ';"></div>' +
+        '<div class="swipe-card__cover-overlay"></div>' +
+        '<div class="swipe-card__traj">' + p.traj + '</div>' +
+      '</div>' +
+
+      /* Body */
+      '<div class="swipe-card__body">' +
+
+        '<div class="swipe-card__name">' +
+          '<div style="display:inline-flex;align-items:center;justify-content:center;' +
+               'width:32px;height:32px;border-radius:50%;background:' + p.avatarBg + ';' +
+               'color:' + p.avatarColor + ';font-size:12px;font-weight:700;' +
+               'border:0.5px solid #1e2a3a;margin-right:8px;vertical-align:middle;">' +
+            p.initials +
+          '</div>' +
+          p.name +
+        '</div>' +
+
+        '<div class="swipe-card__status-row">' +
+          '<span class="pill">' + p.status + '</span>' +
+          (p.sector ? '<span class="text-caption">' + getSectorLabel(p.sector) + '</span>' : '') +
+        '</div>' +
+
+        '<div class="swipe-card__bio">' + escapeHTML(p.bio) + '</div>' +
+
+        '<div class="swipe-card__highlight">' +
+          '<strong>' + highlightText + '</strong>' +
+        '</div>' +
+
+        mirrorHTML +
+
+      '</div>' +
+    '</div>';
+}
+
+function getSectorLabel(sectorId) {
+  var map = {
+    tech: 'Tech', finance: 'Finance', health: 'Santé', law: 'Droit',
+    'real-estate': 'Immobilier', creative: 'Création', education: 'Éducation',
+    trade: 'Commerce', hospitality: 'Hôtellerie', other: 'Autre',
+  };
+  return map[sectorId] || sectorId;
+}
+
+function escapeHTML(str) {
+  return String(str || '')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+/* ============================================================
+   Actions
+   ============================================================ */
+function handleSwipe(action) {
+  var p = PROFILES[state.currentIndex];
+  if (!p) return;
+
+  if (action === 'pass') {
+    state.passed.push(p.id);
+    if (typeof showToast === 'function') showToast('Passé →');
+    animateOut('right');
+  } else if (action === 'follow') {
+    state.followed.push(p.id);
+    if (typeof showToast === 'function') showToast('✦ Tu suis maintenant ' + p.name, 'success');
+    animateOut('left');
+  } else if (action === 'profile') {
+    // MVP : redirige vers profile.html (future: profile.html?id=...)
+    window.location.href = 'profile.html';
+    return;
+  }
+
+  state.currentIndex++;
+  setTimeout(renderCard, 220);
+}
+
+function animateOut(dir) {
+  var card = document.getElementById('swipeCard');
+  if (!card) return;
+  var x = dir === 'right' ? '120%' : '-120%';
+  card.style.transition = 'transform 0.2s ease, opacity 0.2s ease';
+  card.style.transform  = 'translateX(' + x + ')';
+  card.style.opacity    = '0';
+}
+
+/* ============================================================
+   Touch / swipe gesture (mobile)
+   ============================================================ */
+(function() {
+  var startX = 0;
+  var isDragging = false;
+
+  document.addEventListener('touchstart', function(e) {
+    var stage = document.getElementById('swipeCard');
+    if (!stage) return;
+    startX = e.touches[0].clientX;
+    isDragging = true;
+    stage.style.transition = 'none';
+  }, { passive: true });
+
+  document.addEventListener('touchmove', function(e) {
+    if (!isDragging) return;
+    var stage = document.getElementById('swipeCard');
+    if (!stage) return;
+    var dx = e.touches[0].clientX - startX;
+    stage.style.transform = 'translateX(' + dx + 'px) rotate(' + (dx * 0.03) + 'deg)';
+  }, { passive: true });
+
+  document.addEventListener('touchend', function(e) {
+    if (!isDragging) return;
+    isDragging = false;
+    var stage = document.getElementById('swipeCard');
+    if (!stage) return;
+    var dx = e.changedTouches[0].clientX - startX;
+    if (dx > 80) {
+      handleSwipe('follow');
+    } else if (dx < -80) {
+      handleSwipe('pass');
+    } else {
+      stage.style.transition = 'transform 0.2s ease';
+      stage.style.transform  = '';
+    }
+  }, { passive: true });
+})();
+
+/* ============================================================
+   Init
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', function() {
+  renderCard();
+  if (typeof wcInitLangSwitcher === 'function') wcInitLangSwitcher();
+});
+</script>
+</body>
+</html>

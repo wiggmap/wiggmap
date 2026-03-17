@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="../assets/favicon.ico" />
+  <meta name="robots" content="noindex" />
+  <title>Feed · WiggMap Connect</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/connect.css" />
+  <style>
+    body { padding-top: 0; }
+    .feed-wrap { padding-bottom: 80px; }
+  </style>
+</head>
+<body>
+
+<!-- Barre retour -->
+<div style="background:#060b14; padding:6px 16px; border-bottom:0.5px solid #1a2535;">
+  <a href="/" style="font-size:11px; color:#3a4a5e; text-decoration:none;">← wiggmap.com</a>
+</div>
+
+<!-- Header principal -->
+<header style="display:flex; align-items:center; justify-content:center;
+               position:relative; padding:10px 16px; background:#0a0f1e;
+               border-bottom:0.5px solid #1e2a3a;">
+  <a href="/connect/">
+    <img src="assets/wiggmap-connect-logo.png"
+         style="height:52px; width:auto; display:block;"
+         alt="WiggMap Connect" />
+  </a>
+  <!-- Active count (left absolute) -->
+  <div style="position:absolute; left:16px; top:50%; transform:translateY(-50%);"
+       class="active-count">
+    <span class="pulse-dot"></span>
+    <span id="activeCount">247 actifs</span>
+  </div>
+  <!-- Lang switcher (right absolute) -->
+  <div style="position:absolute; right:16px; top:50%; transform:translateY(-50%);"
+       id="wcLangWrap">
+    <button id="wcLangBtn"
+            onclick="document.getElementById('wcLangDd').style.display=
+                     document.getElementById('wcLangDd').style.display==='block'?'none':'block'"
+            style="background:none; border:0.5px solid #1e2a3a; border-radius:20px;
+                   padding:5px 12px; font-size:12px; font-weight:500;
+                   color:#22c55e; cursor:pointer;"></button>
+    <div id="wcLangDd"
+         style="display:none; position:absolute; right:0; top:calc(100% + 6px);
+                background:#0d1629; border:0.5px solid #1e2a3a; border-radius:10px;
+                overflow:hidden; min-width:60px; z-index:999;"></div>
+  </div>
+</header>
+
+<!-- Feed tabs -->
+<div class="feed-tabs" id="feedTabs">
+  <button class="feed-tab active" data-tab="monde" onclick="switchTab('monde',this)">Mon Monde</button>
+  <button class="feed-tab" data-tab="decouvrir" onclick="switchTab('decouvrir',this)">Découvrir</button>
+  <button class="feed-tab" data-tab="pays" onclick="switchTab('pays',this)">Pays</button>
+</div>
+
+<!-- ================================================
+     TAB 1 — MON MONDE
+     ================================================ -->
+<div id="tabMonde" class="tab-panel active feed-wrap">
+
+  <!-- ① Reel hero -->
+  <div class="reel-hero">
+    <div class="reel-hero__bg reel-hero__bg--portugal"></div>
+    <!-- Skyline SVG Portugal -->
+    <svg class="reel-hero__skyline" viewBox="0 0 480 90" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax slice">
+      <path d="M0 90 L0 55 L20 55 L20 40 L30 40 L30 55 L60 55 L60 30 L75 30 L75 55
+               L100 55 L100 42 L108 42 L108 35 L116 35 L116 42 L124 42 L124 55
+               L160 55 L160 45 L170 45 L170 55 L200 55 L200 38 L210 38 L210 28
+               L220 28 L220 38 L230 38 L230 55 L260 55 L260 48 L272 48 L272 55
+               L300 55 L300 35 L312 35 L312 20 L320 20 L320 35 L332 35 L332 55
+               L360 55 L360 42 L380 42 L380 55 L420 55 L420 48 L440 48 L440 55
+               L480 55 L480 90 Z"
+            fill="#22c55e"/>
+    </svg>
+    <div class="reel-hero__overlay">
+      <div class="reel-hero__meta">
+        <span class="badge badge--temoignage">Témoignage</span>
+        <span class="reel-hero__location">🇵🇹 Porto</span>
+      </div>
+      <p class="reel-hero__quote">"14 mois à Porto. Le soleil m'a sauvé — et mon compte en banque aussi."</p>
+      <div class="reel-hero__author">
+        <div class="profile-disc__avatar" style="width:32px;height:32px;font-size:11px;flex-shrink:0;">SD</div>
+        <div>
+          <div class="reel-hero__author-name">Sophie D.</div>
+          <div class="reel-hero__author-traj">🇫🇷 Lyon → 🇵🇹 Porto</div>
+        </div>
+      </div>
+      <button class="reel-hero__read-btn" style="margin-top:16px;">Lire le témoignage →</button>
+    </div>
+  </div>
+
+  <!-- Feed cards — rythme : FLASH → JOURNAL → PROFIL → QUESTION → boucle -->
+  <div class="feed-list">
+
+    <!-- ② Flash vérifié -->
+    <div class="feed-card">
+      <div class="feed-card__header">
+        <span class="badge badge--flash" style="display:flex;align-items:center;gap:6px;">
+          <span class="pulse-dot pulse-dot--amber"></span>
+          Flash
+        </span>
+        <span class="feed-card__confirm">✓ Confirmé · 12 membres</span>
+      </div>
+      <h3 class="feed-card__title">Les loyers à Porto reculent de 7% en Q1 2026</h3>
+      <p class="feed-card__body">Après 3 ans de hausse continue, le marché commence à se corriger dans les quartiers nord et Matosinhos. Les expats signalent des renégociations acceptées par les propriétaires.</p>
+      <div class="feed-card__footer">
+        <div class="life-route">
+          <span class="life-route__flag">🇵🇹</span>
+          <span class="life-route__city">Porto</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button class="helped-btn" onclick="toggleHelped(this)">✦ Aidé (12)</button>
+          <span class="text-caption">2h</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ③ Journal épisode -->
+    <div class="feed-card" style="border-color:rgba(55,138,221,0.3);">
+      <div class="feed-card__header">
+        <span class="badge badge--journal" style="display:flex;align-items:center;gap:5px;">
+          <span class="pulse-dot" style="background:#378add;width:5px;height:5px;"></span>
+          Journal · Ep. 7
+        </span>
+        <span class="text-micro">247 abonnés</span>
+      </div>
+      <h3 class="feed-card__title">Mon premier appartement à Tokyo — sans garant</h3>
+      <p class="feed-card__body">Trouver un appart à Tokyo sans garantor japonais : le vrai parcours. Ce que j'ai appris sur les fintechs qui cautionnent les étrangers.</p>
+      <div class="journal-progress"><div class="journal-progress__bar" style="width:65%;"></div></div>
+      <div class="feed-card__footer">
+        <div class="life-route">
+          <span class="life-route__flag">🇫🇷</span>
+          <span class="life-route__city">Paris</span>
+          <span class="life-route__arrow">→</span>
+          <span class="life-route__flag">🇯🇵</span>
+          <span class="life-route__city">Tokyo</span>
+        </div>
+        <span style="font-size:11px;color:var(--wigg-text-3);">Marc A. · hier</span>
+      </div>
+    </div>
+
+    <!-- ④ Profil à découvrir -->
+    <div class="feed-card" style="padding:14px;">
+      <div class="section-title" style="margin-bottom:12px;">Profil qui pourrait t'intéresser</div>
+      <div class="profile-disc">
+        <div class="profile-disc__avatar">CM</div>
+        <div class="profile-disc__info">
+          <div class="profile-disc__name">Carlos M.</div>
+          <div class="profile-disc__traj">🇧🇷 São Paulo → 🇫🇷 Lyon</div>
+          <div class="profile-disc__bio">Arrivé il y a 8 mois. Finance & fiscalité franco-brésilienne.</div>
+        </div>
+        <button class="helps-btn btn btn--sm btn--ghost">Suivre</button>
+      </div>
+      <div style="margin-top:12px;padding-top:12px;border-top:var(--border);display:flex;align-items:center;justify-content:space-between;">
+        <span style="font-size:11px;color:var(--wigg-text-3);">Miroir 🔀 Score 85/100</span>
+        <a href="profile.html" style="font-size:11px;color:var(--wigg-green);font-weight:500;">Voir le profil →</a>
+      </div>
+    </div>
+
+    <!-- ⑤ Question urgente -->
+    <div class="feed-card" style="border-color:rgba(212,83,126,0.3);">
+      <div class="feed-card__header">
+        <span class="badge badge--question" style="display:flex;align-items:center;gap:6px;">
+          <span class="pulse-dot pulse-dot--pink"></span>
+          Urgente · 31h sans réponse
+        </span>
+      </div>
+      <h3 class="feed-card__title">NHR Portugal — mon employeur français peut-il me payer en remote ?</h3>
+      <p class="feed-card__body">Je signe mon contrat au Portugal sous le régime IFICI. Mon employeur reste en France. Comment ça se passe pour les cotisations et la déclaration fiscale ?</p>
+      <div class="feed-card__footer">
+        <div class="life-route">
+          <span class="life-route__flag">🇫🇷</span>
+          <span class="life-route__city">Bordeaux</span>
+          <span class="life-route__arrow">→</span>
+          <span class="life-route__flag">🇵🇹</span>
+          <span class="life-route__city">Lisbonne</span>
+        </div>
+        <button class="question-card__reply">Répondre</button>
+      </div>
+    </div>
+
+    <!-- ① Reel (mini) -->
+    <div class="feed-card" style="padding:0;overflow:hidden;">
+      <div style="height:160px;position:relative;background:linear-gradient(160deg,#1a0a15 0%,#2d1525 100%);display:flex;align-items:flex-end;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,15,30,0.95) 0%,transparent 60%);"></div>
+        <div style="position:relative;padding:14px;">
+          <span class="badge badge--temoignage" style="margin-bottom:8px;display:inline-flex;">Reel</span>
+          <p style="font-size:14px;font-weight:600;color:#fff;margin-bottom:6px;">"Osaka en solo — 6 mois, 0 regrets"</p>
+          <div style="font-size:11px;color:var(--wigg-green);">🇩🇪 Berlin → 🇯🇵 Osaka · Amélie R.</div>
+        </div>
+      </div>
+      <div class="feed-card__footer" style="padding:12px 14px;">
+        <span style="font-size:11px;color:var(--wigg-text-3);">3 jours · 89 ✦ aidés</span>
+        <button class="helped-btn" onclick="toggleHelped(this)">✦ Aidé (89)</button>
+      </div>
+    </div>
+
+    <!-- ② Flash -->
+    <div class="feed-card">
+      <div class="feed-card__header">
+        <span class="badge badge--flash" style="display:flex;align-items:center;gap:6px;">
+          <span class="pulse-dot pulse-dot--amber"></span>
+          Flash
+        </span>
+        <span class="feed-card__confirm">✓ Confirmé · 8 membres</span>
+      </div>
+      <h3 class="feed-card__title">Thaïlande : le LTR Visa accepte désormais les revenus Crypto</h3>
+      <p class="feed-card__body">Mise à jour officielle du Board of Investment thaïlandais — les revenus issus de crypto peuvent compter pour le seuil de 80 000$/an du LTR.</p>
+      <div class="feed-card__footer">
+        <div class="life-route">
+          <span class="life-route__flag">🇹🇭</span>
+          <span class="life-route__city">Bangkok</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button class="helped-btn" onclick="toggleHelped(this)">✦ Aidé (8)</button>
+          <span class="text-caption">4h</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ③ Journal 2 -->
+    <div class="feed-card" style="border-color:rgba(55,138,221,0.3);">
+      <div class="feed-card__header">
+        <span class="badge badge--journal">Journal · Ep. 3</span>
+        <span class="text-micro">🇦🇺 Sydney</span>
+      </div>
+      <h3 class="feed-card__title">Scolariser ses enfants à Sydney : ce que personne ne dit</h3>
+      <p class="feed-card__body">Les frais de l'école internationale peuvent doubler votre budget prévu. On a trouvé une alternative qui fonctionne vraiment.</p>
+      <div class="journal-progress"><div class="journal-progress__bar" style="width:30%;"></div></div>
+      <div class="feed-card__footer">
+        <div class="life-route">
+          <span class="life-route__flag">🇫🇷</span>
+          <span class="life-route__city">Nantes</span>
+          <span class="life-route__arrow">→</span>
+          <span class="life-route__flag">🇦🇺</span>
+          <span class="life-route__city">Sydney</span>
+        </div>
+        <span style="font-size:11px;color:var(--wigg-text-3);">Laure &amp; Tom · 5j</span>
+      </div>
+    </div>
+
+  </div><!-- /feed-list -->
+</div><!-- /tabMonde -->
+
+<!-- ================================================
+     TAB 2 — DÉCOUVRIR
+     ================================================ -->
+<div id="tabDecouvrir" class="tab-panel feed-wrap">
+
+  <!-- Mini globe SVG -->
+  <div class="mini-globe-wrap">
+    <svg class="mini-globe-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="60" cy="60" r="52" fill="#0d1629" stroke="#1e2a3a" stroke-width="0.5"/>
+      <!-- Continents simplifiés -->
+      <ellipse cx="42" cy="45" rx="18" ry="12" fill="#141f33" opacity="0.8"/>
+      <ellipse cx="40" cy="62" rx="12" ry="14" fill="#141f33" opacity="0.8"/>
+      <ellipse cx="68" cy="42" rx="22" ry="14" fill="#141f33" opacity="0.8"/>
+      <ellipse cx="75" cy="60" rx="8" ry="6" fill="#141f33" opacity="0.8"/>
+      <ellipse cx="85" cy="72" rx="10" ry="7" fill="#141f33" opacity="0.8"/>
+      <!-- Points actifs -->
+      <circle cx="44" cy="47" r="3" fill="#22c55e" opacity="0.9">
+        <animate attributeName="opacity" values="0.9;0.3;0.9" dur="1.8s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="70" cy="44" r="3" fill="#22c55e" opacity="0.7">
+        <animate attributeName="opacity" values="0.7;0.2;0.7" dur="2.2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="38" cy="65" r="2.5" fill="#22c55e" opacity="0.8">
+        <animate attributeName="opacity" values="0.8;0.3;0.8" dur="1.5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="85" cy="70" r="2" fill="#22c55e" opacity="0.6">
+        <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2.5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="76" cy="58" r="2" fill="#ef9f27" opacity="0.8">
+        <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <text x="60" y="107" text-anchor="middle" font-size="7" fill="#3a4a5e" font-family="Poppins">5 régions actives</text>
+    </svg>
+  </div>
+
+  <div class="discover-section">
+    <div class="section-header" style="margin-bottom:16px;">
+      <span class="section-title">Sélection éditoriale</span>
+      <span style="font-size:10px;color:var(--wigg-text-4);">Mis à jour aujourd'hui</span>
+    </div>
+
+    <!-- Card éditorial 1 -->
+    <div class="feed-card" style="border-left:3px solid var(--wigg-green);margin-bottom:10px;">
+      <div class="feed-card__header">
+        <span class="badge badge--green">À la une</span>
+        <span class="text-micro">Portugal</span>
+      </div>
+      <h3 class="feed-card__title">Le IFICI (ex-NHR) — ce qui a changé pour 2026</h3>
+      <p class="feed-card__body">23 témoignages consolidés par la communauté sur les nouvelles conditions du régime fiscal portugais. Ce que les avocats locaux confirment.</p>
+      <div class="feed-card__footer">
+        <span style="font-size:11px;color:var(--wigg-text-3);">23 contributions · 341 ✦ aidés</span>
+        <button class="helped-btn" onclick="toggleHelped(this)">✦ Aidé</button>
+      </div>
+    </div>
+
+    <!-- Card éditorial 2 -->
+    <div class="feed-card" style="margin-bottom:10px;">
+      <div class="feed-card__header">
+        <span class="badge badge--journal">Série</span>
+        <span class="text-micro">Thaïlande</span>
+      </div>
+      <h3 class="feed-card__title">Famille en Thaïlande — le journal de Chiang Mai</h3>
+      <p class="feed-card__body">Une famille de 4 documente son installation depuis le début. Visa, école, santé, budget réel — 12 épisodes publiés.</p>
+      <div class="journal-progress"><div class="journal-progress__bar" style="width:85%;background:var(--wigg-blue);"></div></div>
+      <div class="feed-card__footer">
+        <span style="font-size:11px;color:var(--wigg-text-3);">12 épisodes · 189 abonnés</span>
+        <button class="question-card__reply">Lire depuis le début</button>
+      </div>
+    </div>
+
+    <!-- Card éditorial 3 — profil vedette -->
+    <div class="feed-card">
+      <div class="section-title" style="margin-bottom:12px;">Profil de la semaine</div>
+      <div class="profile-disc">
+        <div class="profile-disc__avatar" style="background:rgba(55,138,221,0.15);color:#378add;">LB</div>
+        <div class="profile-disc__info">
+          <div class="profile-disc__name">Laure B.</div>
+          <div class="profile-disc__traj">🇫🇷 Paris → 🇯🇵 Tokyo</div>
+          <div class="profile-disc__bio">Avocate reconvertie en freelance. 2 ans à Tokyo. Répond sur : Visa, droit du travail JP, scolarité franco-japonaise.</div>
+        </div>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:8px;">
+        <button class="btn btn--ghost btn--sm flex-1">Message</button>
+        <button class="btn btn--primary btn--sm flex-1">Suivre</button>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /tabDecouvrir -->
+
+<!-- ================================================
+     TAB 3 — PAYS
+     ================================================ -->
+<div id="tabPays" class="tab-panel feed-wrap">
+  <div class="pays-section">
+
+    <div class="section-header" style="margin-bottom:16px;">
+      <span class="section-title">Groupes suivis</span>
+      <a href="group.html" style="font-size:11px;color:var(--wigg-green);">Tout voir</a>
+    </div>
+
+    <a href="group.html?country=portugal" style="display:block;">
+      <div class="pays-card">
+        <div class="pays-card__cover" style="background:linear-gradient(135deg,#241508,#3d2008);">🇵🇹</div>
+        <div class="pays-card__info">
+          <div class="pays-card__name">Portugal</div>
+          <div class="pays-card__meta">
+            <span class="active-count" style="font-size:10px;"><span class="pulse-dot" style="width:5px;height:5px;"></span> 84 actifs</span>
+            · 3 nouveaux posts · Flash terrain
+          </div>
+        </div>
+        <span class="pays-card__cta">Voir</span>
+      </div>
+    </a>
+
+    <a href="group.html?country=thailand" style="display:block;">
+      <div class="pays-card">
+        <div class="pays-card__cover" style="background:linear-gradient(135deg,#0a1508,#0e2210);">🇹🇭</div>
+        <div class="pays-card__info">
+          <div class="pays-card__name">Thaïlande</div>
+          <div class="pays-card__meta">
+            <span class="active-count" style="font-size:10px;"><span class="pulse-dot" style="width:5px;height:5px;"></span> 61 actifs</span>
+            · Journal mis à jour · 2 questions
+          </div>
+        </div>
+        <span class="pays-card__cta">Voir</span>
+      </div>
+    </a>
+
+    <a href="group.html?country=japan" style="display:block;">
+      <div class="pays-card">
+        <div class="pays-card__cover" style="background:linear-gradient(135deg,#1a0a15,#2d1525);">🇯🇵</div>
+        <div class="pays-card__info">
+          <div class="pays-card__name">Japon</div>
+          <div class="pays-card__meta">
+            <span class="active-count" style="font-size:10px;"><span class="pulse-dot" style="width:5px;height:5px;"></span> 48 actifs</span>
+            · Logement Tokyo mis à jour
+          </div>
+        </div>
+        <span class="pays-card__cta">Voir</span>
+      </div>
+    </a>
+
+    <div class="section-header" style="margin-top:20px;margin-bottom:16px;">
+      <span class="section-title">Suggestions pour toi</span>
+    </div>
+
+    <a href="group.html?country=germany" style="display:block;">
+      <div class="pays-card">
+        <div class="pays-card__cover" style="background:linear-gradient(135deg,#08101a,#0a1828);">🇩🇪</div>
+        <div class="pays-card__info">
+          <div class="pays-card__name">Allemagne</div>
+          <div class="pays-card__meta">312 membres · 5 profils miroir disponibles</div>
+        </div>
+        <button class="pays-card__cta" style="cursor:pointer;" onclick="event.preventDefault()">+ Rejoindre</button>
+      </div>
+    </a>
+
+    <a href="group.html?country=colombia" style="display:block;">
+      <div class="pays-card">
+        <div class="pays-card__cover" style="background:linear-gradient(135deg,#0f1505,#1a2008);">🇨🇴</div>
+        <div class="pays-card__info">
+          <div class="pays-card__name">Colombie</div>
+          <div class="pays-card__meta">148 membres · Visa Nomade actif</div>
+        </div>
+        <button class="pays-card__cta" style="cursor:pointer;" onclick="event.preventDefault()">+ Rejoindre</button>
+      </div>
+    </a>
+
+  </div>
+</div><!-- /tabPays -->
+
+<!-- Bottom nav -->
+<nav class="connect-bottombar">
+  <a href="index.html" class="connect-bottombar__item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+      <polyline points="9 22 9 12 15 12 15 22"/>
+    </svg>
+    <span class="connect-bottombar__label">Accueil</span>
+  </a>
+  <a href="feed.html" class="connect-bottombar__item active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/>
+      <line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/>
+      <line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>
+    </svg>
+    <span class="connect-bottombar__label">Feed</span>
+  </a>
+  <a href="swipe.html" class="connect-bottombar__item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+    </svg>
+    <span class="connect-bottombar__label">Swipe</span>
+  </a>
+  <a href="profile.html" class="connect-bottombar__item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+      <circle cx="12" cy="7" r="4"/>
+    </svg>
+    <span class="connect-bottombar__label">Profil</span>
+  </a>
+</nav>
+
+<footer class="wc-footer">
+  <a href="/">wiggmap.com</a>
+  <span>·</span>
+  <a href="/connect/">WiggMap Connect</a>
+  <span>·</span>
+  <span>Beta</span>
+</footer>
+
+<script src="assets/connect.js"></script>
+<script>
+'use strict';
+
+/* Tab switching */
+function switchTab(tabId, btn) {
+  document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.feed-tab').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById('tab' + tabId.charAt(0).toUpperCase() + tabId.slice(1)).classList.add('active');
+  btn.classList.add('active');
+}
+
+/* Helped toggle */
+function toggleHelped(btn) {
+  btn.classList.toggle('done');
+  var text = btn.textContent;
+  var match = text.match(/\((\d+)\)/);
+  if (match) {
+    var n = parseInt(match[1]);
+    btn.textContent = btn.classList.contains('done')
+      ? text.replace('(' + n + ')', '(' + (n+1) + ')')
+      : text.replace('(' + n + ')', '(' + (n-1) + ')');
+  }
+}
+
+/* Lang switcher */
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof wcInitLangSwitcher === 'function') wcInitLangSwitcher();
+});
+</script>
+</body>
+</html>
