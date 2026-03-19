@@ -454,6 +454,10 @@
     "/chronicles/chronicle-healthcare-expats-2026-en.html":  { en: "/chronicles/chronicle-healthcare-expats-2026-en.html",  fr: "/chronicles/chronicle-sante-expats-2026-fr.html",  es: "/chronicles/chronicle-salud-expats-2026-es.html" },
     "/chronicles/chronicle-sante-expats-2026-fr.html":       { en: "/chronicles/chronicle-healthcare-expats-2026-en.html",  fr: "/chronicles/chronicle-sante-expats-2026-fr.html",  es: "/chronicles/chronicle-salud-expats-2026-es.html" },
     "/chronicles/chronicle-salud-expats-2026-es.html":       { en: "/chronicles/chronicle-healthcare-expats-2026-en.html",  fr: "/chronicles/chronicle-sante-expats-2026-fr.html",  es: "/chronicles/chronicle-salud-expats-2026-es.html" },
+
+    "/chronicles/chronicle-forgotten-expat-countries-2026-en.html":       { en: "/chronicles/chronicle-forgotten-expat-countries-2026-en.html",       fr: "/chronicles/chronicle-pays-oublies-expatriation-2026-fr.html",       es: "/chronicles/chronicle-paises-olvidados-expatriacion-2026-es.html" },
+    "/chronicles/chronicle-pays-oublies-expatriation-2026-fr.html":      { en: "/chronicles/chronicle-forgotten-expat-countries-2026-en.html",       fr: "/chronicles/chronicle-pays-oublies-expatriation-2026-fr.html",       es: "/chronicles/chronicle-paises-olvidados-expatriacion-2026-es.html" },
+    "/chronicles/chronicle-paises-olvidados-expatriacion-2026-es.html":  { en: "/chronicles/chronicle-forgotten-expat-countries-2026-en.html",       fr: "/chronicles/chronicle-pays-oublies-expatriation-2026-fr.html",       es: "/chronicles/chronicle-paises-olvidados-expatriacion-2026-es.html" },
   };
 
   // Lang selection

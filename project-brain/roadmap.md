@@ -35,17 +35,24 @@ WiggMap est une plateforme éducative, récréative et attractive sur les pays d
 ## État SEO (Mars 2026)
 
 ### Complété ✅
-- Canonicals : 33/33 chronicles corrects
+- Canonicals : 42/42 chronicles corrects
 - robots.txt + sitemap.xml (229 URLs)
-- hreflang sur les 33 chronicles (HTML + CHRONICLE_LANGS header.js)
+- hreflang sur les 42 chronicles (HTML + CHRONICLE_LANGS header.js)
 - Titles + meta descriptions différenciés sur 161 pays
 - H1 vide country.html + canonical dynamique via setSeo()
 - Maillage pays ↔ chronicles : 67 pays couverts
-- header.js CHRONICLE_LANGS : complet incluant Visa 2026
+- header.js CHRONICLE_LANGS : complet incluant Visa 2026, Asie Expatriation et Pays oubliés
 
 ### En attente 🔲
 - Série Visa 2026 absente de `CHRONICLES.countries` dans country.html
 - sitemap.xml : vérifier présence des 9 URLs Visa 2026
+- header.js `CHRONICLE_LANGS` : ajouter les 2 groupes Asie Expatriation (Partie 1 + Partie 2)
+- `CHRONICLES._index` dans country.html : ajouter les 2 groupes Asie Expatriation
+- `CHRONICLES.countries` dans country.html : ajouter les pays Asie Expatriation (Partie 1 → thailand, vietnam, indonesia, philippines / Partie 2 → japan, laos, china, cambodia)
+- sitemap.xml : ajouter les 6 URLs Asie Expatriation (3 par partie)
+- `CHRONICLES._index` dans country.html : ajouter le groupe Pays oubliés
+- `CHRONICLES.countries` dans country.html : ajouter les pays Pays oubliés
+- sitemap.xml : ajouter les 3 URLs Pays oubliés
 - compare.html + country.html sans paramètres = pages vides indexables
 - Compare statiques : pas de hreflang (perte audience FR/ES)
 - Liens compare pages pays : seulement ~20 pays couverts dans COMPARE_PAIRS

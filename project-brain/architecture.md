@@ -133,12 +133,13 @@ Deux objets hardcodés dans le JS de country.html :
 **`CHRONICLES.countries`** : mapping slug pays → array d'IDs de groupes (67 pays couverts)
 
 ⚠️ La série Visa 2026 n'est PAS encore dans `CHRONICLES.countries` — à ajouter.
+⚠️ La série Asie Expatriation (Partie 1 + 2) n'est PAS encore dans `CHRONICLES._index` ni `CHRONICLES.countries` — à ajouter (Partie 1 → thailand, vietnam, indonesia, philippines / Partie 2 → japan, laos, china, cambodia).
 
 **`COMPARE_PAIRS`** : mapping slug pays → array de paires compare statiques (max 4 affichées)
 
 ---
 
-## Chronicles existantes — 11 groupes × 3 langues = 33 fichiers
+## Chronicles existantes — 14 groupes × 3 langues = 42 fichiers
 
 | Groupe | EN | FR | ES |
 |--------|----|----|-----|
@@ -153,8 +154,11 @@ Deux objets hardcodés dans le JS de country.html :
 | Visas Retraite | chronicle-retirement-visas-2026-en.html | chronicle-visas-retraite-2026-fr.html | chronicle-visas-jubilacion-2026-es.html |
 | Visas Digital Nomad | chronicle-digital-nomad-visas-2026-en.html | chronicle-visas-digital-nomads-2026-fr.html | chronicle-visas-nomadas-digitales-2026-es.html |
 | Visas Expatriation | chronicle-expat-work-visas-2026-en.html | chronicle-visas-expatriation-durable-2026-fr.html | chronicle-visas-expatriacion-2026-es.html |
+| Asie Expatriation Partie 1 | chronicle-asia-expat-guide-part1-2026-en.html | chronicle-asie-expatriation-partie1-2026-fr.html | chronicle-asia-guia-expatriados-parte1-2026-es.html |
+| Asie Expatriation Partie 2 | chronicle-asia-expat-guide-part2-2026-en.html | chronicle-asie-expatriation-partie2-2026-fr.html | chronicle-asia-guia-expatriados-parte2-2026-es.html |
+| Pays oubliés | chronicle-forgotten-expat-countries-2026-en.html | chronicle-pays-oublies-expatriation-2026-fr.html | chronicle-paises-olvidados-expatriacion-2026-es.html |
 
-**CHRONICLE_LANGS dans header.js : ✅ complet** — tous les 11 groupes mappés.
+**CHRONICLE_LANGS dans header.js : ✅ complet** — tous les 14 groupes mappés.
 
 ---
 
