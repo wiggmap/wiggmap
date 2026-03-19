@@ -458,6 +458,14 @@
     "/chronicles/chronicle-forgotten-expat-countries-2026-en.html":       { en: "/chronicles/chronicle-forgotten-expat-countries-2026-en.html",       fr: "/chronicles/chronicle-pays-oublies-expatriation-2026-fr.html",       es: "/chronicles/chronicle-paises-olvidados-expatriacion-2026-es.html" },
     "/chronicles/chronicle-pays-oublies-expatriation-2026-fr.html":      { en: "/chronicles/chronicle-forgotten-expat-countries-2026-en.html",       fr: "/chronicles/chronicle-pays-oublies-expatriation-2026-fr.html",       es: "/chronicles/chronicle-paises-olvidados-expatriacion-2026-es.html" },
     "/chronicles/chronicle-paises-olvidados-expatriacion-2026-es.html":  { en: "/chronicles/chronicle-forgotten-expat-countries-2026-en.html",       fr: "/chronicles/chronicle-pays-oublies-expatriation-2026-fr.html",       es: "/chronicles/chronicle-paises-olvidados-expatriacion-2026-es.html" },
+
+    "/chronicles/chronicle-asia-expat-guide-part1-2026-en.html":         { en: "/chronicles/chronicle-asia-expat-guide-part1-2026-en.html",         fr: "/chronicles/chronicle-asie-expatriation-partie1-2026-fr.html",       es: "/chronicles/chronicle-asia-guia-expatriados-parte1-2026-es.html" },
+    "/chronicles/chronicle-asie-expatriation-partie1-2026-fr.html":      { en: "/chronicles/chronicle-asia-expat-guide-part1-2026-en.html",         fr: "/chronicles/chronicle-asie-expatriation-partie1-2026-fr.html",       es: "/chronicles/chronicle-asia-guia-expatriados-parte1-2026-es.html" },
+    "/chronicles/chronicle-asia-guia-expatriados-parte1-2026-es.html":   { en: "/chronicles/chronicle-asia-expat-guide-part1-2026-en.html",         fr: "/chronicles/chronicle-asie-expatriation-partie1-2026-fr.html",       es: "/chronicles/chronicle-asia-guia-expatriados-parte1-2026-es.html" },
+
+    "/chronicles/chronicle-asia-expat-guide-part2-2026-en.html":         { en: "/chronicles/chronicle-asia-expat-guide-part2-2026-en.html",         fr: "/chronicles/chronicle-asie-expatriation-partie2-2026-fr.html",       es: "/chronicles/chronicle-asia-guia-expatriados-parte2-2026-es.html" },
+    "/chronicles/chronicle-asie-expatriation-partie2-2026-fr.html":      { en: "/chronicles/chronicle-asia-expat-guide-part2-2026-en.html",         fr: "/chronicles/chronicle-asie-expatriation-partie2-2026-fr.html",       es: "/chronicles/chronicle-asia-guia-expatriados-parte2-2026-es.html" },
+    "/chronicles/chronicle-asia-guia-expatriados-parte2-2026-es.html":   { en: "/chronicles/chronicle-asia-expat-guide-part2-2026-en.html",         fr: "/chronicles/chronicle-asie-expatriation-partie2-2026-fr.html",       es: "/chronicles/chronicle-asia-guia-expatriados-parte2-2026-es.html" },
   };
 
   // Lang selection
