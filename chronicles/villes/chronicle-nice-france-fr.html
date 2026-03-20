@@ -39,11 +39,13 @@ body{font-family:var(--sans);color:var(--ink);background:var(--paper);font-size:
 .hero{
   display:grid;
   grid-template-columns:1fr 1fr;
+  height:280px;
   background:var(--ink);
   position:relative;
 }
 @media(max-width:720px){
-  .hero{grid-template-columns:1fr}
+  .hero{grid-template-columns:1fr;height:auto}
+  .hero-img-side{height:200px}
 }
 
 .hero-img-side{
@@ -51,7 +53,7 @@ body{font-family:var(--sans);color:var(--ink);background:var(--paper);font-size:
   overflow:hidden;
 }
 .hero-img-side img{
-  width:50%;height:auto;
+  width:70%;height:auto;
   display:block;opacity:0.85;
   margin:auto;
 }
