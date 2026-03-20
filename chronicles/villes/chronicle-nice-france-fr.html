@@ -39,13 +39,13 @@ body{font-family:var(--sans);color:var(--ink);background:var(--paper);font-size:
 .hero{
   display:grid;
   grid-template-columns:1fr 1fr;
-  min-height:380px;
+  height:220px;
   background:var(--ink);
   position:relative;
 }
 @media(max-width:720px){
-  .hero{grid-template-columns:1fr;min-height:auto}
-  .hero-img-side{height:240px}
+  .hero{grid-template-columns:1fr;height:auto}
+  .hero-img-side{height:140px}
 }
 
 .hero-img-side{
@@ -72,55 +72,55 @@ body{font-family:var(--sans);color:var(--ink);background:var(--paper);font-size:
   display:flex;
   flex-direction:column;
   justify-content:center;
-  padding:40px 44px;
+  padding:24px 32px;
   position:relative;
 }
-@media(max-width:720px){.hero-text-side{padding:28px 20px 32px}}
+@media(max-width:720px){.hero-text-side{padding:18px 16px 22px}}
 
 .hero-eyebrow{
-  display:flex;align-items:center;gap:10px;
-  font-family:var(--sans);font-size:11px;font-weight:500;
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--sans);font-size:10px;font-weight:500;
   letter-spacing:0.2em;text-transform:uppercase;
-  color:var(--g);margin-bottom:16px;
+  color:var(--g);margin-bottom:10px;
 }
 .hero-eyebrow::before{
-  content:'';display:block;width:24px;height:1px;background:var(--g);
+  content:'';display:block;width:20px;height:1px;background:var(--g);
 }
 
 .hero-city{
   font-family:var(--serif);
-  font-size:clamp(48px,6vw,72px);
+  font-size:clamp(32px,5vw,48px);
   font-weight:900;
   line-height:0.9;
   color:var(--white);
   letter-spacing:-0.03em;
-  margin-bottom:6px;
+  margin-bottom:4px;
 }
 
 .hero-country{
   font-family:var(--display);
   font-style:italic;
-  font-size:clamp(16px,2.2vw,22px);
+  font-size:clamp(13px,1.8vw,17px);
   color:rgba(255,255,255,0.45);
-  margin-bottom:24px;
+  margin-bottom:14px;
   letter-spacing:0.02em;
 }
 
 .hero-stats{
-  display:flex;gap:24px;flex-wrap:wrap;
+  display:flex;gap:18px;flex-wrap:wrap;
 }
 
 .hero-stat{
-  display:flex;flex-direction:column;gap:2px;
+  display:flex;flex-direction:column;gap:1px;
 }
 
 .hero-stat-val{
-  font-family:var(--sans);font-size:22px;font-weight:500;
+  font-family:var(--sans);font-size:17px;font-weight:500;
   color:var(--g);line-height:1;
 }
 
 .hero-stat-lbl{
-  font-family:var(--sans);font-size:10px;font-weight:400;
+  font-family:var(--sans);font-size:9px;font-weight:400;
   color:rgba(255,255,255,0.4);letter-spacing:0.08em;text-transform:uppercase;
 }
 
