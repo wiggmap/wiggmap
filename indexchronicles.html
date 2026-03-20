@@ -46,6 +46,8 @@
       --theme-nomad:#0f82a2;
       --theme-future:#7d55d8;
       --theme-family:#d7731d;
+      --theme-dest:#c0792e;
+      --theme-city:#6b7280;
     }
 
     *{box-sizing:border-box;margin:0;padding:0}
@@ -163,47 +165,6 @@
       margin-bottom:24px;
     }
 
-    .masthead-search{
-      position:relative;
-      max-width:430px;
-    }
-
-    .masthead-search svg{
-      position:absolute;
-      left:15px;
-      top:50%;
-      transform:translateY(-50%);
-      color:rgba(23,23,20,.42);
-      pointer-events:none;
-    }
-
-    .masthead-search input{
-      width:100%;
-      height:52px;
-      border:none;
-      outline:none;
-      border-radius:15px;
-      background:rgba(255,255,255,.88);
-      box-shadow:
-        inset 0 0 0 1px rgba(23,23,20,.08),
-        0 8px 18px rgba(23,23,20,.03);
-      padding:0 16px 0 46px;
-      font:600 14px "Inter",system-ui,sans-serif;
-      color:var(--ink);
-      transition:box-shadow .18s ease;
-    }
-
-    .masthead-search input::placeholder{
-      color:rgba(23,23,20,.42);
-    }
-
-    .masthead-search input:focus{
-      box-shadow:
-        inset 0 0 0 1px rgba(29,127,72,.28),
-        0 0 0 4px rgba(29,127,72,.08),
-        0 10px 24px rgba(23,23,20,.05);
-    }
-
     .masthead-media{
       min-width:0;
       display:flex;
@@ -270,345 +231,74 @@
         grid-template-columns:1fr;
         gap:16px;
       }
-
-      .masthead-copy{
-        padding:6px 4px 0;
-      }
-
-      .masthead-art{
-        min-height:230px;
-      }
+      .masthead-copy{padding:6px 4px 0}
+      .masthead-art{min-height:230px}
     }
 
     @media (max-width:640px){
-      .masthead{
-        border-radius:24px;
-      }
-
-      .masthead-inner{
-        padding:16px;
-      }
-
-      .masthead h1{
-        font-size:clamp(34px, 12vw, 56px);
-        max-width:9ch;
-      }
-
-      .masthead-sub{
-        font-size:14px;
-        line-height:1.7;
-      }
-
-      .masthead-art{
-        min-height:190px;
-        border-radius:18px;
-      }
-
-      .masthead-rule{
-        padding:0 16px 16px;
-      }
+      .masthead{border-radius:24px}
+      .masthead-inner{padding:16px}
+      .masthead h1{font-size:clamp(34px, 12vw, 56px);max-width:9ch}
+      .masthead-sub{font-size:14px;line-height:1.7}
+      .masthead-art{min-height:190px;border-radius:18px}
+      .masthead-rule{padding:0 16px 16px}
     }
 
-    /* ===== FILTERS ===== */
-    .filterbar{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-      margin:0 0 34px;
+    /* ===== THEMATIC SECTIONS ===== */
+    .theme-section{
+      margin-bottom:42px;
     }
 
-    .fpill{
-      border:none;
-      outline:none;
-      cursor:pointer;
-      min-height:38px;
-      padding:0 16px;
-      border-radius:999px;
-      background:rgba(255,255,255,.72);
-      color:rgba(23,23,20,.66);
-      font:700 11px/1 "Inter",system-ui,sans-serif;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      box-shadow:
-        inset 0 0 0 1px rgba(23,23,20,.08),
-        0 8px 20px rgba(23,23,20,.03);
-      transition:transform .15s ease, box-shadow .15s ease, color .15s ease, background .15s ease;
-    }
-
-    .fpill:hover{
-      transform:translateY(-1px);
-      color:var(--ink);
-      background:#fff;
-      box-shadow:
-        inset 0 0 0 1px rgba(23,23,20,.12),
-        0 12px 22px rgba(23,23,20,.05);
-    }
-
-    .fpill.on{
-      color:#fff;
-      background:linear-gradient(135deg, #228b51, #1d7f48);
-      box-shadow:
-        0 12px 26px rgba(29,127,72,.22),
-        inset 0 1px 0 rgba(255,255,255,.18);
-    }
-
-    /* ===== FEATURED ===== */
-    .feat-wrap{
-      margin-bottom:38px;
-    }
-
-    .feat-card{
-      position:relative;
-      display:grid;
-      grid-template-columns:minmax(0, 1.3fr) 220px;
-      border-radius:24px;
-      overflow:hidden;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,251,244,.95));
-      border:1px solid rgba(23,23,20,.08);
-      box-shadow:var(--shadow-2);
-      transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-    }
-
-    .feat-card:hover{
-      transform:translateY(-2px);
-      box-shadow:0 30px 80px rgba(25,20,12,.13);
-      border-color:rgba(23,23,20,.14);
-    }
-
-    .feat-card::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:
-        radial-gradient(circle at top right, rgba(29,127,72,.08), transparent 24%),
-        linear-gradient(90deg, transparent, rgba(255,255,255,.18));
-      pointer-events:none;
-    }
-
-    @media (max-width:960px){
-      .feat-card{
-        grid-template-columns:1fr;
-      }
-    }
-
-    .feat-body{
-      position:relative;
-      z-index:1;
-      padding:20px 24px 18px;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-      min-width:0;
-    }
-
-    @media (max-width:700px){
-      .feat-body{
-        padding:20px 18px 18px;
-      }
-    }
-
-    .feat-topline{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-
-    .feat-kicker{
-      display:inline-flex;
-      align-items:center;
-      height:28px;
-      padding:0 12px;
-      border-radius:999px;
-      font-size:10px;
-      font-weight:800;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-    }
-
-    .feat-kicker-star{
-      color:#fff;
-      background:linear-gradient(135deg, #1f8b50, #186d40);
-      box-shadow:0 10px 22px rgba(29,127,72,.18);
-    }
-
-    .feat-kicker-theme{
-      color:var(--theme-color, var(--green));
-      background:rgba(255,255,255,.72);
-      box-shadow:inset 0 0 0 1px rgba(23,23,20,.08);
-    }
-
-    .feat-kicker-region{
-      color:rgba(23,23,20,.52);
-      background:rgba(255,255,255,.58);
-      box-shadow:inset 0 0 0 1px rgba(23,23,20,.08);
-    }
-
-    .feat-title{
-      font-family:"Fraunces", Georgia, serif;
-      font-size:clamp(18px, 2vw, 26px);
-      line-height:1.12;
-      letter-spacing:-.02em;
-      font-weight:700;
-      max-width:20ch;
-    }
-
-    .feat-excerpt{
-      max-width:62ch;
-      color:var(--ink-soft);
-      font-size:13.5px;
-      line-height:1.78;
-    }
-
-    .feat-footer{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
-      flex-wrap:wrap;
-      padding-top:10px;
-      border-top:1px solid rgba(23,23,20,.08);
-    }
-
-    .feat-meta{
-      font-size:11px;
-      font-weight:700;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      color:rgba(23,23,20,.42);
-    }
-
-    .feat-cta{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      min-height:36px;
-      padding:0 16px;
-      border-radius:999px;
-      background:#161714;
-      color:#fff;
-      font-size:11px;
-      font-weight:800;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      transition:transform .15s ease, opacity .15s ease;
-      box-shadow:0 12px 24px rgba(23,23,20,.16);
-      position:relative;
-      z-index:2;
-    }
-
-    .feat-cta:hover{
-      transform:translateY(-1px);
-      opacity:.94;
-    }
-
-    .feat-panel{
-      position:relative;
-      z-index:1;
-      border-left:1px solid rgba(23,23,20,.08);
-      background:
-        linear-gradient(180deg, rgba(247,241,231,.88), rgba(255,255,255,.74));
-      padding:16px 18px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      gap:14px;
-    }
-
-    @media (max-width:960px){
-      .feat-panel{
-        border-left:none;
-        border-top:1px solid rgba(23,23,20,.08);
-        padding:18px 20px 22px;
-        display:grid;
-        grid-template-columns:repeat(3, 1fr);
-      }
-    }
-
-    @media (max-width:560px){
-      .feat-panel{
-        grid-template-columns:1fr;
-      }
-    }
-
-    .feat-panel-label{
-      font-size:10px;
-      font-weight:800;
-      letter-spacing:.2em;
-      text-transform:uppercase;
-      color:rgba(23,23,20,.42);
-      margin-bottom:2px;
-    }
-
-    .feat-stat{
-      padding:14px 0;
-      border-top:1px solid rgba(23,23,20,.08);
-    }
-
-    .feat-stat:first-of-type{
-      border-top:none;
-      padding-top:2px;
-    }
-
-    @media (max-width:960px){
-      .feat-stat{
-        border-top:none;
-        padding:4px 0;
-      }
-    }
-
-    .feat-stat-val{
-      font-family:"Fraunces", Georgia, serif;
-      font-size:26px;
-      line-height:1;
-      letter-spacing:-.03em;
-      color:var(--theme-color, var(--green));
-      font-weight:700;
-      margin-bottom:5px;
-    }
-
-    .feat-stat-label{
-      font-size:10px;
-      font-weight:800;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      color:rgba(23,23,20,.48);
-      line-height:1.5;
-    }
-
-    /* ===== SECTION HEAD ===== */
-    .sec-head{
+    .theme-head{
       display:flex;
       align-items:center;
       gap:14px;
       margin:0 0 18px;
     }
 
-    .sec-label{
-      font-size:11px;
+    .theme-dot{
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      flex-shrink:0;
+    }
+
+    .theme-label{
+      font-size:12px;
       font-weight:800;
-      letter-spacing:.24em;
+      letter-spacing:.20em;
       text-transform:uppercase;
-      color:rgba(23,23,20,.45);
       white-space:nowrap;
     }
 
-    .sec-count{
-      font-family:"Playfair Display", Georgia, serif;
-      font-size:16px;
-      color:var(--green);
-      white-space:nowrap;
-    }
-
-    .sec-rule{
+    .theme-rule{
       height:1px;
       flex:1;
       background:linear-gradient(90deg, rgba(23,23,20,.12), rgba(23,23,20,.04));
     }
 
-    /* ===== GRID ===== */
+    .theme-toggle{
+      border:none;
+      outline:none;
+      cursor:pointer;
+      padding:0 14px;
+      min-height:32px;
+      border-radius:999px;
+      background:rgba(255,255,255,.72);
+      box-shadow:inset 0 0 0 1px rgba(23,23,20,.08), 0 4px 12px rgba(23,23,20,.03);
+      font:700 10px/1 "Inter",system-ui,sans-serif;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      transition:background .15s, color .15s;
+      white-space:nowrap;
+      flex-shrink:0;
+    }
+
+    .theme-toggle:hover{
+      background:#fff;
+    }
+
+    /* ===== CARD GRID ===== */
     .cw-grid{
       display:grid;
       grid-template-columns:repeat(3, 1fr);
@@ -616,13 +306,8 @@
       align-items:stretch;
     }
 
-    @media (max-width:1040px){
-      .cw-grid{grid-template-columns:1fr 1fr}
-    }
-
-    @media (max-width:640px){
-      .cw-grid{grid-template-columns:1fr}
-    }
+    @media (max-width:1040px){.cw-grid{grid-template-columns:1fr 1fr}}
+    @media (max-width:640px){.cw-grid{grid-template-columns:1fr}}
 
     .cw-card{
       position:relative;
@@ -647,16 +332,12 @@
     .cw-card::before{
       content:"";
       position:absolute;
-      top:0;
-      left:0;
-      right:0;
+      top:0;left:0;right:0;
       height:3px;
       background:var(--card-accent, rgba(23,23,20,.1));
     }
 
-    .card-head{
-      padding:16px 18px 10px;
-    }
+    .card-head{padding:16px 18px 10px}
 
     .card-theme{
       display:inline-flex;
@@ -727,173 +408,37 @@
       text-transform:uppercase;
       transition:letter-spacing .16s ease;
       flex-shrink:0;
-      position:relative;
-      z-index:2;
     }
 
-    .cw-card:hover .card-read{
-      letter-spacing:.20em;
-    }
+    .cw-card:hover .card-read{letter-spacing:.20em}
 
     .t-visa   { --card-accent: var(--theme-visa); }
     .t-nomad  { --card-accent: var(--theme-nomad); }
     .t-future { --card-accent: var(--theme-future); }
     .t-family { --card-accent: var(--theme-family); }
+    .t-dest   { --card-accent: var(--theme-dest); }
+    .t-city   { --card-accent: var(--theme-city); }
 
-    .cw-empty{
-      display:none;
-      grid-column:1 / -1;
+    /* ===== COMING SOON ===== */
+    .coming-soon{
       text-align:center;
-      padding:56px 20px;
+      padding:40px 20px;
       border-radius:24px;
       border:1px dashed rgba(23,23,20,.16);
       color:rgba(23,23,20,.44);
       background:rgba(255,255,255,.56);
       font-weight:700;
+      font-size:13px;
     }
 
-    /* ===== SERIES BLOCK ===== */
-    .series-block{
-      grid-column:1 / -1;
-      border-radius:24px;
-      border:1px solid rgba(23,23,20,.10);
-      background:linear-gradient(180deg,rgba(255,255,255,.97),rgba(255,252,247,.94));
-      box-shadow:0 10px 28px rgba(23,23,20,.05);
-      overflow:hidden;
-      position:relative;
-    }
-    .series-block::before{
-      content:"";
-      position:absolute;
-      top:0;left:0;right:0;
-      height:3px;
-      background:var(--card-accent,rgba(23,23,20,.1));
-    }
-    .series-hd{
-      display:flex;
-      align-items:center;
-      gap:14px;
-      padding:18px 22px 14px;
-      border-bottom:1px solid rgba(23,23,20,.08);
-      flex-wrap:wrap;
-    }
-    .series-badge-pill{
-      font-size:9px;
-      font-weight:800;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      color:var(--card-accent,var(--green));
-      border:1px solid var(--card-accent,rgba(23,23,20,.18));
-      padding:4px 12px;
-      border-radius:999px;
-      flex-shrink:0;
-    }
-    .series-name-text{
-      font-family:"Fraunces",Georgia,serif;
-      font-size:16px;
-      font-weight:700;
-      color:var(--ink);
-      letter-spacing:-.01em;
-    }
-    .series-cards{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:12px;
-      padding:16px 20px 20px;
-    }
-    .series-card{
-      display:flex;
-      flex-direction:column;
-      border-radius:14px;
-      border:1px solid rgba(23,23,20,.08);
-      background:rgba(255,255,255,.72);
-      padding:16px 16px 14px 19px;
-      text-decoration:none;
-      color:inherit;
-      position:relative;
-      overflow:hidden;
-      transition:background .15s,border-color .15s,transform .15s;
-    }
-    .series-card::before{
-      content:"";
-      position:absolute;
-      top:0;left:0;bottom:0;
-      width:3px;
-      background:var(--card-accent,rgba(23,23,20,.15));
-    }
-    .series-card:hover{
-      background:rgba(255,255,255,.96);
-      border-color:rgba(23,23,20,.15);
-      transform:translateY(-2px);
-    }
-    .series-card-part{
-      font-size:9px;
-      font-weight:800;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      color:var(--card-accent,var(--green));
-      margin-bottom:8px;
-    }
-    .series-card-title{
-      font-family:"Fraunces",Georgia,serif;
-      font-size:14px;
-      font-weight:700;
-      line-height:1.3;
-      color:var(--ink);
-      margin-bottom:8px;
-      flex:1;
-    }
-    .series-card-excerpt{
-      font-size:12px;
-      line-height:1.6;
-      color:var(--ink-soft);
-      display:-webkit-box;
-      -webkit-line-clamp:2;
-      -webkit-box-orient:vertical;
-      overflow:hidden;
-      margin-bottom:10px;
-    }
-    .series-card-meta{
-      font-size:9px;
-      font-weight:800;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      color:rgba(23,23,20,.36);
-    }
-    @media(max-width:860px){.series-cards{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:540px){.series-cards{grid-template-columns:1fr}}
-
-    /* ===== GRID DIVIDER ===== */
-    .grid-divider{
-      grid-column:1 / -1;
-      display:flex;
-      align-items:center;
-      gap:14px;
-      padding:10px 0 4px;
-    }
-    .grid-divider-line{
-      flex:1;
-      height:1px;
-      background:rgba(23,23,20,.10);
-    }
-    .grid-divider-label{
-      font-size:9px;
-      font-weight:800;
-      letter-spacing:.22em;
-      text-transform:uppercase;
-      color:rgba(23,23,20,.32);
-    }
-
+    /* ===== ANIMATIONS ===== */
     @keyframes fadeUp{
       from{opacity:0;transform:translateY(16px)}
       to{opacity:1;transform:translateY(0)}
     }
 
     .masthead{animation:fadeUp .55s ease both}
-    .filterbar{animation:fadeUp .55s .08s ease both}
-    .feat-wrap{animation:fadeUp .55s .16s ease both}
-    .sec-head{animation:fadeUp .55s .22s ease both}
-    .cw-grid{animation:fadeUp .55s .28s ease both}
+    .theme-section{animation:fadeUp .55s .12s ease both}
   </style>
 </head>
 
@@ -914,14 +459,6 @@
           <p class="masthead-sub" id="heroSub">
             Articles premium sur expatriation, visas, fiscalité, coût de la vie, prospective, éducation et qualité de vie.
           </p>
-
-          <div class="masthead-search">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-            <input id="searchInput" type="search" autocomplete="off" aria-label="Search articles" placeholder="Rechercher des articles…">
-          </div>
         </div>
 
         <div class="masthead-media">
@@ -936,251 +473,51 @@
       </div>
     </header>
 
-    <nav class="filterbar" id="filters" aria-label="Filter by category"></nav>
-
-    <section class="feat-wrap" id="featuredSection">
-      <div id="featuredCard"></div>
-    </section>
-
-    <div class="sec-head">
-      <p class="sec-label" id="sectionLabel">Articles</p>
-      <span class="sec-count" id="countBadge">0</span>
-      <div class="sec-rule"></div>
-    </div>
-
-    <div class="cw-grid" id="grid" role="list">
-      <div class="cw-empty" id="empty">Aucun article ne correspond à ta recherche.</div>
-    </div>
+    <div id="sectionsRoot"></div>
   </main>
 
   <script src="/data/header.js"></script>
 
   <script>
-    const I18N = {
+    /* ============================================================
+       Wigg Chronicles — Sectioned layout
+       ============================================================ */
+
+    var I18N = {
       en: {
-        eyebrow:  "Chronicles",
-        titleWord:"Chronicles",
-        sub:      "Premium articles on expat life, visas, taxes, cost of living, future trends, education and quality of life.",
-        search:   "Search articles…",
-        all:      "All",
-        section:  "Articles",
-        featured: "Featured",
-        read:     "Read article",
-        panel:    "At a glance",
-        empty:    "No articles match your search.",
-        statsYears:"years outlook",
-        statsCountries:"countries compared",
-        statsRead:"min read",
-        series:"Series",
-        parts:"parts"
+        eyebrow:"Chronicles", titleWord:"Chronicles",
+        sub:"Premium articles on expat life, visas, taxes, cost of living, future trends, education and quality of life.",
+        read:"Read", seeAll:"See all →", collapse:"Collapse ↑", comingSoon:"Coming soon",
+        sec_visas:"Visas & Immigration", sec_dest:"Expat Destinations", sec_nomads:"Digital Nomads",
+        sec_family:"Family & Education", sec_future:"Future & Strategy", sec_city:"City Comparisons"
       },
       fr: {
-        eyebrow:  "Chroniques",
-        titleWord:"Chroniques",
-        sub:      "Articles premium sur expatriation, visas, fiscalité, coût de la vie, prospective, éducation et qualité de vie.",
-        search:   "Rechercher des articles…",
-        all:      "Tous",
-        section:  "Articles",
-        featured: "À la une",
-        read:     "Lire l'article",
-        panel:    "En bref",
-        empty:    "Aucun article ne correspond à ta recherche.",
-        statsYears:"ans d'analyse",
-        statsCountries:"pays comparés",
-        statsRead:"min de lecture",
-        series:"Série",
-        parts:"parties"
+        eyebrow:"Chroniques", titleWord:"Chroniques",
+        sub:"Articles premium sur expatriation, visas, fiscalité, coût de la vie, prospective, éducation et qualité de vie.",
+        read:"Lire", seeAll:"Voir tout →", collapse:"Réduire ↑", comingSoon:"Prochainement",
+        sec_visas:"Visas & Immigration", sec_dest:"Destinations Expat", sec_nomads:"Digital Nomads",
+        sec_family:"Famille & Éducation", sec_future:"Futur & Stratégie", sec_city:"Comparatifs Villes"
       },
       es: {
-        eyebrow:  "Crónicas",
-        titleWord:"Crónicas",
-        sub:      "Artículos premium sobre expatriación, visados, impuestos, coste de vida, prospectiva, educación y calidad de vida.",
-        search:   "Buscar artículos…",
-        all:      "Todos",
-        section:  "Artículos",
-        featured: "Destacado",
-        read:     "Leer artículo",
-        panel:    "De un vistazo",
-        empty:    "Ningún artículo coincide con tu búsqueda.",
-        statsYears:"años de análisis",
-        statsCountries:"países comparados",
-        statsRead:"min de lectura",
-        series:"Serie",
-        parts:"partes"
+        eyebrow:"Crónicas", titleWord:"Crónicas",
+        sub:"Artículos premium sobre expatriación, visados, impuestos, coste de vida, prospectiva, educación y calidad de vida.",
+        read:"Leer", seeAll:"Ver todo →", collapse:"Reducir ↑", comingSoon:"Próximamente",
+        sec_visas:"Visas e Inmigración", sec_dest:"Destinos Expat", sec_nomads:"Digital Nomads",
+        sec_family:"Familia & Educación", sec_future:"Futuro & Estrategia", sec_city:"Comparativas Ciudades"
       }
     };
 
-    const CHRONICLES = [
+    /* -------------------------------------------------------
+       All articles — each assigned to a section
+       ------------------------------------------------------- */
+    var ARTICLES = [
+      /* === VISAS & IMMIGRATION === */
       {
-        id: "forgotten-countries",
-        featured: true,
-        stats: { countries: "6", read: "~25" },
+        section: "visas",
         title: {
-          en: "The Forgotten Countries: 6 Underrated Expat Destinations in 2026",
-          fr: "Les pays oubliés : 6 destinations sous-cotées pour s'expatrier en 2026",
-          es: "Los países olvidados: 6 destinos infravalorados para expatriarse en 2026"
-        },
-        url: {
-          en: "/chronicles/chronicle-forgotten-expat-countries-2026-en.html",
-          fr: "/chronicles/chronicle-pays-oublies-expatriation-2026-fr.html",
-          es: "/chronicles/chronicle-paises-olvidados-expatriacion-2026-es.html"
-        },
-        excerpt: {
-          en: "Mauritius, Montenegro, Cyprus, Taiwan, Uruguay, Oman — six countries that rarely make the expat lists but deserve serious attention in 2026. Visa, cost of living, quality of life and real pros & cons.",
-          fr: "Maurice, Monténégro, Chypre, Taïwan, Uruguay, Oman — six pays rarement cités dans les guides d'expatriation mais qui méritent vraiment votre attention en 2026. Visa, coût de la vie, qualité de vie et vrais pour & contre.",
-          es: "Mauricio, Montenegro, Chipre, Taiwán, Uruguay, Omán — seis países que rara vez aparecen en las guías de expatriación pero que merecen atención seria en 2026. Visa, coste de vida, calidad de vida y pros & contras reales."
-        },
-        date: "2026-03-19",
-        read: "~25 min",
-        theme: "Visa & Installation",
-        region: "World"
-      },
-      {
-        id: "asia-expat-2",
-        series: "asia-expat",
-        seriesLabel: {
-          en: "Asia Expat Guide 2026",
-          fr: "Asie Expatriation 2026",
-          es: "Asia Guía Expatriados 2026"
-        },
-        title: {
-          en: "Series: Asia Expat Guide 2026 → Part 2: Japan, Laos, China, Cambodia + Final Verdict",
-          fr: "Série : Asie Expatriation 2026 → Partie 2 : Japon, Laos, Chine, Cambodge + Verdict Final",
-          es: "Serie: Asia Guía Expatriados 2026 → Parte 2: Japón, Laos, China, Camboya + Veredicto Final"
-        },
-        url: {
-          en: "/chronicles/chronicle-asia-expat-guide-part2-2026-en.html",
-          fr: "/chronicles/chronicle-asie-expatriation-partie2-2026-fr.html",
-          es: "/chronicles/chronicle-asia-guia-expatriados-parte2-2026-es.html"
-        },
-        excerpt: {
-          en: "Japan, Laos, China, Cambodia — visa, cost of living, quality of life and the final verdict on the best Asian country for expats in 2026.",
-          fr: "Japon, Laos, Chine, Cambodge — visa, coût de la vie, qualité de vie et le verdict final sur le meilleur pays d'Asie pour s'expatrier en 2026.",
-          es: "Japón, Laos, China, Camboya — visa, coste de vida, calidad de vida y el veredicto final sobre el mejor país de Asia para expatriarse en 2026."
-        },
-        date: "2026-03-18",
-        read: "~30 min",
-        theme: "Visa & Installation",
-        region: "Asia"
-      },
-      {
-        id: "asia-expat-1",
-        series: "asia-expat",
-        seriesLabel: {
-          en: "Asia Expat Guide 2026",
-          fr: "Asie Expatriation 2026",
-          es: "Asia Guía Expatriados 2026"
-        },
-        title: {
-          en: "Series: Asia Expat Guide 2026 → Part 1: Thailand, Vietnam, Bali, Philippines",
-          fr: "Série : Asie Expatriation 2026 → Partie 1 : Thaïlande, Vietnam, Bali, Philippines",
-          es: "Serie: Asia Guía Expatriados 2026 → Parte 1: Tailandia, Vietnam, Bali, Filipinas"
-        },
-        url: {
-          en: "/chronicles/chronicle-asia-expat-guide-part1-2026-en.html",
-          fr: "/chronicles/chronicle-asie-expatriation-partie1-2026-fr.html",
-          es: "/chronicles/chronicle-asia-guia-expatriados-parte1-2026-es.html"
-        },
-        excerpt: {
-          en: "Thailand, Vietnam, Bali, Philippines — visa, cost of living, quality of life and practical advice for expats considering Southeast Asia in 2026.",
-          fr: "Thaïlande, Vietnam, Bali, Philippines — visa, coût de la vie, qualité de vie et conseils pratiques pour les expatriés qui envisagent l'Asie du Sud-Est en 2026.",
-          es: "Tailandia, Vietnam, Bali, Filipinas — visa, coste de vida, calidad de vida y consejos prácticos para expatriados que consideran el Sudeste Asiático en 2026."
-        },
-        date: "2026-03-17",
-        read: "~30 min",
-        theme: "Visa & Installation",
-        region: "Asia"
-      },
-      {
-        id: "healthcare-2026",
-        title: {
-          en: "The 25 Best Healthcare Systems for Expats in 2026",
-          fr: "Les 25 meilleurs systèmes de santé pour les expatriés en 2026",
-          es: "Los 25 mejores sistemas sanitarios para expatriados en 2026"
-        },
-        url: {
-          en: "/chronicles/chronicle-healthcare-expats-2026-en.html",
-          fr: "/chronicles/chronicle-sante-expats-2026-fr.html",
-          es: "/chronicles/chronicle-salud-expats-2026-es.html"
-        },
-        excerpt: {
-          en: "Taiwan, South Korea, Japan, Germany, France, Spain... The 25 countries ranked best to worst for foreign residents in 2026. Real access conditions, contributions, and whether you need supplemental insurance.",
-          fr: "Taïwan, Corée du Sud, Japon, Allemagne, France, Espagne... Les 25 pays classés du meilleur au moins bon pour les résidents étrangers en 2026. Conditions réelles, cotisations et mutuelle indispensable.",
-          es: "Taiwán, Corea del Sur, Japón, Alemania, Francia, España... Los 25 países clasificados de mejor a peor para residentes extranjeros en 2026. Condiciones reales, cotizaciones y seguro complementario."
-        },
-        date: "2026-03-15",
-        read: "~35 min",
-        theme: "Visa & Installation",
-        region: "World"
-      },
-      {
-        id: "visas-2026-3",
-        series: "visas-2026",
-        seriesLabel: {
-          en: "Visas 2026 — Retirement, Nomad & Work",
-          fr: "Visas 2026 — Retraite, Nomade & Travail",
-          es: "Visas 2026 — Jubilación, Nómada y Trabajo"
-        },
-        title: {
-          en: "Series: Visas 2026 → Part 3: Expat Work Visas in 2026: the 25 Best Countries to Relocate and Work",
-          fr: "Série : Visas 2026 → Partie 3 : Visas expatriation en 2026 : les 25 meilleures destinations pour s\'installer et travailler",
-          es: "Serie: Visas 2026 → Parte 3: Visados de expatriación en 2026: los 25 mejores países para instalarse y trabajar"
-        },
-        url: {
-          en: "/chronicles/chronicle-expat-work-visas-2026-en.html",
-          fr: "/chronicles/chronicle-visas-expatriation-durable-2026-fr.html",
-          es: "/chronicles/chronicle-visas-expatriacion-2026-es.html"
-        },
-        excerpt: {
-          en: "Germany, Canada, Singapore, Australia, Portugal, France... The 25 best destinations and visas for expats who want to work locally, build something on the ground, and put down real roots abroad in 2026.",
-          fr: "Allemagne, Canada, Singapour, Australie, Portugal, France... Les 25 meilleures destinations et visas pour s\'expatrier, travailler sur place et construire sa vie à l\'étranger en 2026. Visa salarié, entrepreneur, talent.",
-          es: "Alemania, Canadá, Singapur, Australia, Portugal, Francia... Los 25 mejores destinos y visados para expatriarse, trabajar en destino y construir tu vida en el extranjero en 2026. Visado asalariado, emprendedor, talento."
-        },
-        date: "2026-03-10",
-        read: "~25 min",
-        theme: "Visa & Installation",
-        region: "World"
-      },
-      {
-        id: "visas-2026-2",
-        series: "visas-2026",
-        seriesLabel: {
-          en: "Visas 2026 — Retirement, Nomad & Work",
-          fr: "Visas 2026 — Retraite, Nomade & Travail",
-          es: "Visas 2026 — Jubilación, Nómada y Trabajo"
-        },
-        title: {
-          en: "Series: Visas 2026 → Part 2: The 25 Best Digital Nomad Visas in 2026",
-          fr: "Série : Visas 2026 → Partie 2 : Visas digital nomad en 2026 : les 25 meilleures options",
-          es: "Serie: Visas 2026 → Parte 2: Las 25 mejores visas para nómadas digitales en 2026"
-        },
-        url: {
-          en: "/chronicles/chronicle-digital-nomad-visas-2026-en.html",
-          fr: "/chronicles/chronicle-visas-digital-nomads-2026-fr.html",
-          es: "/chronicles/chronicle-visas-nomadas-digitales-2026-es.html"
-        },
-        excerpt: {
-          en: "Portugal D8, Malaysia DE Rantau, Spain Digital Nomad Visa, Colombia, Brazil... The 25 best visa and residence options for remote workers in 2026. Real conditions, income thresholds, durations, and ideal profiles.",
-          fr: "Visa D8 Portugal, DE Rantau Malaisie, Nomade Digital Espagne, Colombie, Brésil... Les 25 meilleures options de visa et titre de séjour pour travailleurs à distance en 2026. Conditions réelles, seuils de revenus, durées et profils idéaux.",
-          es: "Visa D8 Portugal, DE Rantau Malasia, Visa Nómada Digital España, Colombia, Brasil... Las 25 mejores opciones de visa y permiso de residencia para trabajadores remotos en 2026. Condiciones reales, umbrales de ingresos, duraciones y perfiles ideales."
-        },
-        date: "2026-03-09",
-        read: "~25 min",
-        theme: "Visa & Installation",
-        region: "World"
-      },
-      {
-        id: "visas-2026-1",
-        series: "visas-2026",
-        seriesLabel: {
-          en: "Visas 2026 — Retirement, Nomad & Work",
-          fr: "Visas 2026 — Retraite, Nomade & Travail",
-          es: "Visas 2026 — Jubilación, Nómada y Trabajo"
-        },
-        title: {
-          en: "Series: Visas 2026 → Part 1: Retirement Visas in 2026: the 25 Best Options to Retire Abroad",
-          fr: "Série : Visas 2026 → Partie 1 : Visas retraite en 2026 : les 25 meilleures options pour prendre sa retraite à l\'étranger",
-          es: "Serie: Visas 2026 → Parte 1: Visados de jubilación en 2026: las 25 mejores opciones para jubilarse en el extranjero"
+          en: "Retirement Visas in 2026: the 25 Best Options",
+          fr: "Visas retraite en 2026 : les 25 meilleures options",
+          es: "Visados de jubilación en 2026: las 25 mejores opciones"
         },
         url: {
           en: "/chronicles/chronicle-retirement-visas-2026-en.html",
@@ -1188,105 +525,96 @@
           es: "/chronicles/chronicle-visas-jubilacion-2026-es.html"
         },
         excerpt: {
-          en: "Portugal D7, Panama Pensionado, Malaysia MM2H, Thailand long-stay... The 25 best residence options and official programs for retiring abroad in 2026. Real conditions, financial thresholds, pitfalls and ideal profiles.",
-          fr: "Visa D7 Portugal, Pensionado Panama, MM2H Malaisie, résidence Thaïlande... Les 25 meilleures options de résidence et programmes officiels pour prendre sa retraite à l\'étranger en 2026. Conditions réelles, seuils financiers, pièges et profils idéaux.",
-          es: "Visa D7 Portugal, Pensionado Panamá, MM2H Malasia, residencia Tailandia... Las 25 mejores opciones de residencia y programas oficiales para jubilarse en el extranjero en 2026. Condiciones reales, umbrales financieros, trampas y perfiles ideales."
+          en: "Portugal D7, Panama Pensionado, Malaysia MM2H, Thailand long-stay… The 25 best residence options for retiring abroad in 2026.",
+          fr: "Visa D7 Portugal, Pensionado Panama, MM2H Malaisie… Les 25 meilleures options de résidence pour prendre sa retraite à l'étranger en 2026.",
+          es: "Visa D7 Portugal, Pensionado Panamá, MM2H Malasia… Las 25 mejores opciones de residencia para jubilarse en el extranjero en 2026."
         },
-        date: "2026-03-08",
-        read: "~25 min",
-        theme: "Visa & Installation",
-        region: "World"
+        date: "2026-03-08", read: "~25 min", theme: "Visa & Installation"
       },
       {
-        id: "2056",
+        section: "visas",
         title: {
-          en: "2056: Where will life be best in 30 years?",
-          fr: "2056 : où vivra-t-on le mieux dans 30 ans ?",
-          es: "2056: ¿dónde se vivirá mejor en 30 años?"
+          en: "The 25 Best Digital Nomad Visas in 2026",
+          fr: "Visas digital nomad en 2026 : les 25 meilleures options",
+          es: "Las 25 mejores visas para nómadas digitales en 2026"
         },
         url: {
-          en: "/chronicles/chronicle-2056-best-countries-30-years-en.html",
-          fr: "/chronicles/chronicle-2056-ou-vivra-t-on-le-mieux-fr.html",
-          es: "/chronicles/chronicle-2056-mejores-paises-30-anos-es.html"
+          en: "/chronicles/chronicle-digital-nomad-visas-2026-en.html",
+          fr: "/chronicles/chronicle-visas-digital-nomads-2026-fr.html",
+          es: "/chronicles/chronicle-visas-nomadas-digitales-2026-es.html"
         },
         excerpt: {
-          en: "AI, geopolitics, medicine, democracy, demographics — a strategic and human analysis of the countries that will offer the best quality of life in 30 years.",
-          fr: "IA, géopolitique, médecine, démocratie, démographie — une lecture stratégique et humaine des pays qui offriront la meilleure qualité de vie dans 30 ans.",
-          es: "IA, geopolítica, medicina, democracia, demografía — un análisis estratégico y humano de los países que ofrecerán la mejor calidad de vida en 30 años."
+          en: "Portugal D8, Malaysia DE Rantau, Spain Digital Nomad Visa… The 25 best options for remote workers in 2026.",
+          fr: "Visa D8 Portugal, DE Rantau Malaisie, Nomade Digital Espagne… Les 25 meilleures options pour travailleurs à distance en 2026.",
+          es: "Visa D8 Portugal, DE Rantau Malasia, Visa Nómada Digital España… Las 25 mejores opciones para trabajadores remotos en 2026."
         },
-        date: "2026-03-05",
-        read: "~30 min",
-        theme: "Future & Strategy",
-        region: "World"
+        date: "2026-03-09", read: "~25 min", theme: "Visa & Installation"
       },
       {
-        id: "ameriques-3",
-        series: "ameriques",
-        seriesLabel: {
-          en: "Americas — Expats, Crypto & Retirees 2026",
-          fr: "Amériques — Expatriés, Crypto & Retraités 2026",
-          es: "Américas — Expatriados, Cripto & Jubilados 2026"
-        },
+        section: "visas",
         title: {
-          en: "Series: Americas — Expats, Crypto & Retirees 2026 → Part 3: Anguilla · BVI · Sint Maarten",
-          fr: "Série : Amériques — Expatriés, Crypto & Retraités 2026 → Partie 3 : Anguilla · Îles Vierges · Sint Maarten",
-          es: "Serie: Américas — Expatriados, Cripto & Jubilados 2026 → Parte 3: Anguila · IVB · Sint Maarten"
+          en: "Expat Work Visas in 2026: the 25 Best Countries",
+          fr: "Visas expatriation en 2026 : les 25 meilleures destinations",
+          es: "Visados de expatriación en 2026: los 25 mejores países"
         },
         url: {
-          en: "/chronicles/chronicle-ameriques-partie3-en.html",
-          fr: "/chronicles/chronicle-ameriques-partie3-fr.html",
-          es: "/chronicles/chronicle-ameriques-partie3-es.html"
+          en: "/chronicles/chronicle-expat-work-visas-2026-en.html",
+          fr: "/chronicles/chronicle-visas-expatriation-durable-2026-fr.html",
+          es: "/chronicles/chronicle-visas-expatriacion-2026-es.html"
         },
         excerpt: {
-          en: "The most exclusive offshore jurisdictions in the Caribbean for ultra-high net worth individuals — tax, privacy, residency and lifestyle.",
-          fr: "Les juridictions offshore les plus exclusives des Caraïbes pour les fortunes ultra-élevées — fiscalité, confidentialité, résidence et style de vie.",
-          es: "Las jurisdicciones offshore más exclusivas del Caribe para patrimonios ultra-elevados — fiscalidad, privacidad, residencia y estilo de vida."
+          en: "Germany, Canada, Singapore, Australia… The 25 best destinations and visas for expats who want to work locally in 2026.",
+          fr: "Allemagne, Canada, Singapour, Australie… Les 25 meilleures destinations pour s'expatrier et travailler sur place en 2026.",
+          es: "Alemania, Canadá, Singapur, Australia… Los 25 mejores destinos para expatriarse y trabajar en destino en 2026."
         },
-        date: "2026-03-03",
-        read: "~20 min",
-        theme: "Visa & Installation",
-        region: "Americas"
+        date: "2026-03-10", read: "~25 min", theme: "Visa & Installation"
       },
+
+      /* === DESTINATIONS EXPAT === */
       {
-        id: "ameriques-2",
-        series: "ameriques",
-        seriesLabel: {
-          en: "Americas — Expats, Crypto & Retirees 2026",
-          fr: "Amériques — Expatriés, Crypto & Retraités 2026",
-          es: "Américas — Expatriados, Cripto & Jubilados 2026"
-        },
+        section: "dest",
         title: {
-          en: "Series: Americas — Expats, Crypto & Retirees 2026 → Part 2: St Kitts · Bahamas · Antigua",
-          fr: "Série : Amériques — Expatriés, Crypto & Retraités 2026 → Partie 2 : Saint-Kitts · Bahamas · Antigua",
-          es: "Serie: Américas — Expatriados, Cripto & Jubilados 2026 → Parte 2: Saint Kitts · Bahamas · Antigua"
+          en: "Asia Expat Guide 2026 — Part 1: Thailand, Vietnam, Bali, Philippines",
+          fr: "Asie Expatriation 2026 — Partie 1 : Thaïlande, Vietnam, Bali, Philippines",
+          es: "Asia Guía Expatriados 2026 — Parte 1: Tailandia, Vietnam, Bali, Filipinas"
         },
         url: {
-          en: "/chronicles/chronicle-ameriques-partie2-en.html",
-          fr: "/chronicles/chronicle-ameriques-partie2-fr.html",
-          es: "/chronicles/chronicle-ameriques-partie2-es.html"
+          en: "/chronicles/chronicle-asia-expat-guide-part1-2026-en.html",
+          fr: "/chronicles/chronicle-asie-expatriation-partie1-2026-fr.html",
+          es: "/chronicles/chronicle-asia-guia-expatriados-parte1-2026-es.html"
         },
         excerpt: {
-          en: "Caribbean islands offering zero income tax and citizenship by investment — the most competitive passports and fiscal setups for HNW expats.",
-          fr: "Îles caribéennes avec zéro impôt sur le revenu et citoyenneté par investissement — les passeports et structures fiscales les plus compétitifs.",
-          es: "Islas caribeñas con cero impuesto sobre la renta y ciudadanía por inversión — los pasaportes y estructuras fiscales más competitivos."
+          en: "Thailand, Vietnam, Bali, Philippines — visa, cost of living, quality of life for expats in Southeast Asia.",
+          fr: "Thaïlande, Vietnam, Bali, Philippines — visa, coût de la vie, qualité de vie pour les expatriés en Asie du Sud-Est.",
+          es: "Tailandia, Vietnam, Bali, Filipinas — visa, coste de vida, calidad de vida para expatriados en el Sudeste Asiático."
         },
-        date: "2026-03-02",
-        read: "~25 min",
-        theme: "Visa & Installation",
-        region: "Americas"
+        date: "2026-03-17", read: "~30 min", theme: "Visa & Installation"
       },
       {
-        id: "ameriques-1",
-        series: "ameriques",
-        seriesLabel: {
-          en: "Americas — Expats, Crypto & Retirees 2026",
-          fr: "Amériques — Expatriés, Crypto & Retraités 2026",
-          es: "Américas — Expatriados, Cripto & Jubilados 2026"
-        },
+        section: "dest",
         title: {
-          en: "Series: Americas — Expats, Crypto & Retirees 2026 → Part 1: Panama · Costa Rica · Puerto Rico",
-          fr: "Série : Amériques — Expatriés, Crypto & Retraités 2026 → Partie 1 : Panama · Costa Rica · Puerto Rico",
-          es: "Serie: Américas — Expatriados, Cripto & Jubilados 2026 → Parte 1: Panamá · Costa Rica · Puerto Rico"
+          en: "Asia Expat Guide 2026 — Part 2: Japan, Laos, China, Cambodia",
+          fr: "Asie Expatriation 2026 — Partie 2 : Japon, Laos, Chine, Cambodge",
+          es: "Asia Guía Expatriados 2026 — Parte 2: Japón, Laos, China, Camboya"
+        },
+        url: {
+          en: "/chronicles/chronicle-asia-expat-guide-part2-2026-en.html",
+          fr: "/chronicles/chronicle-asie-expatriation-partie2-2026-fr.html",
+          es: "/chronicles/chronicle-asia-guia-expatriados-parte2-2026-es.html"
+        },
+        excerpt: {
+          en: "Japan, Laos, China, Cambodia — visa, cost of living, and the final verdict on the best Asian country for expats.",
+          fr: "Japon, Laos, Chine, Cambodge — visa, coût de la vie, et le verdict final sur le meilleur pays d'Asie pour s'expatrier.",
+          es: "Japón, Laos, China, Camboya — visa, coste de vida, y el veredicto final sobre el mejor país de Asia para expatriarse."
+        },
+        date: "2026-03-18", read: "~30 min", theme: "Visa & Installation"
+      },
+      {
+        section: "dest",
+        title: {
+          en: "Americas — Part 1: Panama, Costa Rica, Puerto Rico",
+          fr: "Amériques — Partie 1 : Panama, Costa Rica, Puerto Rico",
+          es: "Américas — Parte 1: Panamá, Costa Rica, Puerto Rico"
         },
         url: {
           en: "/chronicles/chronicle-ameriques-partie1-en.html",
@@ -1298,13 +626,147 @@
           fr: "Visa, fiscalité territoriale, coût de la vie, retraite et crypto — quelle base américaine choisir en 2026 ?",
           es: "Visa, fiscalidad territorial, coste de vida, jubilación y cripto — ¿qué base americana elegir en 2026?"
         },
-        date: "2026-03-01",
-        read: "~25 min",
-        theme: "Visa & Installation",
-        region: "Americas"
+        date: "2026-03-01", read: "~25 min", theme: "Visa & Installation"
       },
       {
-        id: "children-2026",
+        section: "dest",
+        title: {
+          en: "Americas — Part 2: St Kitts, Bahamas, Antigua",
+          fr: "Amériques — Partie 2 : Saint-Kitts, Bahamas, Antigua",
+          es: "Américas — Parte 2: Saint Kitts, Bahamas, Antigua"
+        },
+        url: {
+          en: "/chronicles/chronicle-ameriques-partie2-en.html",
+          fr: "/chronicles/chronicle-ameriques-partie2-fr.html",
+          es: "/chronicles/chronicle-ameriques-partie2-es.html"
+        },
+        excerpt: {
+          en: "Caribbean islands with zero income tax and citizenship by investment — the most competitive setups for HNW expats.",
+          fr: "Îles caribéennes avec zéro impôt sur le revenu et citoyenneté par investissement — les structures les plus compétitives.",
+          es: "Islas caribeñas con cero impuesto sobre la renta y ciudadanía por inversión — las estructuras más competitivas."
+        },
+        date: "2026-03-02", read: "~25 min", theme: "Visa & Installation"
+      },
+      {
+        section: "dest",
+        title: {
+          en: "Americas — Part 3: Anguilla, BVI, Sint Maarten",
+          fr: "Amériques — Partie 3 : Anguilla, Îles Vierges, Sint Maarten",
+          es: "Américas — Parte 3: Anguila, IVB, Sint Maarten"
+        },
+        url: {
+          en: "/chronicles/chronicle-ameriques-partie3-en.html",
+          fr: "/chronicles/chronicle-ameriques-partie3-fr.html",
+          es: "/chronicles/chronicle-ameriques-partie3-es.html"
+        },
+        excerpt: {
+          en: "The most exclusive offshore jurisdictions in the Caribbean for ultra-high net worth individuals.",
+          fr: "Les juridictions offshore les plus exclusives des Caraïbes pour les fortunes ultra-élevées.",
+          es: "Las jurisdicciones offshore más exclusivas del Caribe para patrimonios ultra-elevados."
+        },
+        date: "2026-03-03", read: "~20 min", theme: "Visa & Installation"
+      },
+      {
+        section: "dest",
+        title: {
+          en: "Australia 2026: The Complete Expat Guide",
+          fr: "Australie 2026 : le guide complet de l'expatriation",
+          es: "Australia 2026: La guía completa del expatriado"
+        },
+        url: {
+          en: "/chronicles/chronicle-australia-expat-guide-2026-en.html",
+          fr: "/chronicles/chronicle-australie-expatriation-2026-fr.html",
+          es: "/chronicles/chronicle-australia-guia-expatriados-2026-es.html"
+        },
+        excerpt: {
+          en: "Visa, salary, cost of living, housing, healthcare and culture shock — everything before moving to Australia.",
+          fr: "Visa, salaire, coût de la vie, logement, santé et choc culturel — tout savoir avant de s'installer en Australie.",
+          es: "Visa, salario, coste de vida, vivienda, sanidad y choque cultural — todo antes de mudarte a Australia."
+        },
+        date: "2026-02-20", read: "~25 min", theme: "Visa & Installation"
+      },
+      {
+        section: "dest",
+        title: {
+          en: "The 25 Best Healthcare Systems for Expats in 2026",
+          fr: "Les 25 meilleurs systèmes de santé pour les expatriés en 2026",
+          es: "Los 25 mejores sistemas sanitarios para expatriados en 2026"
+        },
+        url: {
+          en: "/chronicles/chronicle-healthcare-expats-2026-en.html",
+          fr: "/chronicles/chronicle-sante-expats-2026-fr.html",
+          es: "/chronicles/chronicle-salud-expats-2026-es.html"
+        },
+        excerpt: {
+          en: "Taiwan, South Korea, Japan, Germany, France… The 25 countries ranked for foreign residents in 2026.",
+          fr: "Taïwan, Corée du Sud, Japon, Allemagne, France… Les 25 pays classés pour les résidents étrangers en 2026.",
+          es: "Taiwán, Corea del Sur, Japón, Alemania, Francia… Los 25 países clasificados para residentes extranjeros en 2026."
+        },
+        date: "2026-03-15", read: "~35 min", theme: "Visa & Installation"
+      },
+      {
+        section: "dest",
+        title: {
+          en: "The Forgotten Countries: 6 Underrated Expat Destinations in 2026",
+          fr: "Les pays oubliés : 6 destinations sous-cotées pour s'expatrier en 2026",
+          es: "Los países olvidados: 6 destinos infravalorados para expatriarse en 2026"
+        },
+        url: {
+          en: "/chronicles/chronicle-forgotten-expat-countries-2026-en.html",
+          fr: "/chronicles/chronicle-pays-oublies-expatriation-2026-fr.html",
+          es: "/chronicles/chronicle-paises-olvidados-expatriacion-2026-es.html"
+        },
+        excerpt: {
+          en: "Mauritius, Montenegro, Cyprus, Taiwan, Uruguay, Oman — six countries that deserve serious attention in 2026.",
+          fr: "Maurice, Monténégro, Chypre, Taïwan, Uruguay, Oman — six pays qui méritent vraiment votre attention en 2026.",
+          es: "Mauricio, Montenegro, Chipre, Taiwán, Uruguay, Omán — seis países que merecen atención seria en 2026."
+        },
+        date: "2026-03-19", read: "~25 min", theme: "Visa & Installation"
+      },
+
+      /* === DIGITAL NOMADS === */
+      {
+        section: "nomads",
+        title: {
+          en: "Best Countries for Digital Nomads in 2026",
+          fr: "Les meilleurs pays pour les digital nomads en 2026",
+          es: "Los mejores países para nómadas digitales en 2026"
+        },
+        url: {
+          en: "/chronicles/digital-nomads-2026-en.html",
+          fr: "/chronicles/digital-nomads-2026-fr.html",
+          es: "/chronicles/digital-nomads-2026-es.html"
+        },
+        excerpt: {
+          en: "Visas, salaries, taxes, real purchasing power — a practical guide for remote workers in 2026.",
+          fr: "Visas, salaires, fiscalité, pouvoir d'achat réel — un guide pratique pour les travailleurs à distance en 2026.",
+          es: "Visados, salarios, impuestos, poder adquisitivo real — una guía práctica para trabajadores remotos en 2026."
+        },
+        date: "2026-02-24", read: "~20 min", theme: "Nomad Life"
+      },
+      {
+        section: "nomads",
+        title: {
+          en: "Dubai, Bali, Thailand, Malta & Crypto: Expats & Nomads 2026",
+          fr: "Dubaï, Bali, Thaïlande, Malte & Crypto : expatriés & nomades 2026",
+          es: "Dubái, Bali, Tailandia, Malta y Cripto: expatriados y nómadas 2026"
+        },
+        url: {
+          en: "/chronicles/expats-nomads-crypto-2026-en.html",
+          fr: "/chronicles/expatries-nomades-crypto-2026-fr.html",
+          es: "/chronicles/expatriados-nomadas-crypto-2026-es.html"
+        },
+        excerpt: {
+          en: "Visa, cost of living, taxation and crypto-friendly legislation — the 2026 comparison for expats and nomads.",
+          fr: "Visa, coût de la vie, fiscalité et législation crypto-friendly — le comparatif 2026 pour expatriés et nomades.",
+          es: "Visa, coste de vida, fiscalidad y legislación cripto-friendly — la comparativa 2026 para expatriados y nómadas."
+        },
+        date: "2026-02-25", read: "~25 min", theme: "Nomad Life"
+      },
+
+      /* === FAMILLE & ÉDUCATION === */
+      {
+        section: "family",
         title: {
           en: "Best Countries to Raise Children in 2026",
           fr: "Les meilleurs pays pour élever ses enfants en 2026",
@@ -1317,98 +779,51 @@
         },
         excerpt: {
           en: "PISA scores, safety, child well-being, school pressure, education costs — a complete guide for expat families.",
-          fr: "Résultats PISA, sécurité, bien-être des enfants, pression scolaire, coûts d\'éducation — un guide complet pour les familles expatriées.",
+          fr: "Résultats PISA, sécurité, bien-être des enfants, pression scolaire, coûts d'éducation — un guide complet pour les familles expatriées.",
           es: "Puntuaciones PISA, seguridad, bienestar infantil, presión escolar, costes educativos — una guía completa para familias expatriadas."
         },
-        date: "2026-02-25",
-        read: "~20 min",
-        theme: "Family",
-        region: "World"
+        date: "2026-02-25", read: "~20 min", theme: "Family"
       },
+
+      /* === FUTUR & STRATÉGIE === */
       {
-        id: "expats-crypto-2026",
+        section: "future",
         title: {
-          en: "Dubai, Bali, Thailand, Vietnam, Malta: Expats & Crypto 2026",
-          fr: "Dubaï, Bali, Thaïlande, Vietnam, Malte : expatriés & crypto 2026",
-          es: "Dubái, Bali, Tailandia, Vietnam, Malta: expatriados y cripto 2026"
+          en: "2056: Where will life be best in 30 years?",
+          fr: "2056 : où vivra-t-on le mieux dans 30 ans ?",
+          es: "2056: ¿dónde se vivirá mejor en 30 años?"
         },
         url: {
-          en: "/chronicles/expats-nomads-crypto-2026-en.html",
-          fr: "/chronicles/expatries-nomades-crypto-2026-fr.html",
-          es: "/chronicles/expatriados-nomadas-crypto-2026-es.html"
+          en: "/chronicles/chronicle-2056-best-countries-30-years-en.html",
+          fr: "/chronicles/chronicle-2056-ou-vivra-t-on-le-mieux-fr.html",
+          es: "/chronicles/chronicle-2056-mejores-paises-30-anos-es.html"
         },
         excerpt: {
-          en: "Visa, cost of living, taxation and crypto-friendly legislation — the 2026 comparison for expats, nomads and influencers.",
-          fr: "Visa, coût de la vie, fiscalité et législation crypto-friendly — le comparatif 2026 pour les expatriés, nomades et influenceurs.",
-          es: "Visa, coste de vida, fiscalidad y legislación cripto-friendly — la comparativa 2026 para expatriados, nómadas e influencers."
+          en: "AI, geopolitics, medicine, democracy, demographics — which countries will offer the best quality of life in 30 years.",
+          fr: "IA, géopolitique, médecine, démocratie, démographie — quels pays offriront la meilleure qualité de vie dans 30 ans.",
+          es: "IA, geopolítica, medicina, democracia, demografía — qué países ofrecerán la mejor calidad de vida en 30 años."
         },
-        date: "2026-02-25",
-        read: "~25 min",
-        theme: "Nomad Life",
-        region: "World"
-      },
-      {
-        id: "nomads-2026",
-        title: {
-          en: "Best Countries for Digital Nomads in 2026",
-          fr: "Les meilleurs pays pour les digital nomads en 2026",
-          es: "Los mejores países para nómadas digitales en 2026"
-        },
-        url: {
-          en: "/chronicles/digital-nomads-2026-en.html",
-          fr: "/chronicles/digital-nomads-2026-fr.html",
-          es: "/chronicles/digital-nomads-2026-es.html"
-        },
-        excerpt: {
-          en: "Visas, salaries, taxes, real purchasing power — a practical guide to the best countries for remote workers in 2026.",
-          fr: "Visas, salaires, fiscalité, pouvoir d\'achat réel — un guide pratique des meilleurs pays pour les travailleurs à distance en 2026.",
-          es: "Visados, salarios, impuestos, poder adquisitivo real — una guía práctica de los mejores países para trabajadores remotos en 2026."
-        },
-        date: "2026-02-24",
-        read: "~20 min",
-        theme: "Nomad Life",
-        region: "World"
-      },
-      {
-        id: "australia-2026",
-        title: {
-          en: "Australia 2026: The Complete Expat Guide",
-          fr: "Australie 2026 : le guide complet de l\'expatriation",
-          es: "Australia 2026: La guía completa del expatriado"
-        },
-        url: {
-          en: "/chronicles/chronicle-australia-expat-guide-2026-en.html",
-          fr: "/chronicles/chronicle-australia-expat-guide-2026-en.html",
-          es: "/chronicles/chronicle-australia-guia-expatriados-2026-es.html"
-        },
-        excerpt: {
-          en: "Visa, salary, cost of living, housing, healthcare and culture shock — everything you need to know before moving to Australia.",
-          fr: "Visa, salaire, coût de la vie, logement, santé et choc culturel — tout ce qu\'il faut savoir avant de s\'installer en Australie.",
-          es: "Visa, salario, coste de vida, vivienda, sanidad y choque cultural — todo lo que necesitas saber antes de mudarte a Australia."
-        },
-        date: "2026-02-20",
-        read: "~25 min",
-        theme: "Visa & Installation",
-        region: "Oceania"
+        date: "2026-03-05", read: "~30 min", theme: "Future & Strategy"
       }
     ];
 
-    const THEME_CLASS = {
-      "Visa & Installation": "t-visa",
-      "Nomad Life": "t-nomad",
-      "Future & Strategy": "t-future",
-      "Family": "t-family"
-    };
+    /* -------------------------------------------------------
+       Sections definition (order matters)
+       ------------------------------------------------------- */
+    var SECTIONS = [
+      { id: "visas",  i18nKey: "sec_visas",  color: "var(--theme-visa)",   cls: "t-visa" },
+      { id: "dest",   i18nKey: "sec_dest",   color: "var(--theme-dest)",   cls: "t-dest" },
+      { id: "nomads", i18nKey: "sec_nomads",  color: "var(--theme-nomad)",  cls: "t-nomad" },
+      { id: "family", i18nKey: "sec_family",  color: "var(--theme-family)", cls: "t-family" },
+      { id: "future", i18nKey: "sec_future",  color: "var(--theme-future)", cls: "t-future" },
+      { id: "city",   i18nKey: "sec_city",    color: "var(--theme-city)",   cls: "t-city" }
+    ];
 
-    const THEME_COLOR = {
-      "Visa & Installation": "#178a5b",
-      "Nomad Life": "#0f82a2",
-      "Future & Strategy": "#7d55d8",
-      "Family": "#d7731d"
-    };
+    var MAX_VISIBLE = 3;
 
-    let activeFilter = "all";
-
+    /* -------------------------------------------------------
+       Helpers
+       ------------------------------------------------------- */
     function getLang() {
       return (localStorage.getItem("wigg_lang") || "en").toLowerCase();
     }
@@ -1416,258 +831,161 @@
     function str(obj) {
       if (!obj) return "";
       if (typeof obj === "string") return obj;
-      const l = getLang();
+      var l = getLang();
       return obj[l] || obj.en || "";
     }
 
     function tx() {
-      const l = getLang();
+      var l = getLang();
       return I18N[l] || I18N.en;
     }
 
     function fmtDate(iso) {
       if (!iso) return "";
-      const parts = iso.split("-").map(Number);
-      const dt = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2]));
-      const l = getLang();
-      const locale = l === "fr" ? "fr-FR" : l === "es" ? "es-ES" : "en-GB";
+      var parts = iso.split("-").map(Number);
+      var dt = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2]));
+      var l = getLang();
+      var locale = l === "fr" ? "fr-FR" : l === "es" ? "es-ES" : "en-GB";
       return dt.toLocaleDateString(locale, { year: "numeric", month: "short", day: "numeric" });
     }
 
-    function featuredHTML(c) {
-      const t = tx();
-      const url = str(c.url);
-      const color = THEME_COLOR[c.theme] || "#1d7f48";
-      const date = c.date ? fmtDate(c.date) : "";
-
-      let countriesLabel = t.statsCountries;
-      let readLabel = t.statsRead;
-      const statCountries = (c.stats && c.stats.countries) ? c.stats.countries : "150+";
-      const statRead = (c.stats && c.stats.read) ? c.stats.read : "~30";
-
-      return `
-        <article class="feat-card" style="--theme-color:${color}">
-          <div class="feat-body">
-            <div class="feat-topline">
-              <span class="feat-kicker feat-kicker-star">${t.featured}</span>
-              <span class="feat-kicker feat-kicker-theme">${c.theme || ""}</span>
-              ${c.region ? `<span class="feat-kicker feat-kicker-region">${c.region}</span>` : ""}
-            </div>
-
-            <div class="feat-title">${str(c.title)}</div>
-            <p class="feat-excerpt">${str(c.excerpt)}</p>
-
-            <div class="feat-footer">
-              <span class="feat-meta">${date}${c.read ? " · " + c.read : ""}</span>
-              <a class="feat-cta" href="${url}">${t.read}</a>
-            </div>
-          </div>
-
-          <aside class="feat-panel">
-            <div class="feat-panel-label">${t.panel}</div>
-            <div class="feat-stat">
-              <div class="feat-stat-val">${statCountries}</div>
-              <div class="feat-stat-label">${countriesLabel}</div>
-            </div>
-            <div class="feat-stat">
-              <div class="feat-stat-val">${statRead}</div>
-              <div class="feat-stat-label">${readLabel}</div>
-            </div>
-          </aside>
-        </article>
-      `;
+    /* -------------------------------------------------------
+       Build one card HTML
+       ------------------------------------------------------- */
+    function cardHTML(c, cls) {
+      var t = tx();
+      var url = str(c.url);
+      var date = c.date ? fmtDate(c.date) : "";
+      return '<article class="cw-card ' + cls + '">' +
+        '<div class="card-head">' +
+          '<div class="card-theme"><span class="card-theme-dot"></span>' + (c.theme || "") + '</div>' +
+          '<h3>' + str(c.title) + '</h3>' +
+        '</div>' +
+        '<div class="card-body"><p class="card-excerpt">' + str(c.excerpt) + '</p></div>' +
+        '<div class="card-footer">' +
+          '<span class="card-meta">' + date + (c.read ? " · " + c.read : "") + '</span>' +
+          '<a class="card-read" href="' + url + '">' + t.read + '</a>' +
+        '</div>' +
+      '</article>';
     }
 
-    function cardHTML(c) {
-      const t = tx();
-      const url = str(c.url);
-      const cls = THEME_CLASS[c.theme] || "";
-      const date = c.date ? fmtDate(c.date) : "";
+    /* -------------------------------------------------------
+       Build one thematic section
+       ------------------------------------------------------- */
+    function buildSection(secDef, articles) {
+      var t = tx();
+      var label = t[secDef.i18nKey] || secDef.id;
+      var hasMore = articles.length > MAX_VISIBLE;
+      var sectionId = "sec-" + secDef.id;
+      var gridId = "grid-" + secDef.id;
+      var btnId = "btn-" + secDef.id;
 
-      return `
-        <article class="cw-card ${cls}" role="listitem">
-          <div class="card-head">
-            <div class="card-theme">
-              <span class="card-theme-dot"></span>
-              ${c.theme || ""}
-            </div>
-            <h3>${str(c.title)}</h3>
-          </div>
-          <div class="card-body">
-            <p class="card-excerpt">${str(c.excerpt)}</p>
-          </div>
-          <div class="card-footer">
-            <span class="card-meta">${date}${c.read ? " · " + c.read : ""}</span>
-            <a class="card-read" href="${url}">${t.read}</a>
-          </div>
-        </article>
-      `;
-    }
+      // Sort by date descending (most recent first)
+      articles.sort(function(a, b) { return (b.date || "").localeCompare(a.date || ""); });
 
-    function seriesItemParts(c) {
-      const full = str(c.title);
-      const arrow = full.indexOf("→");
-      const afterArrow = arrow !== -1 ? full.slice(arrow + 1).trim() : full;
-      const colon = afterArrow.indexOf(":");
-      const part = colon !== -1 ? afterArrow.slice(0, colon).trim() : "";
-      const title = colon !== -1 ? afterArrow.slice(colon + 1).trim() : afterArrow;
-      return { part, title };
-    }
+      var html = '<div class="theme-section" id="' + sectionId + '">';
 
-    function seriesHTML(entries) {
-      const t = tx();
-      const first = entries[0];
-      const cls = THEME_CLASS[first.theme] || "";
-      const seriesName = str(first.seriesLabel);
-      const sorted = entries.slice().sort(function(a, b) {
-        return (a.date || "").localeCompare(b.date || "");
-      });
-      const cardsHTML = sorted.map(function(c) {
-        const url = str(c.url);
-        const date = c.date ? fmtDate(c.date) : "";
-        const p = seriesItemParts(c);
-        const excerpt = str(c.excerpt);
-        return `<a class="series-card" href="${url}">
-          <div class="series-card-part">${p.part}</div>
-          <div class="series-card-title">${p.title}</div>
-          <div class="series-card-excerpt">${excerpt}</div>
-          <div class="series-card-meta">${date}${c.read ? " · " + c.read : ""}</div>
-        </a>`;
-      }).join("");
-      return `<div class="series-block ${cls}">
-        <div class="series-hd">
-          <span class="series-badge-pill">${t.series} · ${entries.length} ${t.parts}</span>
-          <span class="series-name-text">${seriesName}</span>
-        </div>
-        <div class="series-cards">${cardsHTML}</div>
-      </div>`;
-    }
-
-    function matches(c) {
-      const q = document.getElementById("searchInput").value.trim().toLowerCase();
-      const hay = [str(c.title), str(c.excerpt), c.theme || "", c.region || ""].join(" ").toLowerCase();
-      const qOk = !q || hay.includes(q);
-      const fOk = activeFilter === "all" || c.theme === activeFilter;
-      return qOk && fOk;
-    }
-
-    function buildFilters() {
-      const t = tx();
-      const themes = [];
-
-      CHRONICLES.forEach(function(c) {
-        if (c.theme && !themes.includes(c.theme)) themes.push(c.theme);
-      });
-
-      const nav = document.getElementById("filters");
-      nav.innerHTML = "";
-
-      function makeBtn(label, val) {
-        const btn = document.createElement("button");
-        btn.className = "fpill" + (activeFilter === val ? " on" : "");
-        btn.textContent = label;
-        btn.addEventListener("click", function() {
-          activeFilter = val;
-          buildFilters();
-          render();
-        });
-        nav.appendChild(btn);
+      // Section header
+      html += '<div class="theme-head">' +
+        '<span class="theme-dot" style="background:' + secDef.color + '"></span>' +
+        '<span class="theme-label" style="color:' + secDef.color + '">' + label + '</span>' +
+        '<div class="theme-rule"></div>';
+      if (hasMore) {
+        html += '<button class="theme-toggle" id="' + btnId + '" ' +
+          'style="color:' + secDef.color + '" ' +
+          'onclick="toggleSection(\'' + secDef.id + '\')">' + t.seeAll + '</button>';
       }
+      html += '</div>';
 
-      makeBtn(t.all, "all");
-      themes.forEach(function(th) { makeBtn(th, th); });
+      // Cards grid
+      html += '<div class="cw-grid" id="' + gridId + '">';
+      articles.forEach(function(c, i) {
+        var hidden = (i >= MAX_VISIBLE) ? ' style="display:none" data-extra="1"' : '';
+        html += '<div' + hidden + '>' + cardHTML(c, secDef.cls) + '</div>';
+      });
+      html += '</div>';
+
+      html += '</div>';
+      return html;
     }
 
+    /* -------------------------------------------------------
+       Build empty section (Comparatifs Villes)
+       ------------------------------------------------------- */
+    function buildEmptySection(secDef) {
+      var t = tx();
+      var label = t[secDef.i18nKey] || secDef.id;
+
+      return '<div class="theme-section">' +
+        '<div class="theme-head">' +
+          '<span class="theme-dot" style="background:' + secDef.color + '"></span>' +
+          '<span class="theme-label" style="color:' + secDef.color + '">' + label + '</span>' +
+          '<div class="theme-rule"></div>' +
+        '</div>' +
+        '<div class="coming-soon">' + t.comingSoon + '</div>' +
+      '</div>';
+    }
+
+    /* -------------------------------------------------------
+       Toggle expand/collapse a section
+       ------------------------------------------------------- */
+    window.toggleSection = function(secId) {
+      var t = tx();
+      var grid = document.getElementById("grid-" + secId);
+      var btn = document.getElementById("btn-" + secId);
+      if (!grid || !btn) return;
+
+      var extras = grid.querySelectorAll("[data-extra]");
+      var isExpanded = btn.getAttribute("data-expanded") === "1";
+
+      if (isExpanded) {
+        extras.forEach(function(el) { el.style.display = "none"; });
+        btn.textContent = t.seeAll;
+        btn.removeAttribute("data-expanded");
+      } else {
+        extras.forEach(function(el) { el.style.display = ""; });
+        btn.textContent = t.collapse;
+        btn.setAttribute("data-expanded", "1");
+      }
+    };
+
+    /* -------------------------------------------------------
+       Render everything
+       ------------------------------------------------------- */
     function render() {
-      const t = tx();
-      let featured = null;
-      let rest = [];
+      var root = document.getElementById("sectionsRoot");
+      var allHTML = "";
 
-      CHRONICLES.forEach(function(c) {
-        if (c.featured) featured = c;
-        else rest.push(c);
+      SECTIONS.forEach(function(secDef) {
+        var articles = ARTICLES.filter(function(a) { return a.section === secDef.id; });
+        if (articles.length === 0) {
+          allHTML += buildEmptySection(secDef);
+        } else {
+          allHTML += buildSection(secDef, articles);
+        }
       });
 
-      const featSec = document.getElementById("featuredSection");
-      const featCard = document.getElementById("featuredCard");
-
-      if (featured) {
-        const showFeat = matches(featured);
-        featSec.style.display = showFeat ? "" : "none";
-        if (showFeat) featCard.innerHTML = featuredHTML(featured);
-      } else {
-        featSec.style.display = "none";
-      }
-
-      const filtered = rest.filter(matches);
-      const grid = document.getElementById("grid");
-      const emptyEl = document.getElementById("empty");
-
-      if (filtered.length === 0) {
-        grid.innerHTML = "";
-        emptyEl.style.display = "block";
-        emptyEl.textContent = t.empty;
-        grid.appendChild(emptyEl);
-      } else {
-        const seriesGroups = [];
-        const cardGroups = [];
-        const processedSeries = new Set();
-        filtered.forEach(function(c) {
-          if (c.series) {
-            if (!processedSeries.has(c.series)) {
-              processedSeries.add(c.series);
-              const seriesItems = filtered.filter(function(x) { return x.series === c.series; });
-              seriesGroups.push({ type: "series", items: seriesItems });
-            }
-          } else {
-            cardGroups.push({ type: "card", item: c });
-          }
-        });
-        const groups = seriesGroups.concat(cardGroups);
-        const hasSeries = groups.some(function(g) { return g.type === "series"; });
-        let dividerInserted = false;
-        grid.innerHTML = groups.map(function(g) {
-          if (g.type === "series") return seriesHTML(g.items);
-          let prefix = "";
-          if (hasSeries && !dividerInserted) {
-            dividerInserted = true;
-            prefix = `<div class="grid-divider"><span class="grid-divider-line"></span><span class="grid-divider-label">${t.section}</span><span class="grid-divider-line"></span></div>`;
-          }
-          return prefix + cardHTML(g.item);
-        }).join("");
-        emptyEl.style.display = "none";
-      }
-
-      document.getElementById("countBadge").textContent = filtered.length;
-      document.getElementById("sectionLabel").textContent = t.section;
+      root.innerHTML = allHTML;
     }
 
     function applyI18n() {
-      const t = tx();
-      const l = getLang();
-
+      var t = tx();
+      var l = getLang();
       document.documentElement.lang = l;
       document.getElementById("eyebrow").textContent = t.eyebrow;
       document.getElementById("heroTitle").innerHTML = "Wigg <em>" + t.titleWord + "</em>";
       document.getElementById("heroSub").textContent = t.sub;
-      document.getElementById("searchInput").placeholder = t.search;
-      document.getElementById("sectionLabel").textContent = t.section;
-      document.getElementById("empty").textContent = t.empty;
     }
 
     function init() {
       applyI18n();
-      buildFilters();
       render();
     }
 
     init();
 
-    document.getElementById("searchInput").addEventListener("input", render);
-
     window.addEventListener("wigg_lang_changed", function() {
       applyI18n();
-      buildFilters();
       render();
     });
   </script>
