@@ -1525,8 +1525,9 @@
 
     function renderArticle(data){
       const countryName = window.__WIGGMAP_COUNTRY__?.name || "this country";
-      const article = (data && typeof data.article === "string") ? data.article : "";
-      if(!article) return "";
+      var article = (data && typeof data.article === "string") ? data.article : "";
+      article = article.replace(/\[\[MAP\]\]/g, "");
+      if(!article.trim()) return "";
 
       const score = parseScore(article);
       const badge = score ? `<span class="score-badge">⭐ Expat Score: ${esc(score)} / 10</span>` : "";
