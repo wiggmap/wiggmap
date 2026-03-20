@@ -440,7 +440,7 @@
 
 <!-- Barre retour -->
 <div style="background:#060b14; padding:6px 16px; border-bottom:0.5px solid #1a2535;">
-  <a href="/" style="font-size:11px; color:#3a4a5e; text-decoration:none;">← wiggmap.com</a>
+  <a href="/" style="font-size:11px; color:#3a4a5e; text-decoration:none;" data-wci18n="nav.back_wiggmap">← wiggmap.com</a>
 </div>
 
 <!-- Header principal -->
@@ -449,7 +449,7 @@
                border-bottom:0.5px solid #1e2a3a;">
   <a href="/connect/">
     <img src="assets/wiggmap-connect-logo.png"
-         style="height:52px; width:auto; display:block;"
+         style="height:28px; width:auto; display:block;"
          alt="WiggMap Connect" />
   </a>
   <div style="position:absolute; right:16px; top:50%; transform:translateY(-50%);">
@@ -476,35 +476,35 @@
       <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
       <polyline points="9 22 9 12 15 12 15 22"/>
     </svg>
-    <span class="connect-bottombar__label">Accueil</span>
+    <span class="connect-bottombar__label" data-wci18n="nav.home">Accueil</span>
   </a>
   <a href="feed.html" class="connect-bottombar__item">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
       <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
     </svg>
-    <span class="connect-bottombar__label">Feed</span>
+    <span class="connect-bottombar__label" data-wci18n="nav.feed">Feed</span>
   </a>
   <a href="swipe.html" class="connect-bottombar__item">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
       <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
     </svg>
-    <span class="connect-bottombar__label">Swipe</span>
+    <span class="connect-bottombar__label" data-wci18n="nav.swipe">Swipe</span>
   </a>
   <a href="profile.html" class="connect-bottombar__item active">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
       <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
       <circle cx="12" cy="7" r="4"/>
     </svg>
-    <span class="connect-bottombar__label">Profil</span>
+    <span class="connect-bottombar__label" data-wci18n="nav.profile">Profil</span>
   </a>
 </nav>
 
 <footer class="wc-footer">
-  <a href="/">wiggmap.com</a>
+  <a href="/" data-wci18n="footer.wiggmap">wiggmap.com</a>
   <span>·</span>
-  <a href="/connect/">WiggMap Connect</a>
+  <a href="/connect/" data-wci18n="footer.connect">WiggMap Connect</a>
   <span>·</span>
-  <span>Beta</span>
+  <span data-wci18n="footer.beta">Beta</span>
 </footer>
 
 <script src="assets/connect.js"></script>
@@ -851,7 +851,7 @@
     /* Cover */
     '<div class="prof-cover" style="background:' + coverGradient + ';">' +
       '<div class="prof-cover__overlay"></div>' +
-      '<a href="onboarding.html" class="prof-cover__edit">Modifier</a>' +
+      '<a href="onboarding.html" class="prof-cover__edit" data-wci18n="profile.edit">Modifier</a>' +
     '</div>' +
 
     /* Avatar row */
@@ -877,22 +877,22 @@
 
     /* Action buttons */
     '<div class="prof-actions">' +
-      '<button class="prof-btn prof-btn--primary" onclick="toggleFollow(this)">+ Suivre</button>' +
-      '<button class="prof-btn prof-btn--ghost">' +
+      '<button class="prof-btn prof-btn--primary" onclick="toggleFollow(this)" data-wci18n="btn.follow">+ Suivre</button>' +
+      '<button class="prof-btn prof-btn--ghost" data-wci18n="btn.message">' +
         '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' +
           '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>' +
         '</svg>' +
         'Message' +
       '</button>' +
-      '<button class="prof-btn prof-btn--compat" onclick="showCompat()">~ Compat.</button>' +
+      '<button class="prof-btn prof-btn--compat" onclick="showCompat()" data-wci18n="btn.compat">~ Compat.</button>' +
     '</div>' +
 
     /* Stats */
     '<div class="prof-stats">' +
-      '<div class="prof-stat"><div class="prof-stat__val">0</div><div class="prof-stat__lbl">aidés</div></div>' +
-      '<div class="prof-stat"><div class="prof-stat__val">0</div><div class="prof-stat__lbl">reconnu</div></div>' +
-      '<div class="prof-stat"><div class="prof-stat__val">0</div><div class="prof-stat__lbl">rencontres</div></div>' +
-      '<div class="prof-stat"><div class="prof-stat__val">0</div><div class="prof-stat__lbl">miroirs</div></div>' +
+      '<div class="prof-stat"><div class="prof-stat__val">0</div><div class="prof-stat__lbl" data-wci18n="status.helped">aidés</div></div>' +
+      '<div class="prof-stat"><div class="prof-stat__val">0</div><div class="prof-stat__lbl" data-wci18n="status.recognized">reconnu</div></div>' +
+      '<div class="prof-stat"><div class="prof-stat__val">0</div><div class="prof-stat__lbl" data-wci18n="status.meetings">rencontres</div></div>' +
+      '<div class="prof-stat"><div class="prof-stat__val">0</div><div class="prof-stat__lbl" data-wci18n="status.mirrors">WiggZ</div></div>' +
     '</div>' +
 
     /* Separator */
@@ -900,6 +900,11 @@
 
     /* Tabs */
     buildTabsHTML();
+
+  /* Re-apply i18n after rendering dynamic content */
+  if (typeof wcApplyLang === 'function') {
+    wcApplyLang(localStorage.getItem('wigg_lang') || 'en');
+  }
 
   /* -------------------------------------------------------
      Tab switcher
@@ -959,6 +964,8 @@
 
 })();
 </script>
+<script src="assets/i18n.js"></script>
+<script>(function(){ wcApplyLang(localStorage.getItem('wigg_lang')||'en'); })();</script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     if (typeof wcInitLangSwitcher === 'function') {

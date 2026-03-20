@@ -350,7 +350,7 @@
 
 <!-- Barre retour discrète -->
 <div style="background:#060b14;padding:6px 16px;border-bottom:0.5px solid #1a2535;">
-  <a href="index.html" style="font-size:11px;color:#3a4a5e;text-decoration:none;">← WiggMap Connect</a>
+  <a href="index.html" style="font-size:11px;color:#3a4a5e;text-decoration:none;" data-wci18n="nav.back_connect">← WiggMap Connect</a>
 </div>
 
 <!-- Topbar sticky -->
@@ -360,7 +360,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="15 18 9 12 15 6"/>
       </svg>
-      Retour
+      <span data-wci18n="onboarding.back">Retour</span>
     </button>
     <div class="ob-dots" id="obDots">
       <div class="ob-dot" id="dot1"></div>
@@ -381,15 +381,16 @@
        STEP 1 — Origine
        ====================================================== -->
   <div class="step-panel" id="step1">
-    <div class="step-title">D'où viens-tu ?</div>
-    <p class="step-sub">Ton point de départ — le lieu qui te définit avant tout.</p>
+    <div class="step-title" data-wci18n="onboarding.step1.title">D'où viens-tu ?</div>
+    <p class="step-sub" data-wci18n="onboarding.step1.sub">Ton point de départ — le lieu qui te définit avant tout.</p>
 
     <div class="form-group">
-      <label class="form-label">Pays d'origine *</label>
+      <label class="form-label" data-wci18n="onboarding.step1.country_label">Pays d'origine *</label>
       <div class="cs-wrap">
         <span class="cs-icon">🔍</span>
         <input id="s1CountryInput" class="form-input cs-input"
                placeholder="Cherche ton pays..."
+               data-wci18n-placeholder="onboarding.step1.country_placeholder"
                oninput="csFilter('s1CountryInput','s1Drop')"
                autocomplete="off" />
         <div class="cs-dropdown" id="s1Drop"></div>
@@ -402,15 +403,16 @@
     </div>
 
     <div class="form-group">
-      <label class="form-label">Ville d'origine *</label>
+      <label class="form-label" data-wci18n="onboarding.step1.city_label">Ville d'origine *</label>
       <input id="s1CityInput" class="form-input"
              placeholder="ex. Lyon, Bruxelles, Dakar..."
+             data-wci18n-placeholder="onboarding.step1.city_placeholder"
              oninput="state.origin_city = this.value" />
     </div>
 
     <div class="step-nav">
       <button class="btn btn--primary" style="flex:1;height:48px;font-size:15px;"
-              onclick="goStep1Next()">
+              onclick="goStep1Next()" data-wci18n="btn.next">
         Suivant →
       </button>
     </div>
@@ -420,29 +422,29 @@
        STEP 2 — Situation
        ====================================================== -->
   <div class="step-panel" id="step2">
-    <div class="step-title">Ta situation</div>
-    <p class="step-sub">Où en es-tu dans ton parcours ? Clique sur ta situation.</p>
+    <div class="step-title" data-wci18n="onboarding.step2.title">Ta situation</div>
+    <p class="step-sub" data-wci18n="onboarding.step2.sub">Où en es-tu dans ton parcours ? Clique sur ta situation.</p>
 
     <div class="sit-grid">
       <div class="sit-card" id="sit-curious" onclick="selectSituation('curious')">
         <div class="sit-card__icon">🤔</div>
-        <div class="sit-card__title">Curieux</div>
-        <div class="sit-card__desc">J'explore l'idée, sans décision prise</div>
+        <div class="sit-card__title" data-wci18n="onboarding.step2.curious_title">Curieux</div>
+        <div class="sit-card__desc" data-wci18n="onboarding.step2.curious_desc">J'explore l'idée, sans décision prise</div>
       </div>
       <div class="sit-card" id="sit-thinking" onclick="selectSituation('thinking')">
         <div class="sit-card__icon">📋</div>
-        <div class="sit-card__title">En réflexion</div>
-        <div class="sit-card__desc">Je réfléchis sérieusement à partir</div>
+        <div class="sit-card__title" data-wci18n="onboarding.step2.thinking_title">En réflexion</div>
+        <div class="sit-card__desc" data-wci18n="onboarding.step2.thinking_desc">Je réfléchis sérieusement à partir</div>
       </div>
       <div class="sit-card" id="sit-confirmed" onclick="selectSituation('confirmed')">
         <div class="sit-card__icon">🚀</div>
-        <div class="sit-card__title">Projet confirmé</div>
-        <div class="sit-card__desc">J'ai décidé, je prépare mon départ</div>
+        <div class="sit-card__title" data-wci18n="onboarding.step2.confirmed_title">Projet confirmé</div>
+        <div class="sit-card__desc" data-wci18n="onboarding.step2.confirmed_desc">J'ai décidé, je prépare mon départ</div>
       </div>
       <div class="sit-card" id="sit-installed" onclick="selectSituation('installed')">
         <div class="sit-card__icon">🏠</div>
-        <div class="sit-card__title">Déjà installé</div>
-        <div class="sit-card__desc">Je vis déjà à l'étranger</div>
+        <div class="sit-card__title" data-wci18n="onboarding.step2.installed_title">Déjà installé</div>
+        <div class="sit-card__desc" data-wci18n="onboarding.step2.installed_desc">Je vis déjà à l'étranger</div>
       </div>
     </div>
   </div>
@@ -454,14 +456,15 @@
 
     <!-- Variant A : curious / thinking — multi-pick ≤5 -->
     <div class="s3-panel" id="s3Multi">
-      <div class="step-title">Quels pays t'intéressent ?</div>
-      <p class="step-sub">Choisis jusqu'à 5 pays qui t'attirent. Tu pourras affiner plus tard.</p>
+      <div class="step-title" data-wci18n="onboarding.step3.multi_title">Quels pays t'intéressent ?</div>
+      <p class="step-sub" data-wci18n="onboarding.step3.multi_sub">Choisis jusqu'à 5 pays qui t'attirent. Tu pourras affiner plus tard.</p>
 
       <div class="form-group">
         <div class="cs-wrap">
           <span class="cs-icon">🔍</span>
           <input id="s3MultiInput" class="form-input cs-input"
                  placeholder="Cherche un pays..."
+                 data-wci18n-placeholder="onboarding.step3.multi_placeholder"
                  oninput="csFilterMulti('s3MultiInput','s3MultiDrop')"
                  autocomplete="off" />
           <div class="cs-dropdown" id="s3MultiDrop"></div>
@@ -473,24 +476,25 @@
 
       <div class="step-nav">
         <button class="btn btn--primary" style="flex:1;height:48px;font-size:15px;"
-                onclick="goStep3Next()">
+                onclick="goStep3Next()" data-wci18n="btn.next">
           Suivant →
         </button>
-        <button class="btn-pass" onclick="skipStep3()">Je cherche encore</button>
+        <button class="btn-pass" onclick="skipStep3()" data-wci18n="onboarding.step3.multi_skip">Je cherche encore</button>
       </div>
     </div>
 
     <!-- Variant B : confirmed — single country + city + quarter -->
     <div class="s3-panel" id="s3Single">
-      <div class="step-title">Où vas-tu t'installer ?</div>
-      <p class="step-sub">Le pays et la ville de destination de ton projet.</p>
+      <div class="step-title" data-wci18n="onboarding.step3.single_title">Où vas-tu t'installer ?</div>
+      <p class="step-sub" data-wci18n="onboarding.step3.single_sub">Le pays et la ville de destination de ton projet.</p>
 
       <div class="form-group">
-        <label class="form-label">Pays de destination *</label>
+        <label class="form-label" data-wci18n="onboarding.step3.single_country_label">Pays de destination *</label>
         <div class="cs-wrap">
           <span class="cs-icon">🔍</span>
           <input id="s3SingCountryInput" class="form-input cs-input"
                  placeholder="Cherche ton pays cible..."
+                 data-wci18n-placeholder="onboarding.step3.single_country_placeholder"
                  oninput="csFilter('s3SingCountryInput','s3SingDrop')"
                  autocomplete="off" />
           <div class="cs-dropdown" id="s3SingDrop"></div>
@@ -503,14 +507,15 @@
       </div>
 
       <div class="form-group">
-        <label class="form-label">Ville cible</label>
+        <label class="form-label" data-wci18n="onboarding.step3.single_city_label">Ville cible</label>
         <input id="s3SingCityInput" class="form-input"
                placeholder="ex. Lisbonne, Berlin, Bangkok..."
+               data-wci18n-placeholder="onboarding.step3.single_city_placeholder"
                oninput="state.target_city = this.value" />
       </div>
 
       <div class="form-group">
-        <label class="form-label">Départ prévu</label>
+        <label class="form-label" data-wci18n="onboarding.step3.single_quarter_label">Départ prévu</label>
         <div class="quarter-grid" id="quarterGrid">
           <!-- Filled by JS -->
         </div>
@@ -518,7 +523,7 @@
 
       <div class="step-nav">
         <button class="btn btn--primary" style="flex:1;height:48px;font-size:15px;"
-                onclick="goStep3Next()">
+                onclick="goStep3Next()" data-wci18n="btn.next">
           Suivant →
         </button>
       </div>
@@ -526,15 +531,16 @@
 
     <!-- Variant C : installed — single country + city + slider -->
     <div class="s3-panel" id="s3Installed">
-      <div class="step-title">Où es-tu installé ?</div>
-      <p class="step-sub">Le pays où tu vis actuellement et depuis combien de temps.</p>
+      <div class="step-title" data-wci18n="onboarding.step3.inst_title">Où es-tu installé ?</div>
+      <p class="step-sub" data-wci18n="onboarding.step3.inst_sub">Le pays où tu vis actuellement et depuis combien de temps.</p>
 
       <div class="form-group">
-        <label class="form-label">Pays actuel *</label>
+        <label class="form-label" data-wci18n="onboarding.step3.inst_country_label">Pays actuel *</label>
         <div class="cs-wrap">
           <span class="cs-icon">🔍</span>
           <input id="s3InstCountryInput" class="form-input cs-input"
                  placeholder="Cherche ton pays actuel..."
+                 data-wci18n-placeholder="onboarding.step3.inst_country_placeholder"
                  oninput="csFilter('s3InstCountryInput','s3InstDrop')"
                  autocomplete="off" />
           <div class="cs-dropdown" id="s3InstDrop"></div>
@@ -547,14 +553,15 @@
       </div>
 
       <div class="form-group">
-        <label class="form-label">Ville</label>
+        <label class="form-label" data-wci18n="onboarding.step3.inst_city_label">Ville</label>
         <input id="s3InstCityInput" class="form-input"
                placeholder="ex. Porto, Tokyo, Berlin..."
+               data-wci18n-placeholder="onboarding.step3.inst_city_placeholder"
                oninput="state.current_city = this.value" />
       </div>
 
       <div class="form-group">
-        <label class="form-label">Depuis combien de temps ?</label>
+        <label class="form-label" data-wci18n="onboarding.step3.inst_duration_label">Depuis combien de temps ?</label>
         <div class="dur-wrap">
           <input type="range" id="durSlider" min="1" max="72" value="12"
                  oninput="onSliderInput(this.value)" />
@@ -567,7 +574,7 @@
 
       <div class="step-nav">
         <button class="btn btn--primary" style="flex:1;height:48px;font-size:15px;"
-                onclick="goStep3Next()">
+                onclick="goStep3Next()" data-wci18n="btn.next">
           Suivant →
         </button>
       </div>
@@ -579,76 +586,77 @@
        STEP 4 — Ce que tu peux apporter (optionnel)
        ====================================================== -->
   <div class="step-panel" id="step4">
-    <div class="step-title">Ce que tu peux apporter</div>
-    <p class="step-sub">Tes connaissances et expériences aident les autres membres.</p>
+    <div class="step-title" data-wci18n="onboarding.step4.title">Ce que tu peux apporter</div>
+    <p class="step-sub" data-wci18n="onboarding.step4.sub">Tes connaissances et expériences aident les autres membres.</p>
 
     <div class="form-group">
-      <label class="form-label">Ton secteur professionnel</label>
+      <label class="form-label" data-wci18n="onboarding.step4.sector_label">Ton secteur professionnel</label>
       <input id="s4SectorInput" class="form-input"
              placeholder="ex. Finance, Architecture, Marketing..."
+             data-wci18n-placeholder="onboarding.step4.sector_placeholder"
              oninput="onSectorInput(this.value)"
              autocomplete="off" />
       <div class="sector-chips" id="sectorChips">
-        <button class="s-chip" onclick="setSectorChip(this,'Finance')">Finance</button>
-        <button class="s-chip" onclick="setSectorChip(this,'Droit')">Droit</button>
-        <button class="s-chip" onclick="setSectorChip(this,'Immobilier')">Immobilier</button>
-        <button class="s-chip" onclick="setSectorChip(this,'Santé')">Santé</button>
-        <button class="s-chip" onclick="setSectorChip(this,'Tech')">Tech</button>
-        <button class="s-chip" onclick="setSectorChip(this,'Éducation')">Éducation</button>
-        <button class="s-chip" onclick="setSectorChip(this,'Commerce')">Commerce</button>
-        <button class="s-chip" onclick="setSectorChip(this,'Création')">Création</button>
+        <button class="s-chip" onclick="setSectorChip(this,'Finance')" data-wci18n="onboarding.step4.chip_finance">Finance</button>
+        <button class="s-chip" onclick="setSectorChip(this,'Droit')" data-wci18n="onboarding.step4.chip_law">Droit</button>
+        <button class="s-chip" onclick="setSectorChip(this,'Immobilier')" data-wci18n="onboarding.step4.chip_realestate">Immobilier</button>
+        <button class="s-chip" onclick="setSectorChip(this,'Santé')" data-wci18n="onboarding.step4.chip_health">Santé</button>
+        <button class="s-chip" onclick="setSectorChip(this,'Tech')" data-wci18n="onboarding.step4.chip_tech">Tech</button>
+        <button class="s-chip" onclick="setSectorChip(this,'Éducation')" data-wci18n="onboarding.step4.chip_education">Éducation</button>
+        <button class="s-chip" onclick="setSectorChip(this,'Commerce')" data-wci18n="onboarding.step4.chip_trade">Commerce</button>
+        <button class="s-chip" onclick="setSectorChip(this,'Création')" data-wci18n="onboarding.step4.chip_creative">Création</button>
       </div>
     </div>
 
     <div class="hv-callout" id="hvCallout">
-      <strong>✦ Profil haute valeur terrain</strong><br>
-      Les membres de ton secteur sont parmi les plus recherchés. Tes retours d'expérience
-      peuvent débloquer des situations complexes pour d'autres expats.
+      <strong data-wci18n="onboarding.step4.hv_title">✦ Profil haute valeur terrain</strong><br>
+      <span data-wci18n="onboarding.step4.hv_desc">Les membres de ton secteur sont parmi les plus recherchés. Tes retours d'expérience
+      peuvent débloquer des situations complexes pour d'autres expats.</span>
     </div>
 
-    <div class="framing">
+    <div class="framing" data-wci18n="onboarding.step4.framing">
       Retours terrain et expériences vécues — pas des conseils professionnels certifiés.
     </div>
 
-    <div class="section-lbl" style="margin-top:22px;">Sur quels sujets tu peux aider ?</div>
+    <div class="section-lbl" style="margin-top:22px;" data-wci18n="onboarding.step4.topics_title">Sur quels sujets tu peux aider ?</div>
     <div class="help-topics" id="helpTopics">
       <!-- Filled by JS -->
     </div>
 
-    <div class="section-lbl">Comment préfères-tu aider ?</div>
+    <div class="section-lbl" data-wci18n="onboarding.step4.modes_title">Comment préfères-tu aider ?</div>
     <div id="helpModes">
       <div class="hm-option" id="hm-messages" onclick="selectHelpMode('messages')">
         <div class="hm-radio"></div>
         <div class="hm-text">
-          Messages privés<br><small>Réponds aux questions en direct</small>
+          <span data-wci18n="onboarding.step4.mode_messages">Messages privés</span><br><small data-wci18n="onboarding.step4.mode_messages_sub">Réponds aux questions en direct</small>
         </div>
       </div>
       <div class="hm-option" id="hm-posts" onclick="selectHelpMode('posts')">
         <div class="hm-radio"></div>
         <div class="hm-text">
-          Posts publics<br><small>Partage des retours d'expérience</small>
+          <span data-wci18n="onboarding.step4.mode_posts">Posts publics</span><br><small data-wci18n="onboarding.step4.mode_posts_sub">Partage des retours d'expérience</small>
         </div>
       </div>
       <div class="hm-option" id="hm-both" onclick="selectHelpMode('both')">
         <div class="hm-radio"></div>
         <div class="hm-text">
-          Les deux<br><small>Messages + posts selon l'envie</small>
+          <span data-wci18n="onboarding.step4.mode_both">Les deux</span><br><small data-wci18n="onboarding.step4.mode_both_sub">Messages + posts selon l'envie</small>
         </div>
       </div>
       <div class="hm-option" id="hm-none" onclick="selectHelpMode('none')">
         <div class="hm-radio"></div>
         <div class="hm-text">
-          Juste observer<br><small>Pour l'instant, je préfère apprendre</small>
+          <span data-wci18n="onboarding.step4.mode_none">Juste observer</span><br><small data-wci18n="onboarding.step4.mode_none_sub">Pour l'instant, je préfère apprendre</small>
         </div>
       </div>
     </div>
 
     <div class="step-nav">
       <button class="btn btn--primary" style="flex:1;height:48px;font-size:15px;"
-              onclick="goToStep(5)">
+              onclick="goToStep(5)" data-wci18n="btn.next">
         Suivant →
       </button>
-      <button class="btn-pass" onclick="skipStep4()">Passer</button>
+      <button class="btn-pass" onclick="skipStep4()" data-wci18n="btn.skip">Passer</button>
     </div>
   </div>
 
@@ -656,8 +664,8 @@
        STEP 5 — Identité (optionnel)
        ====================================================== -->
   <div class="step-panel" id="step5">
-    <div class="step-title">Qui es-tu ?</div>
-    <p class="step-sub">Donne-toi une présence. Photo et nom suffisent pour commencer.</p>
+    <div class="step-title" data-wci18n="onboarding.step5.title">Qui es-tu ?</div>
+    <p class="step-sub" data-wci18n="onboarding.step5.sub">Donne-toi une présence. Photo et nom suffisent pour commencer.</p>
 
     <!-- Photo -->
     <div class="photo-zone" id="photoZone" onclick="document.getElementById('photoFile').click()">
@@ -665,30 +673,32 @@
       <img id="photoPreview" style="display:none;" alt="Photo" />
     </div>
     <input type="file" id="photoFile" accept="image/*" style="display:none;" onchange="onPhotoChange(this)" />
-    <p class="photo-hint">Clique pour ajouter une photo</p>
+    <p class="photo-hint" data-wci18n="onboarding.step5.photo_hint">Clique pour ajouter une photo</p>
 
     <!-- Nom affiché -->
     <div class="form-group">
-      <label class="form-label">Nom affiché</label>
+      <label class="form-label" data-wci18n="onboarding.step5.name_label">Nom affiché</label>
       <input id="s5NameInput" class="form-input"
              placeholder="Prénom ou pseudo..."
+             data-wci18n-placeholder="onboarding.step5.name_placeholder"
              oninput="state.display_name = this.value" />
     </div>
 
     <!-- Bio -->
     <div class="form-group">
-      <label class="form-label">Bio <span style="color:var(--wigg-text-4);font-weight:400;">(160 car.)</span></label>
+      <label class="form-label"><span data-wci18n="onboarding.step5.bio_label">Bio</span> <span style="color:var(--wigg-text-4);font-weight:400;" data-wci18n="onboarding.step5.bio_chars">(160 car.)</span></label>
       <textarea id="s5BioInput" class="form-input" rows="3"
                 maxlength="160"
                 style="resize:none;line-height:1.5;"
                 placeholder="ex. Graphiste lyonnais en route pour Lisbonne..."
+                data-wci18n-placeholder="onboarding.step5.bio_placeholder"
                 oninput="onBioInput(this)"></textarea>
       <div class="bio-counter"><span id="bioCount">0</span> / 160</div>
     </div>
 
     <!-- Langues -->
     <div class="form-group">
-      <label class="form-label">Langues parlées</label>
+      <label class="form-label" data-wci18n="onboarding.step5.langs_label">Langues parlées</label>
       <div class="lang-pills" id="langPills">
         <!-- Filled by JS -->
       </div>
@@ -696,29 +706,29 @@
 
     <!-- Type de compte -->
     <div class="form-group">
-      <label class="form-label">Type de compte</label>
+      <label class="form-label" data-wci18n="onboarding.step5.account_label">Type de compte</label>
       <div class="atype-grid">
         <div class="atype-card selected" id="atype-individu" onclick="selectAccountType('individu')">
           <div class="atype-icon">🧑</div>
-          <div class="atype-label">Individu</div>
+          <div class="atype-label" data-wci18n="onboarding.step5.type_individu">Individu</div>
         </div>
         <div class="atype-card" id="atype-commerce" onclick="selectAccountType('commerce')">
           <div class="atype-icon">🏪</div>
-          <div class="atype-label">Commerce</div>
+          <div class="atype-label" data-wci18n="onboarding.step5.type_commerce">Commerce</div>
         </div>
         <div class="atype-card" id="atype-association" onclick="selectAccountType('association')">
           <div class="atype-icon">🤲</div>
-          <div class="atype-label">Association</div>
+          <div class="atype-label" data-wci18n="onboarding.step5.type_association">Association</div>
         </div>
       </div>
     </div>
 
     <div class="step-nav">
       <button class="btn btn--primary" style="flex:1;height:48px;font-size:15px;"
-              id="btnCreate" onclick="createProfile()">
+              id="btnCreate" onclick="createProfile()" data-wci18n="btn.create_profile_final">
         Créer mon profil ✦
       </button>
-      <button class="btn-pass" onclick="createProfile()">Passer</button>
+      <button class="btn-pass" onclick="createProfile()" data-wci18n="btn.skip">Passer</button>
     </div>
   </div>
 
@@ -728,10 +738,10 @@
   <div class="step-panel" id="stepExit">
     <div class="exit-hero">
       <div class="exit-hero__emoji">🎉</div>
-      <div class="exit-hero__title">Voilà ce qu'on a trouvé pour toi</div>
+      <div class="exit-hero__title" data-wci18n="onboarding.exit.title">Voilà ce qu'on a trouvé pour toi</div>
       <p class="exit-hero__sub" id="exitSub">Basé sur ton profil, voici ce qui t'attend sur WiggMap Connect.</p>
       <div class="exit-stat" id="exitStat">
-        <span id="exitStatNum">0</span> membres dans ta communauté
+        <span id="exitStatNum">0</span> <span data-wci18n="onboarding.exit.stat_suffix">membres dans ta communauté</span>
       </div>
     </div>
 
@@ -741,10 +751,11 @@
 
     <a href="profile.html" class="btn btn--primary btn--full"
        style="height:52px;font-size:16px;font-weight:700;text-decoration:none;
-              display:flex;align-items:center;justify-content:center;">
+              display:flex;align-items:center;justify-content:center;"
+       data-wci18n="onboarding.exit.discover">
       Découvrir mon profil →
     </a>
-    <p style="font-size:11px;color:var(--wigg-text-4);text-align:center;margin-top:14px;">
+    <p style="font-size:11px;color:var(--wigg-text-4);text-align:center;margin-top:14px;" data-wci18n="onboarding.exit.complete_later">
       Tu pourras compléter ton profil à tout moment
     </p>
   </div>
@@ -1227,9 +1238,9 @@ function showExitScreen() {
     html += '<div class="exit-card">' +
       '<div class="exit-card__icon">👤</div>' +
       '<div class="exit-card__body">' +
-        '<div class="exit-card__title">Profils miroir</div>' +
+        '<div class="exit-card__title">Profils WiggZ</div>' +
         '<div class="exit-card__sub">Des membres qui font le chemin inverse du tien — parfait pour échanger et se préparer.</div>' +
-        '<span class="exit-card__badge">' + (Math.floor(count * 0.05)) + ' miroirs potentiels</span>' +
+        '<span class="exit-card__badge">' + (Math.floor(count * 0.05)) + ' WiggZ potentiels</span>' +
       '</div>' +
     '</div>';
 
@@ -1510,5 +1521,7 @@ document.addEventListener('click', function(e) {
   }
 });
 </script>
+<script src="assets/i18n.js"></script>
+<script>(function(){ wcApplyLang(localStorage.getItem('wigg_lang')||'en'); })();</script>
 </body>
 </html>
