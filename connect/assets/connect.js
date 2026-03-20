@@ -287,8 +287,31 @@ function getFlag(slug) {
 }
 
 /* -------------------------------------------------------
-   Switcher de langue — header partagé
+   Sujets d'aide
    ------------------------------------------------------- */
+const WC_HELP_TOPICS = [
+  { id: 'visa',       label: 'Visa & immigration' },
+  { id: 'banking',    label: 'Banque & finance' },
+  { id: 'housing',    label: 'Logement & quartiers' },
+  { id: 'tax',        label: 'Fiscalité & impôts' },
+  { id: 'health',     label: 'Santé & assurance' },
+  { id: 'school',     label: 'École & enfants' },
+  { id: 'business',   label: 'Créer une entreprise' },
+  { id: 'daily',      label: 'Vie quotidienne' },
+  { id: 'leisure',    label: 'Sport & loisirs' },
+  { id: 'work',       label: 'Trouver du travail' },
+];
+
+/**
+ * Détecte si le secteur est "haute valeur terrain"
+ * (finance, droit, immobilier, santé, éducation, comptabilité)
+ * @param {string} sectorId
+ * @returns {boolean}
+ */
+function detectHighValueSector(sectorId) {
+  const HIGH_VALUE = ['finance', 'law', 'real-estate', 'health', 'education', 'accounting'];
+  return HIGH_VALUE.includes(sectorId);
+}
 
 /* -------------------------------------------------------
    Exports (pour les autres pages)
@@ -319,33 +342,6 @@ window.WiggConnect = {
   getCountriesList,
   getFlag,
 };
-
-/* -------------------------------------------------------
-   Sujets d'aide
-   ------------------------------------------------------- */
-const WC_HELP_TOPICS = [
-  { id: 'visa',       label: 'Visa & immigration' },
-  { id: 'banking',    label: 'Banque & finance' },
-  { id: 'housing',    label: 'Logement & quartiers' },
-  { id: 'tax',        label: 'Fiscalité & impôts' },
-  { id: 'health',     label: 'Santé & assurance' },
-  { id: 'school',     label: 'École & enfants' },
-  { id: 'business',   label: 'Créer une entreprise' },
-  { id: 'daily',      label: 'Vie quotidienne' },
-  { id: 'leisure',    label: 'Sport & loisirs' },
-  { id: 'work',       label: 'Trouver du travail' },
-];
-
-/**
- * Détecte si le secteur est "haute valeur terrain"
- * (finance, droit, immobilier, santé, éducation, comptabilité)
- * @param {string} sectorId
- * @returns {boolean}
- */
-function detectHighValueSector(sectorId) {
-  const HIGH_VALUE = ['finance', 'law', 'real-estate', 'health', 'education', 'accounting'];
-  return HIGH_VALUE.includes(sectorId);
-}
 
 /* -------------------------------------------------------
    wcInitLangSwitcher — garantie globale
