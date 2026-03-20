@@ -192,9 +192,9 @@ function getMirrorScore(profileA, profileB) {
 function redirectIfProfile() {
   const profile = getProfile();
   if (profile && profile.display_name) {
-    window.location.href = 'feed.html';
+    window.location.href = '/connect/feed.html';
   } else {
-    window.location.href = 'onboarding.html';
+    window.location.href = '/connect/onboarding.html';
   }
 }
 
