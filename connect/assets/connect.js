@@ -232,7 +232,7 @@ function showToast(message, type = '', duration = 2500) {
  */
 async function getCountryName(slug) {
   try {
-    const resp = await fetch('../data/countries.json');
+    const resp = await fetch('/data/countries.json');
     const data = await resp.json();
     return data[slug]?.name || slug;
   } catch {
@@ -246,7 +246,7 @@ async function getCountryName(slug) {
  */
 async function getCountriesList() {
   try {
-    const resp = await fetch('../data/countries.json');
+    const resp = await fetch('/data/countries.json');
     const data = await resp.json();
     return Object.entries(data).map(([slug, country]) => ({
       slug,

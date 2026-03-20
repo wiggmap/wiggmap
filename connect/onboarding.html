@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" href="../assets/favicon.ico" />
+  <link rel="icon" href="/assets/favicon.ico" />
   <meta name="theme-color" content="#22c55e" />
   <meta name="robots" content="noindex" />
   <title>Créer mon profil · WiggMap Connect</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/connect.css" />
+  <link rel="stylesheet" href="/connect/assets/connect.css" />
   <style>
     /* ============================================================
        Onboarding — styles
@@ -762,13 +762,24 @@
 
 </div><!-- /ob-wrap -->
 
-<script src="assets/connect.js"></script>
+<script src="/connect/assets/connect.js"></script>
 <script>
 'use strict';
 /* ============================================================
    Onboarding — logique complète
    ============================================================ */
 var WC = window.WiggConnect;
+if (!WC) {
+  console.error('[Connect] connect.js failed to load — WiggConnect undefined');
+  document.addEventListener('DOMContentLoaded', function() {
+    var wrap = document.getElementById('obWrap');
+    if (wrap) wrap.innerHTML = '<div style="text-align:center;padding:60px 20px;color:#8a9ab5;">' +
+      '<p style="font-size:16px;font-weight:600;color:#e8edf5;margin-bottom:8px;">Loading error</p>' +
+      '<p style="font-size:13px;">Please refresh the page or check your connection.</p>' +
+      '<button onclick="location.reload()" style="margin-top:20px;padding:10px 24px;background:#22c55e;color:#fff;border:none;border-radius:10px;font-size:14px;cursor:pointer;">Refresh</button></div>';
+  });
+  throw new Error('WiggConnect not loaded');
+}
 
 /* -------------------------------------------------------
    État global
@@ -1521,7 +1532,7 @@ document.addEventListener('click', function(e) {
   }
 });
 </script>
-<script src="assets/i18n.js"></script>
+<script src="/connect/assets/i18n.js"></script>
 <script>(function(){ wcApplyLang(localStorage.getItem('wigg_lang')||'en'); })();</script>
 </body>
 </html>

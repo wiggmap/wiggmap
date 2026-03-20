@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" href="../assets/favicon.ico" />
-  <link rel="manifest" href="../manifest.webmanifest" />
+  <link rel="icon" href="/assets/favicon.ico" />
+  <link rel="manifest" href="/manifest.webmanifest" />
   <meta name="theme-color" content="#22c55e" />
 
   <title>WiggMap Connect — Le réseau des expats et locaux · WiggMap</title>
   <meta name="description" content="WiggMap Connect: useful stories, expat and travel content, mutual aid. The social network connecting expats, travelers and locals. Find your WiggZ." />
 
   <!-- Design system Connect -->
-  <link rel="stylesheet" href="assets/connect.css" />
+  <link rel="stylesheet" href="/connect/assets/connect.css" />
 
   <style>
     /* Styles spécifiques landing — non répétables ailleurs */
@@ -141,7 +141,7 @@
                position:relative; padding:10px 16px; background:#0a0f1e;
                border-bottom:0.5px solid #1e2a3a;">
   <a href="/connect/">
-    <img src="assets/wiggmap-connect-logo.png"
+    <img src="/connect/assets/wiggmap-connect-logo.png"
          style="height:28px; width:auto; display:block;"
          alt="WiggMap Connect" />
   </a>
@@ -394,7 +394,7 @@
   <span data-wci18n="footer.beta">Beta</span>
 </footer>
 
-<script src="assets/connect.js"></script>
+<script src="/connect/assets/connect.js"></script>
 <script>
   /* Switcher langue — autonome, sans dépendance */
   (function() {
@@ -438,10 +438,10 @@
 
   /* Service worker */
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('../sw.js').catch(function() {});
+    navigator.serviceWorker.register('/sw.js').catch(function() {});
   }
 </script>
-<script src="assets/i18n.js"></script>
+<script src="/connect/assets/i18n.js"></script>
 <script>(function(){ wcApplyLang(localStorage.getItem('wigg_lang')||'en'); })();</script>
 </body>
 </html>
