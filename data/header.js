@@ -467,6 +467,14 @@
     "/chronicles/chronicle-asia-expat-guide-part2-2026-en.html":         { en: "/chronicles/chronicle-asia-expat-guide-part2-2026-en.html",         fr: "/chronicles/chronicle-asie-expatriation-partie2-2026-fr.html",       es: "/chronicles/chronicle-asia-guia-expatriados-parte2-2026-es.html" },
     "/chronicles/chronicle-asie-expatriation-partie2-2026-fr.html":      { en: "/chronicles/chronicle-asia-expat-guide-part2-2026-en.html",         fr: "/chronicles/chronicle-asie-expatriation-partie2-2026-fr.html",       es: "/chronicles/chronicle-asia-guia-expatriados-parte2-2026-es.html" },
     "/chronicles/chronicle-asia-guia-expatriados-parte2-2026-es.html":   { en: "/chronicles/chronicle-asia-expat-guide-part2-2026-en.html",         fr: "/chronicles/chronicle-asie-expatriation-partie2-2026-fr.html",       es: "/chronicles/chronicle-asia-guia-expatriados-parte2-2026-es.html" },
+
+    "/chronicles/villes/chronicle-nice-france-en.html": { en: "/chronicles/villes/chronicle-nice-france-en.html", fr: "/chronicles/villes/chronicle-nice-france-fr.html", es: "/chronicles/villes/chronicle-nice-france-es.html" },
+    "/chronicles/villes/chronicle-nice-france-fr.html": { en: "/chronicles/villes/chronicle-nice-france-en.html", fr: "/chronicles/villes/chronicle-nice-france-fr.html", es: "/chronicles/villes/chronicle-nice-france-es.html" },
+    "/chronicles/villes/chronicle-nice-france-es.html": { en: "/chronicles/villes/chronicle-nice-france-en.html", fr: "/chronicles/villes/chronicle-nice-france-fr.html", es: "/chronicles/villes/chronicle-nice-france-es.html" },
+
+    "/chronicles/villes/chronicle-lyon-france-en.html": { en: "/chronicles/villes/chronicle-lyon-france-en.html", fr: "/chronicles/villes/chronicle-lyon-france-fr.html", es: "/chronicles/villes/chronicle-lyon-france-es.html" },
+    "/chronicles/villes/chronicle-lyon-france-fr.html": { en: "/chronicles/villes/chronicle-lyon-france-en.html", fr: "/chronicles/villes/chronicle-lyon-france-fr.html", es: "/chronicles/villes/chronicle-lyon-france-es.html" },
+    "/chronicles/villes/chronicle-lyon-france-es.html": { en: "/chronicles/villes/chronicle-lyon-france-en.html", fr: "/chronicles/villes/chronicle-lyon-france-fr.html", es: "/chronicles/villes/chronicle-lyon-france-es.html" },
   };
 
   // Lang selection
