@@ -2,8 +2,9 @@
 (function () {
   const isSubPage = document.location.pathname.includes("/countries/")
                  || document.location.pathname.includes("/chronicles/");
-  const isDeepPage = document.location.pathname.includes("/compare/static/");
-  const prefix = isDeepPage ? "../../../" : (isSubPage ? "../" : "");
+  const isDeepPage2 = document.location.pathname.includes("/chronicles/villes/");
+  const isDeepPage3 = document.location.pathname.includes("/compare/static/");
+  const prefix = isDeepPage3 ? "../../../" : (isDeepPage2 ? "../../" : (isSubPage ? "../" : ""));
   const homeLink = prefix + "index.html";
   const globeLink = prefix + "globe.html";
   const aboutLink = prefix + "about.html";
