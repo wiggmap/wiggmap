@@ -485,31 +485,67 @@
     }
     .article-card p:last-child { margin-bottom: 0; }
 
-    /* ── Related Chronicles ──────────────────────────────── */
-    .rc-list {
+    /* ── Related Chronicles (mini vcards) ─────────────────── */
+    .rc-row {
       display: flex;
-      flex-direction: column;
       gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 6px;
     }
-    .rc-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 14px 12px 22px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
+    .rc-row::-webkit-scrollbar { display: none; }
+    .rc-vcard {
+      flex-shrink: 0;
+      width: 95px; height: 75px;
+      border-radius: 8px;
+      overflow: hidden;
       position: relative;
-      background: rgba(0,0,0,.01);
-      text-decoration: none;
-      color: var(--text);
-      font-weight: 700;
-      font-size: 13px;
-      line-height: 1.4;
-      transition: background .15s, border-color .15s;
+      border: 1px solid var(--border);
+      display: block;
+      background: #e8e0d5;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+      transition: border-color .2s, transform .2s;
     }
-    .rc-item:hover {
-      background: rgba(34,197,94,.05);
-      border-color: rgba(34,197,94,.30);
+    @media(min-width:768px){ .rc-vcard { width: 110px; height: 85px; } }
+    .rc-vcard:hover { border-color: var(--green); transform: translateY(-2px); }
+    .rc-vcard:hover .rc-vimg { transform: scale(1.04); }
+    .rc-vimg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform .3s;
+    }
+    .rc-vgrad {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(20,15,8,.8) 0%, rgba(20,15,8,.25) 50%, transparent 100%);
+      z-index: 1;
+    }
+    .rc-vbody {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 5px 7px;
+      z-index: 2;
+      background: rgba(12,10,6,.5);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      border-radius: 0 0 7px 7px;
+    }
+    .rc-vtitle {
+      font-size: 8px;
+      font-weight: 700;
+      color: #fffdf8;
+      line-height: 1.25;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    @media(min-width:768px){ .rc-vtitle { font-size: 9px; } }
+    .rc-vemoji {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      background: linear-gradient(135deg, #ede5d8, #ddd3c4);
     }
     .rc-bar {
       position: absolute;
@@ -748,6 +784,14 @@
       <!-- ── Right column ───────────────────────────────────── -->
       <div class="right-col">
 
+        <!-- ══ RELATED CHRONICLES (mini vcards) ═══════════════ -->
+        <div id="related-chronicles" style="display:none">
+          <div class="section-head" style="margin-bottom:10px">
+            <h2 id="rc-heading" style="font-size:13px">Related Chronicles</h2>
+          </div>
+          <div id="rc-list" class="rc-row"></div>
+        </div>
+
         <!-- ══ DATA TABLE ══════════════════════════════════════ -->
         <div class="data-card">
           <table class="data-table">
@@ -971,15 +1015,7 @@
       </div><!-- /right-col -->
     </div><!-- /main-grid -->
 
-    <!-- ══ RELATED CHRONICLES ════════════════════════════════ -->
-    <div id="related-chronicles" style="display:none; margin-top:28px">
-      <div class="things-section">
-        <div class="section-head">
-          <h2 id="rc-heading">Related Chronicles</h2>
-        </div>
-        <div id="rc-list" class="rc-list"></div>
-      </div>
-    </div>
+    <!-- related chronicles moved to right-col above data table -->
 
     <!-- ══ COMPARE PAIRS ════════════════════════════════════ -->
     <div id="compare-section" style="display:none; margin-top:16px">
@@ -1182,6 +1218,21 @@
       }
     };
 
+    // Map chronicle IDs to representative hero images
+    const RC_IMAGES = {
+      'chronicle-2056':     '../assets/hero-norway.jpg',
+      'ameriques-1':        '../assets/hero-panama.jpg',
+      'ameriques-2':        '../assets/hero-bahamas.jpg',
+      'ameriques-3':        '../assets/hero-bahamas.jpg',
+      'australia-guide':    '../assets/hero-australia.jpg',
+      'raise-children':     '../assets/hero-finland.jpg',
+      'digital-nomads':     '../assets/hero-indonesia.jpg',
+      'expats-crypto':      '../assets/hero-uae.jpg',
+      'asia-expat-1':       '../assets/hero-thailand.jpg',
+      'asia-expat-2':       '../assets/hero-japan.jpg',
+      'forgotten-countries': '../assets/hero-montenegro.jpg'
+    };
+
     function renderRelatedChronicles(slug) {
       const ids = CHRONICLES.countries[slug];
       if (!ids || !ids.length) return;
@@ -1193,15 +1244,23 @@
       if (!list) return;
       list.innerHTML = ids.map(function(id) {
         const c   = CHRONICLES._index[id];
+        if (!c) return '';
         const loc = c[lang] || c.en;
-        return '<a class="rc-item" href="' + loc.url + '">'
-             + '<span class="rc-bar"></span>'
-             + '<span class="rc-label">' + loc.title + '</span>'
-             + '<span class="rc-arrow">\u2192</span>'
-             + '</a>';
+        const img = RC_IMAGES[id] || '';
+        var h = '<a class="rc-vcard" href="' + loc.url + '">';
+        if (img) {
+          h += '<img class="rc-vimg" src="' + img + '" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">';
+          h += '<div class="rc-vemoji" style="display:none">📄</div>';
+        } else {
+          h += '<div class="rc-vemoji">📄</div>';
+        }
+        h += '<div class="rc-vgrad"></div>';
+        h += '<div class="rc-vbody"><div class="rc-vtitle">' + loc.title + '</div></div>';
+        h += '</a>';
+        return h;
       }).join('');
       const section = document.getElementById('related-chronicles');
-      if (section) section.style.display = 'block';
+      if (section) section.style.display = '';
     }
 
     // ── Compare pairs ─────────────────────────────────────────
@@ -1384,9 +1443,13 @@
         .replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
     }
 
-    function parseScore(article){
+    function parseScore(article, data){
+      // Try structured JSON first
+      const sv = data?.expat_score?.value;
+      if(sv != null) return String(sv);
+      // Fallback: parse from article text (handles : — – - separators)
       if(!article) return null;
-      const m = article.match(/expat\s*score[:\s]+([0-9]+(?:\.[0-9]+)?)\s*\/\s*10/i);
+      const m = article.match(/expat\s*score[\s:—–\-]+([0-9]+(?:\.[0-9]+)?)\s*\/\s*10/i);
       return m ? m[1] : null;
     }
 
@@ -1565,7 +1628,7 @@
       article = article.replace(/\[\[MAP\]\]/g, "");
       if(!article.trim()) return "";
 
-      const score = parseScore(article);
+      const score = parseScore(article, data);
       const badge = score ? `<span class="score-badge"><span class="score-star">⭐</span> Expat Score: ${esc(score)} / 10</span>` : "";
 
       return `<div class="article-card">
