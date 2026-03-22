@@ -2,298 +2,216 @@
 <html lang="fr">
 <head>
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-K4MMRD4R');</script>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#1c7c46">
+  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
-  <link rel="manifest" href="/manifest.webmanifest">
-  <meta name="theme-color" content="#22c55e">
   <title>Wigg Chronicles — Articles & analyses | WiggMap</title>
   <meta name="description" content="Wigg Chronicles : articles premium sur expatriation, visas, fiscalité, coût de la vie, prospective, éducation et qualité de vie à travers le monde.">
   <link rel="canonical" href="https://wiggmap.com/indexchronicles.html">
+  <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet">
   <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#f6f1e8;--bg-soft:#fbf8f2;--paper:#fffdf8;--paper-2:#f8f2e9;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--green:#1d7f48;--shadow-1:0 12px 34px rgba(25,20,12,.06);--theme-visa:#178a5b;--theme-nomad:#0f82a2;--theme-future:#7d55d8;--theme-family:#d7731d;--theme-dest:#c0792e;--theme-city:#6b7280;}
+*{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{
-  font-family:'Poppins',system-ui,sans-serif;
-  background:#0a0f1e;
-  color:#e2e8f0;
-  -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
-  min-height:100vh;
-}
+body{font-family:"Inter",system-ui,sans-serif;color:var(--ink);min-height:100vh;background:radial-gradient(circle at top left,rgba(255,255,255,.9),transparent 28%),radial-gradient(circle at top right,rgba(29,127,72,.045),transparent 22%),linear-gradient(180deg,#f9f5ed 0%,#f3ede3 100%);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
 a{text-decoration:none;color:inherit}
-
-/* ── PAGE WRAPPER ── */
-.cw{
-  width:100%;
-  max-width:1100px;
-  margin:0 auto;
-  padding:32px 16px 64px;
-}
-@media(min-width:768px){.cw{padding:48px 40px 80px}}
-
-/* ── EDITORIAL HEADER ── */
-.ed-header{margin-bottom:40px}
-.ed-kicker{
-  font-size:10px;font-weight:600;
-  letter-spacing:.2em;text-transform:uppercase;
-  color:#22c55e;margin-bottom:12px;
-  display:flex;align-items:center;gap:10px;
-}
-.ed-kicker::before{content:'';width:20px;height:1px;background:#22c55e}
-.ed-h1{
-  font-size:clamp(26px,5vw,42px);
-  font-weight:700;color:#fff;
-  line-height:1.1;letter-spacing:-.02em;
-  margin-bottom:8px;
-}
-.ed-count{font-size:12px;color:#64748b;font-weight:400}
-
-/* ── SECTION ROW ── */
-.row{padding:20px 0;border-bottom:.5px solid #1e293b}
-.row:last-child{border-bottom:none}
-.row-head{
-  display:flex;justify-content:space-between;align-items:center;
-  margin-bottom:14px;gap:12px;
-}
-.row-title{
-  font-size:14px;font-weight:600;color:#fff;
-  display:flex;align-items:center;gap:8px;
-  white-space:nowrap;
-}
-@media(min-width:768px){.row-title{font-size:16px}}
-.row-see{
-  font-size:11px;font-weight:500;color:#22c55e;
-  white-space:nowrap;cursor:pointer;
-  background:none;border:none;font-family:inherit;
-  padding:0;
-}
-.row-see:hover{text-decoration:underline}
-
-/* ── CAROUSEL ── */
-.carousel{
-  display:flex;gap:12px;
-  overflow-x:auto;
-  scrollbar-width:none;
-  -webkit-overflow-scrolling:touch;
-  padding-bottom:4px;
-}
+.cw{width:min(1280px,calc(100% - 40px));margin:0 auto;padding:28px 0 88px}
+@media(max-width:700px){.cw{width:min(100% - 24px,1280px);padding:14px 0 54px}}
+.masthead{position:relative;margin:14px 0 36px;border:1px solid rgba(23,23,20,.07);background:linear-gradient(180deg,rgba(255,255,255,.82),rgba(255,255,255,.72)),linear-gradient(135deg,rgba(29,127,72,.03),transparent 34%);box-shadow:var(--shadow-1);border-radius:30px;overflow:hidden;}
+.masthead::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 88% 18%,rgba(29,127,72,.05),transparent 18%),radial-gradient(circle at 8% 92%,rgba(0,0,0,.025),transparent 24%);}
+.masthead-inner{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(320px,470px);gap:26px;align-items:stretch;padding:24px;}
+.masthead-copy{min-width:0;padding:18px 14px 14px;display:flex;flex-direction:column;justify-content:center}
+.masthead-label{display:inline-flex;align-items:center;gap:12px;font-size:11px;font-weight:800;letter-spacing:.24em;text-transform:uppercase;color:var(--green);margin-bottom:16px;}
+.masthead-label::before{content:"";width:28px;height:1px;background:rgba(29,127,72,.55);display:block}
+.masthead h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(42px,6vw,82px);line-height:.92;letter-spacing:-.04em;font-weight:700;max-width:8.5ch;margin-bottom:16px;}
+.masthead h1 em{color:var(--green);font-style:italic;font-weight:700}
+.masthead-sub{max-width:58ch;font-size:15px;line-height:1.85;color:var(--ink-soft);margin-bottom:24px}
+.masthead-media{min-width:0;display:flex;align-items:stretch}
+.masthead-art{position:relative;width:100%;min-height:320px;border-radius:24px;overflow:hidden;border:1px solid rgba(23,23,20,.06);box-shadow:0 14px 34px rgba(23,23,20,.06),inset 0 1px 0 rgba(255,255,255,.55);background:#efe7da;}
+.masthead-art::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(135deg,rgba(255,255,255,.16),transparent 30%);}
+.masthead-art img{display:block;width:100%;height:100%;object-fit:cover}
+.masthead-rule{display:flex;align-items:center;gap:14px;padding:0 28px 22px}
+.masthead-rule::before,.masthead-rule::after{content:"";flex:1;height:1px;background:var(--line)}
+.masthead-rule-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 6px rgba(29,127,72,.08);flex:0 0 auto}
+@media(max-width:980px){.masthead-inner{grid-template-columns:1fr;gap:16px}.masthead-copy{padding:6px 4px 0}.masthead-art{min-height:230px}}
+@media(max-width:640px){.masthead{border-radius:24px}.masthead-inner{padding:16px}.masthead h1{font-size:clamp(34px,12vw,56px);max-width:9ch}.masthead-sub{font-size:14px}.masthead-art{min-height:190px;border-radius:18px}.masthead-rule{padding:0 16px 16px}}
+.theme-section{margin-bottom:44px}
+.theme-head{display:flex;align-items:center;gap:14px;margin:0 0 16px}
+.theme-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.theme-label{font-size:12px;font-weight:800;letter-spacing:.20em;text-transform:uppercase;white-space:nowrap}
+.theme-rule{height:1px;flex:1;background:linear-gradient(90deg,rgba(23,23,20,.12),rgba(23,23,20,.04))}
+.theme-see{border:none;outline:none;cursor:pointer;padding:0 14px;min-height:32px;border-radius:999px;background:rgba(255,255,255,.72);box-shadow:inset 0 0 0 1px rgba(23,23,20,.08),0 4px 12px rgba(23,23,20,.03);font:700 10px/1 "Inter",system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;transition:background .15s;white-space:nowrap;flex-shrink:0;text-decoration:none;display:inline-flex;align-items:center;color:inherit;}
+.theme-see:hover{background:#fff}
+.carousel{display:flex;gap:12px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:8px}
 .carousel::-webkit-scrollbar{display:none}
-
-/* ── CARD ── */
-.card{
-  flex-shrink:0;
-  width:120px;height:95px;
-  border-radius:8px;
-  overflow:hidden;
-  position:relative;
-  border:.5px solid #1e293b;
-  cursor:pointer;
-  transition:border-color .2s,transform .2s;
-  display:block;
-  background:#0d1428;
-}
-@media(min-width:768px){.card{width:160px;height:125px}}
-.card:hover{border-color:#22c55e}
-.card:hover .card-img{transform:scale(1.02)}
-
-.card-img{
-  position:absolute;inset:0;
-  width:100%;height:100%;
-  object-fit:cover;
-  transition:transform .3s;
-}
-.card-grad{
-  position:absolute;inset:0;
-  background:linear-gradient(to top, rgba(10,15,30,.95) 0%, rgba(10,15,30,.4) 50%, transparent 100%);
-  z-index:1;
-}
-.card-body{
-  position:absolute;bottom:0;left:0;right:0;
-  padding:8px 10px;z-index:2;
-}
-@media(min-width:768px){.card-body{padding:10px 12px}}
-.card-meta{
-  font-size:8px;font-weight:500;color:#22c55e;
-  letter-spacing:.04em;margin-bottom:3px;
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-}
-@media(min-width:768px){.card-meta{font-size:9px}}
-.card-title{
-  font-size:10px;font-weight:600;color:#fff;
-  line-height:1.3;
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
-  overflow:hidden;
-}
-@media(min-width:768px){.card-title{font-size:11px}}
-
-/* ── EMOJI FALLBACK ── */
-.card-emoji{
-  position:absolute;inset:0;
-  display:flex;align-items:center;justify-content:center;
-  font-size:32px;
-  background:linear-gradient(135deg,#0d1428 0%,#162033 100%);
-  z-index:0;
-}
-@media(min-width:768px){.card-emoji{font-size:40px}}
+.vcard{flex-shrink:0;width:150px;height:115px;border-radius:14px;overflow:hidden;position:relative;border:1px solid rgba(23,23,20,.12);cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .2s;display:block;background:#e8e0d5;box-shadow:0 4px 14px rgba(23,23,20,.07);}
+@media(min-width:768px){.vcard{width:190px;height:145px}}
+.vcard:hover{border-color:var(--green);box-shadow:0 8px 28px rgba(23,23,20,.14);transform:translateY(-2px)}
+.vcard:hover .vcard-img,.vcard:hover .split-cell img{transform:scale(1.04)}
+.vcard-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.vcard-grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,8,.93) 0%,rgba(20,15,8,.38) 52%,transparent 100%);z-index:1}
+.vcard-body{position:absolute;bottom:0;left:0;right:0;padding:8px 10px;z-index:2}
+@media(min-width:768px){.vcard-body{padding:10px 12px}}
+.vcard-meta{font-size:8px;font-weight:700;color:#22a15a;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media(min-width:768px){.vcard-meta{font-size:9px}}
+.vcard-title{font-family:"Fraunces",Georgia,serif;font-size:10px;font-weight:700;color:#fffdf8;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+@media(min-width:768px){.vcard-title{font-size:11px}}
+.vcard-emoji{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:34px;background:linear-gradient(135deg,#ede5d8,#ddd3c4);z-index:0}
+@media(min-width:768px){.vcard-emoji{font-size:44px}}
+.split-grid{position:absolute;inset:0;display:grid;gap:1px;background:rgba(23,23,20,.18);z-index:0}
+.split-grid.split-2{grid-template-columns:1fr 1fr}
+.split-grid.split-4{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
+.split-cell{overflow:hidden;position:relative}
+.split-cell img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.split-emoji{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:18px;background:linear-gradient(135deg,#ede5d8,#ddd3c4)}
+.vcard-city{flex-shrink:0;width:240px;height:115px;border-radius:14px;overflow:hidden;position:relative;border:1px solid rgba(23,23,20,.12);cursor:pointer;transition:border-color .2s,box-shadow .2s,transform .2s;display:block;background:#e8e0d5;box-shadow:0 4px 14px rgba(23,23,20,.07);}
+@media(min-width:768px){.vcard-city{width:300px;height:145px}}
+.vcard-city:hover{border-color:var(--green);box-shadow:0 8px 28px rgba(23,23,20,.14);transform:translateY(-2px)}
+.vcard-city:hover .city-mc img{transform:scale(1.05)}
+.city-mosaic{position:absolute;inset:0;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(23,23,20,.18)}
+.city-mc{overflow:hidden}
+.city-mc img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.city-cta-body{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,8,.96) 0%,rgba(20,15,8,.55) 50%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:10px 14px;z-index:2;}
+.city-cta-label{font-size:9px;font-weight:700;color:#22a15a;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
+.city-cta-title{font-family:"Fraunces",Georgia,serif;font-size:13px;font-weight:700;color:#fffdf8;line-height:1.25;margin-bottom:7px}
+@media(min-width:768px){.city-cta-title{font-size:15px}}
+.city-cta-btn{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:800;letter-spacing:.10em;text-transform:uppercase;color:#fff;background:var(--green);border-radius:6px;padding:5px 12px;width:fit-content}
+.coming-soon{text-align:center;padding:40px 20px;border-radius:24px;border:1px dashed rgba(23,23,20,.16);color:rgba(23,23,20,.44);background:rgba(255,255,255,.56);font-weight:700;font-size:13px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.masthead{animation:fadeUp .55s ease both}
+.theme-section{animation:fadeUp .55s .12s ease both}
   </style>
 </head>
 <body>
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <div id="siteHeader"></div>
+  <main class="cw">
+    <header class="masthead">
+      <div class="masthead-inner">
+        <div class="masthead-copy">
+          <p class="masthead-label" id="eyebrow">Chroniques</p>
+          <h1 id="heroTitle">Wigg <em>Chroniques</em></h1>
+          <p class="masthead-sub" id="heroSub">Articles premium sur expatriation, visas, fiscalité, coût de la vie, prospective, éducation et qualité de vie.</p>
+        </div>
+        <div class="masthead-media">
+          <div class="masthead-art">
+            <img src="assets/bannierechroniques.png" alt="Wigg Chronicles banner" loading="eager" decoding="async">
+          </div>
+        </div>
+      </div>
+      <div class="masthead-rule"><div class="masthead-rule-dot"></div></div>
+    </header>
+    <div id="sectionsRoot"></div>
+  </main>
+  <div id="siteFooter"></div>
+  <script src="/data/header.js"></script>
+  <script src="/data/footer.js"></script>
+  <script>
+var I18N={en:{eyebrow:"Chronicles",titleWord:"Chronicles",sub:"Premium articles on expat life, visas, taxes, cost of living, future trends, education and quality of life.",seeAll:"See all \u2192",comingSoon:"Coming soon",cityLabel:"EXPLORE ALL CITIES",cityTitle:"City Chronicles",cityBtn:"See all guides \u2192",sec_city:"City Chronicles",sec_visas:"Visas & Immigration",sec_dest:"Expat Destinations",sec_nomads:"Digital Nomads",sec_family:"Family & Education",sec_future:"Future & Strategy"},fr:{eyebrow:"Chroniques",titleWord:"Chroniques",sub:"Articles premium sur expatriation, visas, fiscalit\u00e9, co\u00fbt de la vie, prospective, \u00e9ducation et qualit\u00e9 de vie.",seeAll:"Voir tout \u2192",comingSoon:"Prochainement",cityLabel:"EXPLORER TOUTES LES VILLES",cityTitle:"Chronicles Villes",cityBtn:"Voir tous les guides \u2192",sec_city:"Chronicles Villes",sec_visas:"Visas & Immigration",sec_dest:"Destinations Expat",sec_nomads:"Digital Nomads",sec_family:"Famille & \u00c9ducation",sec_future:"Futur & Strat\u00e9gie"},es:{eyebrow:"Cr\u00f3nicas",titleWord:"Cr\u00f3nicas",sub:"Art\u00edculos premium sobre expatriaci\u00f3n, visados, impuestos, coste de vida, prospectiva, educaci\u00f3n y calidad de vida.",seeAll:"Ver todo \u2192",comingSoon:"Pr\u00f3ximamente",cityLabel:"EXPLORAR TODAS LAS CIUDADES",cityTitle:"Cr\u00f3nicas Ciudad",cityBtn:"Ver todas las gu\u00edas \u2192",sec_city:"Cr\u00f3nicas Ciudad",sec_visas:"Visas e Inmigraci\u00f3n",sec_dest:"Destinos Expat",sec_nomads:"Digital Nomads",sec_family:"Familia & Educaci\u00f3n",sec_future:"Futuro & Estrategia"}};
 
-<div id="siteHeader"></div>
-<script src="/data/header.js"></script>
-
-<div class="cw">
-  <div class="ed-header">
-    <div class="ed-kicker" id="edKicker">Chronicles · Insight & Analysis</div>
-    <h1 class="ed-h1" id="edH1">Toutes les chronicles</h1>
-    <div class="ed-count" id="edCount"></div>
-  </div>
-  <div id="rowsRoot"></div>
-</div>
-
-<div id="siteFooter"></div>
-<script src="/data/footer.js"></script>
-
-<script>
-/* ═══════════════════════════════════════════════════
-   DATA
-   ═══════════════════════════════════════════════════ */
-var ARTICLES = [
-  /* ── FRANCE ── */
-  {s:"city-fr",t:{en:"Paris 2026",fr:"Paris 2026",es:"París 2026"},url:{en:"/chronicles/villes/chronicle-paris-france-en.html",fr:"/chronicles/villes/chronicle-paris-france-fr.html",es:"/chronicles/villes/chronicle-paris-france-es.html"},img:"/assetscity/paris.png",flag:"🇫🇷",reg:{en:"France",fr:"France",es:"Francia"},time:"20 min"},
-  {s:"city-fr",t:{en:"Lyon 2026",fr:"Lyon 2026",es:"Lyon 2026"},url:{en:"/chronicles/villes/chronicle-lyon-france-en.html",fr:"/chronicles/villes/chronicle-lyon-france-fr.html",es:"/chronicles/villes/chronicle-lyon-france-es.html"},img:"/assetscity/lyon.png",flag:"🇫🇷",reg:{en:"France",fr:"France",es:"Francia"},time:"20 min"},
-  {s:"city-fr",t:{en:"Marseille 2026",fr:"Marseille 2026",es:"Marsella 2026"},url:{en:"/chronicles/villes/chronicle-marseille-france-en.html",fr:"/chronicles/villes/chronicle-marseille-france-fr.html",es:"/chronicles/villes/chronicle-marseille-france-es.html"},img:"/assetscity/marseille.png",flag:"🇫🇷",reg:{en:"France",fr:"France",es:"Francia"},time:"20 min"},
-  {s:"city-fr",t:{en:"Nice 2026",fr:"Nice 2026",es:"Niza 2026"},url:{en:"/chronicles/villes/chronicle-nice-france-en.html",fr:"/chronicles/villes/chronicle-nice-france-fr.html",es:"/chronicles/villes/chronicle-nice-france-es.html"},img:"/assetscity/nice.png",flag:"🇫🇷",reg:{en:"France",fr:"France",es:"Francia"},time:"20 min"},
-
-  /* ── THAÏLANDE ── */
-  {s:"city-th",t:{en:"Bangkok 2026",fr:"Bangkok 2026",es:"Bangkok 2026"},url:{en:"/chronicles/villes/chronicle-bangkok-thailand-en.html",fr:"/chronicles/villes/chronicle-bangkok-thailand-fr.html",es:"/chronicles/villes/chronicle-bangkok-thailand-es.html"},img:"/assetscity/bangkok.png",flag:"🇹🇭",reg:{en:"Thailand",fr:"Thaïlande",es:"Tailandia"},time:"20 min"},
-  {s:"city-th",t:{en:"Chiang Mai 2026",fr:"Chiang Mai 2026",es:"Chiang Mai 2026"},url:{en:"/chronicles/villes/chronicle-chiang-mai-thailand-en.html",fr:"/chronicles/villes/chronicle-chiang-mai-thailand-fr.html",es:"/chronicles/villes/chronicle-chiang-mai-thailand-es.html"},img:"/assetscity/chiangmai.png",flag:"🇹🇭",reg:{en:"Thailand",fr:"Thaïlande",es:"Tailandia"},time:"20 min"},
-  {s:"city-th",t:{en:"Hua Hin 2026",fr:"Hua Hin 2026",es:"Hua Hin 2026"},url:{en:"/chronicles/villes/chronicle-hua-hin-thailand-en.html",fr:"/chronicles/villes/chronicle-hua-hin-thailand-fr.html",es:"/chronicles/villes/chronicle-hua-hin-thailand-es.html"},img:"/assetscity/huahin.png",flag:"🇹🇭",reg:{en:"Thailand",fr:"Thaïlande",es:"Tailandia"},time:"20 min"},
-  {s:"city-th",t:{en:"Phuket 2026",fr:"Phuket 2026",es:"Phuket 2026"},url:{en:"/chronicles/villes/chronicle-phuket-thailand-en.html",fr:"/chronicles/villes/chronicle-phuket-thailand-fr.html",es:"/chronicles/villes/chronicle-phuket-thailand-es.html"},img:"/assetscity/phuket.png",flag:"🇹🇭",reg:{en:"Thailand",fr:"Thaïlande",es:"Tailandia"},time:"20 min"},
-
-  /* ── ESPAGNE ── */
-  {s:"city-es",t:{en:"Barcelona 2026",fr:"Barcelone 2026",es:"Barcelona 2026"},url:{en:"/chronicles/villes/chronicle-barcelone-espagne-en.html",fr:"/chronicles/villes/chronicle-barcelone-espagne-fr.html",es:"/chronicles/villes/chronicle-barcelone-espagne-es.html"},img:"/assetscity/barcelone.png",flag:"🇪🇸",reg:{en:"Spain",fr:"Espagne",es:"España"},time:"20 min"},
-  {s:"city-es",t:{en:"Madrid 2026",fr:"Madrid 2026",es:"Madrid 2026"},url:{en:"/chronicles/villes/chronicle-madrid-espagne-en.html",fr:"/chronicles/villes/chronicle-madrid-espagne-fr.html",es:"/chronicles/villes/chronicle-madrid-espagne-es.html"},img:"/assetscity/madrid.png",flag:"🇪🇸",reg:{en:"Spain",fr:"Espagne",es:"España"},time:"20 min"},
-  {s:"city-es",t:{en:"Malaga 2026",fr:"Malaga 2026",es:"Málaga 2026"},url:{en:"/chronicles/villes/chronicle-malaga-espagne-en.html",fr:"/chronicles/villes/chronicle-malaga-espagne-fr.html",es:"/chronicles/villes/chronicle-malaga-espagne-es.html"},img:"/assetscity/malaga.png",flag:"🇪🇸",reg:{en:"Spain",fr:"Espagne",es:"España"},time:"20 min",emoji:"🇪🇸"},
-  {s:"city-es",t:{en:"Valencia 2026",fr:"Valence 2026",es:"Valencia 2026"},url:{en:"/chronicles/villes/chronicle-valence-espagne-en.html",fr:"/chronicles/villes/chronicle-valence-espagne-fr.html",es:"/chronicles/villes/chronicle-valence-espagne-es.html"},img:"/assetscity/valence.png",flag:"🇪🇸",reg:{en:"Spain",fr:"Espagne",es:"España"},time:"20 min"},
-
-  /* ── AUSTRALIE ── */
-  {s:"city-au",t:{en:"Cairns 2026",fr:"Cairns 2026",es:"Cairns 2026"},url:{en:"/chronicles/villes/chronicle-cairns-australia-en.html",fr:"/chronicles/villes/chronicle-cairns-australia-fr.html",es:"/chronicles/villes/chronicle-cairns-australia-es.html"},img:"/assetscity/cairns.png",flag:"🇦🇺",reg:{en:"Australia",fr:"Australie",es:"Australia"},time:"20 min"},
-  {s:"city-au",t:{en:"Melbourne 2026",fr:"Melbourne 2026",es:"Melbourne 2026"},url:{en:"/chronicles/villes/chronicle-melbourne-australia-en.html",fr:"/chronicles/villes/chronicle-melbourne-australia-fr.html",es:"/chronicles/villes/chronicle-melbourne-australia-es.html"},img:"/assetscity/melbourne.png",flag:"🇦🇺",reg:{en:"Australia",fr:"Australie",es:"Australia"},time:"20 min"},
-  {s:"city-au",t:{en:"Perth 2026",fr:"Perth 2026",es:"Perth 2026"},url:{en:"/chronicles/villes/chronicle-perth-australia-en.html",fr:"/chronicles/villes/chronicle-perth-australia-fr.html",es:"/chronicles/villes/chronicle-perth-australia-es.html"},img:"/assetscity/perth.png",flag:"🇦🇺",reg:{en:"Australia",fr:"Australie",es:"Australia"},time:"20 min"},
-  {s:"city-au",t:{en:"Sydney 2026",fr:"Sydney 2026",es:"Sídney 2026"},url:{en:"/chronicles/villes/chronicle-sydney-australia-en.html",fr:"/chronicles/villes/chronicle-sydney-australia-fr.html",es:"/chronicles/villes/chronicle-sydney-australia-es.html"},img:"/assetscity/sydney.png",flag:"🇦🇺",reg:{en:"Australia",fr:"Australie",es:"Australia"},time:"20 min"},
-
-  /* ── CANADA ── */
-  {s:"city-ca",t:{en:"Calgary 2026",fr:"Calgary 2026",es:"Calgary 2026"},url:{en:"/chronicles/villes/chronicle-calgary-canada-en.html",fr:"/chronicles/villes/chronicle-calgary-canada-fr.html",es:"/chronicles/villes/chronicle-calgary-canada-es.html"},img:"/assetscity/calgary.png",flag:"🇨🇦",reg:{en:"Canada",fr:"Canada",es:"Canadá"},time:"20 min"},
-  {s:"city-ca",t:{en:"Montreal 2026",fr:"Montréal 2026",es:"Montreal 2026"},url:{en:"/chronicles/villes/chronicle-montreal-canada-en.html",fr:"/chronicles/villes/chronicle-montreal-canada-fr.html",es:"/chronicles/villes/chronicle-montreal-canada-es.html"},img:"/assetscity/montreal.png",flag:"🇨🇦",reg:{en:"Canada",fr:"Canada",es:"Canadá"},time:"20 min"},
-  {s:"city-ca",t:{en:"Toronto 2026",fr:"Toronto 2026",es:"Toronto 2026"},url:{en:"/chronicles/villes/chronicle-toronto-canada-en.html",fr:"/chronicles/villes/chronicle-toronto-canada-fr.html",es:"/chronicles/villes/chronicle-toronto-canada-es.html"},img:"/assetscity/toronto.png",flag:"🇨🇦",reg:{en:"Canada",fr:"Canada",es:"Canadá"},time:"20 min"},
-  {s:"city-ca",t:{en:"Vancouver 2026",fr:"Vancouver 2026",es:"Vancouver 2026"},url:{en:"/chronicles/villes/chronicle-vancouver-canada-en.html",fr:"/chronicles/villes/chronicle-vancouver-canada-fr.html",es:"/chronicles/villes/chronicle-vancouver-canada-es.html"},img:"/assetscity/vancouver.png",flag:"🇨🇦",reg:{en:"Canada",fr:"Canada",es:"Canadá"},time:"20 min"},
-
-  /* ── VISAS & IMMIGRATION ── */
-  {s:"visa",t:{en:"Retirement Visas 2026",fr:"Visas retraite 2026",es:"Visas jubilación 2026"},url:{en:"/chronicles/chronicle-retirement-visas-2026-en.html",fr:"/chronicles/chronicle-visas-retraite-2026-fr.html",es:"/chronicles/chronicle-visas-jubilacion-2026-es.html"},img:"/assets/hero-portugal.jpg",flag:"🌍",reg:{en:"Global",fr:"Global",es:"Global"},time:"25 min",emoji:"🏖️"},
-  {s:"visa",t:{en:"Nomad Visas 2026",fr:"Visas nomade 2026",es:"Visas nómada 2026"},url:{en:"/chronicles/chronicle-digital-nomad-visas-2026-en.html",fr:"/chronicles/chronicle-visas-digital-nomads-2026-fr.html",es:"/chronicles/chronicle-visas-nomadas-digitales-2026-es.html"},img:"/assets/hero-spain.jpg",flag:"🌍",reg:{en:"Global",fr:"Global",es:"Global"},time:"25 min",emoji:"🛂"},
-  {s:"visa",t:{en:"Expat Work Visas 2026",fr:"Visas expatriation 2026",es:"Visas expatriación 2026"},url:{en:"/chronicles/chronicle-expat-work-visas-2026-en.html",fr:"/chronicles/chronicle-visas-expatriation-durable-2026-fr.html",es:"/chronicles/chronicle-visas-expatriacion-2026-es.html"},img:"/assets/hero-canada.jpg",flag:"🌍",reg:{en:"Global",fr:"Global",es:"Global"},time:"25 min",emoji:"💼"},
-
-  /* ── DESTINATIONS EXPAT ── */
-  {s:"dest",t:{en:"Asia Part 1: Thailand, Vietnam, Bali",fr:"Asie Partie 1 : Thaïlande, Vietnam, Bali",es:"Asia Parte 1: Tailandia, Vietnam, Bali"},url:{en:"/chronicles/chronicle-asia-expat-guide-part1-2026-en.html",fr:"/chronicles/chronicle-asie-expatriation-partie1-2026-fr.html",es:"/chronicles/chronicle-asia-guia-expatriados-parte1-2026-es.html"},img:"/assets/hero-thailand.jpg",flag:"🌏",reg:{en:"Southeast Asia",fr:"Asie du Sud-Est",es:"Sudeste Asiático"},time:"30 min"},
-  {s:"dest",t:{en:"Asia Part 2: Japan, Laos, China",fr:"Asie Partie 2 : Japon, Laos, Chine",es:"Asia Parte 2: Japón, Laos, China"},url:{en:"/chronicles/chronicle-asia-expat-guide-part2-2026-en.html",fr:"/chronicles/chronicle-asie-expatriation-partie2-2026-fr.html",es:"/chronicles/chronicle-asia-guia-expatriados-parte2-2026-es.html"},img:"/assets/hero-japan.jpg",flag:"🌏",reg:{en:"East Asia",fr:"Asie de l'Est",es:"Asia Oriental"},time:"30 min"},
-  {s:"dest",t:{en:"Americas Part 1: Panama, Costa Rica",fr:"Amériques P1 : Panama, Costa Rica",es:"Américas P1: Panamá, Costa Rica"},url:{en:"/chronicles/chronicle-ameriques-partie1-en.html",fr:"/chronicles/chronicle-ameriques-partie1-fr.html",es:"/chronicles/chronicle-ameriques-partie1-es.html"},img:"/assets/hero-panama.jpg",flag:"🌎",reg:{en:"Americas",fr:"Amériques",es:"Américas"},time:"25 min"},
-  {s:"dest",t:{en:"Americas Part 2: St Kitts, Bahamas",fr:"Amériques P2 : Saint-Kitts, Bahamas",es:"Américas P2: Saint Kitts, Bahamas"},url:{en:"/chronicles/chronicle-ameriques-partie2-en.html",fr:"/chronicles/chronicle-ameriques-partie2-fr.html",es:"/chronicles/chronicle-ameriques-partie2-es.html"},img:"/assets/hero-bahamas.jpg",flag:"🌎",reg:{en:"Caribbean",fr:"Caraïbes",es:"Caribe"},time:"25 min"},
-  {s:"dest",t:{en:"Americas Part 3: BVI, Sint Maarten",fr:"Amériques P3 : IVB, Sint Maarten",es:"Américas P3: IVB, Sint Maarten"},url:{en:"/chronicles/chronicle-ameriques-partie3-en.html",fr:"/chronicles/chronicle-ameriques-partie3-fr.html",es:"/chronicles/chronicle-ameriques-partie3-es.html"},img:null,flag:"🌎",reg:{en:"Caribbean",fr:"Caraïbes",es:"Caribe"},time:"20 min",emoji:"🏝️"},
-  {s:"dest",t:{en:"Australia: Complete Expat Guide",fr:"Australie : guide complet expat",es:"Australia: guía completa expat"},url:{en:"/chronicles/chronicle-australia-expat-guide-2026-en.html",fr:"/chronicles/chronicle-australie-expatriation-2026-fr.html",es:"/chronicles/chronicle-australia-guia-expatriados-2026-es.html"},img:"/assets/hero-australia.jpg",flag:"🇦🇺",reg:{en:"Oceania",fr:"Océanie",es:"Oceanía"},time:"25 min"},
-  {s:"dest",t:{en:"Healthcare: 25 Best Systems",fr:"Santé : les 25 meilleurs systèmes",es:"Salud: los 25 mejores sistemas"},url:{en:"/chronicles/chronicle-healthcare-expats-2026-en.html",fr:"/chronicles/chronicle-sante-expats-2026-fr.html",es:"/chronicles/chronicle-salud-expats-2026-es.html"},img:null,flag:"🌍",reg:{en:"Global",fr:"Global",es:"Global"},time:"35 min",emoji:"🏥"},
-  {s:"dest",t:{en:"6 Forgotten Expat Countries",fr:"6 pays oubliés de l'expatriation",es:"6 países olvidados de la expatriación"},url:{en:"/chronicles/chronicle-forgotten-expat-countries-2026-en.html",fr:"/chronicles/chronicle-pays-oublies-expatriation-2026-fr.html",es:"/chronicles/chronicle-paises-olvidados-expatriacion-2026-es.html"},img:"/assets/hero-montenegro.jpg",flag:"🌍",reg:{en:"Global",fr:"Global",es:"Global"},time:"25 min"},
-
-  /* ── NOMADISME DIGITAL ── */
-  {s:"nomad",t:{en:"Best Countries for Nomads 2026",fr:"Meilleurs pays nomades 2026",es:"Mejores países nómadas 2026"},url:{en:"/chronicles/digital-nomads-2026-en.html",fr:"/chronicles/digital-nomads-2026-fr.html",es:"/chronicles/digital-nomads-2026-es.html"},img:"/assets/hero-indonesia.jpg",flag:"🌍",reg:{en:"Global",fr:"Global",es:"Global"},time:"20 min"},
-  {s:"nomad",t:{en:"Dubai, Bali, Thailand & Crypto",fr:"Dubaï, Bali, Thaïlande & Crypto",es:"Dubái, Bali, Tailandia y Cripto"},url:{en:"/chronicles/expats-nomads-crypto-2026-en.html",fr:"/chronicles/expatries-nomades-crypto-2026-fr.html",es:"/chronicles/expatriados-nomadas-crypto-2026-es.html"},img:"/assets/hero-uae.jpg",flag:"🌍",reg:{en:"Global",fr:"Global",es:"Global"},time:"25 min"},
-
-  /* ── FAMILLE & AVENIR ── */
-  {s:"life",t:{en:"Best Countries to Raise Kids",fr:"Meilleurs pays pour élever ses enfants",es:"Mejores países para criar hijos"},url:{en:"/chronicles/chronicle-raise-children-2026-en.html",fr:"/chronicles/chronicle-elever-enfants-2026-fr.html",es:"/chronicles/chronicle-criar-hijos-2026-es.html"},img:null,flag:"🌍",reg:{en:"Global",fr:"Global",es:"Global"},time:"20 min",emoji:"👨‍👩‍👧"},
-  {s:"life",t:{en:"2056: Where Will Life Be Best?",fr:"2056 : où vivra-t-on le mieux ?",es:"2056: ¿dónde se vivirá mejor?"},url:{en:"/chronicles/chronicle-2056-best-countries-30-years-en.html",fr:"/chronicles/chronicle-2056-ou-vivra-t-on-le-mieux-fr.html",es:"/chronicles/chronicle-2056-mejores-paises-30-anos-es.html"},img:null,flag:"🌍",reg:{en:"Global",fr:"Global",es:"Global"},time:"30 min",emoji:"🔮"}
+var ARTICLES=[
+{section:"visas",title:{en:"Retirement Visas in 2026: the 25 Best Options",fr:"Visas retraite en 2026 : les 25 meilleures options",es:"Visados de jubilaci\u00f3n en 2026: las 25 mejores opciones"},url:{en:"/chronicles/chronicle-retirement-visas-2026-en.html",fr:"/chronicles/chronicle-visas-retraite-2026-fr.html",es:"/chronicles/chronicle-visas-jubilacion-2026-es.html"},countries:["portugal","panama","malaysia","thailand"],flag:"\ud83c\udf0d",reg:{en:"Global",fr:"Global",es:"Global"},time:"~25 min",date:"2026-03-08"},
+{section:"visas",title:{en:"The 25 Best Digital Nomad Visas in 2026",fr:"Visas digital nomad en 2026 : les 25 meilleures options",es:"Las 25 mejores visas para n\u00f3madas digitales en 2026"},url:{en:"/chronicles/chronicle-digital-nomad-visas-2026-en.html",fr:"/chronicles/chronicle-visas-digital-nomads-2026-fr.html",es:"/chronicles/chronicle-visas-nomadas-digitales-2026-es.html"},countries:["portugal","spain","indonesia","georgia"],flag:"\ud83c\udf0d",reg:{en:"Global",fr:"Global",es:"Global"},time:"~25 min",date:"2026-03-09"},
+{section:"visas",title:{en:"Expat Work Visas in 2026: the 25 Best Countries",fr:"Visas expatriation en 2026 : les 25 meilleures destinations",es:"Visados de expatriaci\u00f3n en 2026: los 25 mejores pa\u00edses"},url:{en:"/chronicles/chronicle-expat-work-visas-2026-en.html",fr:"/chronicles/chronicle-visas-expatriation-durable-2026-fr.html",es:"/chronicles/chronicle-visas-expatriacion-2026-es.html"},countries:["germany","canada","australia","singapore"],flag:"\ud83c\udf0d",reg:{en:"Global",fr:"Global",es:"Global"},time:"~25 min",date:"2026-03-10"},
+{section:"dest",title:{en:"Asia Expat Guide 2026 \u2014 Part 1: Thailand, Vietnam, Bali",fr:"Asie Expatriation 2026 \u2014 Partie 1 : Tha\u00eflande, Vietnam, Bali",es:"Asia Gu\u00eda Expatriados 2026 \u2014 Parte 1: Tailandia, Vietnam, Bali"},url:{en:"/chronicles/chronicle-asia-expat-guide-part1-2026-en.html",fr:"/chronicles/chronicle-asie-expatriation-partie1-2026-fr.html",es:"/chronicles/chronicle-asia-guia-expatriados-parte1-2026-es.html"},countries:["thailand","vietnam","indonesia"],flag:"\ud83c\udf0f",reg:{en:"Southeast Asia",fr:"Asie du Sud-Est",es:"Sudeste Asi\u00e1tico"},time:"~30 min",date:"2026-03-17"},
+{section:"dest",title:{en:"Asia Expat Guide 2026 \u2014 Part 2: Japan, Laos, China",fr:"Asie Expatriation 2026 \u2014 Partie 2 : Japon, Laos, Chine",es:"Asia Gu\u00eda Expatriados 2026 \u2014 Parte 2: Jap\u00f3n, Laos, China"},url:{en:"/chronicles/chronicle-asia-expat-guide-part2-2026-en.html",fr:"/chronicles/chronicle-asie-expatriation-partie2-2026-fr.html",es:"/chronicles/chronicle-asia-guia-expatriados-parte2-2026-es.html"},countries:["japan","laos","china"],flag:"\ud83c\udf0f",reg:{en:"East Asia",fr:"Asie de l'Est",es:"Asia Oriental"},time:"~30 min",date:"2026-03-18"},
+{section:"dest",title:{en:"Americas \u2014 Part 1: Panama, Costa Rica, Puerto Rico",fr:"Am\u00e9riques \u2014 Partie 1 : Panama, Costa Rica, Puerto Rico",es:"Am\u00e9ricas \u2014 Parte 1: Panam\u00e1, Costa Rica, Puerto Rico"},url:{en:"/chronicles/chronicle-ameriques-partie1-en.html",fr:"/chronicles/chronicle-ameriques-partie1-fr.html",es:"/chronicles/chronicle-ameriques-partie1-es.html"},countries:["panama","costa-rica"],flag:"\ud83c\udf0e",reg:{en:"Americas",fr:"Am\u00e9riques",es:"Am\u00e9ricas"},time:"~25 min",date:"2026-03-01"},
+{section:"dest",title:{en:"Americas \u2014 Part 2: St Kitts, Bahamas, Antigua",fr:"Am\u00e9riques \u2014 Partie 2 : Saint-Kitts, Bahamas, Antigua",es:"Am\u00e9ricas \u2014 Parte 2: Saint Kitts, Bahamas, Antigua"},url:{en:"/chronicles/chronicle-ameriques-partie2-en.html",fr:"/chronicles/chronicle-ameriques-partie2-fr.html",es:"/chronicles/chronicle-ameriques-partie2-es.html"},countries:["saint-kitts-and-nevis","bahamas"],flag:"\ud83c\udf0e",reg:{en:"Caribbean",fr:"Cara\u00efbes",es:"Caribe"},time:"~25 min",date:"2026-03-02"},
+{section:"dest",title:{en:"Americas \u2014 Part 3: Anguilla, BVI, Sint Maarten",fr:"Am\u00e9riques \u2014 Partie 3 : Anguilla, \u00celes Vierges, Sint Maarten",es:"Am\u00e9ricas \u2014 Parte 3: Anguila, IVB, Sint Maarten"},url:{en:"/chronicles/chronicle-ameriques-partie3-en.html",fr:"/chronicles/chronicle-ameriques-partie3-fr.html",es:"/chronicles/chronicle-ameriques-partie3-es.html"},countries:["sint-maarten","saint-kitts-and-nevis"],emoji:"\ud83c\udfd5\ufe0f",flag:"\ud83c\udf0e",reg:{en:"Caribbean",fr:"Cara\u00efbes",es:"Caribe"},time:"~20 min",date:"2026-03-03"},
+{section:"dest",title:{en:"Australia 2026: The Complete Expat Guide",fr:"Australie 2026 : le guide complet de l'expatriation",es:"Australia 2026: La gu\u00eda completa del expatriado"},url:{en:"/chronicles/chronicle-australia-expat-guide-2026-en.html",fr:"/chronicles/chronicle-australie-expatriation-2026-fr.html",es:"/chronicles/chronicle-australia-guia-expatriados-2026-es.html"},img:"/assets/hero-australia.jpg",flag:"\ud83c\udde6\ud83c\uddfa",reg:{en:"Oceania",fr:"Oc\u00e9anie",es:"Ocean\u00eda"},time:"~25 min",date:"2026-02-20"},
+{section:"dest",title:{en:"The 25 Best Healthcare Systems for Expats in 2026",fr:"Les 25 meilleurs syst\u00e8mes de sant\u00e9 pour les expatri\u00e9s en 2026",es:"Los 25 mejores sistemas sanitarios para expatriados en 2026"},url:{en:"/chronicles/chronicle-healthcare-expats-2026-en.html",fr:"/chronicles/chronicle-sante-expats-2026-fr.html",es:"/chronicles/chronicle-salud-expats-2026-es.html"},countries:["taiwan","south-korea","japan","germany"],emoji:"\ud83c\udfe5",flag:"\ud83c\udf0d",reg:{en:"Global",fr:"Global",es:"Global"},time:"~35 min",date:"2026-03-15"},
+{section:"dest",title:{en:"The Forgotten Countries: 6 Underrated Expat Destinations",fr:"Les pays oubli\u00e9s : 6 destinations sous-cot\u00e9es pour s'expatrier",es:"Los pa\u00edses olvidados: 6 destinos infravalorados"},url:{en:"/chronicles/chronicle-forgotten-expat-countries-2026-en.html",fr:"/chronicles/chronicle-pays-oublies-expatriation-2026-fr.html",es:"/chronicles/chronicle-paises-olvidados-expatriacion-2026-es.html"},countries:["mauritius","montenegro","cyprus","uruguay"],flag:"\ud83c\udf0d",reg:{en:"Global",fr:"Global",es:"Global"},time:"~25 min",date:"2026-03-19"},
+{section:"nomads",title:{en:"Best Countries for Digital Nomads in 2026",fr:"Les meilleurs pays pour les digital nomads en 2026",es:"Los mejores pa\u00edses para n\u00f3madas digitales en 2026"},url:{en:"/chronicles/digital-nomads-2026-en.html",fr:"/chronicles/digital-nomads-2026-fr.html",es:"/chronicles/digital-nomads-2026-es.html"},countries:["indonesia","portugal","georgia","thailand"],flag:"\ud83c\udf0d",reg:{en:"Global",fr:"Global",es:"Global"},time:"~20 min",date:"2026-02-24"},
+{section:"nomads",title:{en:"Dubai, Bali, Thailand, Malta & Crypto: Expats & Nomads 2026",fr:"Duba\u00ef, Bali, Tha\u00eflande, Malte & Crypto : expatri\u00e9s & nomades 2026",es:"Dub\u00e1i, Bali, Tailandia, Malta y Cripto 2026"},url:{en:"/chronicles/expats-nomads-crypto-2026-en.html",fr:"/chronicles/expatries-nomades-crypto-2026-fr.html",es:"/chronicles/expatriados-nomadas-crypto-2026-es.html"},countries:["uae","indonesia","thailand","malta"],flag:"\ud83c\udf0d",reg:{en:"Global",fr:"Global",es:"Global"},time:"~25 min",date:"2026-02-25"},
+{section:"family",title:{en:"Best Countries to Raise Children in 2026",fr:"Les meilleurs pays pour \u00e9lever ses enfants en 2026",es:"Los mejores pa\u00edses para criar hijos en 2026"},url:{en:"/chronicles/chronicle-raise-children-2026-en.html",fr:"/chronicles/chronicle-elever-enfants-2026-fr.html",es:"/chronicles/chronicle-criar-hijos-2026-es.html"},countries:["finland","denmark","sweden","new-zealand"],emoji:"\ud83d\udc68\u200d\ud83d\udc69\u200d\ud83d\udc67",flag:"\ud83c\udf0d",reg:{en:"Global",fr:"Global",es:"Global"},time:"~20 min",date:"2026-02-25"},
+{section:"future",title:{en:"2056: Where will life be best in 30 years?",fr:"2056 : o\u00f9 vivra-t-on le mieux dans 30 ans ?",es:"2056: \u00bfd\u00f3nde se vivir\u00e1 mejor en 30 a\u00f1os?"},url:{en:"/chronicles/chronicle-2056-best-countries-30-years-en.html",fr:"/chronicles/chronicle-2056-ou-vivra-t-on-le-mieux-fr.html",es:"/chronicles/chronicle-2056-mejores-paises-30-anos-es.html"},emoji:"\ud83d\udd2e",flag:"\ud83c\udf0d",reg:{en:"Global",fr:"Global",es:"Global"},time:"~30 min",date:"2026-03-05"}
 ];
 
-var SECTIONS = [
-  {id:"city-fr",label:{en:"🇫🇷 City Guides · France",fr:"🇫🇷 Guides Villes · France",es:"🇫🇷 Guías Ciudad · Francia"}},
-  {id:"city-th",label:{en:"🇹🇭 City Guides · Thailand",fr:"🇹🇭 Guides Villes · Thaïlande",es:"🇹🇭 Guías Ciudad · Tailandia"}},
-  {id:"city-es",label:{en:"🇪🇸 City Guides · Spain",fr:"🇪🇸 Guides Villes · Espagne",es:"🇪🇸 Guías Ciudad · España"}},
-  {id:"city-au",label:{en:"🇦🇺 City Guides · Australia",fr:"🇦🇺 Guides Villes · Australie",es:"🇦🇺 Guías Ciudad · Australia"}},
-  {id:"city-ca",label:{en:"🇨🇦 City Guides · Canada",fr:"🇨🇦 Guides Villes · Canada",es:"🇨🇦 Guías Ciudad · Canadá"}},
-  {id:"visa",label:{en:"🛂 Visas & Immigration",fr:"🛂 Visas & immigration",es:"🛂 Visas e Inmigración"}},
-  {id:"dest",label:{en:"🌍 Expat Destinations",fr:"🌍 Destinations expat",es:"🌍 Destinos Expat"}},
-  {id:"nomad",label:{en:"💻 Digital Nomadism",fr:"💻 Nomadisme digital",es:"💻 Nomadismo Digital"}},
-  {id:"life",label:{en:"🛡️ Family, Health & Future",fr:"🛡️ Famille, santé & avenir",es:"🛡️ Familia, Salud y Futuro"}}
+var CITY_MOSAIC=["/assetscity/paris.png","/assetscity/bangkok.png","/assetscity/sydney.png","/assetscity/barcelone.png","/assetscity/montreal.png","/assetscity/madrid.png","/assetscity/toronto.png","/assetscity/phuket.png"];
+
+var SECTIONS=[
+{id:"city",  key:"sec_city",  color:"var(--theme-city)",   page:{en:"/chronicles-villes-en.html",fr:"/chronicles-villes-fr.html",es:"/chronicles-villes-es.html"}},
+{id:"visas", key:"sec_visas", color:"var(--theme-visa)",   page:{en:"/chronicles-visas-en.html",fr:"/chronicles-visas-fr.html",es:"/chronicles-visas-es.html"}},
+{id:"dest",  key:"sec_dest",  color:"var(--theme-dest)",   page:{en:"/chronicles-dest-en.html",fr:"/chronicles-dest-fr.html",es:"/chronicles-dest-es.html"}},
+{id:"nomads",key:"sec_nomads",color:"var(--theme-nomad)",  page:{en:"/chronicles-nomads-en.html",fr:"/chronicles-nomads-fr.html",es:"/chronicles-nomads-es.html"}},
+{id:"family",key:"sec_family",color:"var(--theme-family)", page:{en:"/chronicles-family-en.html",fr:"/chronicles-family-fr.html",es:"/chronicles-family-es.html"}},
+{id:"future",key:"sec_future",color:"var(--theme-future)", page:{en:"/chronicles-future-en.html",fr:"/chronicles-future-fr.html",es:"/chronicles-future-es.html"}}
 ];
 
-var I18N = {
-  en:{kicker:"Chronicles · Insight & Analysis",h1:"All Chronicles",count:" articles · 2026"},
-  fr:{kicker:"Chronicles · Insight & Analysis",h1:"Toutes les chronicles",count:" articles · 2026"},
-  es:{kicker:"Chronicles · Insight & Analysis",h1:"Todas las crónicas",count:" artículos · 2026"}
-};
+var MAX=15;
 
-/* ═══════════════════════════════════════════════════
-   RENDER
-   ═══════════════════════════════════════════════════ */
 function getLang(){return(localStorage.getItem("wigg_lang")||"en").toLowerCase()}
 function str(o){if(!o)return"";if(typeof o==="string")return o;var l=getLang();return o[l]||o.en||""}
+function tx(){var l=getLang();return I18N[l]||I18N.en}
+function pickRandom(arr,n){var a=arr.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var tmp=a[i];a[i]=a[j];a[j]=tmp;}return a.slice(0,n)}
 
-function cardHTML(a){
-  var url=str(a.url);
-  var hasImg=a.img&&!a.emoji;
-  var html='<a class="card" href="'+url+'">';
-  if(hasImg){
-    html+='<img class="card-img" src="'+a.img+'" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">';
-    html+='<div class="card-emoji" style="display:none">'+(a.emoji||a.flag||"📄")+'</div>';
-  } else if(a.emoji){
-    html+='<div class="card-emoji">'+a.emoji+'</div>';
-  } else {
-    html+='<div class="card-emoji">'+(a.flag||"📄")+'</div>';
-  }
-  html+='<div class="card-grad"></div>';
-  html+='<div class="card-body">';
-  html+='<div class="card-meta">'+a.flag+' '+str(a.reg)+' · '+a.time+'</div>';
-  html+='<div class="card-title">'+str(a.t)+'</div>';
-  html+='</div></a>';
-  return html;
+function cardSingle(a){
+  var url=str(a.url),hasImg=a.img&&!a.emoji;
+  var h='<a class="vcard" href="'+url+'">';
+  if(hasImg){h+='<img class="vcard-img" src="'+a.img+'" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextSibling.style.display=\'flex\'">';h+='<div class="vcard-emoji" style="display:none">'+(a.emoji||a.flag||"?")+'</div>';}
+  else if(a.emoji){h+='<div class="vcard-emoji">'+a.emoji+'</div>';}
+  else{h+='<div class="vcard-emoji">'+(a.flag||"?")+'</div>';}
+  h+='<div class="vcard-grad"></div><div class="vcard-body"><div class="vcard-meta">'+a.flag+' '+str(a.reg)+' - '+a.time+'</div><div class="vcard-title">'+str(a.title)+'</div></div></a>';
+  return h;
+}
+
+function cardSplit(a){
+  var url=str(a.url),countries=a.countries||[];
+  var n=countries.length>=4?4:2;
+  var picked=pickRandom(countries,n);
+  var cls="split-"+(picked.length>=4?"4":"2");
+  var h='<a class="vcard" href="'+url+'"><div class="split-grid '+cls+'">';
+  picked.forEach(function(slug){
+    h+='<div class="split-cell"><img src="/assets/hero-'+slug+'.jpg" alt="'+slug+'" loading="lazy" onerror="this.parentNode.innerHTML=\'<div class=split-emoji>'+a.flag+'</div>\'"></div>';
+  });
+  h+='</div><div class="vcard-grad"></div><div class="vcard-body"><div class="vcard-meta">'+a.flag+' '+str(a.reg)+' - '+a.time+'</div><div class="vcard-title">'+str(a.title)+'</div></div></a>';
+  return h;
+}
+
+function cardHTML(a){if(a.countries&&a.countries.length>=2&&!a.img)return cardSplit(a);return cardSingle(a);}
+
+function cityCTA(t,pageUrl){
+  var imgs=pickRandom(CITY_MOSAIC,8);
+  var h='<a class="vcard-city" href="'+pageUrl+'"><div class="city-mosaic">';
+  imgs.forEach(function(src){h+='<div class="city-mc"><img src="'+src+'" alt="" loading="lazy"></div>';});
+  h+='</div><div class="city-cta-body"><div class="city-cta-label">'+t.cityLabel+'</div><div class="city-cta-title">'+t.cityTitle+'</div><div class="city-cta-btn">'+t.cityBtn+'</div></div></a>';
+  return h;
 }
 
 function render(){
-  var l=getLang();
-  var t=I18N[l]||I18N.en;
-
-  document.getElementById("edKicker").textContent=t.kicker;
-  document.getElementById("edH1").textContent=t.h1;
-  document.getElementById("edCount").textContent=ARTICLES.length+t.count;
-  document.documentElement.lang=l;
-
-  var root=document.getElementById("rowsRoot");
-  var html="";
-
+  var t=tx(),root=document.getElementById("sectionsRoot"),html="";
   SECTIONS.forEach(function(sec){
-    var items=ARTICLES.filter(function(a){return a.s===sec.id});
-    if(!items.length)return;
-
-    html+='<div class="row">';
-    html+='<div class="row-head">';
-    html+='<div class="row-title">'+str(sec.label)+'</div>';
-    html+='</div>';
-    html+='<div class="carousel">';
-    items.forEach(function(a){html+=cardHTML(a)});
+    var label=t[sec.key]||sec.id,pageUrl=str(sec.page);
+    html+='<div class="theme-section"><div class="theme-head"><span class="theme-dot" style="background:'+sec.color+'"></span><span class="theme-label" style="color:'+sec.color+'">'+label+'</span><div class="theme-rule"></div>';
+    if(pageUrl)html+='<a class="theme-see" href="'+pageUrl+'">'+t.seeAll+'</a>';
+    html+='</div><div class="carousel">';
+    if(sec.id==="city"){html+=cityCTA(t,pageUrl);html+='</div></div>';return;}
+    var items=ARTICLES.filter(function(a){return a.section===sec.id;});
+    items.sort(function(a,b){return(b.date||"").localeCompare(a.date||"");});
+    if(!items.length){html+='</div><div class="coming-soon">'+t.comingSoon+'</div></div>';return;}
+    items.slice(0,MAX).forEach(function(a){html+=cardHTML(a);});
     html+='</div></div>';
   });
-
   root.innerHTML=html;
 }
 
-render();
-window.addEventListener("wigg_lang_changed",render);
-</script>
+function applyI18n(){
+  var t=tx(),l=getLang();
+  document.documentElement.lang=l;
+  document.getElementById("eyebrow").textContent=t.eyebrow;
+  document.getElementById("heroTitle").innerHTML="Wigg <em>"+t.titleWord+"</em>";
+  document.getElementById("heroSub").textContent=t.sub;
+}
 
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+function init(){applyI18n();render();}
+init();
+window.addEventListener("wigg_lang_changed",function(){applyI18n();render();});
+  </script>
 </body>
 </html>
