@@ -149,11 +149,8 @@
       display: flex;
       flex-direction: column;
       gap: 14px;
-      position: sticky;
-      top: 80px;
       align-self: start;
     }
-    @media (max-width: 900px) { .sidebar { position: static; } }
 
     .card {
       background: var(--card);
@@ -435,14 +432,29 @@
     .score-badge {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
-      padding: 6px 12px;
-      border-radius: 999px;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 13px;
+      white-space: nowrap;
+      background: linear-gradient(135deg, #fef9c3 0%, #fef3c7 100%);
+      border: 1px solid rgba(245,158,11,.25);
+      color: #92400e;
+      box-shadow: 0 2px 8px rgba(245,158,11,.12);
+    }
+    .score-badge .score-star { font-size: 15px; }
+
+    /* Article heading tags */
+    .art-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 7px;
       font-weight: 800;
       font-size: 12px;
-      border: 1px solid var(--border);
-      background: var(--bg);
-      white-space: nowrap;
+      letter-spacing: .01em;
+      margin-bottom: 8px;
+      line-height: 1.4;
     }
     .wg-badge {
       display: inline-flex;
@@ -1493,8 +1505,32 @@
       </div>`;
     }
 
+    const TAG_COLORS = [
+      {bg:"rgba(34,197,94,.12)", border:"rgba(34,197,94,.25)", color:"#15803d"},
+      {bg:"rgba(59,130,246,.12)", border:"rgba(59,130,246,.25)", color:"#1d4ed8"},
+      {bg:"rgba(245,158,11,.12)", border:"rgba(245,158,11,.25)", color:"#92400e"},
+      {bg:"rgba(239,68,68,.12)", border:"rgba(239,68,68,.25)", color:"#b91c1c"},
+      {bg:"rgba(139,92,246,.12)", border:"rgba(139,92,246,.25)", color:"#6d28d9"},
+      {bg:"rgba(236,72,153,.12)", border:"rgba(236,72,153,.25)", color:"#be185d"},
+      {bg:"rgba(6,182,212,.12)", border:"rgba(6,182,212,.25)", color:"#0e7490"},
+      {bg:"rgba(249,115,22,.12)", border:"rgba(249,115,22,.25)", color:"#c2410c"}
+    ];
+    let tagIdx = 0;
+
+    function formatPara(raw){
+      let t = esc(raw);
+      // Convert **title** → colored tag
+      t = t.replace(/\*\*(.+?)\*\*/g, function(_, title){
+        const c = TAG_COLORS[tagIdx % TAG_COLORS.length];
+        tagIdx++;
+        return `<span class="art-tag" style="background:${c.bg};border:1px solid ${c.border};color:${c.color}">${title}</span><br>`;
+      });
+      return `<p>${t}</p>`;
+    }
+
     function renderArticleBodyWithMap(article){
       if(!article) return "";
+      tagIdx = 0;
       const paras = article.split(/\n{2,}/).filter(p=>p.trim());
       const mid   = Math.floor(paras.length / 2);
       const mapBlock = `
@@ -1518,8 +1554,8 @@
           </div>
         </div>`;
 
-      const before = paras.slice(0, mid).map(p=>`<p>${esc(p)}</p>`).join("");
-      const after  = paras.slice(mid).map(p=>`<p>${esc(p)}</p>`).join("");
+      const before = paras.slice(0, mid).map(formatPara).join("");
+      const after  = paras.slice(mid).map(formatPara).join("");
       return before + mapBlock + after;
     }
 
@@ -1530,7 +1566,7 @@
       if(!article.trim()) return "";
 
       const score = parseScore(article);
-      const badge = score ? `<span class="score-badge">⭐ Expat Score: ${esc(score)} / 10</span>` : "";
+      const badge = score ? `<span class="score-badge"><span class="score-star">⭐</span> Expat Score: ${esc(score)} / 10</span>` : "";
 
       return `<div class="article-card">
         <div class="section-head">
