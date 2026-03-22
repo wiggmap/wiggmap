@@ -71,7 +71,15 @@
       "Bash(grep -rn 'header\\\\.js\\\\|footer\\\\.js\\\\|siteHeader\\\\|siteFooter' /mnt/chromeos/MyFiles/wiggmap/connect/*.html)",
       "Bash(echo \"exit: $?\")",
       "Bash(grep -o 'section: \"\"\"\"[a-z]*\"\"\"\"' indexchronicles.html)",
-      "Bash(find /mnt/chromeos/MyFiles/wiggmap -iname *nice* -type f)"
+      "Bash(find /mnt/chromeos/MyFiles/wiggmap -iname *nice* -type f)",
+      "Bash(grep -c 'section: \"\"\"\"city\"\"\"\"' /mnt/chromeos/MyFiles/wiggmap/indexchronicles.html)",
+      "Bash(grep -A3 'section: \"\"\"\"city\"\"\"\"' /mnt/chromeos/MyFiles/wiggmap/indexchronicles.html)",
+      "Bash(grep -ohP \"assetscity/[^''''\"\"\\)\\\\s]+\" /mnt/chromeos/MyFiles/wiggmap/chronicles/villes/*.html)",
+      "Bash(for f:*)",
+      "Read(//mnt/chromeos/MyFiles/wiggmap/**)",
+      "Bash(for img:*)",
+      "Bash(do echo:*)",
+      "Bash(grep -l \"assetscity/$img\" /mnt/chromeos/MyFiles/wiggmap/chronicles/villes/*.html)"
     ]
   }
 }

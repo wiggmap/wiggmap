@@ -475,6 +475,18 @@
     "/chronicles/villes/chronicle-lyon-france-en.html": { en: "/chronicles/villes/chronicle-lyon-france-en.html", fr: "/chronicles/villes/chronicle-lyon-france-fr.html", es: "/chronicles/villes/chronicle-lyon-france-es.html" },
     "/chronicles/villes/chronicle-lyon-france-fr.html": { en: "/chronicles/villes/chronicle-lyon-france-en.html", fr: "/chronicles/villes/chronicle-lyon-france-fr.html", es: "/chronicles/villes/chronicle-lyon-france-es.html" },
     "/chronicles/villes/chronicle-lyon-france-es.html": { en: "/chronicles/villes/chronicle-lyon-france-en.html", fr: "/chronicles/villes/chronicle-lyon-france-fr.html", es: "/chronicles/villes/chronicle-lyon-france-es.html" },
+
+    "/chronicles/villes/chronicle-marseille-france-en.html": { en: "/chronicles/villes/chronicle-marseille-france-en.html", fr: "/chronicles/villes/chronicle-marseille-france-fr.html", es: "/chronicles/villes/chronicle-marseille-france-es.html" },
+    "/chronicles/villes/chronicle-marseille-france-fr.html": { en: "/chronicles/villes/chronicle-marseille-france-en.html", fr: "/chronicles/villes/chronicle-marseille-france-fr.html", es: "/chronicles/villes/chronicle-marseille-france-es.html" },
+    "/chronicles/villes/chronicle-marseille-france-es.html": { en: "/chronicles/villes/chronicle-marseille-france-en.html", fr: "/chronicles/villes/chronicle-marseille-france-fr.html", es: "/chronicles/villes/chronicle-marseille-france-es.html" },
+
+    "/chronicles/villes/chronicle-paris-france-en.html": { en: "/chronicles/villes/chronicle-paris-france-en.html", fr: "/chronicles/villes/chronicle-paris-france-fr.html", es: "/chronicles/villes/chronicle-paris-france-es.html" },
+    "/chronicles/villes/chronicle-paris-france-fr.html": { en: "/chronicles/villes/chronicle-paris-france-en.html", fr: "/chronicles/villes/chronicle-paris-france-fr.html", es: "/chronicles/villes/chronicle-paris-france-es.html" },
+    "/chronicles/villes/chronicle-paris-france-es.html": { en: "/chronicles/villes/chronicle-paris-france-en.html", fr: "/chronicles/villes/chronicle-paris-france-fr.html", es: "/chronicles/villes/chronicle-paris-france-es.html" },
+
+    "/chronicles/villes/chronicle-bangkok-thailand-en.html": { en: "/chronicles/villes/chronicle-bangkok-thailand-en.html", fr: "/chronicles/villes/chronicle-bangkok-thailand-fr.html", es: "/chronicles/villes/chronicle-bangkok-thailand-es.html" },
+    "/chronicles/villes/chronicle-bangkok-thailand-fr.html": { en: "/chronicles/villes/chronicle-bangkok-thailand-en.html", fr: "/chronicles/villes/chronicle-bangkok-thailand-fr.html", es: "/chronicles/villes/chronicle-bangkok-thailand-es.html" },
+    "/chronicles/villes/chronicle-bangkok-thailand-es.html": { en: "/chronicles/villes/chronicle-bangkok-thailand-en.html", fr: "/chronicles/villes/chronicle-bangkok-thailand-fr.html", es: "/chronicles/villes/chronicle-bangkok-thailand-es.html" },
   };
 
   // Lang selection
