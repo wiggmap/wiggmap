@@ -1,1384 +1,299 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <!-- Google Tag Manager -->
-  <script>
-    (function(w,d,s,l,i){w[l]=w[l]||[];
-    w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
-    var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
-    j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
-    f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-K4MMRD4R');
-  </script>
-
-  <link rel="manifest" href="/manifest.webmanifest">
-  <meta name="theme-color" content="#1c7c46">
-  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-K4MMRD4R');</script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#22c55e">
   <title>Wigg Chronicles — Articles & analyses | WiggMap</title>
   <meta name="description" content="Wigg Chronicles : articles premium sur expatriation, visas, fiscalité, coût de la vie, prospective, éducation et qualité de vie à travers le monde.">
   <link rel="canonical" href="https://wiggmap.com/indexchronicles.html">
-  <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg:#f6f1e8;
-      --bg-soft:#fbf8f2;
-      --paper:#fffdf8;
-      --paper-2:#f8f2e9;
-      --ink:#171714;
-      --ink-soft:#54554e;
-      --line:rgba(23,23,20,.10);
-      --green:#1d7f48;
-      --green-soft:rgba(29,127,72,.10);
-      --shadow-1:0 12px 34px rgba(25,20,12,.06);
-      --shadow-2:0 24px 70px rgba(25,20,12,.10);
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Poppins',system-ui,sans-serif;
+  background:#0a0f1e;
+  color:#e2e8f0;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  min-height:100vh;
+}
+a{text-decoration:none;color:inherit}
 
-      --theme-visa:#178a5b;
-      --theme-nomad:#0f82a2;
-      --theme-future:#7d55d8;
-      --theme-family:#d7731d;
-      --theme-dest:#c0792e;
-      --theme-city:#6b7280;
-    }
+/* ── PAGE WRAPPER ── */
+.cw{
+  width:100%;
+  max-width:1100px;
+  margin:0 auto;
+  padding:32px 16px 64px;
+}
+@media(min-width:768px){.cw{padding:48px 40px 80px}}
 
-    *{box-sizing:border-box;margin:0;padding:0}
-    *::before,*::after{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      font-family:"Inter",system-ui,sans-serif;
-      color:var(--ink);
-      min-height:100vh;
-      background:
-        radial-gradient(circle at top left, rgba(255,255,255,.9), transparent 28%),
-        radial-gradient(circle at top right, rgba(29,127,72,.045), transparent 22%),
-        linear-gradient(180deg, #f9f5ed 0%, #f3ede3 100%);
-      -webkit-font-smoothing:antialiased;
-      overflow-x:hidden;
-    }
+/* ── EDITORIAL HEADER ── */
+.ed-header{margin-bottom:40px}
+.ed-kicker{
+  font-size:10px;font-weight:600;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:#22c55e;margin-bottom:12px;
+  display:flex;align-items:center;gap:10px;
+}
+.ed-kicker::before{content:'';width:20px;height:1px;background:#22c55e}
+.ed-h1{
+  font-size:clamp(26px,5vw,42px);
+  font-weight:700;color:#fff;
+  line-height:1.1;letter-spacing:-.02em;
+  margin-bottom:8px;
+}
+.ed-count{font-size:12px;color:#64748b;font-weight:400}
 
-    a{text-decoration:none;color:inherit}
+/* ── SECTION ROW ── */
+.row{padding:20px 0;border-bottom:.5px solid #1e293b}
+.row:last-child{border-bottom:none}
+.row-head{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-bottom:14px;gap:12px;
+}
+.row-title{
+  font-size:14px;font-weight:600;color:#fff;
+  display:flex;align-items:center;gap:8px;
+  white-space:nowrap;
+}
+@media(min-width:768px){.row-title{font-size:16px}}
+.row-see{
+  font-size:11px;font-weight:500;color:#22c55e;
+  white-space:nowrap;cursor:pointer;
+  background:none;border:none;font-family:inherit;
+  padding:0;
+}
+.row-see:hover{text-decoration:underline}
 
-    .cw{
-      width:min(1280px, calc(100% - 40px));
-      margin:0 auto;
-      padding:28px 0 88px;
-    }
+/* ── CAROUSEL ── */
+.carousel{
+  display:flex;gap:12px;
+  overflow-x:auto;
+  scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
+  padding-bottom:4px;
+}
+.carousel::-webkit-scrollbar{display:none}
 
-    @media (max-width:700px){
-      .cw{
-        width:min(100% - 24px, 1280px);
-        padding:14px 0 54px;
-      }
-    }
+/* ── CARD ── */
+.card{
+  flex-shrink:0;
+  width:120px;height:95px;
+  border-radius:8px;
+  overflow:hidden;
+  position:relative;
+  border:.5px solid #1e293b;
+  cursor:pointer;
+  transition:border-color .2s,transform .2s;
+  display:block;
+  background:#0d1428;
+}
+@media(min-width:768px){.card{width:160px;height:125px}}
+.card:hover{border-color:#22c55e}
+.card:hover .card-img{transform:scale(1.02)}
 
-    /* ===== MASTHEAD ===== */
-    .masthead{
-      position:relative;
-      margin:14px 0 28px;
-      border:1px solid rgba(23,23,20,.07);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.82), rgba(255,255,255,.72)),
-        linear-gradient(135deg, rgba(29,127,72,.03), transparent 34%);
-      box-shadow:var(--shadow-1);
-      border-radius:30px;
-      overflow:hidden;
-    }
+.card-img{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  transition:transform .3s;
+}
+.card-grad{
+  position:absolute;inset:0;
+  background:linear-gradient(to top, rgba(10,15,30,.95) 0%, rgba(10,15,30,.4) 50%, transparent 100%);
+  z-index:1;
+}
+.card-body{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:8px 10px;z-index:2;
+}
+@media(min-width:768px){.card-body{padding:10px 12px}}
+.card-meta{
+  font-size:8px;font-weight:500;color:#22c55e;
+  letter-spacing:.04em;margin-bottom:3px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+@media(min-width:768px){.card-meta{font-size:9px}}
+.card-title{
+  font-size:10px;font-weight:600;color:#fff;
+  line-height:1.3;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+  overflow:hidden;
+}
+@media(min-width:768px){.card-title{font-size:11px}}
 
-    .masthead::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:
-        radial-gradient(circle at 88% 18%, rgba(29,127,72,.05), transparent 18%),
-        radial-gradient(circle at 8% 92%, rgba(0,0,0,.025), transparent 24%);
-      pointer-events:none;
-    }
-
-    .masthead-inner{
-      position:relative;
-      z-index:1;
-      display:grid;
-      grid-template-columns:minmax(0, 1.05fr) minmax(320px, 470px);
-      gap:26px;
-      align-items:stretch;
-      padding:24px;
-    }
-
-    .masthead-copy{
-      min-width:0;
-      padding:18px 14px 14px 14px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-    }
-
-    .masthead-label{
-      display:inline-flex;
-      align-items:center;
-      gap:12px;
-      font-size:11px;
-      font-weight:800;
-      letter-spacing:.24em;
-      text-transform:uppercase;
-      color:var(--green);
-      margin-bottom:16px;
-    }
-
-    .masthead-label::before{
-      content:"";
-      width:28px;
-      height:1px;
-      background:rgba(29,127,72,.55);
-      display:block;
-    }
-
-    .masthead h1{
-      font-family:"Playfair Display", Georgia, serif;
-      font-size:clamp(42px, 6vw, 82px);
-      line-height:.92;
-      letter-spacing:-.04em;
-      font-weight:700;
-      max-width:8.5ch;
-      margin-bottom:16px;
-    }
-
-    .masthead h1 em{
-      color:var(--green);
-      font-style:italic;
-      font-weight:700;
-    }
-
-    .masthead-sub{
-      max-width:58ch;
-      font-size:15px;
-      line-height:1.85;
-      color:var(--ink-soft);
-      margin-bottom:24px;
-    }
-
-    .masthead-media{
-      min-width:0;
-      display:flex;
-      align-items:stretch;
-    }
-
-    .masthead-art{
-      position:relative;
-      width:100%;
-      min-height:320px;
-      border-radius:24px;
-      overflow:hidden;
-      border:1px solid rgba(23,23,20,.06);
-      box-shadow:
-        0 14px 34px rgba(23,23,20,.06),
-        inset 0 1px 0 rgba(255,255,255,.55);
-      background:#efe7da;
-    }
-
-    .masthead-art::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:
-        linear-gradient(135deg, rgba(255,255,255,.16), transparent 30%),
-        linear-gradient(0deg, rgba(255,250,244,.10), rgba(255,250,244,.10));
-      pointer-events:none;
-    }
-
-    .masthead-art img{
-      display:block;
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      object-position:center;
-    }
-
-    .masthead-rule{
-      display:flex;
-      align-items:center;
-      gap:14px;
-      padding:0 28px 22px;
-    }
-
-    .masthead-rule::before,
-    .masthead-rule::after{
-      content:"";
-      flex:1;
-      height:1px;
-      background:var(--line);
-    }
-
-    .masthead-rule-dot{
-      width:7px;
-      height:7px;
-      border-radius:50%;
-      background:var(--green);
-      box-shadow:0 0 0 6px rgba(29,127,72,.08);
-      flex:0 0 auto;
-    }
-
-    @media (max-width:980px){
-      .masthead-inner{
-        grid-template-columns:1fr;
-        gap:16px;
-      }
-      .masthead-copy{padding:6px 4px 0}
-      .masthead-art{min-height:230px}
-    }
-
-    @media (max-width:640px){
-      .masthead{border-radius:24px}
-      .masthead-inner{padding:16px}
-      .masthead h1{font-size:clamp(34px, 12vw, 56px);max-width:9ch}
-      .masthead-sub{font-size:14px;line-height:1.7}
-      .masthead-art{min-height:190px;border-radius:18px}
-      .masthead-rule{padding:0 16px 16px}
-    }
-
-    /* ===== THEMATIC SECTIONS ===== */
-    .theme-section{
-      margin-bottom:42px;
-    }
-
-    .theme-head{
-      display:flex;
-      align-items:center;
-      gap:14px;
-      margin:0 0 18px;
-    }
-
-    .theme-dot{
-      width:8px;
-      height:8px;
-      border-radius:50%;
-      flex-shrink:0;
-    }
-
-    .theme-label{
-      font-size:12px;
-      font-weight:800;
-      letter-spacing:.20em;
-      text-transform:uppercase;
-      white-space:nowrap;
-    }
-
-    .theme-rule{
-      height:1px;
-      flex:1;
-      background:linear-gradient(90deg, rgba(23,23,20,.12), rgba(23,23,20,.04));
-    }
-
-    .theme-toggle{
-      border:none;
-      outline:none;
-      cursor:pointer;
-      padding:0 14px;
-      min-height:32px;
-      border-radius:999px;
-      background:rgba(255,255,255,.72);
-      box-shadow:inset 0 0 0 1px rgba(23,23,20,.08), 0 4px 12px rgba(23,23,20,.03);
-      font:700 10px/1 "Inter",system-ui,sans-serif;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      transition:background .15s, color .15s;
-      white-space:nowrap;
-      flex-shrink:0;
-    }
-
-    .theme-toggle:hover{
-      background:#fff;
-    }
-
-    /* ===== CARD GRID ===== */
-    .cw-grid{
-      display:grid;
-      grid-template-columns:repeat(3, 1fr);
-      gap:18px;
-      align-items:stretch;
-    }
-
-    @media (max-width:1040px){.cw-grid{grid-template-columns:1fr 1fr}}
-    @media (max-width:640px){.cw-grid{grid-template-columns:1fr}}
-
-    .cw-card{
-      position:relative;
-      display:flex;
-      flex-direction:column;
-      min-height:100%;
-      border-radius:24px;
-      overflow:hidden;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.94), rgba(255,252,247,.92));
-      border:1px solid rgba(23,23,20,.08);
-      box-shadow:0 10px 28px rgba(23,23,20,.05);
-      transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
-    }
-
-    .cw-card:hover{
-      transform:translateY(-3px);
-      border-color:rgba(23,23,20,.14);
-      box-shadow:0 22px 46px rgba(23,23,20,.10);
-    }
-
-    .cw-card::before{
-      content:"";
-      position:absolute;
-      top:0;left:0;right:0;
-      height:3px;
-      background:var(--card-accent, rgba(23,23,20,.1));
-    }
-
-    .card-head{padding:16px 18px 10px}
-
-    .card-theme{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      margin-bottom:14px;
-      font-size:10px;
-      font-weight:800;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      color:var(--card-accent, rgba(23,23,20,.54));
-    }
-
-    .card-theme-dot{
-      width:6px;
-      height:6px;
-      border-radius:50%;
-      background:currentColor;
-      flex-shrink:0;
-    }
-
-    .cw-card h3{
-      font-family:"Fraunces", Georgia, serif;
-      font-size:18px;
-      line-height:1.22;
-      letter-spacing:-.01em;
-      font-weight:700;
-      color:var(--ink);
-    }
-
-    .card-body{
-      flex:1;
-      padding:0 18px 12px;
-    }
-
-    .card-excerpt{
-      color:var(--ink-soft);
-      font-size:13px;
-      line-height:1.72;
-      display:-webkit-box;
-      -webkit-line-clamp:3;
-      -webkit-box-orient:vertical;
-      overflow:hidden;
-    }
-
-    .card-footer{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding:12px 18px 14px;
-      border-top:1px solid rgba(23,23,20,.08);
-    }
-
-    .card-meta{
-      font-size:10px;
-      font-weight:800;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      color:rgba(23,23,20,.40);
-    }
-
-    .card-read{
-      color:var(--card-accent, var(--green));
-      font-size:11px;
-      font-weight:800;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      transition:letter-spacing .16s ease;
-      flex-shrink:0;
-    }
-
-    .cw-card:hover .card-read{letter-spacing:.20em}
-
-    .t-visa   { --card-accent: var(--theme-visa); }
-    .t-nomad  { --card-accent: var(--theme-nomad); }
-    .t-future { --card-accent: var(--theme-future); }
-    .t-family { --card-accent: var(--theme-family); }
-    .t-dest   { --card-accent: var(--theme-dest); }
-    .t-city   { --card-accent: var(--theme-city); }
-
-    /* ===== COMING SOON ===== */
-    .coming-soon{
-      text-align:center;
-      padding:40px 20px;
-      border-radius:24px;
-      border:1px dashed rgba(23,23,20,.16);
-      color:rgba(23,23,20,.44);
-      background:rgba(255,255,255,.56);
-      font-weight:700;
-      font-size:13px;
-    }
-
-    /* ===== ANIMATIONS ===== */
-    @keyframes fadeUp{
-      from{opacity:0;transform:translateY(16px)}
-      to{opacity:1;transform:translateY(0)}
-    }
-
-    .masthead{animation:fadeUp .55s ease both}
-    .theme-section{animation:fadeUp .55s .12s ease both}
+/* ── EMOJI FALLBACK ── */
+.card-emoji{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:32px;
+  background:linear-gradient(135deg,#0d1428 0%,#162033 100%);
+  z-index:0;
+}
+@media(min-width:768px){.card-emoji{font-size:40px}}
   </style>
 </head>
-
 <body>
-  <noscript>
-    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R"
-      height="0" width="0" style="display:none;visibility:hidden"></iframe>
-  </noscript>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-  <div id="siteHeader"></div>
+<div id="siteHeader"></div>
+<script src="/data/header.js"></script>
 
-  <main class="cw">
-    <header class="masthead">
-      <div class="masthead-inner">
-        <div class="masthead-copy">
-          <p class="masthead-label" id="eyebrow">Chroniques</p>
-          <h1 id="heroTitle">Wigg <em>Chroniques</em></h1>
-          <p class="masthead-sub" id="heroSub">
-            Articles premium sur expatriation, visas, fiscalité, coût de la vie, prospective, éducation et qualité de vie.
-          </p>
-        </div>
+<div class="cw">
+  <div class="ed-header">
+    <div class="ed-kicker" id="edKicker">Chronicles · Insight & Analysis</div>
+    <h1 class="ed-h1" id="edH1">Toutes les chronicles</h1>
+    <div class="ed-count" id="edCount"></div>
+  </div>
+  <div id="rowsRoot"></div>
+</div>
 
-        <div class="masthead-media">
-          <div class="masthead-art">
-            <img src="assets/bannierechroniques.png" alt="Wigg Chronicles banner" loading="eager" decoding="async">
-          </div>
-        </div>
-      </div>
+<div id="siteFooter"></div>
+<script src="/data/footer.js"></script>
 
-      <div class="masthead-rule">
-        <div class="masthead-rule-dot"></div>
-      </div>
-    </header>
+<script>
+/* ═══════════════════════════════════════════════════
+   DATA
+   ═══════════════════════════════════════════════════ */
+var ARTICLES = [
+  /* ── FRANCE ── */
+  {s:"city-fr",t:{en:"Paris 2026",fr:"Paris 2026",es:"París 2026"},url:{en:"/chronicles/villes/chronicle-paris-france-en.html",fr:"/chronicles/villes/chronicle-paris-france-fr.html",es:"/chronicles/villes/chronicle-paris-france-es.html"},img:"/assetscity/paris.png",flag:"🇫🇷",reg:{en:"France",fr:"France",es:"Francia"},time:"20 min"},
+  {s:"city-fr",t:{en:"Lyon 2026",fr:"Lyon 2026",es:"Lyon 2026"},url:{en:"/chronicles/villes/chronicle-lyon-france-en.html",fr:"/chronicles/villes/chronicle-lyon-france-fr.html",es:"/chronicles/villes/chronicle-lyon-france-es.html"},img:"/assetscity/lyon.png",flag:"🇫🇷",reg:{en:"France",fr:"France",es:"Francia"},time:"20 min"},
+  {s:"city-fr",t:{en:"Marseille 2026",fr:"Marseille 2026",es:"Marsella 2026"},url:{en:"/chronicles/villes/chronicle-marseille-france-en.html",fr:"/chronicles/villes/chronicle-marseille-france-fr.html",es:"/chronicles/villes/chronicle-marseille-france-es.html"},img:"/assetscity/marseille.png",flag:"🇫🇷",reg:{en:"France",fr:"France",es:"Francia"},time:"20 min"},
+  {s:"city-fr",t:{en:"Nice 2026",fr:"Nice 2026",es:"Niza 2026"},url:{en:"/chronicles/villes/chronicle-nice-france-en.html",fr:"/chronicles/villes/chronicle-nice-france-fr.html",es:"/chronicles/villes/chronicle-nice-france-es.html"},img:"/assetscity/nice.png",flag:"🇫🇷",reg:{en:"France",fr:"France",es:"Francia"},time:"20 min"},
 
-    <div id="sectionsRoot"></div>
-  </main>
+  /* ── THAÏLANDE ── */
+  {s:"city-th",t:{en:"Bangkok 2026",fr:"Bangkok 2026",es:"Bangkok 2026"},url:{en:"/chronicles/villes/chronicle-bangkok-thailand-en.html",fr:"/chronicles/villes/chronicle-bangkok-thailand-fr.html",es:"/chronicles/villes/chronicle-bangkok-thailand-es.html"},img:"/assetscity/bangkok.png",flag:"🇹🇭",reg:{en:"Thailand",fr:"Thaïlande",es:"Tailandia"},time:"20 min"},
+  {s:"city-th",t:{en:"Chiang Mai 2026",fr:"Chiang Mai 2026",es:"Chiang Mai 2026"},url:{en:"/chronicles/villes/chronicle-chiang-mai-thailand-en.html",fr:"/chronicles/villes/chronicle-chiang-mai-thailand-fr.html",es:"/chronicles/villes/chronicle-chiang-mai-thailand-es.html"},img:"/assetscity/chiangmai.png",flag:"🇹🇭",reg:{en:"Thailand",fr:"Thaïlande",es:"Tailandia"},time:"20 min"},
+  {s:"city-th",t:{en:"Hua Hin 2026",fr:"Hua Hin 2026",es:"Hua Hin 2026"},url:{en:"/chronicles/villes/chronicle-hua-hin-thailand-en.html",fr:"/chronicles/villes/chronicle-hua-hin-thailand-fr.html",es:"/chronicles/villes/chronicle-hua-hin-thailand-es.html"},img:"/assetscity/huahin.png",flag:"🇹🇭",reg:{en:"Thailand",fr:"Thaïlande",es:"Tailandia"},time:"20 min"},
+  {s:"city-th",t:{en:"Phuket 2026",fr:"Phuket 2026",es:"Phuket 2026"},url:{en:"/chronicles/villes/chronicle-phuket-thailand-en.html",fr:"/chronicles/villes/chronicle-phuket-thailand-fr.html",es:"/chronicles/villes/chronicle-phuket-thailand-es.html"},img:"/assetscity/phuket.png",flag:"🇹🇭",reg:{en:"Thailand",fr:"Thaïlande",es:"Tailandia"},time:"20 min"},
 
-  <script src="/data/header.js"></script>
+  /* ── ESPAGNE ── */
+  {s:"city-es",t:{en:"Barcelona 2026",fr:"Barcelone 2026",es:"Barcelona 2026"},url:{en:"/chronicles/villes/chronicle-barcelone-espagne-en.html",fr:"/chronicles/villes/chronicle-barcelone-espagne-fr.html",es:"/chronicles/villes/chronicle-barcelone-espagne-es.html"},img:"/assetscity/barcelone.png",flag:"🇪🇸",reg:{en:"Spain",fr:"Espagne",es:"España"},time:"20 min"},
+  {s:"city-es",t:{en:"Madrid 2026",fr:"Madrid 2026",es:"Madrid 2026"},url:{en:"/chronicles/villes/chronicle-madrid-espagne-en.html",fr:"/chronicles/villes/chronicle-madrid-espagne-fr.html",es:"/chronicles/villes/chronicle-madrid-espagne-es.html"},img:"/assetscity/madrid.png",flag:"🇪🇸",reg:{en:"Spain",fr:"Espagne",es:"España"},time:"20 min"},
+  {s:"city-es",t:{en:"Malaga 2026",fr:"Malaga 2026",es:"Málaga 2026"},url:{en:"/chronicles/villes/chronicle-malaga-espagne-en.html",fr:"/chronicles/villes/chronicle-malaga-espagne-fr.html",es:"/chronicles/villes/chronicle-malaga-espagne-es.html"},img:"/assetscity/malaga.png",flag:"🇪🇸",reg:{en:"Spain",fr:"Espagne",es:"España"},time:"20 min",emoji:"🇪🇸"},
+  {s:"city-es",t:{en:"Valencia 2026",fr:"Valence 2026",es:"Valencia 2026"},url:{en:"/chronicles/villes/chronicle-valence-espagne-en.html",fr:"/chronicles/villes/chronicle-valence-espagne-fr.html",es:"/chronicles/villes/chronicle-valence-espagne-es.html"},img:"/assetscity/valence.png",flag:"🇪🇸",reg:{en:"Spain",fr:"Espagne",es:"España"},time:"20 min"},
 
-  <script>
-    /* ============================================================
-       Wigg Chronicles — Sectioned layout
-       ============================================================ */
+  /* ── AUSTRALIE ── */
+  {s:"city-au",t:{en:"Cairns 2026",fr:"Cairns 2026",es:"Cairns 2026"},url:{en:"/chronicles/villes/chronicle-cairns-australia-en.html",fr:"/chronicles/villes/chronicle-cairns-australia-fr.html",es:"/chronicles/villes/chronicle-cairns-australia-es.html"},img:"/assetscity/cairns.png",flag:"🇦🇺",reg:{en:"Australia",fr:"Australie",es:"Australia"},time:"20 min"},
+  {s:"city-au",t:{en:"Melbourne 2026",fr:"Melbourne 2026",es:"Melbourne 2026"},url:{en:"/chronicles/villes/chronicle-melbourne-australia-en.html",fr:"/chronicles/villes/chronicle-melbourne-australia-fr.html",es:"/chronicles/villes/chronicle-melbourne-australia-es.html"},img:"/assetscity/melbourne.png",flag:"🇦🇺",reg:{en:"Australia",fr:"Australie",es:"Australia"},time:"20 min"},
+  {s:"city-au",t:{en:"Perth 2026",fr:"Perth 2026",es:"Perth 2026"},url:{en:"/chronicles/villes/chronicle-perth-australia-en.html",fr:"/chronicles/villes/chronicle-perth-australia-fr.html",es:"/chronicles/villes/chronicle-perth-australia-es.html"},img:"/assetscity/perth.png",flag:"🇦🇺",reg:{en:"Australia",fr:"Australie",es:"Australia"},time:"20 min"},
+  {s:"city-au",t:{en:"Sydney 2026",fr:"Sydney 2026",es:"Sídney 2026"},url:{en:"/chronicles/villes/chronicle-sydney-australia-en.html",fr:"/chronicles/villes/chronicle-sydney-australia-fr.html",es:"/chronicles/villes/chronicle-sydney-australia-es.html"},img:"/assetscity/sydney.png",flag:"🇦🇺",reg:{en:"Australia",fr:"Australie",es:"Australia"},time:"20 min"},
 
-    var I18N = {
-      en: {
-        eyebrow:"Chronicles", titleWord:"Chronicles",
-        sub:"Premium articles on expat life, visas, taxes, cost of living, future trends, education and quality of life.",
-        read:"Read", seeAll:"See all →", collapse:"Collapse ↑", comingSoon:"Coming soon",
-        sec_visas:"Visas & Immigration", sec_dest:"Expat Destinations", sec_nomads:"Digital Nomads",
-        sec_family:"Family & Education", sec_future:"Future & Strategy", sec_city:"City Comparisons"
-      },
-      fr: {
-        eyebrow:"Chroniques", titleWord:"Chroniques",
-        sub:"Articles premium sur expatriation, visas, fiscalité, coût de la vie, prospective, éducation et qualité de vie.",
-        read:"Lire", seeAll:"Voir tout →", collapse:"Réduire ↑", comingSoon:"Prochainement",
-        sec_visas:"Visas & Immigration", sec_dest:"Destinations Expat", sec_nomads:"Digital Nomads",
-        sec_family:"Famille & Éducation", sec_future:"Futur & Stratégie", sec_city:"Comparatifs Villes"
-      },
-      es: {
-        eyebrow:"Crónicas", titleWord:"Crónicas",
-        sub:"Artículos premium sobre expatriación, visados, impuestos, coste de vida, prospectiva, educación y calidad de vida.",
-        read:"Leer", seeAll:"Ver todo →", collapse:"Reducir ↑", comingSoon:"Próximamente",
-        sec_visas:"Visas e Inmigración", sec_dest:"Destinos Expat", sec_nomads:"Digital Nomads",
-        sec_family:"Familia & Educación", sec_future:"Futuro & Estrategia", sec_city:"Comparativas Ciudades"
-      }
-    };
+  /* ── CANADA ── */
+  {s:"city-ca",t:{en:"Calgary 2026",fr:"Calgary 2026",es:"Calgary 2026"},url:{en:"/chronicles/villes/chronicle-calgary-canada-en.html",fr:"/chronicles/villes/chronicle-calgary-canada-fr.html",es:"/chronicles/villes/chronicle-calgary-canada-es.html"},img:"/assetscity/calgary.png",flag:"🇨🇦",reg:{en:"Canada",fr:"Canada",es:"Canadá"},time:"20 min"},
+  {s:"city-ca",t:{en:"Montreal 2026",fr:"Montréal 2026",es:"Montreal 2026"},url:{en:"/chronicles/villes/chronicle-montreal-canada-en.html",fr:"/chronicles/villes/chronicle-montreal-canada-fr.html",es:"/chronicles/villes/chronicle-montreal-canada-es.html"},img:"/assetscity/montreal.png",flag:"🇨🇦",reg:{en:"Canada",fr:"Canada",es:"Canadá"},time:"20 min"},
+  {s:"city-ca",t:{en:"Toronto 2026",fr:"Toronto 2026",es:"Toronto 2026"},url:{en:"/chronicles/villes/chronicle-toronto-canada-en.html",fr:"/chronicles/villes/chronicle-toronto-canada-fr.html",es:"/chronicles/villes/chronicle-toronto-canada-es.html"},img:"/assetscity/toronto.png",flag:"🇨🇦",reg:{en:"Canada",fr:"Canada",es:"Canadá"},time:"20 min"},
+  {s:"city-ca",t:{en:"Vancouver 2026",fr:"Vancouver 2026",es:"Vancouver 2026"},url:{en:"/chronicles/villes/chronicle-vancouver-canada-en.html",fr:"/chronicles/villes/chronicle-vancouver-canada-fr.html",es:"/chronicles/villes/chronicle-vancouver-canada-es.html"},img:"/assetscity/vancouver.png",flag:"🇨🇦",reg:{en:"Canada",fr:"Canada",es:"Canadá"},time:"20 min"},
 
-    /* -------------------------------------------------------
-       All articles — each assigned to a section
-       ------------------------------------------------------- */
-    var ARTICLES = [
-      /* === VISAS & IMMIGRATION === */
-      {
-        section: "visas",
-        title: {
-          en: "Retirement Visas in 2026: the 25 Best Options",
-          fr: "Visas retraite en 2026 : les 25 meilleures options",
-          es: "Visados de jubilación en 2026: las 25 mejores opciones"
-        },
-        url: {
-          en: "/chronicles/chronicle-retirement-visas-2026-en.html",
-          fr: "/chronicles/chronicle-visas-retraite-2026-fr.html",
-          es: "/chronicles/chronicle-visas-jubilacion-2026-es.html"
-        },
-        excerpt: {
-          en: "Portugal D7, Panama Pensionado, Malaysia MM2H, Thailand long-stay… The 25 best residence options for retiring abroad in 2026.",
-          fr: "Visa D7 Portugal, Pensionado Panama, MM2H Malaisie… Les 25 meilleures options de résidence pour prendre sa retraite à l'étranger en 2026.",
-          es: "Visa D7 Portugal, Pensionado Panamá, MM2H Malasia… Las 25 mejores opciones de residencia para jubilarse en el extranjero en 2026."
-        },
-        date: "2026-03-08", read: "~25 min", theme: "Visa & Installation"
-      },
-      {
-        section: "visas",
-        title: {
-          en: "The 25 Best Digital Nomad Visas in 2026",
-          fr: "Visas digital nomad en 2026 : les 25 meilleures options",
-          es: "Las 25 mejores visas para nómadas digitales en 2026"
-        },
-        url: {
-          en: "/chronicles/chronicle-digital-nomad-visas-2026-en.html",
-          fr: "/chronicles/chronicle-visas-digital-nomads-2026-fr.html",
-          es: "/chronicles/chronicle-visas-nomadas-digitales-2026-es.html"
-        },
-        excerpt: {
-          en: "Portugal D8, Malaysia DE Rantau, Spain Digital Nomad Visa… The 25 best options for remote workers in 2026.",
-          fr: "Visa D8 Portugal, DE Rantau Malaisie, Nomade Digital Espagne… Les 25 meilleures options pour travailleurs à distance en 2026.",
-          es: "Visa D8 Portugal, DE Rantau Malasia, Visa Nómada Digital España… Las 25 mejores opciones para trabajadores remotos en 2026."
-        },
-        date: "2026-03-09", read: "~25 min", theme: "Visa & Installation"
-      },
-      {
-        section: "visas",
-        title: {
-          en: "Expat Work Visas in 2026: the 25 Best Countries",
-          fr: "Visas expatriation en 2026 : les 25 meilleures destinations",
-          es: "Visados de expatriación en 2026: los 25 mejores países"
-        },
-        url: {
-          en: "/chronicles/chronicle-expat-work-visas-2026-en.html",
-          fr: "/chronicles/chronicle-visas-expatriation-durable-2026-fr.html",
-          es: "/chronicles/chronicle-visas-expatriacion-2026-es.html"
-        },
-        excerpt: {
-          en: "Germany, Canada, Singapore, Australia… The 25 best destinations and visas for expats who want to work locally in 2026.",
-          fr: "Allemagne, Canada, Singapour, Australie… Les 25 meilleures destinations pour s'expatrier et travailler sur place en 2026.",
-          es: "Alemania, Canadá, Singapur, Australia… Los 25 mejores destinos para expatriarse y trabajar en destino en 2026."
-        },
-        date: "2026-03-10", read: "~25 min", theme: "Visa & Installation"
-      },
+  /* ── VISAS & IMMIGRATION ── */
+  {s:"visa",t:{en:"Retirement Visas 2026",fr:"Visas retraite 2026",es:"Visas jubilación 2026"},url:{en:"/chronicles/chronicle-retirement-visas-2026-en.html",fr:"/chronicles/chronicle-visas-retraite-2026-fr.html",es:"/chronicles/chronicle-visas-jubilacion-2026-es.html"},img:"/assets/hero-portugal.jpg",flag:"🌍",reg:{en:"Global",fr:"Global",es:"Global"},time:"25 min",emoji:"🏖️"},
+  {s:"visa",t:{en:"Nomad Visas 2026",fr:"Visas nomade 2026",es:"Visas nómada 2026"},url:{en:"/chronicles/chronicle-digital-nomad-visas-2026-en.html",fr:"/chronicles/chronicle-visas-digital-nomads-2026-fr.html",es:"/chronicles/chronicle-visas-nomadas-digitales-2026-es.html"},img:"/assets/hero-spain.jpg",flag:"🌍",reg:{en:"Global",fr:"Global",es:"Global"},time:"25 min",emoji:"🛂"},
+  {s:"visa",t:{en:"Expat Work Visas 2026",fr:"Visas expatriation 2026",es:"Visas expatriación 2026"},url:{en:"/chronicles/chronicle-expat-work-visas-2026-en.html",fr:"/chronicles/chronicle-visas-expatriation-durable-2026-fr.html",es:"/chronicles/chronicle-visas-expatriacion-2026-es.html"},img:"/assets/hero-canada.jpg",flag:"🌍",reg:{en:"Global",fr:"Global",es:"Global"},time:"25 min",emoji:"💼"},
 
-      /* === DESTINATIONS EXPAT === */
-      {
-        section: "dest",
-        title: {
-          en: "Asia Expat Guide 2026 — Part 1: Thailand, Vietnam, Bali, Philippines",
-          fr: "Asie Expatriation 2026 — Partie 1 : Thaïlande, Vietnam, Bali, Philippines",
-          es: "Asia Guía Expatriados 2026 — Parte 1: Tailandia, Vietnam, Bali, Filipinas"
-        },
-        url: {
-          en: "/chronicles/chronicle-asia-expat-guide-part1-2026-en.html",
-          fr: "/chronicles/chronicle-asie-expatriation-partie1-2026-fr.html",
-          es: "/chronicles/chronicle-asia-guia-expatriados-parte1-2026-es.html"
-        },
-        excerpt: {
-          en: "Thailand, Vietnam, Bali, Philippines — visa, cost of living, quality of life for expats in Southeast Asia.",
-          fr: "Thaïlande, Vietnam, Bali, Philippines — visa, coût de la vie, qualité de vie pour les expatriés en Asie du Sud-Est.",
-          es: "Tailandia, Vietnam, Bali, Filipinas — visa, coste de vida, calidad de vida para expatriados en el Sudeste Asiático."
-        },
-        date: "2026-03-17", read: "~30 min", theme: "Visa & Installation"
-      },
-      {
-        section: "dest",
-        title: {
-          en: "Asia Expat Guide 2026 — Part 2: Japan, Laos, China, Cambodia",
-          fr: "Asie Expatriation 2026 — Partie 2 : Japon, Laos, Chine, Cambodge",
-          es: "Asia Guía Expatriados 2026 — Parte 2: Japón, Laos, China, Camboya"
-        },
-        url: {
-          en: "/chronicles/chronicle-asia-expat-guide-part2-2026-en.html",
-          fr: "/chronicles/chronicle-asie-expatriation-partie2-2026-fr.html",
-          es: "/chronicles/chronicle-asia-guia-expatriados-parte2-2026-es.html"
-        },
-        excerpt: {
-          en: "Japan, Laos, China, Cambodia — visa, cost of living, and the final verdict on the best Asian country for expats.",
-          fr: "Japon, Laos, Chine, Cambodge — visa, coût de la vie, et le verdict final sur le meilleur pays d'Asie pour s'expatrier.",
-          es: "Japón, Laos, China, Camboya — visa, coste de vida, y el veredicto final sobre el mejor país de Asia para expatriarse."
-        },
-        date: "2026-03-18", read: "~30 min", theme: "Visa & Installation"
-      },
-      {
-        section: "dest",
-        title: {
-          en: "Americas — Part 1: Panama, Costa Rica, Puerto Rico",
-          fr: "Amériques — Partie 1 : Panama, Costa Rica, Puerto Rico",
-          es: "Américas — Parte 1: Panamá, Costa Rica, Puerto Rico"
-        },
-        url: {
-          en: "/chronicles/chronicle-ameriques-partie1-en.html",
-          fr: "/chronicles/chronicle-ameriques-partie1-fr.html",
-          es: "/chronicles/chronicle-ameriques-partie1-es.html"
-        },
-        excerpt: {
-          en: "Visa, territorial taxation, cost of living, retirement and crypto — which Americas base to choose in 2026?",
-          fr: "Visa, fiscalité territoriale, coût de la vie, retraite et crypto — quelle base américaine choisir en 2026 ?",
-          es: "Visa, fiscalidad territorial, coste de vida, jubilación y cripto — ¿qué base americana elegir en 2026?"
-        },
-        date: "2026-03-01", read: "~25 min", theme: "Visa & Installation"
-      },
-      {
-        section: "dest",
-        title: {
-          en: "Americas — Part 2: St Kitts, Bahamas, Antigua",
-          fr: "Amériques — Partie 2 : Saint-Kitts, Bahamas, Antigua",
-          es: "Américas — Parte 2: Saint Kitts, Bahamas, Antigua"
-        },
-        url: {
-          en: "/chronicles/chronicle-ameriques-partie2-en.html",
-          fr: "/chronicles/chronicle-ameriques-partie2-fr.html",
-          es: "/chronicles/chronicle-ameriques-partie2-es.html"
-        },
-        excerpt: {
-          en: "Caribbean islands with zero income tax and citizenship by investment — the most competitive setups for HNW expats.",
-          fr: "Îles caribéennes avec zéro impôt sur le revenu et citoyenneté par investissement — les structures les plus compétitives.",
-          es: "Islas caribeñas con cero impuesto sobre la renta y ciudadanía por inversión — las estructuras más competitivas."
-        },
-        date: "2026-03-02", read: "~25 min", theme: "Visa & Installation"
-      },
-      {
-        section: "dest",
-        title: {
-          en: "Americas — Part 3: Anguilla, BVI, Sint Maarten",
-          fr: "Amériques — Partie 3 : Anguilla, Îles Vierges, Sint Maarten",
-          es: "Américas — Parte 3: Anguila, IVB, Sint Maarten"
-        },
-        url: {
-          en: "/chronicles/chronicle-ameriques-partie3-en.html",
-          fr: "/chronicles/chronicle-ameriques-partie3-fr.html",
-          es: "/chronicles/chronicle-ameriques-partie3-es.html"
-        },
-        excerpt: {
-          en: "The most exclusive offshore jurisdictions in the Caribbean for ultra-high net worth individuals.",
-          fr: "Les juridictions offshore les plus exclusives des Caraïbes pour les fortunes ultra-élevées.",
-          es: "Las jurisdicciones offshore más exclusivas del Caribe para patrimonios ultra-elevados."
-        },
-        date: "2026-03-03", read: "~20 min", theme: "Visa & Installation"
-      },
-      {
-        section: "dest",
-        title: {
-          en: "Australia 2026: The Complete Expat Guide",
-          fr: "Australie 2026 : le guide complet de l'expatriation",
-          es: "Australia 2026: La guía completa del expatriado"
-        },
-        url: {
-          en: "/chronicles/chronicle-australia-expat-guide-2026-en.html",
-          fr: "/chronicles/chronicle-australie-expatriation-2026-fr.html",
-          es: "/chronicles/chronicle-australia-guia-expatriados-2026-es.html"
-        },
-        excerpt: {
-          en: "Visa, salary, cost of living, housing, healthcare and culture shock — everything before moving to Australia.",
-          fr: "Visa, salaire, coût de la vie, logement, santé et choc culturel — tout savoir avant de s'installer en Australie.",
-          es: "Visa, salario, coste de vida, vivienda, sanidad y choque cultural — todo antes de mudarte a Australia."
-        },
-        date: "2026-02-20", read: "~25 min", theme: "Visa & Installation"
-      },
-      {
-        section: "dest",
-        title: {
-          en: "The 25 Best Healthcare Systems for Expats in 2026",
-          fr: "Les 25 meilleurs systèmes de santé pour les expatriés en 2026",
-          es: "Los 25 mejores sistemas sanitarios para expatriados en 2026"
-        },
-        url: {
-          en: "/chronicles/chronicle-healthcare-expats-2026-en.html",
-          fr: "/chronicles/chronicle-sante-expats-2026-fr.html",
-          es: "/chronicles/chronicle-salud-expats-2026-es.html"
-        },
-        excerpt: {
-          en: "Taiwan, South Korea, Japan, Germany, France… The 25 countries ranked for foreign residents in 2026.",
-          fr: "Taïwan, Corée du Sud, Japon, Allemagne, France… Les 25 pays classés pour les résidents étrangers en 2026.",
-          es: "Taiwán, Corea del Sur, Japón, Alemania, Francia… Los 25 países clasificados para residentes extranjeros en 2026."
-        },
-        date: "2026-03-15", read: "~35 min", theme: "Visa & Installation"
-      },
-      {
-        section: "dest",
-        title: {
-          en: "The Forgotten Countries: 6 Underrated Expat Destinations in 2026",
-          fr: "Les pays oubliés : 6 destinations sous-cotées pour s'expatrier en 2026",
-          es: "Los países olvidados: 6 destinos infravalorados para expatriarse en 2026"
-        },
-        url: {
-          en: "/chronicles/chronicle-forgotten-expat-countries-2026-en.html",
-          fr: "/chronicles/chronicle-pays-oublies-expatriation-2026-fr.html",
-          es: "/chronicles/chronicle-paises-olvidados-expatriacion-2026-es.html"
-        },
-        excerpt: {
-          en: "Mauritius, Montenegro, Cyprus, Taiwan, Uruguay, Oman — six countries that deserve serious attention in 2026.",
-          fr: "Maurice, Monténégro, Chypre, Taïwan, Uruguay, Oman — six pays qui méritent vraiment votre attention en 2026.",
-          es: "Mauricio, Montenegro, Chipre, Taiwán, Uruguay, Omán — seis países que merecen atención seria en 2026."
-        },
-        date: "2026-03-19", read: "~25 min", theme: "Visa & Installation"
-      },
+  /* ── DESTINATIONS EXPAT ── */
+  {s:"dest",t:{en:"Asia Part 1: Thailand, Vietnam, Bali",fr:"Asie Partie 1 : Thaïlande, Vietnam, Bali",es:"Asia Parte 1: Tailandia, Vietnam, Bali"},url:{en:"/chronicles/chronicle-asia-expat-guide-part1-2026-en.html",fr:"/chronicles/chronicle-asie-expatriation-partie1-2026-fr.html",es:"/chronicles/chronicle-asia-guia-expatriados-parte1-2026-es.html"},img:"/assets/hero-thailand.jpg",flag:"🌏",reg:{en:"Southeast Asia",fr:"Asie du Sud-Est",es:"Sudeste Asiático"},time:"30 min"},
+  {s:"dest",t:{en:"Asia Part 2: Japan, Laos, China",fr:"Asie Partie 2 : Japon, Laos, Chine",es:"Asia Parte 2: Japón, Laos, China"},url:{en:"/chronicles/chronicle-asia-expat-guide-part2-2026-en.html",fr:"/chronicles/chronicle-asie-expatriation-partie2-2026-fr.html",es:"/chronicles/chronicle-asia-guia-expatriados-parte2-2026-es.html"},img:"/assets/hero-japan.jpg",flag:"🌏",reg:{en:"East Asia",fr:"Asie de l'Est",es:"Asia Oriental"},time:"30 min"},
+  {s:"dest",t:{en:"Americas Part 1: Panama, Costa Rica",fr:"Amériques P1 : Panama, Costa Rica",es:"Américas P1: Panamá, Costa Rica"},url:{en:"/chronicles/chronicle-ameriques-partie1-en.html",fr:"/chronicles/chronicle-ameriques-partie1-fr.html",es:"/chronicles/chronicle-ameriques-partie1-es.html"},img:"/assets/hero-panama.jpg",flag:"🌎",reg:{en:"Americas",fr:"Amériques",es:"Américas"},time:"25 min"},
+  {s:"dest",t:{en:"Americas Part 2: St Kitts, Bahamas",fr:"Amériques P2 : Saint-Kitts, Bahamas",es:"Américas P2: Saint Kitts, Bahamas"},url:{en:"/chronicles/chronicle-ameriques-partie2-en.html",fr:"/chronicles/chronicle-ameriques-partie2-fr.html",es:"/chronicles/chronicle-ameriques-partie2-es.html"},img:"/assets/hero-bahamas.jpg",flag:"🌎",reg:{en:"Caribbean",fr:"Caraïbes",es:"Caribe"},time:"25 min"},
+  {s:"dest",t:{en:"Americas Part 3: BVI, Sint Maarten",fr:"Amériques P3 : IVB, Sint Maarten",es:"Américas P3: IVB, Sint Maarten"},url:{en:"/chronicles/chronicle-ameriques-partie3-en.html",fr:"/chronicles/chronicle-ameriques-partie3-fr.html",es:"/chronicles/chronicle-ameriques-partie3-es.html"},img:null,flag:"🌎",reg:{en:"Caribbean",fr:"Caraïbes",es:"Caribe"},time:"20 min",emoji:"🏝️"},
+  {s:"dest",t:{en:"Australia: Complete Expat Guide",fr:"Australie : guide complet expat",es:"Australia: guía completa expat"},url:{en:"/chronicles/chronicle-australia-expat-guide-2026-en.html",fr:"/chronicles/chronicle-australie-expatriation-2026-fr.html",es:"/chronicles/chronicle-australia-guia-expatriados-2026-es.html"},img:"/assets/hero-australia.jpg",flag:"🇦🇺",reg:{en:"Oceania",fr:"Océanie",es:"Oceanía"},time:"25 min"},
+  {s:"dest",t:{en:"Healthcare: 25 Best Systems",fr:"Santé : les 25 meilleurs systèmes",es:"Salud: los 25 mejores sistemas"},url:{en:"/chronicles/chronicle-healthcare-expats-2026-en.html",fr:"/chronicles/chronicle-sante-expats-2026-fr.html",es:"/chronicles/chronicle-salud-expats-2026-es.html"},img:null,flag:"🌍",reg:{en:"Global",fr:"Global",es:"Global"},time:"35 min",emoji:"🏥"},
+  {s:"dest",t:{en:"6 Forgotten Expat Countries",fr:"6 pays oubliés de l'expatriation",es:"6 países olvidados de la expatriación"},url:{en:"/chronicles/chronicle-forgotten-expat-countries-2026-en.html",fr:"/chronicles/chronicle-pays-oublies-expatriation-2026-fr.html",es:"/chronicles/chronicle-paises-olvidados-expatriacion-2026-es.html"},img:"/assets/hero-montenegro.jpg",flag:"🌍",reg:{en:"Global",fr:"Global",es:"Global"},time:"25 min"},
 
-      /* === DIGITAL NOMADS === */
-      {
-        section: "nomads",
-        title: {
-          en: "Best Countries for Digital Nomads in 2026",
-          fr: "Les meilleurs pays pour les digital nomads en 2026",
-          es: "Los mejores países para nómadas digitales en 2026"
-        },
-        url: {
-          en: "/chronicles/digital-nomads-2026-en.html",
-          fr: "/chronicles/digital-nomads-2026-fr.html",
-          es: "/chronicles/digital-nomads-2026-es.html"
-        },
-        excerpt: {
-          en: "Visas, salaries, taxes, real purchasing power — a practical guide for remote workers in 2026.",
-          fr: "Visas, salaires, fiscalité, pouvoir d'achat réel — un guide pratique pour les travailleurs à distance en 2026.",
-          es: "Visados, salarios, impuestos, poder adquisitivo real — una guía práctica para trabajadores remotos en 2026."
-        },
-        date: "2026-02-24", read: "~20 min", theme: "Nomad Life"
-      },
-      {
-        section: "nomads",
-        title: {
-          en: "Dubai, Bali, Thailand, Malta & Crypto: Expats & Nomads 2026",
-          fr: "Dubaï, Bali, Thaïlande, Malte & Crypto : expatriés & nomades 2026",
-          es: "Dubái, Bali, Tailandia, Malta y Cripto: expatriados y nómadas 2026"
-        },
-        url: {
-          en: "/chronicles/expats-nomads-crypto-2026-en.html",
-          fr: "/chronicles/expatries-nomades-crypto-2026-fr.html",
-          es: "/chronicles/expatriados-nomadas-crypto-2026-es.html"
-        },
-        excerpt: {
-          en: "Visa, cost of living, taxation and crypto-friendly legislation — the 2026 comparison for expats and nomads.",
-          fr: "Visa, coût de la vie, fiscalité et législation crypto-friendly — le comparatif 2026 pour expatriés et nomades.",
-          es: "Visa, coste de vida, fiscalidad y legislación cripto-friendly — la comparativa 2026 para expatriados y nómadas."
-        },
-        date: "2026-02-25", read: "~25 min", theme: "Nomad Life"
-      },
+  /* ── NOMADISME DIGITAL ── */
+  {s:"nomad",t:{en:"Best Countries for Nomads 2026",fr:"Meilleurs pays nomades 2026",es:"Mejores países nómadas 2026"},url:{en:"/chronicles/digital-nomads-2026-en.html",fr:"/chronicles/digital-nomads-2026-fr.html",es:"/chronicles/digital-nomads-2026-es.html"},img:"/assets/hero-indonesia.jpg",flag:"🌍",reg:{en:"Global",fr:"Global",es:"Global"},time:"20 min"},
+  {s:"nomad",t:{en:"Dubai, Bali, Thailand & Crypto",fr:"Dubaï, Bali, Thaïlande & Crypto",es:"Dubái, Bali, Tailandia y Cripto"},url:{en:"/chronicles/expats-nomads-crypto-2026-en.html",fr:"/chronicles/expatries-nomades-crypto-2026-fr.html",es:"/chronicles/expatriados-nomadas-crypto-2026-es.html"},img:"/assets/hero-uae.jpg",flag:"🌍",reg:{en:"Global",fr:"Global",es:"Global"},time:"25 min"},
 
-      /* === FAMILLE & ÉDUCATION === */
-      {
-        section: "family",
-        title: {
-          en: "Best Countries to Raise Children in 2026",
-          fr: "Les meilleurs pays pour élever ses enfants en 2026",
-          es: "Los mejores países para criar hijos en 2026"
-        },
-        url: {
-          en: "/chronicles/chronicle-raise-children-2026-en.html",
-          fr: "/chronicles/chronicle-elever-enfants-2026-fr.html",
-          es: "/chronicles/chronicle-criar-hijos-2026-es.html"
-        },
-        excerpt: {
-          en: "PISA scores, safety, child well-being, school pressure, education costs — a complete guide for expat families.",
-          fr: "Résultats PISA, sécurité, bien-être des enfants, pression scolaire, coûts d'éducation — un guide complet pour les familles expatriées.",
-          es: "Puntuaciones PISA, seguridad, bienestar infantil, presión escolar, costes educativos — una guía completa para familias expatriadas."
-        },
-        date: "2026-02-25", read: "~20 min", theme: "Family"
-      },
+  /* ── FAMILLE & AVENIR ── */
+  {s:"life",t:{en:"Best Countries to Raise Kids",fr:"Meilleurs pays pour élever ses enfants",es:"Mejores países para criar hijos"},url:{en:"/chronicles/chronicle-raise-children-2026-en.html",fr:"/chronicles/chronicle-elever-enfants-2026-fr.html",es:"/chronicles/chronicle-criar-hijos-2026-es.html"},img:null,flag:"🌍",reg:{en:"Global",fr:"Global",es:"Global"},time:"20 min",emoji:"👨‍👩‍👧"},
+  {s:"life",t:{en:"2056: Where Will Life Be Best?",fr:"2056 : où vivra-t-on le mieux ?",es:"2056: ¿dónde se vivirá mejor?"},url:{en:"/chronicles/chronicle-2056-best-countries-30-years-en.html",fr:"/chronicles/chronicle-2056-ou-vivra-t-on-le-mieux-fr.html",es:"/chronicles/chronicle-2056-mejores-paises-30-anos-es.html"},img:null,flag:"🌍",reg:{en:"Global",fr:"Global",es:"Global"},time:"30 min",emoji:"🔮"}
+];
 
-      /* === FUTUR & STRATÉGIE === */
-      {
-        section: "future",
-        title: {
-          en: "2056: Where will life be best in 30 years?",
-          fr: "2056 : où vivra-t-on le mieux dans 30 ans ?",
-          es: "2056: ¿dónde se vivirá mejor en 30 años?"
-        },
-        url: {
-          en: "/chronicles/chronicle-2056-best-countries-30-years-en.html",
-          fr: "/chronicles/chronicle-2056-ou-vivra-t-on-le-mieux-fr.html",
-          es: "/chronicles/chronicle-2056-mejores-paises-30-anos-es.html"
-        },
-        excerpt: {
-          en: "AI, geopolitics, medicine, democracy, demographics — which countries will offer the best quality of life in 30 years.",
-          fr: "IA, géopolitique, médecine, démocratie, démographie — quels pays offriront la meilleure qualité de vie dans 30 ans.",
-          es: "IA, geopolítica, medicina, democracia, demografía — qué países ofrecerán la mejor calidad de vida en 30 años."
-        },
-        date: "2026-03-05", read: "~30 min", theme: "Future & Strategy"
-      },
+var SECTIONS = [
+  {id:"city-fr",label:{en:"🇫🇷 City Guides · France",fr:"🇫🇷 Guides Villes · France",es:"🇫🇷 Guías Ciudad · Francia"}},
+  {id:"city-th",label:{en:"🇹🇭 City Guides · Thailand",fr:"🇹🇭 Guides Villes · Thaïlande",es:"🇹🇭 Guías Ciudad · Tailandia"}},
+  {id:"city-es",label:{en:"🇪🇸 City Guides · Spain",fr:"🇪🇸 Guides Villes · Espagne",es:"🇪🇸 Guías Ciudad · España"}},
+  {id:"city-au",label:{en:"🇦🇺 City Guides · Australia",fr:"🇦🇺 Guides Villes · Australie",es:"🇦🇺 Guías Ciudad · Australia"}},
+  {id:"city-ca",label:{en:"🇨🇦 City Guides · Canada",fr:"🇨🇦 Guides Villes · Canada",es:"🇨🇦 Guías Ciudad · Canadá"}},
+  {id:"visa",label:{en:"🛂 Visas & Immigration",fr:"🛂 Visas & immigration",es:"🛂 Visas e Inmigración"}},
+  {id:"dest",label:{en:"🌍 Expat Destinations",fr:"🌍 Destinations expat",es:"🌍 Destinos Expat"}},
+  {id:"nomad",label:{en:"💻 Digital Nomadism",fr:"💻 Nomadisme digital",es:"💻 Nomadismo Digital"}},
+  {id:"life",label:{en:"🛡️ Family, Health & Future",fr:"🛡️ Famille, santé & avenir",es:"🛡️ Familia, Salud y Futuro"}}
+];
 
-      /* === COMPARATIFS VILLES — France === */
-      {
-        section: "city",
-        title: {
-          en: "Living in Paris in 2026: Cost of Living, Housing & Quality of Life",
-          fr: "Vivre à Paris en 2026 : coût de la vie, logement et qualité de vie",
-          es: "Vivir en París en 2026: coste de vida, vivienda y calidad de vida"
-        },
-        url: {
-          en: "/chronicles/villes/chronicle-paris-france-en.html",
-          fr: "/chronicles/villes/chronicle-paris-france-fr.html",
-          es: "/chronicles/villes/chronicle-paris-france-es.html"
-        },
-        excerpt: {
-          en: "Studio at $1,300/month, salaries 40% above the national average, world capital of culture — but a cost of living that leaves no room for budget mistakes.",
-          fr: "Studio à $1 300/mois, salaires 40 % au-dessus de la moyenne nationale, capitale mondiale de la culture — mais un coût de vie qui ne pardonne pas.",
-          es: "Estudio a $1.300/mes, salarios un 40% por encima de la media nacional, capital mundial de la cultura — pero un coste de vida que no perdona."
-        },
-        date: "2026-03-21", read: "~20 min", theme: "City Guide"
-      },
-      {
-        section: "city",
-        title: {
-          en: "Living in Lyon in 2026: Cost of Living, Housing & Quality of Life",
-          fr: "Vivre à Lyon en 2026 : coût de la vie, logement et qualité de vie",
-          es: "Vivir en Lyon en 2026: coste de vida, vivienda y calidad de vida"
-        },
-        url: {
-          en: "/chronicles/villes/chronicle-lyon-france-en.html",
-          fr: "/chronicles/villes/chronicle-lyon-france-fr.html",
-          es: "/chronicles/villes/chronicle-lyon-france-es.html"
-        },
-        excerpt: {
-          en: "Studio at $580/month, world capital of gastronomy, 2nd student city in France — and a tight rental market.",
-          fr: "Studio à $580/mois, capitale mondiale de la gastronomie, 2e ville étudiante de France — et un marché locatif sous tension.",
-          es: "Estudio a $580/mes, capital mundial de la gastronomía, 2a ciudad universitaria de Francia — y un mercado de alquiler bajo presión."
-        },
-        date: "2026-03-21", read: "~20 min", theme: "City Guide"
-      },
-      {
-        section: "city",
-        title: {
-          en: "Living in Marseille in 2026: Cost of Living, Housing & Quality of Life",
-          fr: "Vivre à Marseille en 2026 : coût de la vie, logement et qualité de vie",
-          es: "Vivir en Marsella en 2026: coste de vida, vivienda y calidad de vida"
-        },
-        url: {
-          en: "/chronicles/villes/chronicle-marseille-france-en.html",
-          fr: "/chronicles/villes/chronicle-marseille-france-fr.html",
-          es: "/chronicles/villes/chronicle-marseille-france-es.html"
-        },
-        excerpt: {
-          en: "Studio at $680/month, the Mediterranean on your doorstep, an energy unlike anywhere else — but a demanding job market and a city that resembles no other.",
-          fr: "Studio à $680/mois, la Méditerranée à portée de main, une énergie unique en France — mais un marché de l'emploi exigeant et une ville unique.",
-          es: "Estudio a $680/mes, el Mediterráneo al alcance de la mano, una energía única en Francia — pero un mercado laboral exigente y una ciudad única."
-        },
-        date: "2026-03-21", read: "~20 min", theme: "City Guide"
-      },
-      {
-        section: "city",
-        title: {
-          en: "Living in Nice in 2026: Cost of Living, Housing & Quality of Life",
-          fr: "Vivre à Nice en 2026 : coût de la vie, logement et qualité de vie",
-          es: "Vivir en Niza en 2026: coste de vida, vivienda y calidad de vida"
-        },
-        url: {
-          en: "/chronicles/villes/chronicle-nice-france-en.html",
-          fr: "/chronicles/villes/chronicle-nice-france-fr.html",
-          es: "/chronicles/villes/chronicle-nice-france-es.html"
-        },
-        excerpt: {
-          en: "Studio at $700/month, 300 sunny days, world-class hospital — but salaries below the national average.",
-          fr: "Studio à $700/mois, 300 jours de soleil, CHU de rang mondial — mais des salaires sous la moyenne nationale.",
-          es: "Estudio a $700/mes, 300 días de sol, hospital de rango mundial — pero salarios por debajo de la media nacional."
-        },
-        date: "2026-03-20", read: "~20 min", theme: "City Guide"
-      },
-      /* === COMPARATIFS VILLES — Thaïlande === */
-      {
-        section: "city",
-        title: {
-          en: "Living in Bangkok in 2026: Cost of Living, Housing & Quality of Life",
-          fr: "Vivre à Bangkok en 2026 : coût de la vie, logement et qualité de vie",
-          es: "Vivir en Bangkok en 2026: coste de vida, vivienda y calidad de vida"
-        },
-        url: {
-          en: "/chronicles/villes/chronicle-bangkok-thailand-en.html",
-          fr: "/chronicles/villes/chronicle-bangkok-thailand-fr.html",
-          es: "/chronicles/villes/chronicle-bangkok-thailand-es.html"
-        },
-        excerpt: {
-          en: "Studio at $520/month, street food at $2, active nomad visa — but relentless heat, legendary traffic and a two-tier healthcare system.",
-          fr: "Studio à $520/mois, street food à $2, visa nomade actif — mais une chaleur implacable, des embouteillages légendaires et un système de santé à deux vitesses.",
-          es: "Estudio a $520/mes, comida callejera a $2, visa nómada activa — pero un calor implacable, atascos legendarios y un sistema sanitario de dos velocidades."
-        },
-        date: "2026-03-21", read: "~20 min", theme: "City Guide"
-      },
-      {
-        section: "city",
-        title: {
-          en: "Living in Chiang Mai in 2026: Digital Nomad Hub",
-          fr: "Vivre à Chiang Mai en 2026 : Hub Nomade Digital",
-          es: "Vivir en Chiang Mai en 2026: Hub Nómada Digital"
-        },
-        url: {
-          en: "/chronicles/villes/chronicle-chiang-mai-thailand-en.html",
-          fr: "/chronicles/villes/chronicle-chiang-mai-thailand-fr.html",
-          es: "/chronicles/villes/chronicle-chiang-mai-thailand-es.html"
-        },
-        excerpt: {
-          en: "Studio at $340/month, cost index at 38, the world's top nomad hub — but local salaries at $450/month and burning season from March to April.",
-          fr: "Studio à $340/mois, indice coût de vie à 38, hub nomade mondial — mais salaires locaux à $450/mois et saison des brûlis de mars à avril.",
-          es: "Estudio a $340/mes, índice coste de vida en 38, hub nómada mundial — pero salarios locales a $450/mes y temporada de quemas de marzo a abril."
-        },
-        date: "2026-03-21", read: "~20 min", theme: "City Guide"
-      },
-      {
-        section: "city",
-        title: {
-          en: "Living in Hua Hin in 2026: Beaches & Slow Life",
-          fr: "Vivre à Hua Hin en 2026 : Plages et Douceur de Vivre",
-          es: "Vivir en Hua Hin en 2026: Playas y Vida Tranquila"
-        },
-        url: {
-          en: "/chronicles/villes/chronicle-hua-hin-thailand-en.html",
-          fr: "/chronicles/villes/chronicle-hua-hin-thailand-fr.html",
-          es: "/chronicles/villes/chronicle-hua-hin-thailand-es.html"
-        },
-        excerpt: {
-          en: "Studio at $300/month, 30-40% cheaper than Bangkok, royal seaside town — but limited nightlife and car-dependent outside the centre.",
-          fr: "Studio à $300/mois, 30-40 % moins cher que Bangkok, station balnéaire royale — mais vie nocturne limitée et voiture indispensable hors centre.",
-          es: "Estudio a $300/mes, 30-40 % más barato que Bangkok, pueblo costero real — pero poca vida nocturna y coche necesario fuera del centro."
-        },
-        date: "2026-03-21", read: "~20 min", theme: "City Guide"
-      },
-      {
-        section: "city",
-        title: {
-          en: "Living in Phuket in 2026: Island Life & Costs",
-          fr: "Vivre à Phuket en 2026 : Vie Insulaire et Coûts",
-          es: "Vivir en Phuket en 2026: Vida Isleña y Costes"
-        },
-        url: {
-          en: "/chronicles/villes/chronicle-phuket-thailand-en.html",
-          fr: "/chronicles/villes/chronicle-phuket-thailand-fr.html",
-          es: "/chronicles/villes/chronicle-phuket-thailand-es.html"
-        },
-        excerpt: {
-          en: "Studio at $380/month, tropical island lifestyle, active expat scene — but 20% pricier than Bangkok and tourist-season congestion.",
-          fr: "Studio à $380/mois, vie tropicale sur une île, scène expat active — mais 20 % plus cher que Bangkok et congestion en haute saison.",
-          es: "Estudio a $380/mes, vida tropical en una isla, escena expat activa — pero un 20 % más caro que Bangkok y congestión en temporada alta."
-        },
-        date: "2026-03-21", read: "~20 min", theme: "City Guide"
-      },
+var I18N = {
+  en:{kicker:"Chronicles · Insight & Analysis",h1:"All Chronicles",count:" articles · 2026"},
+  fr:{kicker:"Chronicles · Insight & Analysis",h1:"Toutes les chronicles",count:" articles · 2026"},
+  es:{kicker:"Chronicles · Insight & Analysis",h1:"Todas las crónicas",count:" artículos · 2026"}
+};
 
-      /* === COMPARATIFS VILLES — Espagne === */
-      {
-        section: "city",
-        title: {
-          en: "Living in Barcelona in 2026: Sea, Tech & Gaudí",
-          fr: "Vivre à Barcelone en 2026 : Mer, Tech et Gaudí",
-          es: "Vivir en Barcelona en 2026: Mar, Tech y Gaudí"
-        },
-        url: {
-          en: "/chronicles/villes/chronicle-barcelone-espagne-en.html",
-          fr: "/chronicles/villes/chronicle-barcelone-espagne-fr.html",
-          es: "/chronicles/villes/chronicle-barcelone-espagne-es.html"
-        },
-        excerpt: {
-          en: "Studio at $1,530/month, tech hub of southern Europe, Catalan identity — but salaries at $2,130/month and a rental market under extreme pressure.",
-          fr: "Studio à $1 530/mois, hub tech du sud de l'Europe, identité catalane — mais salaires à $2 130/mois et un marché locatif sous tension extrême.",
-          es: "Estudio a $1.530/mes, hub tech del sur de Europa, identidad catalana — pero salarios a $2.130/mes y un mercado de alquiler bajo presión extrema."
-        },
-        date: "2026-03-21", read: "~20 min", theme: "City Guide"
-      },
-      {
-        section: "city",
-        title: {
-          en: "Living in Madrid in 2026: Best Value Capital",
-          fr: "Vivre à Madrid en 2026 : Capitale au Meilleur Prix",
-          es: "Vivir en Madrid en 2026: Capital con Mejor Relación"
-        },
-        url: {
-          en: "/chronicles/villes/chronicle-madrid-espagne-en.html",
-          fr: "/chronicles/villes/chronicle-madrid-espagne-fr.html",
-          es: "/chronicles/villes/chronicle-madrid-espagne-es.html"
-        },
-        excerpt: {
-          en: "Studio at $1,310/month, cost index 72 vs Paris, vibrant capital life — but salaries at $2,070/month and summer heat above 40°C.",
-          fr: "Studio à $1 310/mois, indice coût 72 vs Paris, vie de capitale vibrante — mais salaires à $2 070/mois et canicule estivale au-dessus de 40°C.",
-          es: "Estudio a $1.310/mes, índice coste 72 vs París, vida de capital vibrante — pero salarios a $2.070/mes y calor estival por encima de 40°C."
-        },
-        date: "2026-03-21", read: "~20 min", theme: "City Guide"
-      },
-      {
-        section: "city",
-        title: {
-          en: "Living in Malaga in 2026: Sun, Picasso & Coast",
-          fr: "Vivre à Malaga en 2026 : Soleil, Picasso et Costa",
-          es: "Vivir en Málaga en 2026: Sol, Picasso y Costa del Sol"
-        },
-        url: {
-          en: "/chronicles/villes/chronicle-malaga-espagne-en.html",
-          fr: "/chronicles/villes/chronicle-malaga-espagne-fr.html",
-          es: "/chronicles/villes/chronicle-malaga-espagne-es.html"
-        },
-        excerpt: {
-          en: "Studio at $950/month, 320 days of sun, digital nomad magnet — but local salaries at $1,420/month and rents at all-time highs.",
-          fr: "Studio à $950/mois, 320 jours de soleil, aimant à nomades digitaux — mais salaires locaux à $1 420/mois et loyers au plus haut historique.",
-          es: "Estudio a $950/mes, 320 días de sol, imán para nómadas digitales — pero salarios locales a $1.420/mes y alquileres en máximos históricos."
-        },
-        date: "2026-03-21", read: "~20 min", theme: "City Guide"
-      },
-      {
-        section: "city",
-        title: {
-          en: "Living in Valencia in 2026: Paella, Sun & Arts",
-          fr: "Vivre à Valence en 2026 : Paella, Soleil et Arts",
-          es: "Vivir en Valencia en 2026: Paella, Sol y Artes"
-        },
-        url: {
-          en: "/chronicles/villes/chronicle-valence-espagne-en.html",
-          fr: "/chronicles/villes/chronicle-valence-espagne-fr.html",
-          es: "/chronicles/villes/chronicle-valence-espagne-es.html"
-        },
-        excerpt: {
-          en: "Studio at $950/month, cost index 68, Mediterranean gem with Fallas and Ciudad de las Artes — but salaries at $1,920/month.",
-          fr: "Studio à $950/mois, indice coût 68, perle méditerranéenne avec les Fallas et la Cité des Arts — mais salaires à $1 920/mois.",
-          es: "Estudio a $950/mes, índice coste 68, joya mediterránea con las Fallas y la Ciudad de las Artes — pero salarios a $1.920/mes."
-        },
-        date: "2026-03-21", read: "~20 min", theme: "City Guide"
-      },
+/* ═══════════════════════════════════════════════════
+   RENDER
+   ═══════════════════════════════════════════════════ */
+function getLang(){return(localStorage.getItem("wigg_lang")||"en").toLowerCase()}
+function str(o){if(!o)return"";if(typeof o==="string")return o;var l=getLang();return o[l]||o.en||""}
 
-      /* === COMPARATIFS VILLES — Australie === */
-      {
-        section: "city",
-        title: {
-          en: "Living in Cairns in 2026: Reef & Tropical Life",
-          fr: "Vivre à Cairns en 2026 : Récif et Vie Tropicale",
-          es: "Vivir en Cairns en 2026: Arrecife y Vida Tropical"
-        },
-        url: {
-          en: "/chronicles/villes/chronicle-cairns-australia-en.html",
-          fr: "/chronicles/villes/chronicle-cairns-australia-fr.html",
-          es: "/chronicles/villes/chronicle-cairns-australia-es.html"
-        },
-        excerpt: {
-          en: "Studio at $1,370/month, Great Barrier Reef at your doorstep, tropical pace — but a small job market and wet season from December to April.",
-          fr: "Studio à $1 370/mois, la Grande Barrière de Corail à portée de main, rythme tropical — mais un marché de l'emploi restreint et saison humide de décembre à avril.",
-          es: "Estudio a $1.370/mes, la Gran Barrera de Coral al alcance de la mano, ritmo tropical — pero un mercado laboral reducido y temporada húmeda de diciembre a abril."
-        },
-        date: "2026-03-21", read: "~20 min", theme: "City Guide"
-      },
-      {
-        section: "city",
-        title: {
-          en: "Living in Melbourne in 2026: Culture & Coffee",
-          fr: "Vivre à Melbourne en 2026 : Culture, Café et Expat",
-          es: "Vivir en Melbourne en 2026: Cultura, Café y Más"
-        },
-        url: {
-          en: "/chronicles/villes/chronicle-melbourne-australia-en.html",
-          fr: "/chronicles/villes/chronicle-melbourne-australia-fr.html",
-          es: "/chronicles/villes/chronicle-melbourne-australia-es.html"
-        },
-        excerpt: {
-          en: "Studio at $1,450/month, world coffee capital, 12% cheaper than Sydney — but four seasons in one day and a competitive rental market.",
-          fr: "Studio à $1 450/mois, capitale mondiale du café, 12 % moins cher que Sydney — mais quatre saisons en un jour et un marché locatif compétitif.",
-          es: "Estudio a $1.450/mes, capital mundial del café, 12 % más barato que Sídney — pero cuatro estaciones en un día y un mercado de alquiler competitivo."
-        },
-        date: "2026-03-21", read: "~20 min", theme: "City Guide"
-      },
-      {
-        section: "city",
-        title: {
-          en: "Living in Perth in 2026: Sun, Mines & Beaches",
-          fr: "Vivre à Perth en 2026 : Soleil, Mines et Plages",
-          es: "Vivir en Perth en 2026: Sol, Minería y Playas"
-        },
-        url: {
-          en: "/chronicles/villes/chronicle-perth-australia-en.html",
-          fr: "/chronicles/villes/chronicle-perth-australia-fr.html",
-          es: "/chronicles/villes/chronicle-perth-australia-es.html"
-        },
-        excerpt: {
-          en: "Studio at $1,580/month, highest salaries in Australia, pristine beaches — but extreme isolation and a mining-dependent economy.",
-          fr: "Studio à $1 580/mois, les plus hauts salaires d'Australie, plages immaculées — mais un isolement extrême et une économie dépendante des mines.",
-          es: "Estudio a $1.580/mes, los salarios más altos de Australia, playas vírgenes — pero un aislamiento extremo y una economía dependiente de la minería."
-        },
-        date: "2026-03-21", read: "~20 min", theme: "City Guide"
-      },
-      {
-        section: "city",
-        title: {
-          en: "Living in Sydney in 2026: Harbour, Jobs & Costs",
-          fr: "Vivre à Sydney en 2026 : Port, Emploi et Coûts",
-          es: "Vivir en Sídney en 2026: Puerto, Empleo y Costes"
-        },
-        url: {
-          en: "/chronicles/villes/chronicle-sydney-australia-en.html",
-          fr: "/chronicles/villes/chronicle-sydney-australia-fr.html",
-          es: "/chronicles/villes/chronicle-sydney-australia-es.html"
-        },
-        excerpt: {
-          en: "Studio at $1,200/month, salaries at $4,100/month, iconic harbour city — but one of the most expensive markets in the Asia-Pacific.",
-          fr: "Studio à $1 200/mois, salaires à $4 100/mois, ville iconique du port — mais l'un des marchés les plus chers d'Asie-Pacifique.",
-          es: "Estudio a $1.200/mes, salarios a $4.100/mes, icónica ciudad portuaria — pero uno de los mercados más caros de Asia-Pacífico."
-        },
-        date: "2026-03-21", read: "~20 min", theme: "City Guide"
-      },
+function cardHTML(a){
+  var url=str(a.url);
+  var hasImg=a.img&&!a.emoji;
+  var html='<a class="card" href="'+url+'">';
+  if(hasImg){
+    html+='<img class="card-img" src="'+a.img+'" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">';
+    html+='<div class="card-emoji" style="display:none">'+(a.emoji||a.flag||"📄")+'</div>';
+  } else if(a.emoji){
+    html+='<div class="card-emoji">'+a.emoji+'</div>';
+  } else {
+    html+='<div class="card-emoji">'+(a.flag||"📄")+'</div>';
+  }
+  html+='<div class="card-grad"></div>';
+  html+='<div class="card-body">';
+  html+='<div class="card-meta">'+a.flag+' '+str(a.reg)+' · '+a.time+'</div>';
+  html+='<div class="card-title">'+str(a.t)+'</div>';
+  html+='</div></a>';
+  return html;
+}
 
-      /* === COMPARATIFS VILLES — Canada === */
-      {
-        section: "city",
-        title: {
-          en: "Living in Calgary in 2026: Zero Tax & Rockies",
-          fr: "Vivre à Calgary en 2026 : Zéro Impôt et Rocheuses",
-          es: "Vivir en Calgary en 2026: Sin Impuestos y Rocosas"
-        },
-        url: {
-          en: "/chronicles/villes/chronicle-calgary-canada-en.html",
-          fr: "/chronicles/villes/chronicle-calgary-canada-fr.html",
-          es: "/chronicles/villes/chronicle-calgary-canada-es.html"
-        },
-        excerpt: {
-          en: "Studio at $1,120/month, no provincial tax, top salaries in Canada — but harsh winters and an oil-dependent economy.",
-          fr: "Studio à $1 120/mois, zéro impôt provincial, les meilleurs salaires du Canada — mais des hivers rudes et une économie dépendante du pétrole.",
-          es: "Estudio a $1.120/mes, sin impuesto provincial, los mejores salarios de Canadá — pero inviernos duros y una economía dependiente del petróleo."
-        },
-        date: "2026-03-21", read: "~20 min", theme: "City Guide"
-      },
-      {
-        section: "city",
-        title: {
-          en: "Living in Montreal in 2026: Arts, Culture & Cost",
-          fr: "Vivre à Montréal en 2026 : Art, Culture et Coûts",
-          es: "Vivir en Montreal en 2026: Arte, Cultura y Costes"
-        },
-        url: {
-          en: "/chronicles/villes/chronicle-montreal-canada-en.html",
-          fr: "/chronicles/villes/chronicle-montreal-canada-fr.html",
-          es: "/chronicles/villes/chronicle-montreal-canada-es.html"
-        },
-        excerpt: {
-          en: "Studio at $1,450/month, 20% cheaper than Toronto, bilingual cultural capital — but long winters and French proficiency expected.",
-          fr: "Studio à $1 450/mois, 20 % moins cher que Toronto, capitale culturelle bilingue — mais de longs hivers et le français attendu.",
-          es: "Estudio a $1.450/mes, un 20 % más barato que Toronto, capital cultural bilingüe — pero largos inviernos y se espera dominio del francés."
-        },
-        date: "2026-03-21", read: "~20 min", theme: "City Guide"
-      },
-      {
-        section: "city",
-        title: {
-          en: "Living in Toronto in 2026: Diversity & Economy",
-          fr: "Vivre à Toronto en 2026 : Diversité et Économie",
-          es: "Vivir en Toronto en 2026: Diversidad y Economía"
-        },
-        url: {
-          en: "/chronicles/villes/chronicle-toronto-canada-en.html",
-          fr: "/chronicles/villes/chronicle-toronto-canada-fr.html",
-          es: "/chronicles/villes/chronicle-toronto-canada-es.html"
-        },
-        excerpt: {
-          en: "Studio at $1,930/month, Canada's economic engine, most multicultural city on Earth — but cost index at 118 and a brutally competitive housing market.",
-          fr: "Studio à $1 930/mois, moteur économique du Canada, ville la plus multiculturelle au monde — mais indice coût à 118 et un marché immobilier féroce.",
-          es: "Estudio a $1.930/mes, motor económico de Canadá, ciudad más multicultural del mundo — pero índice coste en 118 y un mercado inmobiliario feroz."
-        },
-        date: "2026-03-21", read: "~20 min", theme: "City Guide"
-      },
-      {
-        section: "city",
-        title: {
-          en: "Living in Vancouver in 2026: Nature, Tech & Life",
-          fr: "Vivre à Vancouver en 2026 : Nature, Tech et Vie",
-          es: "Vivir en Vancouver en 2026: Naturaleza, Tech y Vida"
-        },
-        url: {
-          en: "/chronicles/villes/chronicle-vancouver-canada-en.html",
-          fr: "/chronicles/villes/chronicle-vancouver-canada-fr.html",
-          es: "/chronicles/villes/chronicle-vancouver-canada-es.html"
-        },
-        excerpt: {
-          en: "Studio at $1,800/month, mountains meet ocean, booming tech scene — but cost index at 122, the highest in Canada.",
-          fr: "Studio à $1 800/mois, montagnes face à l'océan, scène tech en plein essor — mais indice coût à 122, le plus élevé du Canada.",
-          es: "Estudio a $1.800/mes, montañas frente al océano, escena tech en auge — pero índice coste en 122, el más alto de Canadá."
-        },
-        date: "2026-03-21", read: "~20 min", theme: "City Guide"
-      }
-    ];
+function render(){
+  var l=getLang();
+  var t=I18N[l]||I18N.en;
 
-    /* -------------------------------------------------------
-       Sections definition (order matters)
-       ------------------------------------------------------- */
-    var SECTIONS = [
-      { id: "visas",  i18nKey: "sec_visas",  color: "var(--theme-visa)",   cls: "t-visa" },
-      { id: "dest",   i18nKey: "sec_dest",   color: "var(--theme-dest)",   cls: "t-dest" },
-      { id: "nomads", i18nKey: "sec_nomads",  color: "var(--theme-nomad)",  cls: "t-nomad" },
-      { id: "family", i18nKey: "sec_family",  color: "var(--theme-family)", cls: "t-family" },
-      { id: "future", i18nKey: "sec_future",  color: "var(--theme-future)", cls: "t-future" },
-      { id: "city",   i18nKey: "sec_city",    color: "var(--theme-city)",   cls: "t-city" }
-    ];
+  document.getElementById("edKicker").textContent=t.kicker;
+  document.getElementById("edH1").textContent=t.h1;
+  document.getElementById("edCount").textContent=ARTICLES.length+t.count;
+  document.documentElement.lang=l;
 
-    var MAX_VISIBLE = 3;
+  var root=document.getElementById("rowsRoot");
+  var html="";
 
-    /* -------------------------------------------------------
-       Helpers
-       ------------------------------------------------------- */
-    function getLang() {
-      return (localStorage.getItem("wigg_lang") || "en").toLowerCase();
-    }
+  SECTIONS.forEach(function(sec){
+    var items=ARTICLES.filter(function(a){return a.s===sec.id});
+    if(!items.length)return;
 
-    function str(obj) {
-      if (!obj) return "";
-      if (typeof obj === "string") return obj;
-      var l = getLang();
-      return obj[l] || obj.en || "";
-    }
+    html+='<div class="row">';
+    html+='<div class="row-head">';
+    html+='<div class="row-title">'+str(sec.label)+'</div>';
+    html+='</div>';
+    html+='<div class="carousel">';
+    items.forEach(function(a){html+=cardHTML(a)});
+    html+='</div></div>';
+  });
 
-    function tx() {
-      var l = getLang();
-      return I18N[l] || I18N.en;
-    }
+  root.innerHTML=html;
+}
 
-    function fmtDate(iso) {
-      if (!iso) return "";
-      var parts = iso.split("-").map(Number);
-      var dt = new Date(Date.UTC(parts[0], parts[1] - 1, parts[2]));
-      var l = getLang();
-      var locale = l === "fr" ? "fr-FR" : l === "es" ? "es-ES" : "en-GB";
-      return dt.toLocaleDateString(locale, { year: "numeric", month: "short", day: "numeric" });
-    }
+render();
+window.addEventListener("wigg_lang_changed",render);
+</script>
 
-    /* -------------------------------------------------------
-       Build one card HTML
-       ------------------------------------------------------- */
-    function cardHTML(c, cls) {
-      var t = tx();
-      var url = str(c.url);
-      var date = c.date ? fmtDate(c.date) : "";
-      return '<article class="cw-card ' + cls + '">' +
-        '<div class="card-head">' +
-          '<div class="card-theme"><span class="card-theme-dot"></span>' + (c.theme || "") + '</div>' +
-          '<h3>' + str(c.title) + '</h3>' +
-        '</div>' +
-        '<div class="card-body"><p class="card-excerpt">' + str(c.excerpt) + '</p></div>' +
-        '<div class="card-footer">' +
-          '<span class="card-meta">' + date + (c.read ? " · " + c.read : "") + '</span>' +
-          '<a class="card-read" href="' + url + '">' + t.read + '</a>' +
-        '</div>' +
-      '</article>';
-    }
-
-    /* -------------------------------------------------------
-       Build one thematic section
-       ------------------------------------------------------- */
-    function buildSection(secDef, articles) {
-      var t = tx();
-      var label = t[secDef.i18nKey] || secDef.id;
-      var hasMore = articles.length > MAX_VISIBLE;
-      var sectionId = "sec-" + secDef.id;
-      var gridId = "grid-" + secDef.id;
-      var btnId = "btn-" + secDef.id;
-
-      // Sort by date descending (most recent first)
-      articles.sort(function(a, b) { return (b.date || "").localeCompare(a.date || ""); });
-
-      var html = '<div class="theme-section" id="' + sectionId + '">';
-
-      // Section header
-      html += '<div class="theme-head">' +
-        '<span class="theme-dot" style="background:' + secDef.color + '"></span>' +
-        '<span class="theme-label" style="color:' + secDef.color + '">' + label + '</span>' +
-        '<div class="theme-rule"></div>';
-      if (hasMore) {
-        html += '<button class="theme-toggle" id="' + btnId + '" ' +
-          'style="color:' + secDef.color + '" ' +
-          'onclick="toggleSection(\'' + secDef.id + '\')">' + t.seeAll + '</button>';
-      }
-      html += '</div>';
-
-      // Cards grid
-      html += '<div class="cw-grid" id="' + gridId + '">';
-      articles.forEach(function(c, i) {
-        var hidden = (i >= MAX_VISIBLE) ? ' style="display:none" data-extra="1"' : '';
-        html += '<div' + hidden + '>' + cardHTML(c, secDef.cls) + '</div>';
-      });
-      html += '</div>';
-
-      html += '</div>';
-      return html;
-    }
-
-    /* -------------------------------------------------------
-       Build empty section (Comparatifs Villes)
-       ------------------------------------------------------- */
-    function buildEmptySection(secDef) {
-      var t = tx();
-      var label = t[secDef.i18nKey] || secDef.id;
-
-      return '<div class="theme-section">' +
-        '<div class="theme-head">' +
-          '<span class="theme-dot" style="background:' + secDef.color + '"></span>' +
-          '<span class="theme-label" style="color:' + secDef.color + '">' + label + '</span>' +
-          '<div class="theme-rule"></div>' +
-        '</div>' +
-        '<div class="coming-soon">' + t.comingSoon + '</div>' +
-      '</div>';
-    }
-
-    /* -------------------------------------------------------
-       Toggle expand/collapse a section
-       ------------------------------------------------------- */
-    window.toggleSection = function(secId) {
-      var t = tx();
-      var grid = document.getElementById("grid-" + secId);
-      var btn = document.getElementById("btn-" + secId);
-      if (!grid || !btn) return;
-
-      var extras = grid.querySelectorAll("[data-extra]");
-      var isExpanded = btn.getAttribute("data-expanded") === "1";
-
-      if (isExpanded) {
-        extras.forEach(function(el) { el.style.display = "none"; });
-        btn.textContent = t.seeAll;
-        btn.removeAttribute("data-expanded");
-      } else {
-        extras.forEach(function(el) { el.style.display = ""; });
-        btn.textContent = t.collapse;
-        btn.setAttribute("data-expanded", "1");
-      }
-    };
-
-    /* -------------------------------------------------------
-       Render everything
-       ------------------------------------------------------- */
-    function render() {
-      var root = document.getElementById("sectionsRoot");
-      var allHTML = "";
-
-      SECTIONS.forEach(function(secDef) {
-        var articles = ARTICLES.filter(function(a) { return a.section === secDef.id; });
-        if (articles.length === 0) {
-          allHTML += buildEmptySection(secDef);
-        } else {
-          allHTML += buildSection(secDef, articles);
-        }
-      });
-
-      root.innerHTML = allHTML;
-    }
-
-    function applyI18n() {
-      var t = tx();
-      var l = getLang();
-      document.documentElement.lang = l;
-      document.getElementById("eyebrow").textContent = t.eyebrow;
-      document.getElementById("heroTitle").innerHTML = "Wigg <em>" + t.titleWord + "</em>";
-      document.getElementById("heroSub").textContent = t.sub;
-    }
-
-    function init() {
-      applyI18n();
-      render();
-    }
-
-    init();
-
-    window.addEventListener("wigg_lang_changed", function() {
-      applyI18n();
-      render();
-    });
-  </script>
-
-  <script src="/data/footer.js"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
 </body>
 </html>
