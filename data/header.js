@@ -487,6 +487,66 @@
     "/chronicles/villes/chronicle-bangkok-thailand-en.html": { en: "/chronicles/villes/chronicle-bangkok-thailand-en.html", fr: "/chronicles/villes/chronicle-bangkok-thailand-fr.html", es: "/chronicles/villes/chronicle-bangkok-thailand-es.html" },
     "/chronicles/villes/chronicle-bangkok-thailand-fr.html": { en: "/chronicles/villes/chronicle-bangkok-thailand-en.html", fr: "/chronicles/villes/chronicle-bangkok-thailand-fr.html", es: "/chronicles/villes/chronicle-bangkok-thailand-es.html" },
     "/chronicles/villes/chronicle-bangkok-thailand-es.html": { en: "/chronicles/villes/chronicle-bangkok-thailand-en.html", fr: "/chronicles/villes/chronicle-bangkok-thailand-fr.html", es: "/chronicles/villes/chronicle-bangkok-thailand-es.html" },
+
+    "/chronicles/villes/chronicle-barcelone-espagne-en.html": { en: "/chronicles/villes/chronicle-barcelone-espagne-en.html", fr: "/chronicles/villes/chronicle-barcelone-espagne-fr.html", es: "/chronicles/villes/chronicle-barcelone-espagne-es.html" },
+    "/chronicles/villes/chronicle-barcelone-espagne-fr.html": { en: "/chronicles/villes/chronicle-barcelone-espagne-en.html", fr: "/chronicles/villes/chronicle-barcelone-espagne-fr.html", es: "/chronicles/villes/chronicle-barcelone-espagne-es.html" },
+    "/chronicles/villes/chronicle-barcelone-espagne-es.html": { en: "/chronicles/villes/chronicle-barcelone-espagne-en.html", fr: "/chronicles/villes/chronicle-barcelone-espagne-fr.html", es: "/chronicles/villes/chronicle-barcelone-espagne-es.html" },
+
+    "/chronicles/villes/chronicle-cairns-australia-en.html": { en: "/chronicles/villes/chronicle-cairns-australia-en.html", fr: "/chronicles/villes/chronicle-cairns-australia-fr.html", es: "/chronicles/villes/chronicle-cairns-australia-es.html" },
+    "/chronicles/villes/chronicle-cairns-australia-fr.html": { en: "/chronicles/villes/chronicle-cairns-australia-en.html", fr: "/chronicles/villes/chronicle-cairns-australia-fr.html", es: "/chronicles/villes/chronicle-cairns-australia-es.html" },
+    "/chronicles/villes/chronicle-cairns-australia-es.html": { en: "/chronicles/villes/chronicle-cairns-australia-en.html", fr: "/chronicles/villes/chronicle-cairns-australia-fr.html", es: "/chronicles/villes/chronicle-cairns-australia-es.html" },
+
+    "/chronicles/villes/chronicle-calgary-canada-en.html": { en: "/chronicles/villes/chronicle-calgary-canada-en.html", fr: "/chronicles/villes/chronicle-calgary-canada-fr.html", es: "/chronicles/villes/chronicle-calgary-canada-es.html" },
+    "/chronicles/villes/chronicle-calgary-canada-fr.html": { en: "/chronicles/villes/chronicle-calgary-canada-en.html", fr: "/chronicles/villes/chronicle-calgary-canada-fr.html", es: "/chronicles/villes/chronicle-calgary-canada-es.html" },
+    "/chronicles/villes/chronicle-calgary-canada-es.html": { en: "/chronicles/villes/chronicle-calgary-canada-en.html", fr: "/chronicles/villes/chronicle-calgary-canada-fr.html", es: "/chronicles/villes/chronicle-calgary-canada-es.html" },
+
+    "/chronicles/villes/chronicle-chiang-mai-thailand-en.html": { en: "/chronicles/villes/chronicle-chiang-mai-thailand-en.html", fr: "/chronicles/villes/chronicle-chiang-mai-thailand-fr.html", es: "/chronicles/villes/chronicle-chiang-mai-thailand-es.html" },
+    "/chronicles/villes/chronicle-chiang-mai-thailand-fr.html": { en: "/chronicles/villes/chronicle-chiang-mai-thailand-en.html", fr: "/chronicles/villes/chronicle-chiang-mai-thailand-fr.html", es: "/chronicles/villes/chronicle-chiang-mai-thailand-es.html" },
+    "/chronicles/villes/chronicle-chiang-mai-thailand-es.html": { en: "/chronicles/villes/chronicle-chiang-mai-thailand-en.html", fr: "/chronicles/villes/chronicle-chiang-mai-thailand-fr.html", es: "/chronicles/villes/chronicle-chiang-mai-thailand-es.html" },
+
+    "/chronicles/villes/chronicle-hua-hin-thailand-en.html": { en: "/chronicles/villes/chronicle-hua-hin-thailand-en.html", fr: "/chronicles/villes/chronicle-hua-hin-thailand-fr.html", es: "/chronicles/villes/chronicle-hua-hin-thailand-es.html" },
+    "/chronicles/villes/chronicle-hua-hin-thailand-fr.html": { en: "/chronicles/villes/chronicle-hua-hin-thailand-en.html", fr: "/chronicles/villes/chronicle-hua-hin-thailand-fr.html", es: "/chronicles/villes/chronicle-hua-hin-thailand-es.html" },
+    "/chronicles/villes/chronicle-hua-hin-thailand-es.html": { en: "/chronicles/villes/chronicle-hua-hin-thailand-en.html", fr: "/chronicles/villes/chronicle-hua-hin-thailand-fr.html", es: "/chronicles/villes/chronicle-hua-hin-thailand-es.html" },
+
+    "/chronicles/villes/chronicle-madrid-espagne-en.html": { en: "/chronicles/villes/chronicle-madrid-espagne-en.html", fr: "/chronicles/villes/chronicle-madrid-espagne-fr.html", es: "/chronicles/villes/chronicle-madrid-espagne-es.html" },
+    "/chronicles/villes/chronicle-madrid-espagne-fr.html": { en: "/chronicles/villes/chronicle-madrid-espagne-en.html", fr: "/chronicles/villes/chronicle-madrid-espagne-fr.html", es: "/chronicles/villes/chronicle-madrid-espagne-es.html" },
+    "/chronicles/villes/chronicle-madrid-espagne-es.html": { en: "/chronicles/villes/chronicle-madrid-espagne-en.html", fr: "/chronicles/villes/chronicle-madrid-espagne-fr.html", es: "/chronicles/villes/chronicle-madrid-espagne-es.html" },
+
+    "/chronicles/villes/chronicle-malaga-espagne-en.html": { en: "/chronicles/villes/chronicle-malaga-espagne-en.html", fr: "/chronicles/villes/chronicle-malaga-espagne-fr.html", es: "/chronicles/villes/chronicle-malaga-espagne-es.html" },
+    "/chronicles/villes/chronicle-malaga-espagne-fr.html": { en: "/chronicles/villes/chronicle-malaga-espagne-en.html", fr: "/chronicles/villes/chronicle-malaga-espagne-fr.html", es: "/chronicles/villes/chronicle-malaga-espagne-es.html" },
+    "/chronicles/villes/chronicle-malaga-espagne-es.html": { en: "/chronicles/villes/chronicle-malaga-espagne-en.html", fr: "/chronicles/villes/chronicle-malaga-espagne-fr.html", es: "/chronicles/villes/chronicle-malaga-espagne-es.html" },
+
+    "/chronicles/villes/chronicle-melbourne-australia-en.html": { en: "/chronicles/villes/chronicle-melbourne-australia-en.html", fr: "/chronicles/villes/chronicle-melbourne-australia-fr.html", es: "/chronicles/villes/chronicle-melbourne-australia-es.html" },
+    "/chronicles/villes/chronicle-melbourne-australia-fr.html": { en: "/chronicles/villes/chronicle-melbourne-australia-en.html", fr: "/chronicles/villes/chronicle-melbourne-australia-fr.html", es: "/chronicles/villes/chronicle-melbourne-australia-es.html" },
+    "/chronicles/villes/chronicle-melbourne-australia-es.html": { en: "/chronicles/villes/chronicle-melbourne-australia-en.html", fr: "/chronicles/villes/chronicle-melbourne-australia-fr.html", es: "/chronicles/villes/chronicle-melbourne-australia-es.html" },
+
+    "/chronicles/villes/chronicle-montreal-canada-en.html": { en: "/chronicles/villes/chronicle-montreal-canada-en.html", fr: "/chronicles/villes/chronicle-montreal-canada-fr.html", es: "/chronicles/villes/chronicle-montreal-canada-es.html" },
+    "/chronicles/villes/chronicle-montreal-canada-fr.html": { en: "/chronicles/villes/chronicle-montreal-canada-en.html", fr: "/chronicles/villes/chronicle-montreal-canada-fr.html", es: "/chronicles/villes/chronicle-montreal-canada-es.html" },
+    "/chronicles/villes/chronicle-montreal-canada-es.html": { en: "/chronicles/villes/chronicle-montreal-canada-en.html", fr: "/chronicles/villes/chronicle-montreal-canada-fr.html", es: "/chronicles/villes/chronicle-montreal-canada-es.html" },
+
+    "/chronicles/villes/chronicle-perth-australia-en.html": { en: "/chronicles/villes/chronicle-perth-australia-en.html", fr: "/chronicles/villes/chronicle-perth-australia-fr.html", es: "/chronicles/villes/chronicle-perth-australia-es.html" },
+    "/chronicles/villes/chronicle-perth-australia-fr.html": { en: "/chronicles/villes/chronicle-perth-australia-en.html", fr: "/chronicles/villes/chronicle-perth-australia-fr.html", es: "/chronicles/villes/chronicle-perth-australia-es.html" },
+    "/chronicles/villes/chronicle-perth-australia-es.html": { en: "/chronicles/villes/chronicle-perth-australia-en.html", fr: "/chronicles/villes/chronicle-perth-australia-fr.html", es: "/chronicles/villes/chronicle-perth-australia-es.html" },
+
+    "/chronicles/villes/chronicle-phuket-thailand-en.html": { en: "/chronicles/villes/chronicle-phuket-thailand-en.html", fr: "/chronicles/villes/chronicle-phuket-thailand-fr.html", es: "/chronicles/villes/chronicle-phuket-thailand-es.html" },
+    "/chronicles/villes/chronicle-phuket-thailand-fr.html": { en: "/chronicles/villes/chronicle-phuket-thailand-en.html", fr: "/chronicles/villes/chronicle-phuket-thailand-fr.html", es: "/chronicles/villes/chronicle-phuket-thailand-es.html" },
+    "/chronicles/villes/chronicle-phuket-thailand-es.html": { en: "/chronicles/villes/chronicle-phuket-thailand-en.html", fr: "/chronicles/villes/chronicle-phuket-thailand-fr.html", es: "/chronicles/villes/chronicle-phuket-thailand-es.html" },
+
+    "/chronicles/villes/chronicle-sydney-australia-en.html": { en: "/chronicles/villes/chronicle-sydney-australia-en.html", fr: "/chronicles/villes/chronicle-sydney-australia-fr.html", es: "/chronicles/villes/chronicle-sydney-australia-es.html" },
+    "/chronicles/villes/chronicle-sydney-australia-fr.html": { en: "/chronicles/villes/chronicle-sydney-australia-en.html", fr: "/chronicles/villes/chronicle-sydney-australia-fr.html", es: "/chronicles/villes/chronicle-sydney-australia-es.html" },
+    "/chronicles/villes/chronicle-sydney-australia-es.html": { en: "/chronicles/villes/chronicle-sydney-australia-en.html", fr: "/chronicles/villes/chronicle-sydney-australia-fr.html", es: "/chronicles/villes/chronicle-sydney-australia-es.html" },
+
+    "/chronicles/villes/chronicle-toronto-canada-en.html": { en: "/chronicles/villes/chronicle-toronto-canada-en.html", fr: "/chronicles/villes/chronicle-toronto-canada-fr.html", es: "/chronicles/villes/chronicle-toronto-canada-es.html" },
+    "/chronicles/villes/chronicle-toronto-canada-fr.html": { en: "/chronicles/villes/chronicle-toronto-canada-en.html", fr: "/chronicles/villes/chronicle-toronto-canada-fr.html", es: "/chronicles/villes/chronicle-toronto-canada-es.html" },
+    "/chronicles/villes/chronicle-toronto-canada-es.html": { en: "/chronicles/villes/chronicle-toronto-canada-en.html", fr: "/chronicles/villes/chronicle-toronto-canada-fr.html", es: "/chronicles/villes/chronicle-toronto-canada-es.html" },
+
+    "/chronicles/villes/chronicle-valence-espagne-en.html": { en: "/chronicles/villes/chronicle-valence-espagne-en.html", fr: "/chronicles/villes/chronicle-valence-espagne-fr.html", es: "/chronicles/villes/chronicle-valence-espagne-es.html" },
+    "/chronicles/villes/chronicle-valence-espagne-fr.html": { en: "/chronicles/villes/chronicle-valence-espagne-en.html", fr: "/chronicles/villes/chronicle-valence-espagne-fr.html", es: "/chronicles/villes/chronicle-valence-espagne-es.html" },
+    "/chronicles/villes/chronicle-valence-espagne-es.html": { en: "/chronicles/villes/chronicle-valence-espagne-en.html", fr: "/chronicles/villes/chronicle-valence-espagne-fr.html", es: "/chronicles/villes/chronicle-valence-espagne-es.html" },
+
+    "/chronicles/villes/chronicle-vancouver-canada-en.html": { en: "/chronicles/villes/chronicle-vancouver-canada-en.html", fr: "/chronicles/villes/chronicle-vancouver-canada-fr.html", es: "/chronicles/villes/chronicle-vancouver-canada-es.html" },
+    "/chronicles/villes/chronicle-vancouver-canada-fr.html": { en: "/chronicles/villes/chronicle-vancouver-canada-en.html", fr: "/chronicles/villes/chronicle-vancouver-canada-fr.html", es: "/chronicles/villes/chronicle-vancouver-canada-es.html" },
+    "/chronicles/villes/chronicle-vancouver-canada-es.html": { en: "/chronicles/villes/chronicle-vancouver-canada-en.html", fr: "/chronicles/villes/chronicle-vancouver-canada-fr.html", es: "/chronicles/villes/chronicle-vancouver-canada-es.html" },
   };
 
   // Lang selection
