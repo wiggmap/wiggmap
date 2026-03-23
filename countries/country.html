@@ -490,6 +490,7 @@
       display: flex;
       gap: 12px;
       margin-bottom: 4px;
+      align-items: flex-start;
     }
     .rc-wrapper > div { flex: 1; min-width: 0; }
     @media(max-width:600px){ .rc-wrapper { flex-direction: column; gap: 8px; } }
@@ -551,7 +552,7 @@
     .rc-vcard {
       flex-shrink: 0;
       width: calc((100% - 12px) / 3);
-      aspect-ratio: 4/3;
+      height: 72px;
       border-radius: 8px;
       overflow: hidden;
       position: relative;
@@ -1389,14 +1390,37 @@
                        es: { title: 'Valencia: Guía de Vida 2026',                 url: '../chronicles/villes/chronicle-valence-espagne-es.html' } },
         'malaga':    { en: { title: 'Malaga: Living Guide 2026',                   url: '../chronicles/villes/chronicle-malaga-espagne-en.html' },
                        fr: { title: 'Malaga : Guide de Vie 2026',                   url: '../chronicles/villes/chronicle-malaga-espagne-fr.html' },
-                       es: { title: 'Málaga: Guía de Vida 2026',                   url: '../chronicles/villes/chronicle-malaga-espagne-es.html' } }
+                       es: { title: 'Málaga: Guía de Vida 2026',                   url: '../chronicles/villes/chronicle-malaga-espagne-es.html' } },
+        'sao-paulo':    { en: { title: 'São Paulo: Cost of Living & Expat Life 2026',     url: '../chronicles/villes/chronicle-sao-paulo-bresil-en.html' },
+                           fr: { title: 'São Paulo : Coût de la Vie et Expat 2026',         url: '../chronicles/villes/chronicle-sao-paulo-bresil-fr.html' },
+                           es: { title: 'São Paulo: Coste de Vida y Vida Expat 2026',      url: '../chronicles/villes/chronicle-sao-paulo-bresil-es.html' } },
+        'rio':          { en: { title: 'Rio de Janeiro: Living Guide 2026',               url: '../chronicles/villes/chronicle-rio-bresil-en.html' },
+                           fr: { title: 'Rio de Janeiro : Guide de Vie 2026',               url: '../chronicles/villes/chronicle-rio-bresil-fr.html' },
+                           es: { title: 'Río de Janeiro: Guía de Vida 2026',               url: '../chronicles/villes/chronicle-rio-bresil-es.html' } },
+        'florianopolis':{ en: { title: 'Florianópolis: Beaches & Nomad Life 2026',        url: '../chronicles/villes/chronicle-florianopolis-bresil-en.html' },
+                           fr: { title: 'Florianópolis : Plages et Nomads 2026',            url: '../chronicles/villes/chronicle-florianopolis-bresil-fr.html' },
+                           es: { title: 'Florianópolis: Playas y Vida Nómada 2026',        url: '../chronicles/villes/chronicle-florianopolis-bresil-es.html' } },
+        'salvador':     { en: { title: 'Salvador de Bahia: Culture & Living 2026',         url: '../chronicles/villes/chronicle-salvador-bresil-en.html' },
+                           fr: { title: 'Salvador de Bahia : Culture et Vie 2026',          url: '../chronicles/villes/chronicle-salvador-bresil-fr.html' },
+                           es: { title: 'Salvador de Bahía: Cultura y Vida 2026',           url: '../chronicles/villes/chronicle-salvador-bresil-es.html' } },
+        'tokyo':        { en: { title: 'Tokyo: Cost of Living & Expat Life 2026',          url: '../chronicles/villes/chronicle-tokyo-japan-en.html' },
+                           fr: { title: 'Tokyo : Coût de la Vie et Vie d\'Expatrié 2026',   url: '../chronicles/villes/chronicle-tokyo-japan-fr.html' },
+                           es: { title: 'Tokio: Coste de Vida y Vida Expat 2026',          url: '../chronicles/villes/chronicle-tokyo-japan-es.html' } },
+        'osaka':        { en: { title: 'Osaka: Living Guide & Kuidaore 2026',              url: '../chronicles/villes/chronicle-osaka-japan-en.html' },
+                           fr: { title: 'Osaka : Guide de Vie et Kuidaore 2026',            url: '../chronicles/villes/chronicle-osaka-japan-fr.html' },
+                           es: { title: 'Osaka: Guía de Vida y Kuidaore 2026',             url: '../chronicles/villes/chronicle-osaka-japan-es.html' } },
+        'fukuoka':      { en: { title: 'Fukuoka: Living Guide 2026',                       url: '../chronicles/villes/chronicle-fukuoka-japan-en.html' },
+                           fr: { title: 'Fukuoka : Guide de Vie 2026',                      url: '../chronicles/villes/chronicle-fukuoka-japan-fr.html' },
+                           es: { title: 'Fukuoka: Guía de Vida 2026',                      url: '../chronicles/villes/chronicle-fukuoka-japan-es.html' } }
       },
       countries: {
         'france':    ['paris','lyon','marseille','nice'],
         'thailand':  ['bangkok','chiang-mai','phuket','hua-hin'],
         'australia': ['sydney','melbourne','cairns','perth'],
         'canada':    ['vancouver','montreal','toronto','calgary'],
-        'spain':     ['madrid','barcelone','valence','malaga']
+        'spain':     ['madrid','barcelone','valence','malaga'],
+        'brazil':    ['sao-paulo','rio','florianopolis','salvador'],
+        'japan':     ['tokyo','osaka','fukuoka']
       }
     };
 
@@ -1420,7 +1444,14 @@
       'madrid':     '../assetscity/madrid.png',
       'barcelone':  '../assetscity/barcelone.png',
       'valence':    '../assetscity/valence.png',
-      'malaga':     '../assetscity/malaga.png'
+      'malaga':     '../assetscity/malaga.png',
+      'sao-paulo':     '../assetscity/saopaulo.png',
+      'rio':           '../assetscity/rio.png',
+      'florianopolis': '../assetscity/florianopolis.png',
+      'salvador':      '../assetscity/salvadorcity.png',
+      'tokyo':         '../assetscity/tokyo.png',
+      'osaka':         '../assetscity/osaka.png',
+      'fukuoka':       '../assetscity/fukuoka.png'
     };
 
     function renderRelatedCities(slug) {
