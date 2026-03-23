@@ -485,19 +485,73 @@
     }
     .article-card p:last-child { margin-bottom: 0; }
 
-    /* ── Related Chronicles (mini vcards) ─────────────────── */
+    /* ── Related sections wrapper (chronicles + cities side by side) ── */
+    .rc-wrapper {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 4px;
+    }
+    .rc-wrapper > div { flex: 1; min-width: 0; }
+    @media(max-width:600px){ .rc-wrapper { flex-direction: column; gap: 8px; } }
+
+    /* ── Carousel box ─────────────────────────────────────── */
+    .rc-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 12px 12px;
+      box-shadow: var(--shadow);
+    }
+    .rc-box-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .rc-box-head h2 {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .3px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0;
+    }
+    .rc-nav {
+      display: flex;
+      gap: 4px;
+    }
+    .rc-nav-btn {
+      width: 24px; height: 24px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--card);
+      color: var(--text);
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .15s, border-color .15s;
+      padding: 0;
+    }
+    .rc-nav-btn:hover { background: #f0f0ee; border-color: var(--green); }
+    .rc-nav-btn:disabled { opacity: .25; cursor: default; }
+    .rc-nav-btn:disabled:hover { background: var(--card); border-color: var(--border); }
+
+    /* ── Carousel track ───────────────────────────────────── */
+    .rc-track {
+      overflow: hidden;
+      border-radius: 8px;
+    }
     .rc-row {
       display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
-      padding-bottom: 6px;
+      gap: 6px;
+      transition: transform .3s ease;
     }
-    .rc-row::-webkit-scrollbar { display: none; }
     .rc-vcard {
       flex-shrink: 0;
-      width: 95px; height: 75px;
+      width: calc((100% - 12px) / 3);
+      aspect-ratio: 4/3;
       border-radius: 8px;
       overflow: hidden;
       position: relative;
@@ -507,7 +561,6 @@
       box-shadow: 0 2px 8px rgba(0,0,0,.06);
       transition: border-color .2s, transform .2s;
     }
-    @media(min-width:768px){ .rc-vcard { width: 110px; height: 85px; } }
     .rc-vcard:hover { border-color: var(--green); transform: translateY(-2px); }
     .rc-vcard:hover .rc-vimg { transform: scale(1.04); }
     .rc-vimg {
@@ -547,27 +600,6 @@
       font-size: 22px;
       background: linear-gradient(135deg, #ede5d8, #ddd3c4);
     }
-    .rc-bar {
-      position: absolute;
-      left: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 4px;
-      height: 28px;
-      border-radius: 999px;
-      background: var(--green);
-      opacity: .5;
-    }
-    .rc-label { flex: 1; }
-    .rc-arrow  { margin-left: auto; color: var(--muted); font-size: 15px; flex-shrink: 0; }
-
-    /* ── Related sections wrapper (chronicles + cities side by side) ── */
-    .rc-wrapper {
-      display: flex;
-      gap: 16px;
-    }
-    .rc-wrapper > div { flex: 1; min-width: 0; }
-    @media(max-width:600px){ .rc-wrapper { flex-direction: column; gap: 8px; } }
 
     /* ── Compare inline ── */
     .cmp-inline {
@@ -795,16 +827,32 @@
         <!-- ══ RELATED CHRONICLES + CITIES (side by side) ═════ -->
         <div class="rc-wrapper">
           <div id="related-chronicles" style="display:none">
-            <div class="section-head" style="margin-bottom:10px">
-              <h2 id="rc-heading" style="font-size:13px">Related Chronicles</h2>
+            <div class="rc-box">
+              <div class="rc-box-head">
+                <h2 id="rc-heading">Related Chronicles</h2>
+                <div class="rc-nav">
+                  <button class="rc-nav-btn" data-dir="-1" data-target="rc-list" aria-label="Previous">&#8249;</button>
+                  <button class="rc-nav-btn" data-dir="1"  data-target="rc-list" aria-label="Next">&#8250;</button>
+                </div>
+              </div>
+              <div class="rc-track">
+                <div id="rc-list" class="rc-row"></div>
+              </div>
             </div>
-            <div id="rc-list" class="rc-row"></div>
           </div>
           <div id="related-cities" style="display:none">
-            <div class="section-head" style="margin-bottom:10px">
-              <h2 id="cv-heading" style="font-size:13px">City Guides</h2>
+            <div class="rc-box">
+              <div class="rc-box-head">
+                <h2 id="cv-heading">City Guides</h2>
+                <div class="rc-nav">
+                  <button class="rc-nav-btn" data-dir="-1" data-target="cv-list" aria-label="Previous">&#8249;</button>
+                  <button class="rc-nav-btn" data-dir="1"  data-target="cv-list" aria-label="Next">&#8250;</button>
+                </div>
+              </div>
+              <div class="rc-track">
+                <div id="cv-list" class="rc-row"></div>
+              </div>
             </div>
-            <div id="cv-list" class="rc-row"></div>
           </div>
         </div>
 
@@ -1405,6 +1453,47 @@
       if (section) section.style.display = '';
     }
 
+    // ── Carousel arrow navigation ────────────────────────────
+    function initCarouselNav() {
+      document.querySelectorAll('.rc-nav-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var row = document.getElementById(btn.dataset.target);
+          if (!row) return;
+          var cards = row.children.length;
+          var visible = 3;
+          var maxOffset = Math.max(0, cards - visible);
+          var current = parseInt(row.dataset.offset || '0', 10);
+          var dir = parseInt(btn.dataset.dir, 10);
+          current = Math.min(maxOffset, Math.max(0, current + dir));
+          row.dataset.offset = current;
+          var cardW = row.children[0] ? row.children[0].offsetWidth : 0;
+          var gap = 6;
+          row.style.transform = 'translateX(-' + (current * (cardW + gap)) + 'px)';
+          // update button states
+          var nav = btn.parentNode;
+          var prev = nav.querySelector('[data-dir="-1"]');
+          var next = nav.querySelector('[data-dir="1"]');
+          if (prev) prev.disabled = (current === 0);
+          if (next) next.disabled = (current >= maxOffset);
+        });
+      });
+    }
+
+    function updateCarouselButtons(targetId) {
+      var row = document.getElementById(targetId);
+      if (!row) return;
+      var cards = row.children.length;
+      var maxOffset = Math.max(0, cards - 3);
+      var nav = row.closest('.rc-box').querySelector('.rc-nav');
+      if (!nav) return;
+      var prev = nav.querySelector('[data-dir="-1"]');
+      var next = nav.querySelector('[data-dir="1"]');
+      if (prev) prev.disabled = true;
+      if (next) next.disabled = (maxOffset === 0);
+      // hide arrows entirely if 3 or fewer
+      nav.style.display = (cards <= 3) ? 'none' : '';
+    }
+
     // ── Compare pairs ─────────────────────────────────────────
     const COMPARE_PAIRS = {
       'australia':            ['australia-vs-canada','australia-vs-new-zealand','singapore-vs-australia'],
@@ -1511,6 +1600,9 @@
       setSeo(c.seo, slug);
       renderRelatedChronicles(slug);
       renderRelatedCities(slug);
+      updateCarouselButtons('rc-list');
+      updateCarouselButtons('cv-list');
+      initCarouselNav();
       renderComparePairs(slug);
       setText("crumb-country", c.name);
       setText("country-name", c.name);
