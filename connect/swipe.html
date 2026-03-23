@@ -13,14 +13,14 @@
 <body>
 
 <!-- Barre retour -->
-<div style="background:#060b14; padding:6px 16px; border-bottom:0.5px solid #1a2535;">
-  <a href="feed.html" style="font-size:11px; color:#3a4a5e; text-decoration:none;">← Feed</a>
+<div style="background:#e8be78; padding:6px 16px; border-bottom:0.5px solid #e0be82;">
+  <a href="feed.html" style="font-size:11px; color:#8a7044; text-decoration:none;">← Feed</a>
 </div>
 
 <!-- Header principal -->
 <header style="display:flex; align-items:center; justify-content:center;
-               position:relative; padding:10px 16px; background:#0a0f1e;
-               border-bottom:0.5px solid #1e2a3a;">
+               position:relative; padding:10px 16px; background:#f6d397;
+               border-bottom:0.5px solid #e0be82;">
   <a href="/connect/">
     <img src="assets/wiggmap-connect-logo.png"
          style="height:52px; width:auto; display:block;"
@@ -31,12 +31,12 @@
     <button id="wcLangBtn"
             onclick="document.getElementById('wcLangDd').style.display=
                      document.getElementById('wcLangDd').style.display==='block'?'none':'block'"
-            style="background:none; border:0.5px solid #1e2a3a; border-radius:20px;
+            style="background:none; border:0.5px solid #e0be82; border-radius:20px;
                    padding:5px 12px; font-size:12px; font-weight:500;
-                   color:#22c55e; cursor:pointer;"></button>
+                   color:#1a8c42; cursor:pointer;"></button>
     <div id="wcLangDd"
          style="display:none; position:absolute; right:0; top:calc(100% + 6px);
-                background:#0d1629; border:0.5px solid #1e2a3a; border-radius:10px;
+                background:#ffffff; border:0.5px solid #e0be82; border-radius:10px;
                 overflow:hidden; min-width:60px; z-index:999;"></div>
   </div>
 </header>
@@ -154,7 +154,7 @@ var PROFILES = [
     highlight: { type: 'journal', text: 'Journal actif · Ep. 9 · 247 abonnés' },
     mirror: 78,
     bg: 'linear-gradient(160deg,#241508 0%,#4a2810 50%,#181208 100%)',
-    avatarBg: 'rgba(34,197,94,0.12)', avatarColor: '#22c55e',
+    avatarBg: 'rgba(34,197,94,0.12)', avatarColor: '#1a8c42',
   },
   {
     id: 'mt1',
@@ -217,8 +217,8 @@ var PROFILES = [
     bio: '"Infirmière qui part à Lisbonne. IFICI, assurance santé, scolarité — plein de questions."',
     highlight: { type: 'depart', text: 'Départ confirmé T2 2026 · Bordeaux → Lisbonne' },
     mirror: 29,
-    bg: 'linear-gradient(160deg,#0a0f1e 0%,#141f33 100%)',
-    avatarBg: 'rgba(34,197,94,0.1)', avatarColor: '#22c55e',
+    bg: 'linear-gradient(160deg,#f6d397 0%,#faebd7 100%)',
+    avatarBg: 'rgba(34,197,94,0.1)', avatarColor: '#1a8c42',
   },
 ];
 
@@ -292,7 +292,7 @@ function renderCard() {
           '<div style="display:inline-flex;align-items:center;justify-content:center;' +
                'width:32px;height:32px;border-radius:50%;background:' + p.avatarBg + ';' +
                'color:' + p.avatarColor + ';font-size:12px;font-weight:700;' +
-               'border:0.5px solid #1e2a3a;margin-right:8px;vertical-align:middle;">' +
+               'border:0.5px solid #e0be82;margin-right:8px;vertical-align:middle;">' +
             p.initials +
           '</div>' +
           p.name +

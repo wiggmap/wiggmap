@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" href="/assets/favicon.ico" />
   <link rel="manifest" href="/manifest.webmanifest" />
-  <meta name="theme-color" content="#22c55e" />
+  <meta name="theme-color" content="#f6d397" />
 
   <title>WiggMap Connect — Le réseau des expats et locaux · WiggMap</title>
   <meta name="description" content="WiggMap Connect: useful stories, expat and travel content, mutual aid. The social network connecting expats, travelers and locals. Find your WiggZ." />
@@ -132,14 +132,14 @@
      Header landing Connect
      ================================================ -->
 <!-- Barre retour -->
-<div style="background:#060b14; padding:6px 16px; border-bottom:0.5px solid #1a2535;">
-  <a href="/" style="font-size:11px; color:#3a4a5e; text-decoration:none;" data-wci18n="nav.back_wiggmap">← wiggmap.com</a>
+<div style="background:#e8be78; padding:6px 16px; border-bottom:0.5px solid #e0be82;">
+  <a href="/" style="font-size:11px; color:#8a7044; text-decoration:none;" data-wci18n="nav.back_wiggmap">← wiggmap.com</a>
 </div>
 
 <!-- Header principal -->
 <header style="display:flex; align-items:center; justify-content:center;
-               position:relative; padding:10px 16px; background:#0a0f1e;
-               border-bottom:0.5px solid #1e2a3a;">
+               position:relative; padding:10px 16px; background:#f6d397;
+               border-bottom:0.5px solid #e0be82;">
   <a href="/connect/">
     <img src="/connect/assets/wiggmap-connect-logo.png"
          style="height:28px; width:auto; display:block;"
@@ -150,12 +150,12 @@
     <button id="wcLangBtn"
             onclick="document.getElementById('wcLangDd').style.display=
                      document.getElementById('wcLangDd').style.display==='block'?'none':'block'"
-            style="background:none; border:0.5px solid #1e2a3a; border-radius:20px;
+            style="background:none; border:0.5px solid #e0be82; border-radius:20px;
                    padding:5px 12px; font-size:12px; font-weight:500;
-                   color:#22c55e; cursor:pointer;"></button>
+                   color:#1a8c42; cursor:pointer;"></button>
     <div id="wcLangDd"
          style="display:none; position:absolute; right:0; top:calc(100% + 6px);
-                background:#0d1629; border:0.5px solid #1e2a3a; border-radius:10px;
+                background:#ffffff; border:0.5px solid #e0be82; border-radius:10px;
                 overflow:hidden; min-width:60px; z-index:999;"></div>
   </div>
 </header>
@@ -219,7 +219,7 @@
         Create my profile for free
       </a>
 
-      <p style="font-size:10px; color:#3a4a5e; text-align:center; margin-top:var(--sp-md);" data-wci18n="landing.wiggz_note">* WiggZ — the symmetric profile to yours: someone who comes from where you want to go, and who wants to go where you're from.</p>
+      <p style="font-size:10px; color:#8a7044; text-align:center; margin-top:var(--sp-md);" data-wci18n="landing.wiggz_note">* WiggZ — the symmetric profile to yours: someone who comes from where you want to go, and who wants to go where you're from.</p>
 
     </section>
 
@@ -410,9 +410,9 @@
       ['en','fr','es'].filter(function(l){ return l !== currentLang; }).forEach(function(l) {
         var b = document.createElement('button');
         b.textContent = l.toUpperCase();
-        b.style.cssText = 'display:block;width:100%;padding:9px 14px;background:none;border:none;border-bottom:0.5px solid #1e2a3a;color:#8a9ab5;cursor:pointer;font-size:12px;text-align:center;';
-        b.onmouseenter = function(){ this.style.color='#22c55e'; this.style.background='#141f33'; };
-        b.onmouseleave = function(){ this.style.color='#8a9ab5'; this.style.background='none'; };
+        b.style.cssText = 'display:block;width:100%;padding:9px 14px;background:none;border:none;border-bottom:0.5px solid #e0be82;color:#5c4322;cursor:pointer;font-size:12px;text-align:center;';
+        b.onmouseenter = function(){ this.style.color='#1a8c42'; this.style.background='#faebd7'; };
+        b.onmouseleave = function(){ this.style.color='#5c4322'; this.style.background='none'; };
         b.onclick = function() {
           localStorage.setItem('wigg_lang', l);
           btn.textContent = l.toUpperCase();
