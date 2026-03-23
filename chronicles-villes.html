@@ -9,7 +9,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Chroniques Villes — Guides par ville | WiggMap</title>
-  <meta name="description" content="20 guides villes complets : coût de la vie, logement, salaires et qualité de vie — France, Thaïlande, Espagne, Australie, Canada.">
+  <meta name="description" content="27 guides villes complets : coût de la vie, logement, salaires et qualité de vie — France, Thaïlande, Espagne, Australie, Canada, Brésil, Japon.">
   <link rel="canonical" href="https://wiggmap.com/chronicles-villes.html">
   <link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -72,7 +72,7 @@ a{text-decoration:none;color:inherit}
   <div class="pg-head">
     <a class="pg-back" href="/indexchronicles.html">← <span id="backLabel">Toutes les chroniques</span></a>
     <h1 class="pg-h1" id="pgTitle">Chroniques <em id="pgTitleEm">Villes</em></h1>
-    <p class="pg-sub" id="pgSub">20 guides villes complets : coût de la vie, logement, salaires et qualité de vie.</p>
+    <p class="pg-sub" id="pgSub">27 guides villes complets : coût de la vie, logement, salaires et qualité de vie.</p>
     <div class="pg-count" id="pgCount"></div>
   </div>
   <div id="sectionsRoot"></div>
@@ -83,9 +83,9 @@ a{text-decoration:none;color:inherit}
 
 <script>
 var I18N={
-  en:{back:"All chronicles",title:"City",titleEm:"Chronicles",sub:"20 complete city guides: cost of living, housing, salaries and quality of life.",count:" city guides"},
-  fr:{back:"Toutes les chroniques",title:"Chroniques",titleEm:"Villes",sub:"20 guides villes complets : coût de la vie, logement, salaires et qualité de vie.",count:" guides villes"},
-  es:{back:"Todas las crónicas",title:"Crónicas",titleEm:"Ciudad",sub:"20 guías de ciudad completas: coste de vida, vivienda, salarios y calidad de vida.",count:" guías ciudad"}
+  en:{back:"All chronicles",title:"City",titleEm:"Chronicles",sub:"27 complete city guides: cost of living, housing, salaries and quality of life.",count:" city guides"},
+  fr:{back:"Toutes les chroniques",title:"Chroniques",titleEm:"Villes",sub:"27 guides villes complets : coût de la vie, logement, salaires et qualité de vie.",count:" guides villes"},
+  es:{back:"Todas las crónicas",title:"Crónicas",titleEm:"Ciudad",sub:"27 guías de ciudad completas: coste de vida, vivienda, salarios y calidad de vida.",count:" guías ciudad"}
 };
 
 var CITIES=[
@@ -112,7 +112,16 @@ var CITIES=[
   {t:{en:"Calgary",fr:"Calgary",es:"Calgary"},url:{en:"/chronicles/villes/chronicle-calgary-canada-en.html",fr:"/chronicles/villes/chronicle-calgary-canada-fr.html",es:"/chronicles/villes/chronicle-calgary-canada-es.html"},img:"/assetscity/calgary.png",flag:"🇨🇦",country:"canada"},
   {t:{en:"Montreal",fr:"Montréal",es:"Montreal"},url:{en:"/chronicles/villes/chronicle-montreal-canada-en.html",fr:"/chronicles/villes/chronicle-montreal-canada-fr.html",es:"/chronicles/villes/chronicle-montreal-canada-es.html"},img:"/assetscity/montreal.png",flag:"🇨🇦",country:"canada"},
   {t:{en:"Toronto",fr:"Toronto",es:"Toronto"},url:{en:"/chronicles/villes/chronicle-toronto-canada-en.html",fr:"/chronicles/villes/chronicle-toronto-canada-fr.html",es:"/chronicles/villes/chronicle-toronto-canada-es.html"},img:"/assetscity/toronto.png",flag:"🇨🇦",country:"canada"},
-  {t:{en:"Vancouver",fr:"Vancouver",es:"Vancouver"},url:{en:"/chronicles/villes/chronicle-vancouver-canada-en.html",fr:"/chronicles/villes/chronicle-vancouver-canada-fr.html",es:"/chronicles/villes/chronicle-vancouver-canada-es.html"},img:"/assetscity/vancouver.png",flag:"🇨🇦",country:"canada"}
+  {t:{en:"Vancouver",fr:"Vancouver",es:"Vancouver"},url:{en:"/chronicles/villes/chronicle-vancouver-canada-en.html",fr:"/chronicles/villes/chronicle-vancouver-canada-fr.html",es:"/chronicles/villes/chronicle-vancouver-canada-es.html"},img:"/assetscity/vancouver.png",flag:"🇨🇦",country:"canada"},
+
+  {t:{en:"São Paulo",fr:"São Paulo",es:"São Paulo"},url:{en:"/chronicles/villes/chronicle-sao-paulo-bresil-en.html",fr:"/chronicles/villes/chronicle-sao-paulo-bresil-fr.html",es:"/chronicles/villes/chronicle-sao-paulo-bresil-es.html"},img:"/assetscity/saopaulo.png",flag:"🇧🇷",country:"brazil"},
+  {t:{en:"Rio de Janeiro",fr:"Rio de Janeiro",es:"Río de Janeiro"},url:{en:"/chronicles/villes/chronicle-rio-bresil-en.html",fr:"/chronicles/villes/chronicle-rio-bresil-fr.html",es:"/chronicles/villes/chronicle-rio-bresil-es.html"},img:"/assetscity/rio.png",flag:"🇧🇷",country:"brazil"},
+  {t:{en:"Florianópolis",fr:"Florianópolis",es:"Florianópolis"},url:{en:"/chronicles/villes/chronicle-florianopolis-bresil-en.html",fr:"/chronicles/villes/chronicle-florianopolis-bresil-fr.html",es:"/chronicles/villes/chronicle-florianopolis-bresil-es.html"},img:"/assetscity/florianopolis.png",flag:"🇧🇷",country:"brazil"},
+  {t:{en:"Salvador de Bahia",fr:"Salvador de Bahia",es:"Salvador de Bahía"},url:{en:"/chronicles/villes/chronicle-salvador-bresil-en.html",fr:"/chronicles/villes/chronicle-salvador-bresil-fr.html",es:"/chronicles/villes/chronicle-salvador-bresil-es.html"},img:"/assetscity/salvadorcity.png",flag:"🇧🇷",country:"brazil"},
+
+  {t:{en:"Tokyo",fr:"Tokyo",es:"Tokio"},url:{en:"/chronicles/villes/chronicle-tokyo-japan-en.html",fr:"/chronicles/villes/chronicle-tokyo-japan-fr.html",es:"/chronicles/villes/chronicle-tokyo-japan-es.html"},img:"/assetscity/tokyo.png",flag:"🇯🇵",country:"japan"},
+  {t:{en:"Osaka",fr:"Osaka",es:"Osaka"},url:{en:"/chronicles/villes/chronicle-osaka-japan-en.html",fr:"/chronicles/villes/chronicle-osaka-japan-fr.html",es:"/chronicles/villes/chronicle-osaka-japan-es.html"},img:"/assetscity/osaka.png",flag:"🇯🇵",country:"japan"},
+  {t:{en:"Fukuoka",fr:"Fukuoka",es:"Fukuoka"},url:{en:"/chronicles/villes/chronicle-fukuoka-japan-en.html",fr:"/chronicles/villes/chronicle-fukuoka-japan-fr.html",es:"/chronicles/villes/chronicle-fukuoka-japan-es.html"},img:"/assetscity/fukuoka.png",flag:"🇯🇵",country:"japan"}
 ];
 
 var COUNTRIES=[
@@ -120,7 +129,9 @@ var COUNTRIES=[
   {id:"thailand",label:{en:"🇹🇭 Thailand",fr:"🇹🇭 Thaïlande",es:"🇹🇭 Tailandia"},color:"#c2410c"},
   {id:"spain",   label:{en:"🇪🇸 Spain",fr:"🇪🇸 Espagne",es:"🇪🇸 España"},   color:"#dc2626"},
   {id:"australia",label:{en:"🇦🇺 Australia",fr:"🇦🇺 Australie",es:"🇦🇺 Australia"},color:"#0284c7"},
-  {id:"canada",  label:{en:"🇨🇦 Canada",fr:"🇨🇦 Canada",es:"🇨🇦 Canadá"},  color:"#b91c1c"}
+  {id:"canada",  label:{en:"🇨🇦 Canada",fr:"🇨🇦 Canada",es:"🇨🇦 Canadá"},  color:"#b91c1c"},
+  {id:"brazil",  label:{en:"🇧🇷 Brazil",fr:"🇧🇷 Brésil",es:"🇧🇷 Brasil"},  color:"#15803d"},
+  {id:"japan",   label:{en:"🇯🇵 Japan",fr:"🇯🇵 Japon",es:"🇯🇵 Japón"},   color:"#dc2626"}
 ];
 
 function getLang(){return(localStorage.getItem("wigg_lang")||"en").toLowerCase()}
