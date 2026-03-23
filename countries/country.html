@@ -561,6 +561,14 @@
     .rc-label { flex: 1; }
     .rc-arrow  { margin-left: auto; color: var(--muted); font-size: 15px; flex-shrink: 0; }
 
+    /* ── Related sections wrapper (chronicles + cities side by side) ── */
+    .rc-wrapper {
+      display: flex;
+      gap: 16px;
+    }
+    .rc-wrapper > div { flex: 1; min-width: 0; }
+    @media(max-width:600px){ .rc-wrapper { flex-direction: column; gap: 8px; } }
+
     /* ── Compare inline ── */
     .cmp-inline {
       font-size: 12.5px;
@@ -784,12 +792,20 @@
       <!-- ── Right column ───────────────────────────────────── -->
       <div class="right-col">
 
-        <!-- ══ RELATED CHRONICLES (mini vcards) ═══════════════ -->
-        <div id="related-chronicles" style="display:none">
-          <div class="section-head" style="margin-bottom:10px">
-            <h2 id="rc-heading" style="font-size:13px">Related Chronicles</h2>
+        <!-- ══ RELATED CHRONICLES + CITIES (side by side) ═════ -->
+        <div class="rc-wrapper">
+          <div id="related-chronicles" style="display:none">
+            <div class="section-head" style="margin-bottom:10px">
+              <h2 id="rc-heading" style="font-size:13px">Related Chronicles</h2>
+            </div>
+            <div id="rc-list" class="rc-row"></div>
           </div>
-          <div id="rc-list" class="rc-row"></div>
+          <div id="related-cities" style="display:none">
+            <div class="section-head" style="margin-bottom:10px">
+              <h2 id="cv-heading" style="font-size:13px">City Guides</h2>
+            </div>
+            <div id="cv-list" class="rc-row"></div>
+          </div>
         </div>
 
         <!-- ══ DATA TABLE ══════════════════════════════════════ -->
@@ -1263,6 +1279,132 @@
       if (section) section.style.display = '';
     }
 
+    // ── Related City Chronicles ────────────────────────────────
+    const CITY_CHRONICLES = {
+      _index: {
+        'paris':     { en: { title: 'Paris: Costs, Rent & Culture 2026',           url: '../chronicles/villes/chronicle-paris-france-en.html' },
+                       fr: { title: 'Paris : Coûts, Loyer et Culture 2026',         url: '../chronicles/villes/chronicle-paris-france-fr.html' },
+                       es: { title: 'París: Costos, Alquiler y Cultura 2026',       url: '../chronicles/villes/chronicle-paris-france-es.html' } },
+        'lyon':      { en: { title: 'Lyon: Living Guide 2026',                     url: '../chronicles/villes/chronicle-lyon-france-en.html' },
+                       fr: { title: 'Lyon : Guide de Vie 2026',                     url: '../chronicles/villes/chronicle-lyon-france-fr.html' },
+                       es: { title: 'Lyon: Guía de Vida 2026',                     url: '../chronicles/villes/chronicle-lyon-france-es.html' } },
+        'marseille': { en: { title: 'Marseille: Living Guide 2026',                url: '../chronicles/villes/chronicle-marseille-france-en.html' },
+                       fr: { title: 'Marseille : Guide de Vie 2026',                url: '../chronicles/villes/chronicle-marseille-france-fr.html' },
+                       es: { title: 'Marsella: Guía de Vida 2026',                 url: '../chronicles/villes/chronicle-marseille-france-es.html' } },
+        'nice':      { en: { title: 'Nice: Living Guide 2026',                     url: '../chronicles/villes/chronicle-nice-france-en.html' },
+                       fr: { title: 'Nice : Guide de Vie 2026',                     url: '../chronicles/villes/chronicle-nice-france-fr.html' },
+                       es: { title: 'Niza: Guía de Vida 2026',                     url: '../chronicles/villes/chronicle-nice-france-es.html' } },
+        'bangkok':   { en: { title: 'Bangkok: Costs & Nomad Life 2026',            url: '../chronicles/villes/chronicle-bangkok-thailand-en.html' },
+                       fr: { title: 'Bangkok : Coûts et Vie Nomade 2026',           url: '../chronicles/villes/chronicle-bangkok-thailand-fr.html' },
+                       es: { title: 'Bangkok: Costos y Vida Nómada 2026',          url: '../chronicles/villes/chronicle-bangkok-thailand-es.html' } },
+        'chiang-mai':{ en: { title: 'Chiang Mai: Living Guide 2026',               url: '../chronicles/villes/chronicle-chiang-mai-thailand-en.html' },
+                       fr: { title: 'Chiang Mai : Guide de Vie 2026',               url: '../chronicles/villes/chronicle-chiang-mai-thailand-fr.html' },
+                       es: { title: 'Chiang Mai: Guía de Vida 2026',               url: '../chronicles/villes/chronicle-chiang-mai-thailand-es.html' } },
+        'phuket':    { en: { title: 'Phuket: Living Guide 2026',                   url: '../chronicles/villes/chronicle-phuket-thailand-en.html' },
+                       fr: { title: 'Phuket : Guide de Vie 2026',                   url: '../chronicles/villes/chronicle-phuket-thailand-fr.html' },
+                       es: { title: 'Phuket: Guía de Vida 2026',                   url: '../chronicles/villes/chronicle-phuket-thailand-es.html' } },
+        'hua-hin':   { en: { title: 'Hua Hin: Living Guide 2026',                  url: '../chronicles/villes/chronicle-hua-hin-thailand-en.html' },
+                       fr: { title: 'Hua Hin : Guide de Vie 2026',                  url: '../chronicles/villes/chronicle-hua-hin-thailand-fr.html' },
+                       es: { title: 'Hua Hin: Guía de Vida 2026',                  url: '../chronicles/villes/chronicle-hua-hin-thailand-es.html' } },
+        'sydney':    { en: { title: 'Sydney: Living Guide 2026',                   url: '../chronicles/villes/chronicle-sydney-australia-en.html' },
+                       fr: { title: 'Sydney : Guide de Vie 2026',                   url: '../chronicles/villes/chronicle-sydney-australia-fr.html' },
+                       es: { title: 'Sídney: Guía de Vida 2026',                   url: '../chronicles/villes/chronicle-sydney-australia-es.html' } },
+        'melbourne': { en: { title: 'Melbourne: Living Guide 2026',                url: '../chronicles/villes/chronicle-melbourne-australia-en.html' },
+                       fr: { title: 'Melbourne : Guide de Vie 2026',                url: '../chronicles/villes/chronicle-melbourne-australia-fr.html' },
+                       es: { title: 'Melbourne: Guía de Vida 2026',                url: '../chronicles/villes/chronicle-melbourne-australia-es.html' } },
+        'cairns':    { en: { title: 'Cairns: Living Guide 2026',                   url: '../chronicles/villes/chronicle-cairns-australia-en.html' },
+                       fr: { title: 'Cairns : Guide de Vie 2026',                   url: '../chronicles/villes/chronicle-cairns-australia-fr.html' },
+                       es: { title: 'Cairns: Guía de Vida 2026',                   url: '../chronicles/villes/chronicle-cairns-australia-es.html' } },
+        'perth':     { en: { title: 'Perth: Living Guide 2026',                    url: '../chronicles/villes/chronicle-perth-australia-en.html' },
+                       fr: { title: 'Perth : Guide de Vie 2026',                    url: '../chronicles/villes/chronicle-perth-australia-fr.html' },
+                       es: { title: 'Perth: Guía de Vida 2026',                    url: '../chronicles/villes/chronicle-perth-australia-es.html' } },
+        'vancouver': { en: { title: 'Vancouver: Living Guide 2026',                url: '../chronicles/villes/chronicle-vancouver-canada-en.html' },
+                       fr: { title: 'Vancouver : Guide de Vie 2026',                url: '../chronicles/villes/chronicle-vancouver-canada-fr.html' },
+                       es: { title: 'Vancouver: Guía de Vida 2026',                url: '../chronicles/villes/chronicle-vancouver-canada-es.html' } },
+        'montreal':  { en: { title: 'Montreal: Living Guide 2026',                 url: '../chronicles/villes/chronicle-montreal-canada-en.html' },
+                       fr: { title: 'Montréal : Guide de Vie 2026',                 url: '../chronicles/villes/chronicle-montreal-canada-fr.html' },
+                       es: { title: 'Montreal: Guía de Vida 2026',                 url: '../chronicles/villes/chronicle-montreal-canada-es.html' } },
+        'toronto':   { en: { title: 'Toronto: Living Guide 2026',                  url: '../chronicles/villes/chronicle-toronto-canada-en.html' },
+                       fr: { title: 'Toronto : Guide de Vie 2026',                  url: '../chronicles/villes/chronicle-toronto-canada-fr.html' },
+                       es: { title: 'Toronto: Guía de Vida 2026',                  url: '../chronicles/villes/chronicle-toronto-canada-es.html' } },
+        'calgary':   { en: { title: 'Calgary: Living Guide 2026',                  url: '../chronicles/villes/chronicle-calgary-canada-en.html' },
+                       fr: { title: 'Calgary : Guide de Vie 2026',                  url: '../chronicles/villes/chronicle-calgary-canada-fr.html' },
+                       es: { title: 'Calgary: Guía de Vida 2026',                  url: '../chronicles/villes/chronicle-calgary-canada-es.html' } },
+        'madrid':    { en: { title: 'Madrid: Living Guide 2026',                   url: '../chronicles/villes/chronicle-madrid-espagne-en.html' },
+                       fr: { title: 'Madrid : Guide de Vie 2026',                   url: '../chronicles/villes/chronicle-madrid-espagne-fr.html' },
+                       es: { title: 'Madrid: Guía de Vida 2026',                   url: '../chronicles/villes/chronicle-madrid-espagne-es.html' } },
+        'barcelone': { en: { title: 'Barcelona: Living Guide 2026',                url: '../chronicles/villes/chronicle-barcelone-espagne-en.html' },
+                       fr: { title: 'Barcelone : Guide de Vie 2026',                url: '../chronicles/villes/chronicle-barcelone-espagne-fr.html' },
+                       es: { title: 'Barcelona: Guía de Vida 2026',                url: '../chronicles/villes/chronicle-barcelone-espagne-es.html' } },
+        'valence':   { en: { title: 'Valencia: Living Guide 2026',                 url: '../chronicles/villes/chronicle-valence-espagne-en.html' },
+                       fr: { title: 'Valence : Guide de Vie 2026',                  url: '../chronicles/villes/chronicle-valence-espagne-fr.html' },
+                       es: { title: 'Valencia: Guía de Vida 2026',                 url: '../chronicles/villes/chronicle-valence-espagne-es.html' } },
+        'malaga':    { en: { title: 'Malaga: Living Guide 2026',                   url: '../chronicles/villes/chronicle-malaga-espagne-en.html' },
+                       fr: { title: 'Malaga : Guide de Vie 2026',                   url: '../chronicles/villes/chronicle-malaga-espagne-fr.html' },
+                       es: { title: 'Málaga: Guía de Vida 2026',                   url: '../chronicles/villes/chronicle-malaga-espagne-es.html' } }
+      },
+      countries: {
+        'france':    ['paris','lyon','marseille','nice'],
+        'thailand':  ['bangkok','chiang-mai','phuket','hua-hin'],
+        'australia': ['sydney','melbourne','cairns','perth'],
+        'canada':    ['vancouver','montreal','toronto','calgary'],
+        'spain':     ['madrid','barcelone','valence','malaga']
+      }
+    };
+
+    const CV_IMAGES = {
+      'paris':      '../assetscity/paris.png',
+      'lyon':       '../assetscity/lyon.png',
+      'marseille':  '../assetscity/marseille.png',
+      'nice':       '../assetscity/nice.png',
+      'bangkok':    '../assetscity/bangkok.png',
+      'chiang-mai': '../assetscity/chiangmai.png',
+      'phuket':     '../assetscity/phuket.png',
+      'hua-hin':    '../assetscity/huahin.png',
+      'sydney':     '../assetscity/sydney.png',
+      'melbourne':  '../assetscity/melbourne.png',
+      'cairns':     '../assetscity/cairns.png',
+      'perth':      '../assetscity/perth.png',
+      'vancouver':  '../assetscity/vancouver.png',
+      'montreal':   '../assetscity/montreal.png',
+      'toronto':    '../assetscity/toronto.png',
+      'calgary':    '../assetscity/calgary.png',
+      'madrid':     '../assetscity/madrid.png',
+      'barcelone':  '../assetscity/barcelone.png',
+      'valence':    '../assetscity/valence.png',
+      'malaga':     '../assetscity/malaga.png'
+    };
+
+    function renderRelatedCities(slug) {
+      const ids = CITY_CHRONICLES.countries[slug];
+      if (!ids || !ids.length) return;
+      const lang   = (localStorage.getItem('wigg_lang') || 'en').toLowerCase();
+      const labels = { en:'City Guides', fr:'Guides Villes', es:'Guías de Ciudades' };
+      const hd = document.getElementById('cv-heading');
+      if (hd) hd.textContent = labels[lang] || labels.en;
+      const list = document.getElementById('cv-list');
+      if (!list) return;
+      list.innerHTML = ids.map(function(id) {
+        const c = CITY_CHRONICLES._index[id];
+        if (!c) return '';
+        const loc = c[lang] || c.en;
+        const img = CV_IMAGES[id] || '';
+        var h = '<a class="rc-vcard" href="' + loc.url + '">';
+        if (img) {
+          h += '<img class="rc-vimg" src="' + img + '" alt="" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">';
+          h += '<div class="rc-vemoji" style="display:none">🏙️</div>';
+        } else {
+          h += '<div class="rc-vemoji">🏙️</div>';
+        }
+        h += '<div class="rc-vgrad"></div>';
+        h += '<div class="rc-vbody"><div class="rc-vtitle">' + loc.title + '</div></div>';
+        h += '</a>';
+        return h;
+      }).join('');
+      const section = document.getElementById('related-cities');
+      if (section) section.style.display = '';
+    }
+
     // ── Compare pairs ─────────────────────────────────────────
     const COMPARE_PAIRS = {
       'australia':            ['australia-vs-canada','australia-vs-new-zealand','singapore-vs-australia'],
@@ -1368,6 +1510,7 @@
 
       setSeo(c.seo, slug);
       renderRelatedChronicles(slug);
+      renderRelatedCities(slug);
       renderComparePairs(slug);
       setText("crumb-country", c.name);
       setText("country-name", c.name);
