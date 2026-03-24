@@ -7,39 +7,22 @@
   <meta name="robots" content="noindex" />
   <title>Groupe pays · WiggMap Connect</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/connect.css" />
 </head>
 <body>
 
-<!-- Barre retour -->
-<div style="background:#e8be78; padding:6px 16px; border-bottom:0.5px solid #e0be82;">
-  <a href="feed.html" style="font-size:11px; color:#8a7044; text-decoration:none;">← Feed</a>
-</div>
-
-<!-- Header principal -->
-<header style="display:flex; align-items:center; justify-content:center;
-               position:relative; padding:10px 16px; background:#f6d397;
-               border-bottom:0.5px solid #e0be82;">
-  <a href="/connect/">
-    <img src="assets/wiggmap-connect-logo.png"
-         style="height:52px; width:auto; display:block;"
-         alt="WiggMap Connect" />
-  </a>
-  <div style="position:absolute; right:16px; top:50%; transform:translateY(-50%);"
-       id="wcLangWrap">
-    <button id="wcLangBtn"
-            onclick="document.getElementById('wcLangDd').style.display=
-                     document.getElementById('wcLangDd').style.display==='block'?'none':'block'"
-            style="background:none; border:0.5px solid #e0be82; border-radius:20px;
-                   padding:5px 12px; font-size:12px; font-weight:500;
-                   color:#1a8c42; cursor:pointer;"></button>
-    <div id="wcLangDd"
-         style="display:none; position:absolute; right:0; top:calc(100% + 6px);
-                background:#ffffff; border:0.5px solid #e0be82; border-radius:10px;
-                overflow:hidden; min-width:60px; z-index:999;"></div>
+<!-- Nav bar -->
+<nav style="position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:rgba(6,13,8,0.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.08);">
+  <a href="/connect/"><img src="assets/wiggmap-connect-logo.png" style="height:26px;width:auto;filter:brightness(1.1);" alt="WiggMap Connect" /></a>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <a href="feed.html" style="font-size:12px;color:rgba(255,255,255,0.4);font-weight:500;">← Feed</a>
+    <div style="position:relative;" id="wcLangWrap">
+      <button id="wcLangBtn" onclick="document.getElementById('wcLangDd').style.display=document.getElementById('wcLangDd').style.display==='block'?'none':'block'" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.08);border-radius:999px;padding:5px 14px;font-size:12px;font-weight:700;color:rgba(255,255,255,0.7);cursor:pointer;"></button>
+      <div id="wcLangDd" style="display:none;position:absolute;right:0;top:calc(100% + 6px);background:rgba(12,24,16,0.95);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.12);border-radius:12px;overflow:hidden;min-width:60px;z-index:999;"></div>
+    </div>
   </div>
-</header>
+</nav>
 
 <!-- ================================================
      Hero pays (généré par JS selon ?country=)

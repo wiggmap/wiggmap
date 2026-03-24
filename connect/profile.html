@@ -10,7 +10,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/connect/assets/connect.css" />
 
   <style>
@@ -38,7 +38,7 @@
     /* Edit button overlay on cover */
     .prof-cover__edit {
       position: absolute; top: 10px; right: 12px;
-      background: rgba(10,15,30,0.7); border: 0.5px solid #e0be82;
+      background: rgba(10,15,30,0.7); border: 1px solid var(--wigg-border);
       border-radius: 20px; padding: 5px 12px;
       font-size: 11px; color: var(--wigg-text-3);
       text-decoration: none; cursor: pointer;
@@ -57,7 +57,7 @@
     .prof-avatar {
       width: 72px; height: 72px;
       border-radius: 50%;
-      border: 3px solid #f6d397;
+      border: 3px solid var(--wigg-night);
       background: var(--wigg-green-bg);
       color: var(--wigg-green);
       font-size: 26px; font-weight: 700;
@@ -75,7 +75,7 @@
       bottom: 3px; right: 3px;
       width: 12px; height: 12px;
       background: var(--wigg-green);
-      border: 2px solid #f6d397;
+      border: 2px solid var(--wigg-night);
       border-radius: 50%;
     }
 
@@ -84,7 +84,7 @@
       padding: 0 16px 12px;
     }
     .prof-traj {
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
       font-size: 22px;
       font-weight: 600;
       letter-spacing: -0.02em;
@@ -150,11 +150,11 @@
     .prof-btn:active { opacity: 0.7; }
     .prof-btn--primary {
       background: var(--wigg-green);
-      color: #f6d397;
+      color: #021a0a;
     }
     .prof-btn--ghost {
       background: none;
-      border: 0.5px solid #e0be82;
+      border: 1px solid var(--wigg-border);
       color: var(--wigg-text-2);
     }
     .prof-btn--compat {
@@ -167,14 +167,14 @@
     .prof-stats {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      border-top: 0.5px solid #e0be82;
-      border-bottom: 0.5px solid #e0be82;
+      border-top: 1px solid var(--wigg-border);
+      border-bottom: 1px solid var(--wigg-border);
       margin-bottom: 0;
     }
     .prof-stat {
       padding: 12px 4px;
       text-align: center;
-      border-right: 0.5px solid #e0be82;
+      border-right: 1px solid var(--wigg-border);
     }
     .prof-stat:last-child { border-right: none; }
     .prof-stat__val {
@@ -195,7 +195,7 @@
     /* Tabs */
     .prof-tabs {
       display: flex;
-      border-bottom: 0.5px solid #e0be82;
+      border-bottom: 1px solid var(--wigg-border);
       overflow-x: auto;
       scrollbar-width: none;
     }
@@ -227,7 +227,7 @@
     /* Journal series card */
     .journal-series {
       background: var(--wigg-card);
-      border: 0.5px solid #e0be82;
+      border: 1px solid var(--wigg-border);
       border-radius: 14px;
       padding: 14px;
       margin-bottom: 12px;
@@ -276,7 +276,7 @@
     }
     .journal-entry-preview {
       background: var(--wigg-card);
-      border: 0.5px solid #e0be82;
+      border: 1px solid var(--wigg-border);
       border-radius: 12px;
       padding: 12px 14px;
       margin-bottom: 8px;
@@ -320,7 +320,7 @@
     /* Posts list */
     .post-item {
       padding: 12px 0;
-      border-bottom: 0.5px solid #e0be82;
+      border-bottom: 1px solid var(--wigg-border);
     }
     .post-item:last-child { border-bottom: none; }
     .post-item__date {
@@ -367,7 +367,7 @@
       align-items: center;
       gap: 10px;
       padding: 8px 0;
-      border-bottom: 0.5px solid #e0be82;
+      border-bottom: 1px solid var(--wigg-border);
       font-size: 13px;
     }
     .info-row:last-child { border-bottom: none; }
@@ -381,7 +381,7 @@
       align-items: center;
       gap: 10px;
       padding: 8px 0;
-      border-bottom: 0.5px solid #e0be82;
+      border-bottom: 1px solid var(--wigg-border);
       font-size: 13px;
     }
     .lang-row:last-child { border-bottom: none; }
@@ -390,7 +390,7 @@
     }
     .lang-dot {
       width: 7px; height: 7px; border-radius: 50%;
-      background: #e0be82;
+      background: var(--wigg-border);
     }
     .lang-dot.on { background: var(--wigg-green); }
 
@@ -438,33 +438,22 @@
 </head>
 <body>
 
-<!-- Barre retour -->
-<div style="background:#e8be78; padding:6px 16px; border-bottom:0.5px solid #e0be82;">
-  <a href="/" style="font-size:11px; color:#8a7044; text-decoration:none;" data-wci18n="nav.back_wiggmap">← wiggmap.com</a>
-</div>
-
-<!-- Header principal -->
-<header style="display:flex; align-items:center; justify-content:center;
-               position:relative; padding:10px 16px; background:#f6d397;
-               border-bottom:0.5px solid #e0be82;">
+<!-- Nav bar -->
+<nav style="position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:rgba(6,13,8,0.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.08);">
   <a href="/connect/">
-    <img src="/connect/assets/wiggmap-connect-logo.png"
-         style="height:28px; width:auto; display:block;"
-         alt="WiggMap Connect" />
+    <img src="/connect/assets/wiggmap-connect-logo.png" style="height:26px;width:auto;filter:brightness(1.1);" alt="WiggMap Connect" />
   </a>
-  <div style="position:absolute; right:16px; top:50%; transform:translateY(-50%);">
-    <button id="wcLangBtn"
-            onclick="document.getElementById('wcLangDd').style.display=
-                     document.getElementById('wcLangDd').style.display==='block'?'none':'block'"
-            style="background:none; border:0.5px solid #e0be82; border-radius:20px;
-                   padding:5px 12px; font-size:12px; font-weight:500;
-                   color:#1a8c42; cursor:pointer;"></button>
-    <div id="wcLangDd"
-         style="display:none; position:absolute; right:0; top:calc(100% + 6px);
-                background:#ffffff; border:0.5px solid #e0be82; border-radius:10px;
-                overflow:hidden; min-width:60px; z-index:999;"></div>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <a href="/" style="font-size:12px;color:rgba(255,255,255,0.4);font-weight:500;" data-wci18n="nav.back_wiggmap">wiggmap.com</a>
+    <div style="position:relative;" id="wcLangWrap">
+      <button id="wcLangBtn"
+              onclick="document.getElementById('wcLangDd').style.display=document.getElementById('wcLangDd').style.display==='block'?'none':'block'"
+              style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.08);border-radius:999px;padding:5px 14px;font-size:12px;font-weight:700;color:rgba(255,255,255,0.7);cursor:pointer;"></button>
+      <div id="wcLangDd"
+           style="display:none;position:absolute;right:0;top:calc(100% + 6px);background:rgba(12,24,16,0.95);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.12);border-radius:12px;overflow:hidden;min-width:60px;z-index:999;"></div>
+    </div>
   </div>
-</header>
+</nav>
 
 <!-- Profile content (filled by JS) -->
 <div id="profileRoot" style="padding-bottom:80px;"></div>
@@ -926,7 +915,7 @@
     if (following) {
       btn.textContent = '+ Suivre';
       btn.style.background = 'var(--wigg-green)';
-      btn.style.color = '#f6d397';
+      btn.style.color = '#021a0a';
       btn.removeAttribute('data-following');
     } else {
       btn.textContent = '✓ Suivi';
