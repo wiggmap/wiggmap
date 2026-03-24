@@ -490,9 +490,10 @@
       display: flex;
       gap: 12px;
       margin-bottom: 4px;
-      align-items: flex-start;
+      align-items: stretch;
     }
-    .rc-wrapper > div { flex: 1; min-width: 0; }
+    .rc-wrapper > div { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+    .rc-wrapper > div > .rc-box { flex: 1; display: flex; flex-direction: column; }
     @media(max-width:600px){ .rc-wrapper { flex-direction: column; gap: 8px; } }
 
     /* ── Carousel box ─────────────────────────────────────── */
@@ -1515,7 +1516,8 @@
           h += '<div class="rc-vemoji">🏙️</div>';
         }
         h += '<div class="rc-vgrad"></div>';
-        h += '<div class="rc-vbody"><div class="rc-vtitle">' + loc.title + '</div></div>';
+        var shortName = loc.title.split(':')[0].split('—')[0].trim();
+        h += '<div class="rc-vbody"><div class="rc-vtitle">' + shortName + '</div></div>';
         h += '</a>';
         return h;
       }).join('');

@@ -81,7 +81,7 @@
     .progressBar { height:6px; border-radius:999px; background:rgba(255,255,255,0.06); overflow:hidden; border:1px solid rgba(255,255,255,0.08); flex-grow:1; }
     .progressFill { height:100%; width:0%; background:linear-gradient(90deg,#1dd876,#10a860); transition:width 0.5s cubic-bezier(0.34,1.56,0.64,1); box-shadow:0 0 12px rgba(29,216,118,0.4); }
     .progressLabel { font-weight:850; font-size:11px; color:rgba(255,255,255,0.35); white-space:nowrap; letter-spacing:0.3px; }
-    .stage { padding:14px 16px; display:flex; flex-direction:column; gap:12px; flex:1; justify-content:space-between; overflow:hidden; min-height:0; }
+    .stage { padding:16px 22px; display:flex; flex-direction:column; gap:14px; flex:1; overflow:hidden; min-height:0; }
     .questionBox { position:relative; border-radius:16px; padding:18px 20px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); animation:slideInQuestion 0.35s cubic-bezier(0.34,1.56,0.64,1); flex-shrink:0; }
     @keyframes slideInQuestion { from{opacity:0;transform:translateY(12px);} to{opacity:1;transform:translateY(0);} }
     .qNumber { font-size:11px; font-weight:800; color:#1dd876; text-transform:uppercase; letter-spacing:0.6px; margin-bottom:4px; }
@@ -90,9 +90,9 @@
     .status { color:rgba(255,255,255,0.35); transition:color 0.2s ease; }
     .status.correct { color:var(--accent); font-weight:900; }
     .status.wrong   { color:var(--danger); font-weight:900; }
-    .answersGrid { display:grid; grid-template-columns:1fr 1fr; gap:10px; animation:fadeInAnswers 0.3s ease; flex-shrink:0; }
+    .answersGrid { flex:1; display:grid; grid-template-columns:1fr 1fr; gap:14px; align-content:stretch; animation:fadeInAnswers 0.3s ease; }
     @keyframes fadeInAnswers { from{opacity:0;} to{opacity:1;} }
-    .answerBtn { position:relative; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.05); border-radius:12px; padding:12px 12px; display:flex; align-items:center; justify-content:flex-start; gap:10px; cursor:pointer; font-weight:700; font-size:15px; letter-spacing:-0.2px; color:rgba(255,255,255,0.9); transition:all 0.12s ease; text-align:left; overflow:hidden; width:100%; min-height:60px; }
+    .answerBtn { position:relative; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.05); border-radius:12px; padding:12px 12px; display:flex; align-items:center; justify-content:flex-start; gap:10px; cursor:pointer; font-weight:700; font-size:15px; letter-spacing:-0.2px; color:rgba(255,255,255,0.9); transition:all 0.12s ease; text-align:left; overflow:hidden; width:100%; height:100%; min-height:60px; }
     .answerBtn:hover:not(.locked) { border-color:#1dd876; background:rgba(29,216,118,0.1); box-shadow:0 8px 24px rgba(29,216,118,0.15); transform:translateY(-2px); }
     .answerBtn:active:not(.locked) { transform:translateY(-1px); }
     .answerBtn.locked { pointer-events:none; }
@@ -105,8 +105,8 @@
     .answerText { flex:1; overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
 
     /* TF BUTTONS */
-    .tfGrid { display:grid; grid-template-columns:1fr 1fr; gap:10px; animation:fadeInAnswers 0.3s ease; flex-shrink:0; }
-    .tfBtn { position:relative; border:none; border-radius:14px; padding:14px 14px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; cursor:pointer; font-weight:700; font-size:20px; min-height:80px; transition:all 0.15s ease; width:100%; overflow:hidden; }
+    .tfGrid { flex:1; display:grid; grid-template-columns:1fr 1fr; gap:14px; animation:fadeInAnswers 0.3s ease; }
+    .tfBtn { position:relative; border:none; border-radius:14px; padding:14px 14px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; cursor:pointer; font-weight:700; font-size:20px; height:100%; min-height:72px; transition:all 0.15s ease; width:100%; overflow:hidden; }
     .tfBtn:hover:not(.locked) { transform:translateY(-3px); filter:brightness(1.1); }
     .tfBtn:active:not(.locked) { transform:translateY(-1px); }
     .tfBtn.locked { pointer-events:none; }
@@ -983,13 +983,16 @@ function handleTimeout() {
   showWrongFlash();
   updateStats();
 
+  const hasExp = current.explain && current.explain.trim();
+  const toastMs = (hasExp && current.explain.length >= 100) ? 18000 : 14000;
   el.toast.className = "toast wrong-toast";
   el.toastVerdict.textContent = T.timeout;
-  el.toastText.textContent = current.explain || "";
-  el.toastText.style.display = current.explain ? "block" : "none";
+  el.toastText.textContent = hasExp ? current.explain : "";
+  el.toastText.style.display = hasExp ? "block" : "none";
   requestAnimationFrame(() => {
     el.toast.classList.add("show");
     el.toastTimerFill.classList.remove("running");
+    el.toastTimerFill.style.transitionDuration = (toastMs/1000) + "s";
     void el.toastTimerFill.offsetWidth;
     el.toastTimerFill.classList.add("running");
   });
@@ -997,7 +1000,7 @@ function handleTimeout() {
   setTimeout(() => {
     el.toast.classList.add("hide"); el.toast.classList.remove("show");
     setTimeout(nextAction, 350);
-  }, 14000);
+  }, toastMs);
 }
 
 function showWrongFlash() {
@@ -1138,6 +1141,7 @@ function answer(idx) {
   updateStats();
 
   const hasExplain = current.explain && current.explain.trim();
+  const toastMs = (hasExplain && current.explain.length >= 100) ? 18000 : 14000;
   el.toast.className = "toast " + (ok ? "correct-toast" : "wrong-toast");
   el.toastVerdict.textContent = ok ? T.correct : T.wrong;
   el.toastText.textContent = hasExplain ? current.explain : "";
@@ -1146,6 +1150,7 @@ function answer(idx) {
   requestAnimationFrame(() => {
     el.toast.classList.add("show");
     el.toastTimerFill.classList.remove("running");
+    el.toastTimerFill.style.transitionDuration = (toastMs/1000) + "s";
     void el.toastTimerFill.offsetWidth;
     el.toastTimerFill.classList.add("running");
   });
@@ -1155,7 +1160,7 @@ function answer(idx) {
     el.toast.classList.add("hide");
     el.toast.classList.remove("show");
     setTimeout(nextAction, 350);
-  }, 14000);
+  }, toastMs);
 }
 
 function endGame() {
