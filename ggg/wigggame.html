@@ -151,7 +151,7 @@
 
     /* TOAST */
     .toast { position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(120px); width:min(520px,calc(100vw - 32px)); border-radius:16px; padding:16px 20px; display:flex; flex-direction:column; gap:6px; z-index:200; transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1),opacity 0.3s ease; opacity:0; pointer-events:none; }
-    .toast.show { transform:translateX(-50%) translateY(0); opacity:1; }
+    .toast.show { transform:translateX(-50%) translateY(0); opacity:1; pointer-events:auto; }
     .toast.hide { transform:translateX(-50%) translateY(120px); opacity:0; }
     .toast.correct-toast { background:rgba(29,216,118,0.12); border:1px solid rgba(29,216,118,0.25); box-shadow:0 12px 40px rgba(0,0,0,0.4), 0 0 40px rgba(29,216,118,0.08); backdrop-filter:blur(16px); }
     .toast.wrong-toast   { background:rgba(231,76,60,0.1); border:1px solid rgba(231,76,60,0.2); box-shadow:0 12px 40px rgba(0,0,0,0.4); backdrop-filter:blur(16px); }
@@ -164,6 +164,8 @@
     .toast.correct-toast .toastTimerFill { background:#1dd876; }
     .toast.wrong-toast   .toastTimerFill { background:#e74c3c; }
     .toastTimerFill.running { transition:width 14s linear; width:0%; }
+    .toastClose { position:absolute; top:10px; right:12px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); color:rgba(255,255,255,0.5); width:26px; height:26px; border-radius:8px; font-size:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.12s ease; padding:0; z-index:1; }
+    .toastClose:hover { background:rgba(255,255,255,0.15); color:#fff; }
 
     /* CONTROLS */
     .controls { padding:10px 16px; display:flex; align-items:center; justify-content:space-between; gap:10px; border-top:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.02); flex-wrap:wrap; flex-shrink:0; }
@@ -512,6 +514,7 @@
 
 <!-- Toast -->
 <div class="toast" id="toast">
+  <button class="toastClose" id="toastClose" type="button">✕</button>
   <div class="toastVerdict" id="toastVerdict"></div>
   <div class="toastText"    id="toastText"></div>
   <div class="toastTimer"><div class="toastTimerFill" id="toastTimerFill"></div></div>
@@ -645,6 +648,8 @@ let gameActive=false;
 let lang = localStorage.getItem(LANG_KEY) || "en";
 let seenIdxs = new Set(); // questions already seen this session
 let _qTimer = null; // question timer interval ID
+let _toastTimer = null; // toast auto-dismiss timeout ID
+let _toastNextAction = null; // action to run after toast
 const Q_TIME = 19; // seconds per question
 
 /* ══ DOM ══ */
@@ -996,10 +1001,12 @@ function handleTimeout() {
     void el.toastTimerFill.offsetWidth;
     el.toastTimerFill.classList.add("running");
   });
-  const nextAction = lives <= 0 ? endGame : () => { pickNext(); render(); };
-  setTimeout(() => {
+  _toastNextAction = lives <= 0 ? endGame : () => { pickNext(); render(); };
+  if (_toastTimer) clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => {
+    _toastTimer = null;
     el.toast.classList.add("hide"); el.toast.classList.remove("show");
-    setTimeout(nextAction, 350);
+    if (_toastNextAction) { setTimeout(_toastNextAction, 350); _toastNextAction = null; }
   }, toastMs);
 }
 
@@ -1155,11 +1162,13 @@ function answer(idx) {
     el.toastTimerFill.classList.add("running");
   });
 
-  const nextAction = lives<=0 ? endGame : ()=>{ pickNext(); render(); };
-  setTimeout(() => {
+  _toastNextAction = lives<=0 ? endGame : ()=>{ pickNext(); render(); };
+  if (_toastTimer) clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => {
+    _toastTimer = null;
     el.toast.classList.add("hide");
     el.toast.classList.remove("show");
-    setTimeout(nextAction, 350);
+    if (_toastNextAction) { setTimeout(_toastNextAction, 350); _toastNextAction = null; }
   }, toastMs);
 }
 
@@ -1226,7 +1235,15 @@ async function init() {
   }
 }
 
+function dismissToast() {
+  if (_toastTimer) { clearTimeout(_toastTimer); _toastTimer = null; }
+  el.toast.classList.add("hide");
+  el.toast.classList.remove("show");
+  if (_toastNextAction) { setTimeout(_toastNextAction, 200); _toastNextAction = null; }
+}
+
 el.restart.addEventListener("click", restart);
+document.getElementById("toastClose").addEventListener("click", dismissToast);
 el.playAgain.addEventListener("click", restart);
 el.shareBtn.addEventListener("click", shareScore);
 
