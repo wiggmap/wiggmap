@@ -552,7 +552,8 @@
     .rc-vcard {
       flex-shrink: 0;
       width: calc((100% - 12px) / 3);
-      height: 72px;
+      aspect-ratio: 1;
+      max-height: 90px;
       border-radius: 8px;
       overflow: hidden;
       position: relative;
@@ -1411,7 +1412,10 @@
                            es: { title: 'Osaka: Guía de Vida y Kuidaore 2026',             url: '../chronicles/villes/chronicle-osaka-japan-es.html' } },
         'fukuoka':      { en: { title: 'Fukuoka: Living Guide 2026',                       url: '../chronicles/villes/chronicle-fukuoka-japan-en.html' },
                            fr: { title: 'Fukuoka : Guide de Vie 2026',                      url: '../chronicles/villes/chronicle-fukuoka-japan-fr.html' },
-                           es: { title: 'Fukuoka: Guía de Vida 2026',                      url: '../chronicles/villes/chronicle-fukuoka-japan-es.html' } }
+                           es: { title: 'Fukuoka: Guía de Vida 2026',                      url: '../chronicles/villes/chronicle-fukuoka-japan-es.html' } },
+        'kyoto':        { en: { title: 'Kyoto: Cost of Living & Expat Life 2026',          url: '../chronicles/villes/chronicle-kyoto-japan-en.html' },
+                           fr: { title: 'Kyoto : Coût de la Vie et Vie d\'Expatrié 2026',   url: '../chronicles/villes/chronicle-kyoto-japan-fr.html' },
+                           es: { title: 'Kioto: Coste de Vida y Vida Expat 2026',           url: '../chronicles/villes/chronicle-kyoto-japan-es.html' } }
       },
       countries: {
         'france':    ['paris','lyon','marseille','nice'],
@@ -1420,7 +1424,7 @@
         'canada':    ['vancouver','montreal','toronto','calgary'],
         'spain':     ['madrid','barcelone','valence','malaga'],
         'brazil':    ['sao-paulo','rio','florianopolis','salvador'],
-        'japan':     ['tokyo','osaka','fukuoka']
+        'japan':     ['tokyo','osaka','fukuoka','kyoto']
       }
     };
 
@@ -1451,7 +1455,8 @@
       'salvador':      '../assetscity/salvadorcity.png',
       'tokyo':         '../assetscity/tokyo.png',
       'osaka':         '../assetscity/osaka.png',
-      'fukuoka':       '../assetscity/fukuoka.png'
+      'fukuoka':       '../assetscity/fukuoka.png',
+      'kyoto':         '../assetscity/kyoto.png'
     };
 
     function renderRelatedCities(slug) {
