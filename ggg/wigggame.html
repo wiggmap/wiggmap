@@ -997,6 +997,7 @@ function handleTimeout() {
   requestAnimationFrame(() => {
     el.toast.classList.add("show");
     el.toastTimerFill.classList.remove("running");
+    el.toastTimerFill.style.width = "100%";
     el.toastTimerFill.style.transitionDuration = (toastMs/1000) + "s";
     void el.toastTimerFill.offsetWidth;
     el.toastTimerFill.classList.add("running");
@@ -1157,6 +1158,7 @@ function answer(idx) {
   requestAnimationFrame(() => {
     el.toast.classList.add("show");
     el.toastTimerFill.classList.remove("running");
+    el.toastTimerFill.style.width = "100%";
     el.toastTimerFill.style.transitionDuration = (toastMs/1000) + "s";
     void el.toastTimerFill.offsetWidth;
     el.toastTimerFill.classList.add("running");
