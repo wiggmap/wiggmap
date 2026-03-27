@@ -800,7 +800,7 @@
       const note = document.getElementById("detailsNote");
 
       const active = selected.filter(Boolean);
-      status.textContent = active.length ? `Comparing ${active.length} country${active.length>1?"ies":"y"}.` : "Select countries to populate the table.";
+      status.textContent = active.length ? `Comparing ${active.length} countr${active.length>1?"ies":"y"}.` : "Select countries to populate the table.";
 
       const detailsCount = selected.filter(c => c && c.__hasDetails).length;
       note.textContent = detailsCount ? `${detailsCount}/${active.length} details files loaded` : `Details are optional (data/details/slug.json).`;
@@ -895,6 +895,47 @@
           </tbody>
         </table>
       `;
+
+      // ── Highlight best value per row ──
+      const HIGHER_BETTER = new Set([
+        "Average salary (net / month)","Happiness index","Purchasing power index",
+        "Immigration ease","Sun days / year","Expat score"
+      ]);
+      const LOWER_BETTER = new Set([
+        "Studio rent","Mobile plan","Gasoline","Beer (0.5L)","Coffee","Main dish",
+        "VAT","Income tax","Small business tax","Crime index"
+      ]);
+
+      mount.querySelectorAll("tbody tr").forEach(tr => {
+        const metricEl = tr.querySelector(".metric-col .cell");
+        if (!metricEl) return;
+        const label = metricEl.textContent.trim();
+        const isHigher = HIGHER_BETTER.has(label);
+        const isLower = LOWER_BETTER.has(label);
+        if (!isHigher && !isLower) return;
+
+        const tds = Array.from(tr.querySelectorAll("td:not(.metric-col)"));
+        const vals = tds.map(td => {
+          const txt = td.querySelector(".cell")?.textContent?.trim() || "";
+          // Parse numeric: strip $, %, commas, ~, spaces, "/ 10", "/ 100", "days", etc.
+          const clean = txt.replace(/[~$,]/g,"").replace(/\s*\/\s*\d+/,"").replace(/\s*(days|%|\/\s*year).*/i,"").trim();
+          const n = parseFloat(clean);
+          return isNaN(n) ? null : n;
+        });
+
+        // Find best value
+        const validVals = vals.filter(v => v !== null);
+        if (validVals.length < 2) return;
+        const best = isHigher ? Math.max(...validVals) : Math.min(...validVals);
+
+        tds.forEach((td, i) => {
+          if (vals[i] !== null && vals[i] === best) {
+            td.style.background = "#e6f4ea";
+            const cell = td.querySelector(".cell");
+            if (cell) { cell.style.color = "#166534"; cell.style.fontWeight = "600"; }
+          }
+        });
+      });
     }
 
     // =========================

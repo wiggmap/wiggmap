@@ -569,6 +569,51 @@
     "/chronicles/villes/chronicle-fukuoka-japan-en.html": { en: "/chronicles/villes/chronicle-fukuoka-japan-en.html", fr: "/chronicles/villes/chronicle-fukuoka-japan-fr.html", es: "/chronicles/villes/chronicle-fukuoka-japan-es.html" },
     "/chronicles/villes/chronicle-fukuoka-japan-fr.html": { en: "/chronicles/villes/chronicle-fukuoka-japan-en.html", fr: "/chronicles/villes/chronicle-fukuoka-japan-fr.html", es: "/chronicles/villes/chronicle-fukuoka-japan-es.html" },
     "/chronicles/villes/chronicle-fukuoka-japan-es.html": { en: "/chronicles/villes/chronicle-fukuoka-japan-en.html", fr: "/chronicles/villes/chronicle-fukuoka-japan-fr.html", es: "/chronicles/villes/chronicle-fukuoka-japan-es.html" },
+
+    "/chronicles/villes/chronicle-kyoto-japan-en.html": { en: "/chronicles/villes/chronicle-kyoto-japan-en.html", fr: "/chronicles/villes/chronicle-kyoto-japan-fr.html", es: "/chronicles/villes/chronicle-kyoto-japan-es.html" },
+    "/chronicles/villes/chronicle-kyoto-japan-fr.html": { en: "/chronicles/villes/chronicle-kyoto-japan-en.html", fr: "/chronicles/villes/chronicle-kyoto-japan-fr.html", es: "/chronicles/villes/chronicle-kyoto-japan-es.html" },
+    "/chronicles/villes/chronicle-kyoto-japan-es.html": { en: "/chronicles/villes/chronicle-kyoto-japan-en.html", fr: "/chronicles/villes/chronicle-kyoto-japan-fr.html", es: "/chronicles/villes/chronicle-kyoto-japan-es.html" },
+
+    "/chronicles/villes/chronicle-mexico-city-mexico-en.html": { en: "/chronicles/villes/chronicle-mexico-city-mexico-en.html", fr: "/chronicles/villes/chronicle-mexico-city-mexico-fr.html", es: "/chronicles/villes/chronicle-mexico-city-mexico-es.html" },
+    "/chronicles/villes/chronicle-mexico-city-mexico-fr.html": { en: "/chronicles/villes/chronicle-mexico-city-mexico-en.html", fr: "/chronicles/villes/chronicle-mexico-city-mexico-fr.html", es: "/chronicles/villes/chronicle-mexico-city-mexico-es.html" },
+    "/chronicles/villes/chronicle-mexico-city-mexico-es.html": { en: "/chronicles/villes/chronicle-mexico-city-mexico-en.html", fr: "/chronicles/villes/chronicle-mexico-city-mexico-fr.html", es: "/chronicles/villes/chronicle-mexico-city-mexico-es.html" },
+    "/chronicles/villes/chronicle-guadalajara-mexico-en.html": { en: "/chronicles/villes/chronicle-guadalajara-mexico-en.html", fr: "/chronicles/villes/chronicle-guadalajara-mexico-fr.html", es: "/chronicles/villes/chronicle-guadalajara-mexico-es.html" },
+    "/chronicles/villes/chronicle-guadalajara-mexico-fr.html": { en: "/chronicles/villes/chronicle-guadalajara-mexico-en.html", fr: "/chronicles/villes/chronicle-guadalajara-mexico-fr.html", es: "/chronicles/villes/chronicle-guadalajara-mexico-es.html" },
+    "/chronicles/villes/chronicle-guadalajara-mexico-es.html": { en: "/chronicles/villes/chronicle-guadalajara-mexico-en.html", fr: "/chronicles/villes/chronicle-guadalajara-mexico-fr.html", es: "/chronicles/villes/chronicle-guadalajara-mexico-es.html" },
+    "/chronicles/villes/chronicle-monterrey-mexico-en.html": { en: "/chronicles/villes/chronicle-monterrey-mexico-en.html", fr: "/chronicles/villes/chronicle-monterrey-mexico-fr.html", es: "/chronicles/villes/chronicle-monterrey-mexico-es.html" },
+    "/chronicles/villes/chronicle-monterrey-mexico-fr.html": { en: "/chronicles/villes/chronicle-monterrey-mexico-en.html", fr: "/chronicles/villes/chronicle-monterrey-mexico-fr.html", es: "/chronicles/villes/chronicle-monterrey-mexico-es.html" },
+    "/chronicles/villes/chronicle-monterrey-mexico-es.html": { en: "/chronicles/villes/chronicle-monterrey-mexico-en.html", fr: "/chronicles/villes/chronicle-monterrey-mexico-fr.html", es: "/chronicles/villes/chronicle-monterrey-mexico-es.html" },
+    "/chronicles/villes/chronicle-cancun-mexico-en.html": { en: "/chronicles/villes/chronicle-cancun-mexico-en.html", fr: "/chronicles/villes/chronicle-cancun-mexico-fr.html", es: "/chronicles/villes/chronicle-cancun-mexico-es.html" },
+    "/chronicles/villes/chronicle-cancun-mexico-fr.html": { en: "/chronicles/villes/chronicle-cancun-mexico-en.html", fr: "/chronicles/villes/chronicle-cancun-mexico-fr.html", es: "/chronicles/villes/chronicle-cancun-mexico-es.html" },
+    "/chronicles/villes/chronicle-cancun-mexico-es.html": { en: "/chronicles/villes/chronicle-cancun-mexico-en.html", fr: "/chronicles/villes/chronicle-cancun-mexico-fr.html", es: "/chronicles/villes/chronicle-cancun-mexico-es.html" },
+    "/chronicles/villes/chronicle-new-york-usa-en.html": { en: "/chronicles/villes/chronicle-new-york-usa-en.html", fr: "/chronicles/villes/chronicle-new-york-usa-fr.html", es: "/chronicles/villes/chronicle-new-york-usa-es.html" },
+    "/chronicles/villes/chronicle-new-york-usa-fr.html": { en: "/chronicles/villes/chronicle-new-york-usa-en.html", fr: "/chronicles/villes/chronicle-new-york-usa-fr.html", es: "/chronicles/villes/chronicle-new-york-usa-es.html" },
+    "/chronicles/villes/chronicle-new-york-usa-es.html": { en: "/chronicles/villes/chronicle-new-york-usa-en.html", fr: "/chronicles/villes/chronicle-new-york-usa-fr.html", es: "/chronicles/villes/chronicle-new-york-usa-es.html" },
+    "/chronicles/villes/chronicle-los-angeles-usa-en.html": { en: "/chronicles/villes/chronicle-los-angeles-usa-en.html", fr: "/chronicles/villes/chronicle-los-angeles-usa-fr.html", es: "/chronicles/villes/chronicle-los-angeles-usa-es.html" },
+    "/chronicles/villes/chronicle-los-angeles-usa-fr.html": { en: "/chronicles/villes/chronicle-los-angeles-usa-en.html", fr: "/chronicles/villes/chronicle-los-angeles-usa-fr.html", es: "/chronicles/villes/chronicle-los-angeles-usa-es.html" },
+    "/chronicles/villes/chronicle-los-angeles-usa-es.html": { en: "/chronicles/villes/chronicle-los-angeles-usa-en.html", fr: "/chronicles/villes/chronicle-los-angeles-usa-fr.html", es: "/chronicles/villes/chronicle-los-angeles-usa-es.html" },
+    "/chronicles/villes/chronicle-miami-usa-en.html": { en: "/chronicles/villes/chronicle-miami-usa-en.html", fr: "/chronicles/villes/chronicle-miami-usa-fr.html", es: "/chronicles/villes/chronicle-miami-usa-es.html" },
+    "/chronicles/villes/chronicle-miami-usa-fr.html": { en: "/chronicles/villes/chronicle-miami-usa-en.html", fr: "/chronicles/villes/chronicle-miami-usa-fr.html", es: "/chronicles/villes/chronicle-miami-usa-es.html" },
+    "/chronicles/villes/chronicle-miami-usa-es.html": { en: "/chronicles/villes/chronicle-miami-usa-en.html", fr: "/chronicles/villes/chronicle-miami-usa-fr.html", es: "/chronicles/villes/chronicle-miami-usa-es.html" },
+    "/chronicles/villes/chronicle-austin-usa-en.html": { en: "/chronicles/villes/chronicle-austin-usa-en.html", fr: "/chronicles/villes/chronicle-austin-usa-fr.html", es: "/chronicles/villes/chronicle-austin-usa-es.html" },
+    "/chronicles/villes/chronicle-austin-usa-fr.html": { en: "/chronicles/villes/chronicle-austin-usa-en.html", fr: "/chronicles/villes/chronicle-austin-usa-fr.html", es: "/chronicles/villes/chronicle-austin-usa-es.html" },
+    "/chronicles/villes/chronicle-austin-usa-es.html": { en: "/chronicles/villes/chronicle-austin-usa-en.html", fr: "/chronicles/villes/chronicle-austin-usa-fr.html", es: "/chronicles/villes/chronicle-austin-usa-es.html" },
+
+    "/chronicles/chronicle-africa-expat-p1-en.html":        { en: "/chronicles/chronicle-africa-expat-p1-en.html",        fr: "/chronicles/chronicle-afrique-expatrier-p1-fr.html",    es: "/chronicles/chronicle-africa-expatriarse-p1-es.html" },
+    "/chronicles/chronicle-afrique-expatrier-p1-fr.html":   { en: "/chronicles/chronicle-africa-expat-p1-en.html",        fr: "/chronicles/chronicle-afrique-expatrier-p1-fr.html",    es: "/chronicles/chronicle-africa-expatriarse-p1-es.html" },
+    "/chronicles/chronicle-africa-expatriarse-p1-es.html":  { en: "/chronicles/chronicle-africa-expat-p1-en.html",        fr: "/chronicles/chronicle-afrique-expatrier-p1-fr.html",    es: "/chronicles/chronicle-africa-expatriarse-p1-es.html" },
+
+    "/chronicles/chronicle-africa-expat-p2-en.html":        { en: "/chronicles/chronicle-africa-expat-p2-en.html",        fr: "/chronicles/chronicle-afrique-expatrier-p2-fr.html",    es: "/chronicles/chronicle-africa-expatriarse-p2-es.html" },
+    "/chronicles/chronicle-afrique-expatrier-p2-fr.html":   { en: "/chronicles/chronicle-africa-expat-p2-en.html",        fr: "/chronicles/chronicle-afrique-expatrier-p2-fr.html",    es: "/chronicles/chronicle-africa-expatriarse-p2-es.html" },
+    "/chronicles/chronicle-africa-expatriarse-p2-es.html":  { en: "/chronicles/chronicle-africa-expat-p2-en.html",        fr: "/chronicles/chronicle-afrique-expatrier-p2-fr.html",    es: "/chronicles/chronicle-africa-expatriarse-p2-es.html" },
+
+    "/chronicles/chronicle-africa-expat-p3-en.html":        { en: "/chronicles/chronicle-africa-expat-p3-en.html",        fr: "/chronicles/chronicle-afrique-expatrier-p3-fr.html",    es: "/chronicles/chronicle-africa-expatriarse-p3-es.html" },
+    "/chronicles/chronicle-afrique-expatrier-p3-fr.html":   { en: "/chronicles/chronicle-africa-expat-p3-en.html",        fr: "/chronicles/chronicle-afrique-expatrier-p3-fr.html",    es: "/chronicles/chronicle-africa-expatriarse-p3-es.html" },
+    "/chronicles/chronicle-africa-expatriarse-p3-es.html":  { en: "/chronicles/chronicle-africa-expat-p3-en.html",        fr: "/chronicles/chronicle-afrique-expatrier-p3-fr.html",    es: "/chronicles/chronicle-africa-expatriarse-p3-es.html" },
+
+    "/chronicles/chronicle-africa-expat-p4-en.html":        { en: "/chronicles/chronicle-africa-expat-p4-en.html",        fr: "/chronicles/chronicle-afrique-expatrier-p4-fr.html",    es: "/chronicles/chronicle-africa-expatriarse-p4-es.html" },
+    "/chronicles/chronicle-afrique-expatrier-p4-fr.html":   { en: "/chronicles/chronicle-africa-expat-p4-en.html",        fr: "/chronicles/chronicle-afrique-expatrier-p4-fr.html",    es: "/chronicles/chronicle-africa-expatriarse-p4-es.html" },
+    "/chronicles/chronicle-africa-expatriarse-p4-es.html":  { en: "/chronicles/chronicle-africa-expat-p4-en.html",        fr: "/chronicles/chronicle-afrique-expatrier-p4-fr.html",    es: "/chronicles/chronicle-africa-expatriarse-p4-es.html" },
   };
 
   // Lang selection

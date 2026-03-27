@@ -1666,6 +1666,31 @@
       if(d) d.setAttribute("content", desc);
       const c = document.getElementById("seo-canonical");
       if(c && slug) c.setAttribute("href", "https://wiggmap.com/countries/country.html?country=" + slug);
+      var url = slug ? "https://wiggmap.com/countries/country.html?country=" + slug : null;
+      var xd = document.getElementById("seo-hreflang-xd");
+      if(!xd && url){ xd = document.createElement("link"); xd.id="seo-hreflang-xd"; xd.rel="alternate"; xd.hreflang="x-default"; document.head.appendChild(xd); }
+      if(xd && url) xd.href = url;
+    }
+
+    function injectCountryJsonLd(slug, data, seo){
+      var existing = document.getElementById("seo-jsonld");
+      if(existing) existing.remove();
+      if(!data || !slug) return;
+      var name = (seo && seo.title) ? seo.title.split("—")[0].split("·")[0].trim() : slug;
+      var desc = (seo && seo.description) ? seo.description : "";
+      var jsonld = {
+        "@context":"https://schema.org",
+        "@type":"Country",
+        "name": name,
+        "description": desc,
+        "url":"https://wiggmap.com/countries/country.html?country=" + slug,
+        "publisher":{"@type":"Organization","name":"WiggMap","url":"https://wiggmap.com"}
+      };
+      var s = document.createElement("script");
+      s.id = "seo-jsonld";
+      s.type = "application/ld+json";
+      s.textContent = JSON.stringify(jsonld);
+      document.head.appendChild(s);
     }
 
     function setText(id, txt){
@@ -1709,6 +1734,7 @@
       }
 
       setSeo(c.seo, slug);
+      injectCountryJsonLd(slug, c, c.seo);
       renderRelatedChronicles(slug);
       renderRelatedCities(slug);
       updateCarouselButtons('rc-list');

@@ -808,14 +808,16 @@ function buildDeck() {
     q._weight = w;
   });
 
-  // Sort so higher-priority (higher weight) questions land at the END
-  // (since we use deck.pop(), those come first). Within same weight, shuffle.
-  available.sort((a, b) => {
-    const diff = a._weight - b._weight;
-    return diff !== 0 ? diff : Math.random() - 0.5;
-  });
+  // Fisher-Yates shuffle first — true randomness within the pool
+  for (let i = available.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [available[i], available[j]] = [available[j], available[i]];
+  }
 
-  // Interleave tf and mcq for variety (preserving weight order within each group)
+  // Stable sort by weight (shuffle above guarantees randomness within same weight)
+  available.sort((a, b) => a._weight - b._weight);
+
+  // Interleave tf and mcq for variety
   const tfQ  = available.filter(q => q.type === "tf");
   const mcqQ = available.filter(q => q.type !== "tf");
   const interleaved = [];
@@ -825,7 +827,7 @@ function buildDeck() {
     if (mi < mcqQ.length) interleaved.push(mcqQ[mi++]);
   }
 
-  return interleaved; // each question exactly once
+  return interleaved;
 }
 
 /* ══ LEADERBOARD ══ */
