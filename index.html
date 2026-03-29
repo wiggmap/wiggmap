@@ -91,10 +91,10 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 .c-img .c-arrow{color:var(--faint)}
 .c-img:hover .c-arrow{color:var(--ink)}
 /* Center content in image cards */
-.c-img.c-center{display:flex;flex-direction:column;justify-content:flex-end;align-items:stretch;text-align:center;height:100%;padding-bottom:16px}
-.c-img.c-center .c-tag{margin-bottom:4px}
-.c-label-box{background:rgba(249,237,206,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:14px;padding:10px 16px}
-.c-img.c-center .c-arrow{bottom:10px;right:16px}
+.c-img.c-center{text-align:center;padding:0 !important}
+.c-img.c-center .c-tag{margin-bottom:0}
+.c-label-box{background:rgba(249,237,206,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:0 0 var(--r-lg) var(--r-lg);padding:12px 16px;position:absolute;bottom:0;left:0;right:0;z-index:2}
+.c-img.c-center .c-arrow{bottom:10px;right:16px;z-index:3}
 
 /* Hero — centre.png : NO overlay, image fully visible, text at bottom */
 .c-hero.c-img{background-image:url('imgindex/centre.png');background-size:35%;background-repeat:no-repeat;background-position:center 12%;justify-content:center;align-items:center;text-align:center}
@@ -197,19 +197,22 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
   .c-more{display:none}
 }
 @media(max-width:700px){
+  html,body{overflow:auto;height:auto}
   .shell{overflow-y:auto;height:auto;min-height:100dvh}
   .grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
-  .c-hero{grid-column:1/-1;grid-row:1}
+  .c-hero{grid-column:1/-1;grid-row:1;min-height:250px}
   .c-globe{grid-column:1;grid-row:2}
   .c-cmp{grid-column:2;grid-row:2}
   .c-chr{grid-column:1;grid-row:3}
   .c-ctr{grid-column:2;grid-row:3}
   .c-rnd{grid-column:1;grid-row:4}
   .c-game{grid-column:2;grid-row:4}
-  .c-conn{grid-column:1/-1;grid-row:5}
-  .c-more{display:none}
+  .c-conn{grid-column:1;grid-row:5}
+  .c-more{grid-column:2;grid-row:5}
   .bar-nav{display:none}
+  .bar-socials{display:none}
   .c{padding:20px}
+  .c-img.c-center{min-height:160px}
 }
   </style>
 </head>
@@ -421,7 +424,7 @@ function getLang(){return(localStorage.getItem('wigg_lang')||'en').toLowerCase()
 
   // Hero
   $('heroTitle').textContent=t.heroTitle;
-  $('heroSub').textContent=t.heroSub;
+  if($('heroSub'))$('heroSub').textContent=t.heroSub;
   $('searchInput').placeholder=t.placeholder;
   $('searchGo').textContent=t.goBtn;
 
