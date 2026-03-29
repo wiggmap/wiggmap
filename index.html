@@ -270,7 +270,6 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
         <button class="hero-go" type="submit" id="searchGo">Go →</button>
         <div class="hero-sug" id="searchSug" role="listbox"></div>
       </form>
-      <div class="hero-title" id="heroTitle">Read the world properly.</div>
     </div>
 
     <!-- COMPARE -->
@@ -296,9 +295,8 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 
     <!-- COUNTRIES -->
     <div class="c c-ctr" style="cursor:default">
-      <div class="c-tag" id="tagCtr">Indexed</div>
       <div class="c-big">160<span>+</span></div>
-      <div class="c-sub" id="lblCtrSub">Countries profiled</div>
+      <div class="c-sub" id="lblCtrSub" style="margin-top:8px;line-height:1.6">Compare real salaries, rent, taxes and quality of life across 160+ countries. No fantasy — just data.</div>
     </div>
 
     <!-- RANDOM -->
@@ -376,7 +374,7 @@ var I18N = {
     tagGlobe:"Explore",lblGlobe:"3D Globe",lblGlobeSub:"",
     tagChron:"Editorial",lblChron:"Chronicles",lblChronSub:"In-depth articles & analysis",
     lblCompare:"Side by side",
-    tagCtr:"Indexed",lblCtrSub:"Countries profiled",
+    lblCtrSub:"Compare real salaries, rent, taxes and quality of life across 160+ countries. No fantasy — just data.",
     lblRandom:"Random",lblRandomSub:"Surprise me",
     lblGame:"WiggGame",lblGameSub:"Test your knowledge",
     lblConn:"Connect",lblConnSub:"Coming soon",
@@ -392,7 +390,7 @@ var I18N = {
     tagGlobe:"Explorer",lblGlobe:"Globe 3D",lblGlobeSub:"",
     tagChron:"Éditorial",lblChron:"Chroniques",lblChronSub:"Articles & analyses",
     lblCompare:"Côte à côte",
-    tagCtr:"Indexés",lblCtrSub:"Pays profilés",
+    lblCtrSub:"Comparez les vrais salaires, loyers, impôts et qualité de vie dans plus de 160 pays. Pas de fantasme — que des données.",
     lblRandom:"Aléatoire",lblRandomSub:"Découvrir un pays",
     lblGame:"WiggGame",lblGameSub:"Testez vos connaissances",
     lblConn:"Connect",lblConnSub:"Bientôt disponible",
@@ -408,7 +406,7 @@ var I18N = {
     tagGlobe:"Explorar",lblGlobe:"Globo 3D",lblGlobeSub:"",
     tagChron:"Editorial",lblChron:"Crónicas",lblChronSub:"Artículos y análisis",
     lblCompare:"Lado a lado",
-    tagCtr:"Indexados",lblCtrSub:"Países perfilados",
+    lblCtrSub:"Compara salarios reales, alquileres, impuestos y calidad de vida en más de 160 países. Sin fantasía — solo datos.",
     lblRandom:"Aleatorio",lblRandomSub:"Descubrir un país",
     lblGame:"WiggGame",lblGameSub:"Pon a prueba tu conocimiento",
     lblConn:"Connect",lblConnSub:"Próximamente",
@@ -425,7 +423,7 @@ function getLang(){return(localStorage.getItem('wigg_lang')||'en').toLowerCase()
   var $=function(id){return document.getElementById(id)};
 
   // Hero
-  $('heroTitle').textContent=t.heroTitle;
+  if($('heroTitle'))$('heroTitle').textContent=t.heroTitle;
   if($('heroSub'))$('heroSub').textContent=t.heroSub;
   $('searchInput').placeholder=t.placeholder;
   $('searchGo').textContent=t.goBtn;
@@ -445,7 +443,7 @@ function getLang(){return(localStorage.getItem('wigg_lang')||'en').toLowerCase()
   $('lblChron').textContent=t.lblChron;
   $('lblChronSub').textContent=t.lblChronSub;
   $('lblCompare').textContent=t.lblCompare;
-  $('tagCtr').textContent=t.tagCtr;
+  if($('tagCtr'))$('tagCtr').textContent=t.tagCtr;
   $('lblCtrSub').textContent=t.lblCtrSub;
   $('lblRandom').textContent=t.lblRandom;
   $('lblRandomSub').textContent=t.lblRandomSub;
