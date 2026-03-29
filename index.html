@@ -114,8 +114,9 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 /* Chronicles — chronicles.png */
 .c-chr.c-img{background-image:url('imgindex/chronicles.png');background-position:center 40%}
 
-/* Random — random.png */
-.c-rnd.c-img{background-image:url('imgindex/random.png');background-position:center}
+/* Random — iframe preview */
+.rnd-frame{position:absolute;top:0;left:0;width:400%;height:400%;transform:scale(.25);transform-origin:top left;border:none;pointer-events:none}
+.rnd-overlay{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:flex-end}
 
 /* Game — jeux.png */
 .c-game.c-img{background-image:url('imgindex/jeux.png');background-size:55%;background-repeat:no-repeat;background-position:center 30%}
@@ -300,13 +301,15 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
     </div>
 
     <!-- RANDOM -->
-    <a class="c c-rnd c-img c-center" id="btnRandom" href="#">
-      <div class="c-label-box">
-        <div class="c-tag">Discover</div>
-        <div class="c-name" id="lblRandom">Random</div>
-        <div class="c-sub" id="lblRandomSub">Surprise me</div>
+    <a class="c c-rnd" id="btnRandom" href="#" style="padding:0;overflow:hidden">
+      <iframe id="rndFrame" class="rnd-frame" scrolling="no" loading="lazy"></iframe>
+      <div class="rnd-overlay">
+        <div class="c-label-box">
+          <div class="c-tag">Discover</div>
+          <div class="c-name" id="lblRandom">Random</div>
+          <div class="c-sub" id="lblRandomSub">Surprise me</div>
+        </div>
       </div>
-      <span class="c-arrow">→</span>
     </a>
 
     <!-- WIGGGAME -->
@@ -570,14 +573,22 @@ function getLang(){return(localStorage.getItem('wigg_lang')||'en').toLowerCase()
     if(!e.target.closest('.hero-search'))sug.classList.remove('show');
   });
 
-  // Random button
-  document.getElementById('btnRandom').addEventListener('click',async function(e){
-    e.preventDefault();await loadDB();
+  // Random — pick a country, load preview, click navigates there
+  var _rndSlug=null;
+  async function initRandom(){
+    await loadDB();
     var keys=Object.keys(CDATA||{});
-    if(keys.length)go(keys[Math.floor(Math.random()*keys.length)]);
+    if(!keys.length)return;
+    _rndSlug=keys[Math.floor(Math.random()*keys.length)];
+    var frame=document.getElementById('rndFrame');
+    if(frame)frame.src='/countries/country.html?country='+_rndSlug;
+  }
+  document.getElementById('btnRandom').addEventListener('click',function(e){
+    e.preventDefault();
+    if(_rndSlug)go(_rndSlug);
   });
 
-  loadDB().catch(console.error);
+  loadDB().then(initRandom).catch(console.error);
 })();
 </script>
 
