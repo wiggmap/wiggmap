@@ -1,102 +1,468 @@
 <!doctype html>
 <html lang="en">
 <head>
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-K4MMRD4R');</script>
-<!-- End Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-K4MMRD4R');</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About WiggMap — Where is the grass greener?</title>
+<meta name="description" content="WiggMap is the platform that compares 160+ countries with real data — salaries, rent, taxes, safety, climate. Find where life is actually better for you.">
+<link rel="icon" href="/assets/favicon.ico" type="image/x-icon">
+<link rel="canonical" href="https://wiggmap.com/about.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fraunces:ital,wght@0,300;0,700;1,300;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="data/style.css">
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>About — WiggMap</title>
-  <meta name="description" content="About WiggMap — Compare countries by cost of living, salaries, taxes, happiness, and more.">
+<style>
+:root {
+  --green: #1a7a45;
+  --green-light: rgba(26,122,69,.09);
+  --ink: #111;
+  --dim: #555;
+  --faint: #999;
+  --bg: #f4f2ef;
+  --card: #ffffff;
+  --border: rgba(0,0,0,.08);
+  --r: 18px;
+  --font: 'Inter', system-ui, sans-serif;
+  --serif: 'Fraunces', Georgia, serif;
+}
 
-      <!-- ✅ FAVICON (chemins cohérents avec ../assets déjà utilisé dans ce fichier) -->
-  <link rel="icon" href="../assets/favicon.ico" type="image/x-icon" />
-    
-  <!-- Same CSS as country pages -->
-  <link rel="stylesheet" href="data/style.css">
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
+}
+
+.about-wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 48px 20px 80px;
+}
+
+/* ── HERO ── */
+.about-hero {
+  text-align: center;
+  padding: 64px 24px 56px;
+  position: relative;
+}
+.about-hero-dot {
+  width: 10px; height: 10px;
+  background: var(--green);
+  border-radius: 50%;
+  display: inline-block;
+  margin-bottom: 18px;
+}
+.about-hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(36px, 6vw, 62px);
+  font-weight: 700;
+  letter-spacing: -.03em;
+  line-height: 1.05;
+  margin-bottom: 18px;
+  color: var(--ink);
+}
+.about-hero h1 em {
+  font-style: italic;
+  color: var(--green);
+}
+.about-hero-sub {
+  font-size: 17px;
+  color: var(--dim);
+  max-width: 560px;
+  margin: 0 auto 32px;
+  line-height: 1.65;
+}
+.about-cta-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  display: inline-block;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--ink);
+  padding: 12px 28px;
+  border-radius: 100px;
+  text-decoration: none;
+  transition: background .18s, transform .18s;
+}
+.btn-primary:hover { background: var(--green); transform: scale(1.03); }
+.btn-outline {
+  display: inline-block;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  background: transparent;
+  border: 1.5px solid rgba(0,0,0,.14);
+  padding: 11px 28px;
+  border-radius: 100px;
+  text-decoration: none;
+  transition: border-color .18s, background .18s;
+}
+.btn-outline:hover { border-color: var(--green); background: var(--green-light); }
+
+/* ── STAT ROW ── */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 0 0 48px;
+}
+.stat-card {
+  background: var(--card);
+  border-radius: var(--r);
+  padding: 28px 20px;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+.stat-num {
+  font-family: var(--serif);
+  font-size: 44px;
+  font-weight: 700;
+  color: var(--green);
+  letter-spacing: -.04em;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.stat-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--dim);
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+
+/* ── SECTIONS ── */
+.section {
+  background: var(--card);
+  border-radius: var(--r);
+  padding: 40px 44px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+}
+.section-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 10px;
+}
+.section h2 {
+  font-family: var(--serif);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  line-height: 1.15;
+  margin-bottom: 14px;
+}
+.section p {
+  font-size: 15px;
+  color: var(--dim);
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+.section p:last-child { margin-bottom: 0; }
+.section p strong { color: var(--ink); font-weight: 600; }
+
+/* ── FEATURES GRID ── */
+.features-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 24px;
+}
+.feature-item {
+  background: var(--bg);
+  border-radius: 14px;
+  padding: 20px 22px;
+}
+.feature-icon {
+  font-size: 22px;
+  margin-bottom: 8px;
+  display: block;
+}
+.feature-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.feature-desc {
+  font-size: 13px;
+  color: var(--dim);
+  line-height: 1.5;
+}
+
+/* ── PARTNERSHIP ── */
+.section.partnership {
+  background: var(--ink);
+  border-color: transparent;
+  color: #fff;
+}
+.section.partnership .section-tag { color: rgba(255,255,255,.45); }
+.section.partnership h2 { color: #fff; }
+.section.partnership p { color: rgba(255,255,255,.65); }
+.section.partnership p strong { color: #fff; }
+.partner-types {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 24px 0;
+}
+.partner-type {
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 14px;
+  padding: 20px 22px;
+}
+.partner-type-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 6px;
+}
+.partner-type-desc {
+  font-size: 12px;
+  color: rgba(255,255,255,.5);
+  line-height: 1.55;
+}
+.partner-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--green);
+  padding: 12px 24px;
+  border-radius: 100px;
+  text-decoration: none;
+  transition: opacity .18s;
+}
+.partner-cta:hover { opacity: .85; }
+
+/* ── TEAM / WIP ── */
+.wip-banner {
+  background: rgba(26,122,69,.08);
+  border: 1px solid rgba(26,122,69,.18);
+  border-radius: 14px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.wip-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+.wip-text { font-size: 13px; color: var(--dim); line-height: 1.6; }
+.wip-text strong { color: var(--ink); }
+
+/* ── CONTACT ── */
+.contact-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+.contact-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 11px 22px;
+  border-radius: 100px;
+  text-decoration: none;
+  transition: opacity .15s;
+}
+.contact-btn:hover { opacity: .8; }
+.contact-btn.telegram { background: #229ED9; color: #fff; }
+.contact-btn.mail { background: var(--bg); color: var(--ink); border: 1.5px solid var(--border); }
+
+/* ── DISCLAIMER ── */
+.disclaimer {
+  font-size: 13px;
+  color: var(--faint);
+  line-height: 1.6;
+  padding: 28px 44px;
+  text-align: center;
+}
+
+@media (max-width: 660px) {
+  .section { padding: 28px 22px; }
+  .stat-row { grid-template-columns: 1fr 1fr; }
+  .stat-row .stat-card:last-child { grid-column: 1 / -1; }
+  .features-grid, .partner-types { grid-template-columns: 1fr; }
+  .about-hero { padding: 40px 16px 32px; }
+}
+</style>
 </head>
-
 <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-  <!-- Header mount (header.js injects here) -->
-  <div id="siteHeader"></div>
+<div id="siteHeader"></div>
 
-  <main style="max-width:920px;margin:34px auto;padding:0 16px;font-family:Arial,sans-serif;line-height:1.65;">
-    <h1 style="margin:0 0 10px;font-size:40px;letter-spacing:-.02em;">About WiggMap</h1>
+<div class="about-wrap">
 
-    <p style="margin:0 0 18px;color:#2b2b2b;">
-      <strong>WiggMap</strong> helps you compare countries before moving abroad — cost of living, salaries, rent, taxes,
-      healthcare, quality of life, and more.
-    </p>
+  <!-- HERO -->
+  <div class="about-hero">
+    <div class="about-hero-dot"></div>
+    <h1>Where is the grass<br><em>actually</em> greener?</h1>
+    <p class="about-hero-sub">WiggMap compares 160+ countries with real data — salaries, rent, taxes, safety, climate — so you can make an informed decision before uprooting your life.</p>
+    <div class="about-cta-row">
+      <a href="/compare.html" class="btn-primary">Compare countries</a>
+      <a href="/countries/country.html" class="btn-outline">Browse 160+ countries</a>
+    </div>
+  </div>
 
-    <hr style="border:none;border-top:1px solid rgba(0,0,0,.12);margin:18px 0 22px;">
+  <!-- STATS -->
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="stat-num">160+</div>
+      <div class="stat-label">Countries profiled</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">25+</div>
+      <div class="stat-label">Data points per country</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">3</div>
+      <div class="stat-label">Languages — EN / FR / ES</div>
+    </div>
+  </div>
 
-    <h2 style="margin:0 0 10px;font-size:22px;">🚧 Work in progress</h2>
-    <p style="margin:0 0 12px;color:#333;">
-      WiggMap is a newly launched project and is still under active development. Most figures are indicative and may evolve over time.
-    </p>
-    <p style="margin:0 0 18px;color:#333;">
-      The strength of WiggMap comes from its community. If you notice outdated or incorrect data, you can use the
-      <strong>“Correct data”</strong> button (or the ✏️ icons on country pages) to suggest updates.
-      Contributions are truly appreciated — they help make the platform more accurate and useful for everyone.
-    </p>
+  <!-- WHAT IS WIGGMAP -->
+  <div class="section">
+    <div class="section-tag">About the platform</div>
+    <h2>Not a travel blog. A decision tool.</h2>
+    <p>WiggMap was built around a single question: <strong>where is life actually better for someone like me?</strong> Not the tourist version. Not the influencer version. The real one — with real salaries, real rents, real taxes, and real tradeoffs.</p>
+    <p>The web is full of "best countries to live in" lists based on vibes. WiggMap is built differently. Every country page shows indicative figures for income, cost of living, tax pressure, healthcare quality, safety index, climate, immigration ease, and more — side by side, in a format you can actually use.</p>
+    <p>It's built by one person, continuously improved, and trilingual by design — because the expat question is asked in French, Spanish, and English just as much as in one language.</p>
 
-    <hr style="border:none;border-top:1px solid rgba(0,0,0,.12);margin:18px 0 22px;">
+    <div class="features-grid">
+      <div class="feature-item">
+        <span class="feature-icon">⚖️</span>
+        <div class="feature-title">Country Comparator</div>
+        <div class="feature-desc">Compare up to 3 countries side by side across all key metrics.</div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">📖</span>
+        <div class="feature-title">Chronicles</div>
+        <div class="feature-desc">In-depth editorial articles on expat life — regional guides, visa analysis, thematic deep-dives.</div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🌍</span>
+        <div class="feature-title">Interactive Globe</div>
+        <div class="feature-desc">Spin the 3D globe and land anywhere — a visual way to explore the world's data.</div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🎮</span>
+        <div class="feature-title">WiggGame</div>
+        <div class="feature-desc">A trivia game about countries — test your world knowledge, beat your streak.</div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🔗</span>
+        <div class="feature-title">WiggMap Connect</div>
+        <div class="feature-desc">The community layer — expats sharing trajectories, tips, and real-life experiences. Coming soon.</div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🎲</span>
+        <div class="feature-title">Random Country</div>
+        <div class="feature-desc">No idea where to look? Hit Random and discover a country you hadn't considered.</div>
+      </div>
+    </div>
+  </div>
 
-    <h2 style="margin:0 0 10px;font-size:22px;">💬 Community & updates</h2>
-    <p style="margin:0 0 14px;color:#333;">
-      Join the community to follow updates, share local information, and help other users.
-    </p>
-    <p style="margin:0 0 18px;">
-      <a href="https://t.me/wiggmap" target="_blank" rel="noopener noreferrer"
-         style="display:inline-block;padding:10px 14px;border-radius:12px;background:#229ED9;color:#fff;font-weight:700;text-decoration:none;">
-        Join Telegram → @wiggmap
-      </a>
-    </p>
+  <!-- WHO IS IT FOR -->
+  <div class="section">
+    <div class="section-tag">Who it's for</div>
+    <h2>Built for people making real decisions.</h2>
+    <p>WiggMap is for the person who's wondering whether to move to Portugal or Thailand. The remote worker choosing between Tbilisi and Mexico City. The family comparing healthcare and schooling across borders. The retiree calculating whether their pension stretches further in Southeast Asia or Eastern Europe.</p>
+    <p>It's also for the curious — people who just want to understand how the world actually works, beyond the fantasy version sold in glossy magazines. <strong>Real salaries. Real costs. Real tradeoffs.</strong> No filter.</p>
+  </div>
 
-    <hr style="border:none;border-top:1px solid rgba(0,0,0,.12);margin:18px 0 22px;">
+  <!-- PARTNERSHIP -->
+  <div class="section partnership">
+    <div class="section-tag">Work with us</div>
+    <h2>Partnership & collaboration</h2>
+    <p>WiggMap is building an audience of internationally-minded people — people actively researching where to live, work, or retire abroad. If your product or service speaks to expats, nomads, or global citizens, we'd love to talk.</p>
 
-    <h2 style="margin:0 0 10px;font-size:22px;">📩 Contact</h2>
-    <p style="margin:0 0 6px;color:#333;">You can contact us here:</p>
-    <p style="margin:0 0 18px;">
-      <a href="mailto:contact.wiggmap@gmail.com" style="font-weight:700;text-decoration:none;">
-        contact.wiggmap@gmail.com
-      </a>
-    </p>
+    <div class="partner-types">
+      <div class="partner-type">
+        <div class="partner-type-title">🤝 Affiliate partnerships</div>
+        <div class="partner-type-desc">Fintech, insurance, SIM cards, housing platforms, VPN services — if you serve the expat or nomad market, we're interested in honest, integrated recommendations.</div>
+      </div>
+      <div class="partner-type">
+        <div class="partner-type-title">📣 Content & sponsorship</div>
+        <div class="partner-type-desc">Sponsored chronicles, country deep-dives, or tool integrations — contextual, editorial, never banner-ad style. Quality over volume.</div>
+      </div>
+      <div class="partner-type">
+        <div class="partner-type-title">🏢 B2B & data</div>
+        <div class="partner-type-desc">HR platforms, relocation agencies, employer-of-record services — WiggMap's structured country data can power your own tools via partnership.</div>
+      </div>
+      <div class="partner-type">
+        <div class="partner-type-title">🎓 Research & academia</div>
+        <div class="partner-type-desc">Universities, think tanks, or journalists working on migration, cost of living, or global mobility topics — reach out, we're open to collaboration.</div>
+      </div>
+    </div>
 
-    <hr style="border:none;border-top:1px solid rgba(0,0,0,.12);margin:18px 0 22px;">
+    <a href="mailto:contact.wiggmap@gmail.com?subject=Partnership inquiry" class="partner-cta">
+      → Get in touch
+    </a>
+  </div>
 
-    <h2 style="margin:0 0 10px;font-size:22px;">⚖️ Disclaimer</h2>
-    <p style="margin:0;color:#555;font-size:14px;">
-      WiggMap provides indicative information for comparison purposes only. We do not guarantee accuracy or completeness.
-      WiggMap is not responsible for financial, tax, legal, or immigration decisions based on this information.
-      Always verify with official sources and qualified professionals.
-    </p>
+  <!-- WORK IN PROGRESS -->
+  <div class="section">
+    <div class="section-tag">Transparency</div>
+    <h2>An honest platform, still growing.</h2>
 
-    <p style="margin:14px 0 0;color:#666;font-size:13px;">
-      © <span id="year"></span> WiggMap. All rights reserved.
-    </p>
-  </main>
+    <div class="wip-banner">
+      <div class="wip-icon">🚧</div>
+      <div class="wip-text"><strong>WiggMap is actively developed.</strong> Figures are indicative and updated regularly. Some country profiles are more complete than others. We always signal when data is approximate — and we never pretend otherwise.</div>
+    </div>
 
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+    <p>If you spot outdated or incorrect data, use the <strong>"Correct data"</strong> button on any country page. Every correction is reviewed and genuinely appreciated — the platform gets better because of it.</p>
+    <p>WiggMap is a solo project. No VC funding, no growth-hacking playbook. Just an obsessive attempt to build something genuinely useful for people navigating one of life's biggest decisions.</p>
+  </div>
 
-  <!-- Same JS as other pages -->
- <script src="data/countries.js"></script>
+  <!-- CONTACT -->
+  <div class="section">
+    <div class="section-tag">Contact & community</div>
+    <h2>Say hello.</h2>
+    <p>For partnership inquiries, data corrections, press requests, or just to share feedback — all messages are read.</p>
+    <div class="contact-row">
+      <a href="https://t.me/wiggmap" target="_blank" rel="noopener noreferrer" class="contact-btn telegram">✈ Telegram @wiggmap</a>
+      <a href="mailto:contact.wiggmap@gmail.com" class="contact-btn mail">✉ contact.wiggmap@gmail.com</a>
+    </div>
+  </div>
+
+  <!-- DISCLAIMER -->
+  <div class="disclaimer">
+    WiggMap provides indicative information for comparison purposes only. We do not guarantee accuracy or completeness.
+    Always verify with official sources and qualified professionals before making financial, legal, or immigration decisions.<br>
+    <span style="margin-top:8px;display:block">© <span id="year"></span> WiggMap. All rights reserved.</span>
+  </div>
+
+</div>
+
+<div id="siteFooter"></div>
+
+<script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+<script src="data/countries.js"></script>
 <script src="data/header.js"></script>
 <script src="data/correction-form.js"></script>
-
 <script src="data/footer.js"></script>
 </body>
-
 </html>
