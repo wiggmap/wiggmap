@@ -91,13 +91,14 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 .c-img .c-arrow{color:var(--faint)}
 .c-img:hover .c-arrow{color:var(--ink)}
 /* Center content in image cards */
-.c-img.c-center{align-items:stretch;justify-content:flex-end;text-align:center}
+.c-img.c-center{display:flex;flex-direction:column;justify-content:flex-end;text-align:center}
 .c-img.c-center .c-tag{margin-bottom:4px}
-.c-label-box{background:rgba(255,255,255,.5);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:14px;padding:10px 16px}
+.c-label-box{background:rgba(249,237,206,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:14px;padding:10px 16px;margin-top:auto}
 
 /* Hero — centre.png : NO overlay, image fully visible, text at bottom */
-.c-hero.c-img{background-image:url('imgindex/centre.png');background-size:35%;background-repeat:no-repeat;background-position:center 15%;justify-content:center;align-items:center;text-align:center;padding-top:35%}
-.c-hero .hero-title{margin-top:16px}
+.c-hero.c-img{background-image:url('imgindex/centre.png');background-size:35%;background-repeat:no-repeat;background-position:center 12%;justify-content:center;align-items:center;text-align:center}
+.c-hero .hero-search{margin-top:0;margin-bottom:0}
+.c-hero .hero-title{margin-top:12px}
 .c-hero.c-img::before{background:none}
 .c-hero.c-img:hover::before{background:none}
 .c-hero.c-img .hero-title{color:var(--ink);text-shadow:none}
