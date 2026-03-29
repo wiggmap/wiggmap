@@ -74,6 +74,33 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 .c:hover .c-arrow{color:var(--ink);transform:translateX(3px)}
 .c.dark:hover .c-arrow{color:#fff}
 
+/* ── IMAGE CARDS ── */
+.c-img{background-size:cover;background-position:center;color:#fff}
+.c-img::before{content:'';position:absolute;inset:0;border-radius:var(--r-lg);background:linear-gradient(to top,rgba(0,0,0,.6) 0%,rgba(0,0,0,.15) 50%,rgba(0,0,0,.05) 100%);z-index:0;transition:background .3s}
+.c-img:hover::before{background:linear-gradient(to top,rgba(0,0,0,.5) 0%,rgba(0,0,0,.1) 50%,transparent 100%)}
+.c-img>*{position:relative;z-index:1}
+.c-img .c-tag{color:rgba(255,255,255,.5)}
+.c-img .c-name{color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.3)}
+.c-img .c-sub{color:rgba(255,255,255,.7);text-shadow:0 1px 4px rgba(0,0,0,.3)}
+.c-img .c-arrow{color:rgba(255,255,255,.4)}
+.c-img:hover .c-arrow{color:#fff}
+.c-img .c-big{color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.4)}
+.c-img .c-big span{color:rgba(255,255,255,.5)}
+/* Hero image — centre.png (light image, subtle overlay) */
+.c-hero.c-img{background-image:url('/imgindex/centre.png')}
+.c-hero.c-img::before{background:linear-gradient(to top,rgba(255,255,255,.85) 0%,rgba(255,255,255,.5) 35%,rgba(255,255,255,.15) 100%)}
+.c-hero.c-img:hover::before{background:linear-gradient(to top,rgba(255,255,255,.8) 0%,rgba(255,255,255,.4) 35%,rgba(255,255,255,.1) 100%)}
+.c-hero.c-img .hero-title{color:var(--ink);text-shadow:none}
+.c-hero.c-img .hero-sub{color:var(--dim);text-shadow:none}
+/* Globe — globe.png */
+.c-globe{background-image:url('/imgindex/globe.png')}
+/* Chronicles — chronicles.png */
+.c-chr{background-image:url('/imgindex/chronicles.png')}
+/* Random — random.png */
+.c-rnd{background-image:url('/imgindex/random.png')}
+/* Game — jeux.png */
+.c-game{background-image:url('/imgindex/jeux.png')}
+
 /* ── PLACEMENTS ── */
 .c-hero{grid-column:2/4;grid-row:1/3;padding:40px 44px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
 .c-globe{grid-column:1;grid-row:1}
@@ -195,18 +222,16 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
   <div class="grid">
 
     <!-- 3D GLOBE -->
-    <a class="c c-globe dark" href="/globe.html">
+    <a class="c c-globe c-img" href="/globe.html">
       <div class="c-tag" id="tagGlobe">Explore</div>
-      <div class="globe-orb">🌐</div>
       <div class="c-name" id="lblGlobe">3D Globe</div>
       <div class="c-sub" id="lblGlobeSub">Spin. Land anywhere.</div>
       <span class="c-arrow">→</span>
     </a>
 
     <!-- HERO -->
-    <div class="c c-hero">
-      <div class="hero-globe">🌍</div>
-      <div class="hero-title" id="heroTitle">Read the world properly.</div>
+    <div class="c c-hero c-img">
+      <div class="hero-title" id="heroTitle" style="margin-top:auto">Read the world properly.</div>
       <div class="hero-sub" id="heroSub">Compare countries beyond the fantasy version. Real data, no filter.</div>
       <button class="hero-cta" id="heroCta" onclick="location.href='/compare.html'">Start comparing</button>
       <form class="hero-search" id="searchForm" autocomplete="off">
@@ -228,7 +253,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
     </a>
 
     <!-- CHRONICLES -->
-    <a class="c c-chr" href="/indexchronicles.html">
+    <a class="c c-chr c-img" href="/indexchronicles.html">
       <div class="c-tag" id="tagChron">Editorial</div>
       <div class="c-name" style="font-style:italic" id="lblChron">Chronicles</div>
       <div class="c-sub" id="lblChronSub">In-depth articles &amp; analysis on expat life worldwide</div>
@@ -244,8 +269,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
     </a>
 
     <!-- RANDOM -->
-    <a class="c c-rnd" id="btnRandom" href="#" style="flex-direction:row;align-items:center;gap:16px">
-      <div style="font-size:32px;filter:saturate(.5) brightness(.85)">🎲</div>
+    <a class="c c-rnd c-img" id="btnRandom" href="#" style="flex-direction:row;align-items:center;gap:16px">
       <div>
         <div class="c-name" id="lblRandom">Random</div>
         <div class="c-sub" id="lblRandomSub">Surprise me</div>
@@ -254,12 +278,9 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
     </a>
 
     <!-- WIGGGAME -->
-    <a class="c c-game" href="/ggg/wigggame.html">
+    <a class="c c-game c-img" href="/ggg/wigggame.html">
       <div class="c-tag">Quiz</div>
-      <div style="display:flex;align-items:center;gap:8px">
-        <span style="font-size:20px">🎮</span>
-        <div class="c-name" id="lblGame">WiggGame</div>
-      </div>
+      <div class="c-name" id="lblGame">WiggGame</div>
       <div class="c-sub" id="lblGameSub">Test your world knowledge</div>
       <div class="lives"><div class="life on"></div><div class="life on"></div><div class="life on"></div><div class="life"></div><div class="life"></div></div>
       <span class="c-arrow">→</span>
