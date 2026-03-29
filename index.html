@@ -4,1238 +4,552 @@
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-K4MMRD4R');</script>
 
   <link rel="manifest" href="/manifest.webmanifest">
-  <meta name="theme-color" content="#4caf50">
+  <meta name="theme-color" content="#f4f2ef">
   <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>WiggMap — Where is the grass greener?</title>
-  <meta name="description" content="WiggMap helps you compare countries and find where opportunities fit you best.">
+  <meta name="description" content="WiggMap helps you compare countries and find where opportunities fit you best. Real salaries, real rent, real taxes — 160+ countries, no filter.">
+  <link rel="canonical" href="https://wiggmap.com/" />
   <link rel="icon" href="/assets/favicon.ico" type="image/x-icon"/>
   <meta name="fo-verify" content="71d07505-22e0-497d-a7ea-8013b325e973" />
+  <meta property="og:title" content="WiggMap — Where is the grass greener?">
+  <meta property="og:description" content="Compare countries with real data. Salaries, rent, taxes, safety, climate — 160+ countries, no filter.">
+  <meta property="og:image" content="https://wiggmap.com/assets/accueilv2.png">
+  <meta property="og:url" content="https://wiggmap.com/">
+  <meta property="og:type" content="website">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f4f2ef;--card:#ffffff;--ink:#111;--dim:#777;--faint:#bbb;
+  --green:#1a7a45;--green-soft:rgba(26,122,69,.08);
+  --r:22px;--r-lg:28px;
+  --font:'Inter',system-ui,sans-serif;
+}
+html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
 
-    html, body {
-      height: 100%;
-      /*
-        Fond écho de l'image : très légère résonance chromatique
-        ciel (haut) → neutre (milieu) → herbe (bas).
-        Tellement subtil qu'il se lit comme "blanc cassé",
-        mais l'image s'y pose naturellement.
-      */
-      background: #ffffff;
-      overflow: hidden;
-      font-family: "Poppins", system-ui, sans-serif;
-    }
+/* ── SHELL ── */
+.shell{height:100dvh;display:grid;grid-template-rows:auto 1fr;padding:10px;gap:10px}
 
-    /* ── Scene ────────────────────────────────────────────── */
-    .scene {
-      position: relative;
-      width: 100vw;
-      height: 100dvh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
+/* ── TOP BAR ── */
+.bar{display:flex;align-items:center;justify-content:space-between;padding:0 14px;height:48px;background:var(--card);border-radius:var(--r);box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.bar-brand{font-weight:800;font-size:15px;letter-spacing:-.03em;display:flex;align-items:center;gap:8px;cursor:pointer}
+.bar-brand a{text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:8px}
+.bar-dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+.bar-nav{display:flex;gap:6px}
+.bar-link{font-size:12px;font-weight:500;color:var(--dim);padding:6px 14px;border-radius:100px;transition:all .15s;cursor:pointer;text-decoration:none;border:1px solid transparent}
+.bar-link:hover{color:var(--ink);background:var(--bg);border-color:rgba(0,0,0,.06)}
+.bar-r{display:flex;align-items:center;gap:8px}
+.lang-sw{position:relative}
+.lang-btn{font-size:11px;color:var(--dim);background:var(--bg);border:1px solid rgba(0,0,0,.06);padding:5px 12px;border-radius:100px;cursor:pointer;font-family:var(--font);transition:all .15s}
+.lang-btn:hover{border-color:rgba(0,0,0,.12);color:var(--ink)}
+.lang-dd{display:none;position:absolute;right:0;top:calc(100% + 6px);background:var(--card);border:1px solid rgba(0,0,0,.08);border-radius:12px;overflow:hidden;min-width:120px;z-index:999;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.lang-sw.open .lang-dd{display:block}
+.lang-item{padding:9px 16px;font-size:12px;cursor:pointer;transition:background .1s}
+.lang-item:hover{background:var(--bg)}
+.lang-item.active{color:var(--green);font-weight:600}
 
-    /* ── Hero card wrapper ────────────────────────────────── */
-    #heroCard {
-      position: relative;
-      z-index: 1;
-      max-width: 100%;
-      max-height: 100dvh;
-      border-radius: 16px;
-      overflow: hidden;
-      /*
-        6 couches d'ombre :
-        1. contact  — ancrage au sol, très proche
-        2. proche   — profondeur immédiate
-        3. moyen    — élévation perceptible
-        4. large    — halo ambiant
-        5. très large — nuage de lumière diffuse
-        6. XL       — présence environnementale
-      */
-      box-shadow:
-        0 1px 4px   rgba(0,0,0,.08),
-        0 4px 12px  rgba(0,0,0,.09),
-        0 14px 36px rgba(0,0,0,.10),
-        0 36px 90px rgba(0,0,0,.08),
-        0 80px 180px rgba(0,0,0,.06),
-        0 130px 300px rgba(0,0,0,.04);
-    }
+/* ── GRID ── */
+.grid{display:grid;grid-template-columns:1fr 1fr 1.3fr 1fr;grid-template-rows:1.1fr .9fr 1fr;gap:10px;min-height:0}
 
-    /* Reflet diagonal très discret — surface en verre dépoli */
-    #heroCard::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      background: linear-gradient(158deg,
-        rgba(255,255,255,.11) 0%,
-        rgba(255,255,255,.03) 22%,
-        transparent 45%
-      );
-      z-index: 1;
-      pointer-events: none;
-    }
+/* ── CARD ── */
+.c{background:var(--card);border-radius:var(--r-lg);padding:24px 26px;display:flex;flex-direction:column;position:relative;overflow:hidden;cursor:pointer;text-decoration:none;color:var(--ink);transition:transform .25s ease,box-shadow .25s ease;box-shadow:0 1px 3px rgba(0,0,0,.03),0 4px 16px rgba(0,0,0,.04)}
+.c:hover{transform:translateY(-3px);box-shadow:0 4px 12px rgba(0,0,0,.06),0 16px 40px rgba(0,0,0,.07)}
+.c.dark{background:#111;color:#fff}
+.c.dark .c-sub{color:rgba(255,255,255,.35)}
+.c.dark .c-tag{color:rgba(255,255,255,.2)}
+.c.green{background:var(--green);color:#fff}
+.c.green .c-sub{color:rgba(255,255,255,.55)}
+.c-tag{font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:auto}
+.c-name{font-size:20px;font-weight:800;letter-spacing:-.04em;line-height:1.1;margin-top:8px}
+.c-sub{font-size:12px;font-weight:400;color:var(--dim);line-height:1.5;margin-top:5px}
+.c-big{font-size:clamp(42px,5vw,60px);font-weight:900;letter-spacing:-.06em;line-height:.85}
+.c-arrow{position:absolute;bottom:20px;right:22px;font-size:16px;color:var(--faint);transition:color .2s,transform .2s}
+.c:hover .c-arrow{color:var(--ink);transform:translateX(3px)}
+.c.dark:hover .c-arrow{color:#fff}
 
-    /* Liseré intérieur — bord en verre, presque imperceptible */
-    #heroCard::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,.68);
-      z-index: 2;
-      pointer-events: none;
-    }
+/* ── PLACEMENTS ── */
+.c-hero{grid-column:2/4;grid-row:1/3;padding:40px 44px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.c-globe{grid-column:1;grid-row:1}
+.c-chr{grid-column:1;grid-row:2}
+.c-cmp{grid-column:4;grid-row:1}
+.c-ctr{grid-column:4;grid-row:2}
+.c-rnd{grid-column:1;grid-row:3}
+.c-game{grid-column:2;grid-row:3}
+.c-conn{grid-column:3;grid-row:3}
+.c-more{grid-column:4;grid-row:3}
 
-    #bgImg {
-      display: block;
-      max-width: 100%;
-      max-height: 100dvh;
-      width: auto;
-      height: auto;
-      user-select: none;
-      pointer-events: none;
-      -webkit-user-drag: none;
-      vertical-align: bottom;
-    }
+/* ── HERO ── */
+.c-hero{box-shadow:0 2px 6px rgba(0,0,0,.04),0 8px 30px rgba(0,0,0,.06)}
+.hero-globe{width:64px;height:64px;border-radius:50%;background:radial-gradient(circle at 36% 35%,#3a9060,#1a7a45 48%,#0e2d1e);display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:18px;box-shadow:0 4px 20px rgba(26,122,69,.3)}
+.hero-title{font-size:clamp(24px,3.2vw,36px);font-weight:800;letter-spacing:-.05em;line-height:1.05;margin-bottom:8px}
+.hero-sub{font-size:13px;color:var(--dim);margin-bottom:24px;max-width:340px;line-height:1.6}
+.hero-cta{font-family:var(--font);font-size:13px;font-weight:600;color:#fff;background:var(--ink);border:none;padding:12px 32px;border-radius:100px;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(0,0,0,.12)}
+.hero-cta:hover{background:var(--green);transform:scale(1.04)}
 
-    /* Mobile : image plein écran bord à bord */
-    @media (max-width: 600px) {
-      html, body { background: #000; overflow: hidden; }
-      /* Footer masqué sur mobile (expérience plein écran) */
-      #wmSiteFooter, #siteHeader { display: none !important; }
+/* Search inline in hero */
+.hero-search{margin-top:20px;width:100%;max-width:340px;position:relative}
+.hero-input{width:100%;font-family:var(--font);font-size:13px;padding:10px 40px 10px 16px;border:1px solid rgba(0,0,0,.08);border-radius:100px;background:var(--bg);outline:none;color:var(--ink);transition:border-color .15s}
+.hero-input:focus{border-color:rgba(26,122,69,.3)}
+.hero-input::placeholder{color:var(--faint)}
+.hero-go{position:absolute;right:4px;top:50%;transform:translateY(-50%);font-family:var(--font);font-size:11px;font-weight:600;color:#fff;background:var(--ink);border:none;padding:7px 14px;border-radius:100px;cursor:pointer;transition:background .15s}
+.hero-go:hover{background:var(--green)}
+.hero-sug{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--card);border:1px solid rgba(0,0,0,.08);border-radius:16px;max-height:220px;overflow-y:auto;display:none;z-index:100;box-shadow:0 8px 30px rgba(0,0,0,.1)}
+.hero-sug.show{display:block}
+.sug-item{padding:10px 16px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .1s}
+.sug-item:hover,.sug-item.active{background:var(--bg)}
+.sug-flag{font-size:16px}
 
-      /* La scène prend tout l'écran */
-      .scene {
-        position: fixed;
-        inset: 0;
-        width: 100vw;
-        height: 100dvh;
-      }
+/* ── GLOBE ── */
+.c-globe{justify-content:flex-end}
+.globe-orb{width:44px;height:44px;border-radius:50%;margin-bottom:12px;background:radial-gradient(circle at 36% 36%,#4a0,#1a7a45 50%,#0d2a1a);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 3px 14px rgba(26,122,69,.35)}
 
-      /* La carte = plein écran, sans marges, sans ombre */
-      #heroCard {
-        position: fixed;
-        inset: 0;
-        width: 100vw;
-        height: 100dvh;
-        max-width: none;
-        max-height: none;
-        border-radius: 0;
-        box-shadow: none;
-      }
-      #heroCard::before,
-      #heroCard::after { display: none; }
+/* ── COMPARE ── */
+.cmp-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(0,0,0,.04);font-size:11px;color:var(--dim)}
+.cmp-row:last-child{border:none}
+.cmp-flags{display:flex;gap:6px;font-size:16px;margin:8px 0 6px}
+.cmp-win{color:var(--green);font-weight:600}
 
-      /* L'image couvre tout le cadre */
-      #bgImg {
-        width: 100vw;
-        height: 100dvh;
-        max-width: none;
-        max-height: none;
-        object-fit: cover;
-        object-position: center top;
-      }
+/* ── COUNTRIES ── */
+.c-ctr .c-big span{font-size:.35em;color:var(--faint);vertical-align:super}
 
-      /* L'overlay suit l'image plein écran */
-      #overlay {
-        position: fixed;
-        inset: 0;
-        width: 100vw !important;
-        height: 100dvh !important;
-        left: 0 !important;
-        top: 0 !important;
-      }
-    }
+/* ── GAME ── */
+.lives{display:flex;gap:4px;margin-top:10px}
+.life{width:8px;height:8px;border-radius:50%;background:var(--ink);opacity:.12}
+.life.on{opacity:.55}
 
-    /* PWA standalone — même comportement que mobile browser */
-    @media (display-mode: standalone) {
-      #bgImg {
-        width: 100vw;
-        height: 100dvh;
-        max-width: none;
-        max-height: none;
-        object-fit: cover;
-        object-position: center top;
-      }
-      #heroCard {
-        max-height: none;
-      }
-    }
+/* ── CONNECT ── */
+.conn-badge{display:inline-flex;align-items:center;gap:5px;margin-top:12px;font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--green);background:rgba(26,122,69,.1);padding:5px 12px;border-radius:100px}
 
-    /* ── Overlay ──────────────────────────────────────────── */
-    #overlay {
-      position: absolute;
-      pointer-events: none;
-      z-index: 2;
-      opacity: 0;
-      transition: opacity .35s ease;
-    }
-    #overlay.ready { opacity: 1; }
+/* ── PWA BANNER ── */
+#pwa-banner{position:fixed;bottom:-80px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;padding:12px 18px;background:var(--card);border:1px solid rgba(0,0,0,.08);border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.1);z-index:500;transition:bottom .4s cubic-bezier(.34,1.5,.64,1);font-size:13px;white-space:nowrap}
+#pwa-banner.pwa-visible{bottom:20px}
+.pwa-icon{font-size:20px}
+#pwa-install-btn{font-family:var(--font);font-size:12px;font-weight:600;color:#fff;background:var(--green);border:none;padding:7px 16px;border-radius:100px;cursor:pointer}
+#pwa-close-btn{font-family:var(--font);font-size:14px;color:var(--faint);background:none;border:none;cursor:pointer;padding:4px 8px}
 
-    /* ──────────────────────────────────────────────────────
-       SIGN POSITIONS — edit these CSS variables to realign.
-       All values are % of the rendered image dimensions.
-    ─────────────────────────────────────────────────────── */
-    :root {
-      --s-left:  16;    /* % from left edge */
-      --s-width: 63;    /* % of image width */
-
-      --s1-top: 28.7;  --s1-h: 6.5;  --s1-rot: 2;   /* Chronicles */
-      --s2-top: 36.5;  --s2-h: 6.5;  --s2-rot: 1.5;   /* Compare    */
-      --s3-top: 44.0;  --s3-h: 6.5;  --s3-rot: 1.5;   /* WiggGame   */
-      --s4-top: 51.5;  --s4-h: 6.5;  --s4-rot: 1;   /* 3D Globe   */
-      --s5-top: 59.5;  --s5-h: 6.5;  --s5-rot: 0.5;   /* Random     */
-      --s6-top: 67.2;  --s6-h: 6;    --s6-rot: 0;   /* Search     */
-    }
-
-    /* ── Sign button base ─────────────────────────────────── */
-    .sign-btn {
-      position: absolute;
-      display: flex;
-      align-items: center;
-      padding-left: 8%;
-      padding-right: 16%;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      text-decoration: none;
-      pointer-events: all;
-      clip-path: polygon(0 0, 86% 0, 100% 50%, 86% 100%, 0 100%);
-      transform: rotate(var(--el-rot, 0deg));
-      transition: filter .20s ease, transform .20s ease;
-      outline: none;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .sign-btn::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      clip-path: inherit;
-      background: rgba(255,255,255,0);
-      transition: background .20s ease;
-      pointer-events: none;
-    }
-
-    .sign-btn:hover {
-      filter: brightness(1.08) saturate(1.05);
-      transform: translateX(6px) rotate(var(--el-rot, 0deg));
-    }
-    .sign-btn:hover::after { background: rgba(255,255,255,.09); }
-    .sign-btn:active { transform: translateX(3px) scale(.98) rotate(var(--el-rot, 0deg)); }
-    .sign-btn:focus-visible {
-      outline: 2px solid rgba(255,255,255,.75);
-      outline-offset: 3px;
-      border-radius: 2px;
-    }
-
-    /* ── Sign inner layout: icon + text ──────────────────── */
-    .sign-inner {
-      display: flex;
-      align-items: center;
-      gap: .45em;
-      position: relative;
-      z-index: 1;
-    }
-
-    .sign-icon {
-      flex-shrink: 0;
-      display: block;
-      /* size set by JS */
-    }
-
-    .sign-text {
-      display: flex;
-      flex-direction: column;
-      gap: .18em;
-      align-items: flex-start;
-    }
-
-    .sign-main {
-      font-family: "Poppins", system-ui, sans-serif;
-      font-weight: 800;
-      white-space: nowrap;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      line-height: 1;
-      user-select: none;
-    }
-
-    .sign-sub {
-      font-family: "Poppins", system-ui, sans-serif;
-      font-weight: 600;
-      white-space: nowrap;
-      letter-spacing: .01em;
-      line-height: 1;
-      user-select: none;
-      opacity: .76;
-    }
-
-    /* ── Color themes per sign ───────────────────────────── */
-    .s1 { color: #fff; }
-    .s1 .sign-main { text-shadow: 0 1px 5px rgba(0,0,0,.32); }
-    .s1 .sign-sub  { text-shadow: 0 1px 3px rgba(0,0,0,.22); }
-
-    .s2 { color: #18301a; }
-    .s2 .sign-main { text-shadow: 0 1px 2px rgba(0,0,0,.10); }
-    .s2 .sign-sub  { text-shadow: none; }
-
-    .s3 { color: #fff; }
-    .s3 .sign-main { text-shadow: 0 1px 5px rgba(0,0,0,.32); }
-    .s3 .sign-sub  { text-shadow: 0 1px 3px rgba(0,0,0,.22); }
-
-    .s4 { color: #fff; }
-    .s4 .sign-main { text-shadow: 0 1px 5px rgba(0,0,0,.32); }
-    .s4 .sign-sub  { text-shadow: 0 1px 3px rgba(0,0,0,.22); }
-
-    .s5 { color: #fff; }
-    .s5 .sign-main { text-shadow: 0 1px 5px rgba(0,0,0,.32); }
-    .s5 .sign-sub  { text-shadow: 0 1px 3px rgba(0,0,0,.22); }
-
-    .s6 { color: #231f00; }
-    .s6 .sign-main { text-shadow: 0 1px 2px rgba(0,0,0,.12); }
-    .s6 .sign-sub  { text-shadow: none; }
-
-    /* ── Language switcher ───────────────────────────────── */
-    #langSwitch {
-      position: fixed;
-      top: 14px;
-      right: 16px;
-      z-index: 300;
-    }
-
-    #langTrigger {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 13px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.42);
-      background: rgba(255,255,255,.72);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      cursor: pointer;
-      font-family: "Poppins", system-ui, sans-serif;
-      font-size: 14px;
-      font-weight: 700;
-      color: #18301a;
-      transition: background .15s, border-color .15s;
-      user-select: none;
-    }
-    #langTrigger:hover {
-      background: rgba(255,255,255,.88);
-      border-color: rgba(255,255,255,.65);
-    }
-
-    #langTrigger .arrow {
-      font-size: 9px;
-      color: #5b7a5e;
-      transition: transform .18s;
-      display: inline-block;
-      line-height: 1;
-    }
-    #langSwitch.open #langTrigger .arrow { transform: rotate(180deg); }
-
-    #langMenu {
-      display: none;
-      position: absolute;
-      top: calc(100% + 8px);
-      right: 0;
-      background: #fff;
-      border: 1px solid rgba(0,0,0,.09);
-      border-radius: 14px;
-      box-shadow: 0 10px 32px rgba(0,0,0,.14);
-      overflow: hidden;
-      min-width: 150px;
-    }
-    #langSwitch.open #langMenu { display: block; }
-
-    .lang-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 11px 16px;
-      font-family: "Poppins", system-ui, sans-serif;
-      font-size: 13px;
-      font-weight: 700;
-      color: #18201c;
-      cursor: pointer;
-      transition: background .12s;
-      white-space: nowrap;
-    }
-    .lang-item:hover { background: rgba(46,204,113,.08); }
-    .lang-item.active { background: rgba(46,204,113,.12); color: #1b5e20; }
-    .lang-item + .lang-item { border-top: 1px solid rgba(0,0,0,.05); }
-
-    /* ── Search overlay ───────────────────────────────────── */
-    #searchOverlay {
-      display: none;
-      position: fixed; inset: 0; z-index: 200;
-      background: rgba(0,0,0,.52);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      align-items: flex-start;
-      justify-content: center;
-      padding-top: 20vh;
-    }
-    #searchOverlay.open { display: flex; }
-
-    .search-box {
-      width: min(500px, 92vw);
-      animation: dropIn .28s cubic-bezier(.22,1,.36,1) both;
-    }
-
-    .search-close {
-      display: flex;
-      justify-content: flex-end;
-      margin-bottom: 12px;
-    }
-    .search-close button {
-      background: rgba(255,255,255,.14);
-      border: 1px solid rgba(255,255,255,.22);
-      color: rgba(255,255,255,.90);
-      font-family: "Poppins", sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: .04em;
-      padding: 7px 18px;
-      border-radius: 999px;
-      cursor: pointer;
-      transition: background .14s;
-    }
-    .search-close button:hover { background: rgba(255,255,255,.22); }
-
-    .search-title {
-      font-family: "Poppins", sans-serif;
-      font-size: 18px;
-      font-weight: 800;
-      color: #fff;
-      text-align: center;
-      margin-bottom: 16px;
-      letter-spacing: .02em;
-      text-shadow: 0 2px 10px rgba(0,0,0,.30);
-    }
-
-    .search-row {
-      display: flex;
-      background: rgba(255,255,255,.94);
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 10px 40px rgba(0,0,0,.28);
-      transition: box-shadow .18s;
-    }
-    .search-row:focus-within {
-      box-shadow: 0 10px 40px rgba(0,0,0,.38), 0 0 0 3px rgba(255,255,255,.28);
-    }
-
-    .search-input {
-      flex: 1;
-      height: 52px;
-      padding: 0 20px;
-      background: transparent;
-      border: none;
-      outline: none;
-      font-family: "Poppins", sans-serif;
-      font-size: 15px;
-      font-weight: 600;
-      color: #1a2a1a;
-      min-width: 0;
-    }
-    .search-input::placeholder { color: #aaa; font-weight: 500; }
-
-    .search-go {
-      height: 52px;
-      padding: 0 24px;
-      background: linear-gradient(135deg, #1a7a28, #27a038);
-      border: none;
-      font-family: "Poppins", sans-serif;
-      font-size: 14px;
-      font-weight: 800;
-      letter-spacing: .03em;
-      color: #fff;
-      cursor: pointer;
-      white-space: nowrap;
-      flex-shrink: 0;
-      transition: background .15s;
-    }
-    .search-go:hover { background: linear-gradient(135deg, #145c20, #1a7a28); }
-
-    #homeSuggest {
-      margin-top: 8px;
-      background: rgba(255,255,255,.97);
-      border-radius: 12px;
-      overflow: hidden;
-      max-height: 260px;
-      overflow-y: auto;
-      display: none;
-      box-shadow: 0 12px 36px rgba(0,0,0,.20);
-    }
-
-    .home-suggest-item {
-      padding: 12px 18px;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      font-family: "Poppins", sans-serif;
-      font-size: 14px;
-      font-weight: 700;
-      color: #1a2a1a;
-      border-bottom: 1px solid rgba(0,0,0,.05);
-      transition: background .10s;
-    }
-    .home-suggest-item:last-child { border-bottom: none; }
-    .home-suggest-item:hover,
-    .home-suggest-item[aria-selected="true"] { background: #f0faf0; color: #1b5e20; }
-    .home-suggest-sub { font-size: 11px; color: #bbb; font-weight: 600; }
-
-    @keyframes dropIn {
-      from { opacity: 0; transform: translateY(-18px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ── Side panels — desktop only ──────────────────────── */
-    .side-panel {
-      position: fixed;
-      top: 0; bottom: 0;
-      width: calc((100vw - min(100dvh * 0.52, 100vw)) / 2 - 12px);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 10;
-      pointer-events: none;
-      opacity: 0;
-      animation: sideFadeIn .9s .3s cubic-bezier(.22,1,.36,1) forwards;
-    }
-
-    .side-panel.left  { left: 0; }
-    .side-panel.right { right: 0; }
-
-    @keyframes sideFadeIn {
-      from { opacity: 0; transform: translateY(12px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .side-question {
-      text-align: center;
-      padding: 0 16px;
-      max-width: 220px;
-    }
-
-    .side-question .sq-pre {
-      display: block;
-      font-family: "Poppins", system-ui, sans-serif;
-      font-size: clamp(9px, 1vw, 11px);
-      font-weight: 700;
-      letter-spacing: .28em;
-      text-transform: uppercase;
-      color: rgba(80,120,85,.55);
-      margin-bottom: 14px;
-    }
-
-    .side-question .sq-line {
-      display: block;
-      font-family: "Poppins", system-ui, sans-serif;
-      font-weight: 800;
-      font-size: clamp(14px, 1.5vw, 21px);
-      line-height: 1.22;
-      color: #1a2e1c;
-      letter-spacing: -.01em;
-    }
-
-    .side-question .sq-line em {
-      font-style: normal;
-      color: #2e8028;
-      position: relative;
-      display: inline-block;
-    }
-
-    .side-question .sq-line em::after {
-      content: '';
-      position: absolute;
-      left: 0; bottom: -3px;
-      width: 100%; height: 2px;
-      background: currentColor;
-      border-radius: 2px;
-      opacity: .45;
-    }
-
-    .side-question .sq-ornament {
-      display: block;
-      width: 28px; height: 2px;
-      background: rgba(46,128,40,.3);
-      margin: 18px auto 0;
-      border-radius: 2px;
-    }
-
-    .side-stat {
-      text-align: center;
-      padding: 0 16px;
-      max-width: 220px;
-    }
-
-    .side-stat .ss-number {
-      font-family: "Poppins", system-ui, sans-serif;
-      font-weight: 800;
-      font-size: clamp(36px, 4.2vw, 64px);
-      line-height: 1;
-      color: #1a2e1c;
-      letter-spacing: -.04em;
-      display: block;
-    }
-
-    .side-stat .ss-number span { color: #2e8028; }
-
-    .side-stat .ss-label {
-      display: block;
-      font-family: "Poppins", system-ui, sans-serif;
-      font-weight: 700;
-      font-size: clamp(9px, 1vw, 12px);
-      letter-spacing: .09em;
-      text-transform: uppercase;
-      color: rgba(26,46,28,.5);
-      margin-top: 6px;
-      line-height: 1.5;
-    }
-
-    .side-stat .ss-divider {
-      width: 32px; height: 2px;
-      background: linear-gradient(90deg, #2e8028, transparent);
-      border-radius: 2px;
-      margin: 14px auto;
-    }
-
-    .side-stat .ss-sub {
-      display: block;
-      font-family: "Poppins", system-ui, sans-serif;
-      font-weight: 600;
-      font-size: clamp(9px, .95vw, 12px);
-      color: rgba(26,46,28,.42);
-      line-height: 1.6;
-      letter-spacing: .01em;
-    }
-
-    @media (max-width: 900px) {
-      .side-panel { display: none; }
-    }
-
-    /* ── PWA install banner ──────────────────────────────── */
-    #pwa-banner {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #18201c;
-      color: #fff;
-      border-radius: 14px;
-      padding: 13px 16px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 13px;
-      font-weight: 600;
-      box-shadow: 0 6px 28px rgba(0,0,0,.38);
-      z-index: 9999;
-      max-width: calc(100vw - 32px);
-      width: max-content;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .35s ease;
-    }
-    #pwa-banner.pwa-visible { opacity: 1; pointer-events: auto; }
-    #pwa-banner .pwa-icon { font-size: 20px; flex-shrink: 0; }
-    #pwa-banner .pwa-msg  { flex: 1; line-height: 1.4; }
-    #pwa-install-btn {
-      background: #22c55e;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      padding: 7px 13px;
-      font-weight: 700;
-      font-size: 12px;
-      cursor: pointer;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-    #pwa-install-btn:hover { background: #16a34a; }
-    #pwa-close-btn {
-      background: none;
-      border: none;
-      color: rgba(255,255,255,.5);
-      font-size: 18px;
-      line-height: 1;
-      cursor: pointer;
-      padding: 0 2px;
-      flex-shrink: 0;
-    }
-    #pwa-close-btn:hover { color: #fff; }
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){
+  .grid{grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto}
+  .c-hero{grid-column:1/3;grid-row:1}
+  .c-cmp{grid-column:3;grid-row:1}
+  .c-globe{grid-column:1;grid-row:2}
+  .c-chr{grid-column:2;grid-row:2}
+  .c-ctr{grid-column:3;grid-row:2}
+  .c-rnd{grid-column:1;grid-row:3}
+  .c-game{grid-column:2;grid-row:3}
+  .c-conn{grid-column:3;grid-row:3}
+  .c-more{display:none}
+}
+@media(max-width:700px){
+  .shell{overflow-y:auto;height:auto;min-height:100dvh}
+  .grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+  .c-hero{grid-column:1/-1;grid-row:1}
+  .c-globe{grid-column:1;grid-row:2}
+  .c-cmp{grid-column:2;grid-row:2}
+  .c-chr{grid-column:1;grid-row:3}
+  .c-ctr{grid-column:2;grid-row:3}
+  .c-rnd{grid-column:1;grid-row:4}
+  .c-game{grid-column:2;grid-row:4}
+  .c-conn{grid-column:1/-1;grid-row:5}
+  .c-more{display:none}
+  .bar-nav{display:none}
+  .c{padding:20px}
+}
   </style>
 </head>
-
 <body>
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-  <!-- ── Language switcher ─────────────────────────────────── -->
-  <div id="langSwitch">
-    <button id="langTrigger" aria-haspopup="true" aria-expanded="false">
-      <span id="langFlag">🇬🇧</span>
-      <span id="langLabel">EN</span>
-      <span class="arrow">▾</span>
-    </button>
-    <div id="langMenu" role="menu">
-      <div class="lang-item" data-lang="en" role="menuitem">🇬🇧 English</div>
-      <div class="lang-item" data-lang="fr" role="menuitem">🇫🇷 Français</div>
-      <div class="lang-item" data-lang="es" role="menuitem">🇪🇸 Español</div>
+<div class="shell">
+
+  <!-- ── TOP BAR ── -->
+  <div class="bar">
+    <div class="bar-brand"><a href="/"><span class="bar-dot"></span> WiggMap</a></div>
+    <div class="bar-nav">
+      <a class="bar-link" href="/indexchronicles.html" id="navChron">Chronicles</a>
+      <a class="bar-link" href="/compare.html" id="navCompare">Compare</a>
+      <a class="bar-link" href="/countries/country.html" id="navCountries">Countries</a>
+      <a class="bar-link" href="/globe.html" id="navGlobe">Globe</a>
+      <a class="bar-link" href="/ggg/wigggame.html" id="navGame">Game</a>
     </div>
-  </div>
-
-  <!-- ── Scene ─────────────────────────────────────────────── -->
-  <div class="scene">
-    <div id="heroCard">
-      <img id="bgImg" src="assets/accueilv2.png" alt="WiggMap — Where is the grass greener?">
-    </div>
-
-    <div id="overlay">
-
-      <!-- s1 – Chronicles -->
-      <a id="s1" class="sign-btn s1" href="/indexchronicles.html" aria-label="Chronicles">
-        <div class="sign-inner">
-          <svg class="sign-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-          </svg>
-          <div class="sign-text">
-            <span class="sign-main" id="lblChron">Chronicles</span>
-            <span class="sign-sub"  id="lblChronSub">Articles &amp; Analyses</span>
-          </div>
+    <div class="bar-r">
+      <div class="lang-sw" id="langSwitch">
+        <button class="lang-btn" id="langTrigger"><span id="langFlag">🇬🇧</span> <span id="langLabel">EN</span></button>
+        <div class="lang-dd">
+          <div class="lang-item" data-lang="en">🇬🇧 English</div>
+          <div class="lang-item" data-lang="fr">🇫🇷 Français</div>
+          <div class="lang-item" data-lang="es">🇪🇸 Español</div>
         </div>
-      </a>
-
-      <!-- s2 – Compare -->
-      <a id="s2" class="sign-btn s2" href="/compare.html" aria-label="Compare countries">
-        <div class="sign-inner">
-          <svg class="sign-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M10 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4"/>
-            <path d="M14 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
-            <path d="M12 8v8M9 11l3-3 3 3"/>
-          </svg>
-          <div class="sign-text">
-            <span class="sign-main" id="lblCompare">Compare</span>
-            <span class="sign-sub"  id="lblCompareSub">Countries Side by Side</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- s3 – WiggGame -->
-      <a id="s3" class="sign-btn s3" href="/ggg/wigggame.html" aria-label="WiggGame">
-        <div class="sign-inner">
-          <svg class="sign-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="7" width="20" height="11" rx="5"/>
-            <path d="M7 11v4M5 13h4"/>
-            <circle cx="15" cy="12" r="1" fill="currentColor" stroke="none"/>
-            <circle cx="18" cy="12" r="1" fill="currentColor" stroke="none"/>
-          </svg>
-          <div class="sign-text">
-            <span class="sign-main" id="lblGame">WiggGame</span>
-            <span class="sign-sub"  id="lblGameSub">Quiz &amp; Play</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- s4 – 3D Globe -->
-      <a id="s4" class="sign-btn s4" href="/globe.html" aria-label="3D Globe" target="_blank" rel="noopener">
-        <div class="sign-inner">
-          <svg class="sign-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M2 12h20"/>
-            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"/>
-          </svg>
-          <div class="sign-text">
-            <span class="sign-main" id="lblGlobe">3D Globe</span>
-            <span class="sign-sub"  id="lblGlobeSub">Explore the World</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- s5 – Random -->
-      <button id="s5" class="sign-btn s5" type="button" aria-label="Random country">
-        <div class="sign-inner">
-          <svg class="sign-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="2" width="20" height="20" rx="4"/>
-            <circle cx="8"  cy="8"  r="1.4" fill="currentColor" stroke="none"/>
-            <circle cx="16" cy="8"  r="1.4" fill="currentColor" stroke="none"/>
-            <circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/>
-            <circle cx="8"  cy="16" r="1.4" fill="currentColor" stroke="none"/>
-            <circle cx="16" cy="16" r="1.4" fill="currentColor" stroke="none"/>
-          </svg>
-          <div class="sign-text">
-            <span class="sign-main" id="lblRandom">Random</span>
-            <span class="sign-sub"  id="lblRandomSub">Discover Anywhere</span>
-          </div>
-        </div>
-      </button>
-
-      <!-- s6 – Search -->
-      <button id="s6" class="sign-btn s6" type="button" aria-label="Search a country">
-        <div class="sign-inner">
-          <svg class="sign-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="7"/>
-            <path d="M21 21l-4.35-4.35"/>
-          </svg>
-          <div class="sign-text">
-            <span class="sign-main" id="lblSearch">Search</span>
-            <span class="sign-sub"  id="lblSearchSub">Find Your Country</span>
-          </div>
-        </div>
-      </button>
-
-    </div>
-  </div>
-
-  <!-- ── Search overlay ────────────────────────────────────── -->
-  <div id="searchOverlay">
-    <div class="search-box">
-      <div class="search-close">
-        <button id="closeSearch" aria-label="Close search">✕ Close</button>
       </div>
-      <div class="search-title" id="searchTitle">Search a Country</div>
-      <form id="homeSearchForm" autocomplete="off">
-        <div class="search-row">
-          <input id="homeQuery" class="search-input" type="text" name="q"
-            placeholder="e.g. Switzerland, Japan…" autocomplete="off" spellcheck="false"/>
-          <button class="search-go" type="submit" id="searchGoBtn">Go →</button>
-        </div>
+    </div>
+  </div>
+
+  <!-- ── GRID ── -->
+  <div class="grid">
+
+    <!-- 3D GLOBE -->
+    <a class="c c-globe dark" href="/globe.html">
+      <div class="c-tag" id="tagGlobe">Explore</div>
+      <div class="globe-orb">🌐</div>
+      <div class="c-name" id="lblGlobe">3D Globe</div>
+      <div class="c-sub" id="lblGlobeSub">Spin. Land anywhere.</div>
+      <span class="c-arrow">→</span>
+    </a>
+
+    <!-- HERO -->
+    <div class="c c-hero">
+      <div class="hero-globe">🌍</div>
+      <div class="hero-title" id="heroTitle">Read the world properly.</div>
+      <div class="hero-sub" id="heroSub">Compare countries beyond the fantasy version. Real data, no filter.</div>
+      <button class="hero-cta" id="heroCta" onclick="location.href='/compare.html'">Start comparing</button>
+      <form class="hero-search" id="searchForm" autocomplete="off">
+        <input class="hero-input" id="searchInput" type="text" placeholder="e.g. Switzerland, Japan…" autocomplete="off" spellcheck="false">
+        <button class="hero-go" type="submit" id="searchGo">Go →</button>
+        <div class="hero-sug" id="searchSug" role="listbox"></div>
       </form>
-      <div id="homeSuggest" role="listbox" aria-label="Country suggestions"></div>
     </div>
+
+    <!-- COMPARE -->
+    <a class="c c-cmp" href="/compare.html">
+      <div class="c-tag">Compare</div>
+      <div class="c-name" style="margin-top:4px" id="lblCompare">Side by side</div>
+      <div class="cmp-flags">🇵🇹 🇹🇭</div>
+      <div class="cmp-row"><span>Salary</span><span class="cmp-win">$1,400 vs $820</span></div>
+      <div class="cmp-row"><span>Rent</span><span>$570 vs $380</span></div>
+      <div class="cmp-row"><span>Safety</span><span class="cmp-win">9.2 / 10</span></div>
+      <span class="c-arrow">→</span>
+    </a>
+
+    <!-- CHRONICLES -->
+    <a class="c c-chr" href="/indexchronicles.html">
+      <div class="c-tag" id="tagChron">Editorial</div>
+      <div class="c-name" style="font-style:italic" id="lblChron">Chronicles</div>
+      <div class="c-sub" id="lblChronSub">In-depth articles &amp; analysis on expat life worldwide</div>
+      <span class="c-arrow">→</span>
+    </a>
+
+    <!-- COUNTRIES -->
+    <a class="c c-ctr" href="/countries/country.html">
+      <div class="c-tag" id="tagCtr">Indexed</div>
+      <div class="c-big">160<span>+</span></div>
+      <div class="c-sub" id="lblCtrSub">Countries profiled</div>
+      <span class="c-arrow">→</span>
+    </a>
+
+    <!-- RANDOM -->
+    <a class="c c-rnd" id="btnRandom" href="#" style="flex-direction:row;align-items:center;gap:16px">
+      <div style="font-size:32px;filter:saturate(.5) brightness(.85)">🎲</div>
+      <div>
+        <div class="c-name" id="lblRandom">Random</div>
+        <div class="c-sub" id="lblRandomSub">Surprise me</div>
+      </div>
+      <span class="c-arrow">→</span>
+    </a>
+
+    <!-- WIGGGAME -->
+    <a class="c c-game" href="/ggg/wigggame.html">
+      <div class="c-tag">Quiz</div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:20px">🎮</span>
+        <div class="c-name" id="lblGame">WiggGame</div>
+      </div>
+      <div class="c-sub" id="lblGameSub">Test your world knowledge</div>
+      <div class="lives"><div class="life on"></div><div class="life on"></div><div class="life on"></div><div class="life"></div><div class="life"></div></div>
+      <span class="c-arrow">→</span>
+    </a>
+
+    <!-- CONNECT -->
+    <a class="c c-conn dark" href="/connect/">
+      <div class="c-tag">Social</div>
+      <div class="c-name" id="lblConn">Connect</div>
+      <div class="c-sub" id="lblConnSub">Expats, trajectories, stories. The community layer.</div>
+      <div class="conn-badge">◎ New</div>
+      <span class="c-arrow">→</span>
+    </a>
+
+    <!-- ABOUT -->
+    <a class="c c-more green" href="/about.html">
+      <div class="c-tag" style="color:rgba(255,255,255,.4)">About</div>
+      <div style="flex:1;display:flex;align-items:center;justify-content:center">
+        <div class="c-name" style="font-size:16px;text-align:center;color:#fff" id="lblAbout">What is<br>WiggMap?</div>
+      </div>
+      <span class="c-arrow" style="color:rgba(255,255,255,.4)">→</span>
+    </a>
+
   </div>
+</div>
 
-  <!-- ── i18n ──────────────────────────────────────────────── -->
-  <script>
-    var I18N = {
-      en: {
-        chron:"Chronicles",     chronSub:"Articles & Analyses",
-        compare:"Compare",      compareSub:"Countries Side by Side",
-        game:"WiggGame",        gameSub:"Quiz & Play",
-        globe:"3D Globe",       globeSub:"Explore the World",
-        random:"Random",        randomSub:"Discover Anywhere",
-        search:"Search",        searchSub:"Find Your Country",
-        searchTitle:"Search a Country",
-        placeholder:"e.g. Switzerland, Japan…",
-        btn:"Go →", noMatch:"No match found.",
-        sidePre:"Ask yourself",
-        sideLine1:"What if your life", sideLine2:"looked", sideEm:"different", sideLine3:"somewhere else?",
-        sideLabel:"Countries",
-        sideSub:"Explore living conditions,<br>salaries & cost of life<br>across the world"
-      },
-      fr: {
-        chron:"Chroniques",     chronSub:"Articles & Analyses",
-        compare:"Comparer",     compareSub:"Pays Côte à Côte",
-        game:"WiggGame",        gameSub:"Quiz & Jeu",
-        globe:"Globe 3D",       globeSub:"Explorer le Monde",
-        random:"Aléatoire",     randomSub:"Découvrir un pays",
-        search:"Chercher",      searchSub:"Trouver un Pays",
-        searchTitle:"Rechercher un pays",
-        placeholder:"ex. Suisse, Japon…",
-        btn:"Go →", noMatch:"Aucun résultat.",
-        sidePre:"Pose-toi la question",
-        sideLine1:"Et si ta vie était", sideLine2:"", sideEm:"différente", sideLine3:"ailleurs ?",
-        sideLabel:"Pays",
-        sideSub:"Comparez les conditions de vie,<br>salaires et coût de la vie<br>dans le monde entier"
-      },
-      es: {
-        chron:"Crónicas",       chronSub:"Artículos y Análisis",
-        compare:"Comparar",     compareSub:"Países Lado a Lado",
-        game:"WiggGame",        gameSub:"Quiz y Juego",
-        globe:"Globo 3D",       globeSub:"Explorar el Mundo",
-        random:"Aleatorio",     randomSub:"Descubrir en cualquier lugar",
-        search:"Buscar",        searchSub:"Encuentra tu País",
-        searchTitle:"Buscar un País",
-        placeholder:"p. ej. Suiza, Japón…",
-        btn:"Ir →", noMatch:"Sin resultados.",
-        sidePre:"Pregúntate",
-        sideLine1:"¿Y si tu vida fuera", sideLine2:"", sideEm:"diferente", sideLine3:"en otro lugar?",
-        sideLabel:"Países",
-        sideSub:"Explora condiciones de vida,<br>salarios y coste de la vida<br>en más de 150 países"
+<!-- ── PWA Banner ── -->
+<div id="pwa-banner">
+  <span class="pwa-icon">📲</span>
+  <span id="pwa-msg">Install WiggMap on your device</span>
+  <button id="pwa-install-btn">Install</button>
+  <button id="pwa-close-btn" aria-label="Close">✕</button>
+</div>
+
+<!-- ══ i18n ══ -->
+<script>
+var I18N = {
+  en: {
+    heroTitle:"Read the world properly.",
+    heroSub:"Compare countries beyond the fantasy version. Real data, no filter.",
+    heroCta:"Start comparing",
+    placeholder:"e.g. Switzerland, Japan…", goBtn:"Go →", noMatch:"No match found.",
+    navChron:"Chronicles",navCompare:"Compare",navCountries:"Countries",navGlobe:"Globe",navGame:"Game",
+    tagGlobe:"Explore",lblGlobe:"3D Globe",lblGlobeSub:"Spin. Land anywhere.",
+    tagChron:"Editorial",lblChron:"Chronicles",lblChronSub:"In-depth articles & analysis on expat life worldwide",
+    lblCompare:"Side by side",
+    tagCtr:"Indexed",lblCtrSub:"Countries profiled",
+    lblRandom:"Random",lblRandomSub:"Surprise me",
+    lblGame:"WiggGame",lblGameSub:"Test your world knowledge",
+    lblConn:"Connect",lblConnSub:"Expats, trajectories, stories. The community layer.",
+    lblAbout:"What is<br>WiggMap?"
+  },
+  fr: {
+    heroTitle:"Lisez le monde correctement.",
+    heroSub:"Comparez les pays au-delà de la version fantasmée. Données réelles, sans filtre.",
+    heroCta:"Commencer à comparer",
+    placeholder:"ex. Suisse, Japon…", goBtn:"Go →", noMatch:"Aucun résultat.",
+    navChron:"Chroniques",navCompare:"Comparer",navCountries:"Pays",navGlobe:"Globe",navGame:"Jeu",
+    tagGlobe:"Explorer",lblGlobe:"Globe 3D",lblGlobeSub:"Tournez. Atterrissez n'importe où.",
+    tagChron:"Éditorial",lblChron:"Chroniques",lblChronSub:"Articles & analyses sur la vie d'expatrié dans le monde",
+    lblCompare:"Côte à côte",
+    tagCtr:"Indexés",lblCtrSub:"Pays profilés",
+    lblRandom:"Aléatoire",lblRandomSub:"Découvrir un pays",
+    lblGame:"WiggGame",lblGameSub:"Testez vos connaissances du monde",
+    lblConn:"Connect",lblConnSub:"Expats, trajectoires, histoires vraies. La couche communautaire.",
+    lblAbout:"Qu'est-ce que<br>WiggMap ?"
+  },
+  es: {
+    heroTitle:"Lee el mundo correctamente.",
+    heroSub:"Compara países más allá de la versión fantasía. Datos reales, sin filtro.",
+    heroCta:"Empezar a comparar",
+    placeholder:"p.ej. Suiza, Japón…", goBtn:"Ir →", noMatch:"Sin resultados.",
+    navChron:"Crónicas",navCompare:"Comparar",navCountries:"Países",navGlobe:"Globo",navGame:"Juego",
+    tagGlobe:"Explorar",lblGlobe:"Globo 3D",lblGlobeSub:"Gira. Aterriza en cualquier lugar.",
+    tagChron:"Editorial",lblChron:"Crónicas",lblChronSub:"Artículos y análisis sobre la vida expatriada en el mundo",
+    lblCompare:"Lado a lado",
+    tagCtr:"Indexados",lblCtrSub:"Países perfilados",
+    lblRandom:"Aleatorio",lblRandomSub:"Descubrir un país",
+    lblGame:"WiggGame",lblGameSub:"Pon a prueba tu conocimiento del mundo",
+    lblConn:"Connect",lblConnSub:"Expats, trayectorias, historias reales. La capa comunitaria.",
+    lblAbout:"¿Qué es<br>WiggMap?"
+  }
+};
+
+function getLang(){return(localStorage.getItem('wigg_lang')||'en').toLowerCase()}
+
+(function(){
+  var L=getLang();var t=I18N[L]||I18N.en;
+  document.documentElement.lang=L;
+  var $=function(id){return document.getElementById(id)};
+
+  // Hero
+  $('heroTitle').textContent=t.heroTitle;
+  $('heroSub').textContent=t.heroSub;
+  $('heroCta').textContent=t.heroCta;
+  $('searchInput').placeholder=t.placeholder;
+  $('searchGo').textContent=t.goBtn;
+
+  // Nav
+  $('navChron').textContent=t.navChron;
+  $('navCompare').textContent=t.navCompare;
+  $('navCountries').textContent=t.navCountries;
+  $('navGlobe').textContent=t.navGlobe;
+  $('navGame').textContent=t.navGame;
+
+  // Cards
+  $('tagGlobe').textContent=t.tagGlobe;
+  $('lblGlobe').textContent=t.lblGlobe;
+  $('lblGlobeSub').textContent=t.lblGlobeSub;
+  $('tagChron').textContent=t.tagChron;
+  $('lblChron').textContent=t.lblChron;
+  $('lblChronSub').textContent=t.lblChronSub;
+  $('lblCompare').textContent=t.lblCompare;
+  $('tagCtr').textContent=t.tagCtr;
+  $('lblCtrSub').textContent=t.lblCtrSub;
+  $('lblRandom').textContent=t.lblRandom;
+  $('lblRandomSub').textContent=t.lblRandomSub;
+  $('lblGame').textContent=t.lblGame;
+  $('lblGameSub').textContent=t.lblGameSub;
+  $('lblConn').textContent=t.lblConn;
+  $('lblConnSub').textContent=t.lblConnSub;
+  $('lblAbout').innerHTML=t.lblAbout;
+
+  window.__NO_MATCH=t.noMatch;
+})();
+</script>
+
+<!-- ══ Language switcher ══ -->
+<script>
+(function(){
+  var FLAGS={en:'🇬🇧',fr:'🇫🇷',es:'🇪🇸'};
+  var LABELS={en:'EN',fr:'FR',es:'ES'};
+  var cur=getLang();
+  document.getElementById('langFlag').textContent=FLAGS[cur]||FLAGS.en;
+  document.getElementById('langLabel').textContent=LABELS[cur]||LABELS.en;
+  document.querySelectorAll('.lang-item').forEach(function(el){if(el.dataset.lang===cur)el.classList.add('active')});
+  document.getElementById('langTrigger').addEventListener('click',function(e){
+    e.stopPropagation();
+    document.getElementById('langSwitch').classList.toggle('open');
+  });
+  document.addEventListener('click',function(){document.getElementById('langSwitch').classList.remove('open')});
+  document.querySelectorAll('.lang-item').forEach(function(el){
+    el.addEventListener('click',function(e){
+      e.stopPropagation();
+      localStorage.setItem('wigg_lang',el.dataset.lang);
+      location.reload();
+    });
+  });
+})();
+</script>
+
+<!-- ══ Country search + random ══ -->
+<script>
+(function(){
+  var CDATA=null;
+  var _lang=getLang();
+  var _cf=_lang==='fr'?'data/countries.fr.json':_lang==='es'?'data/countries.es.json':'data/countries.json';
+
+  async function loadDB(){
+    if(CDATA)return;
+    var r=await fetch(_cf);if(!r.ok)return;
+    CDATA=await r.json();
+  }
+
+  function norm(s){return(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+
+  function search(q,max){
+    if(!CDATA||!q)return[];
+    var out=[];
+    var keys=Object.keys(CDATA);
+    for(var i=0;i<keys.length&&out.length<max;i++){
+      var k=keys[i];var c=CDATA[k];
+      var name=c.name||k;
+      if(norm(name).indexOf(q)===0)out.push({slug:k,name:name,flag:c.flag||''});
+    }
+    if(out.length<max){
+      for(var i=0;i<keys.length&&out.length<max;i++){
+        var k=keys[i];var c=CDATA[k];var name=c.name||k;
+        if(norm(name).indexOf(q)>0&&!out.find(function(x){return x.slug===k}))
+          out.push({slug:k,name:name,flag:c.flag||''});
       }
-    };
-
-    function getLang() { return (localStorage.getItem('wigg_lang') || 'en').toLowerCase(); }
-
-    // Apply labels
-    (function () {
-      var t = I18N[getLang()] || I18N.en;
-      var $ = function(id) { return document.getElementById(id); };
-      $('lblChron').textContent      = t.chron;
-      $('lblChronSub').textContent   = t.chronSub;
-      $('lblCompare').textContent    = t.compare;
-      $('lblCompareSub').textContent = t.compareSub;
-      $('lblGame').textContent       = t.game;
-      $('lblGameSub').textContent    = t.gameSub;
-      $('lblGlobe').textContent      = t.globe;
-      $('lblGlobeSub').textContent   = t.globeSub;
-      $('lblRandom').textContent     = t.random;
-      $('lblRandomSub').textContent  = t.randomSub;
-      $('lblSearch').textContent     = t.search;
-      $('lblSearchSub').textContent  = t.searchSub;
-      $('searchTitle').textContent   = t.searchTitle;
-      $('homeQuery').placeholder     = t.placeholder;
-      $('searchGoBtn').textContent   = t.btn;
-      window.__HOME_NO_MATCH = t.noMatch;
-      document.documentElement.lang = getLang();
-      // Side panels are below this script block — defer until DOM is ready
-      (function(t) {
-        function applySide() {
-          var $$ = function(id) { return document.getElementById(id); };
-          if ($$('sidePre')) $$('sidePre').textContent = t.sidePre;
-          var sl = $$('sideLine');
-          if (sl) {
-            sl.innerHTML = t.sideLine1 + (t.sideLine2 ? '<br>' + t.sideLine2 + ' ' : ' ') +
-              '<em id="sideEm">' + t.sideEm + '</em><br>' + t.sideLine3;
-          }
-          if ($$('sideLabel')) $$('sideLabel').textContent = t.sideLabel;
-          if ($$('sideSub'))   $$('sideSub').innerHTML     = t.sideSub;
-        }
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', applySide);
-        } else {
-          applySide();
-        }
-      })(t);
-    })();
-
-    // Language switcher init
-    (function () {
-      var FLAGS  = { en:'🇬🇧', fr:'🇫🇷', es:'🇪🇸' };
-      var LABELS = { en:'EN', fr:'FR', es:'ES' };
-      var cur    = getLang();
-
-      document.getElementById('langFlag').textContent  = FLAGS[cur]  || FLAGS.en;
-      document.getElementById('langLabel').textContent = LABELS[cur] || LABELS.en;
-
-      // Mark active item
-      document.querySelectorAll('.lang-item').forEach(function(el) {
-        if (el.dataset.lang === cur) el.classList.add('active');
-      });
-
-      // Toggle dropdown
-      var sw = document.getElementById('langSwitch');
-      document.getElementById('langTrigger').addEventListener('click', function(e) {
-        e.stopPropagation();
-        var open = sw.classList.toggle('open');
-        this.setAttribute('aria-expanded', open ? 'true' : 'false');
-      });
-
-      // Close on outside click
-      document.addEventListener('click', function() {
-        sw.classList.remove('open');
-        document.getElementById('langTrigger').setAttribute('aria-expanded','false');
-      });
-
-      // Select language
-      document.querySelectorAll('.lang-item').forEach(function(el) {
-        el.addEventListener('click', function(e) {
-          e.stopPropagation();
-          localStorage.setItem('wigg_lang', el.dataset.lang);
-          location.reload();
-        });
-      });
-    })();
-  </script>
-
-  <!-- ── Overlay positioning ───────────────────────────────── -->
-  <script>
-    function cssVar(name) {
-      return parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name)) || 0;
     }
+    return out;
+  }
 
-    var SIGNS = [
-      { id:'s1', t:cssVar('--s1-top'), l:cssVar('--s-left'), w:cssVar('--s-width'), h:cssVar('--s1-h'), r:cssVar('--s1-rot') },
-      { id:'s2', t:cssVar('--s2-top'), l:cssVar('--s-left'), w:cssVar('--s-width'), h:cssVar('--s2-h'), r:cssVar('--s2-rot') },
-      { id:'s3', t:cssVar('--s3-top'), l:cssVar('--s-left'), w:cssVar('--s-width'), h:cssVar('--s3-h'), r:cssVar('--s3-rot') },
-      { id:'s4', t:cssVar('--s4-top'), l:cssVar('--s-left'), w:cssVar('--s-width'), h:cssVar('--s4-h'), r:cssVar('--s4-rot') },
-      { id:'s5', t:cssVar('--s5-top'), l:cssVar('--s-left'), w:cssVar('--s-width'), h:cssVar('--s5-h'), r:cssVar('--s5-rot') },
-      { id:'s6', t:cssVar('--s6-top'), l:cssVar('--s-left'), w:cssVar('--s-width'), h:cssVar('--s6-h'), r:cssVar('--s6-rot') },
-    ];
+  function go(slug){window.location.href='/countries/country.html?country='+encodeURIComponent(slug)}
 
-    var img     = document.getElementById('bgImg');
-    var overlay = document.getElementById('overlay');
+  var inp=document.getElementById('searchInput');
+  var sug=document.getElementById('searchSug');
+  var list=[];var ai=-1;var debT;
 
-    function positionAll() {
-      var r = img.getBoundingClientRect();
-      overlay.style.left   = r.left   + 'px';
-      overlay.style.top    = r.top    + 'px';
-      overlay.style.width  = r.width  + 'px';
-      overlay.style.height = r.height + 'px';
+  function renderSug(items){
+    list=items;ai=-1;
+    if(!items.length){sug.classList.remove('show');sug.innerHTML='';return}
+    sug.innerHTML=items.map(function(it,i){
+      return '<div class="sug-item" data-i="'+i+'"><span class="sug-flag">'+it.flag+'</span>'+it.name+'</div>';
+    }).join('');
+    sug.classList.add('show');
+  }
 
-      SIGNS.forEach(function(s) {
-        var el   = document.getElementById(s.id);
-        if (!el) return;
-        var elH  = s.h / 100 * r.height;
-        var elW  = s.w / 100 * r.width;
+  inp.addEventListener('input',function(){
+    clearTimeout(debT);
+    debT=setTimeout(async function(){await loadDB();renderSug(search(norm(inp.value),8))},80);
+  });
 
-        el.style.top    = (s.t / 100 * r.height) + 'px';
-        el.style.left   = (s.l / 100 * r.width)  + 'px';
-        el.style.width  = elW + 'px';
-        el.style.height = elH + 'px';
+  sug.addEventListener('click',function(e){
+    var it=e.target.closest('.sug-item');
+    if(!it)return;var i=Number(it.dataset.i);
+    if(list[i])go(list[i].slug);
+  });
 
-        // Font sizes — clamped
-        var mainPx = Math.max(10, Math.min(22, elH * 0.36));
-        var subPx  = Math.max(8,  Math.min(14, mainPx * 0.60));
-        var iconPx = Math.max(12, Math.min(26, mainPx * 1.30));
+  inp.addEventListener('keydown',function(e){
+    if(!sug.classList.contains('show'))return;
+    var max=list.length-1;
+    if(e.key==='ArrowDown'){e.preventDefault();ai=ai<max?ai+1:0;markActive()}
+    if(e.key==='ArrowUp'){e.preventDefault();ai=ai>0?ai-1:max;markActive()}
+    if(e.key==='Enter'&&ai>=0&&list[ai]){e.preventDefault();go(list[ai].slug)}
+    if(e.key==='Escape'){sug.classList.remove('show')}
+  });
 
-        el.querySelector('.sign-main').style.fontSize = mainPx + 'px';
-        el.querySelector('.sign-sub').style.fontSize  = subPx  + 'px';
-        var icon = el.querySelector('.sign-icon');
-        if (icon) { icon.style.width = iconPx + 'px'; icon.style.height = iconPx + 'px'; }
+  function markActive(){
+    sug.querySelectorAll('.sug-item').forEach(function(el,i){el.classList.toggle('active',i===ai)});
+  }
 
-        // Rotation — appliquée via CSS custom property pour que hover fonctionne
-        el.style.setProperty('--el-rot', s.r + 'deg');
-      });
-    }
+  document.getElementById('searchForm').addEventListener('submit',async function(e){
+    e.preventDefault();await loadDB();
+    var q=norm(inp.value);if(!q)return;
+    if(ai>=0&&list[ai])return go(list[ai].slug);
+    var res=search(q,1);
+    if(res.length)go(res[0].slug);
+    else alert(window.__NO_MATCH||'No match.');
+  });
 
-    function revealOverlay() {
-      positionAll();
-      overlay.classList.add('ready');
-    }
+  document.addEventListener('click',function(e){
+    if(!e.target.closest('.hero-search'))sug.classList.remove('show');
+  });
 
-    if (img.complete && img.naturalWidth) { revealOverlay(); }
-    img.addEventListener('load', revealOverlay);
-    window.addEventListener('resize', positionAll);
-  </script>
+  // Random button
+  document.getElementById('btnRandom').addEventListener('click',async function(e){
+    e.preventDefault();await loadDB();
+    var keys=Object.keys(CDATA||{});
+    if(keys.length)go(keys[Math.floor(Math.random()*keys.length)]);
+  });
 
-  <!-- ── Countries + Search ────────────────────────────────── -->
-  <script src="data/countries.js"></script>
-  <script>
-    var searchOverlay = document.getElementById('searchOverlay');
-    var qInp          = document.getElementById('homeQuery');
+  loadDB().catch(console.error);
+})();
+</script>
 
-    document.getElementById('s6').addEventListener('click', function() {
-      searchOverlay.classList.add('open');
-      setTimeout(function() { qInp.focus(); }, 80);
+<!-- ══ PWA install ══ -->
+<script>
+(function(){
+  var isStandalone=window.navigator.standalone===true||window.matchMedia('(display-mode: standalone)').matches;
+  if(isStandalone)return;
+  var isIOS=/iPhone|iPad|iPod/.test(navigator.userAgent)&&!window.MSStream;
+  var deferredPrompt=null;
+  var banner=document.getElementById('pwa-banner');
+  var msg=document.getElementById('pwa-msg');
+  var installBtn=document.getElementById('pwa-install-btn');
+  var closeBtn=document.getElementById('pwa-close-btn');
+  var hideTimer=null;
+  function showBanner(){banner.classList.add('pwa-visible');hideTimer=setTimeout(function(){banner.classList.remove('pwa-visible')},10000)}
+  function hideBanner(){clearTimeout(hideTimer);banner.classList.remove('pwa-visible')}
+  closeBtn.addEventListener('click',hideBanner);
+  if(isIOS){
+    msg.innerHTML='Install WiggMap&nbsp;·&nbsp;tap&nbsp;<strong>Share</strong>&nbsp;then&nbsp;<strong>Add to Home Screen</strong>';
+    installBtn.style.display='none';
+    setTimeout(showBanner,2000);
+  }else{
+    window.addEventListener('beforeinstallprompt',function(e){
+      e.preventDefault();deferredPrompt=e;
+      msg.textContent='Install WiggMap on your device';
+      installBtn.style.display='';
+      setTimeout(showBanner,2000);
     });
-    document.getElementById('closeSearch').addEventListener('click', function() {
-      searchOverlay.classList.remove('open'); hideSug();
+    installBtn.addEventListener('click',function(){
+      if(!deferredPrompt)return;
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(function(){deferredPrompt=null;hideBanner()});
     });
-    searchOverlay.addEventListener('click', function(e) {
-      if (e.target === searchOverlay) { searchOverlay.classList.remove('open'); hideSug(); }
-    });
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') { searchOverlay.classList.remove('open'); hideSug(); }
-    });
+  }
+})();
+</script>
 
-    function norm(s) {
-      return (s||'').toString().trim().toLowerCase()
-        .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-        .replace(/[-_]/g,' ').replace(/\s+/g,' ');
-    }
-    function esc(s) {
-      return String(s??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')
-        .replaceAll('"','&quot;').replaceAll("'","&#039;");
-    }
+<!-- ══ Service Worker ══ -->
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(console.error)});
+  navigator.serviceWorker.getRegistrations().then(function(r){r.forEach(function(x){x.update()})});
+}
+</script>
 
-    var CDATA = null, CLIST = [], tDeb = null;
-
-    async function loadOnce() {
-      if (CDATA) return;
-      var lang = getLang();
-      var cf = lang==='fr' ? '/data/countries.fr.json' : lang==='es' ? '/data/countries.es.json' : '/data/countries.json';
-      var res = await fetch(cf + '?nc=' + Date.now(), { cache:'no-store' });
-      CDATA = await res.json();
-      CLIST = Object.keys(CDATA).map(function(slug) {
-        var c = CDATA[slug] || {}, al = Array.isArray(c.aliases) ? c.aliases : [];
-        return { slug, name: c.name||slug, nn: norm(c.name||slug), an: al.map(norm) };
-      }).sort(function(a,b) { return a.name.localeCompare(b.name); });
-    }
-
-    function getSugs(q, lim) {
-      lim = lim||10; if (!q) return [];
-      var s=[], c=[];
-      CLIST.forEach(function(x) {
-        if (x.nn.startsWith(q)||x.an.some(function(a){return a.startsWith(q);})) s.push(x);
-        else if (x.nn.includes(q)||x.an.some(function(a){return a.includes(q);})) c.push(x);
-      });
-      return s.concat(c).slice(0,lim);
-    }
-
-    function bestMatch(q) {
-      return CLIST.find(function(x){return x.nn===q||x.an.includes(q);})||
-             CLIST.find(function(x){return x.nn.startsWith(q)||x.an.some(function(a){return a.startsWith(q);});})||
-             CLIST.find(function(x){return x.nn.includes(q)||x.an.some(function(a){return a.includes(q);});})||null;
-    }
-
-    function go(slug) { window.location.href = '/countries/country.html?country=' + encodeURIComponent(slug); }
-
-    var sugEl=document.getElementById('homeSuggest'), ai=-1, slist=[];
-    function hideSug() { sugEl.style.display='none'; sugEl.innerHTML=''; ai=-1; slist=[]; }
-    function showSug(items) {
-      slist=items; ai=-1;
-      if (!items.length) { hideSug(); return; }
-      sugEl.innerHTML = items.map(function(x,i) {
-        return '<div class="home-suggest-item" data-i="'+i+'" role="option" aria-selected="false">' +
-               '<span>'+esc(x.name)+'</span><span class="home-suggest-sub">'+esc(x.slug)+'</span></div>';
-      }).join('');
-      sugEl.style.display = 'block';
-    }
-    function setAct(idx) {
-      Array.from(sugEl.querySelectorAll('.home-suggest-item')).forEach(function(el,i) {
-        el.setAttribute('aria-selected', i===idx ? 'true' : 'false');
-      });
-      ai=idx;
-    }
-
-    sugEl.addEventListener('click', function(e) {
-      var it = e.target.closest('.home-suggest-item');
-      if (!it) return;
-      var i = Number(it.getAttribute('data-i'));
-      if (slist[i]) go(slist[i].slug);
-    });
-
-    qInp.addEventListener('input', function() {
-      clearTimeout(tDeb);
-      tDeb = setTimeout(async function() { await loadOnce(); showSug(getSugs(norm(qInp.value),10)); }, 80);
-    });
-
-    qInp.addEventListener('keydown', function(e) {
-      if (sugEl.style.display!=='block') return;
-      var max = slist.length-1;
-      if (e.key==='ArrowDown')  { e.preventDefault(); setAct(ai<max?ai+1:0); }
-      if (e.key==='ArrowUp')    { e.preventDefault(); setAct(ai>0?ai-1:max); }
-      if (e.key==='Enter'&&ai>=0&&slist[ai]) { e.preventDefault(); go(slist[ai].slug); }
-      if (e.key==='Escape') hideSug();
-    });
-
-    document.addEventListener('click', function(e) {
-      if (!e.target.closest('#homeSearchForm')&&!e.target.closest('#homeSuggest')) hideSug();
-    });
-
-    document.getElementById('homeSearchForm').addEventListener('submit', async function(e) {
-      e.preventDefault(); await loadOnce();
-      var q = norm(qInp.value); if (!q) return;
-      if (ai>=0&&slist[ai]) return go(slist[ai].slug);
-      var m = bestMatch(q);
-      if (m) go(m.slug);
-      else { alert(window.__HOME_NO_MATCH||'No match.'); hideSug(); qInp.focus(); }
-    });
-
-    async function goRandom() {
-      await loadOnce();
-      var k = Object.keys(CDATA||{});
-      if (!k.length) return;
-      go(k[Math.floor(Math.random()*k.length)]);
-    }
-    document.getElementById('s5').addEventListener('click', function(e) {
-      e.preventDefault(); goRandom();
-    });
-
-    loadOnce().catch(console.error);
-  </script>
-
-
-  <!-- ── Left panel ──────────────────────────────────────── -->
-  <div class="side-panel left" aria-hidden="true">
-    <div class="side-question">
-      <span class="sq-pre" id="sidePre">Ask yourself</span>
-      <span class="sq-line" id="sideLine">What if your life<br>looked <em id="sideEm">different</em><br>somewhere else?</span>
-      <span class="sq-ornament"></span>
-    </div>
-  </div>
-
-  <!-- ── Right panel ─────────────────────────────────────── -->
-  <div class="side-panel right" aria-hidden="true">
-    <div class="side-stat">
-      <span class="ss-number">150<span>+</span></span>
-      <span class="ss-label" id="sideLabel">Countries</span>
-      <div class="ss-divider"></div>
-      <span class="ss-sub" id="sideSub">Explore living conditions,<br>salaries &amp; cost of life<br>across the world</span>
-    </div>
-  </div>
-
-  <script src="data/footer.js"></script>
-
-  <!-- ══ PWA INSTALL BANNER ══════════════════════════════════ -->
-  <div id="pwa-banner" role="status" aria-live="polite">
-    <span class="pwa-icon">📲</span>
-    <span class="pwa-msg" id="pwa-msg">Install WiggMap on your device</span>
-    <button id="pwa-install-btn">Install</button>
-    <button id="pwa-close-btn" aria-label="Close">✕</button>
-  </div>
-
-  <script>
-    (function () {
-      // Already installed as PWA — don't show
-      var isStandalone = window.navigator.standalone === true
-        || window.matchMedia('(display-mode: standalone)').matches;
-      if (isStandalone) return;
-
-      var isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) && !window.MSStream;
-      var deferredPrompt = null;
-      var banner   = document.getElementById('pwa-banner');
-      var msg      = document.getElementById('pwa-msg');
-      var installBtn = document.getElementById('pwa-install-btn');
-      var closeBtn = document.getElementById('pwa-close-btn');
-      var hideTimer = null;
-
-      function showBanner() {
-        banner.classList.add('pwa-visible');
-        // Auto-hide after 5 s
-        hideTimer = setTimeout(function () {
-          banner.classList.remove('pwa-visible');
-        }, 10000);
-      }
-
-      function hideBanner() {
-        clearTimeout(hideTimer);
-        banner.classList.remove('pwa-visible');
-      }
-
-      closeBtn.addEventListener('click', hideBanner);
-
-      if (isIOS) {
-        // iOS: explain the Share → Add to Home Screen flow
-        msg.innerHTML = 'Install WiggMap&nbsp;&nbsp;·&nbsp;&nbsp;tap&nbsp;<strong>Share</strong>&nbsp;then&nbsp;<strong>Add to Home Screen</strong>';
-        installBtn.style.display = 'none';
-        setTimeout(showBanner, 2000);
-      } else {
-        // Android / Chrome Desktop: use beforeinstallprompt
-        window.addEventListener('beforeinstallprompt', function (e) {
-          e.preventDefault();
-          deferredPrompt = e;
-          msg.textContent = 'Install WiggMap on your device';
-          installBtn.style.display = '';
-          setTimeout(showBanner, 2000);
-        });
-
-        installBtn.addEventListener('click', function () {
-          if (!deferredPrompt) return;
-          deferredPrompt.prompt();
-          deferredPrompt.userChoice.then(function () {
-            deferredPrompt = null;
-            hideBanner();
-          });
-        });
-      }
-    })();
-  </script>
-
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function() { navigator.serviceWorker.register('/sw.js').catch(console.error); });
-      navigator.serviceWorker.getRegistrations().then(function(r) { r.forEach(function(x) { x.update(); }); });
-    }
-  </script>
 </body>
 </html>

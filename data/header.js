@@ -614,6 +614,19 @@
     "/chronicles/chronicle-africa-expat-p4-en.html":        { en: "/chronicles/chronicle-africa-expat-p4-en.html",        fr: "/chronicles/chronicle-afrique-expatrier-p4-fr.html",    es: "/chronicles/chronicle-africa-expatriarse-p4-es.html" },
     "/chronicles/chronicle-afrique-expatrier-p4-fr.html":   { en: "/chronicles/chronicle-africa-expat-p4-en.html",        fr: "/chronicles/chronicle-afrique-expatrier-p4-fr.html",    es: "/chronicles/chronicle-africa-expatriarse-p4-es.html" },
     "/chronicles/chronicle-africa-expatriarse-p4-es.html":  { en: "/chronicles/chronicle-africa-expat-p4-en.html",        fr: "/chronicles/chronicle-afrique-expatrier-p4-fr.html",    es: "/chronicles/chronicle-africa-expatriarse-p4-es.html" },
+
+    "/chronicles/villes/chronicle-lisbonne-portugal-en.html": { en: "/chronicles/villes/chronicle-lisbonne-portugal-en.html", fr: "/chronicles/villes/chronicle-lisbonne-portugal-fr.html", es: "/chronicles/villes/chronicle-lisbonne-portugal-es.html" },
+    "/chronicles/villes/chronicle-lisbonne-portugal-fr.html": { en: "/chronicles/villes/chronicle-lisbonne-portugal-en.html", fr: "/chronicles/villes/chronicle-lisbonne-portugal-fr.html", es: "/chronicles/villes/chronicle-lisbonne-portugal-es.html" },
+    "/chronicles/villes/chronicle-lisbonne-portugal-es.html": { en: "/chronicles/villes/chronicle-lisbonne-portugal-en.html", fr: "/chronicles/villes/chronicle-lisbonne-portugal-fr.html", es: "/chronicles/villes/chronicle-lisbonne-portugal-es.html" },
+    "/chronicles/villes/chronicle-porto-portugal-en.html": { en: "/chronicles/villes/chronicle-porto-portugal-en.html", fr: "/chronicles/villes/chronicle-porto-portugal-fr.html", es: "/chronicles/villes/chronicle-porto-portugal-es.html" },
+    "/chronicles/villes/chronicle-porto-portugal-fr.html": { en: "/chronicles/villes/chronicle-porto-portugal-en.html", fr: "/chronicles/villes/chronicle-porto-portugal-fr.html", es: "/chronicles/villes/chronicle-porto-portugal-es.html" },
+    "/chronicles/villes/chronicle-porto-portugal-es.html": { en: "/chronicles/villes/chronicle-porto-portugal-en.html", fr: "/chronicles/villes/chronicle-porto-portugal-fr.html", es: "/chronicles/villes/chronicle-porto-portugal-es.html" },
+    "/chronicles/villes/chronicle-faro-portugal-en.html": { en: "/chronicles/villes/chronicle-faro-portugal-en.html", fr: "/chronicles/villes/chronicle-faro-portugal-fr.html", es: "/chronicles/villes/chronicle-faro-portugal-es.html" },
+    "/chronicles/villes/chronicle-faro-portugal-fr.html": { en: "/chronicles/villes/chronicle-faro-portugal-en.html", fr: "/chronicles/villes/chronicle-faro-portugal-fr.html", es: "/chronicles/villes/chronicle-faro-portugal-es.html" },
+    "/chronicles/villes/chronicle-faro-portugal-es.html": { en: "/chronicles/villes/chronicle-faro-portugal-en.html", fr: "/chronicles/villes/chronicle-faro-portugal-fr.html", es: "/chronicles/villes/chronicle-faro-portugal-es.html" },
+    "/chronicles/villes/chronicle-funchal-portugal-en.html": { en: "/chronicles/villes/chronicle-funchal-portugal-en.html", fr: "/chronicles/villes/chronicle-funchal-portugal-fr.html", es: "/chronicles/villes/chronicle-funchal-portugal-es.html" },
+    "/chronicles/villes/chronicle-funchal-portugal-fr.html": { en: "/chronicles/villes/chronicle-funchal-portugal-en.html", fr: "/chronicles/villes/chronicle-funchal-portugal-fr.html", es: "/chronicles/villes/chronicle-funchal-portugal-es.html" },
+    "/chronicles/villes/chronicle-funchal-portugal-es.html": { en: "/chronicles/villes/chronicle-funchal-portugal-en.html", fr: "/chronicles/villes/chronicle-funchal-portugal-fr.html", es: "/chronicles/villes/chronicle-funchal-portugal-es.html" },
   };
 
   // Lang selection
