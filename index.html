@@ -22,7 +22,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet">
 
   <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -62,14 +62,17 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 .grid{display:grid;grid-template-columns:1fr 1fr 1.3fr 1fr;grid-template-rows:1.1fr .9fr 1fr;gap:10px;min-height:0}
 
 /* ── CARD ── */
-.c{background:var(--card);border-radius:var(--r-lg);padding:24px 26px;display:flex;flex-direction:column;position:relative;overflow:hidden;cursor:pointer;text-decoration:none;color:var(--ink);transition:transform .25s ease,box-shadow .25s ease;box-shadow:0 1px 3px rgba(0,0,0,.03),0 4px 16px rgba(0,0,0,.04);z-index:1}
+.c{background:#f5f0e4;border-radius:var(--r-lg);padding:24px 26px;display:flex;flex-direction:column;position:relative;overflow:hidden;cursor:pointer;text-decoration:none;color:var(--ink);transition:transform .35s cubic-bezier(.25,.8,.25,1),box-shadow .35s ease,filter .35s ease;box-shadow:0 1px 3px rgba(0,0,0,.03),0 4px 16px rgba(0,0,0,.04);z-index:1}
 .c-hero{z-index:10;overflow:visible}
-.c:hover{transform:translateY(-3px);box-shadow:0 4px 12px rgba(0,0,0,.06),0 16px 40px rgba(0,0,0,.07)}
-.c.dark{background:#111;color:#fff}
-.c.dark .c-sub{color:rgba(255,255,255,.35)}
-.c.dark .c-tag{color:rgba(255,255,255,.2)}
-.c.green{background:var(--green);color:#fff}
-.c.green .c-sub{color:rgba(255,255,255,.55)}
+.c:hover{transform:translateY(-3px) rotate(-1deg);box-shadow:0 6px 16px rgba(0,0,0,.08),0 20px 50px rgba(0,0,0,.09);filter:brightness(.92)}
+.c.dark{background:#2a2720;color:#fff}
+.c.dark .c-sub{color:rgba(255,255,255,.45)}
+.c.dark .c-tag{color:rgba(255,255,255,.25)}
+.c.dark:hover{filter:brightness(.85)}
+.c.green{background:#3d6b4a;color:#fff}
+.c.green .c-sub{color:rgba(255,255,255,.6)}
+.c.green:hover{filter:brightness(.85)}
+.c-hero:hover{transform:translateY(-2px);filter:brightness(.95)}
 .c-tag{font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:auto}
 .c-name{font-size:20px;font-weight:800;letter-spacing:-.04em;line-height:1.1;margin-top:8px}
 .c-sub{font-size:12px;font-weight:400;color:var(--dim);line-height:1.5;margin-top:5px}
@@ -79,9 +82,9 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 .c.dark:hover .c-arrow{color:#fff}
 
 /* ── IMAGE CARDS ── */
-.c-img{background-size:cover;background-position:center;color:#fff}
-.c-img::before{content:'';position:absolute;inset:0;border-radius:var(--r-lg);background:rgba(0,0,0,.35);z-index:0;transition:background .3s}
-.c-img:hover::before{background:rgba(0,0,0,.25)}
+.c-img{background-size:cover;background-position:center;background-color:#f5f0e4;color:#fff}
+.c-img::before{content:'';position:absolute;inset:0;border-radius:var(--r-lg);background:rgba(0,0,0,.15);z-index:0;transition:background .35s}
+.c-img:hover::before{background:rgba(0,0,0,.35)}
 .c-img>*{position:relative;z-index:1}
 .c-img .c-tag{color:rgba(255,255,255,.6)}
 .c-img .c-name{color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.5)}
@@ -100,23 +103,23 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 .c-hero.c-img .hero-sub{color:var(--dim);text-shadow:none}
 
 /* Globe — globe.png */
-.c-globe.c-img{background-image:url('imgindex/globe.png');background-position:center;background-color:#f5f0e4}
-.c-globe.c-img::before{background:rgba(0,0,0,.15)}
-.c-globe.c-img:hover::before{background:rgba(0,0,0,.08)}
+.c-globe.c-img{background-image:url('imgindex/globe.png');background-position:center}
+.c-globe.c-img::before{background:rgba(0,0,0,.1)}
+.c-globe.c-img:hover::before{background:rgba(0,0,0,.3)}
 
 /* Chronicles — chronicles.png */
-.c-chr.c-img{background-image:url('imgindex/chronicles.png');background-position:center 40%;background-color:#f5f0e4}
-.c-chr.c-img::before{background:rgba(0,0,0,.2)}
-.c-chr.c-img:hover::before{background:rgba(0,0,0,.12)}
+.c-chr.c-img{background-image:url('imgindex/chronicles.png');background-position:center 40%}
+.c-chr.c-img::before{background:rgba(0,0,0,.1)}
+.c-chr.c-img:hover::before{background:rgba(0,0,0,.3)}
 
 /* Random — random.png */
-.c-rnd.c-img{background-image:url('imgindex/random.png');background-position:center;background-color:#f5f0e4}
-.c-rnd.c-img::before{background:rgba(0,0,0,.2)}
-.c-rnd.c-img:hover::before{background:rgba(0,0,0,.1)}
+.c-rnd.c-img{background-image:url('imgindex/random.png');background-position:center}
+.c-rnd.c-img::before{background:rgba(0,0,0,.1)}
+.c-rnd.c-img:hover::before{background:rgba(0,0,0,.3)}
 
-/* Game — jeux.png — more transparent */
+/* Game — jeux.png */
 .c-game.c-img{background-image:url('imgindex/jeux.png');background-position:center}
-.c-game.c-img::before{background:rgba(0,0,0,.5)}
+.c-game.c-img::before{background:rgba(0,0,0,.15)}
 .c-game.c-img:hover::before{background:rgba(0,0,0,.4)}
 
 /* ── PLACEMENTS ── */
@@ -132,7 +135,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 
 /* ── HERO ── */
 .c-hero{box-shadow:0 2px 6px rgba(0,0,0,.04),0 8px 30px rgba(0,0,0,.06)}
-.hero-title{font-size:clamp(24px,3.2vw,36px);font-weight:800;letter-spacing:-.05em;line-height:1.05;margin-bottom:8px}
+.hero-title{font-family:'Playfair Display',Georgia,serif;font-style:italic;font-size:clamp(28px,3.5vw,42px);font-weight:700;letter-spacing:-.03em;line-height:1.05;margin-bottom:12px}
 .hero-sub{font-size:13px;color:var(--dim);margin-bottom:20px;max-width:380px;line-height:1.6}
 .hero-sub:empty{display:none}
 .hero-cta{font-family:var(--font);font-size:13px;font-weight:600;color:#fff;background:var(--ink);border:none;padding:12px 32px;border-radius:100px;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(0,0,0,.12)}
@@ -147,7 +150,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 .hero-go:hover{background:var(--green)}
 .hero-sug{position:absolute;top:calc(100% + 6px);left:0;right:0;background:var(--card);border:1px solid rgba(0,0,0,.08);border-radius:16px;max-height:220px;overflow-y:auto;display:none;z-index:100;box-shadow:0 8px 30px rgba(0,0,0,.1)}
 .hero-sug.show{display:block}
-.sug-item{padding:10px 16px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .1s}
+.sug-item{padding:10px 16px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .1s;color:var(--ink)}
 .sug-item:hover,.sug-item.active{background:var(--bg)}
 .sug-flag{font-size:16px}
 
@@ -386,7 +389,7 @@ var I18N = {
     lblRandom:"Aléatoire",lblRandomSub:"Découvrir un pays",
     lblGame:"WiggGame",lblGameSub:"Testez vos connaissances du monde",
     lblConn:"Connect",lblConnSub:"Bientôt disponible",
-    cmTitle:"WiggMap Connect",cmSub:"Le réseau social des expatriés et voyageurs arrive bientôt. Restez connectés.",cmClose:"OK",
+    cmTitle:"WiggMap Connect",cmSub:"Le réseau social des expatriés et voyageurs arrive bientôt. Restez connecté.",cmClose:"OK",
     lblAbout:"Qu'est-ce que<br>WiggMap ?"
   },
   es: {
