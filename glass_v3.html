@@ -1,25 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
 <head>
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-K4MMRD4R');</script>
-<link rel="manifest" href="/manifest.webmanifest">
-<meta name="theme-color" content="#1a1a1a">
-<link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>WiggMap — Where is the grass greener?</title>
-<meta name="description" content="Compare countries with real data. Salaries, rent, taxes, safety, climate — 160+ countries, no filter.">
-<link rel="canonical" href="https://wiggmap.com/" />
-<link rel="icon" href="/assets/favicon.ico" type="image/x-icon"/>
-<meta name="fo-verify" content="71d07505-22e0-497d-a7ea-8013b325e973" />
-<meta property="og:title" content="WiggMap — Where is the grass greener?">
-<meta property="og:description" content="Compare countries with real data. Salaries, rent, taxes, safety, climate — 160+ countries, no filter.">
-<meta property="og:image" content="https://wiggmap.com/assets/accueilv2.png">
-<meta property="og:url" content="https://wiggmap.com/">
-<meta property="og:type" content="website">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>WiggMap</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -146,14 +130,15 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
 </style>
 </head>
 <body>
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="shell">
 
   <div class="topbar">
     <a class="brand" href="/"><span class="brand-dot"></span>WiggMap</a>
-    <form id="searchForm" class="search-wrap" autocomplete="off" style="flex:1;position:relative"><input id="searchInput" class="search-input" type="text" placeholder="ex. Suisse, Japon, Thaïlande…">
-      <button id="searchGo" class="search-go" type="submit">Go →</button></form>
-    <button class="lang-btn" id="langBtn">🇫🇷 FR</button>
+    <div class="search-wrap">
+      <input class="search-input" type="text" placeholder="ex. Suisse, Japon, Thaïlande…">
+      <button class="search-go">Go →</button>
+    </div>
+    <button class="lang-btn">🇫🇷 FR</button>
   </div>
 
   <div class="main">
@@ -164,24 +149,24 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
       <a class="pill" href="/globe.html">
         <span class="pill-icon">🌍</span>
         <div class="pill-body">
-          <div class="pill-name" id="lblGlobe">Globe 3D</div>
-          <div class="pill-sub" id="lblGlobeSub">Tournez. Atterrissez n'importe où.</div>
+          <div class="pill-name">Globe 3D</div>
+          <div class="pill-sub">Tournez. Atterrissez n'importe où.</div>
         </div>
       </a>
 
       <a class="pill" href="/indexchronicles.html">
         <span class="pill-icon">📖</span>
         <div class="pill-body">
-          <div class="pill-name" style="font-style:italic" id="lblChron">Chroniques</div>
-          <div class="pill-sub" id="lblChronSub">Articles & analyses expat</div>
+          <div class="pill-name" style="font-style:italic">Chroniques</div>
+          <div class="pill-sub">Articles & analyses expat</div>
         </div>
       </a>
 
       <a class="pill dark" href="/ggg/wigggame.html">
         <span class="pill-icon">🎮</span>
         <div class="pill-body">
-          <div class="pill-name" id="lblGame">WiggGame</div>
-          <div class="pill-sub" id="lblGameSub">Testez vos connaissances</div>
+          <div class="pill-name">WiggGame</div>
+          <div class="pill-sub">Testez vos connaissances</div>
         </div>
       </a>
 
@@ -195,7 +180,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
 
       <a class="pill pill-cmp" href="/compare.html">
         <div class="cmp-flags">🇵🇹 🇹🇭</div>
-        <div class="pill-name" id="lblCompare">Comparer</div>
+        <div class="pill-name">Comparer</div>
         <div class="cmp-row"><span>Salaire</span><span class="cmp-win">$1 400 vs $820</span></div>
         <div class="cmp-row"><span>Loyer</span><span>$570 vs $380</span></div>
       </a>
@@ -203,145 +188,19 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
       <a class="pill dark" href="#" id="btnRandom">
         <span class="pill-icon">🎲</span>
         <div class="pill-body">
-          <div class="pill-name" id="lblRandom">Aléatoire</div>
-          <div class="pill-sub" id="lblRandomSub">Découvrir un pays</div>
+          <div class="pill-name">Aléatoire</div>
+          <div class="pill-sub">Découvrir un pays</div>
         </div>
       </a>
 
       <a class="pill accent pill-about" href="/about.html">
-        <div class="pill-name" id="lblAbout">Qu'est-ce que WiggMap ?</div>
-        <div class="pill-sub" id="lblAboutSub">Explorez les salaires, visas, loyers, taxes et qualité de vie dans plus de 160 pays.</div>
+        <div class="pill-name">Qu'est-ce que WiggMap ?</div>
+        <div class="pill-sub">Explorez les salaires, visas, loyers, taxes et qualité de vie dans plus de 160 pays.</div>
       </a>
 
     </div>
 
   </div>
 </div>
-
-<!-- Search suggestions container -->
-<div class="hero-sug" id="searchSug" role="listbox" style="position:absolute;top:100%;left:0;right:0;background:rgba(30,30,30,.95);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.15);border-radius:16px;max-height:220px;overflow-y:auto;display:none;z-index:100;margin-top:6px"></div>
-
-<!-- i18n -->
-<script>
-var I18N={
-  en:{placeholder:"e.g. Switzerland, Japan…",goBtn:"Go →",noMatch:"No match found.",
-      globe:"3D Globe",globeSub:"Spin. Land anywhere.",
-      chron:"Chronicles",chronSub:"In-depth articles & analysis",
-      game:"WiggGame",gameSub:"Test your knowledge",
-      compare:"Compare",random:"Random",randomSub:"Discover a country",
-      about:"What is WiggMap?",aboutSub:"Explore salaries, visas, rent, taxes and quality of life across 160+ countries."},
-  fr:{placeholder:"ex. Suisse, Japon, Thaïlande…",goBtn:"Go →",noMatch:"Aucun résultat.",
-      globe:"Globe 3D",globeSub:"Tournez. Atterrissez n'importe où.",
-      chron:"Chroniques",chronSub:"Articles & analyses expat",
-      game:"WiggGame",gameSub:"Testez vos connaissances",
-      compare:"Comparer",random:"Aléatoire",randomSub:"Découvrir un pays",
-      about:"Qu'est-ce que WiggMap ?",aboutSub:"Explorez les salaires, visas, loyers, taxes et qualité de vie dans plus de 160 pays."},
-  es:{placeholder:"p.ej. Suiza, Japón…",goBtn:"Ir →",noMatch:"Sin resultados.",
-      globe:"Globo 3D",globeSub:"Gira. Aterriza en cualquier lugar.",
-      chron:"Crónicas",chronSub:"Artículos y análisis",
-      game:"WiggGame",gameSub:"Pon a prueba tu conocimiento",
-      compare:"Comparar",random:"Aleatorio",randomSub:"Descubrir un país",
-      about:"¿Qué es WiggMap?",aboutSub:"Explora salarios, visados, alquileres, impuestos y calidad de vida en más de 160 países."}
-};
-function getLang(){return(localStorage.getItem('wigg_lang')||'en').toLowerCase()}
-(function(){
-  var L=getLang(),t=I18N[L]||I18N.en;
-  document.documentElement.lang=L;
-  var $=function(id){return document.getElementById(id)};
-  var FLAGS={en:'🇬🇧',fr:'🇫🇷',es:'🇪🇸'},LABELS={en:'EN',fr:'FR',es:'ES'};
-  var lb=$('langBtn');if(lb)lb.textContent=FLAGS[L]+' '+LABELS[L];
-  if($('searchInput'))$('searchInput').placeholder=t.placeholder;
-  if($('searchGo'))$('searchGo').textContent=t.goBtn;
-  if($('lblGlobe'))$('lblGlobe').textContent=t.globe;
-  if($('lblGlobeSub'))$('lblGlobeSub').textContent=t.globeSub;
-  if($('lblChron'))$('lblChron').textContent=t.chron;
-  if($('lblChronSub'))$('lblChronSub').textContent=t.chronSub;
-  if($('lblGame'))$('lblGame').textContent=t.game;
-  if($('lblGameSub'))$('lblGameSub').textContent=t.gameSub;
-  if($('lblCompare'))$('lblCompare').textContent=t.compare;
-  if($('lblRandom'))$('lblRandom').textContent=t.random;
-  if($('lblRandomSub'))$('lblRandomSub').textContent=t.randomSub;
-  if($('lblAbout'))$('lblAbout').textContent=t.about;
-  if($('lblAboutSub'))$('lblAboutSub').textContent=t.aboutSub;
-  window.__NO_MATCH=t.noMatch;
-})();
-</script>
-
-<!-- Lang switcher -->
-<script>
-(function(){
-  var btn=document.getElementById('langBtn');if(!btn)return;
-  var langs=['en','fr','es'],cur=getLang(),idx=langs.indexOf(cur);
-  btn.addEventListener('click',function(){
-    idx=(idx+1)%langs.length;
-    localStorage.setItem('wigg_lang',langs[idx]);
-    location.reload();
-  });
-})();
-</script>
-
-<!-- Search + Random -->
-<script>
-(function(){
-  var CDATA=null,_lang=getLang();
-  var _cf=_lang==='fr'?'data/countries.fr.json':_lang==='es'?'data/countries.es.json':'data/countries.json';
-  async function loadDB(){if(CDATA)return;var r=await fetch(_cf);if(!r.ok)return;CDATA=await r.json()}
-  function norm(s){return(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
-  function search(q,max){
-    if(!CDATA||!q)return[];var out=[],keys=Object.keys(CDATA);
-    for(var i=0;i<keys.length&&out.length<max;i++){var k=keys[i],c=CDATA[k],name=c.name||k;if(norm(name).indexOf(q)===0)out.push({slug:k,name:name,flag:c.flag||''})}
-    if(out.length<max){for(var i=0;i<keys.length&&out.length<max;i++){var k=keys[i],c=CDATA[k],name=c.name||k;if(norm(name).indexOf(q)>0&&!out.find(function(x){return x.slug===k}))out.push({slug:k,name:name,flag:c.flag||''})}}
-    return out;
-  }
-  function go(slug){window.location.href='/countries/country.html?country='+encodeURIComponent(slug)}
-  var inp=document.getElementById('searchInput'),sug=document.getElementById('searchSug'),form=document.getElementById('searchForm');
-  var list=[],ai=-1,debT;
-  function renderSug(items){
-    list=items;ai=-1;
-    if(!items.length){sug.style.display='none';sug.innerHTML='';return}
-    sug.innerHTML=items.map(function(it,i){return '<div style="padding:10px 16px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:8px;color:#fff;transition:background .1s" onmouseover="this.style.background=\'rgba(255,255,255,.1)\'" onmouseout="this.style.background=\'none\'" data-i="'+i+'"><span style="font-size:16px">'+it.flag+'</span>'+it.name+'</div>'}).join('');
-    sug.style.display='block';
-    // Position sug under search
-    var sw=document.querySelector('.search-wrap');
-    if(sw){sug.style.position='absolute';sug.style.top=sw.offsetTop+sw.offsetHeight+6+'px';sug.style.left=sw.offsetLeft+'px';sug.style.width=sw.offsetWidth+'px'}
-  }
-  if(inp){
-    inp.addEventListener('input',function(){clearTimeout(debT);debT=setTimeout(async function(){await loadDB();renderSug(search(norm(inp.value),8))},80)});
-    inp.addEventListener('keydown',function(e){
-      if(sug.style.display!=='block')return;var max=list.length-1;
-      if(e.key==='ArrowDown'){e.preventDefault();ai=ai<max?ai+1:0}
-      if(e.key==='ArrowUp'){e.preventDefault();ai=ai>0?ai-1:max}
-      if(e.key==='Enter'&&ai>=0&&list[ai]){e.preventDefault();go(list[ai].slug)}
-      if(e.key==='Escape')sug.style.display='none';
-    });
-  }
-  if(sug)sug.addEventListener('click',function(e){var it=e.target.closest('[data-i]');if(it){var i=Number(it.dataset.i);if(list[i])go(list[i].slug)}});
-  document.addEventListener('click',function(e){if(!e.target.closest('.search-wrap')&&!e.target.closest('.hero-sug'))sug.style.display='none'});
-  if(form)form.addEventListener('submit',async function(e){e.preventDefault();await loadDB();var q=norm(inp.value);if(!q)return;if(ai>=0&&list[ai])return go(list[ai].slug);var res=search(q,1);if(res.length)go(res[0].slug);else alert(window.__NO_MATCH||'No match.')});
-
-  // Random
-  var rndBtn=document.getElementById('btnRandom');
-  if(rndBtn)rndBtn.addEventListener('click',async function(e){e.preventDefault();await loadDB();var keys=Object.keys(CDATA||{});if(keys.length)go(keys[Math.floor(Math.random()*keys.length)])});
-  loadDB().catch(console.error);
-})();
-</script>
-
-<!-- PWA install -->
-<script>
-(function(){
-  var isStandalone=window.navigator.standalone===true||window.matchMedia('(display-mode: standalone)').matches;
-  if(isStandalone)return;
-  var deferredPrompt=null;
-  window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredPrompt=e});
-})();
-</script>
-
-<!-- Service Worker -->
-<script>
-if('serviceWorker' in navigator){
-  window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(console.error)});
-  navigator.serviceWorker.getRegistrations().then(function(r){r.forEach(function(x){x.update()})});
-}
-</script>
 </body>
 </html>
