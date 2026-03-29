@@ -27,7 +27,7 @@
   <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#e8e4dd;--card:#ffffff;--ink:#111;--dim:#777;--faint:#bbb;
+  --bg:#f3e5c3;--card:#ffffff;--ink:#111;--dim:#777;--faint:#bbb;
   --green:#1a7a45;--green-soft:rgba(26,122,69,.08);
   --r:22px;--r-lg:28px;
   --font:'Inter',system-ui,sans-serif;
@@ -62,14 +62,14 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 .grid{display:grid;grid-template-columns:1fr 1fr 1.3fr 1fr;grid-template-rows:1.1fr .9fr 1fr;gap:10px;min-height:0}
 
 /* ── CARD ── */
-.c{background:#f5f0e4;border-radius:var(--r-lg);padding:24px 26px;display:flex;flex-direction:column;position:relative;overflow:hidden;cursor:pointer;text-decoration:none;color:var(--ink);transition:transform .35s cubic-bezier(.25,.8,.25,1),box-shadow .35s ease,filter .35s ease;box-shadow:0 1px 3px rgba(0,0,0,.03),0 4px 16px rgba(0,0,0,.04);z-index:1}
+.c{background:#f9edce;border-radius:var(--r-lg);padding:24px 26px;display:flex;flex-direction:column;position:relative;overflow:hidden;cursor:pointer;text-decoration:none;color:var(--ink);transition:transform .35s cubic-bezier(.25,.8,.25,1),box-shadow .35s ease,filter .35s ease;box-shadow:0 1px 3px rgba(0,0,0,.03),0 4px 16px rgba(0,0,0,.04);z-index:1}
 .c-hero{z-index:10;overflow:visible}
 .c:hover{transform:translateY(-3px) rotate(-1deg);box-shadow:0 6px 16px rgba(0,0,0,.08),0 20px 50px rgba(0,0,0,.09);filter:brightness(.92)}
-.c.dark{background:#2a2720;color:#fff}
-.c.dark .c-sub{color:rgba(255,255,255,.45)}
-.c.dark .c-tag{color:rgba(255,255,255,.25)}
+.c.dark{background:#111;color:#fff}
+.c.dark .c-sub{color:rgba(255,255,255,.4)}
+.c.dark .c-tag{color:rgba(255,255,255,.2)}
 .c.dark:hover{filter:brightness(.85)}
-.c.green{background:#3d6b4a;color:#fff}
+.c.green{background:var(--green);color:#fff}
 .c.green .c-sub{color:rgba(255,255,255,.6)}
 .c.green:hover{filter:brightness(.85)}
 .c-hero:hover{transform:translateY(-2px);filter:brightness(.95)}
@@ -82,7 +82,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 .c.dark:hover .c-arrow{color:#fff}
 
 /* ── IMAGE CARDS ── */
-.c-img{background-size:cover;background-position:center;background-color:#f5f0e4;color:#fff}
+.c-img{background-size:cover;background-position:center;background-color:#f9edce;color:#fff}
 .c-img::before{content:none}
 .c-img>*{position:relative;z-index:1}
 .c-img .c-tag{color:var(--dim)}
@@ -91,11 +91,13 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 .c-img .c-arrow{color:var(--faint)}
 .c-img:hover .c-arrow{color:var(--ink)}
 /* Center content in image cards */
-.c-img.c-center{align-items:center;justify-content:center;text-align:center}
+.c-img.c-center{align-items:center;justify-content:flex-end;text-align:center}
 .c-img.c-center .c-tag{margin-bottom:8px}
+/* Label box — opaque backdrop behind text on image cards */
+.c-label-box{background:rgba(249,237,206,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:14px;padding:10px 16px;margin-top:auto}
 
 /* Hero — centre.png : NO overlay, image fully visible, text at bottom */
-.c-hero.c-img{background-image:url('imgindex/centre.png');background-size:50%;background-repeat:no-repeat;background-position:center 30%;justify-content:flex-end;align-items:center;text-align:center;padding-bottom:32px}
+.c-hero.c-img{background-image:url('imgindex/centre.png');background-size:35%;background-repeat:no-repeat;background-position:center 18%;justify-content:center;align-items:center;text-align:center;padding-top:40%}
 .c-hero.c-img::before{background:none}
 .c-hero.c-img:hover::before{background:none}
 .c-hero.c-img .hero-title{color:var(--ink);text-shadow:none}
@@ -111,7 +113,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 .c-rnd.c-img{background-image:url('imgindex/random.png');background-position:center}
 
 /* Game — jeux.png */
-.c-game.c-img{background-image:url('imgindex/jeux.png');background-position:center}
+.c-game.c-img{background-image:url('imgindex/jeux.png');background-size:55%;background-repeat:no-repeat;background-position:center 30%}
 
 /* ── PLACEMENTS ── */
 .c-hero{grid-column:2/4;grid-row:1/3;padding:40px 44px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
@@ -245,9 +247,11 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 
     <!-- 3D GLOBE -->
     <a class="c c-globe c-img c-center" href="/globe.html">
-      <div class="c-tag" id="tagGlobe">Explore</div>
-      <div class="c-name" id="lblGlobe">3D Globe</div>
-      <div class="c-sub" id="lblGlobeSub">Spin. Land anywhere.</div>
+      <div class="c-label-box">
+        <div class="c-tag" id="tagGlobe">Explore</div>
+        <div class="c-name" id="lblGlobe">3D Globe</div>
+        <div class="c-sub" id="lblGlobeSub">Spin. Land anywhere.</div>
+      </div>
       <span class="c-arrow">→</span>
     </a>
 
@@ -275,9 +279,11 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 
     <!-- CHRONICLES -->
     <a class="c c-chr c-img c-center" href="/indexchronicles.html">
-      <div class="c-tag" id="tagChron">Editorial</div>
-      <div class="c-name" style="font-style:italic" id="lblChron">Chronicles</div>
-      <div class="c-sub" id="lblChronSub">In-depth articles &amp; analysis on expat life worldwide</div>
+      <div class="c-label-box">
+        <div class="c-tag" id="tagChron">Editorial</div>
+        <div class="c-name" style="font-style:italic" id="lblChron">Chronicles</div>
+        <div class="c-sub" id="lblChronSub">In-depth articles &amp; analysis on expat life worldwide</div>
+      </div>
       <span class="c-arrow">→</span>
     </a>
 
@@ -291,17 +297,21 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 
     <!-- RANDOM -->
     <a class="c c-rnd c-img c-center" id="btnRandom" href="#">
-      <div class="c-tag">Discover</div>
-      <div class="c-name" id="lblRandom">Random</div>
-      <div class="c-sub" id="lblRandomSub">Surprise me</div>
+      <div class="c-label-box">
+        <div class="c-tag">Discover</div>
+        <div class="c-name" id="lblRandom">Random</div>
+        <div class="c-sub" id="lblRandomSub">Surprise me</div>
+      </div>
       <span class="c-arrow">→</span>
     </a>
 
     <!-- WIGGGAME -->
     <a class="c c-game c-img c-center" href="/ggg/wigggame.html">
-      <div class="c-tag">Quiz &amp; Play</div>
-      <div class="c-name" id="lblGame">WiggGame</div>
-      <div class="c-sub" id="lblGameSub">Test your world knowledge</div>
+      <div class="c-label-box">
+        <div class="c-tag">Quiz &amp; Play</div>
+        <div class="c-name" id="lblGame">WiggGame</div>
+        <div class="c-sub" id="lblGameSub">Test your world knowledge</div>
+      </div>
       <span class="c-arrow">→</span>
     </a>
 
