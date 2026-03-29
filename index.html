@@ -59,7 +59,8 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 .grid{display:grid;grid-template-columns:1fr 1fr 1.3fr 1fr;grid-template-rows:1.1fr .9fr 1fr;gap:10px;min-height:0}
 
 /* ── CARD ── */
-.c{background:var(--card);border-radius:var(--r-lg);padding:24px 26px;display:flex;flex-direction:column;position:relative;overflow:hidden;cursor:pointer;text-decoration:none;color:var(--ink);transition:transform .25s ease,box-shadow .25s ease;box-shadow:0 1px 3px rgba(0,0,0,.03),0 4px 16px rgba(0,0,0,.04)}
+.c{background:var(--card);border-radius:var(--r-lg);padding:24px 26px;display:flex;flex-direction:column;position:relative;overflow:hidden;cursor:pointer;text-decoration:none;color:var(--ink);transition:transform .25s ease,box-shadow .25s ease;box-shadow:0 1px 3px rgba(0,0,0,.03),0 4px 16px rgba(0,0,0,.04);z-index:1}
+.c-hero{z-index:10;overflow:visible}
 .c:hover{transform:translateY(-3px);box-shadow:0 4px 12px rgba(0,0,0,.06),0 16px 40px rgba(0,0,0,.07)}
 .c.dark{background:#111;color:#fff}
 .c.dark .c-sub{color:rgba(255,255,255,.35)}
@@ -89,26 +90,26 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 .c-img.c-center .c-tag{margin-bottom:8px}
 
 /* Hero — centre.png : NO overlay, image fully visible, text at bottom */
-.c-hero.c-img{background-image:url('imgindex/centre.png');background-position:center 35%;justify-content:flex-end;align-items:center;text-align:center}
-.c-hero.c-img::before{background:linear-gradient(to top,rgba(244,242,239,.95) 0%,rgba(244,242,239,.7) 30%,rgba(244,242,239,0) 55%)}
-.c-hero.c-img:hover::before{background:linear-gradient(to top,rgba(244,242,239,.9) 0%,rgba(244,242,239,.6) 30%,rgba(244,242,239,0) 55%)}
+.c-hero.c-img{background-image:url('imgindex/centre.png');background-position:center 30%;justify-content:center;align-items:center;text-align:center}
+.c-hero.c-img::before{background:radial-gradient(ellipse at center 60%,rgba(244,242,239,.75) 0%,rgba(244,242,239,.4) 40%,rgba(244,242,239,0) 70%)}
+.c-hero.c-img:hover::before{background:radial-gradient(ellipse at center 60%,rgba(244,242,239,.7) 0%,rgba(244,242,239,.35) 40%,rgba(244,242,239,0) 70%)}
 .c-hero.c-img .hero-title{color:var(--ink);text-shadow:none}
 .c-hero.c-img .hero-sub{color:var(--dim);text-shadow:none}
 
 /* Globe — globe.png */
-.c-globe.c-img{background-image:url('imgindex/globe.png');background-position:center}
-.c-globe.c-img::before{background:rgba(0,0,0,.3)}
-.c-globe.c-img:hover::before{background:rgba(0,0,0,.2)}
+.c-globe.c-img{background-image:url('imgindex/globe.png');background-position:center;background-color:#f5f0e4}
+.c-globe.c-img::before{background:rgba(0,0,0,.15)}
+.c-globe.c-img:hover::before{background:rgba(0,0,0,.08)}
 
 /* Chronicles — chronicles.png */
-.c-chr.c-img{background-image:url('imgindex/chronicles.png');background-position:center 40%}
-.c-chr.c-img::before{background:rgba(0,0,0,.4)}
-.c-chr.c-img:hover::before{background:rgba(0,0,0,.3)}
+.c-chr.c-img{background-image:url('imgindex/chronicles.png');background-position:center 40%;background-color:#f5f0e4}
+.c-chr.c-img::before{background:rgba(0,0,0,.2)}
+.c-chr.c-img:hover::before{background:rgba(0,0,0,.12)}
 
 /* Random — random.png */
-.c-rnd.c-img{background-image:url('imgindex/random.png');background-position:center}
-.c-rnd.c-img::before{background:rgba(0,0,0,.35)}
-.c-rnd.c-img:hover::before{background:rgba(0,0,0,.25)}
+.c-rnd.c-img{background-image:url('imgindex/random.png');background-position:center;background-color:#f5f0e4}
+.c-rnd.c-img::before{background:rgba(0,0,0,.2)}
+.c-rnd.c-img:hover::before{background:rgba(0,0,0,.1)}
 
 /* Game — jeux.png — more transparent */
 .c-game.c-img{background-image:url('imgindex/jeux.png');background-position:center}
@@ -130,6 +131,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 .c-hero{box-shadow:0 2px 6px rgba(0,0,0,.04),0 8px 30px rgba(0,0,0,.06)}
 .hero-title{font-size:clamp(24px,3.2vw,36px);font-weight:800;letter-spacing:-.05em;line-height:1.05;margin-bottom:8px}
 .hero-sub{font-size:13px;color:var(--dim);margin-bottom:20px;max-width:380px;line-height:1.6}
+.hero-sub:empty{display:none}
 .hero-cta{font-family:var(--font);font-size:13px;font-weight:600;color:#fff;background:var(--ink);border:none;padding:12px 32px;border-radius:100px;cursor:pointer;transition:all .2s;box-shadow:0 4px 16px rgba(0,0,0,.12)}
 .hero-cta:hover{background:var(--green);transform:scale(1.04)}
 
@@ -239,9 +241,8 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 
     <!-- HERO -->
     <div class="c c-hero c-img">
-      <div class="hero-title" id="heroTitle" style="margin-top:auto">Read the world properly.</div>
-      <div class="hero-sub" id="heroSub">Compare countries beyond the fantasy version. Real data, no filter.</div>
-      <button class="hero-cta" id="heroCta" onclick="location.href='/compare.html'">Start comparing</button>
+      <div class="hero-title" id="heroTitle">Read the world properly.</div>
+      <div class="hero-sub" id="heroSub"></div>
       <form class="hero-search" id="searchForm" autocomplete="off">
         <input class="hero-input" id="searchInput" type="text" placeholder="e.g. Switzerland, Japan…" autocomplete="off" spellcheck="false">
         <button class="hero-go" type="submit" id="searchGo">Go →</button>
@@ -296,7 +297,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
     <a class="c c-conn dark" href="/connect/">
       <div class="c-tag">Social</div>
       <div class="c-name" id="lblConn">Connect</div>
-      <div class="c-sub" id="lblConnSub">Expats, trajectories, stories. The community layer.</div>
+      <div class="c-sub" id="lblConnSub">Coming soon</div>
       <div class="conn-badge">◎ New</div>
       <span class="c-arrow">→</span>
     </a>
@@ -326,7 +327,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 var I18N = {
   en: {
     heroTitle:"Read the world properly.",
-    heroSub:"Compare countries beyond the fantasy version. Real data, no filter.",
+    heroSub:"",
     heroCta:"Start comparing",
     placeholder:"e.g. Switzerland, Japan…", goBtn:"Go →", noMatch:"No match found.",
     navChron:"Chronicles",navCompare:"Compare",navCountries:"Countries",navGlobe:"Globe",navGame:"Game",
@@ -336,12 +337,12 @@ var I18N = {
     tagCtr:"Indexed",lblCtrSub:"Countries profiled",
     lblRandom:"Random",lblRandomSub:"Surprise me",
     lblGame:"WiggGame",lblGameSub:"Test your world knowledge",
-    lblConn:"Connect",lblConnSub:"Expats, trajectories, stories. The community layer.",
+    lblConn:"Connect",lblConnSub:"Coming soon",
     lblAbout:"What is<br>WiggMap?"
   },
   fr: {
     heroTitle:"Lisez le monde correctement.",
-    heroSub:"Comparez les pays au-delà de la version fantasmée. Données réelles, sans filtre.",
+    heroSub:"",
     heroCta:"Commencer à comparer",
     placeholder:"ex. Suisse, Japon…", goBtn:"Go →", noMatch:"Aucun résultat.",
     navChron:"Chroniques",navCompare:"Comparer",navCountries:"Pays",navGlobe:"Globe",navGame:"Jeu",
@@ -351,12 +352,12 @@ var I18N = {
     tagCtr:"Indexés",lblCtrSub:"Pays profilés",
     lblRandom:"Aléatoire",lblRandomSub:"Découvrir un pays",
     lblGame:"WiggGame",lblGameSub:"Testez vos connaissances du monde",
-    lblConn:"Connect",lblConnSub:"Expats, trajectoires, histoires vraies. La couche communautaire.",
+    lblConn:"Connect",lblConnSub:"Bientôt disponible",
     lblAbout:"Qu'est-ce que<br>WiggMap ?"
   },
   es: {
     heroTitle:"Lee el mundo correctamente.",
-    heroSub:"Compara países más allá de la versión fantasía. Datos reales, sin filtro.",
+    heroSub:"",
     heroCta:"Empezar a comparar",
     placeholder:"p.ej. Suiza, Japón…", goBtn:"Ir →", noMatch:"Sin resultados.",
     navChron:"Crónicas",navCompare:"Comparar",navCountries:"Países",navGlobe:"Globo",navGame:"Juego",
@@ -366,7 +367,7 @@ var I18N = {
     tagCtr:"Indexados",lblCtrSub:"Países perfilados",
     lblRandom:"Aleatorio",lblRandomSub:"Descubrir un país",
     lblGame:"WiggGame",lblGameSub:"Pon a prueba tu conocimiento del mundo",
-    lblConn:"Connect",lblConnSub:"Expats, trayectorias, historias reales. La capa comunitaria.",
+    lblConn:"Connect",lblConnSub:"Próximamente",
     lblAbout:"¿Qué es<br>WiggMap?"
   }
 };
