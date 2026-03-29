@@ -95,29 +95,33 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
 .main{
   flex:1;min-height:0;
   display:grid;
-  grid-template-columns:220px 1fr 220px;
+  grid-template-columns:1fr 240px 1fr 240px 1fr;
   gap:10px;
-  align-items:center;
+  align-items:end;
+  padding-bottom:5vh;
 }
 
 /* ── CENTER empty ── */
-.center{}
+.center{grid-column:3;grid-row:1}
 
 /* ── SIDE COLUMNS ── */
 .col{
   display:flex;flex-direction:column;gap:10px;
 }
+.col:first-child{grid-column:2;grid-row:1}
+.col:last-child{grid-column:4;grid-row:1}
 
 /* ── PILL CARD ── */
 .pill{
-  display:flex;align-items:center;gap:11px;
+  display:flex;flex-direction:column;align-items:flex-start;gap:6px;
   padding:14px 18px;
   background:var(--glass);
   backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);
   border:1px solid var(--glass-b);
-  border-radius:100px;
+  border-radius:26px;
   cursor:pointer;text-decoration:none;color:#fff;
   transition:transform .2s ease,background .2s ease,border-color .2s ease;
+  min-height:80px;
 }
 .pill:hover{
   transform:translateY(-2px);
@@ -129,19 +133,19 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
 .pill.accent{background:rgba(34,197,94,.2);border-color:rgba(34,197,94,.38)}
 .pill.accent:hover{background:rgba(34,197,94,.32)}
 
-.pill-icon{font-size:18px;flex-shrink:0}
+.pill-icon{font-size:18px;flex-shrink:0;margin-bottom:2px}
 .pill-body{display:flex;flex-direction:column;gap:2px;min-width:0}
 .pill-name{font-size:13px;font-weight:700;color:#fff;line-height:1.2;white-space:nowrap}
 .pill-sub{font-size:10px;color:rgba(255,255,255,.52);line-height:1.3}
 
 /* Compare pill */
-.pill-cmp{flex-direction:column;align-items:flex-start;border-radius:26px;padding:14px 18px;gap:6px}
+.pill-cmp{}
 .cmp-flags{font-size:13px}
 .cmp-row{display:flex;justify-content:space-between;width:100%;font-size:10px;color:rgba(255,255,255,.55)}
 .cmp-win{color:var(--green);font-weight:700}
 
 /* About pill */
-.pill-about{flex-direction:column;align-items:flex-start;border-radius:26px;padding:14px 18px;gap:5px}
+.pill-about{}
 .pill-about .pill-sub{color:rgba(255,255,255,.65);max-width:180px;white-space:normal;line-height:1.45}
 </style>
 </head>
