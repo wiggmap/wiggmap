@@ -131,16 +131,20 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
   height:120px;
 }
 .pill:hover{
-  transform:translateY(-2px);
-  background:rgba(255,255,255,.22);
-  border-color:rgba(255,255,255,.38);
+  transform:translateY(-4px) scale(1.02);
+  background:rgba(255,255,255,.24);
+  border-color:rgba(255,255,255,.45);
+  box-shadow:0 8px 32px rgba(0,0,0,.2),0 0 0 1px rgba(255,255,255,.1);
 }
 .pill.dark{background:var(--dark-glass);border-color:rgba(255,255,255,.1)}
-.pill.dark:hover{background:rgba(0,0,0,.4)}
+.pill.dark:hover{background:rgba(0,0,0,.4);box-shadow:0 8px 32px rgba(0,0,0,.3),0 0 0 1px rgba(255,255,255,.08)}
 .pill.accent{background:rgba(34,197,94,.2);border-color:rgba(34,197,94,.38)}
-.pill.accent:hover{background:rgba(34,197,94,.32)}
+.pill.accent:hover{background:rgba(34,197,94,.32);box-shadow:0 8px 32px rgba(34,197,94,.15),0 0 0 1px rgba(34,197,94,.25)}
 
 .pill-icon{font-size:18px;flex-shrink:0;margin-bottom:2px}
+.pill::after{content:'→';position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:13px;color:rgba(255,255,255,.15);transition:all .25s;font-weight:600}
+.pill:hover::after{color:rgba(255,255,255,.7);right:14px}
+.pill{position:relative}
 .pill-body{display:flex;flex-direction:column;gap:2px;min-width:0}
 .pill-name{font-size:13px;font-weight:700;color:#fff;line-height:1.2;white-space:nowrap}
 .pill-sub{font-size:10px;color:rgba(255,255,255,.52);line-height:1.3}
