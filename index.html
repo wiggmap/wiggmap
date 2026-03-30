@@ -65,7 +65,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
   text-shadow:0 1px 8px rgba(0,0,0,.35);
 }
 .brand-dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0}
-.search-wrap{flex:1;position:relative}
+.search-wrap{flex:0 1 360px;position:relative;margin:0 auto}
 .search-input{
   width:100%;font-family:var(--font);font-size:13px;
   padding:10px 52px 10px 18px;
@@ -82,6 +82,12 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
   color:#fff;background:var(--green);border:none;
   padding:6px 14px;border-radius:100px;cursor:pointer;
 }
+.lang-wrap{position:relative}
+.lang-dd{display:none;position:absolute;right:0;top:calc(100% + 6px);background:rgba(30,30,30,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.15);border-radius:14px;overflow:hidden;min-width:130px;z-index:999}
+.lang-wrap.open .lang-dd{display:block}
+.lang-item{padding:10px 16px;font-size:12px;color:rgba(255,255,255,.7);cursor:pointer;transition:background .1s;font-family:var(--font)}
+.lang-item:hover{background:rgba(255,255,255,.1);color:#fff}
+.lang-item.active{color:var(--green);font-weight:700}
 .lang-btn{
   font-size:11px;font-weight:600;color:rgba(255,255,255,.8);
   background:rgba(255,255,255,.12);
@@ -161,7 +167,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
   }
   .center{display:none}
   .col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .pill{height:auto;min-height:70px}
+  .pill{height:auto;min-height:70px;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1)}
 }
 @media(max-width:500px){
   .col{grid-template-columns:1fr}
@@ -180,7 +186,14 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
     <a class="brand" href="/"><span class="brand-dot"></span>WiggMap</a>
     <form id="searchForm" class="search-wrap" autocomplete="off" style="flex:1;position:relative"><input id="searchInput" class="search-input" type="text" placeholder="ex. Suisse, Japon, Thaïlande…">
       <button id="searchGo" class="search-go" type="submit">Go →</button></form>
-    <button class="lang-btn" id="langBtn">🇫🇷 FR</button>
+    <div class="lang-wrap" id="langWrap">
+      <button class="lang-btn" id="langBtn">🇫🇷 FR</button>
+      <div class="lang-dd" id="langDd">
+        <div class="lang-item" data-lang="en">🇬🇧 English</div>
+        <div class="lang-item" data-lang="fr">🇫🇷 Français</div>
+        <div class="lang-item" data-lang="es">🇪🇸 Español</div>
+      </div>
+    </div>
   </div>
 
   <div class="main">
@@ -297,12 +310,27 @@ function getLang(){return(localStorage.getItem('wigg_lang')||'en').toLowerCase()
 <!-- Lang switcher -->
 <script>
 (function(){
-  var btn=document.getElementById('langBtn');if(!btn)return;
-  var langs=['en','fr','es'],cur=getLang(),idx=langs.indexOf(cur);
-  btn.addEventListener('click',function(){
-    idx=(idx+1)%langs.length;
-    localStorage.setItem('wigg_lang',langs[idx]);
-    location.reload();
+  var btn=document.getElementById('langBtn');
+  var wrap=document.getElementById('langWrap');
+  var dd=document.getElementById('langDd');
+  if(!btn||!wrap)return;
+  var cur=getLang();
+  var FLAGS={en:'🇬🇧',fr:'🇫🇷',es:'🇪🇸'},LABELS={en:'EN',fr:'FR',es:'ES'};
+  btn.textContent=FLAGS[cur]+' '+LABELS[cur];
+  document.querySelectorAll('.lang-item').forEach(function(el){
+    if(el.dataset.lang===cur)el.classList.add('active');
+  });
+  btn.addEventListener('click',function(e){
+    e.stopPropagation();
+    wrap.classList.toggle('open');
+  });
+  document.addEventListener('click',function(){wrap.classList.remove('open')});
+  document.querySelectorAll('.lang-item').forEach(function(el){
+    el.addEventListener('click',function(e){
+      e.stopPropagation();
+      localStorage.setItem('wigg_lang',el.dataset.lang);
+      location.reload();
+    });
   });
 })();
 </script>
