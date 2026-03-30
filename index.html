@@ -219,7 +219,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
     <div class="col">
 
       <div class="hero-tagline" id="heroTagline">
-        <div class="hero-tagline-l1" id="taglineL1">Et si ta vie était différente ailleurs ?</div>
+        <div class="hero-tagline-l1" id="taglineL1">Et si ta vie était différente<br>ailleurs ?</div>
         <div class="hero-tagline-l2" id="taglineL2">Explore les conditions de vie de plus de 160 pays.</div>
       </div>
 
@@ -295,21 +295,21 @@ var I18N={
       game:"WiggGame",gameSub:"Test your knowledge",
       compare:"Compare",random:"Random",randomSub:"Discover a country",
       about:"What is WiggMap?",aboutSub:"Explore salaries, visas, rent, taxes and quality of life across 160+ countries.",
-      tagL1:"What if your life were different somewhere else?",tagL2:"Explore living conditions in over 160 countries."},
+      tagL1:"What if your life were different<br>somewhere else?",tagL2:"Explore living conditions in over 160 countries."},
   fr:{placeholder:"ex. Suisse, Japon, Thaïlande…",goBtn:"Go →",noMatch:"Aucun résultat.",
       globe:"Globe 3D",globeSub:"Tournez. Atterrissez n'importe où.",
       chron:"Chroniques",chronSub:"Articles & analyses expat",
       game:"WiggGame",gameSub:"Testez vos connaissances",
       compare:"Comparer",random:"Aléatoire",randomSub:"Découvrir un pays",
       about:"Qu'est-ce que WiggMap ?",aboutSub:"Explorez les salaires, visas, loyers, taxes et qualité de vie dans plus de 160 pays.",
-      tagL1:"Et si ta vie était différente ailleurs ?",tagL2:"Explore les conditions de vie de plus de 160 pays."},
+      tagL1:"Et si ta vie était différente<br>ailleurs ?",tagL2:"Explore les conditions de vie de plus de 160 pays."},
   es:{placeholder:"p.ej. Suiza, Japón…",goBtn:"Ir →",noMatch:"Sin resultados.",
       globe:"Globo 3D",globeSub:"Gira. Aterriza en cualquier lugar.",
       chron:"Crónicas",chronSub:"Artículos y análisis",
       game:"WiggGame",gameSub:"Pon a prueba tu conocimiento",
       compare:"Comparar",random:"Aleatorio",randomSub:"Descubrir un país",
       about:"¿Qué es WiggMap?",aboutSub:"Explora salarios, visados, alquileres, impuestos y calidad de vida en más de 160 países.",
-      tagL1:"¿Y si tu vida fuera diferente en otro lugar?",tagL2:"Explora las condiciones de vida en más de 160 países."}
+      tagL1:"¿Y si tu vida fuera diferente<br>en otro lugar?",tagL2:"Explora las condiciones de vida en más de 160 países."}
 };
 function getLang(){return(localStorage.getItem('wigg_lang')||'en').toLowerCase()}
 (function(){
@@ -331,8 +331,8 @@ function getLang(){return(localStorage.getItem('wigg_lang')||'en').toLowerCase()
   if($('lblRandomSub'))$('lblRandomSub').textContent=t.randomSub;
   if($('lblAbout'))$('lblAbout').textContent=t.about;
   if($('lblAboutSub'))$('lblAboutSub').textContent=t.aboutSub;
-  if($('taglineL1'))$('taglineL1').textContent=t.tagL1;
-  if($('taglineL2'))$('taglineL2').textContent=t.tagL2;
+  if($('taglineL1'))$('taglineL1').innerHTML=t.tagL1;
+  if($('taglineL2'))$('taglineL2').innerHTML=t.tagL2;
   window.__NO_MATCH=t.noMatch;
 })();
 </script>
