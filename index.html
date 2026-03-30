@@ -182,10 +182,6 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
   .pill-icon{font-size:15px}
   .cmp-row{font-size:9px}
   .cmp-flags{font-size:11px}
-  /* Force order: row1=Chron+Game, row2=Compare+Globe, row3=About+Random */
-  .pill:nth-child(1){order:1}
-  .pill:nth-child(2){order:3}
-  .pill:nth-child(3){order:5}
 }
 </style>
 </head>
@@ -248,22 +244,21 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
         </div>
       </a>
 
-      <div class="col-bottom">
-        <a class="pill" href="/globe.html">
-          <span class="pill-icon">🌍</span>
-          <div class="pill-body">
-            <div class="pill-name" id="lblGlobe">Globe 3D</div>
-            <div class="pill-sub" id="lblGlobeSub"></div>
-          </div>
-        </a>
-        <a class="pill dark" href="#" id="btnRandom">
-          <span class="pill-icon">🎲</span>
-          <div class="pill-body">
-            <div class="pill-name" id="lblRandom">Aléatoire</div>
-            <div class="pill-sub" id="lblRandomSub">Découvrir un pays</div>
-          </div>
-        </a>
-      </div>
+      <a class="pill" href="/globe.html">
+        <span class="pill-icon">🌍</span>
+        <div class="pill-body">
+          <div class="pill-name" id="lblGlobe">Globe 3D</div>
+          <div class="pill-sub" id="lblGlobeSub"></div>
+        </div>
+      </a>
+
+      <a class="pill dark" href="#" id="btnRandom">
+        <span class="pill-icon">🎲</span>
+        <div class="pill-body">
+          <div class="pill-name" id="lblRandom">Aléatoire</div>
+          <div class="pill-sub" id="lblRandomSub">Découvrir un pays</div>
+        </div>
+      </a>
 
     </div>
 
