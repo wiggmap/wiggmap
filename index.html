@@ -6,6 +6,7 @@
 <meta name="theme-color" content="#1a1a1a">
 <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300&display=swap" rel="stylesheet">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>WiggMap — Where is the grass greener?</title>
@@ -161,6 +162,11 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
 .pill-about{}
 .pill-about .pill-sub{color:rgba(255,255,255,.65);max-width:180px;white-space:normal;line-height:1.45}
 
+/* ── HERO TAGLINE ── */
+.hero-tagline{text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;color:#f6f1e8}
+.hero-tagline-l1{font-size:2rem;opacity:1;line-height:1.3}
+.hero-tagline-l2{font-size:1rem;opacity:.75;letter-spacing:.05em;line-height:1.4;margin-top:4px}
+
 /* ── MOBILE ── */
 @media(max-width:900px){
   html,body{height:100%;overflow:hidden}
@@ -168,6 +174,9 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
   .topbar{flex-wrap:wrap;height:auto;gap:6px;padding:4px 0}
   .topbar .brand{order:1}
   .topbar .lang-wrap{order:2;margin-left:auto}
+  .hero-tagline{order:-2;width:100%;margin-bottom:4px}
+  .hero-tagline-l1{font-size:1.3rem}
+  .hero-tagline-l2{font-size:0.8rem}
   .search-wrap{order:-1;width:100%}
   .search-input{font-size:12px;padding:8px 44px 8px 14px}
   .main{
@@ -210,6 +219,11 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
 
     <!-- GAUCHE -->
     <div class="col">
+
+      <div class="hero-tagline" id="heroTagline">
+        <div class="hero-tagline-l1" id="taglineL1">Et si ta vie était différente ailleurs ?</div>
+        <div class="hero-tagline-l2" id="taglineL2">Explore les conditions de vie de plus de 160 pays.</div>
+      </div>
 
       <form id="searchForm" class="search-wrap" autocomplete="off"><input id="searchInput" class="search-input" type="text" placeholder="ex. Suisse, Japon, Thaïlande…">
         <button id="searchGo" class="search-go" type="submit">Go →</button></form>
@@ -282,19 +296,22 @@ var I18N={
       chron:"Chronicles",chronSub:"In-depth articles & analysis",
       game:"WiggGame",gameSub:"Test your knowledge",
       compare:"Compare",random:"Random",randomSub:"Discover a country",
-      about:"What is WiggMap?",aboutSub:"Explore salaries, visas, rent, taxes and quality of life across 160+ countries."},
+      about:"What is WiggMap?",aboutSub:"Explore salaries, visas, rent, taxes and quality of life across 160+ countries.",
+      tagL1:"What if your life were different somewhere else?",tagL2:"Explore living conditions in over 160 countries."},
   fr:{placeholder:"ex. Suisse, Japon, Thaïlande…",goBtn:"Go →",noMatch:"Aucun résultat.",
       globe:"Globe 3D",globeSub:"Tournez. Atterrissez n'importe où.",
       chron:"Chroniques",chronSub:"Articles & analyses expat",
       game:"WiggGame",gameSub:"Testez vos connaissances",
       compare:"Comparer",random:"Aléatoire",randomSub:"Découvrir un pays",
-      about:"Qu'est-ce que WiggMap ?",aboutSub:"Explorez les salaires, visas, loyers, taxes et qualité de vie dans plus de 160 pays."},
+      about:"Qu'est-ce que WiggMap ?",aboutSub:"Explorez les salaires, visas, loyers, taxes et qualité de vie dans plus de 160 pays.",
+      tagL1:"Et si ta vie était différente ailleurs ?",tagL2:"Explore les conditions de vie de plus de 160 pays."},
   es:{placeholder:"p.ej. Suiza, Japón…",goBtn:"Ir →",noMatch:"Sin resultados.",
       globe:"Globo 3D",globeSub:"Gira. Aterriza en cualquier lugar.",
       chron:"Crónicas",chronSub:"Artículos y análisis",
       game:"WiggGame",gameSub:"Pon a prueba tu conocimiento",
       compare:"Comparar",random:"Aleatorio",randomSub:"Descubrir un país",
-      about:"¿Qué es WiggMap?",aboutSub:"Explora salarios, visados, alquileres, impuestos y calidad de vida en más de 160 países."}
+      about:"¿Qué es WiggMap?",aboutSub:"Explora salarios, visados, alquileres, impuestos y calidad de vida en más de 160 países.",
+      tagL1:"¿Y si tu vida fuera diferente en otro lugar?",tagL2:"Explora las condiciones de vida en más de 160 países."}
 };
 function getLang(){return(localStorage.getItem('wigg_lang')||'en').toLowerCase()}
 (function(){
@@ -316,6 +333,8 @@ function getLang(){return(localStorage.getItem('wigg_lang')||'en').toLowerCase()
   if($('lblRandomSub'))$('lblRandomSub').textContent=t.randomSub;
   if($('lblAbout'))$('lblAbout').textContent=t.about;
   if($('lblAboutSub'))$('lblAboutSub').textContent=t.aboutSub;
+  if($('taglineL1'))$('taglineL1').textContent=t.tagL1;
+  if($('taglineL2'))$('taglineL2').textContent=t.tagL2;
   window.__NO_MATCH=t.noMatch;
 })();
 </script>
