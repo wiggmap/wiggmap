@@ -104,6 +104,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
   grid-template-columns:1fr 240px 1fr 240px 1fr;
   gap:10px;
   align-items:end;
+    justify-items:start;
   padding-bottom:5vh;
 }
 
@@ -165,21 +166,27 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
   .topbar .search-wrap{order:3;flex:1 1 100%;margin:0}
   .search-input{font-size:12px;padding:8px 44px 8px 14px}
   .main{
-    display:flex;
-    flex-direction:column;
+    display:grid;
+    grid-template-columns:1fr;
+    grid-template-rows:repeat(6,1fr);
     gap:6px;
     padding-bottom:0;
-    align-items:flex-start;
+    align-items:end;
+    justify-items:start;
     flex:1;min-height:0;
   }
   .center{display:none}
-  .col{display:grid;grid-template-columns:1fr 1fr;gap:6px;max-width:55%}
-  .pill{height:auto;min-height:52px;padding:10px 14px;border-radius:18px;background:rgba(255,255,255,.04)!important;border-color:rgba(255,255,255,.06)!important;backdrop-filter:blur(10px)!important}
+  .col,.col-bottom{display:contents}
+  .pill{height:auto;padding:10px 14px;width:55%;max-width:200px;border-radius:18px;background:rgba(255,255,255,.04)!important;border-color:rgba(255,255,255,.06)!important;backdrop-filter:blur(10px)!important}
   .pill-name{font-size:11px}
   .pill-sub{font-size:9px}
   .pill-icon{font-size:15px}
   .cmp-row{font-size:9px}
   .cmp-flags{font-size:11px}
+  /* Force order: row1=Chron+Game, row2=Compare+Globe, row3=About+Random */
+  .pill:nth-child(1){order:1}
+  .pill:nth-child(2){order:3}
+  .pill:nth-child(3){order:5}
 }
 </style>
 </head>
