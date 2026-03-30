@@ -167,7 +167,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
   }
   .center{display:none}
   .col{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .pill{height:auto;min-height:70px;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1)}
+  .pill{height:auto;min-height:70px;background:rgba(255,255,255,.04)!important;border-color:rgba(255,255,255,.06)!important;backdrop-filter:blur(10px)!important}
 }
 @media(max-width:500px){
   .col{grid-template-columns:1fr}
@@ -184,7 +184,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
 
   <div class="topbar">
     <a class="brand" href="/"><span class="brand-dot"></span>WiggMap</a>
-    <form id="searchForm" class="search-wrap" autocomplete="off" style="flex:1;position:relative"><input id="searchInput" class="search-input" type="text" placeholder="ex. Suisse, Japon, Thaïlande…">
+    <form id="searchForm" class="search-wrap" autocomplete="off"><input id="searchInput" class="search-input" type="text" placeholder="ex. Suisse, Japon, Thaïlande…">
       <button id="searchGo" class="search-go" type="submit">Go →</button></form>
     <div class="lang-wrap" id="langWrap">
       <button class="lang-btn" id="langBtn">🇫🇷 FR</button>
