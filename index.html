@@ -114,6 +114,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
 .col{
   display:flex;flex-direction:column;gap:10px;
 }
+.col-bottom{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .col:first-child{grid-column:2;grid-row:1}
 .col:last-child{grid-column:4;grid-row:1}
 
@@ -205,14 +206,6 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
     <!-- GAUCHE -->
     <div class="col">
 
-      <a class="pill" href="/globe.html">
-        <span class="pill-icon">🌍</span>
-        <div class="pill-body">
-          <div class="pill-name" id="lblGlobe">Globe 3D</div>
-          <div class="pill-sub" id="lblGlobeSub">Tournez. Atterrissez n'importe où.</div>
-        </div>
-      </a>
-
       <a class="pill" href="/indexchronicles.html">
         <span class="pill-icon">📖</span>
         <div class="pill-body">
@@ -221,12 +214,16 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
         </div>
       </a>
 
-      <a class="pill dark" href="/ggg/wigggame.html">
-        <span class="pill-icon">🎮</span>
-        <div class="pill-body">
-          <div class="pill-name" id="lblGame">WiggGame</div>
-          <div class="pill-sub" id="lblGameSub">Testez vos connaissances</div>
-        </div>
+      <a class="pill pill-cmp" href="/compare.html">
+        <div class="cmp-flags">🇵🇹 🇹🇭</div>
+        <div class="pill-name" id="lblCompare">Comparer</div>
+        <div class="cmp-row"><span>Salaire</span><span class="cmp-win">$1 400 vs $820</span></div>
+        <div class="cmp-row"><span>Loyer</span><span>$570 vs $380</span></div>
+      </a>
+
+      <a class="pill accent pill-about" href="/about.html">
+        <div class="pill-name" id="lblAbout">Qu'est-ce que WiggMap ?</div>
+        <div class="pill-sub" id="lblAboutSub">Explorez les salaires, visas, loyers, taxes et qualité de vie dans plus de 160 pays.</div>
       </a>
 
     </div>
@@ -237,25 +234,30 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
     <!-- DROITE -->
     <div class="col">
 
-      <a class="pill pill-cmp" href="/compare.html">
-        <div class="cmp-flags">🇵🇹 🇹🇭</div>
-        <div class="pill-name" id="lblCompare">Comparer</div>
-        <div class="cmp-row"><span>Salaire</span><span class="cmp-win">$1 400 vs $820</span></div>
-        <div class="cmp-row"><span>Loyer</span><span>$570 vs $380</span></div>
-      </a>
-
-      <a class="pill dark" href="#" id="btnRandom">
-        <span class="pill-icon">🎲</span>
+      <a class="pill dark" href="/ggg/wigggame.html">
+        <span class="pill-icon">🎮</span>
         <div class="pill-body">
-          <div class="pill-name" id="lblRandom">Aléatoire</div>
-          <div class="pill-sub" id="lblRandomSub">Découvrir un pays</div>
+          <div class="pill-name" id="lblGame">WiggGame</div>
+          <div class="pill-sub" id="lblGameSub">Testez vos connaissances</div>
         </div>
       </a>
 
-      <a class="pill accent pill-about" href="/about.html">
-        <div class="pill-name" id="lblAbout">Qu'est-ce que WiggMap ?</div>
-        <div class="pill-sub" id="lblAboutSub">Explorez les salaires, visas, loyers, taxes et qualité de vie dans plus de 160 pays.</div>
-      </a>
+      <div class="col-bottom">
+        <a class="pill" href="/globe.html">
+          <span class="pill-icon">🌍</span>
+          <div class="pill-body">
+            <div class="pill-name" id="lblGlobe">Globe 3D</div>
+            <div class="pill-sub" id="lblGlobeSub"></div>
+          </div>
+        </a>
+        <a class="pill dark" href="#" id="btnRandom">
+          <span class="pill-icon">🎲</span>
+          <div class="pill-body">
+            <div class="pill-name" id="lblRandom">Aléatoire</div>
+            <div class="pill-sub" id="lblRandomSub">Découvrir un pays</div>
+          </div>
+        </a>
+      </div>
 
     </div>
 
