@@ -627,6 +627,30 @@
     "/chronicles/villes/chronicle-funchal-portugal-en.html": { en: "/chronicles/villes/chronicle-funchal-portugal-en.html", fr: "/chronicles/villes/chronicle-funchal-portugal-fr.html", es: "/chronicles/villes/chronicle-funchal-portugal-es.html" },
     "/chronicles/villes/chronicle-funchal-portugal-fr.html": { en: "/chronicles/villes/chronicle-funchal-portugal-en.html", fr: "/chronicles/villes/chronicle-funchal-portugal-fr.html", es: "/chronicles/villes/chronicle-funchal-portugal-es.html" },
     "/chronicles/villes/chronicle-funchal-portugal-es.html": { en: "/chronicles/villes/chronicle-funchal-portugal-en.html", fr: "/chronicles/villes/chronicle-funchal-portugal-fr.html", es: "/chronicles/villes/chronicle-funchal-portugal-es.html" },
+
+    "/chronicles/chronicle-study-abroad-europe-erasmus-2026-en.html":  { en: "/chronicles/chronicle-study-abroad-europe-erasmus-2026-en.html",  fr: "/chronicles/chronicle-etudier-europe-erasmus-2026-fr.html",           es: "/chronicles/chronicle-estudiar-europa-erasmus-2026-es.html" },
+    "/chronicles/chronicle-etudier-europe-erasmus-2026-fr.html":       { en: "/chronicles/chronicle-study-abroad-europe-erasmus-2026-en.html",  fr: "/chronicles/chronicle-etudier-europe-erasmus-2026-fr.html",           es: "/chronicles/chronicle-estudiar-europa-erasmus-2026-es.html" },
+    "/chronicles/chronicle-estudiar-europa-erasmus-2026-es.html":      { en: "/chronicles/chronicle-study-abroad-europe-erasmus-2026-en.html",  fr: "/chronicles/chronicle-etudier-europe-erasmus-2026-fr.html",           es: "/chronicles/chronicle-estudiar-europa-erasmus-2026-es.html" },
+
+    "/chronicles/chronicle-study-abroad-americas-africa-2026-en.html": { en: "/chronicles/chronicle-study-abroad-americas-africa-2026-en.html", fr: "/chronicles/chronicle-etudier-ameriques-afrique-2026-fr.html",        es: "/chronicles/chronicle-estudiar-americas-africa-2026-es.html" },
+    "/chronicles/chronicle-etudier-ameriques-afrique-2026-fr.html":    { en: "/chronicles/chronicle-study-abroad-americas-africa-2026-en.html", fr: "/chronicles/chronicle-etudier-ameriques-afrique-2026-fr.html",        es: "/chronicles/chronicle-estudiar-americas-africa-2026-es.html" },
+    "/chronicles/chronicle-estudiar-americas-africa-2026-es.html":     { en: "/chronicles/chronicle-study-abroad-americas-africa-2026-en.html", fr: "/chronicles/chronicle-etudier-ameriques-afrique-2026-fr.html",        es: "/chronicles/chronicle-estudiar-americas-africa-2026-es.html" },
+
+    "/chronicles/chronicle-study-abroad-asia-pacific-2026-en.html":    { en: "/chronicles/chronicle-study-abroad-asia-pacific-2026-en.html",    fr: "/chronicles/chronicle-etudier-asie-pacifique-2026-fr.html",          es: "/chronicles/chronicle-estudiar-asia-pacifico-2026-es.html" },
+    "/chronicles/chronicle-etudier-asie-pacifique-2026-fr.html":       { en: "/chronicles/chronicle-study-abroad-asia-pacific-2026-en.html",    fr: "/chronicles/chronicle-etudier-asie-pacifique-2026-fr.html",          es: "/chronicles/chronicle-estudiar-asia-pacifico-2026-es.html" },
+    "/chronicles/chronicle-estudiar-asia-pacifico-2026-es.html":       { en: "/chronicles/chronicle-study-abroad-asia-pacific-2026-en.html",    fr: "/chronicles/chronicle-etudier-asie-pacifique-2026-fr.html",          es: "/chronicles/chronicle-estudiar-asia-pacifico-2026-es.html" },
+
+    "/chronicles/chronicle-study-abroad-practical-guide-2026-en.html":    { en: "/chronicles/chronicle-study-abroad-practical-guide-2026-en.html",    fr: "/chronicles/chronicle-etudier-etranger-guide-pratique-2026-fr.html", es: "/chronicles/chronicle-estudiar-extranjero-guia-practica-2026-es.html" },
+    "/chronicles/chronicle-etudier-etranger-guide-pratique-2026-fr.html": { en: "/chronicles/chronicle-study-abroad-practical-guide-2026-en.html",    fr: "/chronicles/chronicle-etudier-etranger-guide-pratique-2026-fr.html", es: "/chronicles/chronicle-estudiar-extranjero-guia-practica-2026-es.html" },
+    "/chronicles/chronicle-estudiar-extranjero-guia-practica-2026-es.html": { en: "/chronicles/chronicle-study-abroad-practical-guide-2026-en.html",  fr: "/chronicles/chronicle-etudier-etranger-guide-pratique-2026-fr.html", es: "/chronicles/chronicle-estudiar-extranjero-guia-practica-2026-es.html" },
+
+    "/chronicles/chronicle-ready-to-leave-en.html":       { en: "/chronicles/chronicle-ready-to-leave-en.html",       fr: "/chronicles/chronicle-pret-partir-fr.html",           es: "/chronicles/chronicle-listo-para-partir-es.html" },
+    "/chronicles/chronicle-pret-partir-fr.html":           { en: "/chronicles/chronicle-ready-to-leave-en.html",       fr: "/chronicles/chronicle-pret-partir-fr.html",           es: "/chronicles/chronicle-listo-para-partir-es.html" },
+    "/chronicles/chronicle-listo-para-partir-es.html":     { en: "/chronicles/chronicle-ready-to-leave-en.html",       fr: "/chronicles/chronicle-pret-partir-fr.html",           es: "/chronicles/chronicle-listo-para-partir-es.html" },
+
+    "/chronicles/chronicle-property-abroad-2026-en.html":        { en: "/chronicles/chronicle-property-abroad-2026-en.html",        fr: "/chronicles/chronicle-immo-etranger-2026-fr.html",            es: "/chronicles/chronicle-propiedad-extranjero-2026-es.html" },
+    "/chronicles/chronicle-immo-etranger-2026-fr.html":          { en: "/chronicles/chronicle-property-abroad-2026-en.html",        fr: "/chronicles/chronicle-immo-etranger-2026-fr.html",            es: "/chronicles/chronicle-propiedad-extranjero-2026-es.html" },
+    "/chronicles/chronicle-propiedad-extranjero-2026-es.html":   { en: "/chronicles/chronicle-property-abroad-2026-en.html",        fr: "/chronicles/chronicle-immo-etranger-2026-fr.html",            es: "/chronicles/chronicle-propiedad-extranjero-2026-es.html" },
   };
 
   // Lang selection
