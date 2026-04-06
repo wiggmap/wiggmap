@@ -229,6 +229,13 @@
     .atag-ap   { background: #ede9fe; color: #5b21b6; }
     .atag-afr  { background: #fef3c7; color: #92400e; }
     .prog-tag  { display: inline-flex; align-items: center; gap: 4px; font-family: 'Poppins', sans-serif; font-size: .63rem; font-weight: 600; padding: 3px 8px; border-radius: 12px; margin-left: 6px; vertical-align: middle; }
+
+    /* ══ SERIE BAR ══ */
+    .serie-bar { background: var(--navy, #0f172a); border-bottom: 1px solid rgba(255,255,255,.08); }
+    .sb-wrap { max-width: 900px; margin: 0 auto; display: flex; gap: 6px; padding: 10px 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .sb-link { flex-shrink: 0; font-family: 'Poppins', sans-serif; font-size: .75rem; font-weight: 600; padding: 8px 18px; border-radius: 999px; text-decoration: none; white-space: nowrap; color: rgba(255,255,255,.5); background: transparent; border: 1px solid rgba(255,255,255,.1); transition: all .2s; }
+    .sb-link:hover { color: rgba(255,255,255,.85); background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.18); }
+    .sb-active { color: #fff !important; background: rgba(34,197,94,.18) !important; border-color: rgba(34,197,94,.5) !important; }
   </style>
 </head>
 <body>
@@ -253,25 +260,18 @@
     </div>
     <div class="hero-art">
       <div class="dest-mosaic">
-        <a href="/countries/country.html?country=argentina" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇦🇷</span><span class="city">Buenos Aires</span></a>
-        <a href="/countries/country.html?country=canada" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇨🇦</span><span class="city">Montréal</span></a>
-        <a href="/countries/country.html?country=mexico" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇲🇽</span><span class="city">Monterrey</span></a>
-        <a href="/countries/country.html?country=georgia" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇬🇪</span><span class="city">Tbilisi</span></a>
-        <a href="/countries/country.html?country=morocco" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇲🇦</span><span class="city">Maroc</span></a>
-        <a href="/countries/country.html?country=united-arab-emirates" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇦🇪</span><span class="city">Dubaï</span></a>
+        <a href="#buenos-aires" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇦🇷</span><span class="city">Buenos Aires</span></a>
+        <a href="#montreal" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇨🇦</span><span class="city">Montréal</span></a>
+        <a href="#monterrey" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇲🇽</span><span class="city">Monterrey</span></a>
+        <a href="#tbilisi" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇬🇪</span><span class="city">Tbilisi</span></a>
+        <a href="#maroc" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇲🇦</span><span class="city">Maroc</span></a>
+        <a href="#dubai" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇦🇪</span><span class="city">Dubaï</span></a>
       </div>
     </div>
   </div>
 </div>
 
-<nav class="serie-bar" style="background:#0f172a;border-bottom:1px solid rgba(255,255,255,.1);padding:10px 0;">
-  <div style="max-width:900px;margin:0 auto;display:flex;gap:6px;padding:0 16px;overflow-x:auto;-webkit-overflow-scrolling:touch;">
-    <a href="/chronicles/chronicle-etudier-europe-erasmus-2026-fr.html" class="sb-link" style="flex-shrink:0;font-family:'Poppins',sans-serif;font-size:.72rem;font-weight:600;padding:6px 14px;border-radius:20px;text-decoration:none;white-space:nowrap;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.6);transition:all .2s;">1 · Europe</a>
-    <a href="/chronicles/chronicle-etudier-asie-pacifique-2026-fr.html" class="sb-link" style="flex-shrink:0;font-family:'Poppins',sans-serif;font-size:.72rem;font-weight:600;padding:6px 14px;border-radius:20px;text-decoration:none;white-space:nowrap;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.6);transition:all .2s;">2 · Asie-Pacifique</a>
-    <a href="/chronicles/chronicle-etudier-ameriques-afrique-2026-fr.html" class="sb-link" style="flex-shrink:0;font-family:'Poppins',sans-serif;font-size:.72rem;font-weight:600;padding:6px 14px;border-radius:20px;text-decoration:none;white-space:nowrap;background:rgba(34,197,94,.15);border:1px solid #22c55e;color:#fff;transition:all .2s;">3 · Amériques & Afrique</a>
-    <a href="/chronicles/chronicle-etudier-etranger-guide-pratique-2026-fr.html" class="sb-link" style="flex-shrink:0;font-family:'Poppins',sans-serif;font-size:.72rem;font-weight:600;padding:6px 14px;border-radius:20px;text-decoration:none;white-space:nowrap;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.6);transition:all .2s;">4 · Guide pratique</a>
-  </div>
-</nav>
+<nav class="serie-bar"><div class="sb-wrap"><a href="/chronicles/chronicle-etudier-europe-erasmus-2026-fr.html" class="sb-link">1 · Europe</a><a href="/chronicles/chronicle-etudier-asie-pacifique-2026-fr.html" class="sb-link">2 · Asie-Pacifique</a><a href="/chronicles/chronicle-etudier-ameriques-afrique-2026-fr.html" class="sb-link sb-active">3 · Amériques & Afrique</a><a href="/chronicles/chronicle-etudier-etranger-guide-pratique-2026-fr.html" class="sb-link">4 · Guide pratique</a></div></nav>
 
 <div class="article-body">
 
