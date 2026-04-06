@@ -402,6 +402,220 @@
       transition: color .12s;
     }
     .pop-links a:hover { color: var(--accent2); }
+
+    /* ── Culture & Lifestyle section ── */
+    .culture-section{
+      margin-top: 24px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .culture-header{
+      padding: 20px 20px 16px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(246,248,247,.9), #fff);
+    }
+    .culture-title{
+      font-weight: 900;
+      font-size: 16px;
+      letter-spacing: -.2px;
+      color: var(--ink);
+    }
+    .culture-sub{
+      margin-top: 4px;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--muted);
+    }
+    .culture-controls{
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .culture-filter{
+      padding: 9px 14px;
+      font-size: 13px;
+      font-weight: 800;
+      border-radius: 12px;
+      border: 1.5px solid rgba(0,0,0,.10);
+      outline: none;
+      background: rgba(246,248,247,.85);
+      min-width: 180px;
+    }
+    .culture-filter:focus{
+      border-color: rgba(46,204,113,.6);
+      box-shadow: 0 0 0 3px rgba(46,204,113,.12);
+      background: #fff;
+    }
+    .culture-sort{
+      padding: 9px 12px;
+      font-size: 13px;
+      font-weight: 800;
+      border-radius: 12px;
+      border: 1.5px solid rgba(0,0,0,.10);
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .culture-grid{
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    /* Each country row */
+    .c-row{
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      border-bottom: 1px solid rgba(0,0,0,.05);
+      transition: background .12s;
+    }
+    .c-row:last-child{ border-bottom: none; }
+    .c-row:hover{ background: rgba(46,204,113,.04); }
+
+    .c-country{
+      padding: 16px 18px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      border-right: 1px solid rgba(0,0,0,.06);
+      background: rgba(246,248,247,.45);
+      position: sticky;
+      left: 0;
+      z-index: 2;
+    }
+    .c-dot{
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+    .c-dot.green{ background: #28a745; }
+    .c-dot.yellow{ background: #ffc107; }
+    .c-dot.orange{ background: #fd7e14; }
+    .c-dot.red{ background: #dc3545; }
+    .c-name{
+      font-weight: 900;
+      font-size: 14px;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+
+    .c-data{
+      padding: 14px 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: flex-start;
+      min-width: 0;
+    }
+
+    /* Tags / pills for each data point */
+    .c-tag{
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.3;
+      white-space: nowrap;
+      max-width: 280px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      border: 1px solid transparent;
+    }
+    .c-tag-icon{
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+    .c-tag-text{
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Tag color variants */
+    .c-tag.dish{
+      background: #fef3e2;
+      color: #92400e;
+      border-color: rgba(146,64,14,.12);
+    }
+    .c-tag.currency{
+      background: #e8f5e9;
+      color: #1b5e20;
+      border-color: rgba(27,94,32,.12);
+    }
+    .c-tag.rate{
+      background: #e3f2fd;
+      color: #0d47a1;
+      border-color: rgba(13,71,161,.10);
+    }
+    .c-tag.religion{
+      background: #f3e5f5;
+      color: #4a148c;
+      border-color: rgba(74,20,140,.10);
+    }
+    .c-tag.personality{
+      background: #fff3e0;
+      color: #bf360c;
+      border-color: rgba(191,54,12,.10);
+    }
+    .c-tag.sector{
+      background: #e0f2f1;
+      color: #004d40;
+      border-color: rgba(0,77,64,.10);
+    }
+
+    /* Personality tooltip */
+    .c-tag.personality{ cursor: help; position: relative; }
+    .c-tag.personality .c-tooltip{
+      display: none;
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--ink);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 10px 14px;
+      border-radius: 12px;
+      width: 280px;
+      white-space: normal;
+      line-height: 1.45;
+      box-shadow: 0 8px 32px rgba(0,0,0,.2);
+      z-index: 100;
+      pointer-events: none;
+    }
+    .c-tag.personality .c-tooltip::after{
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: var(--ink);
+    }
+    .c-tag.personality:hover .c-tooltip{ display: block; }
+
+    @media(max-width: 700px){
+      .c-row{ grid-template-columns: 1fr; }
+      .c-country{ border-right: none; border-bottom: 1px solid rgba(0,0,0,.06); padding: 12px 16px; position: static; }
+      .c-data{ padding: 12px 16px; }
+      .c-tag{ max-width: 100%; }
+      .culture-header{ flex-direction: column; }
+      .c-tag.personality .c-tooltip{ left: 0; transform: none; width: 220px; }
+    }
   </style>
 </head>
 
@@ -582,6 +796,29 @@
           </div>
         </div>
 
+      </div>
+    </section>
+
+    <!-- ══ ALL COUNTRIES — CULTURE & LIFESTYLE ══════════════════════ -->
+    <section class="culture-section" id="cultureSection">
+      <div class="culture-header">
+        <div>
+          <div class="culture-title" id="cultureTitle">All Countries — Culture & Lifestyle</div>
+          <div class="culture-sub" id="cultureSub">160 countries · local dish, currency, religion, personality, top sectors</div>
+        </div>
+        <div class="culture-controls">
+          <input type="text" id="cultureSearch" placeholder="Filter countries..." class="culture-filter" autocomplete="off" />
+          <select id="cultureSort" class="culture-sort">
+            <option value="name">A → Z</option>
+            <option value="name-desc">Z → A</option>
+            <option value="religion">Religion</option>
+            <option value="currency">Currency</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="culture-grid" id="cultureGrid">
+        <!-- JS fills this -->
       </div>
     </section>
 
@@ -998,6 +1235,132 @@
     set('pop-lbl-asia',t.asia);
     set('pop-lbl-am',t.am);
     set('pop-lbl-mix',t.mix);
+  })();
+  </script>
+
+  <!-- ══ Culture & Lifestyle table ══ -->
+  <script>
+  (function(){
+    const _lang = (localStorage.getItem('wigg_lang')||'en').toLowerCase();
+    const _cf = _lang==='fr' ? 'data/culture.fr.json' : _lang==='es' ? 'data/culture.es.json' : 'data/culture.json';
+
+    // i18n labels
+    const i18n = {
+      en:{ title:'All Countries — Culture & Lifestyle', sub:'{n} countries · local dish, currency, religion, personality, top sectors',
+           filter:'Filter countries...', az:'A → Z', za:'Z → A', rel:'Religion', cur:'Currency',
+           noMatch:'No countries match your search.' },
+      fr:{ title:'Tous les pays — Culture & Mode de vie', sub:'{n} pays · plat local, monnaie, religion, personnalité, secteurs clés',
+           filter:'Filtrer les pays...', az:'A → Z', za:'Z → A', rel:'Religion', cur:'Monnaie',
+           noMatch:'Aucun pays ne correspond à votre recherche.' },
+      es:{ title:'Todos los países — Cultura & Estilo de vida', sub:'{n} países · plato local, moneda, religión, personalidad, sectores',
+           filter:'Filtrar países...', az:'A → Z', za:'Z → A', rel:'Religión', cur:'Moneda',
+           noMatch:'Ningún país coincide con tu búsqueda.' }
+    };
+    const t = i18n[_lang] || i18n.en;
+
+    // Apply i18n to static elements
+    const setT = (id,v) => { const el = document.getElementById(id); if(el) el.innerHTML = v; };
+    setT('cultureTitle', t.title);
+
+    const searchEl = document.getElementById('cultureSearch');
+    const sortEl = document.getElementById('cultureSort');
+    const gridEl = document.getElementById('cultureGrid');
+    if(searchEl) searchEl.placeholder = t.filter;
+    if(sortEl){
+      sortEl.innerHTML = `<option value="name">${t.az}</option><option value="name-desc">${t.za}</option><option value="religion">${t.rel}</option><option value="currency">${t.cur}</option>`;
+    }
+
+    let cultureData = [];
+
+    function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+    function dotClass(level){
+      const l = String(level||'yellow').toLowerCase();
+      return ['green','yellow','orange','red'].includes(l) ? l : 'yellow';
+    }
+
+    function renderCulture(items){
+      if(items.length === 0){
+        gridEl.innerHTML = `<div style="padding:24px;text-align:center;color:var(--muted);font-weight:800;">${t.noMatch}</div>`;
+        return;
+      }
+
+      gridEl.innerHTML = items.map(c => {
+        const tags = [];
+
+        if(c.dish)
+          tags.push(`<span class="c-tag dish"><span class="c-tag-icon">🍽</span><span class="c-tag-text">${esc(c.dish)}</span></span>`);
+
+        if(c.currency)
+          tags.push(`<span class="c-tag currency"><span class="c-tag-icon">💱</span><span class="c-tag-text">${esc(c.currency)}</span></span>`);
+
+        if(c.rate)
+          tags.push(`<span class="c-tag rate"><span class="c-tag-icon">$</span><span class="c-tag-text">${esc(c.rate)}</span></span>`);
+
+        if(c.religion)
+          tags.push(`<span class="c-tag religion"><span class="c-tag-icon">🕊</span><span class="c-tag-text">${esc(c.religion)} ${esc(c.religion_pct)}</span></span>`);
+
+        if(c.personality){
+          const tip = c.personality_story ? `<span class="c-tooltip">${esc(c.personality_story)}</span>` : '';
+          tags.push(`<span class="c-tag personality"><span class="c-tag-icon">👤</span><span class="c-tag-text">${esc(c.personality)}</span>${tip}</span>`);
+        }
+
+        if(c.sectors && c.sectors.length)
+          c.sectors.forEach(s => {
+            tags.push(`<span class="c-tag sector"><span class="c-tag-icon">💼</span><span class="c-tag-text">${esc(s)}</span></span>`);
+          });
+
+        return `<div class="c-row">
+          <div class="c-country">
+            <span class="c-dot ${dotClass(c.wigg_level)}"></span>
+            <a href="/country/${c.code}.html" class="c-name" style="color:var(--ink);text-decoration:none;">${esc(c.name)}</a>
+          </div>
+          <div class="c-data">${tags.join('')}</div>
+        </div>`;
+      }).join('');
+    }
+
+    function filterAndSort(){
+      const q = (searchEl?.value || '').toLowerCase().trim();
+      const sort = sortEl?.value || 'name';
+
+      let items = cultureData;
+      if(q){
+        items = items.filter(c =>
+          c.name.toLowerCase().includes(q) ||
+          (c.dish||'').toLowerCase().includes(q) ||
+          (c.currency||'').toLowerCase().includes(q) ||
+          (c.religion||'').toLowerCase().includes(q) ||
+          (c.personality||'').toLowerCase().includes(q) ||
+          (c.sectors||[]).some(s => s.toLowerCase().includes(q))
+        );
+      }
+
+      items = [...items];
+      if(sort === 'name') items.sort((a,b) => a.name.localeCompare(b.name));
+      else if(sort === 'name-desc') items.sort((a,b) => b.name.localeCompare(a.name));
+      else if(sort === 'religion') items.sort((a,b) => (a.religion||'').localeCompare(b.religion||'') || a.name.localeCompare(b.name));
+      else if(sort === 'currency') items.sort((a,b) => (a.currency||'').localeCompare(b.currency||'') || a.name.localeCompare(b.name));
+
+      renderCulture(items);
+    }
+
+    fetch(_cf, { cache: 'no-store' })
+      .then(r => r.json())
+      .then(data => {
+        cultureData = Object.entries(data).map(([code, v]) => ({ code, ...v }));
+        cultureData.sort((a,b) => a.name.localeCompare(b.name));
+
+        setT('cultureSub', t.sub.replace('{n}', cultureData.length));
+        filterAndSort();
+
+        searchEl?.addEventListener('input', filterAndSort);
+        sortEl?.addEventListener('change', filterAndSort);
+      })
+      .catch(e => {
+        console.error('Culture data load error:', e);
+        gridEl.innerHTML = '<div style="padding:24px;color:#b00020;font-weight:800;">Could not load culture data.</div>';
+      });
   })();
   </script>
 </body>
