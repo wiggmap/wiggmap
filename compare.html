@@ -523,13 +523,7 @@
     </section>
 
     <!-- ══ SECOND TABLE: Culture & Lifestyle (same 3 countries) ══ -->
-    <section class="table-card" id="table2Card" style="display:none;">
-      <div class="table-head">
-        <div>
-          <div class="title" id="table2Title">Culture & Lifestyle</div>
-          <div class="sub" id="table2Sub">Local dish, currency, religion, personality, top sectors</div>
-        </div>
-      </div>
+    <section class="table-card" id="table2Card" style="display:none; margin-top:0; border-top:none; border-radius: 0 0 var(--radius) var(--radius); box-shadow:none; border-top: 1px dashed var(--border);">
       <div class="table-scroll">
         <div id="table2Mount"></div>
       </div>
@@ -1088,22 +1082,6 @@
         }
       ];
 
-      // Build headers (same style as table 1)
-      const headers = [1,2,3].map(i => {
-        const c = selected[i-1];
-        if(!c) return `<th><span class="muted">Country ${i}</span></th>`;
-        const dot = wiggDotClass(c.wigg?.level);
-        return `
-          <th>
-            <div class="country-name"><span>${escapeHtml(c.name)}</span></div>
-            <div class="badge" title="WIGG level">
-              <span class="dot ${dot}"></span>
-              <span>${escapeHtml(String(c.wigg?.label || "WIGG"))}</span>
-            </div>
-          </th>
-        `;
-      }).join("");
-
       const body = cultureRows.map(r => {
         const tds = [1,2,3].map(i => {
           const c = selected[i-1];
@@ -1115,7 +1093,6 @@
 
       mount.innerHTML = `
         <table>
-          <thead><tr><th class="metric-col"></th>${headers}</tr></thead>
           <tbody>${body}</tbody>
         </table>
       `;
