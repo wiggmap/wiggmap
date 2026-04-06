@@ -219,6 +219,8 @@
     <a class="wmh-drop-item" href="${prefix}compare.html?c=thailand,indonesia,portugal">${svgCompare} ${ni.compare}</a>
     <a class="wmh-drop-item" href="${globeLink}" target="_blank" rel="noopener noreferrer">${svgGlobe} ${ni.globe}</a>
     <a class="wmh-drop-item" href="${prefix}ggg/wigggame.html">${svgGame} WiggGame</a>
+    <div style="border-top:1px solid rgba(0,0,0,.06);margin:4px 0;"></div>
+    ${langItems}
   `;
 
   const searchDropHTML = (id, inputId, resultsId, icon) => `
@@ -305,7 +307,7 @@
   mount.innerHTML = headerHTML;
 
   function updateMobileVisibility(){
-    const isMobile = window.innerWidth <= 640;
+    const isMobile = window.innerWidth <= 768;
     const social = document.getElementById("wmhSocialDropdown");
     if(social) social.style.display = isMobile ? "block" : "none";
     const langWrap = document.getElementById("wmhLangDropdown");
