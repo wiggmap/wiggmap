@@ -201,6 +201,44 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
 </head>
 <body>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<!-- SEO fallback content (off-screen, indexed by crawlers) -->
+<div id="seoFallback" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden">
+  <h1>WiggMap — Where is the grass actually greener? Compare 160+ countries</h1>
+  <p>WiggMap is the data-driven tool that helps expats, digital nomads, retirees and global citizens decide where to live, work or retire abroad. We compare more than 160 countries on 25+ data points: net average and minimum salaries, studio rent, electricity, water and mobile costs, beer and coffee prices, gasoline, VAT and income tax brackets, immigration ease, public healthcare quality, sun hours per year, crime index, purchasing power and religion snapshot.</p>
+  <p>Browse country profiles and compare them side by side, read in-depth chronicles on visas, taxes, digital nomad destinations, raising children abroad, studying abroad and retiring abroad. Available in English, French and Spanish.</p>
+  <h2>Most popular country profiles</h2>
+  <ul>
+    <li><a href="/countries/portugal-en.html">Portugal — cost of living, salaries, D7 visa</a></li>
+    <li><a href="/countries/spain-en.html">Spain — taxes, rent, digital nomad visa</a></li>
+    <li><a href="/countries/thailand-en.html">Thailand — Bangkok, Chiang Mai, retirement visa</a></li>
+    <li><a href="/countries/japan-en.html">Japan — Tokyo, salaries, healthcare</a></li>
+    <li><a href="/countries/france-en.html">France — Paris, taxes, social security</a></li>
+    <li><a href="/countries/germany-en.html">Germany — Berlin, salaries, work visas</a></li>
+    <li><a href="/countries/mexico-en.html">Mexico — Mexico City, cost of living</a></li>
+    <li><a href="/countries/indonesia-en.html">Indonesia — Bali, digital nomad visa</a></li>
+    <li><a href="/countries/united-arab-emirates-en.html">United Arab Emirates — Dubai, taxes, salaries</a></li>
+    <li><a href="/countries/greece-en.html">Greece — Athens, cost of living, expat visa</a></li>
+  </ul>
+  <h2>Featured country comparisons</h2>
+  <ul>
+    <li><a href="/compare/static/portugal-vs-spain/">Portugal vs Spain</a></li>
+    <li><a href="/compare/static/thailand-vs-vietnam/">Thailand vs Vietnam</a></li>
+    <li><a href="/compare/static/portugal-vs-greece/">Portugal vs Greece</a></li>
+    <li><a href="/compare/static/spain-vs-france/">Spain vs France</a></li>
+    <li><a href="/compare/static/thailand-vs-indonesia/">Thailand vs Indonesia</a></li>
+  </ul>
+  <h2>Explore more</h2>
+  <ul>
+    <li><a href="/globe.html">Interactive 3D world globe</a></li>
+    <li><a href="/indexchronicles.html">All chronicles — visas, expat life, digital nomads</a></li>
+    <li><a href="/chronicles-villes.html">City chronicles — 48 in-depth city guides</a></li>
+    <li><a href="/compare.html">Compare any two countries side by side</a></li>
+    <li><a href="/ggg/wigggame.html">WiggGame — world trivia quiz</a></li>
+    <li><a href="/about.html">About WiggMap and methodology</a></li>
+  </ul>
+</div>
+
 <div class="shell">
 
   <div class="topbar">
@@ -380,7 +418,7 @@ function getLang(){return(localStorage.getItem('wigg_lang')||'en').toLowerCase()
     if(out.length<max){for(var i=0;i<keys.length&&out.length<max;i++){var k=keys[i],c=CDATA[k],name=c.name||k;if(norm(name).indexOf(q)>0&&!out.find(function(x){return x.slug===k}))out.push({slug:k,name:name,flag:c.flag||''})}}
     return out;
   }
-  function go(slug){window.location.href='/countries/country.html?country='+encodeURIComponent(slug)}
+  function go(slug){var lg=(localStorage.getItem('wigg_lang')||'en').toLowerCase();var ul=['en','fr','es'].indexOf(lg)>=0?lg:'en';window.location.href='/countries/'+encodeURIComponent(slug)+'-'+ul+'.html'}
   var inp=document.getElementById('searchInput'),sug=document.getElementById('searchSug'),form=document.getElementById('searchForm');
   var list=[],ai=-1,debT;
   function renderSug(items){

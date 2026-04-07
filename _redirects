@@ -1,1 +1,5 @@
-# Netlify redirects — keep empty, Netlify pretty URLs handles .html automatically
+# Netlify redirects
+
+# Old dynamic country URL → new static page (default to English)
+# JS lang switcher will redirect to the user's preferred language afterwards.
+/countries/country.html  country=:slug  /countries/:slug-en.html  301!

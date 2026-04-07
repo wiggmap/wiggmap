@@ -371,7 +371,9 @@
     resultsEl.innerHTML = matches.map(([slug, info]) => {
       const name = (info && (info.name || info.country || info.pays || info.pais)) || slugToName(slug);
       const flag = (info && info.flag) ? info.flag + " " : "";
-      return `<a class="wmh-drop-item" href="/countries/country.html?country=${encodeURIComponent(slug)}">${flag}${name}</a>`;
+      const lg = (localStorage.getItem("wigg_lang") || "en").toLowerCase();
+      const ul = ["en","fr","es"].includes(lg) ? lg : "en";
+      return `<a class="wmh-drop-item" href="/countries/${encodeURIComponent(slug)}-${ul}.html">${flag}${name}</a>`;
     }).join("");
   }
 
@@ -682,16 +684,29 @@
   };
 
   // Lang selection
+  // Dynamic fallback for static country pages: /countries/{slug}-{lang}.html
+  function dynamicCountryLangSwap(pathname, newLang){
+    const m = pathname.match(/^\/countries\/([a-z0-9-]+)-(en|fr|es)\.html$/);
+    if (!m) return null;
+    return `/countries/${m[1]}-${newLang}.html`;
+  }
+
   document.querySelectorAll("[data-lang]").forEach(item => {
     item.addEventListener("click", () => {
       const newLang = item.dataset.lang;
       localStorage.setItem("wigg_lang", newLang);
-      const mapping = CHRONICLE_LANGS[document.location.pathname];
+      const path = document.location.pathname;
+      const mapping = CHRONICLE_LANGS[path];
       if (mapping && mapping[newLang]) {
         window.location.href = mapping[newLang];
-      } else {
-        location.reload();
+        return;
       }
+      const dyn = dynamicCountryLangSwap(path, newLang);
+      if (dyn) {
+        window.location.href = dyn;
+        return;
+      }
+      location.reload();
     });
   });
 
@@ -704,7 +719,9 @@
       const keys = Object.keys(data || {});
       if(!keys.length) throw new Error("No keys");
       const slug = keys[Math.floor(Math.random() * keys.length)];
-      window.location.href = "/countries/country.html?country=" + encodeURIComponent(slug);
+      const lang = (localStorage.getItem("wigg_lang") || "en").toLowerCase();
+      const useLang = ["en","fr","es"].includes(lang) ? lang : "en";
+      window.location.href = "/countries/" + encodeURIComponent(slug) + "-" + useLang + ".html";
     }catch(e){
       console.error("Random error:", e);
       alert("Random failed.");

@@ -6,7 +6,15 @@
   <!-- End Google Tag Manager -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>WiggMap Globe</title>
+  <title>Interactive 3D World Globe — Explore 160+ Countries | WiggMap</title>
+  <meta name="description" content="Spin the interactive 3D globe to discover salaries, cost of living, taxes and quality of life across 160+ countries. The visual way to explore where to live, work or retire abroad." />
+  <link rel="canonical" href="https://wiggmap.com/globe.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Interactive 3D World Globe — Explore 160+ Countries | WiggMap" />
+  <meta property="og:description" content="Spin the 3D globe and discover salaries, cost of living, taxes and quality of life across 160+ countries with WiggMap." />
+  <meta property="og:url" content="https://wiggmap.com/globe.html" />
+  <meta property="og:image" content="https://wiggmap.com/assets/og-globe.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="/assets/favicon.ico" type="image/x-icon" />
   <script src="https://unpkg.com/globe.gl"></script>
   <style>
@@ -161,6 +169,15 @@
   <!-- Google Tag Manager (noscript) -->
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
+
+  <!-- SEO fallback content (hidden when JS is enabled) -->
+  <div id="seoFallback" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
+    <h1>Interactive 3D World Globe — Explore 160+ Countries</h1>
+    <p>Spin the WiggMap globe to discover salaries, cost of living, taxes, immigration policies and quality of life across more than 160 countries. Click any country to open its full data sheet — minimum wage, average net salary, studio rent, electricity, water, mobile plan, food prices, fuel, VAT, income tax, healthcare, sun hours, crime index and purchasing power.</p>
+    <p>Browse the globe to compare expat destinations from Portugal and Spain to Thailand, Indonesia, Mexico, Japan, Germany, Brazil, the United Arab Emirates, Australia and more. Every country page is available in English, French and Spanish.</p>
+    <p>Looking for a specific country? <a href="/countries/portugal-en.html">Portugal</a>, <a href="/countries/japan-en.html">Japan</a>, <a href="/countries/thailand-en.html">Thailand</a>, <a href="/countries/spain-en.html">Spain</a>, <a href="/countries/germany-en.html">Germany</a>, <a href="/countries/mexico-en.html">Mexico</a>, <a href="/countries/indonesia-en.html">Indonesia</a>, <a href="/countries/united-arab-emirates-en.html">United Arab Emirates</a>, <a href="/countries/greece-en.html">Greece</a>, <a href="/countries/brazil-en.html">Brazil</a>.</p>
+  </div>
+
   <div class="hud">
     <div class="hud-logo">Wigg<span>Map</span></div>
     <div class="status" id="status">Loading…</div>
@@ -551,7 +568,7 @@ tooltip.addEventListener("click", (e) => {
     hideTooltip();
   } else if(action === "open"){
     const slug = btn.getAttribute("data-slug");
-    if(slug) window.location.href = `/countries/country.html?country=${slug}`;
+    if(slug){const lg=(localStorage.getItem("wigg_lang")||"en").toLowerCase();const ul=["en","fr","es"].includes(lg)?lg:"en";window.location.href=`/countries/${slug}-${ul}.html`;}
   }
 });
 
@@ -767,12 +784,12 @@ async function init(){
           return;
         }
 
-        window.location.href = `/countries/country.html?country=${slug}`;
+        {const lg=(localStorage.getItem("wigg_lang")||"en").toLowerCase();const ul=["en","fr","es"].includes(lg)?lg:"en";window.location.href=`/countries/${slug}-${ul}.html`;}
         return;
       }
 
       // DESKTOP: single click opens
-      window.location.href = `/countries/country.html?country=${slug}`;
+      {const lg=(localStorage.getItem("wigg_lang")||"en").toLowerCase();const ul=["en","fr","es"].includes(lg)?lg:"en";window.location.href=`/countries/${slug}-${ul}.html`;}
     });
 
   // Search focuses globe (no navigation)

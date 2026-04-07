@@ -1753,8 +1753,10 @@
       const d = document.getElementById("seo-desc");
       if(d) d.setAttribute("content", desc);
       const c = document.getElementById("seo-canonical");
-      if(c && slug) c.setAttribute("href", "https://wiggmap.com/countries/country.html?country=" + slug);
-      var url = slug ? "https://wiggmap.com/countries/country.html?country=" + slug : null;
+      var lg = (localStorage.getItem("wigg_lang") || "en").toLowerCase();
+      var ul = ["en","fr","es"].indexOf(lg) >= 0 ? lg : "en";
+      if(c && slug) c.setAttribute("href", "https://wiggmap.com/countries/" + slug + "-" + ul + ".html");
+      var url = slug ? "https://wiggmap.com/countries/" + slug + "-" + ul + ".html" : null;
       var xd = document.getElementById("seo-hreflang-xd");
       if(!xd && url){ xd = document.createElement("link"); xd.id="seo-hreflang-xd"; xd.rel="alternate"; xd.hreflang="x-default"; document.head.appendChild(xd); }
       if(xd && url) xd.href = url;
@@ -1771,7 +1773,7 @@
         "@type":"Country",
         "name": name,
         "description": desc,
-        "url":"https://wiggmap.com/countries/country.html?country=" + slug,
+        "url":"https://wiggmap.com/countries/" + slug + "-" + ((["en","fr","es"].indexOf((localStorage.getItem("wigg_lang")||"en").toLowerCase())>=0?(localStorage.getItem("wigg_lang")||"en").toLowerCase():"en")) + ".html",
         "publisher":{"@type":"Organization","name":"WiggMap","url":"https://wiggmap.com"}
       };
       var s = document.createElement("script");
