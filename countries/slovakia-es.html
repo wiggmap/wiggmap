@@ -25,65 +25,127 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#f6f1e8;--paper:#fffdf8;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--green:#1d7f48;--green-dk:#155f36;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
+    :root{--paper:#fffdf8;--paper-2:#fbf7ee;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--line-soft:rgba(23,23,20,.06);--green:#1d7f48;--green-dk:#155f36;--green-light:#e6f4ec;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
     html{scroll-behavior:smooth}
     body{font-family:"Inter",system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f9f5ed 0%,#f3ede3 100%);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
     a{color:var(--green);text-decoration:none}
     a:hover{text-decoration:underline}
-    main{max-width:980px;margin:0 auto;padding:28px 20px 80px}
-    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:18px;letter-spacing:.04em}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:14px;letter-spacing:.04em}
     .crumb a{color:var(--ink-soft)}
-    .hero{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:36px 32px;box-shadow:var(--shadow);margin-bottom:24px;position:relative;overflow:hidden}
-    .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 18%,rgba(29,127,72,.05),transparent 30%);pointer-events:none}
-    .hero-flag{font-size:48px;line-height:1;margin-bottom:14px}
-    .hero h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(36px,6vw,56px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:10px;position:relative;z-index:1}
-    .hero .subtitle{font-size:15px;color:var(--ink-soft);max-width:62ch;line-height:1.6;position:relative;z-index:1}
-    .hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;position:relative;z-index:1}
-    .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid var(--line)}
-    .badge.green{background:#e6f4ec;color:var(--green-dk);border-color:rgba(29,127,72,.2)}
+    .country-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:22px;flex-wrap:wrap}
+    .country-flag{font-size:42px;line-height:1;margin-bottom:8px}
+    .country-head h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(34px,5.2vw,52px);font-weight:800;letter-spacing:-.02em;line-height:1.02}
+    .country-head .subtitle{font-size:14px;color:var(--ink-soft);max-width:64ch;line-height:1.55;margin-top:8px}
+    .head-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+    .badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:7px 13px;border-radius:999px;background:#fff;border:1px solid var(--line)}
+    .badge.green{background:var(--green-light);color:var(--green-dk);border-color:rgba(29,127,72,.22)}
     .badge.yellow{background:#fef9e7;color:#a16207;border-color:rgba(202,138,4,.25)}
     .badge.red{background:#fdecec;color:#b91c1c;border-color:rgba(185,28,28,.25)}
-    .snapshot{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px 26px;box-shadow:var(--shadow);margin-bottom:24px}
-    .snapshot h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;margin-bottom:14px}
-    .snap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
-    .snap-item{font-size:13px}
-    .snap-item strong{display:block;color:var(--ink-soft);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
-    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
-    .data-card h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;padding:20px 26px 8px}
+    .badge .dot{width:8px;height:8px;border-radius:999px;background:currentColor;display:inline-block}
+    .local-time{font-size:12px;color:var(--ink-soft);font-weight:600}
+    .local-time b{color:var(--ink);margin-left:5px;font-weight:800}
+    .main-grid{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+    @media(max-width:900px){.main-grid{grid-template-columns:1fr}}
+    .sidebar{display:flex;flex-direction:column;gap:14px;align-self:start;position:sticky;top:18px}
+    @media(max-width:900px){.sidebar{position:static}}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .hero-img{width:100%;height:200px;object-fit:cover;display:block;background:#eaddc4}
+    .hero-actions{padding:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:8px;font-family:inherit;font-weight:700;font-size:12.5px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;transition:background .14s,border-color .14s}
+    .btn:hover{background:rgba(0,0,0,.04)}
+    .btn.primary{background:var(--green);color:#fff;border-color:transparent}
+    .btn.primary:hover{background:var(--green-dk)}
+    .snapshot-card{padding:16px}
+    .snapshot-title{font-family:"Fraunces",Georgia,serif;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px;letter-spacing:-.01em}
+    .kv{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--line-soft);font-size:12.5px}
+    .kv span{color:var(--ink-soft)}
+    .kv b{color:var(--ink);font-weight:700;text-align:right;max-width:60%}
+    .kv-sub{padding-left:10px;font-size:11.5px;opacity:.85}
+    .kv-note{font-size:11px;color:var(--ink-soft);line-height:1.5;padding:6px 0 8px;font-style:italic;border-bottom:1px solid var(--line-soft)}
+    .sector-block{padding-top:10px;margin-top:6px;border-top:1px solid var(--line-soft)}
+    .sector-head{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+    .sector-list{display:flex;flex-direction:column;gap:5px}
+    .sector-pill{background:rgba(29,127,72,.08);border:1px solid rgba(29,127,72,.2);border-radius:7px;padding:5px 10px;font-size:11.5px;font-weight:700;color:var(--green-dk);line-height:1.4}
+    .persona-card{padding:16px}
+    .persona-name{font-weight:800;font-size:13px;margin-bottom:6px}
+    .persona-name small{font-weight:500;opacity:.6;font-size:11px}
+    .persona-why{font-size:11.5px;color:var(--ink-soft);line-height:1.55;font-style:italic}
+    .right-col{display:flex;flex-direction:column;gap:18px;min-width:0}
+    .rc-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:760px){.rc-wrapper{grid-template-columns:1fr}}
+    .rc-box{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 14px 12px;overflow:hidden}
+    .rc-box-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:6px}
+    .rc-box-head h2{font-family:"Fraunces",Georgia,serif;font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+    .rc-nav{display:flex;gap:4px}
+    .rc-nav-btn{width:24px;height:24px;border-radius:6px;border:1px solid var(--line);background:#fff;font-size:13px;cursor:pointer;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;line-height:1;transition:all .14s}
+    .rc-nav-btn:hover{background:var(--green);color:#fff;border-color:transparent}
+    .rc-nav-btn:disabled{opacity:.35;cursor:not-allowed}
+    .rc-track{overflow:hidden}
+    .rc-row{display:flex;gap:9px;transition:transform .35s ease;will-change:transform}
+    .rc-vcard{flex-shrink:0;width:130px;height:90px;border-radius:10px;overflow:hidden;position:relative;background:#e9dfca;border:1px solid var(--line);transition:transform .15s,box-shadow .15s}
+    .rc-vcard:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10);text-decoration:none}
+    .rc-vimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .rc-vemoji{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;background:linear-gradient(135deg,#ede5d8,#ddd3c4)}
+    .rc-vgrad{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,8,.85) 0%,rgba(20,15,8,.2) 55%,transparent 100%)}
+    .rc-vbody{position:absolute;left:0;right:0;bottom:0;padding:7px 9px;z-index:2}
+    .rc-vtitle{font-family:"Fraunces",Georgia,serif;font-size:10.5px;font-weight:700;color:#fff;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
     .data-table{width:100%;border-collapse:collapse;font-size:13px}
-    .data-table .sec td{background:#f8f4eb;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:10px 26px;color:var(--ink-soft);border-top:1px solid var(--line)}
-    .data-table td{padding:9px 26px;border-bottom:1px solid var(--line);vertical-align:top}
+    .data-table .sec td{background:#f4eedf;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:11px 22px;color:var(--ink-soft);border-top:1px solid var(--line)}
+    .data-table td{padding:9px 22px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+    .data-table tr:last-child td{border-bottom:none}
     .data-table td.lbl{width:42%;color:var(--ink)}
-    .data-table td.val{width:22%;font-weight:700}
+    .data-table td.val{width:25%;font-weight:700}
     .data-table td.hint{font-size:11.5px;color:var(--ink-soft)}
+    .data-table td.edit{width:30px;text-align:right;padding-right:14px}
     .data-table .ico{margin-right:8px}
-    .article{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px;margin-bottom:24px}
-    .article h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:700;margin:24px 0 10px;color:var(--ink)}
-    .article h2:first-child{margin-top:0}
-    .article p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.75}
-    .article p strong{color:var(--ink);font-weight:600}
-    .ttk{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-bottom:24px}
-    .ttk h2{font-family:"Fraunces",Georgia,serif;font-size:20px;font-weight:700;margin-bottom:16px}
-    .ttk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-    .ttk-card{background:#fbf7ee;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
-    .ttk-card .ttk-title{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink)}
-    .ttk-card p{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
-    .ttk-card small{font-weight:500;color:var(--ink-soft)}
-    .related{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px;margin-bottom:18px}
-    .related h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
-    .link-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px 18px}
-    .link-list li{font-size:13.5px;line-height:1.5;padding-left:14px;position:relative}
-    .link-list li::before{content:"›";position:absolute;left:0;color:var(--green)}
-    @media (max-width:640px){
-      main{padding:20px 14px 60px}
-      .hero{padding:26px 22px}
-      .data-table td{padding:9px 16px}
-      .data-table .sec td{padding:10px 16px}
-      .article{padding:24px 22px}
-      .ttk{padding:22px 22px}
-      .related{padding:20px 22px}
+    .edit-btn{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:13px;opacity:.4;transition:opacity .14s;padding:2px 4px}
+    .edit-btn:hover{opacity:1;color:var(--green)}
+    .article-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px}
+    .section-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+    .section-head h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:800;letter-spacing:-.01em;color:var(--ink)}
+    .score-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-light);border:1px solid rgba(29,127,72,.25);color:var(--green-dk);padding:5px 12px;border-radius:999px;font-size:12px;font-weight:700}
+    .article-body p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.78}
+    .article-body p:last-child{margin-bottom:0}
+    .art-tag{display:inline-block;padding:3px 10px;border-radius:6px;font-weight:700;font-size:13px;margin-bottom:6px;line-height:1.5}
+    .map-card{margin:22px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper-2)}
+    .map-header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);gap:8px;flex-wrap:wrap}
+    .map-title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}
+    .map-flag{font-size:18px}
+    .map-styles{display:flex;gap:4px}
+    .map-style-btn{font-size:11px;font-weight:700;padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;color:var(--ink-soft);cursor:pointer;transition:all .14s}
+    .map-style-btn:hover{border-color:var(--green);color:var(--green)}
+    .map-style-btn.active{background:var(--green);color:#fff;border-color:transparent}
+    .map-container{position:relative;height:320px}
+    #wigg-country-map{position:absolute;inset:0}
+    .map-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper-2);color:var(--ink-soft);font-size:13px;z-index:10}
+    .map-loading.hidden{display:none}
+    .things-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px}
+    .wg-badge{display:inline-flex;align-items:center;gap:5px;background:#fef3c7;border:1px solid rgba(202,138,4,.3);color:#92400e;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+    .facts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .fact-card{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden}
+    .fact-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green)}
+    .fact-title{font-weight:800;font-size:13px;margin-bottom:6px;color:var(--ink);padding-left:6px}
+    .fact-text{font-size:12.5px;color:var(--ink-soft);line-height:1.55;padding-left:6px}
+    .cmp-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px}
+    .cmp-section h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
+    .cmp-pills{display:flex;flex-wrap:wrap;gap:8px}
+    .cmp-pill{display:inline-block;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:600;color:var(--ink);transition:all .14s}
+    .cmp-pill:hover{border-color:var(--green);background:var(--green);color:#fff;text-decoration:none}
+    @media(max-width:640px){
+      .wrap{padding:18px 14px 60px}
+      .country-head{flex-direction:column}
+      .head-right{align-items:flex-start}
+      .data-table td{padding:9px 14px}
+      .data-table .sec td{padding:11px 14px}
+      .article-card{padding:24px 22px}
+      .things-section{padding:22px 22px}
+      .cmp-section{padding:20px 22px}
+      .map-container{height:240px}
     }
   </style>
 </head>
@@ -92,268 +154,400 @@
 <div id="siteHeader"></div>
 <script src="/data/header.js"></script>
 
-<main>
+<main class="wrap">
   <nav class="crumb"><a href="/">Inicio</a> › <a href="/globe.html">Países</a> › Eslovaquia</nav>
 
-  <section class="hero">
-    <div class="hero-flag">🇸🇰</div>
-    <h1>Eslovaquia</h1>
-    <p class="subtitle">Promedios indicativos (Bratislava más alto; neto / mes a menos que se indique lo contrario)</p>
-    <div class="hero-badges">
-      <span class="badge yellow">WIGG: YELLOW</span>
-      <span class="badge">⭐ Puntuación expat: 6.5 / 10</span>
+  <div class="country-head">
+    <div>
+      <div class="country-flag">🇸🇰</div>
+      <h1>Eslovaquia</h1>
+      <p class="subtitle">Promedios indicativos (Bratislava más alto; neto / mes a menos que se indique lo contrario)</p>
     </div>
-  </section>
-
-  <section class="snapshot">
-    <h2>Vistazo rápido</h2>
-    <div class="snap-grid">
-      <div class="snap-item"><strong>Capital</strong>Bratislava</div>
-      <div class="snap-item"><strong>Población</strong>~5.5M</div>
-      <div class="snap-item"><strong>Idiomas</strong>Eslovaco, inglés</div>
-      <div class="snap-item"><strong>Conducción</strong>Derecha</div>
-      <div class="snap-item"><strong>Moneda</strong>Euro (EUR)</div>
-      <div class="snap-item"><strong>Crypto-amigable</strong>Sí</div>
+    <div class="head-right">
+      <div class="badge yellow"><span class="dot"></span>WIGG: YELLOW</div>
+      <div class="local-time">Hora local <b id="localTime" data-tz="Europe/Bratislava">--:--</b></div>
     </div>
-  </section>
+  </div>
 
-  <section class="data-card">
-    <h2>Coste de vida, salarios y calidad de vida</h2>
-    <table class="data-table">
-    <tbody>
-      <tr class="sec"><td colspan="3">💼 Salarios (neto / mes)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧾</span>Salario mínimo</td>
-        <td class="val">$790</td>
-        <td class="hint">Mínimo €834 bruto → neto ≈ €750 (2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📊</span>Salario medio</td>
-        <td class="val">$1,470</td>
-        <td class="hint">Promedio neto ≈ €1.400/mes (Oficina Estadística SR 2024)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🩺</span>Salario médico (general)</td>
-        <td class="val">$4,800</td>
-        <td class="hint">médico hospitalario indicativo promedio</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🏠 Vivienda y servicios (estudio de referencia)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏚️</span>Alquiler estudio</td>
-        <td class="val">$600</td>
-        <td class="hint">promedio indicativo nacional; Bratislava ~800$</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">⚡</span>Electricidad</td>
-        <td class="val">$90</td>
-        <td class="hint">factura mensual promedio de electricidad de un apartamento</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💧</span>Agua</td>
-        <td class="val">$30</td>
-        <td class="hint">costo mensual del agua de un apartamento típico</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📱</span>Plan móvil</td>
-        <td class="val">$18</td>
-        <td class="hint">Planes de ~20–60GB</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🍽️ Comida y bebida (precios típicos)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍺</span>Cerveza (pinta)</td>
-        <td class="val">$3.5</td>
-        <td class="hint">precio típico de bar local de 0.5L</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☕</span>Café</td>
-        <td class="val">$2.3</td>
-        <td class="hint">precio promedio de espresso; cappuccino ~3.5$</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍲</span>Plato principal</td>
-        <td class="val">$13</td>
-        <td class="hint">comida en un restaurante de gama media</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">⛽ Transporte</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">⛽</span>Gasolina / litro</td>
-        <td class="val">$1.75 / L</td>
-        <td class="hint">precio promedio del combustible 2025–2026</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🧾 Impuestos (indicativo)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏷️</span>IVA</td>
-        <td class="val">20%</td>
-        <td class="hint">tasa estándar de IVA</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">👤</span>Impuesto sobre la renta</td>
-        <td class="val">19–25%</td>
-        <td class="hint">tramos del impuesto sobre la renta personal progresivo</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏪</span>Impuesto pequeña empresa</td>
-        <td class="val">~30%</td>
-        <td class="hint">carga efectiva de pequeñas empresas incluyendo contribuciones sociales</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📱 Tech (precios indicativos)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍎</span>iPhone (último 256GB)</td>
-        <td class="val">$1,450</td>
-        <td class="hint">Indicativo de precios en la UE</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📲</span>Galaxy S (último 256GB)</td>
-        <td class="val">$1,150</td>
-        <td class="hint">Precios indicativos de la UE</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🛂 Mudanza e inmigración</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🛂</span>Facilidad de inmigración</td>
-        <td class="val">5 / 10</td>
-        <td class="hint">UE fácil; se requiere permiso fuera de la UE</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🌤️ Calidad de vida</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🙂</span>Felicidad</td>
-        <td class="val">6.30 / 10</td>
-        <td class="hint">Informe Mundial de la Felicidad</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☀️</span>Días de sol / año</td>
-        <td class="val">~200 días / año</td>
-        <td class="hint">promedio climático</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏥</span>Sanidad pública</td>
-        <td class="val">Sí</td>
-        <td class="hint">sistema de salud pública + privado</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧑‍⚕️</span>Seguro privado / mes</td>
-        <td class="val">$70 / mes</td>
-        <td class="hint">ejemplo de seguro privado</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📈 Índices</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🚔</span>Índice de criminalidad</td>
-        <td class="val">25 / 100</td>
-        <td class="hint">nivel moderado de la UE</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💶</span>Poder adquisitivo</td>
-        <td class="val">90</td>
-        <td class="hint">índice de poder adquisitivo (relativo a la UE)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🕍 Religión</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">✝️</span>Cristiano</td>
-        <td class="val">~65%</td>
-        <td class="hint">indicativo</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☪️</span>Musulmán</td>
-        <td class="val">~1%</td>
-        <td class="hint">indicativo</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☸️</span>Budista</td>
-        <td class="val">~0%</td>
-        <td class="hint">indicativo</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">✡️</span>Judío</td>
-        <td class="val">~0%</td>
-        <td class="hint">indicative (src: Pew Research / WJC)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🕊️</span>Otra / Ninguna</td>
-        <td class="val">~33%</td>
-        <td class="hint">ninguno/otro</td>
-      </tr>
-    </tbody>
-    </table>
-  </section>
+  <div class="main-grid">
+    <aside class="sidebar">
+      <div class="card">
+        <img class="hero-img" src="/assets/hero-slovakia.jpg" alt="Eslovaquia"
+             onerror="this.onerror=null;this.src='/assets/hero-fallback.jpg'" />
+        <div class="hero-actions">
+          <button class="btn primary" type="button" onclick="openModal('general')">Corregir datos</button>
+          <button class="btn" type="button" id="btnShare">Compartir</button>
+          <a class="btn" href="/compare.html?country=slovakia">Comparar</a>
+        </div>
+      </div>
 
-  <section class="article"><h2>Visión general del país</h2><h2>🧭 Resumen</h2>
-<p>Eslovaquia es una nación de Europa Central que se separó pacíficamente de Checoslovaquia (la 'Divorcio de Terciopelo' de 1993) y transitó con éxito hacia ser miembro de la UE y de la zona euro. Bratislava es una capital compacta cerca de Viena; Košice es un centro del este. Los Altos Tatras ofrecen esquí. El país es un centro manufacturero (automoción — VW, Peugeot, Kia), con infraestructura en mejora y asequibilidad. Eslovaquia ofrece naturaleza (Tatras, cuevas, castillos), bajos costos y pertenencia a la UE. Sin embargo, la política conservadora (populismo de Fico), la barrera del idioma (el eslovaco es difícil), la fuga de cerebros, la corrupción y la limitada comunidad internacional plantean desafíos. Es una Europa Central asequible y subestimada.</p>
-<h2>👥 Gente y ambiente</h2>
-<p>Con alrededor de 5,5 millones de personas, Eslovaquia es mayoritariamente eslovaca (~85%), húngara (~8%, en el sur), gitana/Roma (~2% oficialmente, probablemente más). El eslovaco es el idioma (eslavo, cercano al checo); el inglés lo hablan los jóvenes. Predomina el catolicismo. La cultura enfatiza la familia, las tradiciones populares (fujara — flauta de pastor) y la resiliencia. Los eslovacos son reservados, directos y trabajadores. El ambiente es tranquilo y ordenado. Bratislava es una capital pequeña; los Tatras son un paraíso al aire libre; las zonas rurales son tradicionales. El orgullo nacional es reciente (independencia sólo desde 1993).</p>
-<h2>🌦️ Clima y paisaje</h2>
-<p>Espere un clima continental: veranos cálidos (20-30°C), inviernos fríos (-5 a 5°C con nieve), primaveras/otoños agradables. El paisaje incluye los Altos Tatras (esquí, senderismo), los Bajos Tatras, el Paraíso Eslovaco (gargantas, escaleras), el río Danubio, cuevas (UNESCO) y castillos. La belleza natural es accesible y poco valorada. La calidad del aire es moderada.</p>
-<h2>🏠 Vivienda y asentamiento</h2>
-<p>Bratislava (Casco Antiguo, Petržalka, Rača) tiene una presencia mínima de expatriados. Espere 1-2 meses de depósito y contratos anuales. Los alquileres son asequibles: €500-1.200/mes. La calidad está mejorando — edificios renovados y desarrollos modernos. Los apartamentos tipo panelák de la era comunista son baratos pero austeros. La calefacción es esencial. Es obligatorio registrarse. Fuera de Bratislava, las opciones para extranjeros son limitadas. Está permitido comprar propiedad.</p>
-<h2>💼 Trabajo y economía</h2>
-<p>La economía está dominada por la automoción (VW, Peugeot, Kia, Jaguar Land Rover — la mayor producción per cápita de coches del mundo), electrónica y servicios. Para ciudadanos de la UE se aplica la libre circulación. Los no comunitarios necesitan permisos de trabajo. Hay oportunidades en automoción, TI, centros de servicios compartidos o enseñando inglés. Los salarios son moderados (€1.000-2.500/mes) pero los costes corresponden. El idioma eslovaco es una barrera. La fuga de cerebros hacia Europa Occidental continúa. Emprender implica burocracia.</p>
-<h2>🛂 Visado y entrada</h2>
-<p>Ciudadanos de la UE/EEE/Suiza tienen derecho a la libre circulación. Los no comunitarios pueden visitar el espacio Schengen 90 días en 180 días. Para estancias más largas, los permisos de trabajo requieren patrocinio del empleador. El proceso es burocrático. La residencia permanente requiere 5 años de residencia continua. La ciudadanía requiere 8 años de residencia, dominio del eslovaco (B1) y renuncia a otra ciudadanía. La naturalización es difícil por el requisito lingüístico.</p>
-<h2>🏥 Sanidad</h2>
-<p>El sistema sanitario es universal mediante seguro obligatorio. La calidad es adecuada: los hospitales públicos están saturados pero funcionan; las clínicas privadas son mejores. Los médicos están formados pero muchos emigran. La esperanza de vida es ~77 años. Los medicamentos con receta están subvencionados. Los tiempos de espera para especialistas pueden ser largos. Los ciudadanos de la UE usan la tarjeta sanitaria europea (EHIC).</p>
-<h2>🚗 Transporte y movilidad</h2>
-<p>Bratislava tiene tranvías, autobuses y trolebuses — funcionales. La mayoría conduce. Las carreteras están mejorando (financiación de la UE). Autobuses y trenes interurbanos conectan las ciudades. El país es pequeño — Bratislava a Košice son 4 horas en coche. Bratislava está a 60 km de Viena (1 h en tren). No se necesitan vuelos domésticos. El aeropuerto de Bratislava conecta con ciudades europeas.</p>
-<h2>🍛 Nota culinaria (plato nacional)</h2>
-<p>El plato nacional es Bryndzové Halušky: ñoquis de patata con queso de oveja (bryndza) y bacon. Es comida reconfortante y contundente. Alternativas: Kapustnica (sopa de chucrut) o Parené Buchty (bollos al vapor). La cocina eslovaca es centroeuropea — ñoquis, col, carne, influencias húngaras y austríacas.</p>
-<h2>🔎 Conclusión</h2>
-<p>Eslovaquia conviene a quienes buscan un estilo de vida económico en Europa Central, a los entusiastas del aire libre (Tatras), a trabajadores del sector automotriz y a quienes desean una base asequible en la UE. Pros: asequibilidad, moneda euro, pertenencia a la UE, Altos Tatras (montañas impresionantes), proximidad a Viena y seguridad. Contras: barrera del idioma (el eslovaco es difícil), comunidad internacional limitada, fuga de cerebros, política conservadora (populismo de Fico) y el tamaño reducido de Bratislava. Bratislava es la vecina asequible de Viena; los Tatras son una joya para actividades al aire libre. Es ideal para quienes priorizan la asequibilidad y la naturaleza por encima de la vida cultural y las oportunidades profesionales. La industria automotriz domina — Eslovaquia produce más de 1M de coches anualmente (la mayor cifra per cápita del mundo). Si quieres vivir barato en la zona euro con montañas y no te importa el ambiente de pueblo, Eslovaquia cumple.</p>
-<p>Puntuación para expatriados — 6.5 / 10</p></section>
+      <div class="card snapshot-card">
+        <div class="snapshot-title">Vistazo rápido</div>
+        <div class="kv"><span>Capital</span><b>Bratislava</b></div><div class="kv"><span>Población</span><b>~5.5M</b></div><div class="kv"><span>Idiomas</span><b>Eslovaco, inglés</b></div><div class="kv"><span>Moneda</span><b>Euro (EUR)</b></div><div class="kv kv-sub"><span>Exchange rate</span><b>1 USD ≈ 0.92 EUR</b></div><div class="kv-note">Adoptó el euro en 2009. Moneda estable y miembro de la zona euro.</div><div class="kv"><span>Crypto-amigable</span><b>Sí</b></div><div class="kv-note">Amigable con las criptomonedas y con una tributación clara. Las ganancias se gravan como ingresos. Interés en blockchain en crecimiento.</div><div class="kv"><span>Conducción</span><b>Derecha</b></div><div class="sector-block"><div class="sector-head">Sectores principales</div><div class="sector-list"><div class="sector-pill">Fabricación de automóviles</div><div class="sector-pill">Electrónica</div><div class="sector-pill">Centros de servicios compartidos</div></div></div>
+      </div>
 
-  <section class="ttk"><h2>Lo que hay que saber</h2><div class="ttk-grid">
-      <div class="ttk-card">
-        <div class="ttk-title">👤 Alexander Dubček <small>(Siglo XX)</small></div>
-        <p>Líder comunista que dirigió la Primavera de Praga (1968) — intento de liberalización aplastado por la invasión soviética. Su &#x27;socialismo con rostro humano&#x27; inspiró pero fracasó. Símbolo de la resistencia checoslovaca al control soviético. Tras 1989 apoyó la Revolución de Terciopelo.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🚗 Producción de coches = campeón per cápita</div>
-        <p>Eslovaquia produce más de 1M de coches anualmente — VW, Peugeot, Kia, Jaguar Land Rover. La mayor producción per cápita del mundo (180+ coches por cada 1.000 habitantes). La automoción representa el 12% del PIB. Pero la dependencia crea vulnerabilidad — ¿qué pasará cuando los vehículos eléctricos lo transformen?</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🏔️ Altos Tatras = joya escondida</div>
-        <p>Las montañas alpinas más pequeñas del mundo pero impresionantes — picos dramáticos, lagos, senderismo y esquí. El pico Rysy (2.499 m) está en la frontera Polonia-Eslovaquia. Tatranská Lomnica y Štrbské Pleso son estaciones. Es un paraíso montañoso poco valorado. Mucho más barato que los Alpes.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🇨🇿 Divorcio de Terciopelo (1993)</div>
-        <p>Checoslovaquia se separó pacíficamente en República Checa y Eslovaquia (1 de enero de 1993). Sin violencia — raro en las rupturas nacionales. Los checos eran más ricos; los eslovacos buscaban autonomía. Ahora están separados pero mantienen relaciones amistosas. Al principio los eslovacos enfrentaron dificultades económicas, pero la entrada en la UE ayudó.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">👔 Fico = regreso populista</div>
-        <p>Robert Fico (primer ministro 2006-10, 2012-18, 2023-presente) es un populista que corteja a Rusia, se opone a los derechos LGTBQ+ y ataca a los medios. El asesinato del periodista Ján Kuciak en 2018 forzó su dimisión. Regresó en 2023 con retórica anti-UE. Existen preocupaciones sobre retrocesos democráticos.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🧠 Fuga de cerebros en curso</div>
-        <p>Jóvenes cualificados emigran a Austria, Alemania y Reino Unido por salarios más altos. Médicos, enfermeras y trabajadores de TI se van. Las remesas ayudan, pero la pérdida de talento perjudica. ¿Quién sostendrá Eslovaquia? La salida continúa a pesar de las mejoras.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🏰 Castillo de Spiš = ruinas medievales</div>
-        <p>Uno de los complejos de castillos más grandes de Europa Central. Sitio UNESCO. Dramáticas ruinas en la cima de una colina con vistas al campo. La Eslovaquia medieval tuvo más de 100 castillos. El castillo de Bojnice es una restauración de cuento de hadas. La densidad de castillos es alta — están por todas partes.</p>
-      </div></div></section>
+      
+        <div class="card persona-card">
+          <div class="snapshot-title">Figura del país</div>
+          <div class="persona-name">Alexander Dubček <small>(Siglo XX)</small></div>
+          <div class="persona-why">Líder comunista que dirigió la Primavera de Praga (1968) — intento de liberalización aplastado por la invasión soviética. Su &#x27;socialismo con rostro humano&#x27; inspiró pero fracasó. Símbolo de la resistencia checoslovaca al control soviético. Tras 1989 apoyó la Revolución de Terciopelo.</div>
+        </div>
+    </aside>
 
-  
-  
-  
+    <div class="right-col">
+      <div class="rc-wrapper">
+        
+        
+      </div>
 
-  <p style="text-align:center;margin-top:30px"><a href="/globe.html" style="font-weight:600">Ver los 160+ países →</a></p>
+      <div class="data-card">
+        <table class="data-table">
+      <tbody>
+        <tr class="sec"><td colspan="4">💼 Salarios (neto / mes)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧾</span>Salario mínimo</td>
+          <td class="val">$790</td>
+          <td class="hint">Mínimo €834 bruto → neto ≈ €750 (2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('min_wage')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📊</span>Salario medio</td>
+          <td class="val">$1,470</td>
+          <td class="hint">Promedio neto ≈ €1.400/mes (Oficina Estadística SR 2024)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('avg_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🩺</span>Salario médico (general)</td>
+          <td class="val">$4,800</td>
+          <td class="hint">médico hospitalario indicativo promedio</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('doctor_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🏠 Vivienda y servicios (estudio de referencia)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏚️</span>Alquiler estudio</td>
+          <td class="val">$600</td>
+          <td class="hint">promedio indicativo nacional; Bratislava ~800$</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('rent_studio')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">⚡</span>Electricidad</td>
+          <td class="val">$90</td>
+          <td class="hint">factura mensual promedio de electricidad de un apartamento</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('electricity')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💧</span>Agua</td>
+          <td class="val">$30</td>
+          <td class="hint">costo mensual del agua de un apartamento típico</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('water')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📱</span>Plan móvil</td>
+          <td class="val">$18</td>
+          <td class="hint">Planes de ~20–60GB</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('mobile')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🍽️ Comida y bebida (precios típicos)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍺</span>Cerveza (pinta)</td>
+          <td class="val">$3.5</td>
+          <td class="hint">precio típico de bar local de 0.5L</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('beer')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☕</span>Café</td>
+          <td class="val">$2.3</td>
+          <td class="hint">precio promedio de espresso; cappuccino ~3.5$</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('coffee')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍲</span>Plato principal</td>
+          <td class="val">$13</td>
+          <td class="hint">comida en un restaurante de gama media</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('dish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">⛽ Transporte</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">⛽</span>Gasolina / litro</td>
+          <td class="val">$1.75 / L</td>
+          <td class="hint">precio promedio del combustible 2025–2026</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('gas')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🧾 Impuestos (indicativo)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏷️</span>IVA</td>
+          <td class="val">20%</td>
+          <td class="hint">tasa estándar de IVA</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('vat')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">👤</span>Impuesto sobre la renta</td>
+          <td class="val">19–25%</td>
+          <td class="hint">tramos del impuesto sobre la renta personal progresivo</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('income_tax')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏪</span>Impuesto pequeña empresa</td>
+          <td class="val">~30%</td>
+          <td class="hint">carga efectiva de pequeñas empresas incluyendo contribuciones sociales</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('smallbiz')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📱 Tech (precios indicativos)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍎</span>iPhone (último 256GB)</td>
+          <td class="val">$1,450</td>
+          <td class="hint">Indicativo de precios en la UE</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('iphone')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📲</span>Galaxy S (último 256GB)</td>
+          <td class="val">$1,150</td>
+          <td class="hint">Precios indicativos de la UE</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('samsung')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🛂 Mudanza e inmigración</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🛂</span>Facilidad de inmigración</td>
+          <td class="val">5 / 10</td>
+          <td class="hint">UE fácil; se requiere permiso fuera de la UE</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('immigration')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🌤️ Calidad de vida</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🙂</span>Felicidad</td>
+          <td class="val">6.30 / 10</td>
+          <td class="hint">Informe Mundial de la Felicidad</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('happiness')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☀️</span>Días de sol / año</td>
+          <td class="val">~200 días / año</td>
+          <td class="hint">promedio climático</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('sun')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏥</span>Sanidad pública</td>
+          <td class="val">Sí</td>
+          <td class="hint">sistema de salud pública + privado</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('health')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧑‍⚕️</span>Seguro privado / mes</td>
+          <td class="val">$70 / mes</td>
+          <td class="hint">ejemplo de seguro privado</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('insurance')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📈 Índices</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🚔</span>Índice de criminalidad</td>
+          <td class="val">25 / 100</td>
+          <td class="hint">nivel moderado de la UE</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('crime')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💶</span>Poder adquisitivo</td>
+          <td class="val">90</td>
+          <td class="hint">índice de poder adquisitivo (relativo a la UE)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('pp')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🕍 Religión</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">✝️</span>Cristiano</td>
+          <td class="val">~65%</td>
+          <td class="hint">indicativo</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_christian')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☪️</span>Musulmán</td>
+          <td class="val">~1%</td>
+          <td class="hint">indicativo</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_muslim')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☸️</span>Budista</td>
+          <td class="val">~0%</td>
+          <td class="hint">indicativo</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_buddhist')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">✡️</span>Judío</td>
+          <td class="val">~0%</td>
+          <td class="hint">indicative (src: Pew Research / WJC)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_jewish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🕊️</span>Otra / Ninguna</td>
+          <td class="val">~33%</td>
+          <td class="hint">ninguno/otro</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_other')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+        </table>
+      </div>
+
+      
+      <div class="article-card">
+        <div class="section-head">
+          <h2>Vivir en Eslovaquia</h2>
+          <span class="score-badge"><span class="score-star">⭐</span> Puntuación expat: 6.5 / 10</span>
+        </div>
+        <div class="article-body"><p>🧭 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Resumen</span><br>
+Eslovaquia es una nación de Europa Central que se separó pacíficamente de Checoslovaquia (la &#x27;Divorcio de Terciopelo&#x27; de 1993) y transitó con éxito hacia ser miembro de la UE y de la zona euro. Bratislava es una capital compacta cerca de Viena; Košice es un centro del este. Los Altos Tatras ofrecen esquí. El país es un centro manufacturero (automoción — VW, Peugeot, Kia), con infraestructura en mejora y asequibilidad. Eslovaquia ofrece naturaleza (Tatras, cuevas, castillos), bajos costos y pertenencia a la UE. Sin embargo, la política conservadora (populismo de Fico), la barrera del idioma (el eslovaco es difícil), la fuga de cerebros, la corrupción y la limitada comunidad internacional plantean desafíos. Es una Europa Central asequible y subestimada.</p><p>👥 <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Gente y ambiente</span><br>
+Con alrededor de 5,5 millones de personas, Eslovaquia es mayoritariamente eslovaca (~85%), húngara (~8%, en el sur), gitana/Roma (~2% oficialmente, probablemente más). El eslovaco es el idioma (eslavo, cercano al checo); el inglés lo hablan los jóvenes. Predomina el catolicismo. La cultura enfatiza la familia, las tradiciones populares (fujara — flauta de pastor) y la resiliencia. Los eslovacos son reservados, directos y trabajadores. El ambiente es tranquilo y ordenado. Bratislava es una capital pequeña; los Tatras son un paraíso al aire libre; las zonas rurales son tradicionales. El orgullo nacional es reciente (independencia sólo desde 1993).</p><p>🌦️ <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Clima y paisaje</span><br>
+Espere un clima continental: veranos cálidos (20-30°C), inviernos fríos (-5 a 5°C con nieve), primaveras/otoños agradables. El paisaje incluye los Altos Tatras (esquí, senderismo), los Bajos Tatras, el Paraíso Eslovaco (gargantas, escaleras), el río Danubio, cuevas (UNESCO) y castillos. La belleza natural es accesible y poco valorada. La calidad del aire es moderada.</p><p>🏠 <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Vivienda y asentamiento</span><br>
+Bratislava (Casco Antiguo, Petržalka, Rača) tiene una presencia mínima de expatriados. Espere 1-2 meses de depósito y contratos anuales. Los alquileres son asequibles: €500-1.200/mes. La calidad está mejorando — edificios renovados y desarrollos modernos. Los apartamentos tipo panelák de la era comunista son baratos pero austeros. La calefacción es esencial. Es obligatorio registrarse. Fuera de Bratislava, las opciones para extranjeros son limitadas. Está permitido comprar propiedad.</p><p>💼 <span class="art-tag" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#6d28d9">Trabajo y economía</span><br>
+La economía está dominada por la automoción (VW, Peugeot, Kia, Jaguar Land Rover — la mayor producción per cápita de coches del mundo), electrónica y servicios. Para ciudadanos de la UE se aplica la libre circulación. Los no comunitarios necesitan permisos de trabajo. Hay oportunidades en automoción, TI, centros de servicios compartidos o enseñando inglés. Los salarios son moderados (€1.000-2.500/mes) pero los costes corresponden. El idioma eslovaco es una barrera. La fuga de cerebros hacia Europa Occidental continúa. Emprender implica burocracia.</p>
+        <div class="map-card">
+          <div class="map-header">
+            <div class="map-title"><span class="map-flag">🇸🇰</span><span>Eslovaquia — Mapa</span></div>
+            <div class="map-styles">
+              <button type="button" class="map-style-btn active" data-style="light">Claro</button>
+              <button type="button" class="map-style-btn" data-style="dark">Oscuro</button>
+              <button type="button" class="map-style-btn" data-style="satellite">Satélite</button>
+            </div>
+          </div>
+          <div class="map-container">
+            <div id="wigg-country-map"></div>
+            <div class="map-loading" id="wiggMapLoading">Cargando mapa…</div>
+          </div>
+        </div><p>🛂 <span class="art-tag" style="background:rgba(236,72,153,.12);border:1px solid rgba(236,72,153,.25);color:#be185d">Visado y entrada</span><br>
+Ciudadanos de la UE/EEE/Suiza tienen derecho a la libre circulación. Los no comunitarios pueden visitar el espacio Schengen 90 días en 180 días. Para estancias más largas, los permisos de trabajo requieren patrocinio del empleador. El proceso es burocrático. La residencia permanente requiere 5 años de residencia continua. La ciudadanía requiere 8 años de residencia, dominio del eslovaco (B1) y renuncia a otra ciudadanía. La naturalización es difícil por el requisito lingüístico.</p><p>🏥 <span class="art-tag" style="background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.25);color:#0e7490">Sanidad</span><br>
+El sistema sanitario es universal mediante seguro obligatorio. La calidad es adecuada: los hospitales públicos están saturados pero funcionan; las clínicas privadas son mejores. Los médicos están formados pero muchos emigran. La esperanza de vida es ~77 años. Los medicamentos con receta están subvencionados. Los tiempos de espera para especialistas pueden ser largos. Los ciudadanos de la UE usan la tarjeta sanitaria europea (EHIC).</p><p>🚗 <span class="art-tag" style="background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#c2410c">Transporte y movilidad</span><br>
+Bratislava tiene tranvías, autobuses y trolebuses — funcionales. La mayoría conduce. Las carreteras están mejorando (financiación de la UE). Autobuses y trenes interurbanos conectan las ciudades. El país es pequeño — Bratislava a Košice son 4 horas en coche. Bratislava está a 60 km de Viena (1 h en tren). No se necesitan vuelos domésticos. El aeropuerto de Bratislava conecta con ciudades europeas.</p><p>🍛 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Nota culinaria (plato nacional)</span><br>
+El plato nacional es Bryndzové Halušky: ñoquis de patata con queso de oveja (bryndza) y bacon. Es comida reconfortante y contundente. Alternativas: Kapustnica (sopa de chucrut) o Parené Buchty (bollos al vapor). La cocina eslovaca es centroeuropea — ñoquis, col, carne, influencias húngaras y austríacas.</p><p>🔎 <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Conclusión</span><br>
+Eslovaquia conviene a quienes buscan un estilo de vida económico en Europa Central, a los entusiastas del aire libre (Tatras), a trabajadores del sector automotriz y a quienes desean una base asequible en la UE. Pros: asequibilidad, moneda euro, pertenencia a la UE, Altos Tatras (montañas impresionantes), proximidad a Viena y seguridad. Contras: barrera del idioma (el eslovaco es difícil), comunidad internacional limitada, fuga de cerebros, política conservadora (populismo de Fico) y el tamaño reducido de Bratislava. Bratislava es la vecina asequible de Viena; los Tatras son una joya para actividades al aire libre. Es ideal para quienes priorizan la asequibilidad y la naturaleza por encima de la vida cultural y las oportunidades profesionales. La industria automotriz domina — Eslovaquia produce más de 1M de coches anualmente (la mayor cifra per cápita del mundo). Si quieres vivir barato en la zona euro con montañas y no te importa el ambiente de pueblo, Eslovaquia cumple.</p><p>Puntuación para expatriados — 6.5 / 10</p></div>
+      </div>
+
+      
+      <div class="things-section">
+        <div class="section-head"><h2>Lo que hay que saber</h2><span class="wg-badge">Imprescindibles</span></div>
+        <div class="facts-grid"><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🚗 Producción de coches = campeón per cápita</div><div class="fact-text">Eslovaquia produce más de 1M de coches anualmente — VW, Peugeot, Kia, Jaguar Land Rover. La mayor producción per cápita del mundo (180+ coches por cada 1.000 habitantes). La automoción representa el 12% del PIB. Pero la dependencia crea vulnerabilidad — ¿qué pasará cuando los vehículos eléctricos lo transformen?</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏔️ Altos Tatras = joya escondida</div><div class="fact-text">Las montañas alpinas más pequeñas del mundo pero impresionantes — picos dramáticos, lagos, senderismo y esquí. El pico Rysy (2.499 m) está en la frontera Polonia-Eslovaquia. Tatranská Lomnica y Štrbské Pleso son estaciones. Es un paraíso montañoso poco valorado. Mucho más barato que los Alpes.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🇨🇿 Divorcio de Terciopelo (1993)</div><div class="fact-text">Checoslovaquia se separó pacíficamente en República Checa y Eslovaquia (1 de enero de 1993). Sin violencia — raro en las rupturas nacionales. Los checos eran más ricos; los eslovacos buscaban autonomía. Ahora están separados pero mantienen relaciones amistosas. Al principio los eslovacos enfrentaron dificultades económicas, pero la entrada en la UE ayudó.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">👔 Fico = regreso populista</div><div class="fact-text">Robert Fico (primer ministro 2006-10, 2012-18, 2023-presente) es un populista que corteja a Rusia, se opone a los derechos LGTBQ+ y ataca a los medios. El asesinato del periodista Ján Kuciak en 2018 forzó su dimisión. Regresó en 2023 con retórica anti-UE. Existen preocupaciones sobre retrocesos democráticos.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🧠 Fuga de cerebros en curso</div><div class="fact-text">Jóvenes cualificados emigran a Austria, Alemania y Reino Unido por salarios más altos. Médicos, enfermeras y trabajadores de TI se van. Las remesas ayudan, pero la pérdida de talento perjudica. ¿Quién sostendrá Eslovaquia? La salida continúa a pesar de las mejoras.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏰 Castillo de Spiš = ruinas medievales</div><div class="fact-text">Uno de los complejos de castillos más grandes de Europa Central. Sitio UNESCO. Dramáticas ruinas en la cima de una colina con vistas al campo. La Eslovaquia medieval tuvo más de 100 castillos. El castillo de Bojnice es una restauración de cuento de hadas. La densidad de castillos es alta — están por todas partes.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🍽️ Bryndzové Halušky</div><div class="fact-text">Ñoquis de patata con queso de oveja y bacon — reconfortante y contundente de Europa Central. Influencias húngaras/austriacas.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏳️‍🌈 LGBT+: Baja</div><div class="fact-text">La homosexualidad es legal pero no hay matrimonio ni uniones civiles entre personas del mismo sexo. Las actitudes sociales son conservadoras. La influencia de la Iglesia Católica es fuerte. La discriminación es común. Se aconseja discreción.</div></div></div>
+      </div>
+
+      
+    </div>
+  </div>
 </main>
 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
+<script src="/data/share.js"></script>
+<script src="/data/correction-form.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var t = document.getElementById("localTime");
+  if(t && t.dataset.tz){
+    function tick(){
+      try{
+        t.textContent = new Intl.DateTimeFormat("en-GB",{
+          timeZone: t.dataset.tz, hour:"2-digit", minute:"2-digit"
+        }).format(new Date());
+      }catch(e){}
+    }
+    tick(); setInterval(tick, 30000);
+  }
+  document.querySelectorAll(".rc-nav-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var targetId = btn.dataset.target;
+      var dir = parseInt(btn.dataset.dir||"1",10);
+      var row = document.getElementById(targetId);
+      if(!row) return;
+      var box = row.parentElement;
+      var first = row.querySelector(".rc-vcard");
+      if(!first) return;
+      var cardW = first.offsetWidth + 9;
+      var visible = Math.max(1, Math.floor(box.offsetWidth / cardW));
+      var maxOffset = Math.max(0, row.children.length - visible);
+      var current = parseInt(row.dataset.offset||"0", 10);
+      current = Math.min(maxOffset, Math.max(0, current + dir));
+      row.dataset.offset = current;
+      row.style.transform = "translateX(-" + (current * cardW) + "px)";
+      var nav = btn.parentNode;
+      var prev = nav.querySelector('[data-dir="-1"]');
+      var next = nav.querySelector('[data-dir="1"]');
+      if(prev) prev.disabled = (current === 0);
+      if(next) next.disabled = (current >= maxOffset);
+    });
+  });
+  var iso2 = "SK";
+  if(!iso2 || typeof L === "undefined") return;
+  var STYLES = {
+    light:     { url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", attr: "&copy; OSM &copy; CARTO" },
+    dark:      { url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",  attr: "&copy; OSM &copy; CARTO" },
+    satellite: { url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", attr: "&copy; Esri" }
+  };
+  var wMap=null, wLayer=null, wMarker=null;
+  function initMap(lat, lon){
+    var el = document.getElementById("wigg-country-map");
+    if(!el) return;
+    if(wMap){ try{wMap.remove();}catch(e){} }
+    wMap = L.map("wigg-country-map",{zoomControl:true}).setView([lat,lon],5);
+    wLayer = L.tileLayer(STYLES.light.url,{attribution:STYLES.light.attr,maxZoom:18}).addTo(wMap);
+    wMarker = L.marker([lat,lon]).addTo(wMap);
+    var loading = document.getElementById("wiggMapLoading");
+    if(loading) loading.classList.add("hidden");
+  }
+  document.querySelectorAll(".map-style-btn").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(!wMap) return;
+      var s = STYLES[b.dataset.style];
+      if(!s) return;
+      if(wLayer) wMap.removeLayer(wLayer);
+      wLayer = L.tileLayer(s.url,{attribution:s.attr,maxZoom:18}).addTo(wMap);
+      document.querySelectorAll(".map-style-btn").forEach(function(x){x.classList.remove("active");});
+      b.classList.add("active");
+    });
+  });
+  var cacheKey = "wigg_centroid_" + iso2;
+  var cached = null;
+  try { cached = JSON.parse(localStorage.getItem(cacheKey) || "null"); } catch(e){}
+  if(cached && cached.lat != null && cached.lon != null){
+    initMap(cached.lat, cached.lon); return;
+  }
+  fetch("https://nominatim.openstreetmap.org/search?country=" + encodeURIComponent(iso2) + "&format=json&limit=1")
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && d[0]){
+        var coords = { lat: +d[0].lat, lon: +d[0].lon };
+        try { localStorage.setItem(cacheKey, JSON.stringify(coords)); } catch(e){}
+        initMap(coords.lat, coords.lon);
+      } else {
+        var l = document.getElementById("wiggMapLoading");
+        if(l) l.textContent = "Mapa no disponible";
+      }
+    })
+    .catch(function(){
+      var l = document.getElementById("wiggMapLoading");
+      if(l) l.textContent = "Mapa no disponible";
+    });
+})();
+</script>
+
+<form name="wiggmap-corrections" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="wiggmap-corrections" />
+  <p><label>Don't fill this out: <input name="bot-field" /></label></p>
+  <input name="country" /><input name="field" /><input name="value" /><input name="email" /><textarea name="notes"></textarea>
+</form>
+
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
 </body>
 </html>

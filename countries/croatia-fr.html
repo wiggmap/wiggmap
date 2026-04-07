@@ -25,65 +25,127 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#f6f1e8;--paper:#fffdf8;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--green:#1d7f48;--green-dk:#155f36;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
+    :root{--paper:#fffdf8;--paper-2:#fbf7ee;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--line-soft:rgba(23,23,20,.06);--green:#1d7f48;--green-dk:#155f36;--green-light:#e6f4ec;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
     html{scroll-behavior:smooth}
     body{font-family:"Inter",system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f9f5ed 0%,#f3ede3 100%);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
     a{color:var(--green);text-decoration:none}
     a:hover{text-decoration:underline}
-    main{max-width:980px;margin:0 auto;padding:28px 20px 80px}
-    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:18px;letter-spacing:.04em}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:14px;letter-spacing:.04em}
     .crumb a{color:var(--ink-soft)}
-    .hero{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:36px 32px;box-shadow:var(--shadow);margin-bottom:24px;position:relative;overflow:hidden}
-    .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 18%,rgba(29,127,72,.05),transparent 30%);pointer-events:none}
-    .hero-flag{font-size:48px;line-height:1;margin-bottom:14px}
-    .hero h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(36px,6vw,56px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:10px;position:relative;z-index:1}
-    .hero .subtitle{font-size:15px;color:var(--ink-soft);max-width:62ch;line-height:1.6;position:relative;z-index:1}
-    .hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;position:relative;z-index:1}
-    .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid var(--line)}
-    .badge.green{background:#e6f4ec;color:var(--green-dk);border-color:rgba(29,127,72,.2)}
+    .country-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:22px;flex-wrap:wrap}
+    .country-flag{font-size:42px;line-height:1;margin-bottom:8px}
+    .country-head h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(34px,5.2vw,52px);font-weight:800;letter-spacing:-.02em;line-height:1.02}
+    .country-head .subtitle{font-size:14px;color:var(--ink-soft);max-width:64ch;line-height:1.55;margin-top:8px}
+    .head-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+    .badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:7px 13px;border-radius:999px;background:#fff;border:1px solid var(--line)}
+    .badge.green{background:var(--green-light);color:var(--green-dk);border-color:rgba(29,127,72,.22)}
     .badge.yellow{background:#fef9e7;color:#a16207;border-color:rgba(202,138,4,.25)}
     .badge.red{background:#fdecec;color:#b91c1c;border-color:rgba(185,28,28,.25)}
-    .snapshot{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px 26px;box-shadow:var(--shadow);margin-bottom:24px}
-    .snapshot h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;margin-bottom:14px}
-    .snap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
-    .snap-item{font-size:13px}
-    .snap-item strong{display:block;color:var(--ink-soft);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
-    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
-    .data-card h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;padding:20px 26px 8px}
+    .badge .dot{width:8px;height:8px;border-radius:999px;background:currentColor;display:inline-block}
+    .local-time{font-size:12px;color:var(--ink-soft);font-weight:600}
+    .local-time b{color:var(--ink);margin-left:5px;font-weight:800}
+    .main-grid{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+    @media(max-width:900px){.main-grid{grid-template-columns:1fr}}
+    .sidebar{display:flex;flex-direction:column;gap:14px;align-self:start;position:sticky;top:18px}
+    @media(max-width:900px){.sidebar{position:static}}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .hero-img{width:100%;height:200px;object-fit:cover;display:block;background:#eaddc4}
+    .hero-actions{padding:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:8px;font-family:inherit;font-weight:700;font-size:12.5px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;transition:background .14s,border-color .14s}
+    .btn:hover{background:rgba(0,0,0,.04)}
+    .btn.primary{background:var(--green);color:#fff;border-color:transparent}
+    .btn.primary:hover{background:var(--green-dk)}
+    .snapshot-card{padding:16px}
+    .snapshot-title{font-family:"Fraunces",Georgia,serif;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px;letter-spacing:-.01em}
+    .kv{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--line-soft);font-size:12.5px}
+    .kv span{color:var(--ink-soft)}
+    .kv b{color:var(--ink);font-weight:700;text-align:right;max-width:60%}
+    .kv-sub{padding-left:10px;font-size:11.5px;opacity:.85}
+    .kv-note{font-size:11px;color:var(--ink-soft);line-height:1.5;padding:6px 0 8px;font-style:italic;border-bottom:1px solid var(--line-soft)}
+    .sector-block{padding-top:10px;margin-top:6px;border-top:1px solid var(--line-soft)}
+    .sector-head{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+    .sector-list{display:flex;flex-direction:column;gap:5px}
+    .sector-pill{background:rgba(29,127,72,.08);border:1px solid rgba(29,127,72,.2);border-radius:7px;padding:5px 10px;font-size:11.5px;font-weight:700;color:var(--green-dk);line-height:1.4}
+    .persona-card{padding:16px}
+    .persona-name{font-weight:800;font-size:13px;margin-bottom:6px}
+    .persona-name small{font-weight:500;opacity:.6;font-size:11px}
+    .persona-why{font-size:11.5px;color:var(--ink-soft);line-height:1.55;font-style:italic}
+    .right-col{display:flex;flex-direction:column;gap:18px;min-width:0}
+    .rc-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:760px){.rc-wrapper{grid-template-columns:1fr}}
+    .rc-box{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 14px 12px;overflow:hidden}
+    .rc-box-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:6px}
+    .rc-box-head h2{font-family:"Fraunces",Georgia,serif;font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+    .rc-nav{display:flex;gap:4px}
+    .rc-nav-btn{width:24px;height:24px;border-radius:6px;border:1px solid var(--line);background:#fff;font-size:13px;cursor:pointer;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;line-height:1;transition:all .14s}
+    .rc-nav-btn:hover{background:var(--green);color:#fff;border-color:transparent}
+    .rc-nav-btn:disabled{opacity:.35;cursor:not-allowed}
+    .rc-track{overflow:hidden}
+    .rc-row{display:flex;gap:9px;transition:transform .35s ease;will-change:transform}
+    .rc-vcard{flex-shrink:0;width:130px;height:90px;border-radius:10px;overflow:hidden;position:relative;background:#e9dfca;border:1px solid var(--line);transition:transform .15s,box-shadow .15s}
+    .rc-vcard:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10);text-decoration:none}
+    .rc-vimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .rc-vemoji{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;background:linear-gradient(135deg,#ede5d8,#ddd3c4)}
+    .rc-vgrad{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,8,.85) 0%,rgba(20,15,8,.2) 55%,transparent 100%)}
+    .rc-vbody{position:absolute;left:0;right:0;bottom:0;padding:7px 9px;z-index:2}
+    .rc-vtitle{font-family:"Fraunces",Georgia,serif;font-size:10.5px;font-weight:700;color:#fff;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
     .data-table{width:100%;border-collapse:collapse;font-size:13px}
-    .data-table .sec td{background:#f8f4eb;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:10px 26px;color:var(--ink-soft);border-top:1px solid var(--line)}
-    .data-table td{padding:9px 26px;border-bottom:1px solid var(--line);vertical-align:top}
+    .data-table .sec td{background:#f4eedf;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:11px 22px;color:var(--ink-soft);border-top:1px solid var(--line)}
+    .data-table td{padding:9px 22px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+    .data-table tr:last-child td{border-bottom:none}
     .data-table td.lbl{width:42%;color:var(--ink)}
-    .data-table td.val{width:22%;font-weight:700}
+    .data-table td.val{width:25%;font-weight:700}
     .data-table td.hint{font-size:11.5px;color:var(--ink-soft)}
+    .data-table td.edit{width:30px;text-align:right;padding-right:14px}
     .data-table .ico{margin-right:8px}
-    .article{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px;margin-bottom:24px}
-    .article h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:700;margin:24px 0 10px;color:var(--ink)}
-    .article h2:first-child{margin-top:0}
-    .article p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.75}
-    .article p strong{color:var(--ink);font-weight:600}
-    .ttk{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-bottom:24px}
-    .ttk h2{font-family:"Fraunces",Georgia,serif;font-size:20px;font-weight:700;margin-bottom:16px}
-    .ttk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-    .ttk-card{background:#fbf7ee;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
-    .ttk-card .ttk-title{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink)}
-    .ttk-card p{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
-    .ttk-card small{font-weight:500;color:var(--ink-soft)}
-    .related{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px;margin-bottom:18px}
-    .related h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
-    .link-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px 18px}
-    .link-list li{font-size:13.5px;line-height:1.5;padding-left:14px;position:relative}
-    .link-list li::before{content:"›";position:absolute;left:0;color:var(--green)}
-    @media (max-width:640px){
-      main{padding:20px 14px 60px}
-      .hero{padding:26px 22px}
-      .data-table td{padding:9px 16px}
-      .data-table .sec td{padding:10px 16px}
-      .article{padding:24px 22px}
-      .ttk{padding:22px 22px}
-      .related{padding:20px 22px}
+    .edit-btn{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:13px;opacity:.4;transition:opacity .14s;padding:2px 4px}
+    .edit-btn:hover{opacity:1;color:var(--green)}
+    .article-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px}
+    .section-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+    .section-head h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:800;letter-spacing:-.01em;color:var(--ink)}
+    .score-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-light);border:1px solid rgba(29,127,72,.25);color:var(--green-dk);padding:5px 12px;border-radius:999px;font-size:12px;font-weight:700}
+    .article-body p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.78}
+    .article-body p:last-child{margin-bottom:0}
+    .art-tag{display:inline-block;padding:3px 10px;border-radius:6px;font-weight:700;font-size:13px;margin-bottom:6px;line-height:1.5}
+    .map-card{margin:22px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper-2)}
+    .map-header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);gap:8px;flex-wrap:wrap}
+    .map-title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}
+    .map-flag{font-size:18px}
+    .map-styles{display:flex;gap:4px}
+    .map-style-btn{font-size:11px;font-weight:700;padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;color:var(--ink-soft);cursor:pointer;transition:all .14s}
+    .map-style-btn:hover{border-color:var(--green);color:var(--green)}
+    .map-style-btn.active{background:var(--green);color:#fff;border-color:transparent}
+    .map-container{position:relative;height:320px}
+    #wigg-country-map{position:absolute;inset:0}
+    .map-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper-2);color:var(--ink-soft);font-size:13px;z-index:10}
+    .map-loading.hidden{display:none}
+    .things-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px}
+    .wg-badge{display:inline-flex;align-items:center;gap:5px;background:#fef3c7;border:1px solid rgba(202,138,4,.3);color:#92400e;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+    .facts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .fact-card{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden}
+    .fact-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green)}
+    .fact-title{font-weight:800;font-size:13px;margin-bottom:6px;color:var(--ink);padding-left:6px}
+    .fact-text{font-size:12.5px;color:var(--ink-soft);line-height:1.55;padding-left:6px}
+    .cmp-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px}
+    .cmp-section h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
+    .cmp-pills{display:flex;flex-wrap:wrap;gap:8px}
+    .cmp-pill{display:inline-block;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:600;color:var(--ink);transition:all .14s}
+    .cmp-pill:hover{border-color:var(--green);background:var(--green);color:#fff;text-decoration:none}
+    @media(max-width:640px){
+      .wrap{padding:18px 14px 60px}
+      .country-head{flex-direction:column}
+      .head-right{align-items:flex-start}
+      .data-table td{padding:9px 14px}
+      .data-table .sec td{padding:11px 14px}
+      .article-card{padding:24px 22px}
+      .things-section{padding:22px 22px}
+      .cmp-section{padding:20px 22px}
+      .map-container{height:240px}
     }
   </style>
 </head>
@@ -92,268 +154,410 @@
 <div id="siteHeader"></div>
 <script src="/data/header.js"></script>
 
-<main>
+<main class="wrap">
   <nav class="crumb"><a href="/">Accueil</a> › <a href="/globe.html">Pays</a> › Croatie</nav>
 
-  <section class="hero">
-    <div class="hero-flag">🇭🇷</div>
-    <h1>Croatie</h1>
-    <p class="subtitle">Moyennes indicatives (Zagreb plus élevé ; points chauds côtiers plus élevés ; net / mois sauf indication contraire)</p>
-    <div class="hero-badges">
-      <span class="badge green">WIGG: GREEN</span>
-      <span class="badge">⭐ Score Expat: 7.5 / 10</span>
+  <div class="country-head">
+    <div>
+      <div class="country-flag">🇭🇷</div>
+      <h1>Croatie</h1>
+      <p class="subtitle">Moyennes indicatives (Zagreb plus élevé ; points chauds côtiers plus élevés ; net / mois sauf indication contraire)</p>
     </div>
-  </section>
-
-  <section class="snapshot">
-    <h2>Aperçu rapide</h2>
-    <div class="snap-grid">
-      <div class="snap-item"><strong>Capitale</strong>Zagreb</div>
-      <div class="snap-item"><strong>Population</strong>~3.9M</div>
-      <div class="snap-item"><strong>Langues</strong>Croate</div>
-      <div class="snap-item"><strong>Conduite</strong>Droite</div>
-      <div class="snap-item"><strong>Monnaie</strong>Euro (EUR)</div>
-      <div class="snap-item"><strong>Crypto-friendly</strong>Oui</div>
+    <div class="head-right">
+      <div class="badge green"><span class="dot"></span>WIGG: GREEN</div>
+      <div class="local-time">Heure locale <b id="localTime" data-tz="Europe/Zagreb">--:--</b></div>
     </div>
-  </section>
+  </div>
 
-  <section class="data-card">
-    <h2>Coût de la vie, salaires et qualité de vie</h2>
-    <table class="data-table">
-    <tbody>
-      <tr class="sec"><td colspan="3">💼 Salaires (net / mois)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧾</span>Salaire minimum</td>
-        <td class="val">$795</td>
-        <td class="hint">Salaire minimum 880 € brut → net ≈ 757 € (2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📊</span>Salaire moyen</td>
-        <td class="val">$1,210</td>
-        <td class="hint">Moyenne nette ≈ 1 153 €/mois (DZS 2024)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🩺</span>Salaire médecin (généraliste)</td>
-        <td class="val">$3,800</td>
-        <td class="hint">Moyenne du secteur public</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🏠 Logement et charges (studio référence)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏚️</span>Loyer studio</td>
-        <td class="val">$650</td>
-        <td class="hint">Villes régionales (côte plus élevée)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">⚡</span>Électricité</td>
-        <td class="val">$95</td>
-        <td class="hint">/ mois</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💧</span>Eau</td>
-        <td class="val">$20</td>
-        <td class="hint">/ mois</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📱</span>Forfait mobile</td>
-        <td class="val">$18</td>
-        <td class="hint">~20–50 Go</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🍽️ Alimentation et boissons (prix indicatifs)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍺</span>Bière (pinte)</td>
-        <td class="val">$4.00</td>
-        <td class="hint">Bar local</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☕</span>Café</td>
-        <td class="val">$2.00</td>
-        <td class="hint">Café régulier</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍲</span>Plat principal</td>
-        <td class="val">$12</td>
-        <td class="hint">milieu de gamme</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">⛽ Transport</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">⛽</span>Essence / litre</td>
-        <td class="val">1,75 $ / L</td>
-        <td class="hint">indicatif</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🧾 Fiscalité (indicatif)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏷️</span>TVA</td>
-        <td class="val">25%</td>
-        <td class="hint">taux standard</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">👤</span>Impôt sur le revenu</td>
-        <td class="val">~20%</td>
-        <td class="hint">Progressif (20-30 %), tranche intermédiaire</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏪</span>Fiscalité petite entreprise</td>
-        <td class="val">~28%</td>
-        <td class="hint">18 % d&#x27;IS + contributions sociales</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📱 Tech (prix indicatifs)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍎</span>iPhone (dernier 256 Go)</td>
-        <td class="val">$1,450</td>
-        <td class="hint">Tarification UE (€ depuis 2023)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📲</span>Galaxy S (dernier 256 Go)</td>
-        <td class="val">$1,150</td>
-        <td class="hint">Tarification UE (€ depuis 2023)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🛂 Immigration et installation</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🛂</span>Facilité d&#x27;immigration</td>
-        <td class="val">7 / 10</td>
-        <td class="hint">UE/Non-UE diffère ; visa de nomade numérique</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🌤️ Qualité de vie</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🙂</span>Bonheur</td>
-        <td class="val">6.5 / 10</td>
-        <td class="hint">indicatif (src : Rapport mondial sur le bonheur 2024)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☀️</span>Jours de soleil / an</td>
-        <td class="val">~260 jours / an</td>
-        <td class="hint">indicatif (côte plus élevée) (src : Données climatiques, OMM)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏥</span>Santé publique</td>
-        <td class="val">Oui</td>
-        <td class="hint">public + privé</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧑‍⚕️</span>Assurance privée / mois</td>
-        <td class="val">55 $ / mois</td>
-        <td class="hint">exemple privé</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📈 Indices</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🚔</span>Indice criminalité</td>
-        <td class="val">30 / 100</td>
-        <td class="hint">indicatif (src : Indice de sécurité Numbeo 2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💶</span>Pouvoir d&#x27;achat</td>
-        <td class="val">66</td>
-        <td class="hint">indicatif (src : Indice PP de Numbeo 2025)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🕍 Religion</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">✝️</span>Chrétien</td>
-        <td class="val">~86%</td>
-        <td class="hint">indicatif (majorité catholique)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☪️</span>Musulman</td>
-        <td class="val">~2%</td>
-        <td class="hint">indicatif</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☸️</span>Bouddhiste</td>
-        <td class="val">~0%</td>
-        <td class="hint">indicatif</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">✡️</span>Juif</td>
-        <td class="val">~0%</td>
-        <td class="hint">indicative (src: Pew Research / WJC)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🕊️</span>Autre / Aucune</td>
-        <td class="val">~13%</td>
-        <td class="hint">aucun/autre</td>
-      </tr>
-    </tbody>
-    </table>
-  </section>
+  <div class="main-grid">
+    <aside class="sidebar">
+      <div class="card">
+        <img class="hero-img" src="/assets/hero-croatia.jpg" alt="Croatie"
+             onerror="this.onerror=null;this.src='/assets/hero-fallback.jpg'" />
+        <div class="hero-actions">
+          <button class="btn primary" type="button" onclick="openModal('general')">Corriger les données</button>
+          <button class="btn" type="button" id="btnShare">Partager</button>
+          <a class="btn" href="/compare.html?country=croatia">Comparer</a>
+        </div>
+      </div>
 
-  <section class="article"><h2>Aperçu du pays</h2><h2>🧭 Aperçu</h2>
-<p>La Croatie est un joyau adriatique qui a obtenu son indépendance de la Yougoslavie en 1991 après une guerre brutale. Le pays combine un littoral spectaculaire (1 244 îles), des villes médiévales fortifiées (Dubrovnik, Split), des ruines romaines et une culture continentale (Zagreb). Membre de l'UE depuis 2013 et Schengen/zone euro depuis 2023. Le tourisme est le moteur de l'économie (plus de 20 % du PIB) — le tournage de Game of Thrones à Dubrovnik a accru la visibilité internationale. Le pays offre un style de vie méditerranéen, la sécurité, une beauté naturelle et des infrastructures en amélioration. Toutefois, la bureaucratie, le déclin démographique (émigration vers l'Europe de l'Ouest) et l'économie saisonnière posent des défis. La Croatie devient coûteuse par rapport à la région.</p>
-<h2>👥 Population et ambiance</h2>
-<p>Avec environ 3,9 millions d'habitants (en baisse depuis 4,7 M dans les années 1990 à cause des morts de guerre et de l'émigration), la population croate est d'environ 90 % croate de souche, avec des minorités serbe, bosniaque et autres. La langue croate est proche du serbe et du bosnien. La culture est méditerranéenne le long de la côte (détendue, sociale, influencée par l'Italie) et plus centro-européenne à l'intérieur des terres (formelle, réservée). Le catholicisme est important pour l'identité nationale. Les traumatismes de guerre persistent — presque chaque famille a des récits. L'ambiance varie : la côte dalmate est orientée vers le tourisme ; Zagreb est urbaine ; l'Istrie est un paradis gastronomique ; la Slavonie est agricole.</p>
-<h2>🌦️ Climat et paysage</h2>
-<p>Attendez-vous à un climat méditerranéen sur la côte (étés chauds et secs ; hivers doux et humides) et à un climat continental à l'intérieur (étés chauds, hivers froids avec neige). Le paysage est spectaculaire : 1 778 km de côtes adriatiques avec 1 244 îles, les Alpes dinariques, les lacs de Plitvice (chutes classées par l'UNESCO), la péninsule d'Istrie et les plaines pannoniennes. La beauté naturelle est impressionnante et accessible. La chaleur estivale sur la côte peut être intense (35°C+). Le tourisme hivernal se développe mais l'été domine.</p>
-<h2>🏠 Logement et installation</h2>
-<p>Les villes côtières (Split, Zadar, Dubrovnik) et Zagreb ont des marchés locatifs. Les villes côtières prisées subissent une pression des locations touristiques estivales qui réduisent l'offre long terme. Prévoyez 1–2 mois de dépôt de garantie et des contrats de 6 à 12 mois. Les loyers augmentent : Zagreb €400–800/mois ; la côte est plus chère et saisonnière. La qualité varie — les maisons en pierre rénovées sont charmantes mais peuvent manquer d'isolation ; les appartements récents sont modernes. L'Istrie et les petites îles attirent des étrangers. L'achat de propriété est autorisé pour les citoyens de l'UE ; les non-UE ont besoin de résidence ou d'un accord de réciprocité. Le chauffage hivernal est essentiel dans les terres.</p>
-<h2>💼 Emploi & économie</h2>
-<p>L'économie dépend fortement du tourisme (saisonnier), de la construction navale, de l'agriculture (vin, huile d'olive, truffes) et des services. Pour les citoyens de l'UE, la libre circulation s'applique. Les non-UE ont besoin de permis de travail par parrainage d'employeur. Le marché du travail est limité — le chômage des jeunes est élevé, ce qui pousse à l'émigration. Des opportunités pour les étrangers existent dans le tourisme, l'enseignement de l'anglais, l'informatique ou le travail à distance. Les salaires sont bas selon les standards de l'UE (moyenne €800–1 500/mois) mais en hausse. Le coût de la vie augmente. Les nomades numériques trouvent la Croatie attractive (beauté côtière, bon internet). La langue croate aide, mais l'anglais fonctionne dans les zones touristiques.</p>
-<h2>🛂 Visa & entrée</h2>
-<p>Les citoyens de l'UE/EEE/Suisse ont le droit de libre circulation. Pour les non-UE : la Croatie a rejoint Schengen en janvier 2023, donc les règles Schengen standard s'appliquent (90 jours sur 180). Pour des séjours plus longs, les permis de travail ou de résidence (emploi, famille, propriété, retraite) sont des options. Le processus est bureaucratique. Un visa pour nomades numériques a été lancé. La résidence permanente est possible après 5 ans de résidence temporaire continue. La citoyenneté exige 8 ans de résidence plus un test de langue/culture.</p>
-<h2>🏥 Santé</h2>
-<p>Le système de santé est universel pour les résidents via l'assurance obligatoire (HZZO). La qualité est correcte mais les hôpitaux publics sont surchargés et sous-équipés. Les cliniques privées offrent un meilleur service à un coût raisonnable. La dentisterie est particulièrement abordable et attire le tourisme médical. L'espérance de vie est d'environ 78 ans. Les temps d'attente pour les spécialistes peuvent être longs. Les citoyens de l'UE peuvent utiliser la CEAM. Une assurance santé internationale complète le système public. Les médecins croates sont bien formés, mais l'émigration crée des pénuries.</p>
-<h2>🚗 Transport et mobilité</h2>
-<p>Zagreb dispose de tramways, de bus et d'un bon réseau de transports publics. Les villes côtières s'appuient sur les bus et les ferries entre les îles. La conduite est pittoresque mais les routes côtières sont étroites et sinueuses. Le trafic est terrible vers la côte en été. Les autoroutes relient les grandes villes. Les ferries sont essentiels pour les îles — opérés par Jadrolinija. Les bus relient les villes à moindre coût. Pas de trains entre la côte et Zagreb (montagnes). Les vols intérieurs sont limités. Les aéroports de Zagreb, Split et Dubrovnik relient aux villes européennes (pics saisonniers en été).</p>
-<p>🍛 Note sur la nourriture (plat national)
-Il n'y a pas un plat national unique en raison de la diversité régionale, mais <strong>Peka</strong> est emblématique : viande (agneau, veau ou poulpe) et légumes cuits lentement sous une cloche en fer recouverte de braises. Chaque région a ses variations. L'Istrie avec ses truffes, les fruits de mer dalmates et les plats continentaux réconfortants reflètent la diversité géographique. La cuisine croate mêle influences méditerranéennes, centro-européennes et ottomanes.</p>
-<h2>🔎 Conclusion</h2>
-<p>La Croatie convient aux citoyens de l'UE cherchant un style de vie méditerranéen à moindre coût qu'en Italie/France, aux retraités, aux nomades numériques (côte et internet), aux marins (1 244 îles !) et aux amateurs de vin/gastronomie. Avantages : littoral splendide, sécurité, appartenance à l'UE, infrastructures en amélioration et histoire riche. Inconvénients : économie saisonnière, bureaucratie, émigration/déclin démographique, tourisme estival intense (surdensification à Dubrovnik) et hausse des coûts. C'est beau mais le pays a besoin de diversification économique au-delà du tourisme. Idéal pour ceux qui privilégient le style de vie plutôt que les opportunités de carrière.</p>
-<p>Expat Score — 7.5 / 10</p></section>
+      <div class="card snapshot-card">
+        <div class="snapshot-title">Aperçu rapide</div>
+        <div class="kv"><span>Capitale</span><b>Zagreb</b></div><div class="kv"><span>Population</span><b>~3.9M</b></div><div class="kv"><span>Langues</span><b>Croate</b></div><div class="kv"><span>Monnaie</span><b>Euro (EUR)</b></div><div class="kv kv-sub"><span>Exchange rate</span><b>1 USD ≈ 0.92 EUR</b></div><div class="kv-note">Adoption de l&#x27;euro en janvier 2023. Utilisait auparavant la kuna. Membre de la zone euro désormais.</div><div class="kv"><span>Crypto-friendly</span><b>Oui</b></div><div class="kv-note">Favorable aux cryptos avec des régulations claires. Communauté crypto en croissance. Les gains sont imposés. Certaines entreprises acceptent la crypto.</div><div class="kv"><span>Conduite</span><b>Droite</b></div><div class="sector-block"><div class="sector-head">Secteurs phares</div><div class="sector-list"><div class="sector-pill">Tourisme et hôtellerie</div><div class="sector-pill">Construction navale</div><div class="sector-pill">Agriculture (vin, huile d&#x27;olive, truffes)</div></div></div>
+      </div>
 
-  <section class="ttk"><h2>À savoir</h2><div class="ttk-grid">
-      <div class="ttk-card">
-        <div class="ttk-title">👤 Franjo Tuđman <small>(XXe siècle)</small></div>
-        <p>Premier président de la Croatie indépendante (1990–1999), il a dirigé le pays pendant la guerre d&#x27;indépendance mais a exercé un pouvoir avec des tendances autoritaires. Figure controversée — héros de l&#x27;indépendance pour certains, nationaliste critiqué pour la corruption pour d&#x27;autres. Décédé en 1999.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🏰 Dubrovnik = tourisme Game of Thrones</div>
-        <p>La ville médiévale fortifiée a servi de King&#x27;s Landing dans GoT. Le tourisme a explosé — elle reçoit maintenant plus d&#x27;1M de visiteurs par an. L&#x27;été est submergé par les navires de croisière. L&#x27;UNESCO met en garde contre le surtourisme. C&#x27;est magnifique mais commercialisé. Visitez en saison intermédiaire.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🎾 Le sport punch au-dessus de son poids</div>
-        <p>Avec 3,9M d&#x27;habitants, le pays produit des athlètes de classe mondiale : Luka Modrić (football), Goran Ivanišević (tennis), Dražen Petrović (basket-ball). Finaliste de la Coupe du Monde 2018. Le succès sportif est source d&#x27;une immense fierté nationale.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">📉 La fuite des cerveaux est existentielle</div>
-        <p>Depuis l&#x27;adhésion à l&#x27;UE (2013), des centaines de milliers de personnes (surtout des jeunes) ont émigré vers l&#x27;Allemagne, l&#x27;Irlande, l&#x27;Autriche pour de meilleures opportunités. Les villages sont vides. Qui dirigera la Croatie de demain ? L&#x27;effondrement démographique est alarmant.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🏝️ 1 244 îles (seulement ~50 habitées)</div>
-        <p>La Croatie a plus d&#x27;îles que la Grèce. La navigation est spectaculaire — sauts d&#x27;île en île, criques cachées, eau cristalline. Les locations de yachts sont une industrie importante. L&#x27;Adriatique est un terrain de jeu mais la plupart des îles sont dépeuplées.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">💶 Adoption de l&#x27;euro = étape majeure</div>
-        <p>L&#x27;adoption de l&#x27;euro en janvier 2023 a marqué l&#x27;intégration au cœur de la zone euro. Cela a simplifié les voyages et les affaires mais a aussi exposé des hausses de prix. Tout a été « arrondi ». Le passage psychologique de la kuna à l&#x27;euro a été significatif.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🍷 Istrie = paradis gastronomique</div>
-        <p>La péninsule d&#x27;Istrie offre une cuisine influencée par l&#x27;Italie, des truffes de classe mondiale (rivales du Piémont), d&#x27;excellents vins et de l&#x27;huile d&#x27;olive. Motovun, Rovinj et Pula attirent le tourisme gastronomique. C&#x27;est le joyau culinaire de la Croatie — sophistiqué et délicieux.</p>
-      </div></div></section>
+      
+        <div class="card persona-card">
+          <div class="snapshot-title">Figure du pays</div>
+          <div class="persona-name">Franjo Tuđman <small>(XXe siècle)</small></div>
+          <div class="persona-why">Premier président de la Croatie indépendante (1990–1999), il a dirigé le pays pendant la guerre d&#x27;indépendance mais a exercé un pouvoir avec des tendances autoritaires. Figure controversée — héros de l&#x27;indépendance pour certains, nationaliste critiqué pour la corruption pour d&#x27;autres. Décédé en 1999.</div>
+        </div>
+    </aside>
 
-  
-  <section class="related"><h2>Chroniques liées</h2><ul class="link-list"><li><a href="/chronicles/digital-nomads-2026-fr.html">Meilleurs pays pour digital nomads 2026</a></li></ul></section>
-  
+    <div class="right-col">
+      <div class="rc-wrapper">
+        
+        <div class="rc-box">
+          <div class="rc-box-head">
+            <h2>Chroniques liées</h2>
+            <div class="rc-nav">
+              <button class="rc-nav-btn" data-target="rc-list" data-dir="-1" aria-label="Previous">&#8249;</button>
+              <button class="rc-nav-btn" data-target="rc-list" data-dir="1" aria-label="Next">&#8250;</button>
+            </div>
+          </div>
+          <div class="rc-track"><div id="rc-list" class="rc-row"><a class="rc-vcard" href="/chronicles/digital-nomads-2026-fr.html"><img class="rc-vimg" src="/assets/hero-indonesia.jpg" alt="Meilleurs pays pour digital nomads 2026" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">📄</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Meilleurs pays pour digital nomads 2026</div></div></a></div></div>
+        </div>
+        
+      </div>
 
-  <p style="text-align:center;margin-top:30px"><a href="/globe.html" style="font-weight:600">Voir les 160+ pays →</a></p>
+      <div class="data-card">
+        <table class="data-table">
+      <tbody>
+        <tr class="sec"><td colspan="4">💼 Salaires (net / mois)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧾</span>Salaire minimum</td>
+          <td class="val">$795</td>
+          <td class="hint">Salaire minimum 880 € brut → net ≈ 757 € (2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('min_wage')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📊</span>Salaire moyen</td>
+          <td class="val">$1,210</td>
+          <td class="hint">Moyenne nette ≈ 1 153 €/mois (DZS 2024)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('avg_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🩺</span>Salaire médecin (généraliste)</td>
+          <td class="val">$3,800</td>
+          <td class="hint">Moyenne du secteur public</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('doctor_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🏠 Logement et charges (studio référence)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏚️</span>Loyer studio</td>
+          <td class="val">$650</td>
+          <td class="hint">Villes régionales (côte plus élevée)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('rent_studio')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">⚡</span>Électricité</td>
+          <td class="val">$95</td>
+          <td class="hint">/ mois</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('electricity')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💧</span>Eau</td>
+          <td class="val">$20</td>
+          <td class="hint">/ mois</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('water')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📱</span>Forfait mobile</td>
+          <td class="val">$18</td>
+          <td class="hint">~20–50 Go</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('mobile')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🍽️ Alimentation et boissons (prix indicatifs)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍺</span>Bière (pinte)</td>
+          <td class="val">$4.00</td>
+          <td class="hint">Bar local</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('beer')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☕</span>Café</td>
+          <td class="val">$2.00</td>
+          <td class="hint">Café régulier</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('coffee')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍲</span>Plat principal</td>
+          <td class="val">$12</td>
+          <td class="hint">milieu de gamme</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('dish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">⛽ Transport</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">⛽</span>Essence / litre</td>
+          <td class="val">1,75 $ / L</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('gas')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🧾 Fiscalité (indicatif)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏷️</span>TVA</td>
+          <td class="val">25%</td>
+          <td class="hint">taux standard</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('vat')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">👤</span>Impôt sur le revenu</td>
+          <td class="val">~20%</td>
+          <td class="hint">Progressif (20-30 %), tranche intermédiaire</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('income_tax')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏪</span>Fiscalité petite entreprise</td>
+          <td class="val">~28%</td>
+          <td class="hint">18 % d&#x27;IS + contributions sociales</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('smallbiz')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📱 Tech (prix indicatifs)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍎</span>iPhone (dernier 256 Go)</td>
+          <td class="val">$1,450</td>
+          <td class="hint">Tarification UE (€ depuis 2023)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('iphone')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📲</span>Galaxy S (dernier 256 Go)</td>
+          <td class="val">$1,150</td>
+          <td class="hint">Tarification UE (€ depuis 2023)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('samsung')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🛂 Immigration et installation</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🛂</span>Facilité d&#x27;immigration</td>
+          <td class="val">7 / 10</td>
+          <td class="hint">UE/Non-UE diffère ; visa de nomade numérique</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('immigration')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🌤️ Qualité de vie</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🙂</span>Bonheur</td>
+          <td class="val">6.5 / 10</td>
+          <td class="hint">indicatif (src : Rapport mondial sur le bonheur 2024)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('happiness')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☀️</span>Jours de soleil / an</td>
+          <td class="val">~260 jours / an</td>
+          <td class="hint">indicatif (côte plus élevée) (src : Données climatiques, OMM)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('sun')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏥</span>Santé publique</td>
+          <td class="val">Oui</td>
+          <td class="hint">public + privé</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('health')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧑‍⚕️</span>Assurance privée / mois</td>
+          <td class="val">55 $ / mois</td>
+          <td class="hint">exemple privé</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('insurance')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📈 Indices</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🚔</span>Indice criminalité</td>
+          <td class="val">30 / 100</td>
+          <td class="hint">indicatif (src : Indice de sécurité Numbeo 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('crime')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💶</span>Pouvoir d&#x27;achat</td>
+          <td class="val">66</td>
+          <td class="hint">indicatif (src : Indice PP de Numbeo 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('pp')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🕍 Religion</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">✝️</span>Chrétien</td>
+          <td class="val">~86%</td>
+          <td class="hint">indicatif (majorité catholique)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_christian')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☪️</span>Musulman</td>
+          <td class="val">~2%</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_muslim')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☸️</span>Bouddhiste</td>
+          <td class="val">~0%</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_buddhist')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">✡️</span>Juif</td>
+          <td class="val">~0%</td>
+          <td class="hint">indicative (src: Pew Research / WJC)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_jewish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🕊️</span>Autre / Aucune</td>
+          <td class="val">~13%</td>
+          <td class="hint">aucun/autre</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_other')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+        </table>
+      </div>
+
+      
+      <div class="article-card">
+        <div class="section-head">
+          <h2>Vivre à Croatie</h2>
+          <span class="score-badge"><span class="score-star">⭐</span> Score Expat: 7.5 / 10</span>
+        </div>
+        <div class="article-body"><p>🧭 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Aperçu</span><br>
+La Croatie est un joyau adriatique qui a obtenu son indépendance de la Yougoslavie en 1991 après une guerre brutale. Le pays combine un littoral spectaculaire (1 244 îles), des villes médiévales fortifiées (Dubrovnik, Split), des ruines romaines et une culture continentale (Zagreb). Membre de l&#x27;UE depuis 2013 et Schengen/zone euro depuis 2023. Le tourisme est le moteur de l&#x27;économie (plus de 20 % du PIB) — le tournage de Game of Thrones à Dubrovnik a accru la visibilité internationale. Le pays offre un style de vie méditerranéen, la sécurité, une beauté naturelle et des infrastructures en amélioration. Toutefois, la bureaucratie, le déclin démographique (émigration vers l&#x27;Europe de l&#x27;Ouest) et l&#x27;économie saisonnière posent des défis. La Croatie devient coûteuse par rapport à la région.</p><p>👥 <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Population et ambiance</span><br>
+Avec environ 3,9 millions d&#x27;habitants (en baisse depuis 4,7 M dans les années 1990 à cause des morts de guerre et de l&#x27;émigration), la population croate est d&#x27;environ 90 % croate de souche, avec des minorités serbe, bosniaque et autres. La langue croate est proche du serbe et du bosnien. La culture est méditerranéenne le long de la côte (détendue, sociale, influencée par l&#x27;Italie) et plus centro-européenne à l&#x27;intérieur des terres (formelle, réservée). Le catholicisme est important pour l&#x27;identité nationale. Les traumatismes de guerre persistent — presque chaque famille a des récits. L&#x27;ambiance varie : la côte dalmate est orientée vers le tourisme ; Zagreb est urbaine ; l&#x27;Istrie est un paradis gastronomique ; la Slavonie est agricole.</p><p>🌦️ <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Climat et paysage</span><br>
+Attendez-vous à un climat méditerranéen sur la côte (étés chauds et secs ; hivers doux et humides) et à un climat continental à l&#x27;intérieur (étés chauds, hivers froids avec neige). Le paysage est spectaculaire : 1 778 km de côtes adriatiques avec 1 244 îles, les Alpes dinariques, les lacs de Plitvice (chutes classées par l&#x27;UNESCO), la péninsule d&#x27;Istrie et les plaines pannoniennes. La beauté naturelle est impressionnante et accessible. La chaleur estivale sur la côte peut être intense (35°C+). Le tourisme hivernal se développe mais l&#x27;été domine.</p><p>🏠 <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Logement et installation</span><br>
+Les villes côtières (Split, Zadar, Dubrovnik) et Zagreb ont des marchés locatifs. Les villes côtières prisées subissent une pression des locations touristiques estivales qui réduisent l&#x27;offre long terme. Prévoyez 1–2 mois de dépôt de garantie et des contrats de 6 à 12 mois. Les loyers augmentent : Zagreb €400–800/mois ; la côte est plus chère et saisonnière. La qualité varie — les maisons en pierre rénovées sont charmantes mais peuvent manquer d&#x27;isolation ; les appartements récents sont modernes. L&#x27;Istrie et les petites îles attirent des étrangers. L&#x27;achat de propriété est autorisé pour les citoyens de l&#x27;UE ; les non-UE ont besoin de résidence ou d&#x27;un accord de réciprocité. Le chauffage hivernal est essentiel dans les terres.</p><p>💼 <span class="art-tag" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#6d28d9">Emploi &amp; économie</span><br>
+L&#x27;économie dépend fortement du tourisme (saisonnier), de la construction navale, de l&#x27;agriculture (vin, huile d&#x27;olive, truffes) et des services. Pour les citoyens de l&#x27;UE, la libre circulation s&#x27;applique. Les non-UE ont besoin de permis de travail par parrainage d&#x27;employeur. Le marché du travail est limité — le chômage des jeunes est élevé, ce qui pousse à l&#x27;émigration. Des opportunités pour les étrangers existent dans le tourisme, l&#x27;enseignement de l&#x27;anglais, l&#x27;informatique ou le travail à distance. Les salaires sont bas selon les standards de l&#x27;UE (moyenne €800–1 500/mois) mais en hausse. Le coût de la vie augmente. Les nomades numériques trouvent la Croatie attractive (beauté côtière, bon internet). La langue croate aide, mais l&#x27;anglais fonctionne dans les zones touristiques.</p>
+        <div class="map-card">
+          <div class="map-header">
+            <div class="map-title"><span class="map-flag">🇭🇷</span><span>Croatie — Carte</span></div>
+            <div class="map-styles">
+              <button type="button" class="map-style-btn active" data-style="light">Clair</button>
+              <button type="button" class="map-style-btn" data-style="dark">Sombre</button>
+              <button type="button" class="map-style-btn" data-style="satellite">Satellite</button>
+            </div>
+          </div>
+          <div class="map-container">
+            <div id="wigg-country-map"></div>
+            <div class="map-loading" id="wiggMapLoading">Chargement de la carte…</div>
+          </div>
+        </div><p>🛂 <span class="art-tag" style="background:rgba(236,72,153,.12);border:1px solid rgba(236,72,153,.25);color:#be185d">Visa &amp; entrée</span><br>
+Les citoyens de l&#x27;UE/EEE/Suisse ont le droit de libre circulation. Pour les non-UE : la Croatie a rejoint Schengen en janvier 2023, donc les règles Schengen standard s&#x27;appliquent (90 jours sur 180). Pour des séjours plus longs, les permis de travail ou de résidence (emploi, famille, propriété, retraite) sont des options. Le processus est bureaucratique. Un visa pour nomades numériques a été lancé. La résidence permanente est possible après 5 ans de résidence temporaire continue. La citoyenneté exige 8 ans de résidence plus un test de langue/culture.</p><p>🏥 <span class="art-tag" style="background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.25);color:#0e7490">Santé</span><br>
+Le système de santé est universel pour les résidents via l&#x27;assurance obligatoire (HZZO). La qualité est correcte mais les hôpitaux publics sont surchargés et sous-équipés. Les cliniques privées offrent un meilleur service à un coût raisonnable. La dentisterie est particulièrement abordable et attire le tourisme médical. L&#x27;espérance de vie est d&#x27;environ 78 ans. Les temps d&#x27;attente pour les spécialistes peuvent être longs. Les citoyens de l&#x27;UE peuvent utiliser la CEAM. Une assurance santé internationale complète le système public. Les médecins croates sont bien formés, mais l&#x27;émigration crée des pénuries.</p><p>🚗 <span class="art-tag" style="background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#c2410c">Transport et mobilité</span><br>
+Zagreb dispose de tramways, de bus et d&#x27;un bon réseau de transports publics. Les villes côtières s&#x27;appuient sur les bus et les ferries entre les îles. La conduite est pittoresque mais les routes côtières sont étroites et sinueuses. Le trafic est terrible vers la côte en été. Les autoroutes relient les grandes villes. Les ferries sont essentiels pour les îles — opérés par Jadrolinija. Les bus relient les villes à moindre coût. Pas de trains entre la côte et Zagreb (montagnes). Les vols intérieurs sont limités. Les aéroports de Zagreb, Split et Dubrovnik relient aux villes européennes (pics saisonniers en été).</p><p>🍛 Note sur la nourriture (plat national)
+Il n&#x27;y a pas un plat national unique en raison de la diversité régionale, mais <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Peka</span><br> est emblématique : viande (agneau, veau ou poulpe) et légumes cuits lentement sous une cloche en fer recouverte de braises. Chaque région a ses variations. L&#x27;Istrie avec ses truffes, les fruits de mer dalmates et les plats continentaux réconfortants reflètent la diversité géographique. La cuisine croate mêle influences méditerranéennes, centro-européennes et ottomanes.</p><p>🔎 <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Conclusion</span><br>
+La Croatie convient aux citoyens de l&#x27;UE cherchant un style de vie méditerranéen à moindre coût qu&#x27;en Italie/France, aux retraités, aux nomades numériques (côte et internet), aux marins (1 244 îles !) et aux amateurs de vin/gastronomie. Avantages : littoral splendide, sécurité, appartenance à l&#x27;UE, infrastructures en amélioration et histoire riche. Inconvénients : économie saisonnière, bureaucratie, émigration/déclin démographique, tourisme estival intense (surdensification à Dubrovnik) et hausse des coûts. C&#x27;est beau mais le pays a besoin de diversification économique au-delà du tourisme. Idéal pour ceux qui privilégient le style de vie plutôt que les opportunités de carrière.</p><p>Expat Score — 7.5 / 10</p></div>
+      </div>
+
+      
+      <div class="things-section">
+        <div class="section-head"><h2>À savoir</h2><span class="wg-badge">À lire</span></div>
+        <div class="facts-grid"><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏰 Dubrovnik = tourisme Game of Thrones</div><div class="fact-text">La ville médiévale fortifiée a servi de King&#x27;s Landing dans GoT. Le tourisme a explosé — elle reçoit maintenant plus d&#x27;1M de visiteurs par an. L&#x27;été est submergé par les navires de croisière. L&#x27;UNESCO met en garde contre le surtourisme. C&#x27;est magnifique mais commercialisé. Visitez en saison intermédiaire.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🎾 Le sport punch au-dessus de son poids</div><div class="fact-text">Avec 3,9M d&#x27;habitants, le pays produit des athlètes de classe mondiale : Luka Modrić (football), Goran Ivanišević (tennis), Dražen Petrović (basket-ball). Finaliste de la Coupe du Monde 2018. Le succès sportif est source d&#x27;une immense fierté nationale.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">📉 La fuite des cerveaux est existentielle</div><div class="fact-text">Depuis l&#x27;adhésion à l&#x27;UE (2013), des centaines de milliers de personnes (surtout des jeunes) ont émigré vers l&#x27;Allemagne, l&#x27;Irlande, l&#x27;Autriche pour de meilleures opportunités. Les villages sont vides. Qui dirigera la Croatie de demain ? L&#x27;effondrement démographique est alarmant.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏝️ 1 244 îles (seulement ~50 habitées)</div><div class="fact-text">La Croatie a plus d&#x27;îles que la Grèce. La navigation est spectaculaire — sauts d&#x27;île en île, criques cachées, eau cristalline. Les locations de yachts sont une industrie importante. L&#x27;Adriatique est un terrain de jeu mais la plupart des îles sont dépeuplées.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">💶 Adoption de l&#x27;euro = étape majeure</div><div class="fact-text">L&#x27;adoption de l&#x27;euro en janvier 2023 a marqué l&#x27;intégration au cœur de la zone euro. Cela a simplifié les voyages et les affaires mais a aussi exposé des hausses de prix. Tout a été « arrondi ». Le passage psychologique de la kuna à l&#x27;euro a été significatif.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🍷 Istrie = paradis gastronomique</div><div class="fact-text">La péninsule d&#x27;Istrie offre une cuisine influencée par l&#x27;Italie, des truffes de classe mondiale (rivales du Piémont), d&#x27;excellents vins et de l&#x27;huile d&#x27;olive. Motovun, Rovinj et Pula attirent le tourisme gastronomique. C&#x27;est le joyau culinaire de la Croatie — sophistiqué et délicieux.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🍽️ Peka</div><div class="fact-text">Viande/poulpe et légumes cuits lentement sous une cloche en fer avec des braises — variations régionales, représente la tradition culinaire dalmate.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏳️‍🌈 LGBT+: Modéré</div><div class="fact-text">L&#x27;homosexualité est légale avec certaines protections contre la discrimination. Zagreb possède une petite scène LGBTQ+. Les attitudes sociales sont mitigées — en amélioration dans les villes, conservatrices en zones rurales. Les unions de même sexe sont reconnues mais pas le mariage.</div></div></div>
+      </div>
+
+      
+    </div>
+  </div>
 </main>
 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
+<script src="/data/share.js"></script>
+<script src="/data/correction-form.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var t = document.getElementById("localTime");
+  if(t && t.dataset.tz){
+    function tick(){
+      try{
+        t.textContent = new Intl.DateTimeFormat("en-GB",{
+          timeZone: t.dataset.tz, hour:"2-digit", minute:"2-digit"
+        }).format(new Date());
+      }catch(e){}
+    }
+    tick(); setInterval(tick, 30000);
+  }
+  document.querySelectorAll(".rc-nav-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var targetId = btn.dataset.target;
+      var dir = parseInt(btn.dataset.dir||"1",10);
+      var row = document.getElementById(targetId);
+      if(!row) return;
+      var box = row.parentElement;
+      var first = row.querySelector(".rc-vcard");
+      if(!first) return;
+      var cardW = first.offsetWidth + 9;
+      var visible = Math.max(1, Math.floor(box.offsetWidth / cardW));
+      var maxOffset = Math.max(0, row.children.length - visible);
+      var current = parseInt(row.dataset.offset||"0", 10);
+      current = Math.min(maxOffset, Math.max(0, current + dir));
+      row.dataset.offset = current;
+      row.style.transform = "translateX(-" + (current * cardW) + "px)";
+      var nav = btn.parentNode;
+      var prev = nav.querySelector('[data-dir="-1"]');
+      var next = nav.querySelector('[data-dir="1"]');
+      if(prev) prev.disabled = (current === 0);
+      if(next) next.disabled = (current >= maxOffset);
+    });
+  });
+  var iso2 = "HR";
+  if(!iso2 || typeof L === "undefined") return;
+  var STYLES = {
+    light:     { url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", attr: "&copy; OSM &copy; CARTO" },
+    dark:      { url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",  attr: "&copy; OSM &copy; CARTO" },
+    satellite: { url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", attr: "&copy; Esri" }
+  };
+  var wMap=null, wLayer=null, wMarker=null;
+  function initMap(lat, lon){
+    var el = document.getElementById("wigg-country-map");
+    if(!el) return;
+    if(wMap){ try{wMap.remove();}catch(e){} }
+    wMap = L.map("wigg-country-map",{zoomControl:true}).setView([lat,lon],5);
+    wLayer = L.tileLayer(STYLES.light.url,{attribution:STYLES.light.attr,maxZoom:18}).addTo(wMap);
+    wMarker = L.marker([lat,lon]).addTo(wMap);
+    var loading = document.getElementById("wiggMapLoading");
+    if(loading) loading.classList.add("hidden");
+  }
+  document.querySelectorAll(".map-style-btn").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(!wMap) return;
+      var s = STYLES[b.dataset.style];
+      if(!s) return;
+      if(wLayer) wMap.removeLayer(wLayer);
+      wLayer = L.tileLayer(s.url,{attribution:s.attr,maxZoom:18}).addTo(wMap);
+      document.querySelectorAll(".map-style-btn").forEach(function(x){x.classList.remove("active");});
+      b.classList.add("active");
+    });
+  });
+  var cacheKey = "wigg_centroid_" + iso2;
+  var cached = null;
+  try { cached = JSON.parse(localStorage.getItem(cacheKey) || "null"); } catch(e){}
+  if(cached && cached.lat != null && cached.lon != null){
+    initMap(cached.lat, cached.lon); return;
+  }
+  fetch("https://nominatim.openstreetmap.org/search?country=" + encodeURIComponent(iso2) + "&format=json&limit=1")
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && d[0]){
+        var coords = { lat: +d[0].lat, lon: +d[0].lon };
+        try { localStorage.setItem(cacheKey, JSON.stringify(coords)); } catch(e){}
+        initMap(coords.lat, coords.lon);
+      } else {
+        var l = document.getElementById("wiggMapLoading");
+        if(l) l.textContent = "Carte indisponible";
+      }
+    })
+    .catch(function(){
+      var l = document.getElementById("wiggMapLoading");
+      if(l) l.textContent = "Carte indisponible";
+    });
+})();
+</script>
+
+<form name="wiggmap-corrections" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="wiggmap-corrections" />
+  <p><label>Don't fill this out: <input name="bot-field" /></label></p>
+  <input name="country" /><input name="field" /><input name="value" /><input name="email" /><textarea name="notes"></textarea>
+</form>
+
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
 </body>
 </html>

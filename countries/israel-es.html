@@ -25,65 +25,127 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#f6f1e8;--paper:#fffdf8;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--green:#1d7f48;--green-dk:#155f36;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
+    :root{--paper:#fffdf8;--paper-2:#fbf7ee;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--line-soft:rgba(23,23,20,.06);--green:#1d7f48;--green-dk:#155f36;--green-light:#e6f4ec;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
     html{scroll-behavior:smooth}
     body{font-family:"Inter",system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f9f5ed 0%,#f3ede3 100%);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
     a{color:var(--green);text-decoration:none}
     a:hover{text-decoration:underline}
-    main{max-width:980px;margin:0 auto;padding:28px 20px 80px}
-    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:18px;letter-spacing:.04em}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:14px;letter-spacing:.04em}
     .crumb a{color:var(--ink-soft)}
-    .hero{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:36px 32px;box-shadow:var(--shadow);margin-bottom:24px;position:relative;overflow:hidden}
-    .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 18%,rgba(29,127,72,.05),transparent 30%);pointer-events:none}
-    .hero-flag{font-size:48px;line-height:1;margin-bottom:14px}
-    .hero h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(36px,6vw,56px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:10px;position:relative;z-index:1}
-    .hero .subtitle{font-size:15px;color:var(--ink-soft);max-width:62ch;line-height:1.6;position:relative;z-index:1}
-    .hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;position:relative;z-index:1}
-    .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid var(--line)}
-    .badge.green{background:#e6f4ec;color:var(--green-dk);border-color:rgba(29,127,72,.2)}
+    .country-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:22px;flex-wrap:wrap}
+    .country-flag{font-size:42px;line-height:1;margin-bottom:8px}
+    .country-head h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(34px,5.2vw,52px);font-weight:800;letter-spacing:-.02em;line-height:1.02}
+    .country-head .subtitle{font-size:14px;color:var(--ink-soft);max-width:64ch;line-height:1.55;margin-top:8px}
+    .head-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+    .badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:7px 13px;border-radius:999px;background:#fff;border:1px solid var(--line)}
+    .badge.green{background:var(--green-light);color:var(--green-dk);border-color:rgba(29,127,72,.22)}
     .badge.yellow{background:#fef9e7;color:#a16207;border-color:rgba(202,138,4,.25)}
     .badge.red{background:#fdecec;color:#b91c1c;border-color:rgba(185,28,28,.25)}
-    .snapshot{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px 26px;box-shadow:var(--shadow);margin-bottom:24px}
-    .snapshot h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;margin-bottom:14px}
-    .snap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
-    .snap-item{font-size:13px}
-    .snap-item strong{display:block;color:var(--ink-soft);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
-    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
-    .data-card h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;padding:20px 26px 8px}
+    .badge .dot{width:8px;height:8px;border-radius:999px;background:currentColor;display:inline-block}
+    .local-time{font-size:12px;color:var(--ink-soft);font-weight:600}
+    .local-time b{color:var(--ink);margin-left:5px;font-weight:800}
+    .main-grid{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+    @media(max-width:900px){.main-grid{grid-template-columns:1fr}}
+    .sidebar{display:flex;flex-direction:column;gap:14px;align-self:start;position:sticky;top:18px}
+    @media(max-width:900px){.sidebar{position:static}}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .hero-img{width:100%;height:200px;object-fit:cover;display:block;background:#eaddc4}
+    .hero-actions{padding:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:8px;font-family:inherit;font-weight:700;font-size:12.5px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;transition:background .14s,border-color .14s}
+    .btn:hover{background:rgba(0,0,0,.04)}
+    .btn.primary{background:var(--green);color:#fff;border-color:transparent}
+    .btn.primary:hover{background:var(--green-dk)}
+    .snapshot-card{padding:16px}
+    .snapshot-title{font-family:"Fraunces",Georgia,serif;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px;letter-spacing:-.01em}
+    .kv{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--line-soft);font-size:12.5px}
+    .kv span{color:var(--ink-soft)}
+    .kv b{color:var(--ink);font-weight:700;text-align:right;max-width:60%}
+    .kv-sub{padding-left:10px;font-size:11.5px;opacity:.85}
+    .kv-note{font-size:11px;color:var(--ink-soft);line-height:1.5;padding:6px 0 8px;font-style:italic;border-bottom:1px solid var(--line-soft)}
+    .sector-block{padding-top:10px;margin-top:6px;border-top:1px solid var(--line-soft)}
+    .sector-head{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+    .sector-list{display:flex;flex-direction:column;gap:5px}
+    .sector-pill{background:rgba(29,127,72,.08);border:1px solid rgba(29,127,72,.2);border-radius:7px;padding:5px 10px;font-size:11.5px;font-weight:700;color:var(--green-dk);line-height:1.4}
+    .persona-card{padding:16px}
+    .persona-name{font-weight:800;font-size:13px;margin-bottom:6px}
+    .persona-name small{font-weight:500;opacity:.6;font-size:11px}
+    .persona-why{font-size:11.5px;color:var(--ink-soft);line-height:1.55;font-style:italic}
+    .right-col{display:flex;flex-direction:column;gap:18px;min-width:0}
+    .rc-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:760px){.rc-wrapper{grid-template-columns:1fr}}
+    .rc-box{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 14px 12px;overflow:hidden}
+    .rc-box-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:6px}
+    .rc-box-head h2{font-family:"Fraunces",Georgia,serif;font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+    .rc-nav{display:flex;gap:4px}
+    .rc-nav-btn{width:24px;height:24px;border-radius:6px;border:1px solid var(--line);background:#fff;font-size:13px;cursor:pointer;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;line-height:1;transition:all .14s}
+    .rc-nav-btn:hover{background:var(--green);color:#fff;border-color:transparent}
+    .rc-nav-btn:disabled{opacity:.35;cursor:not-allowed}
+    .rc-track{overflow:hidden}
+    .rc-row{display:flex;gap:9px;transition:transform .35s ease;will-change:transform}
+    .rc-vcard{flex-shrink:0;width:130px;height:90px;border-radius:10px;overflow:hidden;position:relative;background:#e9dfca;border:1px solid var(--line);transition:transform .15s,box-shadow .15s}
+    .rc-vcard:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10);text-decoration:none}
+    .rc-vimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .rc-vemoji{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;background:linear-gradient(135deg,#ede5d8,#ddd3c4)}
+    .rc-vgrad{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,8,.85) 0%,rgba(20,15,8,.2) 55%,transparent 100%)}
+    .rc-vbody{position:absolute;left:0;right:0;bottom:0;padding:7px 9px;z-index:2}
+    .rc-vtitle{font-family:"Fraunces",Georgia,serif;font-size:10.5px;font-weight:700;color:#fff;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
     .data-table{width:100%;border-collapse:collapse;font-size:13px}
-    .data-table .sec td{background:#f8f4eb;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:10px 26px;color:var(--ink-soft);border-top:1px solid var(--line)}
-    .data-table td{padding:9px 26px;border-bottom:1px solid var(--line);vertical-align:top}
+    .data-table .sec td{background:#f4eedf;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:11px 22px;color:var(--ink-soft);border-top:1px solid var(--line)}
+    .data-table td{padding:9px 22px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+    .data-table tr:last-child td{border-bottom:none}
     .data-table td.lbl{width:42%;color:var(--ink)}
-    .data-table td.val{width:22%;font-weight:700}
+    .data-table td.val{width:25%;font-weight:700}
     .data-table td.hint{font-size:11.5px;color:var(--ink-soft)}
+    .data-table td.edit{width:30px;text-align:right;padding-right:14px}
     .data-table .ico{margin-right:8px}
-    .article{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px;margin-bottom:24px}
-    .article h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:700;margin:24px 0 10px;color:var(--ink)}
-    .article h2:first-child{margin-top:0}
-    .article p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.75}
-    .article p strong{color:var(--ink);font-weight:600}
-    .ttk{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-bottom:24px}
-    .ttk h2{font-family:"Fraunces",Georgia,serif;font-size:20px;font-weight:700;margin-bottom:16px}
-    .ttk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-    .ttk-card{background:#fbf7ee;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
-    .ttk-card .ttk-title{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink)}
-    .ttk-card p{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
-    .ttk-card small{font-weight:500;color:var(--ink-soft)}
-    .related{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px;margin-bottom:18px}
-    .related h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
-    .link-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px 18px}
-    .link-list li{font-size:13.5px;line-height:1.5;padding-left:14px;position:relative}
-    .link-list li::before{content:"›";position:absolute;left:0;color:var(--green)}
-    @media (max-width:640px){
-      main{padding:20px 14px 60px}
-      .hero{padding:26px 22px}
-      .data-table td{padding:9px 16px}
-      .data-table .sec td{padding:10px 16px}
-      .article{padding:24px 22px}
-      .ttk{padding:22px 22px}
-      .related{padding:20px 22px}
+    .edit-btn{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:13px;opacity:.4;transition:opacity .14s;padding:2px 4px}
+    .edit-btn:hover{opacity:1;color:var(--green)}
+    .article-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px}
+    .section-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+    .section-head h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:800;letter-spacing:-.01em;color:var(--ink)}
+    .score-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-light);border:1px solid rgba(29,127,72,.25);color:var(--green-dk);padding:5px 12px;border-radius:999px;font-size:12px;font-weight:700}
+    .article-body p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.78}
+    .article-body p:last-child{margin-bottom:0}
+    .art-tag{display:inline-block;padding:3px 10px;border-radius:6px;font-weight:700;font-size:13px;margin-bottom:6px;line-height:1.5}
+    .map-card{margin:22px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper-2)}
+    .map-header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);gap:8px;flex-wrap:wrap}
+    .map-title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}
+    .map-flag{font-size:18px}
+    .map-styles{display:flex;gap:4px}
+    .map-style-btn{font-size:11px;font-weight:700;padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;color:var(--ink-soft);cursor:pointer;transition:all .14s}
+    .map-style-btn:hover{border-color:var(--green);color:var(--green)}
+    .map-style-btn.active{background:var(--green);color:#fff;border-color:transparent}
+    .map-container{position:relative;height:320px}
+    #wigg-country-map{position:absolute;inset:0}
+    .map-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper-2);color:var(--ink-soft);font-size:13px;z-index:10}
+    .map-loading.hidden{display:none}
+    .things-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px}
+    .wg-badge{display:inline-flex;align-items:center;gap:5px;background:#fef3c7;border:1px solid rgba(202,138,4,.3);color:#92400e;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+    .facts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .fact-card{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden}
+    .fact-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green)}
+    .fact-title{font-weight:800;font-size:13px;margin-bottom:6px;color:var(--ink);padding-left:6px}
+    .fact-text{font-size:12.5px;color:var(--ink-soft);line-height:1.55;padding-left:6px}
+    .cmp-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px}
+    .cmp-section h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
+    .cmp-pills{display:flex;flex-wrap:wrap;gap:8px}
+    .cmp-pill{display:inline-block;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:600;color:var(--ink);transition:all .14s}
+    .cmp-pill:hover{border-color:var(--green);background:var(--green);color:#fff;text-decoration:none}
+    @media(max-width:640px){
+      .wrap{padding:18px 14px 60px}
+      .country-head{flex-direction:column}
+      .head-right{align-items:flex-start}
+      .data-table td{padding:9px 14px}
+      .data-table .sec td{padding:11px 14px}
+      .article-card{padding:24px 22px}
+      .things-section{padding:22px 22px}
+      .cmp-section{padding:20px 22px}
+      .map-container{height:240px}
     }
   </style>
 </head>
@@ -92,268 +154,410 @@
 <div id="siteHeader"></div>
 <script src="/data/header.js"></script>
 
-<main>
+<main class="wrap">
   <nav class="crumb"><a href="/">Inicio</a> › <a href="/globe.html">Países</a> › Israel</nav>
 
-  <section class="hero">
-    <div class="hero-flag">🇮🇱</div>
-    <h1>Israel</h1>
-    <p class="subtitle">Promedios indicativos (Tel Aviv más alto; neto / mes a menos que se indique)</p>
-    <div class="hero-badges">
-      <span class="badge yellow">WIGG: YELLOW</span>
-      <span class="badge">⭐ Puntuación expat: 6.5 / 10</span>
+  <div class="country-head">
+    <div>
+      <div class="country-flag">🇮🇱</div>
+      <h1>Israel</h1>
+      <p class="subtitle">Promedios indicativos (Tel Aviv más alto; neto / mes a menos que se indique)</p>
     </div>
-  </section>
-
-  <section class="snapshot">
-    <h2>Vistazo rápido</h2>
-    <div class="snap-grid">
-      <div class="snap-item"><strong>Capital</strong>Jerusalén (disputada)</div>
-      <div class="snap-item"><strong>Población</strong>~9.5M</div>
-      <div class="snap-item"><strong>Idiomas</strong>Hebreo, árabe, inglés</div>
-      <div class="snap-item"><strong>Conducción</strong>Derecha</div>
-      <div class="snap-item"><strong>Moneda</strong>Nuevo shéquel israelí (ILS)</div>
-      <div class="snap-item"><strong>Crypto-amigable</strong>Sí</div>
+    <div class="head-right">
+      <div class="badge yellow"><span class="dot"></span>WIGG: YELLOW</div>
+      <div class="local-time">Hora local <b id="localTime" data-tz="Asia/Jerusalem">--:--</b></div>
     </div>
-  </section>
+  </div>
 
-  <section class="data-card">
-    <h2>Coste de vida, salarios y calidad de vida</h2>
-    <table class="data-table">
-    <tbody>
-      <tr class="sec"><td colspan="3">💼 Salarios (neto / mes)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧾</span>Salario mínimo</td>
-        <td class="val">$1,530</td>
-        <td class="hint">Mín. ILS 6.444 bruto → neto ≈ ILS 5.667 (impuesto renta + seguro nacional; 2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📊</span>Salario medio</td>
-        <td class="val">$3,560</td>
-        <td class="hint">Promedio neto ≈ ILS 13.200/mes (CBS Israel 2024 — bruto medio ≈ ILS 17.400; sesgo tech)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🩺</span>Salario médico (general)</td>
-        <td class="val">$9,000</td>
-        <td class="hint">compensación total del médico hospitalario indicativo; puede ser mayor con antigüedad/guardias</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🏠 Vivienda y servicios (estudio de referencia)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏚️</span>Alquiler estudio</td>
-        <td class="val">$1,200</td>
-        <td class="hint">Israel promedio 1 dormitorio centro ~₪4,190; Tel Aviv 1 dormitorio centro ~₪6,616 (conjuntos de datos de costo de vida)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">⚡</span>Electricidad</td>
-        <td class="val">$95</td>
-        <td class="hint">electricidad mensual típica de un apartamento; más alta en verano (aire acondicionado)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💧</span>Agua</td>
-        <td class="val">$35</td>
-        <td class="hint">cargos de agua/municipales indicativos</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📱</span>Plan móvil</td>
-        <td class="val">$20</td>
-        <td class="hint">los planes de gama media varían según el operador</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🍽️ Comida y bebida (precios típicos)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍺</span>Cerveza (pinta)</td>
-        <td class="val">$8</td>
-        <td class="hint">cerveza de barril indicativa; Tel Aviv más alta</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☕</span>Café</td>
-        <td class="val">$3.5</td>
-        <td class="hint">promedio de espresso/cappuccino</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍲</span>Plato principal</td>
-        <td class="val">$20</td>
-        <td class="hint">comida en un restaurante de gama media</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">⛽ Transporte</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">⛽</span>Gasolina / litro</td>
-        <td class="val">$2.31 / L</td>
-        <td class="hint">precio del combustible: ₪7.13/L ≈ $2.31/L (GlobalPetrolPrices); implica un tipo de cambio ~3.09 ₪/$</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🧾 Impuestos (indicativo)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏷️</span>IVA</td>
-        <td class="val">18%</td>
-        <td class="hint">IVA estándar del 18% desde el 01-01-2025</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">👤</span>Impuesto sobre la renta</td>
-        <td class="val">10–50%+</td>
-        <td class="hint">impuesto progresivo sobre la renta; pueden aplicarse surtasas adicionales</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏪</span>Impuesto pequeña empresa</td>
-        <td class="val">~35%</td>
-        <td class="hint">la carga efectiva depende de la estructura + seguro nacional</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📱 Tech (precios indicativos)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍎</span>iPhone (último 256GB)</td>
-        <td class="val">$1,600</td>
-        <td class="hint">precio minorista local indicativo; puede variar</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📲</span>Galaxy S (último 256GB)</td>
-        <td class="val">$1,250</td>
-        <td class="hint">precio indicativo de buque insignia</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🛂 Mudanza e inmigración</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🛂</span>Facilidad de inmigración</td>
-        <td class="val">4 / 10</td>
-        <td class="hint">dependiente del caso; visas de trabajo limitadas; Política de devoluciones para perfiles elegibles</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🌤️ Calidad de vida</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🙂</span>Felicidad</td>
-        <td class="val">7.20 / 10</td>
-        <td class="hint">Informe Mundial de la Felicidad</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☀️</span>Días de sol / año</td>
-        <td class="val">~300 días / año</td>
-        <td class="hint">muy soleado en general</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏥</span>Sanidad pública</td>
-        <td class="val">Sí</td>
-        <td class="hint">cobertura universal a través de fondos de salud + complementos privados</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧑‍⚕️</span>Seguro privado / mes</td>
-        <td class="val">$80 / mes</td>
-        <td class="hint">ejemplo de cobertura suplementaria privada</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📈 Índices</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🚔</span>Índice de criminalidad</td>
-        <td class="val">30 / 100</td>
-        <td class="hint">indicativo; varía según la ciudad/contexto de seguridad</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💶</span>Poder adquisitivo</td>
-        <td class="val">70</td>
-        <td class="hint">índice indicativo de poder adquisitivo</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🕍 Religión</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">✝️</span>Cristiano</td>
-        <td class="val">~2%</td>
-        <td class="hint">indicativo</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☪️</span>Musulmán</td>
-        <td class="val">~18%</td>
-        <td class="hint">indicativo</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☸️</span>Budista</td>
-        <td class="val">~0.5%</td>
-        <td class="hint">indicativo</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">✡️</span>Judío</td>
-        <td class="val">~75.0%</td>
-        <td class="hint">indicative (src: Pew Research / WJC)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🕊️</span>Otra / Ninguna</td>
-        <td class="val">~80%</td>
-        <td class="hint">incluye mayoría judía + drusa/otro/ninguno (el esquema no tiene campo judío)</td>
-      </tr>
-    </tbody>
-    </table>
-  </section>
+  <div class="main-grid">
+    <aside class="sidebar">
+      <div class="card">
+        <img class="hero-img" src="/assets/hero-israel.jpg" alt="Israel"
+             onerror="this.onerror=null;this.src='/assets/hero-fallback.jpg'" />
+        <div class="hero-actions">
+          <button class="btn primary" type="button" onclick="openModal('general')">Corregir datos</button>
+          <button class="btn" type="button" id="btnShare">Compartir</button>
+          <a class="btn" href="/compare.html?country=israel">Comparar</a>
+        </div>
+      </div>
 
-  <section class="article"><h2>Visión general del país</h2><h2>🧭 Resumen</h2>
-<p>Israel es una nación del Medio Oriente fundada en 1948, definida por la narrativa del hogar nacional judío, el conflicto israelí-palestino y la innovación de alta tecnología. Tel Aviv es un centro cosmopolita de startups; Jerusalén es la capital religiosa y política (estatus disputado); Haifa es una ciudad portuaria diversa. La economía es avanzada — alta tecnología, defensa, agricultura, diamantes. Israel ofrece un estilo de vida mediterráneo, cultura vibrante, espíritu emprendedor y abundancia de inglés. Sin embargo, las preocupaciones de seguridad (ataques con cohetes, terrorismo, guerras periódicas), el servicio militar obligatorio, los altos costos, las complejidades del conflicto palestino y el aislamiento regional crean desafíos serios. Vivir aquí implica navegar un entorno de conflicto.</p>
-<h2>👥 Gente y ambiente</h2>
-<p>Con aproximadamente 9,5 millones de personas, Israel es ~75% judío (de más de 100 países — asquenazíes, mizrajíes, etíopes, rusos), ~21% árabe (musulmanes, cristianos, drusos), además de otros. El hebreo y el árabe son idiomas oficiales; el inglés se habla ampliamente. La cultura enfatiza la supervivencia, la innovación (la necesidad genera invención), la franqueza (dugri — hablar directo) y la comunidad. Los israelíes son cálidos pero directos, argumentativos pero leales. El servicio militar obligatorio (2-3 años) moldea la sociedad. La atmósfera es intensa, energía de startup mezclada con preocupaciones existenciales. Tel Aviv es secular, liberal, playa/vida nocturna; Jerusalén es religiosa, conservadora; Haifa es diversa e industrial.</p>
-<h2>🌦️ Clima y paisaje</h2>
-<p>Espere clima mediterráneo en la costa (veranos calurosos y secos 30-35°C; inviernos templados y húmedos); Jerusalén/las colinas son más frescas; el Mar Muerto/Negev son desérticos (calor extremo). El paisaje es diverso para un país pequeño: costa mediterránea, colinas de Galilea, valle del río Jordán, desierto de Judea, desierto del Negev y el Mar Muerto (el punto más bajo de la Tierra). La belleza natural es significativa. La escasez de agua es crónica — la desalinización proporciona la mayor parte del agua.</p>
-<h2>🏠 Vivienda y asentamiento</h2>
-<p>Tel Aviv es extremadamente caro — los alquileres rivalizan con Nueva York ($1,500-3,000+/mes). Zonas populares: Florentin, Neve Tzedek, Rothschild Boulevard. Espere depósito de 2-3 meses y mucha competencia. La calidad es decente pero los apartamentos son pequeños. Jerusalén y Haifa son más baratas. Comprar propiedad es posible para extranjeros. Registro (Teudat Zehut ID) requerido para residentes. Los refugios antiaéreos (mamad) son obligatorios en los edificios. Las preocupaciones de seguridad son reales — el Domo de Hierro intercepta cohetes, pero suenan sirenas y la gente corre a los refugios.</p>
-<h2>💼 Trabajo y economía</h2>
-<p>Israel tiene una economía avanzada dominada por la alta tecnología (ciberseguridad, software, biotecnología — 'Startup Nation'), defensa, agricultura (innovación en agricultura de desierto) y diamantes. Para extranjeros, existen oportunidades en tecnología, startups, ONG, academia o programas para olim (inmigración judía). Los visados de trabajo (B-1) requieren patrocinio de un empleador. Los salarios son buenos pero los impuestos oscilan entre 30-50%. El coste de vida es muy alto. La cultura startup es intensa. El inglés funciona en tecnología; el hebreo ayuda la integración. El servicio militar no es obligatorio para nuevos inmigrantes mayores de 24 años, pero afecta la integración.</p>
-<h2>🛂 Visado y entrada</h2>
-<p>Los visados de turista (B-2) están disponibles al llegar para la mayoría de nacionalidades (90 días). Los ciudadanos de países árabes/musulmanes enfrentan restricciones. Para estancias más largas, se requieren visados de trabajo u otros permisos. La Ley del Retorno otorga ciudadanía automática a judíos y familiares inmediatos (política controvertida). Hay visados de estudiante disponibles. La residencia permanente es difícil para no judíos. La ciudadanía por naturalización requiere 3-5 años de residencia, dominio de hebreo y renunciar a otra ciudadanía (por lo general). Los israelíes árabes enfrentan discriminación en el sistema.</p>
-<h2>🏥 Sanidad</h2>
-<p>La sanidad es universal a través de HMOs (Clalit, Maccabi, Meuhedet, Leumit). La calidad es excelente — hospitales modernos, médicos bien formados, investigación de vanguardia. Los costos son bajos en comparación con EE. UU. La esperanza de vida es ~83 años, de las más altas del mundo. Sin embargo, los tiempos de espera para especialistas pueden ser largos. El seguro privado complementa el sistema. Los medicamentos recetados están subvencionados. Los servicios de salud mental son buenos (necesarios dado el trauma del conflicto). Los ataques terroristas y las lesiones por cohetes son una trágica realidad.</p>
-<h2>🚗 Transporte y movilidad</h2>
-<p>Tel Aviv cuenta con autobuses y servicio de bicicletas compartidas, pero el tráfico es intenso. Jerusalén tiene tranvía ligero. La mayoría de israelíes conduce. Las carreteras están bien mantenidas. El tráfico es agresivo — los conductores israelíes son notoriamente impetuosos. Autobuses interurbanos (Egged, Dan) conectan ciudades. Trenes conectan Tel Aviv, Haifa y Jerusalén. El país es pequeño — Tel Aviv a Jerusalén toma 1 hora. El Aeropuerto Ben Gurión es moderno y está bien conectado globalmente (aunque muchos países árabes/musulmanes boicotean). La seguridad en el aeropuerto es intensa (se requiere llegar 2-3 horas antes).</p>
-<h2>🍛 Nota sobre comida (plato nacional)</h2>
-<p>El plato nacional es <strong>Falafel</strong> o <strong>Hummus</strong>: básicos a base de garbanzo servidos en pita con tahini, verduras y encurtidos. La cocina israelí es mediterránea con influencias de Oriente Medio: shakshuka (huevos en salsa de tomate), sabich (pita con berenjena), schnitzel. La escena culinaria es excelente. La cultura alimentaria mezcla tradiciones de la diáspora judía (asquenazí, mizrají, etíope).</p>
-<h2>🔎 Conclusión</h2>
-<p>Israel conviene a la diáspora judía que hace aliá, profesionales tecnológicos, emprendedores (el ecosistema startup es de clase mundial) y a quienes se sienten atraídos por un entorno complejo e intenso. Pros: innovación en alta tecnología, cultura vibrante, estilo de vida mediterráneo, excelente comida, prevalencia del inglés, economía sólida. Contras: preocupaciones de seguridad (cohetes, terrorismo, guerras periódicas), costes muy altos (Tel Aviv es caro), servicio militar obligatorio (para ciudadanos), el conflicto palestino crea complejidad moral/política, y el aislamiento regional (no se puede visitar fácilmente a vecinos). La situación de seguridad mejoró en años recientes pero el ataque de Hamás de octubre de 2023 y la guerra subsiguiente muestran la volatilidad continua. Vivir aquí implica aceptar amenazas existenciales. Es mejor para quienes están comprometidos con el proyecto sionista o las oportunidades tecnológicas y pueden manejar el trasfondo de conflicto. No es para quienes buscan paz y estabilidad.</p>
-<p>Puntuación para expatriados — 6.5 / 10</p></section>
+      <div class="card snapshot-card">
+        <div class="snapshot-title">Vistazo rápido</div>
+        <div class="kv"><span>Capital</span><b>Jerusalén (disputada)</b></div><div class="kv"><span>Población</span><b>~9.5M</b></div><div class="kv"><span>Idiomas</span><b>Hebreo, árabe, inglés</b></div><div class="kv"><span>Moneda</span><b>Nuevo shéquel israelí (ILS)</b></div><div class="kv kv-sub"><span>Exchange rate</span><b>1 USD ≈ 3.70 ILS</b></div><div class="kv-note">Moneda relativamente estable. Su fortaleza refleja una economía sólida y un sector de alta tecnología importante.</div><div class="kv"><span>Crypto-amigable</span><b>Sí</b></div><div class="kv-note">Amigable con las criptomonedas con una regulación en crecimiento. Escena activa de cripto y blockchain (&#x27;Crypto Valley&#x27;). El tratamiento fiscal está en evolución.</div><div class="kv"><span>Conducción</span><b>Derecha</b></div><div class="sector-block"><div class="sector-head">Sectores principales</div><div class="sector-list"><div class="sector-pill">Alta tecnología (ciberseguridad, software)</div><div class="sector-pill">Defensa y aeroespacial</div><div class="sector-pill">Tecnología agrícola</div></div></div>
+      </div>
 
-  <section class="ttk"><h2>Lo que hay que saber</h2><div class="ttk-grid">
-      <div class="ttk-card">
-        <div class="ttk-title">👤 David Ben-Gurion <small>(Siglo XX)</small></div>
-        <p>Padre fundador y primer primer ministro que declaró la independencia de Israel (1948). Sionista laborista que moldeó la ideología e instituciones tempranas del Estado. Su visión del hogar judío dio forma al Israel moderno. El aeropuerto lleva su nombre.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🚀 La Nación Startup es real</div>
-        <p>La mayor densidad de startups por habitante del mundo. La escena tecnológica de Tel Aviv rivaliza con Silicon Valley. Salidas como Waze (Google), Mobileye (Intel). El servicio militar obligatorio (Unidad 8200 — inteligencia de señales) crea un canal de talento tecnológico. La innovación es una necesidad de supervivencia.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🚨 La seguridad está siempre presente</div>
-        <p>Seguridad armada en centros comerciales, cafeterías, escuelas. Refugios antiaéreos en cada edificio. El Domo de Hierro intercepta cohetes. Hay ataques terroristas. El ataque de Hamás de octubre de 2023 mató a más de 1.200 personas. Guerras periódicas con Gaza. Vivir aquí significa aceptar estas realidades. Los israelíes desarrollan humor negro y resiliencia.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🪖 El servicio militar moldea la sociedad</div>
-        <p>Los jóvenes de 18 años sirven 2-3 años (los hombres más tiempo). Esto crea experiencia compartida, redes (proteksia — conexiones) y una sociedad militarizada. Exenciones para ultraortodoxos y árabes generan divisiones. El servicio define la juventud y las trayectorias profesionales.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🇵🇸 El conflicto palestino = realidad cotidiana</div>
-        <p>Ocupación de Cisjordania, bloqueo de Gaza, asentamientos, puestos de control, dos intifadas, guerras periódicas — el conflicto es omnipresente. Moldea la política, la seguridad, la economía y la identidad. Las opiniones van desde la izquierda (solución de dos estados) a la derecha (Gran Israel). Vivir aquí significa navegar esta complejidad.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">💰 El coste de la vida es aplastante</div>
-        <p>Tel Aviv está entre las ciudades más caras del mundo. Vivienda, comida y cuidado infantil son extremadamente caros. Los salarios son buenos pero no se ajustan totalmente a los costes. Los jóvenes israelíes luchan por comprar casa. La &#x27;yeridá&#x27; (emigración) a Berlín, Nueva York es común. La presión financiera es real.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🕌 División religioso-secular</div>
-        <p>Tel Aviv secular vs Jerusalén ultraortodoxa. El Shabat cierra gran parte del país (transporte público se detiene, tiendas cierran). Los ultraortodoxos (haredim) no sirven en el ejército, reciben subsidios y tienen altas tasas de natalidad — lo que genera resentimiento. La tensión es una falla social.</p>
-      </div></div></section>
+      
+        <div class="card persona-card">
+          <div class="snapshot-title">Figura del país</div>
+          <div class="persona-name">David Ben-Gurion <small>(Siglo XX)</small></div>
+          <div class="persona-why">Padre fundador y primer primer ministro que declaró la independencia de Israel (1948). Sionista laborista que moldeó la ideología e instituciones tempranas del Estado. Su visión del hogar judío dio forma al Israel moderno. El aeropuerto lleva su nombre.</div>
+        </div>
+    </aside>
 
-  
-  <section class="related"><h2>Crónicas relacionadas</h2><ul class="link-list"><li><a href="/chronicles/chronicle-2056-mejores-paises-30-anos-es.html">2056: ¿Dónde se vivirá mejor en 30 años?</a></li></ul></section>
-  
+    <div class="right-col">
+      <div class="rc-wrapper">
+        
+        <div class="rc-box">
+          <div class="rc-box-head">
+            <h2>Crónicas relacionadas</h2>
+            <div class="rc-nav">
+              <button class="rc-nav-btn" data-target="rc-list" data-dir="-1" aria-label="Previous">&#8249;</button>
+              <button class="rc-nav-btn" data-target="rc-list" data-dir="1" aria-label="Next">&#8250;</button>
+            </div>
+          </div>
+          <div class="rc-track"><div id="rc-list" class="rc-row"><a class="rc-vcard" href="/chronicles/chronicle-2056-mejores-paises-30-anos-es.html"><img class="rc-vimg" src="/assets/hero-norway.jpg" alt="2056: ¿Dónde se vivirá mejor en 30 años?" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">📄</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">2056: ¿Dónde se vivirá mejor en 30 años?</div></div></a></div></div>
+        </div>
+        
+      </div>
 
-  <p style="text-align:center;margin-top:30px"><a href="/globe.html" style="font-weight:600">Ver los 160+ países →</a></p>
+      <div class="data-card">
+        <table class="data-table">
+      <tbody>
+        <tr class="sec"><td colspan="4">💼 Salarios (neto / mes)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧾</span>Salario mínimo</td>
+          <td class="val">$1,530</td>
+          <td class="hint">Mín. ILS 6.444 bruto → neto ≈ ILS 5.667 (impuesto renta + seguro nacional; 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('min_wage')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📊</span>Salario medio</td>
+          <td class="val">$3,560</td>
+          <td class="hint">Promedio neto ≈ ILS 13.200/mes (CBS Israel 2024 — bruto medio ≈ ILS 17.400; sesgo tech)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('avg_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🩺</span>Salario médico (general)</td>
+          <td class="val">$9,000</td>
+          <td class="hint">compensación total del médico hospitalario indicativo; puede ser mayor con antigüedad/guardias</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('doctor_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🏠 Vivienda y servicios (estudio de referencia)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏚️</span>Alquiler estudio</td>
+          <td class="val">$1,200</td>
+          <td class="hint">Israel promedio 1 dormitorio centro ~₪4,190; Tel Aviv 1 dormitorio centro ~₪6,616 (conjuntos de datos de costo de vida)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('rent_studio')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">⚡</span>Electricidad</td>
+          <td class="val">$95</td>
+          <td class="hint">electricidad mensual típica de un apartamento; más alta en verano (aire acondicionado)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('electricity')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💧</span>Agua</td>
+          <td class="val">$35</td>
+          <td class="hint">cargos de agua/municipales indicativos</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('water')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📱</span>Plan móvil</td>
+          <td class="val">$20</td>
+          <td class="hint">los planes de gama media varían según el operador</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('mobile')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🍽️ Comida y bebida (precios típicos)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍺</span>Cerveza (pinta)</td>
+          <td class="val">$8</td>
+          <td class="hint">cerveza de barril indicativa; Tel Aviv más alta</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('beer')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☕</span>Café</td>
+          <td class="val">$3.5</td>
+          <td class="hint">promedio de espresso/cappuccino</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('coffee')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍲</span>Plato principal</td>
+          <td class="val">$20</td>
+          <td class="hint">comida en un restaurante de gama media</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('dish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">⛽ Transporte</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">⛽</span>Gasolina / litro</td>
+          <td class="val">$2.31 / L</td>
+          <td class="hint">precio del combustible: ₪7.13/L ≈ $2.31/L (GlobalPetrolPrices); implica un tipo de cambio ~3.09 ₪/$</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('gas')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🧾 Impuestos (indicativo)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏷️</span>IVA</td>
+          <td class="val">18%</td>
+          <td class="hint">IVA estándar del 18% desde el 01-01-2025</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('vat')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">👤</span>Impuesto sobre la renta</td>
+          <td class="val">10–50%+</td>
+          <td class="hint">impuesto progresivo sobre la renta; pueden aplicarse surtasas adicionales</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('income_tax')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏪</span>Impuesto pequeña empresa</td>
+          <td class="val">~35%</td>
+          <td class="hint">la carga efectiva depende de la estructura + seguro nacional</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('smallbiz')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📱 Tech (precios indicativos)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍎</span>iPhone (último 256GB)</td>
+          <td class="val">$1,600</td>
+          <td class="hint">precio minorista local indicativo; puede variar</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('iphone')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📲</span>Galaxy S (último 256GB)</td>
+          <td class="val">$1,250</td>
+          <td class="hint">precio indicativo de buque insignia</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('samsung')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🛂 Mudanza e inmigración</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🛂</span>Facilidad de inmigración</td>
+          <td class="val">4 / 10</td>
+          <td class="hint">dependiente del caso; visas de trabajo limitadas; Política de devoluciones para perfiles elegibles</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('immigration')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🌤️ Calidad de vida</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🙂</span>Felicidad</td>
+          <td class="val">7.20 / 10</td>
+          <td class="hint">Informe Mundial de la Felicidad</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('happiness')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☀️</span>Días de sol / año</td>
+          <td class="val">~300 días / año</td>
+          <td class="hint">muy soleado en general</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('sun')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏥</span>Sanidad pública</td>
+          <td class="val">Sí</td>
+          <td class="hint">cobertura universal a través de fondos de salud + complementos privados</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('health')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧑‍⚕️</span>Seguro privado / mes</td>
+          <td class="val">$80 / mes</td>
+          <td class="hint">ejemplo de cobertura suplementaria privada</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('insurance')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📈 Índices</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🚔</span>Índice de criminalidad</td>
+          <td class="val">30 / 100</td>
+          <td class="hint">indicativo; varía según la ciudad/contexto de seguridad</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('crime')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💶</span>Poder adquisitivo</td>
+          <td class="val">70</td>
+          <td class="hint">índice indicativo de poder adquisitivo</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('pp')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🕍 Religión</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">✝️</span>Cristiano</td>
+          <td class="val">~2%</td>
+          <td class="hint">indicativo</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_christian')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☪️</span>Musulmán</td>
+          <td class="val">~18%</td>
+          <td class="hint">indicativo</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_muslim')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☸️</span>Budista</td>
+          <td class="val">~0.5%</td>
+          <td class="hint">indicativo</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_buddhist')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">✡️</span>Judío</td>
+          <td class="val">~75.0%</td>
+          <td class="hint">indicative (src: Pew Research / WJC)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_jewish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🕊️</span>Otra / Ninguna</td>
+          <td class="val">~80%</td>
+          <td class="hint">incluye mayoría judía + drusa/otro/ninguno (el esquema no tiene campo judío)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_other')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+        </table>
+      </div>
+
+      
+      <div class="article-card">
+        <div class="section-head">
+          <h2>Vivir en Israel</h2>
+          <span class="score-badge"><span class="score-star">⭐</span> Puntuación expat: 6.5 / 10</span>
+        </div>
+        <div class="article-body"><p>🧭 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Resumen</span><br>
+Israel es una nación del Medio Oriente fundada en 1948, definida por la narrativa del hogar nacional judío, el conflicto israelí-palestino y la innovación de alta tecnología. Tel Aviv es un centro cosmopolita de startups; Jerusalén es la capital religiosa y política (estatus disputado); Haifa es una ciudad portuaria diversa. La economía es avanzada — alta tecnología, defensa, agricultura, diamantes. Israel ofrece un estilo de vida mediterráneo, cultura vibrante, espíritu emprendedor y abundancia de inglés. Sin embargo, las preocupaciones de seguridad (ataques con cohetes, terrorismo, guerras periódicas), el servicio militar obligatorio, los altos costos, las complejidades del conflicto palestino y el aislamiento regional crean desafíos serios. Vivir aquí implica navegar un entorno de conflicto.</p><p>👥 <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Gente y ambiente</span><br>
+Con aproximadamente 9,5 millones de personas, Israel es ~75% judío (de más de 100 países — asquenazíes, mizrajíes, etíopes, rusos), ~21% árabe (musulmanes, cristianos, drusos), además de otros. El hebreo y el árabe son idiomas oficiales; el inglés se habla ampliamente. La cultura enfatiza la supervivencia, la innovación (la necesidad genera invención), la franqueza (dugri — hablar directo) y la comunidad. Los israelíes son cálidos pero directos, argumentativos pero leales. El servicio militar obligatorio (2-3 años) moldea la sociedad. La atmósfera es intensa, energía de startup mezclada con preocupaciones existenciales. Tel Aviv es secular, liberal, playa/vida nocturna; Jerusalén es religiosa, conservadora; Haifa es diversa e industrial.</p><p>🌦️ <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Clima y paisaje</span><br>
+Espere clima mediterráneo en la costa (veranos calurosos y secos 30-35°C; inviernos templados y húmedos); Jerusalén/las colinas son más frescas; el Mar Muerto/Negev son desérticos (calor extremo). El paisaje es diverso para un país pequeño: costa mediterránea, colinas de Galilea, valle del río Jordán, desierto de Judea, desierto del Negev y el Mar Muerto (el punto más bajo de la Tierra). La belleza natural es significativa. La escasez de agua es crónica — la desalinización proporciona la mayor parte del agua.</p><p>🏠 <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Vivienda y asentamiento</span><br>
+Tel Aviv es extremadamente caro — los alquileres rivalizan con Nueva York ($1,500-3,000+/mes). Zonas populares: Florentin, Neve Tzedek, Rothschild Boulevard. Espere depósito de 2-3 meses y mucha competencia. La calidad es decente pero los apartamentos son pequeños. Jerusalén y Haifa son más baratas. Comprar propiedad es posible para extranjeros. Registro (Teudat Zehut ID) requerido para residentes. Los refugios antiaéreos (mamad) son obligatorios en los edificios. Las preocupaciones de seguridad son reales — el Domo de Hierro intercepta cohetes, pero suenan sirenas y la gente corre a los refugios.</p><p>💼 <span class="art-tag" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#6d28d9">Trabajo y economía</span><br>
+Israel tiene una economía avanzada dominada por la alta tecnología (ciberseguridad, software, biotecnología — &#x27;Startup Nation&#x27;), defensa, agricultura (innovación en agricultura de desierto) y diamantes. Para extranjeros, existen oportunidades en tecnología, startups, ONG, academia o programas para olim (inmigración judía). Los visados de trabajo (B-1) requieren patrocinio de un empleador. Los salarios son buenos pero los impuestos oscilan entre 30-50%. El coste de vida es muy alto. La cultura startup es intensa. El inglés funciona en tecnología; el hebreo ayuda la integración. El servicio militar no es obligatorio para nuevos inmigrantes mayores de 24 años, pero afecta la integración.</p>
+        <div class="map-card">
+          <div class="map-header">
+            <div class="map-title"><span class="map-flag">🇮🇱</span><span>Israel — Mapa</span></div>
+            <div class="map-styles">
+              <button type="button" class="map-style-btn active" data-style="light">Claro</button>
+              <button type="button" class="map-style-btn" data-style="dark">Oscuro</button>
+              <button type="button" class="map-style-btn" data-style="satellite">Satélite</button>
+            </div>
+          </div>
+          <div class="map-container">
+            <div id="wigg-country-map"></div>
+            <div class="map-loading" id="wiggMapLoading">Cargando mapa…</div>
+          </div>
+        </div><p>🛂 <span class="art-tag" style="background:rgba(236,72,153,.12);border:1px solid rgba(236,72,153,.25);color:#be185d">Visado y entrada</span><br>
+Los visados de turista (B-2) están disponibles al llegar para la mayoría de nacionalidades (90 días). Los ciudadanos de países árabes/musulmanes enfrentan restricciones. Para estancias más largas, se requieren visados de trabajo u otros permisos. La Ley del Retorno otorga ciudadanía automática a judíos y familiares inmediatos (política controvertida). Hay visados de estudiante disponibles. La residencia permanente es difícil para no judíos. La ciudadanía por naturalización requiere 3-5 años de residencia, dominio de hebreo y renunciar a otra ciudadanía (por lo general). Los israelíes árabes enfrentan discriminación en el sistema.</p><p>🏥 <span class="art-tag" style="background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.25);color:#0e7490">Sanidad</span><br>
+La sanidad es universal a través de HMOs (Clalit, Maccabi, Meuhedet, Leumit). La calidad es excelente — hospitales modernos, médicos bien formados, investigación de vanguardia. Los costos son bajos en comparación con EE. UU. La esperanza de vida es ~83 años, de las más altas del mundo. Sin embargo, los tiempos de espera para especialistas pueden ser largos. El seguro privado complementa el sistema. Los medicamentos recetados están subvencionados. Los servicios de salud mental son buenos (necesarios dado el trauma del conflicto). Los ataques terroristas y las lesiones por cohetes son una trágica realidad.</p><p>🚗 <span class="art-tag" style="background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#c2410c">Transporte y movilidad</span><br>
+Tel Aviv cuenta con autobuses y servicio de bicicletas compartidas, pero el tráfico es intenso. Jerusalén tiene tranvía ligero. La mayoría de israelíes conduce. Las carreteras están bien mantenidas. El tráfico es agresivo — los conductores israelíes son notoriamente impetuosos. Autobuses interurbanos (Egged, Dan) conectan ciudades. Trenes conectan Tel Aviv, Haifa y Jerusalén. El país es pequeño — Tel Aviv a Jerusalén toma 1 hora. El Aeropuerto Ben Gurión es moderno y está bien conectado globalmente (aunque muchos países árabes/musulmanes boicotean). La seguridad en el aeropuerto es intensa (se requiere llegar 2-3 horas antes).</p><p>🍛 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Nota sobre comida (plato nacional)</span><br>
+El plato nacional es <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Falafel</span><br> o <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Hummus</span><br>: básicos a base de garbanzo servidos en pita con tahini, verduras y encurtidos. La cocina israelí es mediterránea con influencias de Oriente Medio: shakshuka (huevos en salsa de tomate), sabich (pita con berenjena), schnitzel. La escena culinaria es excelente. La cultura alimentaria mezcla tradiciones de la diáspora judía (asquenazí, mizrají, etíope).</p><p>🔎 <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Conclusión</span><br>
+Israel conviene a la diáspora judía que hace aliá, profesionales tecnológicos, emprendedores (el ecosistema startup es de clase mundial) y a quienes se sienten atraídos por un entorno complejo e intenso. Pros: innovación en alta tecnología, cultura vibrante, estilo de vida mediterráneo, excelente comida, prevalencia del inglés, economía sólida. Contras: preocupaciones de seguridad (cohetes, terrorismo, guerras periódicas), costes muy altos (Tel Aviv es caro), servicio militar obligatorio (para ciudadanos), el conflicto palestino crea complejidad moral/política, y el aislamiento regional (no se puede visitar fácilmente a vecinos). La situación de seguridad mejoró en años recientes pero el ataque de Hamás de octubre de 2023 y la guerra subsiguiente muestran la volatilidad continua. Vivir aquí implica aceptar amenazas existenciales. Es mejor para quienes están comprometidos con el proyecto sionista o las oportunidades tecnológicas y pueden manejar el trasfondo de conflicto. No es para quienes buscan paz y estabilidad.</p><p>Puntuación para expatriados — 6.5 / 10</p></div>
+      </div>
+
+      
+      <div class="things-section">
+        <div class="section-head"><h2>Lo que hay que saber</h2><span class="wg-badge">Imprescindibles</span></div>
+        <div class="facts-grid"><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🚀 La Nación Startup es real</div><div class="fact-text">La mayor densidad de startups por habitante del mundo. La escena tecnológica de Tel Aviv rivaliza con Silicon Valley. Salidas como Waze (Google), Mobileye (Intel). El servicio militar obligatorio (Unidad 8200 — inteligencia de señales) crea un canal de talento tecnológico. La innovación es una necesidad de supervivencia.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🚨 La seguridad está siempre presente</div><div class="fact-text">Seguridad armada en centros comerciales, cafeterías, escuelas. Refugios antiaéreos en cada edificio. El Domo de Hierro intercepta cohetes. Hay ataques terroristas. El ataque de Hamás de octubre de 2023 mató a más de 1.200 personas. Guerras periódicas con Gaza. Vivir aquí significa aceptar estas realidades. Los israelíes desarrollan humor negro y resiliencia.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🪖 El servicio militar moldea la sociedad</div><div class="fact-text">Los jóvenes de 18 años sirven 2-3 años (los hombres más tiempo). Esto crea experiencia compartida, redes (proteksia — conexiones) y una sociedad militarizada. Exenciones para ultraortodoxos y árabes generan divisiones. El servicio define la juventud y las trayectorias profesionales.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🇵🇸 El conflicto palestino = realidad cotidiana</div><div class="fact-text">Ocupación de Cisjordania, bloqueo de Gaza, asentamientos, puestos de control, dos intifadas, guerras periódicas — el conflicto es omnipresente. Moldea la política, la seguridad, la economía y la identidad. Las opiniones van desde la izquierda (solución de dos estados) a la derecha (Gran Israel). Vivir aquí significa navegar esta complejidad.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">💰 El coste de la vida es aplastante</div><div class="fact-text">Tel Aviv está entre las ciudades más caras del mundo. Vivienda, comida y cuidado infantil son extremadamente caros. Los salarios son buenos pero no se ajustan totalmente a los costes. Los jóvenes israelíes luchan por comprar casa. La &#x27;yeridá&#x27; (emigración) a Berlín, Nueva York es común. La presión financiera es real.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🕌 División religioso-secular</div><div class="fact-text">Tel Aviv secular vs Jerusalén ultraortodoxa. El Shabat cierra gran parte del país (transporte público se detiene, tiendas cierran). Los ultraortodoxos (haredim) no sirven en el ejército, reciben subsidios y tienen altas tasas de natalidad — lo que genera resentimiento. La tensión es una falla social.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🍽️ Falafel / Hummus</div><div class="fact-text">Falafel de garbanzo en pita o hummus — básicos de la cocina israelí/oriental. O shakshuka. La cultura alimentaria mezcla tradiciones de la diáspora judía.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏳️‍🌈 LGBT+: Alto (en la práctica, varía)</div><div class="fact-text">Tel Aviv es un paraíso LGBTQ+ — gran desfile del Orgullo, escena vibrante. Jerusalén es más conservadora. No hay matrimonio entre personas del mismo sexo (hay que casarse en el extranjero para que se reconozca). El ejército permite el servicio abiertamente gay. Es lo mejor del Medio Oriente, pero desigual internamente.</div></div></div>
+      </div>
+
+      
+    </div>
+  </div>
 </main>
 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
+<script src="/data/share.js"></script>
+<script src="/data/correction-form.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var t = document.getElementById("localTime");
+  if(t && t.dataset.tz){
+    function tick(){
+      try{
+        t.textContent = new Intl.DateTimeFormat("en-GB",{
+          timeZone: t.dataset.tz, hour:"2-digit", minute:"2-digit"
+        }).format(new Date());
+      }catch(e){}
+    }
+    tick(); setInterval(tick, 30000);
+  }
+  document.querySelectorAll(".rc-nav-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var targetId = btn.dataset.target;
+      var dir = parseInt(btn.dataset.dir||"1",10);
+      var row = document.getElementById(targetId);
+      if(!row) return;
+      var box = row.parentElement;
+      var first = row.querySelector(".rc-vcard");
+      if(!first) return;
+      var cardW = first.offsetWidth + 9;
+      var visible = Math.max(1, Math.floor(box.offsetWidth / cardW));
+      var maxOffset = Math.max(0, row.children.length - visible);
+      var current = parseInt(row.dataset.offset||"0", 10);
+      current = Math.min(maxOffset, Math.max(0, current + dir));
+      row.dataset.offset = current;
+      row.style.transform = "translateX(-" + (current * cardW) + "px)";
+      var nav = btn.parentNode;
+      var prev = nav.querySelector('[data-dir="-1"]');
+      var next = nav.querySelector('[data-dir="1"]');
+      if(prev) prev.disabled = (current === 0);
+      if(next) next.disabled = (current >= maxOffset);
+    });
+  });
+  var iso2 = "IL";
+  if(!iso2 || typeof L === "undefined") return;
+  var STYLES = {
+    light:     { url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", attr: "&copy; OSM &copy; CARTO" },
+    dark:      { url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",  attr: "&copy; OSM &copy; CARTO" },
+    satellite: { url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", attr: "&copy; Esri" }
+  };
+  var wMap=null, wLayer=null, wMarker=null;
+  function initMap(lat, lon){
+    var el = document.getElementById("wigg-country-map");
+    if(!el) return;
+    if(wMap){ try{wMap.remove();}catch(e){} }
+    wMap = L.map("wigg-country-map",{zoomControl:true}).setView([lat,lon],5);
+    wLayer = L.tileLayer(STYLES.light.url,{attribution:STYLES.light.attr,maxZoom:18}).addTo(wMap);
+    wMarker = L.marker([lat,lon]).addTo(wMap);
+    var loading = document.getElementById("wiggMapLoading");
+    if(loading) loading.classList.add("hidden");
+  }
+  document.querySelectorAll(".map-style-btn").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(!wMap) return;
+      var s = STYLES[b.dataset.style];
+      if(!s) return;
+      if(wLayer) wMap.removeLayer(wLayer);
+      wLayer = L.tileLayer(s.url,{attribution:s.attr,maxZoom:18}).addTo(wMap);
+      document.querySelectorAll(".map-style-btn").forEach(function(x){x.classList.remove("active");});
+      b.classList.add("active");
+    });
+  });
+  var cacheKey = "wigg_centroid_" + iso2;
+  var cached = null;
+  try { cached = JSON.parse(localStorage.getItem(cacheKey) || "null"); } catch(e){}
+  if(cached && cached.lat != null && cached.lon != null){
+    initMap(cached.lat, cached.lon); return;
+  }
+  fetch("https://nominatim.openstreetmap.org/search?country=" + encodeURIComponent(iso2) + "&format=json&limit=1")
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && d[0]){
+        var coords = { lat: +d[0].lat, lon: +d[0].lon };
+        try { localStorage.setItem(cacheKey, JSON.stringify(coords)); } catch(e){}
+        initMap(coords.lat, coords.lon);
+      } else {
+        var l = document.getElementById("wiggMapLoading");
+        if(l) l.textContent = "Mapa no disponible";
+      }
+    })
+    .catch(function(){
+      var l = document.getElementById("wiggMapLoading");
+      if(l) l.textContent = "Mapa no disponible";
+    });
+})();
+</script>
+
+<form name="wiggmap-corrections" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="wiggmap-corrections" />
+  <p><label>Don't fill this out: <input name="bot-field" /></label></p>
+  <input name="country" /><input name="field" /><input name="value" /><input name="email" /><textarea name="notes"></textarea>
+</form>
+
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
 </body>
 </html>

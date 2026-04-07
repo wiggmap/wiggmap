@@ -25,65 +25,127 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#f6f1e8;--paper:#fffdf8;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--green:#1d7f48;--green-dk:#155f36;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
+    :root{--paper:#fffdf8;--paper-2:#fbf7ee;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--line-soft:rgba(23,23,20,.06);--green:#1d7f48;--green-dk:#155f36;--green-light:#e6f4ec;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
     html{scroll-behavior:smooth}
     body{font-family:"Inter",system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f9f5ed 0%,#f3ede3 100%);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
     a{color:var(--green);text-decoration:none}
     a:hover{text-decoration:underline}
-    main{max-width:980px;margin:0 auto;padding:28px 20px 80px}
-    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:18px;letter-spacing:.04em}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:14px;letter-spacing:.04em}
     .crumb a{color:var(--ink-soft)}
-    .hero{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:36px 32px;box-shadow:var(--shadow);margin-bottom:24px;position:relative;overflow:hidden}
-    .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 18%,rgba(29,127,72,.05),transparent 30%);pointer-events:none}
-    .hero-flag{font-size:48px;line-height:1;margin-bottom:14px}
-    .hero h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(36px,6vw,56px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:10px;position:relative;z-index:1}
-    .hero .subtitle{font-size:15px;color:var(--ink-soft);max-width:62ch;line-height:1.6;position:relative;z-index:1}
-    .hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;position:relative;z-index:1}
-    .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid var(--line)}
-    .badge.green{background:#e6f4ec;color:var(--green-dk);border-color:rgba(29,127,72,.2)}
+    .country-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:22px;flex-wrap:wrap}
+    .country-flag{font-size:42px;line-height:1;margin-bottom:8px}
+    .country-head h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(34px,5.2vw,52px);font-weight:800;letter-spacing:-.02em;line-height:1.02}
+    .country-head .subtitle{font-size:14px;color:var(--ink-soft);max-width:64ch;line-height:1.55;margin-top:8px}
+    .head-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+    .badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:7px 13px;border-radius:999px;background:#fff;border:1px solid var(--line)}
+    .badge.green{background:var(--green-light);color:var(--green-dk);border-color:rgba(29,127,72,.22)}
     .badge.yellow{background:#fef9e7;color:#a16207;border-color:rgba(202,138,4,.25)}
     .badge.red{background:#fdecec;color:#b91c1c;border-color:rgba(185,28,28,.25)}
-    .snapshot{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px 26px;box-shadow:var(--shadow);margin-bottom:24px}
-    .snapshot h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;margin-bottom:14px}
-    .snap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
-    .snap-item{font-size:13px}
-    .snap-item strong{display:block;color:var(--ink-soft);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
-    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
-    .data-card h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;padding:20px 26px 8px}
+    .badge .dot{width:8px;height:8px;border-radius:999px;background:currentColor;display:inline-block}
+    .local-time{font-size:12px;color:var(--ink-soft);font-weight:600}
+    .local-time b{color:var(--ink);margin-left:5px;font-weight:800}
+    .main-grid{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+    @media(max-width:900px){.main-grid{grid-template-columns:1fr}}
+    .sidebar{display:flex;flex-direction:column;gap:14px;align-self:start;position:sticky;top:18px}
+    @media(max-width:900px){.sidebar{position:static}}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .hero-img{width:100%;height:200px;object-fit:cover;display:block;background:#eaddc4}
+    .hero-actions{padding:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:8px;font-family:inherit;font-weight:700;font-size:12.5px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;transition:background .14s,border-color .14s}
+    .btn:hover{background:rgba(0,0,0,.04)}
+    .btn.primary{background:var(--green);color:#fff;border-color:transparent}
+    .btn.primary:hover{background:var(--green-dk)}
+    .snapshot-card{padding:16px}
+    .snapshot-title{font-family:"Fraunces",Georgia,serif;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px;letter-spacing:-.01em}
+    .kv{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--line-soft);font-size:12.5px}
+    .kv span{color:var(--ink-soft)}
+    .kv b{color:var(--ink);font-weight:700;text-align:right;max-width:60%}
+    .kv-sub{padding-left:10px;font-size:11.5px;opacity:.85}
+    .kv-note{font-size:11px;color:var(--ink-soft);line-height:1.5;padding:6px 0 8px;font-style:italic;border-bottom:1px solid var(--line-soft)}
+    .sector-block{padding-top:10px;margin-top:6px;border-top:1px solid var(--line-soft)}
+    .sector-head{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+    .sector-list{display:flex;flex-direction:column;gap:5px}
+    .sector-pill{background:rgba(29,127,72,.08);border:1px solid rgba(29,127,72,.2);border-radius:7px;padding:5px 10px;font-size:11.5px;font-weight:700;color:var(--green-dk);line-height:1.4}
+    .persona-card{padding:16px}
+    .persona-name{font-weight:800;font-size:13px;margin-bottom:6px}
+    .persona-name small{font-weight:500;opacity:.6;font-size:11px}
+    .persona-why{font-size:11.5px;color:var(--ink-soft);line-height:1.55;font-style:italic}
+    .right-col{display:flex;flex-direction:column;gap:18px;min-width:0}
+    .rc-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:760px){.rc-wrapper{grid-template-columns:1fr}}
+    .rc-box{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 14px 12px;overflow:hidden}
+    .rc-box-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:6px}
+    .rc-box-head h2{font-family:"Fraunces",Georgia,serif;font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+    .rc-nav{display:flex;gap:4px}
+    .rc-nav-btn{width:24px;height:24px;border-radius:6px;border:1px solid var(--line);background:#fff;font-size:13px;cursor:pointer;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;line-height:1;transition:all .14s}
+    .rc-nav-btn:hover{background:var(--green);color:#fff;border-color:transparent}
+    .rc-nav-btn:disabled{opacity:.35;cursor:not-allowed}
+    .rc-track{overflow:hidden}
+    .rc-row{display:flex;gap:9px;transition:transform .35s ease;will-change:transform}
+    .rc-vcard{flex-shrink:0;width:130px;height:90px;border-radius:10px;overflow:hidden;position:relative;background:#e9dfca;border:1px solid var(--line);transition:transform .15s,box-shadow .15s}
+    .rc-vcard:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10);text-decoration:none}
+    .rc-vimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .rc-vemoji{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;background:linear-gradient(135deg,#ede5d8,#ddd3c4)}
+    .rc-vgrad{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,8,.85) 0%,rgba(20,15,8,.2) 55%,transparent 100%)}
+    .rc-vbody{position:absolute;left:0;right:0;bottom:0;padding:7px 9px;z-index:2}
+    .rc-vtitle{font-family:"Fraunces",Georgia,serif;font-size:10.5px;font-weight:700;color:#fff;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
     .data-table{width:100%;border-collapse:collapse;font-size:13px}
-    .data-table .sec td{background:#f8f4eb;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:10px 26px;color:var(--ink-soft);border-top:1px solid var(--line)}
-    .data-table td{padding:9px 26px;border-bottom:1px solid var(--line);vertical-align:top}
+    .data-table .sec td{background:#f4eedf;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:11px 22px;color:var(--ink-soft);border-top:1px solid var(--line)}
+    .data-table td{padding:9px 22px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+    .data-table tr:last-child td{border-bottom:none}
     .data-table td.lbl{width:42%;color:var(--ink)}
-    .data-table td.val{width:22%;font-weight:700}
+    .data-table td.val{width:25%;font-weight:700}
     .data-table td.hint{font-size:11.5px;color:var(--ink-soft)}
+    .data-table td.edit{width:30px;text-align:right;padding-right:14px}
     .data-table .ico{margin-right:8px}
-    .article{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px;margin-bottom:24px}
-    .article h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:700;margin:24px 0 10px;color:var(--ink)}
-    .article h2:first-child{margin-top:0}
-    .article p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.75}
-    .article p strong{color:var(--ink);font-weight:600}
-    .ttk{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-bottom:24px}
-    .ttk h2{font-family:"Fraunces",Georgia,serif;font-size:20px;font-weight:700;margin-bottom:16px}
-    .ttk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-    .ttk-card{background:#fbf7ee;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
-    .ttk-card .ttk-title{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink)}
-    .ttk-card p{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
-    .ttk-card small{font-weight:500;color:var(--ink-soft)}
-    .related{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px;margin-bottom:18px}
-    .related h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
-    .link-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px 18px}
-    .link-list li{font-size:13.5px;line-height:1.5;padding-left:14px;position:relative}
-    .link-list li::before{content:"›";position:absolute;left:0;color:var(--green)}
-    @media (max-width:640px){
-      main{padding:20px 14px 60px}
-      .hero{padding:26px 22px}
-      .data-table td{padding:9px 16px}
-      .data-table .sec td{padding:10px 16px}
-      .article{padding:24px 22px}
-      .ttk{padding:22px 22px}
-      .related{padding:20px 22px}
+    .edit-btn{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:13px;opacity:.4;transition:opacity .14s;padding:2px 4px}
+    .edit-btn:hover{opacity:1;color:var(--green)}
+    .article-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px}
+    .section-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+    .section-head h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:800;letter-spacing:-.01em;color:var(--ink)}
+    .score-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-light);border:1px solid rgba(29,127,72,.25);color:var(--green-dk);padding:5px 12px;border-radius:999px;font-size:12px;font-weight:700}
+    .article-body p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.78}
+    .article-body p:last-child{margin-bottom:0}
+    .art-tag{display:inline-block;padding:3px 10px;border-radius:6px;font-weight:700;font-size:13px;margin-bottom:6px;line-height:1.5}
+    .map-card{margin:22px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper-2)}
+    .map-header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);gap:8px;flex-wrap:wrap}
+    .map-title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}
+    .map-flag{font-size:18px}
+    .map-styles{display:flex;gap:4px}
+    .map-style-btn{font-size:11px;font-weight:700;padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;color:var(--ink-soft);cursor:pointer;transition:all .14s}
+    .map-style-btn:hover{border-color:var(--green);color:var(--green)}
+    .map-style-btn.active{background:var(--green);color:#fff;border-color:transparent}
+    .map-container{position:relative;height:320px}
+    #wigg-country-map{position:absolute;inset:0}
+    .map-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper-2);color:var(--ink-soft);font-size:13px;z-index:10}
+    .map-loading.hidden{display:none}
+    .things-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px}
+    .wg-badge{display:inline-flex;align-items:center;gap:5px;background:#fef3c7;border:1px solid rgba(202,138,4,.3);color:#92400e;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+    .facts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .fact-card{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden}
+    .fact-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green)}
+    .fact-title{font-weight:800;font-size:13px;margin-bottom:6px;color:var(--ink);padding-left:6px}
+    .fact-text{font-size:12.5px;color:var(--ink-soft);line-height:1.55;padding-left:6px}
+    .cmp-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px}
+    .cmp-section h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
+    .cmp-pills{display:flex;flex-wrap:wrap;gap:8px}
+    .cmp-pill{display:inline-block;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:600;color:var(--ink);transition:all .14s}
+    .cmp-pill:hover{border-color:var(--green);background:var(--green);color:#fff;text-decoration:none}
+    @media(max-width:640px){
+      .wrap{padding:18px 14px 60px}
+      .country-head{flex-direction:column}
+      .head-right{align-items:flex-start}
+      .data-table td{padding:9px 14px}
+      .data-table .sec td{padding:11px 14px}
+      .article-card{padding:24px 22px}
+      .things-section{padding:22px 22px}
+      .cmp-section{padding:20px 22px}
+      .map-container{height:240px}
     }
   </style>
 </head>
@@ -92,268 +154,410 @@
 <div id="siteHeader"></div>
 <script src="/data/header.js"></script>
 
-<main>
+<main class="wrap">
   <nav class="crumb"><a href="/">Inicio</a> › <a href="/globe.html">Países</a> › Reino Unido</nav>
 
-  <section class="hero">
-    <div class="hero-flag">🇬🇧</div>
-    <h1>Reino Unido</h1>
-    <p class="subtitle">Promedios indicativos (Londres más alto; neto / mes a menos que se indique lo contrario)</p>
-    <div class="hero-badges">
-      <span class="badge yellow">WIGG: YELLOW</span>
-      <span class="badge">⭐ Puntuación expat: 7.5 / 10</span>
+  <div class="country-head">
+    <div>
+      <div class="country-flag">🇬🇧</div>
+      <h1>Reino Unido</h1>
+      <p class="subtitle">Promedios indicativos (Londres más alto; neto / mes a menos que se indique lo contrario)</p>
     </div>
-  </section>
-
-  <section class="snapshot">
-    <h2>Vistazo rápido</h2>
-    <div class="snap-grid">
-      <div class="snap-item"><strong>Capital</strong>Londres</div>
-      <div class="snap-item"><strong>Población</strong>~68M</div>
-      <div class="snap-item"><strong>Idiomas</strong>Inglés, galés, gaélico escocés, irlandés</div>
-      <div class="snap-item"><strong>Conducción</strong>Izquierda</div>
-      <div class="snap-item"><strong>Moneda</strong>Libra esterlina británica (GBP)</div>
-      <div class="snap-item"><strong>Crypto-amigable</strong>Sí</div>
+    <div class="head-right">
+      <div class="badge yellow"><span class="dot"></span>WIGG: YELLOW</div>
+      <div class="local-time">Hora local <b id="localTime" data-tz="Europe/London">--:--</b></div>
     </div>
-  </section>
+  </div>
 
-  <section class="data-card">
-    <h2>Coste de vida, salarios y calidad de vida</h2>
-    <table class="data-table">
-    <tbody>
-      <tr class="sec"><td colspan="3">💼 Salarios (neto / mes)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧾</span>Salario mínimo</td>
-        <td class="val">$2,090</td>
-        <td class="hint">NMW £12,21/h bruto → neto ≈ £1.645/mes jornada completa (2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📊</span>Salario medio</td>
-        <td class="val">$3,050</td>
-        <td class="hint">Mediana neta ≈ £2.400/mes (ONS 2024)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🩺</span>Salario médico (general)</td>
-        <td class="val">$6,800</td>
-        <td class="hint">promedio del NHS</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🏠 Vivienda y servicios (estudio de referencia)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏚️</span>Alquiler estudio</td>
-        <td class="val">$1,170</td>
-        <td class="hint">Ciudades regionales</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">⚡</span>Electricidad</td>
-        <td class="val">$140</td>
-        <td class="hint">/ mes</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💧</span>Agua</td>
-        <td class="val">$40</td>
-        <td class="hint">/ mes</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📱</span>Plan móvil</td>
-        <td class="val">$22</td>
-        <td class="hint">~20–50GB</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🍽️ Comida y bebida (precios típicos)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍺</span>Cerveza (pinta)</td>
-        <td class="val">$7.00</td>
-        <td class="hint">Pub local</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☕</span>Café</td>
-        <td class="val">$4.00</td>
-        <td class="hint">Café regular</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍲</span>Plato principal</td>
-        <td class="val">$18</td>
-        <td class="hint">gama media</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">⛽ Transporte</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">⛽</span>Gasolina / litro</td>
-        <td class="val">$1.90 / L</td>
-        <td class="hint">indicativo</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🧾 Impuestos (indicativo)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏷️</span>IVA</td>
-        <td class="val">20%</td>
-        <td class="hint">tarifa estándar</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">👤</span>Impuesto sobre la renta</td>
-        <td class="val">~27%</td>
-        <td class="hint">Progresivo (20-45%), tramo medio</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏪</span>Impuesto pequeña empresa</td>
-        <td class="val">~25%</td>
-        <td class="hint">25% CIT (2023+) + NICs</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📱 Tech (precios indicativos)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍎</span>iPhone (último 256GB)</td>
-        <td class="val">$1,500</td>
-        <td class="hint">Precios del Reino Unido</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📲</span>Galaxy S (último 256GB)</td>
-        <td class="val">$1,200</td>
-        <td class="hint">Precios del Reino Unido</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🛂 Mudanza e inmigración</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🛂</span>Facilidad de inmigración</td>
-        <td class="val">5 / 10</td>
-        <td class="hint">reglas post-Brexit</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🌤️ Calidad de vida</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🙂</span>Felicidad</td>
-        <td class="val">6.7 / 10</td>
-        <td class="hint">indicativo (fuente: Informe Mundial sobre la Felicidad 2024)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☀️</span>Días de sol / año</td>
-        <td class="val">~140 días / año</td>
-        <td class="hint">indicativo (fuente: Datos climáticos, OMM)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏥</span>Sanidad pública</td>
-        <td class="val">Sí</td>
-        <td class="hint">NHS + privado</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧑‍⚕️</span>Seguro privado / mes</td>
-        <td class="val">$90 / mes</td>
-        <td class="hint">ejemplo privado</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📈 Índices</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🚔</span>Índice de criminalidad</td>
-        <td class="val">50 / 100</td>
-        <td class="hint">indicativo (fuente: Índice de Seguridad de Numbeo 2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💶</span>Poder adquisitivo</td>
-        <td class="val">78</td>
-        <td class="hint">indicativo (fuente: Índice PP de Numbeo 2025)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🕍 Religión</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">✝️</span>Cristiano</td>
-        <td class="val">~46%</td>
-        <td class="hint">indicativo</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☪️</span>Musulmán</td>
-        <td class="val">~6%</td>
-        <td class="hint">indicativo</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☸️</span>Budista</td>
-        <td class="val">~1%</td>
-        <td class="hint">indicativo</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">✡️</span>Judío</td>
-        <td class="val">~0.4%</td>
-        <td class="hint">indicative (src: Pew Research / WJC)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🕊️</span>Otra / Ninguna</td>
-        <td class="val">~44%</td>
-        <td class="hint">ninguno/otro</td>
-      </tr>
-    </tbody>
-    </table>
-  </section>
+  <div class="main-grid">
+    <aside class="sidebar">
+      <div class="card">
+        <img class="hero-img" src="/assets/hero-united-kingdom.jpg" alt="Reino Unido"
+             onerror="this.onerror=null;this.src='/assets/hero-fallback.jpg'" />
+        <div class="hero-actions">
+          <button class="btn primary" type="button" onclick="openModal('general')">Corregir datos</button>
+          <button class="btn" type="button" id="btnShare">Compartir</button>
+          <a class="btn" href="/compare.html?country=united-kingdom">Comparar</a>
+        </div>
+      </div>
 
-  <section class="article"><h2>Visión general del país</h2><h2>🧭 Resumen</h2>
-<p>El Reino Unido (Inglaterra, Escocia, Gales, Irlanda del Norte) es una nación insular y antiguo imperio global, conocido por Londres (centro financiero, Big Ben, Palacio de Buckingham), la monarquía, la Premier League, los Beatles, Harry Potter y el Brexit (salió de la UE en 2020 tras el referéndum de 2016). Londres es la capital y una ciudad global; Edimburgo representa la cultura escocesa; Cardiff la galesa; Belfast tiene tensiones norirlandesas. La economía está dominada por los servicios (finanzas 7% del PIB), las industrias creativas, la tecnología y la manufactura. El Reino Unido ofrece educación de clase mundial (Oxford, Cambridge), el NHS como sistema sanitario, multiculturalismo y el idioma inglés. Sin embargo, los altos costes (Londres es la 4.ª ciudad más cara del mundo), el clima (gris, lluvioso), las complicaciones pos-Brexit, la crisis del NHS y la escasez de vivienda plantean desafíos.</p>
-<h2>👥 Gente y ambiente</h2>
-<p>Con aproximadamente 68 millones de personas, el Reino Unido es étnicamente diverso: británicos blancos (~80%), asiáticos (~9%: indios, paquistaníes, bangladesíes), negros (~4%), y población mestiza. El inglés domina; el galés, el gaélico escocés y el irlandés se hablan en sus regiones. El cristianismo está en declive; las personas sin religión están en aumento (~50%); el islam ~6%. La cultura enfatiza hacer cola (filas ordenadas), la cortesía (cultura del “sorry”), la cultura del pub, el fútbol y la conciencia de clase (los acentos delatan la clase). Los británicos son reservados, con humor seco e irónico. El ambiente varía: Londres es caos multicultural; Escocia muestra mentalidad independiente; Gales es valle y rugby; Irlanda del Norte tiene una historia sectaria. El Brexit dividió a la nación (Leave vs Remain).</p>
-<h2>🌦️ Clima y paisaje</h2>
-<p>Espere un clima marítimo: templado durante todo el año (5-23°C) pero gris, nublado y lluvioso. El sol es poco frecuente. El paisaje incluye colinas onduladas (Cotswolds), el Lake District, las Tierras Altas de Escocia, montañas galesas, acantilados blancos (Dover) y una extensa línea costera. La belleza natural es accesible, pero el clima limita el disfrute. La calidad del aire es generalmente buena, salvo la contaminación en Londres.</p>
-<h2>🏠 Vivienda y asentamiento</h2>
-<p>Londres (Zonas 1-2 inasequibles, Zonas 3-6 más realistas) sufre una crisis de vivienda. Espere depósito de 1 mes y contratos de 6-12 meses. Alquileres: Londres £1,500-3,000+/mes; Manchester/Edimburgo £800-1,500; ciudades más pequeñas £600-1,000. La calidad varía: las casas victorianas/eduardianas son encantadoras pero suelen tener corrientes; las nuevas construcciones son pequeñas. La calefacción es esencial (calderas). Fuera de Londres, la vivienda es más barata. Comprar requiere grandes depósitos (10-20%). El council tax (£1,000-3,000/año) financia los servicios locales. La escasez de vivienda impulsa los precios al alza.</p>
-<h2>💼 Trabajo y economía</h2>
-<p>La economía se centra en las finanzas (City de Londres, Canary Wharf), tecnología (escena startup en Londres), industrias creativas (cine, música, publicidad), farmacéutica y servicios. Tras el Brexit, los ciudadanos de la UE necesitan visados de trabajo (sistema por puntos). Hay oportunidades en finanzas, tecnología, salud (contratación en el NHS), educación y sectores creativos. Los salarios son buenos (£30k-80k+) pero los impuestos oscilan entre 20-45%. Los salarios en Londres son más altos pero los costes también. El equilibrio vida-trabajo está mejorando. El inglés es una ventaja pero la competencia es feroz. El Brexit ha generado escasez de mano de obra (hostelería, sanidad).</p>
-<h2>🛂 Visados y entrada</h2>
-<p>Los ciudadanos de la UE pueden visitar 6 meses (sin visado) pero necesitan visados de trabajo para trabajar (pos-Brexit). Los no comunitarios necesitan visados. Para trabajar, el Skilled Worker visa requiere una oferta de trabajo, umbral salarial (£26,200+) y puntos. Existe el Graduate visa (2 años tras estudios). El proceso es burocrático y caro. La residencia permanente (Indefinite Leave to Remain) requiere 5 años de residencia continua. La ciudadanía requiere 5 años de residencia (o 3 si está casado con un británico), el examen Life in the UK y dominio del inglés. La naturalización es alcanzable.</p>
-<h2>🏥 Sanidad</h2>
-<p>La sanidad es universal (NHS — National Health Service, gratuito en el punto de uso). La calidad es variable: los médicos son buenos pero el sistema está desbordado. Los tiempos de espera para especialistas son de meses (años para algunos procedimientos). Las urgencias (A&E) sufren esperas en crisis (12+ horas). El NHS padece infrafinanciación y falta de personal. La esperanza de vida es ~81 años. Cargos por receta (£9.65). Acceder a la odontología por el NHS es casi imposible (realísticamente solo privado). Los ciudadanos de la UE ya no obtienen acceso gratuito al NHS tras el Brexit.</p>
-<h2>🚗 Transporte y movilidad</h2>
-<p>Londres tiene excelente transporte público: Underground (Tube), autobuses, Overground, DLR — extensos pero caros (£2.80/viaje, £160/mes). La mayoría usa Oyster/contactless. Los trenes conectan ciudades — caros (privatizados). Las carreteras están en buen estado pero con congestión. Los coches son caros (seguro, combustible, aparcamiento). El país es de tamaño moderado — Londres a Edimburgo en tren son 4.5 horas. Heathrow es un hub principal. Los vuelos domésticos son caros.</p>
-<h2>🍛 Nota sobre comida (plato nacional)</h2>
-<p>El plato nacional es debatido, pero <strong>Fish and Chips</strong> es icónico. Sin embargo, <strong>Chicken Tikka Masala</strong> (inventado en el Reino Unido) también reclama ese título. El Sunday Roast (asado dominical: carne asada, Yorkshire pudding, verduras) es una tradición. La cocina británica tenía fama de sosa, pero la revolución de los gastropubs mejoró la calidad. La comida india, china y turca es parte integral de la oferta gastronómica británica.</p>
-<h2>🔎 Conclusión</h2>
-<p>El Reino Unido conviene a quienes hablan inglés, a profesionales de finanzas (Londres es un hub global), estudiantes (universidades de clase mundial), trabajadores creativos y quienes buscan una democracia occidental multicultural. Pros: idioma inglés, educación de renombre (Oxford, Cambridge, LSE), NHS (sanidad gratuita a pesar de la crisis), multiculturalismo, historia rica y oportunidades profesionales. Contras: costes altos (Londres es la 4.ª ciudad más cara del mundo), clima (gris, lluvioso, deprimente), complicaciones pos-Brexit (requisitos de visado, reducción de lazos con la UE), crisis del NHS (largos tiempos de espera) y escasez de vivienda. Londres es una ciudad global pero inasequible; otras ciudades ofrecen mejor relación calidad-precio. Es ideal para quienes tienen buenos salarios y pueden costearse el estilo de vida y soportar el clima. El Brexit lo cambió todo: los ciudadanos de la UE perdieron la libre circulación, surgieron barreras comerciales y la economía sufrió. Si prioriza el idioma inglés, el acceso a una ciudad global e historia por encima del sol y la asequibilidad, el Reino Unido cumple.</p>
-<p>Puntuación para expatriados — 7.5 / 10</p></section>
+      <div class="card snapshot-card">
+        <div class="snapshot-title">Vistazo rápido</div>
+        <div class="kv"><span>Capital</span><b>Londres</b></div><div class="kv"><span>Población</span><b>~68M</b></div><div class="kv"><span>Idiomas</span><b>Inglés, galés, gaélico escocés, irlandés</b></div><div class="kv"><span>Moneda</span><b>Libra esterlina británica (GBP)</b></div><div class="kv kv-sub"><span>Exchange rate</span><b>1 USD ≈ 0.79 GBP</b></div><div class="kv-note">Moneda fuerte. Sujeta a los efectos del Brexit y a los ciclos económicos. No forma parte de la eurozona por elección.</div><div class="kv"><span>Crypto-amigable</span><b>Sí</b></div><div class="kv-note">Amigable con las criptomonedas y con regulaciones claras. La FCA regula. Las ganancias están gravadas. Sector blockchain en crecimiento.</div><div class="kv"><span>Conducción</span><b>Izquierda</b></div><div class="sector-block"><div class="sector-head">Sectores principales</div><div class="sector-list"><div class="sector-pill">Finanzas y banca (City de Londres)</div><div class="sector-pill">Tecnología y startups</div><div class="sector-pill">Industrias creativas (cine, música)</div></div></div>
+      </div>
 
-  <section class="ttk"><h2>Lo que hay que saber</h2><div class="ttk-grid">
-      <div class="ttk-card">
-        <div class="ttk-title">👤 Winston Churchill <small>(siglo XX)</small></div>
-        <p>Primer ministro durante la Segunda Guerra Mundial (1940-45, 1951-55) cuya liderazgo (discurso «Nunca nos rendiremos») animó a Gran Bretaña en su hora más oscura. Premio Nobel de Literatura. Ícono de la determinación británica. Controvertido por sus visiones sobre el colonialismo. Encuestas lo sitúan como el &#x27;mayor británico&#x27;.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🇪🇺 Brexit = divorcio nacional</div>
-        <p>El referéndum de 2016 (52% Leave, 48% Remain) llevó a la salida de la UE (enero 2020). Nación dividida, fin de la libre circulación, barreras comerciales y daño económico. El Protocolo de Irlanda del Norte creó tensiones. Escocia quiere la independencia para volver a entrar en la UE. Las consecuencias del Brexit continúan — escasez de mano de obra, reducción del comercio y complicaciones de visado.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🏥 Crisis del NHS = colapso</div>
-        <p>El National Health Service es gratuito pero está desbordado. Esperas en urgencias de 12+ horas, retrasos en ambulancias, más de 7M en listas de espera para procedimientos y fuga de personal. La infrafinanciación (austeridad 2010-20) y la COVID destruyeron capacidad. Gente muere esperando. El acceso a la odontología es casi imposible. Es una crisis nacional.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">👑 Monarquía = £86M/año</div>
-        <p>Monarquía constitucional — el rey Carlos III (desde 2022, tras el fallecimiento de Isabel II). El gasto de la familia real es £86M/año (Sovereign Grant) pero genera ingresos por turismo. Crece el movimiento republicano. La marcha de Harry y Meghan (2020) creó polémica. La monarquía es debate entre tradición y anacronismo.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🏠 Crisis de vivienda = inasequible</div>
-        <p>Precio medio de la vivienda en Londres £535k ($675k). Los inquilinos gastan más del 40% de sus ingresos en alquiler. No se construyen suficientes viviendas. Los jóvenes no pueden comprar. Aumenta la falta de vivienda. Desigualdad regional — Londres/Sur caro, Norte más barato. Es una crisis generacional que impide a los jóvenes acceder a la propiedad.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">☔ Clima = realidad gris</div>
-        <p>El estereotipo es cierto — gris, nublado y lluvioso todo el año. El sol es raro (Escocia ve sol ~25% del año). El trastorno afectivo estacional es común. El verano llega a 23°C pero es breve. El clima es un reto para la salud mental. Los británicos hablan del tiempo constantemente porque es algo que afecta a todos.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">⚽ Fútbol = religión</div>
-        <p>La Premier League es la liga deportiva más vista del mundo. Clubes (Manchester United, Liverpool, Arsenal, Chelsea) son marcas globales. El fútbol es una cultura obrera convertida en industria multimillonaria. Los días de partido son un ritual social. Inglaterra inventó el fútbol (1863) pero no gana la Copa del Mundo desde 1966.</p>
-      </div></div></section>
+      
+        <div class="card persona-card">
+          <div class="snapshot-title">Figura del país</div>
+          <div class="persona-name">Winston Churchill <small>(siglo XX)</small></div>
+          <div class="persona-why">Primer ministro durante la Segunda Guerra Mundial (1940-45, 1951-55) cuya liderazgo (discurso «Nunca nos rendiremos») animó a Gran Bretaña en su hora más oscura. Premio Nobel de Literatura. Ícono de la determinación británica. Controvertido por sus visiones sobre el colonialismo. Encuestas lo sitúan como el &#x27;mayor británico&#x27;.</div>
+        </div>
+    </aside>
 
-  
-  <section class="related"><h2>Crónicas relacionadas</h2><ul class="link-list"><li><a href="/chronicles/chronicle-ameriques-partie2-es.html">St. Kitts, Bahamas, Antigua — Cero impuestos 2026 Parte 2</a></li><li><a href="/chronicles/chronicle-ameriques-partie3-es.html">Anguila, Islas Vírgenes, Sint Maarten — Offshore 2026 Parte 3</a></li><li><a href="/chronicles/chronicle-criar-hijos-2026-es.html">Mejores países para criar hijos 2026</a></li><li><a href="/chronicles/chronicle-estudiar-extranjero-guia-practica-2026-es.html">Estudiar en el extranjero — Guía práctica completa 2026</a></li></ul></section>
-  
+    <div class="right-col">
+      <div class="rc-wrapper">
+        
+        <div class="rc-box">
+          <div class="rc-box-head">
+            <h2>Crónicas relacionadas</h2>
+            <div class="rc-nav">
+              <button class="rc-nav-btn" data-target="rc-list" data-dir="-1" aria-label="Previous">&#8249;</button>
+              <button class="rc-nav-btn" data-target="rc-list" data-dir="1" aria-label="Next">&#8250;</button>
+            </div>
+          </div>
+          <div class="rc-track"><div id="rc-list" class="rc-row"><a class="rc-vcard" href="/chronicles/chronicle-ameriques-partie2-es.html"><img class="rc-vimg" src="/assets/hero-bahamas.jpg" alt="St. Kitts, Bahamas, Antigua — Cero impuestos 2026 Parte 2" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">📄</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">St. Kitts, Bahamas, Antigua — Cero impuestos 2026 Parte 2</div></div></a><a class="rc-vcard" href="/chronicles/chronicle-ameriques-partie3-es.html"><img class="rc-vimg" src="/assets/hero-bahamas.jpg" alt="Anguila, Islas Vírgenes, Sint Maarten — Offshore 2026 Parte 3" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">📄</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Anguila, Islas Vírgenes, Sint Maarten — Offshore 2026 Parte 3</div></div></a><a class="rc-vcard" href="/chronicles/chronicle-criar-hijos-2026-es.html"><img class="rc-vimg" src="/assets/hero-finland.jpg" alt="Mejores países para criar hijos 2026" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">📄</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Mejores países para criar hijos 2026</div></div></a><a class="rc-vcard" href="/chronicles/chronicle-estudiar-extranjero-guia-practica-2026-es.html"><img class="rc-vimg" src="/assets/hero-france.jpg" alt="Estudiar en el extranjero — Guía práctica completa 2026" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">📄</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Estudiar en el extranjero — Guía práctica completa 2026</div></div></a></div></div>
+        </div>
+        
+      </div>
 
-  <p style="text-align:center;margin-top:30px"><a href="/globe.html" style="font-weight:600">Ver los 160+ países →</a></p>
+      <div class="data-card">
+        <table class="data-table">
+      <tbody>
+        <tr class="sec"><td colspan="4">💼 Salarios (neto / mes)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧾</span>Salario mínimo</td>
+          <td class="val">$2,090</td>
+          <td class="hint">NMW £12,21/h bruto → neto ≈ £1.645/mes jornada completa (2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('min_wage')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📊</span>Salario medio</td>
+          <td class="val">$3,050</td>
+          <td class="hint">Mediana neta ≈ £2.400/mes (ONS 2024)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('avg_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🩺</span>Salario médico (general)</td>
+          <td class="val">$6,800</td>
+          <td class="hint">promedio del NHS</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('doctor_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🏠 Vivienda y servicios (estudio de referencia)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏚️</span>Alquiler estudio</td>
+          <td class="val">$1,170</td>
+          <td class="hint">Ciudades regionales</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('rent_studio')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">⚡</span>Electricidad</td>
+          <td class="val">$140</td>
+          <td class="hint">/ mes</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('electricity')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💧</span>Agua</td>
+          <td class="val">$40</td>
+          <td class="hint">/ mes</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('water')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📱</span>Plan móvil</td>
+          <td class="val">$22</td>
+          <td class="hint">~20–50GB</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('mobile')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🍽️ Comida y bebida (precios típicos)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍺</span>Cerveza (pinta)</td>
+          <td class="val">$7.00</td>
+          <td class="hint">Pub local</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('beer')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☕</span>Café</td>
+          <td class="val">$4.00</td>
+          <td class="hint">Café regular</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('coffee')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍲</span>Plato principal</td>
+          <td class="val">$18</td>
+          <td class="hint">gama media</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('dish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">⛽ Transporte</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">⛽</span>Gasolina / litro</td>
+          <td class="val">$1.90 / L</td>
+          <td class="hint">indicativo</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('gas')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🧾 Impuestos (indicativo)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏷️</span>IVA</td>
+          <td class="val">20%</td>
+          <td class="hint">tarifa estándar</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('vat')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">👤</span>Impuesto sobre la renta</td>
+          <td class="val">~27%</td>
+          <td class="hint">Progresivo (20-45%), tramo medio</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('income_tax')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏪</span>Impuesto pequeña empresa</td>
+          <td class="val">~25%</td>
+          <td class="hint">25% CIT (2023+) + NICs</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('smallbiz')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📱 Tech (precios indicativos)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍎</span>iPhone (último 256GB)</td>
+          <td class="val">$1,500</td>
+          <td class="hint">Precios del Reino Unido</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('iphone')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📲</span>Galaxy S (último 256GB)</td>
+          <td class="val">$1,200</td>
+          <td class="hint">Precios del Reino Unido</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('samsung')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🛂 Mudanza e inmigración</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🛂</span>Facilidad de inmigración</td>
+          <td class="val">5 / 10</td>
+          <td class="hint">reglas post-Brexit</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('immigration')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🌤️ Calidad de vida</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🙂</span>Felicidad</td>
+          <td class="val">6.7 / 10</td>
+          <td class="hint">indicativo (fuente: Informe Mundial sobre la Felicidad 2024)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('happiness')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☀️</span>Días de sol / año</td>
+          <td class="val">~140 días / año</td>
+          <td class="hint">indicativo (fuente: Datos climáticos, OMM)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('sun')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏥</span>Sanidad pública</td>
+          <td class="val">Sí</td>
+          <td class="hint">NHS + privado</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('health')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧑‍⚕️</span>Seguro privado / mes</td>
+          <td class="val">$90 / mes</td>
+          <td class="hint">ejemplo privado</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('insurance')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📈 Índices</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🚔</span>Índice de criminalidad</td>
+          <td class="val">50 / 100</td>
+          <td class="hint">indicativo (fuente: Índice de Seguridad de Numbeo 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('crime')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💶</span>Poder adquisitivo</td>
+          <td class="val">78</td>
+          <td class="hint">indicativo (fuente: Índice PP de Numbeo 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('pp')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🕍 Religión</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">✝️</span>Cristiano</td>
+          <td class="val">~46%</td>
+          <td class="hint">indicativo</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_christian')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☪️</span>Musulmán</td>
+          <td class="val">~6%</td>
+          <td class="hint">indicativo</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_muslim')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☸️</span>Budista</td>
+          <td class="val">~1%</td>
+          <td class="hint">indicativo</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_buddhist')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">✡️</span>Judío</td>
+          <td class="val">~0.4%</td>
+          <td class="hint">indicative (src: Pew Research / WJC)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_jewish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🕊️</span>Otra / Ninguna</td>
+          <td class="val">~44%</td>
+          <td class="hint">ninguno/otro</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_other')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+        </table>
+      </div>
+
+      
+      <div class="article-card">
+        <div class="section-head">
+          <h2>Vivir en Reino Unido</h2>
+          <span class="score-badge"><span class="score-star">⭐</span> Puntuación expat: 7.5 / 10</span>
+        </div>
+        <div class="article-body"><p>🧭 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Resumen</span><br>
+El Reino Unido (Inglaterra, Escocia, Gales, Irlanda del Norte) es una nación insular y antiguo imperio global, conocido por Londres (centro financiero, Big Ben, Palacio de Buckingham), la monarquía, la Premier League, los Beatles, Harry Potter y el Brexit (salió de la UE en 2020 tras el referéndum de 2016). Londres es la capital y una ciudad global; Edimburgo representa la cultura escocesa; Cardiff la galesa; Belfast tiene tensiones norirlandesas. La economía está dominada por los servicios (finanzas 7% del PIB), las industrias creativas, la tecnología y la manufactura. El Reino Unido ofrece educación de clase mundial (Oxford, Cambridge), el NHS como sistema sanitario, multiculturalismo y el idioma inglés. Sin embargo, los altos costes (Londres es la 4.ª ciudad más cara del mundo), el clima (gris, lluvioso), las complicaciones pos-Brexit, la crisis del NHS y la escasez de vivienda plantean desafíos.</p><p>👥 <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Gente y ambiente</span><br>
+Con aproximadamente 68 millones de personas, el Reino Unido es étnicamente diverso: británicos blancos (~80%), asiáticos (~9%: indios, paquistaníes, bangladesíes), negros (~4%), y población mestiza. El inglés domina; el galés, el gaélico escocés y el irlandés se hablan en sus regiones. El cristianismo está en declive; las personas sin religión están en aumento (~50%); el islam ~6%. La cultura enfatiza hacer cola (filas ordenadas), la cortesía (cultura del “sorry”), la cultura del pub, el fútbol y la conciencia de clase (los acentos delatan la clase). Los británicos son reservados, con humor seco e irónico. El ambiente varía: Londres es caos multicultural; Escocia muestra mentalidad independiente; Gales es valle y rugby; Irlanda del Norte tiene una historia sectaria. El Brexit dividió a la nación (Leave vs Remain).</p><p>🌦️ <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Clima y paisaje</span><br>
+Espere un clima marítimo: templado durante todo el año (5-23°C) pero gris, nublado y lluvioso. El sol es poco frecuente. El paisaje incluye colinas onduladas (Cotswolds), el Lake District, las Tierras Altas de Escocia, montañas galesas, acantilados blancos (Dover) y una extensa línea costera. La belleza natural es accesible, pero el clima limita el disfrute. La calidad del aire es generalmente buena, salvo la contaminación en Londres.</p><p>🏠 <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Vivienda y asentamiento</span><br>
+Londres (Zonas 1-2 inasequibles, Zonas 3-6 más realistas) sufre una crisis de vivienda. Espere depósito de 1 mes y contratos de 6-12 meses. Alquileres: Londres £1,500-3,000+/mes; Manchester/Edimburgo £800-1,500; ciudades más pequeñas £600-1,000. La calidad varía: las casas victorianas/eduardianas son encantadoras pero suelen tener corrientes; las nuevas construcciones son pequeñas. La calefacción es esencial (calderas). Fuera de Londres, la vivienda es más barata. Comprar requiere grandes depósitos (10-20%). El council tax (£1,000-3,000/año) financia los servicios locales. La escasez de vivienda impulsa los precios al alza.</p><p>💼 <span class="art-tag" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#6d28d9">Trabajo y economía</span><br>
+La economía se centra en las finanzas (City de Londres, Canary Wharf), tecnología (escena startup en Londres), industrias creativas (cine, música, publicidad), farmacéutica y servicios. Tras el Brexit, los ciudadanos de la UE necesitan visados de trabajo (sistema por puntos). Hay oportunidades en finanzas, tecnología, salud (contratación en el NHS), educación y sectores creativos. Los salarios son buenos (£30k-80k+) pero los impuestos oscilan entre 20-45%. Los salarios en Londres son más altos pero los costes también. El equilibrio vida-trabajo está mejorando. El inglés es una ventaja pero la competencia es feroz. El Brexit ha generado escasez de mano de obra (hostelería, sanidad).</p>
+        <div class="map-card">
+          <div class="map-header">
+            <div class="map-title"><span class="map-flag">🇬🇧</span><span>Reino Unido — Mapa</span></div>
+            <div class="map-styles">
+              <button type="button" class="map-style-btn active" data-style="light">Claro</button>
+              <button type="button" class="map-style-btn" data-style="dark">Oscuro</button>
+              <button type="button" class="map-style-btn" data-style="satellite">Satélite</button>
+            </div>
+          </div>
+          <div class="map-container">
+            <div id="wigg-country-map"></div>
+            <div class="map-loading" id="wiggMapLoading">Cargando mapa…</div>
+          </div>
+        </div><p>🛂 <span class="art-tag" style="background:rgba(236,72,153,.12);border:1px solid rgba(236,72,153,.25);color:#be185d">Visados y entrada</span><br>
+Los ciudadanos de la UE pueden visitar 6 meses (sin visado) pero necesitan visados de trabajo para trabajar (pos-Brexit). Los no comunitarios necesitan visados. Para trabajar, el Skilled Worker visa requiere una oferta de trabajo, umbral salarial (£26,200+) y puntos. Existe el Graduate visa (2 años tras estudios). El proceso es burocrático y caro. La residencia permanente (Indefinite Leave to Remain) requiere 5 años de residencia continua. La ciudadanía requiere 5 años de residencia (o 3 si está casado con un británico), el examen Life in the UK y dominio del inglés. La naturalización es alcanzable.</p><p>🏥 <span class="art-tag" style="background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.25);color:#0e7490">Sanidad</span><br>
+La sanidad es universal (NHS — National Health Service, gratuito en el punto de uso). La calidad es variable: los médicos son buenos pero el sistema está desbordado. Los tiempos de espera para especialistas son de meses (años para algunos procedimientos). Las urgencias (A&amp;E) sufren esperas en crisis (12+ horas). El NHS padece infrafinanciación y falta de personal. La esperanza de vida es ~81 años. Cargos por receta (£9.65). Acceder a la odontología por el NHS es casi imposible (realísticamente solo privado). Los ciudadanos de la UE ya no obtienen acceso gratuito al NHS tras el Brexit.</p><p>🚗 <span class="art-tag" style="background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#c2410c">Transporte y movilidad</span><br>
+Londres tiene excelente transporte público: Underground (Tube), autobuses, Overground, DLR — extensos pero caros (£2.80/viaje, £160/mes). La mayoría usa Oyster/contactless. Los trenes conectan ciudades — caros (privatizados). Las carreteras están en buen estado pero con congestión. Los coches son caros (seguro, combustible, aparcamiento). El país es de tamaño moderado — Londres a Edimburgo en tren son 4.5 horas. Heathrow es un hub principal. Los vuelos domésticos son caros.</p><p>🍛 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Nota sobre comida (plato nacional)</span><br>
+El plato nacional es debatido, pero <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Fish and Chips</span><br> es icónico. Sin embargo, <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Chicken Tikka Masala</span><br> (inventado en el Reino Unido) también reclama ese título. El Sunday Roast (asado dominical: carne asada, Yorkshire pudding, verduras) es una tradición. La cocina británica tenía fama de sosa, pero la revolución de los gastropubs mejoró la calidad. La comida india, china y turca es parte integral de la oferta gastronómica británica.</p><p>🔎 <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Conclusión</span><br>
+El Reino Unido conviene a quienes hablan inglés, a profesionales de finanzas (Londres es un hub global), estudiantes (universidades de clase mundial), trabajadores creativos y quienes buscan una democracia occidental multicultural. Pros: idioma inglés, educación de renombre (Oxford, Cambridge, LSE), NHS (sanidad gratuita a pesar de la crisis), multiculturalismo, historia rica y oportunidades profesionales. Contras: costes altos (Londres es la 4.ª ciudad más cara del mundo), clima (gris, lluvioso, deprimente), complicaciones pos-Brexit (requisitos de visado, reducción de lazos con la UE), crisis del NHS (largos tiempos de espera) y escasez de vivienda. Londres es una ciudad global pero inasequible; otras ciudades ofrecen mejor relación calidad-precio. Es ideal para quienes tienen buenos salarios y pueden costearse el estilo de vida y soportar el clima. El Brexit lo cambió todo: los ciudadanos de la UE perdieron la libre circulación, surgieron barreras comerciales y la economía sufrió. Si prioriza el idioma inglés, el acceso a una ciudad global e historia por encima del sol y la asequibilidad, el Reino Unido cumple.</p><p>Puntuación para expatriados — 7.5 / 10</p></div>
+      </div>
+
+      
+      <div class="things-section">
+        <div class="section-head"><h2>Lo que hay que saber</h2><span class="wg-badge">Imprescindibles</span></div>
+        <div class="facts-grid"><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🇪🇺 Brexit = divorcio nacional</div><div class="fact-text">El referéndum de 2016 (52% Leave, 48% Remain) llevó a la salida de la UE (enero 2020). Nación dividida, fin de la libre circulación, barreras comerciales y daño económico. El Protocolo de Irlanda del Norte creó tensiones. Escocia quiere la independencia para volver a entrar en la UE. Las consecuencias del Brexit continúan — escasez de mano de obra, reducción del comercio y complicaciones de visado.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏥 Crisis del NHS = colapso</div><div class="fact-text">El National Health Service es gratuito pero está desbordado. Esperas en urgencias de 12+ horas, retrasos en ambulancias, más de 7M en listas de espera para procedimientos y fuga de personal. La infrafinanciación (austeridad 2010-20) y la COVID destruyeron capacidad. Gente muere esperando. El acceso a la odontología es casi imposible. Es una crisis nacional.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">👑 Monarquía = £86M/año</div><div class="fact-text">Monarquía constitucional — el rey Carlos III (desde 2022, tras el fallecimiento de Isabel II). El gasto de la familia real es £86M/año (Sovereign Grant) pero genera ingresos por turismo. Crece el movimiento republicano. La marcha de Harry y Meghan (2020) creó polémica. La monarquía es debate entre tradición y anacronismo.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏠 Crisis de vivienda = inasequible</div><div class="fact-text">Precio medio de la vivienda en Londres £535k ($675k). Los inquilinos gastan más del 40% de sus ingresos en alquiler. No se construyen suficientes viviendas. Los jóvenes no pueden comprar. Aumenta la falta de vivienda. Desigualdad regional — Londres/Sur caro, Norte más barato. Es una crisis generacional que impide a los jóvenes acceder a la propiedad.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">☔ Clima = realidad gris</div><div class="fact-text">El estereotipo es cierto — gris, nublado y lluvioso todo el año. El sol es raro (Escocia ve sol ~25% del año). El trastorno afectivo estacional es común. El verano llega a 23°C pero es breve. El clima es un reto para la salud mental. Los británicos hablan del tiempo constantemente porque es algo que afecta a todos.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">⚽ Fútbol = religión</div><div class="fact-text">La Premier League es la liga deportiva más vista del mundo. Clubes (Manchester United, Liverpool, Arsenal, Chelsea) son marcas globales. El fútbol es una cultura obrera convertida en industria multimillonaria. Los días de partido son un ritual social. Inglaterra inventó el fútbol (1863) pero no gana la Copa del Mundo desde 1966.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🍽️ Fish and Chips / Chicken Tikka Masala / Sunday Roast</div><div class="fact-text">Pescado frito con patatas o curry (inventado en el Reino Unido) o cena asada dominical — la cocina británica ha mejorado respecto a su reputación de sosa. La comida india/china/turca es integral.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏳️‍🌈 LGBT+: Muy alto</div><div class="fact-text">El matrimonio entre personas del mismo sexo es legal (Inglaterra/Gales 2014, Escocia 2014, Irlanda del Norte 2020). Sociedad muy tolerante. Brighton es la capital LGBTQ+. Fuertes protecciones legales.</div></div></div>
+      </div>
+
+      
+    </div>
+  </div>
 </main>
 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
+<script src="/data/share.js"></script>
+<script src="/data/correction-form.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var t = document.getElementById("localTime");
+  if(t && t.dataset.tz){
+    function tick(){
+      try{
+        t.textContent = new Intl.DateTimeFormat("en-GB",{
+          timeZone: t.dataset.tz, hour:"2-digit", minute:"2-digit"
+        }).format(new Date());
+      }catch(e){}
+    }
+    tick(); setInterval(tick, 30000);
+  }
+  document.querySelectorAll(".rc-nav-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var targetId = btn.dataset.target;
+      var dir = parseInt(btn.dataset.dir||"1",10);
+      var row = document.getElementById(targetId);
+      if(!row) return;
+      var box = row.parentElement;
+      var first = row.querySelector(".rc-vcard");
+      if(!first) return;
+      var cardW = first.offsetWidth + 9;
+      var visible = Math.max(1, Math.floor(box.offsetWidth / cardW));
+      var maxOffset = Math.max(0, row.children.length - visible);
+      var current = parseInt(row.dataset.offset||"0", 10);
+      current = Math.min(maxOffset, Math.max(0, current + dir));
+      row.dataset.offset = current;
+      row.style.transform = "translateX(-" + (current * cardW) + "px)";
+      var nav = btn.parentNode;
+      var prev = nav.querySelector('[data-dir="-1"]');
+      var next = nav.querySelector('[data-dir="1"]');
+      if(prev) prev.disabled = (current === 0);
+      if(next) next.disabled = (current >= maxOffset);
+    });
+  });
+  var iso2 = "GB";
+  if(!iso2 || typeof L === "undefined") return;
+  var STYLES = {
+    light:     { url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", attr: "&copy; OSM &copy; CARTO" },
+    dark:      { url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",  attr: "&copy; OSM &copy; CARTO" },
+    satellite: { url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", attr: "&copy; Esri" }
+  };
+  var wMap=null, wLayer=null, wMarker=null;
+  function initMap(lat, lon){
+    var el = document.getElementById("wigg-country-map");
+    if(!el) return;
+    if(wMap){ try{wMap.remove();}catch(e){} }
+    wMap = L.map("wigg-country-map",{zoomControl:true}).setView([lat,lon],5);
+    wLayer = L.tileLayer(STYLES.light.url,{attribution:STYLES.light.attr,maxZoom:18}).addTo(wMap);
+    wMarker = L.marker([lat,lon]).addTo(wMap);
+    var loading = document.getElementById("wiggMapLoading");
+    if(loading) loading.classList.add("hidden");
+  }
+  document.querySelectorAll(".map-style-btn").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(!wMap) return;
+      var s = STYLES[b.dataset.style];
+      if(!s) return;
+      if(wLayer) wMap.removeLayer(wLayer);
+      wLayer = L.tileLayer(s.url,{attribution:s.attr,maxZoom:18}).addTo(wMap);
+      document.querySelectorAll(".map-style-btn").forEach(function(x){x.classList.remove("active");});
+      b.classList.add("active");
+    });
+  });
+  var cacheKey = "wigg_centroid_" + iso2;
+  var cached = null;
+  try { cached = JSON.parse(localStorage.getItem(cacheKey) || "null"); } catch(e){}
+  if(cached && cached.lat != null && cached.lon != null){
+    initMap(cached.lat, cached.lon); return;
+  }
+  fetch("https://nominatim.openstreetmap.org/search?country=" + encodeURIComponent(iso2) + "&format=json&limit=1")
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && d[0]){
+        var coords = { lat: +d[0].lat, lon: +d[0].lon };
+        try { localStorage.setItem(cacheKey, JSON.stringify(coords)); } catch(e){}
+        initMap(coords.lat, coords.lon);
+      } else {
+        var l = document.getElementById("wiggMapLoading");
+        if(l) l.textContent = "Mapa no disponible";
+      }
+    })
+    .catch(function(){
+      var l = document.getElementById("wiggMapLoading");
+      if(l) l.textContent = "Mapa no disponible";
+    });
+})();
+</script>
+
+<form name="wiggmap-corrections" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="wiggmap-corrections" />
+  <p><label>Don't fill this out: <input name="bot-field" /></label></p>
+  <input name="country" /><input name="field" /><input name="value" /><input name="email" /><textarea name="notes"></textarea>
+</form>
+
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
 </body>
 </html>

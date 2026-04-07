@@ -25,65 +25,127 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#f6f1e8;--paper:#fffdf8;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--green:#1d7f48;--green-dk:#155f36;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
+    :root{--paper:#fffdf8;--paper-2:#fbf7ee;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--line-soft:rgba(23,23,20,.06);--green:#1d7f48;--green-dk:#155f36;--green-light:#e6f4ec;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
     html{scroll-behavior:smooth}
     body{font-family:"Inter",system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f9f5ed 0%,#f3ede3 100%);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
     a{color:var(--green);text-decoration:none}
     a:hover{text-decoration:underline}
-    main{max-width:980px;margin:0 auto;padding:28px 20px 80px}
-    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:18px;letter-spacing:.04em}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:14px;letter-spacing:.04em}
     .crumb a{color:var(--ink-soft)}
-    .hero{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:36px 32px;box-shadow:var(--shadow);margin-bottom:24px;position:relative;overflow:hidden}
-    .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 18%,rgba(29,127,72,.05),transparent 30%);pointer-events:none}
-    .hero-flag{font-size:48px;line-height:1;margin-bottom:14px}
-    .hero h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(36px,6vw,56px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:10px;position:relative;z-index:1}
-    .hero .subtitle{font-size:15px;color:var(--ink-soft);max-width:62ch;line-height:1.6;position:relative;z-index:1}
-    .hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;position:relative;z-index:1}
-    .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid var(--line)}
-    .badge.green{background:#e6f4ec;color:var(--green-dk);border-color:rgba(29,127,72,.2)}
+    .country-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:22px;flex-wrap:wrap}
+    .country-flag{font-size:42px;line-height:1;margin-bottom:8px}
+    .country-head h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(34px,5.2vw,52px);font-weight:800;letter-spacing:-.02em;line-height:1.02}
+    .country-head .subtitle{font-size:14px;color:var(--ink-soft);max-width:64ch;line-height:1.55;margin-top:8px}
+    .head-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+    .badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:7px 13px;border-radius:999px;background:#fff;border:1px solid var(--line)}
+    .badge.green{background:var(--green-light);color:var(--green-dk);border-color:rgba(29,127,72,.22)}
     .badge.yellow{background:#fef9e7;color:#a16207;border-color:rgba(202,138,4,.25)}
     .badge.red{background:#fdecec;color:#b91c1c;border-color:rgba(185,28,28,.25)}
-    .snapshot{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px 26px;box-shadow:var(--shadow);margin-bottom:24px}
-    .snapshot h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;margin-bottom:14px}
-    .snap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
-    .snap-item{font-size:13px}
-    .snap-item strong{display:block;color:var(--ink-soft);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
-    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
-    .data-card h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;padding:20px 26px 8px}
+    .badge .dot{width:8px;height:8px;border-radius:999px;background:currentColor;display:inline-block}
+    .local-time{font-size:12px;color:var(--ink-soft);font-weight:600}
+    .local-time b{color:var(--ink);margin-left:5px;font-weight:800}
+    .main-grid{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+    @media(max-width:900px){.main-grid{grid-template-columns:1fr}}
+    .sidebar{display:flex;flex-direction:column;gap:14px;align-self:start;position:sticky;top:18px}
+    @media(max-width:900px){.sidebar{position:static}}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .hero-img{width:100%;height:200px;object-fit:cover;display:block;background:#eaddc4}
+    .hero-actions{padding:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:8px;font-family:inherit;font-weight:700;font-size:12.5px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;transition:background .14s,border-color .14s}
+    .btn:hover{background:rgba(0,0,0,.04)}
+    .btn.primary{background:var(--green);color:#fff;border-color:transparent}
+    .btn.primary:hover{background:var(--green-dk)}
+    .snapshot-card{padding:16px}
+    .snapshot-title{font-family:"Fraunces",Georgia,serif;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px;letter-spacing:-.01em}
+    .kv{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--line-soft);font-size:12.5px}
+    .kv span{color:var(--ink-soft)}
+    .kv b{color:var(--ink);font-weight:700;text-align:right;max-width:60%}
+    .kv-sub{padding-left:10px;font-size:11.5px;opacity:.85}
+    .kv-note{font-size:11px;color:var(--ink-soft);line-height:1.5;padding:6px 0 8px;font-style:italic;border-bottom:1px solid var(--line-soft)}
+    .sector-block{padding-top:10px;margin-top:6px;border-top:1px solid var(--line-soft)}
+    .sector-head{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+    .sector-list{display:flex;flex-direction:column;gap:5px}
+    .sector-pill{background:rgba(29,127,72,.08);border:1px solid rgba(29,127,72,.2);border-radius:7px;padding:5px 10px;font-size:11.5px;font-weight:700;color:var(--green-dk);line-height:1.4}
+    .persona-card{padding:16px}
+    .persona-name{font-weight:800;font-size:13px;margin-bottom:6px}
+    .persona-name small{font-weight:500;opacity:.6;font-size:11px}
+    .persona-why{font-size:11.5px;color:var(--ink-soft);line-height:1.55;font-style:italic}
+    .right-col{display:flex;flex-direction:column;gap:18px;min-width:0}
+    .rc-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:760px){.rc-wrapper{grid-template-columns:1fr}}
+    .rc-box{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 14px 12px;overflow:hidden}
+    .rc-box-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:6px}
+    .rc-box-head h2{font-family:"Fraunces",Georgia,serif;font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+    .rc-nav{display:flex;gap:4px}
+    .rc-nav-btn{width:24px;height:24px;border-radius:6px;border:1px solid var(--line);background:#fff;font-size:13px;cursor:pointer;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;line-height:1;transition:all .14s}
+    .rc-nav-btn:hover{background:var(--green);color:#fff;border-color:transparent}
+    .rc-nav-btn:disabled{opacity:.35;cursor:not-allowed}
+    .rc-track{overflow:hidden}
+    .rc-row{display:flex;gap:9px;transition:transform .35s ease;will-change:transform}
+    .rc-vcard{flex-shrink:0;width:130px;height:90px;border-radius:10px;overflow:hidden;position:relative;background:#e9dfca;border:1px solid var(--line);transition:transform .15s,box-shadow .15s}
+    .rc-vcard:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10);text-decoration:none}
+    .rc-vimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .rc-vemoji{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;background:linear-gradient(135deg,#ede5d8,#ddd3c4)}
+    .rc-vgrad{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,8,.85) 0%,rgba(20,15,8,.2) 55%,transparent 100%)}
+    .rc-vbody{position:absolute;left:0;right:0;bottom:0;padding:7px 9px;z-index:2}
+    .rc-vtitle{font-family:"Fraunces",Georgia,serif;font-size:10.5px;font-weight:700;color:#fff;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
     .data-table{width:100%;border-collapse:collapse;font-size:13px}
-    .data-table .sec td{background:#f8f4eb;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:10px 26px;color:var(--ink-soft);border-top:1px solid var(--line)}
-    .data-table td{padding:9px 26px;border-bottom:1px solid var(--line);vertical-align:top}
+    .data-table .sec td{background:#f4eedf;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:11px 22px;color:var(--ink-soft);border-top:1px solid var(--line)}
+    .data-table td{padding:9px 22px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+    .data-table tr:last-child td{border-bottom:none}
     .data-table td.lbl{width:42%;color:var(--ink)}
-    .data-table td.val{width:22%;font-weight:700}
+    .data-table td.val{width:25%;font-weight:700}
     .data-table td.hint{font-size:11.5px;color:var(--ink-soft)}
+    .data-table td.edit{width:30px;text-align:right;padding-right:14px}
     .data-table .ico{margin-right:8px}
-    .article{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px;margin-bottom:24px}
-    .article h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:700;margin:24px 0 10px;color:var(--ink)}
-    .article h2:first-child{margin-top:0}
-    .article p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.75}
-    .article p strong{color:var(--ink);font-weight:600}
-    .ttk{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-bottom:24px}
-    .ttk h2{font-family:"Fraunces",Georgia,serif;font-size:20px;font-weight:700;margin-bottom:16px}
-    .ttk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-    .ttk-card{background:#fbf7ee;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
-    .ttk-card .ttk-title{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink)}
-    .ttk-card p{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
-    .ttk-card small{font-weight:500;color:var(--ink-soft)}
-    .related{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px;margin-bottom:18px}
-    .related h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
-    .link-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px 18px}
-    .link-list li{font-size:13.5px;line-height:1.5;padding-left:14px;position:relative}
-    .link-list li::before{content:"›";position:absolute;left:0;color:var(--green)}
-    @media (max-width:640px){
-      main{padding:20px 14px 60px}
-      .hero{padding:26px 22px}
-      .data-table td{padding:9px 16px}
-      .data-table .sec td{padding:10px 16px}
-      .article{padding:24px 22px}
-      .ttk{padding:22px 22px}
-      .related{padding:20px 22px}
+    .edit-btn{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:13px;opacity:.4;transition:opacity .14s;padding:2px 4px}
+    .edit-btn:hover{opacity:1;color:var(--green)}
+    .article-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px}
+    .section-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+    .section-head h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:800;letter-spacing:-.01em;color:var(--ink)}
+    .score-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-light);border:1px solid rgba(29,127,72,.25);color:var(--green-dk);padding:5px 12px;border-radius:999px;font-size:12px;font-weight:700}
+    .article-body p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.78}
+    .article-body p:last-child{margin-bottom:0}
+    .art-tag{display:inline-block;padding:3px 10px;border-radius:6px;font-weight:700;font-size:13px;margin-bottom:6px;line-height:1.5}
+    .map-card{margin:22px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper-2)}
+    .map-header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);gap:8px;flex-wrap:wrap}
+    .map-title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}
+    .map-flag{font-size:18px}
+    .map-styles{display:flex;gap:4px}
+    .map-style-btn{font-size:11px;font-weight:700;padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;color:var(--ink-soft);cursor:pointer;transition:all .14s}
+    .map-style-btn:hover{border-color:var(--green);color:var(--green)}
+    .map-style-btn.active{background:var(--green);color:#fff;border-color:transparent}
+    .map-container{position:relative;height:320px}
+    #wigg-country-map{position:absolute;inset:0}
+    .map-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper-2);color:var(--ink-soft);font-size:13px;z-index:10}
+    .map-loading.hidden{display:none}
+    .things-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px}
+    .wg-badge{display:inline-flex;align-items:center;gap:5px;background:#fef3c7;border:1px solid rgba(202,138,4,.3);color:#92400e;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+    .facts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .fact-card{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden}
+    .fact-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green)}
+    .fact-title{font-weight:800;font-size:13px;margin-bottom:6px;color:var(--ink);padding-left:6px}
+    .fact-text{font-size:12.5px;color:var(--ink-soft);line-height:1.55;padding-left:6px}
+    .cmp-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px}
+    .cmp-section h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
+    .cmp-pills{display:flex;flex-wrap:wrap;gap:8px}
+    .cmp-pill{display:inline-block;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:600;color:var(--ink);transition:all .14s}
+    .cmp-pill:hover{border-color:var(--green);background:var(--green);color:#fff;text-decoration:none}
+    @media(max-width:640px){
+      .wrap{padding:18px 14px 60px}
+      .country-head{flex-direction:column}
+      .head-right{align-items:flex-start}
+      .data-table td{padding:9px 14px}
+      .data-table .sec td{padding:11px 14px}
+      .article-card{padding:24px 22px}
+      .things-section{padding:22px 22px}
+      .cmp-section{padding:20px 22px}
+      .map-container{height:240px}
     }
   </style>
 </head>
@@ -92,268 +154,400 @@
 <div id="siteHeader"></div>
 <script src="/data/header.js"></script>
 
-<main>
+<main class="wrap">
   <nav class="crumb"><a href="/">Home</a> › <a href="/globe.html">Countries</a> › Zimbabwe</nav>
 
-  <section class="hero">
-    <div class="hero-flag">🇿🇼</div>
-    <h1>Zimbabwe</h1>
-    <p class="subtitle">Indicative averages (Harare higher; net / month unless stated)</p>
-    <div class="hero-badges">
-      <span class="badge red">WIGG: RED</span>
-      <span class="badge">⭐ Expat Score: 4.0 / 10</span>
+  <div class="country-head">
+    <div>
+      <div class="country-flag">🇿🇼</div>
+      <h1>Zimbabwe</h1>
+      <p class="subtitle">Indicative averages (Harare higher; net / month unless stated)</p>
     </div>
-  </section>
-
-  <section class="snapshot">
-    <h2>Quick snapshot</h2>
-    <div class="snap-grid">
-      <div class="snap-item"><strong>Capital</strong>Harare</div>
-      <div class="snap-item"><strong>Population</strong>~15M</div>
-      <div class="snap-item"><strong>Languages</strong>English, Shona, Ndebele</div>
-      <div class="snap-item"><strong>Driving side</strong>Left</div>
-      <div class="snap-item"><strong>Currency</strong>Zimbabwe dollar (ZWL) / USD</div>
-      <div class="snap-item"><strong>Crypto-friendly</strong>Yes (by necessity)</div>
+    <div class="head-right">
+      <div class="badge red"><span class="dot"></span>WIGG: RED</div>
+      <div class="local-time">Local time <b id="localTime" data-tz="Africa/Harare">--:--</b></div>
     </div>
-  </section>
+  </div>
 
-  <section class="data-card">
-    <h2>Cost of living, salaries &amp; quality of life</h2>
-    <table class="data-table">
-    <tbody>
-      <tr class="sec"><td colspan="3">💼 Salaries (net / month)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧾</span>Minimum wage</td>
-        <td class="val">$70</td>
-        <td class="hint">Min ~ZWG varies (currency reform 2024; est. ~$70 net at official rate)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📊</span>Average salary</td>
-        <td class="val">$210</td>
-        <td class="hint">Est. avg net ~$210/mo formal sector (ZIMSTAT 2024 — Harare higher; USD widely used)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🩺</span>Doctor (GP) salary</td>
-        <td class="val">$600</td>
-        <td class="hint">Public sector (brain drain)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🏠 Housing & utilities (studio reference)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏚️</span>Studio rent</td>
-        <td class="val">$200</td>
-        <td class="hint">Regional cities</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">⚡</span>Electricity</td>
-        <td class="val">$45</td>
-        <td class="hint">outages common; generator varies</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💧</span>Water</td>
-        <td class="val">$10</td>
-        <td class="hint">/ month</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📱</span>Mobile plan</td>
-        <td class="val">$15</td>
-        <td class="hint">~10–30GB (prices volatile)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🍽️ Food & drink (typical prices)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍺</span>Beer (pint)</td>
-        <td class="val">$1.80</td>
-        <td class="hint">Local bar</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☕</span>Coffee</td>
-        <td class="val">$1.00</td>
-        <td class="hint">Regular coffee</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍲</span>Main dish</td>
-        <td class="val">$6</td>
-        <td class="hint">local restaurant</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">⛽ Transport</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">⛽</span>Gasoline / litre</td>
-        <td class="val">$1.60 / L</td>
-        <td class="hint">Supply varies</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🧾 Taxes (indicative)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏷️</span>VAT</td>
-        <td class="val">15%</td>
-        <td class="hint">standard rate</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">👤</span>Income tax</td>
-        <td class="val">~20%</td>
-        <td class="hint">Progressive, mid-bracket</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏪</span>Small business tax</td>
-        <td class="val">~25%</td>
-        <td class="hint">24.7% CIT standard (2025)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📱 Tech (indicative prices)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍎</span>iPhone (latest 256GB)</td>
-        <td class="val">$1,350</td>
-        <td class="hint">import pricing varies</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📲</span>Galaxy S (latest 256GB)</td>
-        <td class="val">$1,050</td>
-        <td class="hint">import pricing varies</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🛂 Moving & immigration</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🛂</span>Immigration-friendly</td>
-        <td class="val">3 / 10</td>
-        <td class="hint">permits vary</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🌤️ Quality of life</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🙂</span>Happiness</td>
-        <td class="val">4.9 / 10</td>
-        <td class="hint">indicative (src: World Happiness Report 2024)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☀️</span>Sunny days / year</td>
-        <td class="val">~300 days / year</td>
-        <td class="hint">indicative (src: Climate data, WMO)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏥</span>Public healthcare</td>
-        <td class="val">Limited</td>
-        <td class="hint">private used when possible</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧑‍⚕️</span>Private insurance / mo</td>
-        <td class="val">$30 / month</td>
-        <td class="hint">example private</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📈 Indices</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🚔</span>Crime Index</td>
-        <td class="val">58 / 100</td>
-        <td class="hint">indicative (src: Numbeo Safety Index 2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💶</span>Purchasing Power</td>
-        <td class="val">35</td>
-        <td class="hint">indicative (src: Numbeo PP Index 2025)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🕍 Religion snapshot</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">✝️</span>Christian</td>
-        <td class="val">~85.9%</td>
-        <td class="hint">indicative</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☪️</span>Muslim</td>
-        <td class="val">~1.0%</td>
-        <td class="hint">indicative</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☸️</span>Buddhist</td>
-        <td class="val">~0%</td>
-        <td class="hint">indicative</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">✡️</span>Jewish</td>
-        <td class="val">~0%</td>
-        <td class="hint">indicative (src: Pew Research / WJC)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🕊️</span>Other / None</td>
-        <td class="val">~13.1%</td>
-        <td class="hint">traditional/none</td>
-      </tr>
-    </tbody>
-    </table>
-  </section>
+  <div class="main-grid">
+    <aside class="sidebar">
+      <div class="card">
+        <img class="hero-img" src="/assets/hero-zimbabwe.jpg" alt="Zimbabwe"
+             onerror="this.onerror=null;this.src='/assets/hero-fallback.jpg'" />
+        <div class="hero-actions">
+          <button class="btn primary" type="button" onclick="openModal('general')">Correct data</button>
+          <button class="btn" type="button" id="btnShare">Share</button>
+          <a class="btn" href="/compare.html?country=zimbabwe">Compare</a>
+        </div>
+      </div>
 
-  <section class="article"><h2>Country overview</h2><h2>🧭 Overview</h2>
-<p>Zimbabwe is southern African nation known for Victoria Falls (shared with Zambia), Great Zimbabwe ruins (medieval stone city), and economic collapse under Robert Mugabe's 37-year rule (1980-2017). Harare is capital. The country was 'breadbasket of Africa' until Mugabe's land reform (2000, seized white farms) destroyed agriculture and triggered hyperinflation (500 billion percent, 2008 — printed Z$100 trillion notes). Emmerson Mnangagwa (Mugabe's VP, took power 2017 coup) continues ZANU-PF authoritarian rule. Economy relies on mining (gold, diamonds, platinum), agriculture (recovering), and remittances. Zimbabwe offers Victoria Falls, wildlife, resilient people, but economic crisis, power cuts, corruption, and authoritarianism create extreme challenges.</p>
-<h2>👥 People & vibe</h2>
-<p>With roughly 15 million people (down from peak — emigration), Zimbabwe is ethnically Shona (~80%), Ndebele (~14%), white (~1%, down from 5% pre-2000), others. English, Shona, Ndebele are official. Christianity dominates (~85%). The culture emphasizes education (literacy is 90%+ — highest in Africa), resilience (survived hyperinflation), and Ubuntu (humanity). Zimbabweans are educated, entrepreneurial (everyone is hustler), and traumatized by Mugabe's legacy. The vibe is survival and hustle. Harare is functional chaos; Bulawayo is Ndebele heartland; Victoria Falls is tourism; rural areas are poverty.</p>
-<h2>🌦️ Climate & landscape</h2>
-<p>Expect subtropical climate: rainy season (Nov-March), dry/cool season (April-Aug, 10-25°C), hot season (Sept-Oct, 25-35°C). The landscape includes Victoria Falls (Zimbabwe side), Eastern Highlands (mountains, tea estates), Hwange National Park (elephants — 40,000+, largest population), Great Zimbabwe ruins, and savannas. Natural beauty is stunning. Air quality is generally good.</p>
-<h2>🏠 Housing & settling in</h2>
-<p>Harare (Borrowdale, Mount Pleasant, Avondale) has minimal expats (most left). Expect negotiable terms. Rents in USD: $500-1,500/month. Quality deteriorated — power cuts daily (18-20 hours common), water shortages, infrastructure collapse. Generators essential. Outside Harare, Victoria Falls has tourism infrastructure. Registration required. Security (walls, guards, electric fences) is standard. Crime is increasing (desperation).</p>
-<h2>💼 Work & economy</h2>
-<p>The economy collapsed (2000s hyperinflation), partially recovered (dollarization 2009-19), collapsed again (2019-present, ZW$ reintroduced, hyperinflation returned). Mining (gold, platinum, diamonds) is 60%+ of exports. For foreigners, opportunities are limited to mining, NGOs, conservation, or tourism. Work permits require employer sponsorship. Salaries in ZW$ are worthless; USD demanded. Unemployment is 90%+ (informal economy). Starting a business is risky (policy uncertainty, currency chaos). Only come with robust support.</p>
-<h2>🛂 Visa & entry</h2>
-<p>Visa on arrival for many nationalities ($30-70). KAZA Univisa for Zambia/Zimbabwe (Victoria Falls). For longer stays, work permits require employer sponsorship. The process is corrupt and bureaucratic. Permanent residence is difficult. Citizenship requires 10+ years residence.</p>
-<h2>🏥 Healthcare</h2>
-<p>Healthcare is catastrophic. Public hospitals have no medicines, equipment, power, or staff (doctors fled — brain drain). Private clinics in Harare offer basic care but supplies are limited. Serious conditions require evacuation to South Africa. Life expectancy is ~61 years (HIV/AIDS 13% prevalence lowered it). International health insurance with South Africa evacuation is essential.</p>
-<h2>🚗 Transport & mobility</h2>
-<p>Harare has kombis (minibuses) — crowded and dangerous. Most expats use drivers. Roads are potholed disasters (no maintenance). Traffic is moderate. Intercity travel is challenging. The country is moderate size. Robert Mugabe Airport (Harare) connects to regional hubs. Domestic flights to Victoria Falls. Driving is hazardous (potholes, police roadblocks seeking bribes).</p>
-<h2>🍛 Food note (national dish)</h2>
-<p>The national dish is <strong>Sadza</strong>: thick maize porridge (like nshima, ugali, pap) served with relish (vegetables, meat, or kapenta — small dried fish). Eaten with hands. Staple food. Zimbabwean cuisine is Southern African — sadza, nyama (grilled meat), influenced by British colonial legacy.</p>
-<h2>🔎 Bottom line</h2>
-<p>Zimbabwe is NOT recommended for general expats or retirees. The economic crisis is severe: hyperinflation returned (2019-present), ZW$ worthless, USD is de facto currency but scarce, power cuts 18-20 hours daily, fuel shortages, food insecurity, 90%+ unemployment (informal economy), corruption endemic, and Mnangagwa's ZANU-PF continues Mugabe's authoritarianism (rigged 2023 election, opposition repressed). Pros: Victoria Falls (spectacular, Zimbabwe side less crowded than Zambia), wildlife (Hwange elephants 40,000+), Great Zimbabwe ruins, educated population. Cons: economic collapse, power cuts (crippling), currency chaos, authoritarianism, poverty, and brain drain. Only come for mining contracts, conservation work, or NGO roles with comprehensive support. The tragedy is profound — 'breadbasket of Africa' became basket case due to Mugabe's misrule. If you must go, prioritize Victoria Falls and wildlife, accept hardship, have USD, generators, and South Africa evacuation plan.</p>
-<p>Expat Score — 4.0 / 10</p></section>
+      <div class="card snapshot-card">
+        <div class="snapshot-title">Quick snapshot</div>
+        <div class="kv"><span>Capital</span><b>Harare</b></div><div class="kv"><span>Population</span><b>~15M</b></div><div class="kv"><span>Languages</span><b>English, Shona, Ndebele</b></div><div class="kv"><span>Currency</span><b>Zimbabwe dollar (ZWL) / USD</b></div><div class="kv kv-sub"><span>Exchange rate</span><b>1 USD ≈ 13,500 ZWL (official, black market much higher)</b></div><div class="kv-note">Currency collapsed again (2019-present). Hyperinflation returned. USD is de facto currency. Multiple currencies circulate. ZW$ is worthless. Total monetary chaos.</div><div class="kv"><span>Crypto-friendly</span><b>Yes (by necessity)</b></div><div class="kv-note">High crypto adoption due to currency collapse and inflation. Many use Bitcoin, USDT to preserve value and transact. Necessity drives adoption.</div><div class="kv"><span>Driving side</span><b>Left</b></div><div class="sector-block"><div class="sector-head">Top sectors</div><div class="sector-list"><div class="sector-pill">Mining (gold, platinum, diamonds)</div><div class="sector-pill">Agriculture (recovering)</div><div class="sector-pill">Tourism (Victoria Falls)</div></div></div>
+      </div>
 
-  <section class="ttk"><h2>Things to know</h2><div class="ttk-grid">
-      <div class="ttk-card">
-        <div class="ttk-title">👤 Robert Mugabe <small>(20th-21st century)</small></div>
-        <p>Liberation hero who became dictator (1980-2017, 37 years). Initially praised, later destroyed economy (land seizures 2000, hyperinflation), crushed opposition (Gukurahundi massacres 1980s killed 20,000 Ndebele), rigged elections. Ousted 2017 coup (army, replaced by VP Mnangagwa). Died 2019. Legacy is economic ruin and authoritarianism.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">💸 Hyperinflation = Z$100 trillion notes</div>
-        <p>2008 hyperinflation peaked at 500 billion percent. Printed Z$100 trillion notes (worthless). Prices doubled daily. Savings evaporated. Dollarization (2009) stabilized. But ZW$ reintroduced (2019), hyperinflation returned (300%+ annually). Currency collapsed again. It&#x27;s monetary madness twice. USD is salvation.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🌾 Land reform = economic suicide</div>
-        <p>Mugabe seized white-owned commercial farms (2000, &#x27;Fast Track&#x27; land reform) and gave land to ZANU-PF supporters. Commercial agriculture collapsed (lack of expertise). &#x27;Breadbasket of Africa&#x27; became food importer. Hyperinflation followed. Economic destruction was self-inflicted. Ideology over economics.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">👔 Mnangagwa = Mugabe 2.0</div>
-        <p>Emmerson Mnangagwa (&#x27;The Crocodile&#x27;) was Mugabe&#x27;s enforcer (Gukurahundi massacres), then VP, then ousted Mugabe (2017 coup disguised as &#x27;resignation&#x27;). Promised change but continued ZANU-PF authoritarianism. Rigged 2023 election. Opposition repressed. Military backs him. It&#x27;s Mugabe without Mugabe.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">⚡ Power cuts = 18-20 hours daily</div>
-        <p>Kariba Dam hydropower insufficient (drought, mismanagement). Hwange coal plant broken (no maintenance). Load shedding 18-20 hours daily is normal. Businesses can&#x27;t operate. Economy is crippled. Infrastructure collapsed. Generators essential. The darkness is literal and metaphorical.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🧠 Brain drain = educated exodus</div>
-        <p>90%+ literacy (highest in Africa) but educated Zimbabweans fled — to South Africa, Botswana, UK, US, Australia. Doctors, nurses, teachers, engineers emigrated. 3M+ Zimbabweans live abroad (20% of population). Remittances sustain those left. The exodus gutted human capital.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🏛️ Great Zimbabwe = medieval mystery</div>
-        <p>Stone ruins (11th-15th century) of medieval Shona city. Dry stone walls, no mortar. UNESCO site. Name Zimbabwe comes from &#x27;Great Zimbabwe&#x27; (dzimba-dza-mabwe — stone houses). Evidence of African civilization refuting colonial racism (&#x27;Africans couldn&#x27;t build this&#x27;). It&#x27;s national pride and identity.</p>
-      </div></div></section>
+      
+        <div class="card persona-card">
+          <div class="snapshot-title">Icon of the country</div>
+          <div class="persona-name">Robert Mugabe <small>(20th-21st century)</small></div>
+          <div class="persona-why">Liberation hero who became dictator (1980-2017, 37 years). Initially praised, later destroyed economy (land seizures 2000, hyperinflation), crushed opposition (Gukurahundi massacres 1980s killed 20,000 Ndebele), rigged elections. Ousted 2017 coup (army, replaced by VP Mnangagwa). Died 2019. Legacy is economic ruin and authoritarianism.</div>
+        </div>
+    </aside>
 
-  
-  
-  
+    <div class="right-col">
+      <div class="rc-wrapper">
+        
+        
+      </div>
 
-  <p style="text-align:center;margin-top:30px"><a href="/globe.html" style="font-weight:600">See all 160+ countries →</a></p>
+      <div class="data-card">
+        <table class="data-table">
+      <tbody>
+        <tr class="sec"><td colspan="4">💼 Salaries (net / month)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧾</span>Minimum wage</td>
+          <td class="val">$70</td>
+          <td class="hint">Min ~ZWG varies (currency reform 2024; est. ~$70 net at official rate)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('min_wage')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📊</span>Average salary</td>
+          <td class="val">$210</td>
+          <td class="hint">Est. avg net ~$210/mo formal sector (ZIMSTAT 2024 — Harare higher; USD widely used)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('avg_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🩺</span>Doctor (GP) salary</td>
+          <td class="val">$600</td>
+          <td class="hint">Public sector (brain drain)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('doctor_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🏠 Housing & utilities (studio reference)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏚️</span>Studio rent</td>
+          <td class="val">$200</td>
+          <td class="hint">Regional cities</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('rent_studio')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">⚡</span>Electricity</td>
+          <td class="val">$45</td>
+          <td class="hint">outages common; generator varies</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('electricity')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💧</span>Water</td>
+          <td class="val">$10</td>
+          <td class="hint">/ month</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('water')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📱</span>Mobile plan</td>
+          <td class="val">$15</td>
+          <td class="hint">~10–30GB (prices volatile)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('mobile')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🍽️ Food & drink (typical prices)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍺</span>Beer (pint)</td>
+          <td class="val">$1.80</td>
+          <td class="hint">Local bar</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('beer')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☕</span>Coffee</td>
+          <td class="val">$1.00</td>
+          <td class="hint">Regular coffee</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('coffee')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍲</span>Main dish</td>
+          <td class="val">$6</td>
+          <td class="hint">local restaurant</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('dish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">⛽ Transport</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">⛽</span>Gasoline / litre</td>
+          <td class="val">$1.60 / L</td>
+          <td class="hint">Supply varies</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('gas')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🧾 Taxes (indicative)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏷️</span>VAT</td>
+          <td class="val">15%</td>
+          <td class="hint">standard rate</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('vat')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">👤</span>Income tax</td>
+          <td class="val">~20%</td>
+          <td class="hint">Progressive, mid-bracket</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('income_tax')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏪</span>Small business tax</td>
+          <td class="val">~25%</td>
+          <td class="hint">24.7% CIT standard (2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('smallbiz')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📱 Tech (indicative prices)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍎</span>iPhone (latest 256GB)</td>
+          <td class="val">$1,350</td>
+          <td class="hint">import pricing varies</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('iphone')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📲</span>Galaxy S (latest 256GB)</td>
+          <td class="val">$1,050</td>
+          <td class="hint">import pricing varies</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('samsung')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🛂 Moving & immigration</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🛂</span>Immigration-friendly</td>
+          <td class="val">3 / 10</td>
+          <td class="hint">permits vary</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('immigration')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🌤️ Quality of life</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🙂</span>Happiness</td>
+          <td class="val">4.9 / 10</td>
+          <td class="hint">indicative (src: World Happiness Report 2024)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('happiness')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☀️</span>Sunny days / year</td>
+          <td class="val">~300 days / year</td>
+          <td class="hint">indicative (src: Climate data, WMO)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('sun')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏥</span>Public healthcare</td>
+          <td class="val">Limited</td>
+          <td class="hint">private used when possible</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('health')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧑‍⚕️</span>Private insurance / mo</td>
+          <td class="val">$30 / month</td>
+          <td class="hint">example private</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('insurance')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📈 Indices</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🚔</span>Crime Index</td>
+          <td class="val">58 / 100</td>
+          <td class="hint">indicative (src: Numbeo Safety Index 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('crime')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💶</span>Purchasing Power</td>
+          <td class="val">35</td>
+          <td class="hint">indicative (src: Numbeo PP Index 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('pp')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🕍 Religion snapshot</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">✝️</span>Christian</td>
+          <td class="val">~85.9%</td>
+          <td class="hint">indicative</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_christian')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☪️</span>Muslim</td>
+          <td class="val">~1.0%</td>
+          <td class="hint">indicative</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_muslim')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☸️</span>Buddhist</td>
+          <td class="val">~0%</td>
+          <td class="hint">indicative</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_buddhist')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">✡️</span>Jewish</td>
+          <td class="val">~0%</td>
+          <td class="hint">indicative (src: Pew Research / WJC)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_jewish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🕊️</span>Other / None</td>
+          <td class="val">~13.1%</td>
+          <td class="hint">traditional/none</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_other')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+        </table>
+      </div>
+
+      
+      <div class="article-card">
+        <div class="section-head">
+          <h2>Living in Zimbabwe</h2>
+          <span class="score-badge"><span class="score-star">⭐</span> Expat Score: 4.0 / 10</span>
+        </div>
+        <div class="article-body"><p>🧭 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Overview</span><br>
+Zimbabwe is southern African nation known for Victoria Falls (shared with Zambia), Great Zimbabwe ruins (medieval stone city), and economic collapse under Robert Mugabe&#x27;s 37-year rule (1980-2017). Harare is capital. The country was &#x27;breadbasket of Africa&#x27; until Mugabe&#x27;s land reform (2000, seized white farms) destroyed agriculture and triggered hyperinflation (500 billion percent, 2008 — printed Z$100 trillion notes). Emmerson Mnangagwa (Mugabe&#x27;s VP, took power 2017 coup) continues ZANU-PF authoritarian rule. Economy relies on mining (gold, diamonds, platinum), agriculture (recovering), and remittances. Zimbabwe offers Victoria Falls, wildlife, resilient people, but economic crisis, power cuts, corruption, and authoritarianism create extreme challenges.</p><p>👥 <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">People &amp; vibe</span><br>
+With roughly 15 million people (down from peak — emigration), Zimbabwe is ethnically Shona (~80%), Ndebele (~14%), white (~1%, down from 5% pre-2000), others. English, Shona, Ndebele are official. Christianity dominates (~85%). The culture emphasizes education (literacy is 90%+ — highest in Africa), resilience (survived hyperinflation), and Ubuntu (humanity). Zimbabweans are educated, entrepreneurial (everyone is hustler), and traumatized by Mugabe&#x27;s legacy. The vibe is survival and hustle. Harare is functional chaos; Bulawayo is Ndebele heartland; Victoria Falls is tourism; rural areas are poverty.</p><p>🌦️ <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Climate &amp; landscape</span><br>
+Expect subtropical climate: rainy season (Nov-March), dry/cool season (April-Aug, 10-25°C), hot season (Sept-Oct, 25-35°C). The landscape includes Victoria Falls (Zimbabwe side), Eastern Highlands (mountains, tea estates), Hwange National Park (elephants — 40,000+, largest population), Great Zimbabwe ruins, and savannas. Natural beauty is stunning. Air quality is generally good.</p><p>🏠 <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Housing &amp; settling in</span><br>
+Harare (Borrowdale, Mount Pleasant, Avondale) has minimal expats (most left). Expect negotiable terms. Rents in USD: $500-1,500/month. Quality deteriorated — power cuts daily (18-20 hours common), water shortages, infrastructure collapse. Generators essential. Outside Harare, Victoria Falls has tourism infrastructure. Registration required. Security (walls, guards, electric fences) is standard. Crime is increasing (desperation).</p><p>💼 <span class="art-tag" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#6d28d9">Work &amp; economy</span><br>
+The economy collapsed (2000s hyperinflation), partially recovered (dollarization 2009-19), collapsed again (2019-present, ZW$ reintroduced, hyperinflation returned). Mining (gold, platinum, diamonds) is 60%+ of exports. For foreigners, opportunities are limited to mining, NGOs, conservation, or tourism. Work permits require employer sponsorship. Salaries in ZW$ are worthless; USD demanded. Unemployment is 90%+ (informal economy). Starting a business is risky (policy uncertainty, currency chaos). Only come with robust support.</p>
+        <div class="map-card">
+          <div class="map-header">
+            <div class="map-title"><span class="map-flag">🇿🇼</span><span>Zimbabwe — Map</span></div>
+            <div class="map-styles">
+              <button type="button" class="map-style-btn active" data-style="light">Light</button>
+              <button type="button" class="map-style-btn" data-style="dark">Dark</button>
+              <button type="button" class="map-style-btn" data-style="satellite">Satellite</button>
+            </div>
+          </div>
+          <div class="map-container">
+            <div id="wigg-country-map"></div>
+            <div class="map-loading" id="wiggMapLoading">Loading map…</div>
+          </div>
+        </div><p>🛂 <span class="art-tag" style="background:rgba(236,72,153,.12);border:1px solid rgba(236,72,153,.25);color:#be185d">Visa &amp; entry</span><br>
+Visa on arrival for many nationalities ($30-70). KAZA Univisa for Zambia/Zimbabwe (Victoria Falls). For longer stays, work permits require employer sponsorship. The process is corrupt and bureaucratic. Permanent residence is difficult. Citizenship requires 10+ years residence.</p><p>🏥 <span class="art-tag" style="background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.25);color:#0e7490">Healthcare</span><br>
+Healthcare is catastrophic. Public hospitals have no medicines, equipment, power, or staff (doctors fled — brain drain). Private clinics in Harare offer basic care but supplies are limited. Serious conditions require evacuation to South Africa. Life expectancy is ~61 years (HIV/AIDS 13% prevalence lowered it). International health insurance with South Africa evacuation is essential.</p><p>🚗 <span class="art-tag" style="background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#c2410c">Transport &amp; mobility</span><br>
+Harare has kombis (minibuses) — crowded and dangerous. Most expats use drivers. Roads are potholed disasters (no maintenance). Traffic is moderate. Intercity travel is challenging. The country is moderate size. Robert Mugabe Airport (Harare) connects to regional hubs. Domestic flights to Victoria Falls. Driving is hazardous (potholes, police roadblocks seeking bribes).</p><p>🍛 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Food note (national dish)</span><br>
+The national dish is <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Sadza</span><br>: thick maize porridge (like nshima, ugali, pap) served with relish (vegetables, meat, or kapenta — small dried fish). Eaten with hands. Staple food. Zimbabwean cuisine is Southern African — sadza, nyama (grilled meat), influenced by British colonial legacy.</p><p>🔎 <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Bottom line</span><br>
+Zimbabwe is NOT recommended for general expats or retirees. The economic crisis is severe: hyperinflation returned (2019-present), ZW$ worthless, USD is de facto currency but scarce, power cuts 18-20 hours daily, fuel shortages, food insecurity, 90%+ unemployment (informal economy), corruption endemic, and Mnangagwa&#x27;s ZANU-PF continues Mugabe&#x27;s authoritarianism (rigged 2023 election, opposition repressed). Pros: Victoria Falls (spectacular, Zimbabwe side less crowded than Zambia), wildlife (Hwange elephants 40,000+), Great Zimbabwe ruins, educated population. Cons: economic collapse, power cuts (crippling), currency chaos, authoritarianism, poverty, and brain drain. Only come for mining contracts, conservation work, or NGO roles with comprehensive support. The tragedy is profound — &#x27;breadbasket of Africa&#x27; became basket case due to Mugabe&#x27;s misrule. If you must go, prioritize Victoria Falls and wildlife, accept hardship, have USD, generators, and South Africa evacuation plan.</p><p>Expat Score — 4.0 / 10</p></div>
+      </div>
+
+      
+      <div class="things-section">
+        <div class="section-head"><h2>Things to know</h2><span class="wg-badge">Must-reads</span></div>
+        <div class="facts-grid"><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">💸 Hyperinflation = Z$100 trillion notes</div><div class="fact-text">2008 hyperinflation peaked at 500 billion percent. Printed Z$100 trillion notes (worthless). Prices doubled daily. Savings evaporated. Dollarization (2009) stabilized. But ZW$ reintroduced (2019), hyperinflation returned (300%+ annually). Currency collapsed again. It&#x27;s monetary madness twice. USD is salvation.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🌾 Land reform = economic suicide</div><div class="fact-text">Mugabe seized white-owned commercial farms (2000, &#x27;Fast Track&#x27; land reform) and gave land to ZANU-PF supporters. Commercial agriculture collapsed (lack of expertise). &#x27;Breadbasket of Africa&#x27; became food importer. Hyperinflation followed. Economic destruction was self-inflicted. Ideology over economics.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">👔 Mnangagwa = Mugabe 2.0</div><div class="fact-text">Emmerson Mnangagwa (&#x27;The Crocodile&#x27;) was Mugabe&#x27;s enforcer (Gukurahundi massacres), then VP, then ousted Mugabe (2017 coup disguised as &#x27;resignation&#x27;). Promised change but continued ZANU-PF authoritarianism. Rigged 2023 election. Opposition repressed. Military backs him. It&#x27;s Mugabe without Mugabe.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">⚡ Power cuts = 18-20 hours daily</div><div class="fact-text">Kariba Dam hydropower insufficient (drought, mismanagement). Hwange coal plant broken (no maintenance). Load shedding 18-20 hours daily is normal. Businesses can&#x27;t operate. Economy is crippled. Infrastructure collapsed. Generators essential. The darkness is literal and metaphorical.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🧠 Brain drain = educated exodus</div><div class="fact-text">90%+ literacy (highest in Africa) but educated Zimbabweans fled — to South Africa, Botswana, UK, US, Australia. Doctors, nurses, teachers, engineers emigrated. 3M+ Zimbabweans live abroad (20% of population). Remittances sustain those left. The exodus gutted human capital.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏛️ Great Zimbabwe = medieval mystery</div><div class="fact-text">Stone ruins (11th-15th century) of medieval Shona city. Dry stone walls, no mortar. UNESCO site. Name Zimbabwe comes from &#x27;Great Zimbabwe&#x27; (dzimba-dza-mabwe — stone houses). Evidence of African civilization refuting colonial racism (&#x27;Africans couldn&#x27;t build this&#x27;). It&#x27;s national pride and identity.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🍽️ Sadza with relish</div><div class="fact-text">Thick maize porridge with vegetables/meat/kapenta — Southern African staple. Simple cuisine. British colonial influence.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏳️‍🌈 LGBT+: Very low / illegal</div><div class="fact-text">Homosexuality is illegal. Mugabe famously condemned LGBTQ+ (&#x27;worse than pigs and dogs&#x27;). Social attitudes are extremely hostile. No protections. Very dangerous.</div></div></div>
+      </div>
+
+      
+    </div>
+  </div>
 </main>
 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
+<script src="/data/share.js"></script>
+<script src="/data/correction-form.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var t = document.getElementById("localTime");
+  if(t && t.dataset.tz){
+    function tick(){
+      try{
+        t.textContent = new Intl.DateTimeFormat("en-GB",{
+          timeZone: t.dataset.tz, hour:"2-digit", minute:"2-digit"
+        }).format(new Date());
+      }catch(e){}
+    }
+    tick(); setInterval(tick, 30000);
+  }
+  document.querySelectorAll(".rc-nav-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var targetId = btn.dataset.target;
+      var dir = parseInt(btn.dataset.dir||"1",10);
+      var row = document.getElementById(targetId);
+      if(!row) return;
+      var box = row.parentElement;
+      var first = row.querySelector(".rc-vcard");
+      if(!first) return;
+      var cardW = first.offsetWidth + 9;
+      var visible = Math.max(1, Math.floor(box.offsetWidth / cardW));
+      var maxOffset = Math.max(0, row.children.length - visible);
+      var current = parseInt(row.dataset.offset||"0", 10);
+      current = Math.min(maxOffset, Math.max(0, current + dir));
+      row.dataset.offset = current;
+      row.style.transform = "translateX(-" + (current * cardW) + "px)";
+      var nav = btn.parentNode;
+      var prev = nav.querySelector('[data-dir="-1"]');
+      var next = nav.querySelector('[data-dir="1"]');
+      if(prev) prev.disabled = (current === 0);
+      if(next) next.disabled = (current >= maxOffset);
+    });
+  });
+  var iso2 = "ZW";
+  if(!iso2 || typeof L === "undefined") return;
+  var STYLES = {
+    light:     { url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", attr: "&copy; OSM &copy; CARTO" },
+    dark:      { url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",  attr: "&copy; OSM &copy; CARTO" },
+    satellite: { url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", attr: "&copy; Esri" }
+  };
+  var wMap=null, wLayer=null, wMarker=null;
+  function initMap(lat, lon){
+    var el = document.getElementById("wigg-country-map");
+    if(!el) return;
+    if(wMap){ try{wMap.remove();}catch(e){} }
+    wMap = L.map("wigg-country-map",{zoomControl:true}).setView([lat,lon],5);
+    wLayer = L.tileLayer(STYLES.light.url,{attribution:STYLES.light.attr,maxZoom:18}).addTo(wMap);
+    wMarker = L.marker([lat,lon]).addTo(wMap);
+    var loading = document.getElementById("wiggMapLoading");
+    if(loading) loading.classList.add("hidden");
+  }
+  document.querySelectorAll(".map-style-btn").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(!wMap) return;
+      var s = STYLES[b.dataset.style];
+      if(!s) return;
+      if(wLayer) wMap.removeLayer(wLayer);
+      wLayer = L.tileLayer(s.url,{attribution:s.attr,maxZoom:18}).addTo(wMap);
+      document.querySelectorAll(".map-style-btn").forEach(function(x){x.classList.remove("active");});
+      b.classList.add("active");
+    });
+  });
+  var cacheKey = "wigg_centroid_" + iso2;
+  var cached = null;
+  try { cached = JSON.parse(localStorage.getItem(cacheKey) || "null"); } catch(e){}
+  if(cached && cached.lat != null && cached.lon != null){
+    initMap(cached.lat, cached.lon); return;
+  }
+  fetch("https://nominatim.openstreetmap.org/search?country=" + encodeURIComponent(iso2) + "&format=json&limit=1")
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && d[0]){
+        var coords = { lat: +d[0].lat, lon: +d[0].lon };
+        try { localStorage.setItem(cacheKey, JSON.stringify(coords)); } catch(e){}
+        initMap(coords.lat, coords.lon);
+      } else {
+        var l = document.getElementById("wiggMapLoading");
+        if(l) l.textContent = "Map unavailable";
+      }
+    })
+    .catch(function(){
+      var l = document.getElementById("wiggMapLoading");
+      if(l) l.textContent = "Map unavailable";
+    });
+})();
+</script>
+
+<form name="wiggmap-corrections" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="wiggmap-corrections" />
+  <p><label>Don't fill this out: <input name="bot-field" /></label></p>
+  <input name="country" /><input name="field" /><input name="value" /><input name="email" /><textarea name="notes"></textarea>
+</form>
+
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
 </body>
 </html>

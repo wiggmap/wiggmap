@@ -25,65 +25,127 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#f6f1e8;--paper:#fffdf8;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--green:#1d7f48;--green-dk:#155f36;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
+    :root{--paper:#fffdf8;--paper-2:#fbf7ee;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--line-soft:rgba(23,23,20,.06);--green:#1d7f48;--green-dk:#155f36;--green-light:#e6f4ec;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
     html{scroll-behavior:smooth}
     body{font-family:"Inter",system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f9f5ed 0%,#f3ede3 100%);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
     a{color:var(--green);text-decoration:none}
     a:hover{text-decoration:underline}
-    main{max-width:980px;margin:0 auto;padding:28px 20px 80px}
-    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:18px;letter-spacing:.04em}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:14px;letter-spacing:.04em}
     .crumb a{color:var(--ink-soft)}
-    .hero{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:36px 32px;box-shadow:var(--shadow);margin-bottom:24px;position:relative;overflow:hidden}
-    .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 18%,rgba(29,127,72,.05),transparent 30%);pointer-events:none}
-    .hero-flag{font-size:48px;line-height:1;margin-bottom:14px}
-    .hero h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(36px,6vw,56px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:10px;position:relative;z-index:1}
-    .hero .subtitle{font-size:15px;color:var(--ink-soft);max-width:62ch;line-height:1.6;position:relative;z-index:1}
-    .hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;position:relative;z-index:1}
-    .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid var(--line)}
-    .badge.green{background:#e6f4ec;color:var(--green-dk);border-color:rgba(29,127,72,.2)}
+    .country-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:22px;flex-wrap:wrap}
+    .country-flag{font-size:42px;line-height:1;margin-bottom:8px}
+    .country-head h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(34px,5.2vw,52px);font-weight:800;letter-spacing:-.02em;line-height:1.02}
+    .country-head .subtitle{font-size:14px;color:var(--ink-soft);max-width:64ch;line-height:1.55;margin-top:8px}
+    .head-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+    .badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:7px 13px;border-radius:999px;background:#fff;border:1px solid var(--line)}
+    .badge.green{background:var(--green-light);color:var(--green-dk);border-color:rgba(29,127,72,.22)}
     .badge.yellow{background:#fef9e7;color:#a16207;border-color:rgba(202,138,4,.25)}
     .badge.red{background:#fdecec;color:#b91c1c;border-color:rgba(185,28,28,.25)}
-    .snapshot{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px 26px;box-shadow:var(--shadow);margin-bottom:24px}
-    .snapshot h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;margin-bottom:14px}
-    .snap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
-    .snap-item{font-size:13px}
-    .snap-item strong{display:block;color:var(--ink-soft);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
-    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
-    .data-card h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;padding:20px 26px 8px}
+    .badge .dot{width:8px;height:8px;border-radius:999px;background:currentColor;display:inline-block}
+    .local-time{font-size:12px;color:var(--ink-soft);font-weight:600}
+    .local-time b{color:var(--ink);margin-left:5px;font-weight:800}
+    .main-grid{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+    @media(max-width:900px){.main-grid{grid-template-columns:1fr}}
+    .sidebar{display:flex;flex-direction:column;gap:14px;align-self:start;position:sticky;top:18px}
+    @media(max-width:900px){.sidebar{position:static}}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .hero-img{width:100%;height:200px;object-fit:cover;display:block;background:#eaddc4}
+    .hero-actions{padding:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:8px;font-family:inherit;font-weight:700;font-size:12.5px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;transition:background .14s,border-color .14s}
+    .btn:hover{background:rgba(0,0,0,.04)}
+    .btn.primary{background:var(--green);color:#fff;border-color:transparent}
+    .btn.primary:hover{background:var(--green-dk)}
+    .snapshot-card{padding:16px}
+    .snapshot-title{font-family:"Fraunces",Georgia,serif;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px;letter-spacing:-.01em}
+    .kv{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--line-soft);font-size:12.5px}
+    .kv span{color:var(--ink-soft)}
+    .kv b{color:var(--ink);font-weight:700;text-align:right;max-width:60%}
+    .kv-sub{padding-left:10px;font-size:11.5px;opacity:.85}
+    .kv-note{font-size:11px;color:var(--ink-soft);line-height:1.5;padding:6px 0 8px;font-style:italic;border-bottom:1px solid var(--line-soft)}
+    .sector-block{padding-top:10px;margin-top:6px;border-top:1px solid var(--line-soft)}
+    .sector-head{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+    .sector-list{display:flex;flex-direction:column;gap:5px}
+    .sector-pill{background:rgba(29,127,72,.08);border:1px solid rgba(29,127,72,.2);border-radius:7px;padding:5px 10px;font-size:11.5px;font-weight:700;color:var(--green-dk);line-height:1.4}
+    .persona-card{padding:16px}
+    .persona-name{font-weight:800;font-size:13px;margin-bottom:6px}
+    .persona-name small{font-weight:500;opacity:.6;font-size:11px}
+    .persona-why{font-size:11.5px;color:var(--ink-soft);line-height:1.55;font-style:italic}
+    .right-col{display:flex;flex-direction:column;gap:18px;min-width:0}
+    .rc-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:760px){.rc-wrapper{grid-template-columns:1fr}}
+    .rc-box{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 14px 12px;overflow:hidden}
+    .rc-box-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:6px}
+    .rc-box-head h2{font-family:"Fraunces",Georgia,serif;font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+    .rc-nav{display:flex;gap:4px}
+    .rc-nav-btn{width:24px;height:24px;border-radius:6px;border:1px solid var(--line);background:#fff;font-size:13px;cursor:pointer;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;line-height:1;transition:all .14s}
+    .rc-nav-btn:hover{background:var(--green);color:#fff;border-color:transparent}
+    .rc-nav-btn:disabled{opacity:.35;cursor:not-allowed}
+    .rc-track{overflow:hidden}
+    .rc-row{display:flex;gap:9px;transition:transform .35s ease;will-change:transform}
+    .rc-vcard{flex-shrink:0;width:130px;height:90px;border-radius:10px;overflow:hidden;position:relative;background:#e9dfca;border:1px solid var(--line);transition:transform .15s,box-shadow .15s}
+    .rc-vcard:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10);text-decoration:none}
+    .rc-vimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .rc-vemoji{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;background:linear-gradient(135deg,#ede5d8,#ddd3c4)}
+    .rc-vgrad{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,8,.85) 0%,rgba(20,15,8,.2) 55%,transparent 100%)}
+    .rc-vbody{position:absolute;left:0;right:0;bottom:0;padding:7px 9px;z-index:2}
+    .rc-vtitle{font-family:"Fraunces",Georgia,serif;font-size:10.5px;font-weight:700;color:#fff;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
     .data-table{width:100%;border-collapse:collapse;font-size:13px}
-    .data-table .sec td{background:#f8f4eb;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:10px 26px;color:var(--ink-soft);border-top:1px solid var(--line)}
-    .data-table td{padding:9px 26px;border-bottom:1px solid var(--line);vertical-align:top}
+    .data-table .sec td{background:#f4eedf;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:11px 22px;color:var(--ink-soft);border-top:1px solid var(--line)}
+    .data-table td{padding:9px 22px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+    .data-table tr:last-child td{border-bottom:none}
     .data-table td.lbl{width:42%;color:var(--ink)}
-    .data-table td.val{width:22%;font-weight:700}
+    .data-table td.val{width:25%;font-weight:700}
     .data-table td.hint{font-size:11.5px;color:var(--ink-soft)}
+    .data-table td.edit{width:30px;text-align:right;padding-right:14px}
     .data-table .ico{margin-right:8px}
-    .article{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px;margin-bottom:24px}
-    .article h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:700;margin:24px 0 10px;color:var(--ink)}
-    .article h2:first-child{margin-top:0}
-    .article p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.75}
-    .article p strong{color:var(--ink);font-weight:600}
-    .ttk{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-bottom:24px}
-    .ttk h2{font-family:"Fraunces",Georgia,serif;font-size:20px;font-weight:700;margin-bottom:16px}
-    .ttk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-    .ttk-card{background:#fbf7ee;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
-    .ttk-card .ttk-title{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink)}
-    .ttk-card p{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
-    .ttk-card small{font-weight:500;color:var(--ink-soft)}
-    .related{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px;margin-bottom:18px}
-    .related h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
-    .link-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px 18px}
-    .link-list li{font-size:13.5px;line-height:1.5;padding-left:14px;position:relative}
-    .link-list li::before{content:"›";position:absolute;left:0;color:var(--green)}
-    @media (max-width:640px){
-      main{padding:20px 14px 60px}
-      .hero{padding:26px 22px}
-      .data-table td{padding:9px 16px}
-      .data-table .sec td{padding:10px 16px}
-      .article{padding:24px 22px}
-      .ttk{padding:22px 22px}
-      .related{padding:20px 22px}
+    .edit-btn{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:13px;opacity:.4;transition:opacity .14s;padding:2px 4px}
+    .edit-btn:hover{opacity:1;color:var(--green)}
+    .article-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px}
+    .section-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+    .section-head h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:800;letter-spacing:-.01em;color:var(--ink)}
+    .score-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-light);border:1px solid rgba(29,127,72,.25);color:var(--green-dk);padding:5px 12px;border-radius:999px;font-size:12px;font-weight:700}
+    .article-body p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.78}
+    .article-body p:last-child{margin-bottom:0}
+    .art-tag{display:inline-block;padding:3px 10px;border-radius:6px;font-weight:700;font-size:13px;margin-bottom:6px;line-height:1.5}
+    .map-card{margin:22px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper-2)}
+    .map-header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);gap:8px;flex-wrap:wrap}
+    .map-title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}
+    .map-flag{font-size:18px}
+    .map-styles{display:flex;gap:4px}
+    .map-style-btn{font-size:11px;font-weight:700;padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;color:var(--ink-soft);cursor:pointer;transition:all .14s}
+    .map-style-btn:hover{border-color:var(--green);color:var(--green)}
+    .map-style-btn.active{background:var(--green);color:#fff;border-color:transparent}
+    .map-container{position:relative;height:320px}
+    #wigg-country-map{position:absolute;inset:0}
+    .map-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper-2);color:var(--ink-soft);font-size:13px;z-index:10}
+    .map-loading.hidden{display:none}
+    .things-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px}
+    .wg-badge{display:inline-flex;align-items:center;gap:5px;background:#fef3c7;border:1px solid rgba(202,138,4,.3);color:#92400e;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+    .facts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .fact-card{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden}
+    .fact-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green)}
+    .fact-title{font-weight:800;font-size:13px;margin-bottom:6px;color:var(--ink);padding-left:6px}
+    .fact-text{font-size:12.5px;color:var(--ink-soft);line-height:1.55;padding-left:6px}
+    .cmp-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px}
+    .cmp-section h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
+    .cmp-pills{display:flex;flex-wrap:wrap;gap:8px}
+    .cmp-pill{display:inline-block;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:600;color:var(--ink);transition:all .14s}
+    .cmp-pill:hover{border-color:var(--green);background:var(--green);color:#fff;text-decoration:none}
+    @media(max-width:640px){
+      .wrap{padding:18px 14px 60px}
+      .country-head{flex-direction:column}
+      .head-right{align-items:flex-start}
+      .data-table td{padding:9px 14px}
+      .data-table .sec td{padding:11px 14px}
+      .article-card{padding:24px 22px}
+      .things-section{padding:22px 22px}
+      .cmp-section{padding:20px 22px}
+      .map-container{height:240px}
     }
   </style>
 </head>
@@ -92,268 +154,410 @@
 <div id="siteHeader"></div>
 <script src="/data/header.js"></script>
 
-<main>
+<main class="wrap">
   <nav class="crumb"><a href="/">Home</a> › <a href="/globe.html">Countries</a> › Panama</nav>
 
-  <section class="hero">
-    <div class="hero-flag">🇵🇦</div>
-    <h1>Panama</h1>
-    <p class="subtitle">Indicative averages (Panama City higher; net / month unless stated)</p>
-    <div class="hero-badges">
-      <span class="badge green">WIGG: GREEN</span>
-      <span class="badge">⭐ Expat Score: 7.0 / 10</span>
+  <div class="country-head">
+    <div>
+      <div class="country-flag">🇵🇦</div>
+      <h1>Panama</h1>
+      <p class="subtitle">Indicative averages (Panama City higher; net / month unless stated)</p>
     </div>
-  </section>
-
-  <section class="snapshot">
-    <h2>Quick snapshot</h2>
-    <div class="snap-grid">
-      <div class="snap-item"><strong>Capital</strong>Panama City</div>
-      <div class="snap-item"><strong>Population</strong>~4.4M</div>
-      <div class="snap-item"><strong>Languages</strong>Spanish, English</div>
-      <div class="snap-item"><strong>Driving side</strong>Right</div>
-      <div class="snap-item"><strong>Currency</strong>US dollar (USD) / Panamanian balboa (PAB)</div>
-      <div class="snap-item"><strong>Crypto-friendly</strong>Yes</div>
+    <div class="head-right">
+      <div class="badge green"><span class="dot"></span>WIGG: GREEN</div>
+      <div class="local-time">Local time <b id="localTime" data-tz="America/Panama">--:--</b></div>
     </div>
-  </section>
+  </div>
 
-  <section class="data-card">
-    <h2>Cost of living, salaries &amp; quality of life</h2>
-    <table class="data-table">
-    <tbody>
-      <tr class="sec"><td colspan="3">💼 Salaries (net / month)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧾</span>Minimum wage</td>
-        <td class="val">$530</td>
-        <td class="hint">Sector-based avg ~$580 gross → net ~$530 (CSS 9.75%; 2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📊</span>Average salary</td>
-        <td class="val">$1,200</td>
-        <td class="hint">Avg net ~$1,200/mo (INEC Panama 2024 — Panama City finance sector drives avg)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🩺</span>Doctor (GP) salary</td>
-        <td class="val">$4,200</td>
-        <td class="hint">Public CSS avg</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🏠 Housing & utilities (studio reference)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏚️</span>Studio rent</td>
-        <td class="val">$720</td>
-        <td class="hint">Outside Panama City</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">⚡</span>Electricity</td>
-        <td class="val">$85</td>
-        <td class="hint">/ month</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💧</span>Water</td>
-        <td class="val">$25</td>
-        <td class="hint">/ month</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📱</span>Mobile plan</td>
-        <td class="val">$22</td>
-        <td class="hint">~20–50GB (C&amp;W/Digicel/Claro)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🍽️ Food & drink (typical prices)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍺</span>Beer (pint)</td>
-        <td class="val">$3.00</td>
-        <td class="hint">Local bar (Balboa/Atlas)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☕</span>Coffee</td>
-        <td class="val">$2.00</td>
-        <td class="hint">Regular café (Geisha famous)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍲</span>Main dish</td>
-        <td class="val">$10</td>
-        <td class="hint">mid-range</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">⛽ Transport</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">⛽</span>Gasoline / litre</td>
-        <td class="val">$0.95 / L</td>
-        <td class="hint">subsidized</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🧾 Taxes (indicative)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏷️</span>VAT</td>
-        <td class="val">7%</td>
-        <td class="hint">ITBMS</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">👤</span>Income tax</td>
-        <td class="val">~15%</td>
-        <td class="hint">Progressive (0-25%), mid-bracket</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏪</span>Small business tax</td>
-        <td class="val">~25%</td>
-        <td class="hint">25% CIT standard</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📱 Tech (indicative prices)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍎</span>iPhone (latest 256GB)</td>
-        <td class="val">$1,350</td>
-        <td class="hint">Panama pricing (USD)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📲</span>Galaxy S (latest 256GB)</td>
-        <td class="val">$1,050</td>
-        <td class="hint">Panama pricing (USD)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🛂 Moving & immigration</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🛂</span>Immigration-friendly</td>
-        <td class="val">8 / 10</td>
-        <td class="hint">Friendly Nations; retiree visas</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🌤️ Quality of life</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🙂</span>Happiness</td>
-        <td class="val">6.8 / 10</td>
-        <td class="hint">indicative (src: World Happiness Report 2024)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☀️</span>Sunny days / year</td>
-        <td class="val">~255 days / year</td>
-        <td class="hint">indicative (tropical) (src: Climate data, WMO)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏥</span>Public healthcare</td>
-        <td class="val">Yes</td>
-        <td class="hint">Public CSS + private excellent</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧑‍⚕️</span>Private insurance / mo</td>
-        <td class="val">$55 / month</td>
-        <td class="hint">example private</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📈 Indices</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🚔</span>Crime Index</td>
-        <td class="val">40 / 100</td>
-        <td class="hint">indicative (urban crime) (src: Numbeo Safety Index 2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💶</span>Purchasing Power</td>
-        <td class="val">80</td>
-        <td class="hint">indicative (src: Numbeo PP Index 2025)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🕍 Religion snapshot</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">✝️</span>Christian</td>
-        <td class="val">~86.6%</td>
-        <td class="hint">indicative (Catholic majority)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☪️</span>Muslim</td>
-        <td class="val">~1.0%</td>
-        <td class="hint">indicative</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☸️</span>Buddhist</td>
-        <td class="val">~0%</td>
-        <td class="hint">indicative</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">✡️</span>Jewish</td>
-        <td class="val">~0.2%</td>
-        <td class="hint">indicative (src: Pew Research / WJC)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🕊️</span>Other / None</td>
-        <td class="val">~12.2%</td>
-        <td class="hint">none/other</td>
-      </tr>
-    </tbody>
-    </table>
-  </section>
+  <div class="main-grid">
+    <aside class="sidebar">
+      <div class="card">
+        <img class="hero-img" src="/assets/hero-panama.jpg" alt="Panama"
+             onerror="this.onerror=null;this.src='/assets/hero-fallback.jpg'" />
+        <div class="hero-actions">
+          <button class="btn primary" type="button" onclick="openModal('general')">Correct data</button>
+          <button class="btn" type="button" id="btnShare">Share</button>
+          <a class="btn" href="/compare.html?country=panama">Compare</a>
+        </div>
+      </div>
 
-  <section class="article"><h2>Country overview</h2><h2>🧭 Overview</h2>
-<p>Panama is a Central American country connecting North and South America, known for Panama Canal (engineering marvel, major revenue source), banking sector (regional financial hub), and biodiversity. Panama City is modern capital with Manhattan-like skyline; Casco Viejo is colonial quarter. The country offers US dollar economy, favorable tax system, retiree programs (Pensionado visa), and strategic location. Economy relies on Canal, banking, logistics, and services. Panama attracts expats and retirees seeking tropical lifestyle with US dollar stability. However, inequality, corruption (Panama Papers 2016), crime, rainy season, and traffic create challenges. It's Central America's economic powerhouse.</p>
-<h2>👥 People & vibe</h2>
-<p>With roughly 4.4 million people, Panama is ethnically diverse: mestizo (~65%), Black/Afro-Panamanian (~15%), white (~10%), indigenous (~7%). Spanish is official; English is spoken (especially in business, Canal Zone legacy). The culture is Latin American with Caribbean and North American influences. Panamanians are friendly, entrepreneurial, and diverse. The vibe is cosmopolitan tropics. Panama City is modern finance hub; Casco Viejo is hipster revival; Bocas del Toro is beach expat haven; interior is rural. Inequality is visible.</p>
-<h2>🌦️ Climate & landscape</h2>
-<p>Expect tropical climate: hot and humid year-round (25-32°C) with rainy season (May-Nov, heavy afternoon downpours) and dry season (Dec-April). The landscape includes two coastlines (Pacific and Caribbean), mountains (highlands are cooler — Boquete, El Valle), rainforests (Darién is dense jungle), and islands (San Blas, Bocas del Toro). Natural beauty is accessible. Biodiversity is exceptional. Air quality is moderate.</p>
-<h2>🏠 Housing & settling in</h2>
-<p>Panama City (Punta Pacifica, Costa del Este, Casco Viejo) attracts expats; Boquete (highlands) and Bocas del Toro (islands) are popular. Expect 1-2 months deposit and annual contracts. Rents: $800-2,000+/month in city; $400-800 in Boquete. Quality is good — modern high-rises in city, houses elsewhere. AC is essential. Outside main areas, options are limited. Buying property is straightforward for foreigners (no restrictions). Registration required. Rainy season flooding can be issue.</p>
-<h2>💼 Work & economy</h2>
-<p>The economy is services-driven: Canal (generates $2.5B+ revenue), banking (regional financial center), logistics (Colón Free Zone), and tourism. For foreigners, opportunities exist in banking, logistics, tech (growing startup scene), tourism, or teaching English. Work permits require employer sponsorship. Pensionado program attracts retirees. Salaries vary: expats earn well ($3k-8k/month); locals earn less. Starting a business is relatively easy. English prevalence (banking, Canal legacy) helps. Territorial tax system (only Panama-sourced income taxed) attracts businesses.</p>
-<h2>🛂 Visa & entry</h2>
-<p>Most nationalities get 180-day tourist visa on arrival. For longer stays, options include Friendly Nations visa (citizens of 50 countries can get residence with $5k investment), Pensionado visa (retirees with $1k/month pension get discounts), or work permits. The process is bureaucratic but accessible. Permanent residence leads to citizenship eligibility after 5 years. Naturalization is achievable — requires Spanish proficiency.</p>
-<h2>🏥 Healthcare</h2>
-<p>Healthcare is two-tier. Public system (CSS) is affordable but crowded. Private hospitals (Hospital Punta Pacifica, affiliated with Johns Hopkins) offer excellent care at reasonable prices. Medical tourism attracts North Americans (dentistry, cosmetic surgery, procedures). Life expectancy is ~79 years. International insurance or private insurance recommended. Prescription drugs are affordable. Quality in Panama City is good; rural areas are basic.</p>
-<h2>🚗 Transport & mobility</h2>
-<p>Panama City has metro (2 lines, expanding), buses, and Uber. Traffic is terrible — congestion, aggressive driving. Most expats drive or use Uber. Roads in cities are decent; Pan-American Highway connects interior. Darién Gap (no road between Panama and Colombia — jungle) is notorious. Domestic flights connect interior and islands. Tocumen International Airport is major hub for Latin America. Regional travel is easy.</p>
-<h2>🍛 Food note (national dish)</h2>
-<p>The national dish is <strong>Sancocho</strong>: chicken soup with yuca, corn, plantains, cilantro. It's comfort food served at family gatherings. Alternatively, <strong>Ceviche</strong> or <strong>Ropa Vieja</strong> (shredded beef). Panamanian cuisine is Latin American with Caribbean influences. Seafood is excellent. International food is widely available in Panama City.</p>
-<h2>🔎 Bottom line</h2>
-<p>Panama suits retirees (Pensionado program offers discounts), digital nomads, expats seeking Latin America with US dollar stability, families, and investors. Pros: US dollar (no currency risk), Canal revenue creates wealth, banking hub, strategic location, biodiversity, Friendly Nations and Pensionado visa programs, and improving infrastructure. Cons: inequality (stark), corruption (Panama Papers exposed offshore industry), crime (especially Panama City), traffic chaos, rainy season (6+ months), and hot/humid climate. Panama City is modern but congested; Boquete offers mountain escape; beaches attract tourists. Best for those seeking tropical Latin American lifestyle with dollar stability and willing to accept inequality and corruption. Spanish essential for integration. If you want Central America's most developed economy with mountains, beaches, and no currency risk, Panama delivers.</p>
-<p>Expat Score — 7.0 / 10</p></section>
+      <div class="card snapshot-card">
+        <div class="snapshot-title">Quick snapshot</div>
+        <div class="kv"><span>Capital</span><b>Panama City</b></div><div class="kv"><span>Population</span><b>~4.4M</b></div><div class="kv"><span>Languages</span><b>Spanish, English</b></div><div class="kv"><span>Currency</span><b>US dollar (USD) / Panamanian balboa (PAB)</b></div><div class="kv kv-sub"><span>Exchange rate</span><b>1 USD = 1 PAB</b></div><div class="kv-note">Uses US dollar as official currency (since 1904). No exchange rate risk. Balboa coins exist but dollar bills circulate.</div><div class="kv"><span>Crypto-friendly</span><b>Yes</b></div><div class="kv-note">Crypto-friendly. Law recognizes crypto (2021). Growing adoption. El Salvador neighbor influenced policy. Clear regulations developing.</div><div class="kv"><span>Driving side</span><b>Right</b></div><div class="sector-block"><div class="sector-head">Top sectors</div><div class="sector-list"><div class="sector-pill">Panama Canal operations</div><div class="sector-pill">Banking &amp; financial services</div><div class="sector-pill">Logistics &amp; free trade zone</div></div></div>
+      </div>
 
-  <section class="ttk"><h2>Things to know</h2><div class="ttk-grid">
-      <div class="ttk-card">
-        <div class="ttk-title">👤 Omar Torrijos <small>(20th century)</small></div>
-        <p>Military leader (1968-81) who negotiated Torrijos-Carter Treaties (1977) transferring Canal from US to Panama (completed 1999). Populist dictator who improved rural infrastructure. Died in plane crash (1981). National hero for Canal sovereignty.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🚢 Panama Canal = economic lifeline</div>
-        <p>Connects Atlantic and Pacific, handles 6% of world trade. Generates $2.5B+ revenue annually. Expanded in 2016 to handle Neopanamax ships. It&#x27;s economic foundation and national pride. US controlled 1904-99; Panama took over. Revenue funds development.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">💼 Panama Papers (2016) = offshore capital</div>
-        <p>Massive leak exposed Panama&#x27;s offshore banking industry — shell companies, tax evasion, money laundering for global elite. Mossack Fonseca law firm at center. It confirmed Panama&#x27;s role as financial secrecy jurisdiction. Reputation damaged but industry continues.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🏖️ Bocas del Toro = expat island life</div>
-        <p>Caribbean islands with beaches, diving, reggae vibe. Popular with backpackers, expats, retirees. Cost of living lower than city. However, tourism strain and overdevelopment threaten character. Power cuts, water issues are common. It&#x27;s laid-back tropical escape.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🏔️ Boquete = mountain retiree haven</div>
-        <p>Highland town (1,200m altitude) with eternal spring climate, coffee plantations, and large expat community (especially North American retirees). Pensionado visa offers discounts (25% off restaurants, 50% off entertainment). It&#x27;s Panama&#x27;s top expat destination outside city.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🌳 Darién Gap = impenetrable jungle</div>
-        <p>100km of roadless jungle between Panama and Colombia — only break in Pan-American Highway (Alaska to Argentina). Dense rainforest, swamps, dangerous. Migrants trying to reach US traverse it (many die). It&#x27;s one of world&#x27;s most dangerous jungles. No infrastructure.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">💵 USD economy = stability</div>
-        <p>Panama uses US dollar since 1904 (no central bank, no monetary policy). This creates price stability, attracts investment, but also means no ability to devalue during crisis. It&#x27;s rare for non-US territory. The dollar is both benefit and constraint.</p>
-      </div></div></section>
+      
+        <div class="card persona-card">
+          <div class="snapshot-title">Icon of the country</div>
+          <div class="persona-name">Omar Torrijos <small>(20th century)</small></div>
+          <div class="persona-why">Military leader (1968-81) who negotiated Torrijos-Carter Treaties (1977) transferring Canal from US to Panama (completed 1999). Populist dictator who improved rural infrastructure. Died in plane crash (1981). National hero for Canal sovereignty.</div>
+        </div>
+    </aside>
 
-  
-  <section class="related"><h2>Related chronicles</h2><ul class="link-list"><li><a href="/chronicles/chronicle-ameriques-partie1-en.html">Panama, Costa Rica, Puerto Rico — The Americas Expat 2026 Part 1</a></li><li><a href="/chronicles/chronicle-ameriques-partie2-en.html">St. Kitts, Bahamas, Antigua — Zero Tax 2026 Part 2</a></li><li><a href="/chronicles/chronicle-ameriques-partie3-en.html">Anguilla, BVI, Sint Maarten — Offshore 2026 Part 3</a></li><li><a href="/chronicles/chronicle-property-abroad-2026-en.html">Buying Property Abroad — What Foreigners Actually Own</a></li></ul></section>
-  <section class="related"><h2>Country comparisons</h2><ul class="link-list"><li><a href="/compare/static/panama-vs-colombia/">Panama vs Colombia</a></li><li><a href="/compare/static/panama-vs-costa-rica/">Panama vs Costa Rica</a></li><li><a href="/compare/static/panama-vs-mexico/">Panama vs Mexico</a></li><li><a href="/compare/static/portugal-vs-panama/">Panama vs Portugal</a></li><li><a href="/compare/static/thailand-vs-panama/">Panama vs Thailand</a></li></ul></section>
+    <div class="right-col">
+      <div class="rc-wrapper">
+        
+        <div class="rc-box">
+          <div class="rc-box-head">
+            <h2>Related chronicles</h2>
+            <div class="rc-nav">
+              <button class="rc-nav-btn" data-target="rc-list" data-dir="-1" aria-label="Previous">&#8249;</button>
+              <button class="rc-nav-btn" data-target="rc-list" data-dir="1" aria-label="Next">&#8250;</button>
+            </div>
+          </div>
+          <div class="rc-track"><div id="rc-list" class="rc-row"><a class="rc-vcard" href="/chronicles/chronicle-ameriques-partie1-en.html"><img class="rc-vimg" src="/assets/hero-panama.jpg" alt="Panama, Costa Rica, Puerto Rico — The Americas Expat 2026 Part 1" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">📄</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Panama, Costa Rica, Puerto Rico — The Americas Expat 2026 Part 1</div></div></a><a class="rc-vcard" href="/chronicles/chronicle-ameriques-partie2-en.html"><img class="rc-vimg" src="/assets/hero-bahamas.jpg" alt="St. Kitts, Bahamas, Antigua — Zero Tax 2026 Part 2" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">📄</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">St. Kitts, Bahamas, Antigua — Zero Tax 2026 Part 2</div></div></a><a class="rc-vcard" href="/chronicles/chronicle-ameriques-partie3-en.html"><img class="rc-vimg" src="/assets/hero-bahamas.jpg" alt="Anguilla, BVI, Sint Maarten — Offshore 2026 Part 3" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">📄</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Anguilla, BVI, Sint Maarten — Offshore 2026 Part 3</div></div></a><a class="rc-vcard" href="/chronicles/chronicle-property-abroad-2026-en.html"><img class="rc-vimg" src="/assets/hero-portugal.jpg" alt="Buying Property Abroad — What Foreigners Actually Own" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">📄</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Buying Property Abroad — What Foreigners Actually Own</div></div></a></div></div>
+        </div>
+        
+      </div>
 
-  <p style="text-align:center;margin-top:30px"><a href="/globe.html" style="font-weight:600">See all 160+ countries →</a></p>
+      <div class="data-card">
+        <table class="data-table">
+      <tbody>
+        <tr class="sec"><td colspan="4">💼 Salaries (net / month)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧾</span>Minimum wage</td>
+          <td class="val">$530</td>
+          <td class="hint">Sector-based avg ~$580 gross → net ~$530 (CSS 9.75%; 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('min_wage')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📊</span>Average salary</td>
+          <td class="val">$1,200</td>
+          <td class="hint">Avg net ~$1,200/mo (INEC Panama 2024 — Panama City finance sector drives avg)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('avg_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🩺</span>Doctor (GP) salary</td>
+          <td class="val">$4,200</td>
+          <td class="hint">Public CSS avg</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('doctor_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🏠 Housing & utilities (studio reference)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏚️</span>Studio rent</td>
+          <td class="val">$720</td>
+          <td class="hint">Outside Panama City</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('rent_studio')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">⚡</span>Electricity</td>
+          <td class="val">$85</td>
+          <td class="hint">/ month</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('electricity')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💧</span>Water</td>
+          <td class="val">$25</td>
+          <td class="hint">/ month</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('water')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📱</span>Mobile plan</td>
+          <td class="val">$22</td>
+          <td class="hint">~20–50GB (C&amp;W/Digicel/Claro)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('mobile')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🍽️ Food & drink (typical prices)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍺</span>Beer (pint)</td>
+          <td class="val">$3.00</td>
+          <td class="hint">Local bar (Balboa/Atlas)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('beer')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☕</span>Coffee</td>
+          <td class="val">$2.00</td>
+          <td class="hint">Regular café (Geisha famous)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('coffee')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍲</span>Main dish</td>
+          <td class="val">$10</td>
+          <td class="hint">mid-range</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('dish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">⛽ Transport</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">⛽</span>Gasoline / litre</td>
+          <td class="val">$0.95 / L</td>
+          <td class="hint">subsidized</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('gas')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🧾 Taxes (indicative)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏷️</span>VAT</td>
+          <td class="val">7%</td>
+          <td class="hint">ITBMS</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('vat')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">👤</span>Income tax</td>
+          <td class="val">~15%</td>
+          <td class="hint">Progressive (0-25%), mid-bracket</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('income_tax')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏪</span>Small business tax</td>
+          <td class="val">~25%</td>
+          <td class="hint">25% CIT standard</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('smallbiz')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📱 Tech (indicative prices)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍎</span>iPhone (latest 256GB)</td>
+          <td class="val">$1,350</td>
+          <td class="hint">Panama pricing (USD)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('iphone')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📲</span>Galaxy S (latest 256GB)</td>
+          <td class="val">$1,050</td>
+          <td class="hint">Panama pricing (USD)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('samsung')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🛂 Moving & immigration</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🛂</span>Immigration-friendly</td>
+          <td class="val">8 / 10</td>
+          <td class="hint">Friendly Nations; retiree visas</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('immigration')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🌤️ Quality of life</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🙂</span>Happiness</td>
+          <td class="val">6.8 / 10</td>
+          <td class="hint">indicative (src: World Happiness Report 2024)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('happiness')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☀️</span>Sunny days / year</td>
+          <td class="val">~255 days / year</td>
+          <td class="hint">indicative (tropical) (src: Climate data, WMO)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('sun')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏥</span>Public healthcare</td>
+          <td class="val">Yes</td>
+          <td class="hint">Public CSS + private excellent</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('health')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧑‍⚕️</span>Private insurance / mo</td>
+          <td class="val">$55 / month</td>
+          <td class="hint">example private</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('insurance')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📈 Indices</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🚔</span>Crime Index</td>
+          <td class="val">40 / 100</td>
+          <td class="hint">indicative (urban crime) (src: Numbeo Safety Index 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('crime')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💶</span>Purchasing Power</td>
+          <td class="val">80</td>
+          <td class="hint">indicative (src: Numbeo PP Index 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('pp')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🕍 Religion snapshot</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">✝️</span>Christian</td>
+          <td class="val">~86.6%</td>
+          <td class="hint">indicative (Catholic majority)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_christian')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☪️</span>Muslim</td>
+          <td class="val">~1.0%</td>
+          <td class="hint">indicative</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_muslim')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☸️</span>Buddhist</td>
+          <td class="val">~0%</td>
+          <td class="hint">indicative</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_buddhist')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">✡️</span>Jewish</td>
+          <td class="val">~0.2%</td>
+          <td class="hint">indicative (src: Pew Research / WJC)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_jewish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🕊️</span>Other / None</td>
+          <td class="val">~12.2%</td>
+          <td class="hint">none/other</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_other')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+        </table>
+      </div>
+
+      
+      <div class="article-card">
+        <div class="section-head">
+          <h2>Living in Panama</h2>
+          <span class="score-badge"><span class="score-star">⭐</span> Expat Score: 7.0 / 10</span>
+        </div>
+        <div class="article-body"><p>🧭 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Overview</span><br>
+Panama is a Central American country connecting North and South America, known for Panama Canal (engineering marvel, major revenue source), banking sector (regional financial hub), and biodiversity. Panama City is modern capital with Manhattan-like skyline; Casco Viejo is colonial quarter. The country offers US dollar economy, favorable tax system, retiree programs (Pensionado visa), and strategic location. Economy relies on Canal, banking, logistics, and services. Panama attracts expats and retirees seeking tropical lifestyle with US dollar stability. However, inequality, corruption (Panama Papers 2016), crime, rainy season, and traffic create challenges. It&#x27;s Central America&#x27;s economic powerhouse.</p><p>👥 <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">People &amp; vibe</span><br>
+With roughly 4.4 million people, Panama is ethnically diverse: mestizo (~65%), Black/Afro-Panamanian (~15%), white (~10%), indigenous (~7%). Spanish is official; English is spoken (especially in business, Canal Zone legacy). The culture is Latin American with Caribbean and North American influences. Panamanians are friendly, entrepreneurial, and diverse. The vibe is cosmopolitan tropics. Panama City is modern finance hub; Casco Viejo is hipster revival; Bocas del Toro is beach expat haven; interior is rural. Inequality is visible.</p><p>🌦️ <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Climate &amp; landscape</span><br>
+Expect tropical climate: hot and humid year-round (25-32°C) with rainy season (May-Nov, heavy afternoon downpours) and dry season (Dec-April). The landscape includes two coastlines (Pacific and Caribbean), mountains (highlands are cooler — Boquete, El Valle), rainforests (Darién is dense jungle), and islands (San Blas, Bocas del Toro). Natural beauty is accessible. Biodiversity is exceptional. Air quality is moderate.</p><p>🏠 <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Housing &amp; settling in</span><br>
+Panama City (Punta Pacifica, Costa del Este, Casco Viejo) attracts expats; Boquete (highlands) and Bocas del Toro (islands) are popular. Expect 1-2 months deposit and annual contracts. Rents: $800-2,000+/month in city; $400-800 in Boquete. Quality is good — modern high-rises in city, houses elsewhere. AC is essential. Outside main areas, options are limited. Buying property is straightforward for foreigners (no restrictions). Registration required. Rainy season flooding can be issue.</p><p>💼 <span class="art-tag" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#6d28d9">Work &amp; economy</span><br>
+The economy is services-driven: Canal (generates $2.5B+ revenue), banking (regional financial center), logistics (Colón Free Zone), and tourism. For foreigners, opportunities exist in banking, logistics, tech (growing startup scene), tourism, or teaching English. Work permits require employer sponsorship. Pensionado program attracts retirees. Salaries vary: expats earn well ($3k-8k/month); locals earn less. Starting a business is relatively easy. English prevalence (banking, Canal legacy) helps. Territorial tax system (only Panama-sourced income taxed) attracts businesses.</p>
+        <div class="map-card">
+          <div class="map-header">
+            <div class="map-title"><span class="map-flag">🇵🇦</span><span>Panama — Map</span></div>
+            <div class="map-styles">
+              <button type="button" class="map-style-btn active" data-style="light">Light</button>
+              <button type="button" class="map-style-btn" data-style="dark">Dark</button>
+              <button type="button" class="map-style-btn" data-style="satellite">Satellite</button>
+            </div>
+          </div>
+          <div class="map-container">
+            <div id="wigg-country-map"></div>
+            <div class="map-loading" id="wiggMapLoading">Loading map…</div>
+          </div>
+        </div><p>🛂 <span class="art-tag" style="background:rgba(236,72,153,.12);border:1px solid rgba(236,72,153,.25);color:#be185d">Visa &amp; entry</span><br>
+Most nationalities get 180-day tourist visa on arrival. For longer stays, options include Friendly Nations visa (citizens of 50 countries can get residence with $5k investment), Pensionado visa (retirees with $1k/month pension get discounts), or work permits. The process is bureaucratic but accessible. Permanent residence leads to citizenship eligibility after 5 years. Naturalization is achievable — requires Spanish proficiency.</p><p>🏥 <span class="art-tag" style="background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.25);color:#0e7490">Healthcare</span><br>
+Healthcare is two-tier. Public system (CSS) is affordable but crowded. Private hospitals (Hospital Punta Pacifica, affiliated with Johns Hopkins) offer excellent care at reasonable prices. Medical tourism attracts North Americans (dentistry, cosmetic surgery, procedures). Life expectancy is ~79 years. International insurance or private insurance recommended. Prescription drugs are affordable. Quality in Panama City is good; rural areas are basic.</p><p>🚗 <span class="art-tag" style="background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#c2410c">Transport &amp; mobility</span><br>
+Panama City has metro (2 lines, expanding), buses, and Uber. Traffic is terrible — congestion, aggressive driving. Most expats drive or use Uber. Roads in cities are decent; Pan-American Highway connects interior. Darién Gap (no road between Panama and Colombia — jungle) is notorious. Domestic flights connect interior and islands. Tocumen International Airport is major hub for Latin America. Regional travel is easy.</p><p>🍛 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Food note (national dish)</span><br>
+The national dish is <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Sancocho</span><br>: chicken soup with yuca, corn, plantains, cilantro. It&#x27;s comfort food served at family gatherings. Alternatively, <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Ceviche</span><br> or <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Ropa Vieja</span><br> (shredded beef). Panamanian cuisine is Latin American with Caribbean influences. Seafood is excellent. International food is widely available in Panama City.</p><p>🔎 <span class="art-tag" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#6d28d9">Bottom line</span><br>
+Panama suits retirees (Pensionado program offers discounts), digital nomads, expats seeking Latin America with US dollar stability, families, and investors. Pros: US dollar (no currency risk), Canal revenue creates wealth, banking hub, strategic location, biodiversity, Friendly Nations and Pensionado visa programs, and improving infrastructure. Cons: inequality (stark), corruption (Panama Papers exposed offshore industry), crime (especially Panama City), traffic chaos, rainy season (6+ months), and hot/humid climate. Panama City is modern but congested; Boquete offers mountain escape; beaches attract tourists. Best for those seeking tropical Latin American lifestyle with dollar stability and willing to accept inequality and corruption. Spanish essential for integration. If you want Central America&#x27;s most developed economy with mountains, beaches, and no currency risk, Panama delivers.</p><p>Expat Score — 7.0 / 10</p></div>
+      </div>
+
+      
+      <div class="things-section">
+        <div class="section-head"><h2>Things to know</h2><span class="wg-badge">Must-reads</span></div>
+        <div class="facts-grid"><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🚢 Panama Canal = economic lifeline</div><div class="fact-text">Connects Atlantic and Pacific, handles 6% of world trade. Generates $2.5B+ revenue annually. Expanded in 2016 to handle Neopanamax ships. It&#x27;s economic foundation and national pride. US controlled 1904-99; Panama took over. Revenue funds development.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">💼 Panama Papers (2016) = offshore capital</div><div class="fact-text">Massive leak exposed Panama&#x27;s offshore banking industry — shell companies, tax evasion, money laundering for global elite. Mossack Fonseca law firm at center. It confirmed Panama&#x27;s role as financial secrecy jurisdiction. Reputation damaged but industry continues.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏖️ Bocas del Toro = expat island life</div><div class="fact-text">Caribbean islands with beaches, diving, reggae vibe. Popular with backpackers, expats, retirees. Cost of living lower than city. However, tourism strain and overdevelopment threaten character. Power cuts, water issues are common. It&#x27;s laid-back tropical escape.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏔️ Boquete = mountain retiree haven</div><div class="fact-text">Highland town (1,200m altitude) with eternal spring climate, coffee plantations, and large expat community (especially North American retirees). Pensionado visa offers discounts (25% off restaurants, 50% off entertainment). It&#x27;s Panama&#x27;s top expat destination outside city.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🌳 Darién Gap = impenetrable jungle</div><div class="fact-text">100km of roadless jungle between Panama and Colombia — only break in Pan-American Highway (Alaska to Argentina). Dense rainforest, swamps, dangerous. Migrants trying to reach US traverse it (many die). It&#x27;s one of world&#x27;s most dangerous jungles. No infrastructure.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">💵 USD economy = stability</div><div class="fact-text">Panama uses US dollar since 1904 (no central bank, no monetary policy). This creates price stability, attracts investment, but also means no ability to devalue during crisis. It&#x27;s rare for non-US territory. The dollar is both benefit and constraint.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🍽️ Sancocho / Ceviche</div><div class="fact-text">Chicken soup with yuca or ceviche — Latin American/Caribbean cuisine. Seafood is excellent. International food widely available.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏳️‍🌈 LGBT+: Moderate</div><div class="fact-text">Homosexuality is legal. Social attitudes are improving, especially in Panama City. No same-sex marriage but some protections. Panama City has LGBTQ+ scene. More accepting than regional neighbors.</div></div></div>
+      </div>
+
+      <section class="cmp-section"><h2>Country comparisons</h2><div class="cmp-pills"><a class="cmp-pill" href="/compare/static/panama-vs-colombia/">Panama vs Colombia</a><a class="cmp-pill" href="/compare/static/panama-vs-costa-rica/">Panama vs Costa Rica</a><a class="cmp-pill" href="/compare/static/panama-vs-mexico/">Panama vs Mexico</a><a class="cmp-pill" href="/compare/static/portugal-vs-panama/">Panama vs Portugal</a><a class="cmp-pill" href="/compare/static/thailand-vs-panama/">Panama vs Thailand</a></div></section>
+    </div>
+  </div>
 </main>
 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
+<script src="/data/share.js"></script>
+<script src="/data/correction-form.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var t = document.getElementById("localTime");
+  if(t && t.dataset.tz){
+    function tick(){
+      try{
+        t.textContent = new Intl.DateTimeFormat("en-GB",{
+          timeZone: t.dataset.tz, hour:"2-digit", minute:"2-digit"
+        }).format(new Date());
+      }catch(e){}
+    }
+    tick(); setInterval(tick, 30000);
+  }
+  document.querySelectorAll(".rc-nav-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var targetId = btn.dataset.target;
+      var dir = parseInt(btn.dataset.dir||"1",10);
+      var row = document.getElementById(targetId);
+      if(!row) return;
+      var box = row.parentElement;
+      var first = row.querySelector(".rc-vcard");
+      if(!first) return;
+      var cardW = first.offsetWidth + 9;
+      var visible = Math.max(1, Math.floor(box.offsetWidth / cardW));
+      var maxOffset = Math.max(0, row.children.length - visible);
+      var current = parseInt(row.dataset.offset||"0", 10);
+      current = Math.min(maxOffset, Math.max(0, current + dir));
+      row.dataset.offset = current;
+      row.style.transform = "translateX(-" + (current * cardW) + "px)";
+      var nav = btn.parentNode;
+      var prev = nav.querySelector('[data-dir="-1"]');
+      var next = nav.querySelector('[data-dir="1"]');
+      if(prev) prev.disabled = (current === 0);
+      if(next) next.disabled = (current >= maxOffset);
+    });
+  });
+  var iso2 = "PA";
+  if(!iso2 || typeof L === "undefined") return;
+  var STYLES = {
+    light:     { url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", attr: "&copy; OSM &copy; CARTO" },
+    dark:      { url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",  attr: "&copy; OSM &copy; CARTO" },
+    satellite: { url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", attr: "&copy; Esri" }
+  };
+  var wMap=null, wLayer=null, wMarker=null;
+  function initMap(lat, lon){
+    var el = document.getElementById("wigg-country-map");
+    if(!el) return;
+    if(wMap){ try{wMap.remove();}catch(e){} }
+    wMap = L.map("wigg-country-map",{zoomControl:true}).setView([lat,lon],5);
+    wLayer = L.tileLayer(STYLES.light.url,{attribution:STYLES.light.attr,maxZoom:18}).addTo(wMap);
+    wMarker = L.marker([lat,lon]).addTo(wMap);
+    var loading = document.getElementById("wiggMapLoading");
+    if(loading) loading.classList.add("hidden");
+  }
+  document.querySelectorAll(".map-style-btn").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(!wMap) return;
+      var s = STYLES[b.dataset.style];
+      if(!s) return;
+      if(wLayer) wMap.removeLayer(wLayer);
+      wLayer = L.tileLayer(s.url,{attribution:s.attr,maxZoom:18}).addTo(wMap);
+      document.querySelectorAll(".map-style-btn").forEach(function(x){x.classList.remove("active");});
+      b.classList.add("active");
+    });
+  });
+  var cacheKey = "wigg_centroid_" + iso2;
+  var cached = null;
+  try { cached = JSON.parse(localStorage.getItem(cacheKey) || "null"); } catch(e){}
+  if(cached && cached.lat != null && cached.lon != null){
+    initMap(cached.lat, cached.lon); return;
+  }
+  fetch("https://nominatim.openstreetmap.org/search?country=" + encodeURIComponent(iso2) + "&format=json&limit=1")
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && d[0]){
+        var coords = { lat: +d[0].lat, lon: +d[0].lon };
+        try { localStorage.setItem(cacheKey, JSON.stringify(coords)); } catch(e){}
+        initMap(coords.lat, coords.lon);
+      } else {
+        var l = document.getElementById("wiggMapLoading");
+        if(l) l.textContent = "Map unavailable";
+      }
+    })
+    .catch(function(){
+      var l = document.getElementById("wiggMapLoading");
+      if(l) l.textContent = "Map unavailable";
+    });
+})();
+</script>
+
+<form name="wiggmap-corrections" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="wiggmap-corrections" />
+  <p><label>Don't fill this out: <input name="bot-field" /></label></p>
+  <input name="country" /><input name="field" /><input name="value" /><input name="email" /><textarea name="notes"></textarea>
+</form>
+
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
 </body>
 </html>

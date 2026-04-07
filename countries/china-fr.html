@@ -25,65 +25,127 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#f6f1e8;--paper:#fffdf8;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--green:#1d7f48;--green-dk:#155f36;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
+    :root{--paper:#fffdf8;--paper-2:#fbf7ee;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--line-soft:rgba(23,23,20,.06);--green:#1d7f48;--green-dk:#155f36;--green-light:#e6f4ec;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
     html{scroll-behavior:smooth}
     body{font-family:"Inter",system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f9f5ed 0%,#f3ede3 100%);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
     a{color:var(--green);text-decoration:none}
     a:hover{text-decoration:underline}
-    main{max-width:980px;margin:0 auto;padding:28px 20px 80px}
-    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:18px;letter-spacing:.04em}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:14px;letter-spacing:.04em}
     .crumb a{color:var(--ink-soft)}
-    .hero{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:36px 32px;box-shadow:var(--shadow);margin-bottom:24px;position:relative;overflow:hidden}
-    .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 18%,rgba(29,127,72,.05),transparent 30%);pointer-events:none}
-    .hero-flag{font-size:48px;line-height:1;margin-bottom:14px}
-    .hero h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(36px,6vw,56px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:10px;position:relative;z-index:1}
-    .hero .subtitle{font-size:15px;color:var(--ink-soft);max-width:62ch;line-height:1.6;position:relative;z-index:1}
-    .hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;position:relative;z-index:1}
-    .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid var(--line)}
-    .badge.green{background:#e6f4ec;color:var(--green-dk);border-color:rgba(29,127,72,.2)}
+    .country-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:22px;flex-wrap:wrap}
+    .country-flag{font-size:42px;line-height:1;margin-bottom:8px}
+    .country-head h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(34px,5.2vw,52px);font-weight:800;letter-spacing:-.02em;line-height:1.02}
+    .country-head .subtitle{font-size:14px;color:var(--ink-soft);max-width:64ch;line-height:1.55;margin-top:8px}
+    .head-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+    .badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:7px 13px;border-radius:999px;background:#fff;border:1px solid var(--line)}
+    .badge.green{background:var(--green-light);color:var(--green-dk);border-color:rgba(29,127,72,.22)}
     .badge.yellow{background:#fef9e7;color:#a16207;border-color:rgba(202,138,4,.25)}
     .badge.red{background:#fdecec;color:#b91c1c;border-color:rgba(185,28,28,.25)}
-    .snapshot{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px 26px;box-shadow:var(--shadow);margin-bottom:24px}
-    .snapshot h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;margin-bottom:14px}
-    .snap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
-    .snap-item{font-size:13px}
-    .snap-item strong{display:block;color:var(--ink-soft);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
-    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
-    .data-card h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;padding:20px 26px 8px}
+    .badge .dot{width:8px;height:8px;border-radius:999px;background:currentColor;display:inline-block}
+    .local-time{font-size:12px;color:var(--ink-soft);font-weight:600}
+    .local-time b{color:var(--ink);margin-left:5px;font-weight:800}
+    .main-grid{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+    @media(max-width:900px){.main-grid{grid-template-columns:1fr}}
+    .sidebar{display:flex;flex-direction:column;gap:14px;align-self:start;position:sticky;top:18px}
+    @media(max-width:900px){.sidebar{position:static}}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .hero-img{width:100%;height:200px;object-fit:cover;display:block;background:#eaddc4}
+    .hero-actions{padding:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:8px;font-family:inherit;font-weight:700;font-size:12.5px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;transition:background .14s,border-color .14s}
+    .btn:hover{background:rgba(0,0,0,.04)}
+    .btn.primary{background:var(--green);color:#fff;border-color:transparent}
+    .btn.primary:hover{background:var(--green-dk)}
+    .snapshot-card{padding:16px}
+    .snapshot-title{font-family:"Fraunces",Georgia,serif;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px;letter-spacing:-.01em}
+    .kv{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--line-soft);font-size:12.5px}
+    .kv span{color:var(--ink-soft)}
+    .kv b{color:var(--ink);font-weight:700;text-align:right;max-width:60%}
+    .kv-sub{padding-left:10px;font-size:11.5px;opacity:.85}
+    .kv-note{font-size:11px;color:var(--ink-soft);line-height:1.5;padding:6px 0 8px;font-style:italic;border-bottom:1px solid var(--line-soft)}
+    .sector-block{padding-top:10px;margin-top:6px;border-top:1px solid var(--line-soft)}
+    .sector-head{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+    .sector-list{display:flex;flex-direction:column;gap:5px}
+    .sector-pill{background:rgba(29,127,72,.08);border:1px solid rgba(29,127,72,.2);border-radius:7px;padding:5px 10px;font-size:11.5px;font-weight:700;color:var(--green-dk);line-height:1.4}
+    .persona-card{padding:16px}
+    .persona-name{font-weight:800;font-size:13px;margin-bottom:6px}
+    .persona-name small{font-weight:500;opacity:.6;font-size:11px}
+    .persona-why{font-size:11.5px;color:var(--ink-soft);line-height:1.55;font-style:italic}
+    .right-col{display:flex;flex-direction:column;gap:18px;min-width:0}
+    .rc-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:760px){.rc-wrapper{grid-template-columns:1fr}}
+    .rc-box{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 14px 12px;overflow:hidden}
+    .rc-box-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:6px}
+    .rc-box-head h2{font-family:"Fraunces",Georgia,serif;font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+    .rc-nav{display:flex;gap:4px}
+    .rc-nav-btn{width:24px;height:24px;border-radius:6px;border:1px solid var(--line);background:#fff;font-size:13px;cursor:pointer;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;line-height:1;transition:all .14s}
+    .rc-nav-btn:hover{background:var(--green);color:#fff;border-color:transparent}
+    .rc-nav-btn:disabled{opacity:.35;cursor:not-allowed}
+    .rc-track{overflow:hidden}
+    .rc-row{display:flex;gap:9px;transition:transform .35s ease;will-change:transform}
+    .rc-vcard{flex-shrink:0;width:130px;height:90px;border-radius:10px;overflow:hidden;position:relative;background:#e9dfca;border:1px solid var(--line);transition:transform .15s,box-shadow .15s}
+    .rc-vcard:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10);text-decoration:none}
+    .rc-vimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .rc-vemoji{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;background:linear-gradient(135deg,#ede5d8,#ddd3c4)}
+    .rc-vgrad{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,8,.85) 0%,rgba(20,15,8,.2) 55%,transparent 100%)}
+    .rc-vbody{position:absolute;left:0;right:0;bottom:0;padding:7px 9px;z-index:2}
+    .rc-vtitle{font-family:"Fraunces",Georgia,serif;font-size:10.5px;font-weight:700;color:#fff;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
     .data-table{width:100%;border-collapse:collapse;font-size:13px}
-    .data-table .sec td{background:#f8f4eb;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:10px 26px;color:var(--ink-soft);border-top:1px solid var(--line)}
-    .data-table td{padding:9px 26px;border-bottom:1px solid var(--line);vertical-align:top}
+    .data-table .sec td{background:#f4eedf;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:11px 22px;color:var(--ink-soft);border-top:1px solid var(--line)}
+    .data-table td{padding:9px 22px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+    .data-table tr:last-child td{border-bottom:none}
     .data-table td.lbl{width:42%;color:var(--ink)}
-    .data-table td.val{width:22%;font-weight:700}
+    .data-table td.val{width:25%;font-weight:700}
     .data-table td.hint{font-size:11.5px;color:var(--ink-soft)}
+    .data-table td.edit{width:30px;text-align:right;padding-right:14px}
     .data-table .ico{margin-right:8px}
-    .article{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px;margin-bottom:24px}
-    .article h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:700;margin:24px 0 10px;color:var(--ink)}
-    .article h2:first-child{margin-top:0}
-    .article p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.75}
-    .article p strong{color:var(--ink);font-weight:600}
-    .ttk{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-bottom:24px}
-    .ttk h2{font-family:"Fraunces",Georgia,serif;font-size:20px;font-weight:700;margin-bottom:16px}
-    .ttk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-    .ttk-card{background:#fbf7ee;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
-    .ttk-card .ttk-title{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink)}
-    .ttk-card p{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
-    .ttk-card small{font-weight:500;color:var(--ink-soft)}
-    .related{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px;margin-bottom:18px}
-    .related h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
-    .link-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px 18px}
-    .link-list li{font-size:13.5px;line-height:1.5;padding-left:14px;position:relative}
-    .link-list li::before{content:"›";position:absolute;left:0;color:var(--green)}
-    @media (max-width:640px){
-      main{padding:20px 14px 60px}
-      .hero{padding:26px 22px}
-      .data-table td{padding:9px 16px}
-      .data-table .sec td{padding:10px 16px}
-      .article{padding:24px 22px}
-      .ttk{padding:22px 22px}
-      .related{padding:20px 22px}
+    .edit-btn{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:13px;opacity:.4;transition:opacity .14s;padding:2px 4px}
+    .edit-btn:hover{opacity:1;color:var(--green)}
+    .article-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px}
+    .section-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+    .section-head h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:800;letter-spacing:-.01em;color:var(--ink)}
+    .score-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-light);border:1px solid rgba(29,127,72,.25);color:var(--green-dk);padding:5px 12px;border-radius:999px;font-size:12px;font-weight:700}
+    .article-body p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.78}
+    .article-body p:last-child{margin-bottom:0}
+    .art-tag{display:inline-block;padding:3px 10px;border-radius:6px;font-weight:700;font-size:13px;margin-bottom:6px;line-height:1.5}
+    .map-card{margin:22px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper-2)}
+    .map-header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);gap:8px;flex-wrap:wrap}
+    .map-title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}
+    .map-flag{font-size:18px}
+    .map-styles{display:flex;gap:4px}
+    .map-style-btn{font-size:11px;font-weight:700;padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;color:var(--ink-soft);cursor:pointer;transition:all .14s}
+    .map-style-btn:hover{border-color:var(--green);color:var(--green)}
+    .map-style-btn.active{background:var(--green);color:#fff;border-color:transparent}
+    .map-container{position:relative;height:320px}
+    #wigg-country-map{position:absolute;inset:0}
+    .map-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper-2);color:var(--ink-soft);font-size:13px;z-index:10}
+    .map-loading.hidden{display:none}
+    .things-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px}
+    .wg-badge{display:inline-flex;align-items:center;gap:5px;background:#fef3c7;border:1px solid rgba(202,138,4,.3);color:#92400e;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+    .facts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .fact-card{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden}
+    .fact-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green)}
+    .fact-title{font-weight:800;font-size:13px;margin-bottom:6px;color:var(--ink);padding-left:6px}
+    .fact-text{font-size:12.5px;color:var(--ink-soft);line-height:1.55;padding-left:6px}
+    .cmp-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px}
+    .cmp-section h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
+    .cmp-pills{display:flex;flex-wrap:wrap;gap:8px}
+    .cmp-pill{display:inline-block;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:600;color:var(--ink);transition:all .14s}
+    .cmp-pill:hover{border-color:var(--green);background:var(--green);color:#fff;text-decoration:none}
+    @media(max-width:640px){
+      .wrap{padding:18px 14px 60px}
+      .country-head{flex-direction:column}
+      .head-right{align-items:flex-start}
+      .data-table td{padding:9px 14px}
+      .data-table .sec td{padding:11px 14px}
+      .article-card{padding:24px 22px}
+      .things-section{padding:22px 22px}
+      .cmp-section{padding:20px 22px}
+      .map-container{height:240px}
     }
   </style>
 </head>
@@ -92,268 +154,410 @@
 <div id="siteHeader"></div>
 <script src="/data/header.js"></script>
 
-<main>
+<main class="wrap">
   <nav class="crumb"><a href="/">Accueil</a> › <a href="/globe.html">Pays</a> › Chine</nav>
 
-  <section class="hero">
-    <div class="hero-flag">🇨🇳</div>
-    <h1>Chine</h1>
-    <p class="subtitle">Moyennes indicatives (les villes de niveau 1 plus élevées ; net / mois sauf indication contraire)</p>
-    <div class="hero-badges">
-      <span class="badge yellow">WIGG: YELLOW</span>
-      <span class="badge">⭐ Score Expat: 6.0 / 10</span>
+  <div class="country-head">
+    <div>
+      <div class="country-flag">🇨🇳</div>
+      <h1>Chine</h1>
+      <p class="subtitle">Moyennes indicatives (les villes de niveau 1 plus élevées ; net / mois sauf indication contraire)</p>
     </div>
-  </section>
-
-  <section class="snapshot">
-    <h2>Aperçu rapide</h2>
-    <div class="snap-grid">
-      <div class="snap-item"><strong>Capitale</strong>Pékin</div>
-      <div class="snap-item"><strong>Population</strong>~1,4 milliard</div>
-      <div class="snap-item"><strong>Langues</strong>mandarin (chinois)</div>
-      <div class="snap-item"><strong>Conduite</strong>à droite</div>
-      <div class="snap-item"><strong>Monnaie</strong>yuan chinois (CNY/RMB)</div>
-      <div class="snap-item"><strong>Crypto-friendly</strong>Non</div>
+    <div class="head-right">
+      <div class="badge yellow"><span class="dot"></span>WIGG: YELLOW</div>
+      <div class="local-time">Heure locale <b id="localTime" data-tz="Asia/Shanghai">--:--</b></div>
     </div>
-  </section>
+  </div>
 
-  <section class="data-card">
-    <h2>Coût de la vie, salaires et qualité de vie</h2>
-    <table class="data-table">
-    <tbody>
-      <tr class="sec"><td colspan="3">💼 Salaires (net / mois)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧾</span>Salaire minimum</td>
-        <td class="val">$285</td>
-        <td class="hint">Min urbain moyen 2 300-2 690 ¥ brut → net ≈ 2 070 ¥ (2025; varie par ville)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📊</span>Salaire moyen</td>
-        <td class="val">$960</td>
-        <td class="hint">Moyenne nette ≈ 6 960 ¥/mois (NBS 2024 — Shanghai/Pékin ≈ ×2)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🩺</span>Salaire médecin (généraliste)</td>
-        <td class="val">$3,500</td>
-        <td class="hint">Moyenne du secteur public</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🏠 Logement et charges (studio référence)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏚️</span>Loyer studio</td>
-        <td class="val">$450</td>
-        <td class="hint">Villes de niveau 2-3</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">⚡</span>Électricité</td>
-        <td class="val">$45</td>
-        <td class="hint">/ mois</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💧</span>Eau</td>
-        <td class="val">$10</td>
-        <td class="hint">/ mois</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📱</span>Forfait mobile</td>
-        <td class="val">$12</td>
-        <td class="hint">~30–100 Go (pas cher)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🍽️ Alimentation et boissons (prix indicatifs)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍺</span>Bière (pinte)</td>
-        <td class="val">$2.00</td>
-        <td class="hint">Bar local</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☕</span>Café</td>
-        <td class="val">$3.00</td>
-        <td class="hint">Café régulier (chaînes courantes)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍲</span>Plat principal</td>
-        <td class="val">$6</td>
-        <td class="hint">milieu de gamme</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">⛽ Transport</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">⛽</span>Essence / litre</td>
-        <td class="val">1,15 $ / L</td>
-        <td class="hint">indicatif</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🧾 Fiscalité (indicatif)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏷️</span>TVA</td>
-        <td class="val">13%</td>
-        <td class="hint">taux de consommation typique</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">👤</span>Impôt sur le revenu</td>
-        <td class="val">~15%</td>
-        <td class="hint">Progressif (3-45 %), tranche intermédiaire</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏪</span>Fiscalité petite entreprise</td>
-        <td class="val">~25%</td>
-        <td class="hint">25 % norme CIT</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📱 Tech (prix indicatifs)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍎</span>iPhone (dernier 256 Go)</td>
-        <td class="val">$1,250</td>
-        <td class="hint">Tarification en Chine</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📲</span>Galaxy S (dernier 256 Go)</td>
-        <td class="val">$1,000</td>
-        <td class="hint">Tarification en Chine</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🛂 Immigration et installation</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🛂</span>Facilité d&#x27;immigration</td>
-        <td class="val">4 / 10</td>
-        <td class="hint">règles de visa strictes ; permis de travail difficiles</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🌤️ Qualité de vie</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🙂</span>Bonheur</td>
-        <td class="val">6.1 / 10</td>
-        <td class="hint">indicatif (src : Rapport mondial sur le bonheur 2024)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☀️</span>Jours de soleil / an</td>
-        <td class="val">~220 jours / an</td>
-        <td class="hint">varie considérablement selon la région (src : Données climatiques, OMM)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏥</span>Santé publique</td>
-        <td class="val">Oui</td>
-        <td class="hint">public + privé en expansion</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧑‍⚕️</span>Assurance privée / mois</td>
-        <td class="val">80 $ / mois</td>
-        <td class="hint">exemple privé</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📈 Indices</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🚔</span>Indice criminalité</td>
-        <td class="val">35 / 100</td>
-        <td class="hint">indicatif (généralement sûr) (src : Indice de sécurité Numbeo 2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💶</span>Pouvoir d&#x27;achat</td>
-        <td class="val">70</td>
-        <td class="hint">indicatif (src : Indice PP de Numbeo 2025)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🕍 Religion</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">✝️</span>Chrétien</td>
-        <td class="val">~2%</td>
-        <td class="hint">indicatif</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☪️</span>Musulman</td>
-        <td class="val">~2%</td>
-        <td class="hint">indicatif</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☸️</span>Bouddhiste</td>
-        <td class="val">~18%</td>
-        <td class="hint">indicatif (chevauchement avec le folklore)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">✡️</span>Juif</td>
-        <td class="val">~0%</td>
-        <td class="hint">indicative (src: Pew Research / WJC)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🕊️</span>Autre / Aucune</td>
-        <td class="val">~90%</td>
-        <td class="hint">folk/aucun commun</td>
-      </tr>
-    </tbody>
-    </table>
-  </section>
+  <div class="main-grid">
+    <aside class="sidebar">
+      <div class="card">
+        <img class="hero-img" src="/assets/hero-china.jpg" alt="Chine"
+             onerror="this.onerror=null;this.src='/assets/hero-fallback.jpg'" />
+        <div class="hero-actions">
+          <button class="btn primary" type="button" onclick="openModal('general')">Corriger les données</button>
+          <button class="btn" type="button" id="btnShare">Partager</button>
+          <a class="btn" href="/compare.html?country=china">Comparer</a>
+        </div>
+      </div>
 
-  <section class="article"><h2>Aperçu du pays</h2><p>🧭 Aperçu
-La Chine est la nation la plus peuplée du monde et la deuxième économie mondiale, un État-civilisation avec 5 000 ans d'histoire. Le Parti communiste gouverne cet État autoritaire à parti unique, mêlant économie de marché et contrôle politique. Une modernisation rapide sur 40 ans a créé des mégapoles chatoyantes (Shanghai, Pékin, Shenzhen), des infrastructures de classe mondiale, et a sorti plus de 800 millions de personnes de la pauvreté, mais a aussi engendré pollution, inégalités et contrôle social (le Grand Pare-feu, surveillance, système de crédit social). Pour les expatriés, la Chine offre des opportunités de carrière dans une économie massive, une culture fascinante et de l'aventure, mais aussi des frustrations liées à la censure, la pollution, la bureaucratie et la barrière linguistique.</p>
-<p>👥 Population & ambiance
-Avec ~1,4 milliard d'habitants, la Chine est majoritairement Han (~92%) avec 55 minorités reconnues (Ouïghours, Tibétains, Zhuang, Hui, et autres). Le mandarin est officiel mais il existe des langues et dialectes régionaux. L'anglais est limité en dehors des contextes d'affaires internationaux. La culture met l'accent sur la famille, le guanxi (relations), le 'mianzi' (la réputation) et le collectif plutôt que l'individuel. Les valeurs sont façonnées par le confucianisme, le taoïsme et l'idéologie communiste. La fracture ville-campagne est marquée. Les grandes villes sont cosmopolites et rapides ; les zones rurales restent traditionnelles. L'ambiance est faite d'effervescence, d'ambition et de pragmatisme. Les normes sociales diffèrent de l'Occident — cracher, bousculer dans les files, parler fort sont courants.</p>
-<p>🌦️ Climat & paysages
-Le climat varie énormément sur ce vaste territoire : Pékin/nord a un climat continental (étés chauds, hivers froids avec tempêtes de sable) ; Shanghai a un climat subtropical (humide, quatre saisons) ; le sud (Guangzhou, Hong Kong) est tropical ; l'ouest (Tibet, Xinjiang) est aride/alpin ; le Sichuan est brumeux/humide. La pollution est sévère dans les villes du nord. Les paysages vont de l'Himalaya, du désert de Gobi, des montagnes calcaires (Guilin), des rizières en terrasses, des méga-deltas (Yangtsé, delta de la Perle), aux mégapoles modernes. La beauté naturelle existe mais la dégradation environnementale est importante.</p>
-<p>🏠 Logement & installation
-Les grandes villes proposent des logements adaptés aux expatriés : appartements avec services ou résidences fermées à Pékin, Shanghai, Shenzhen. Prévoir 1 à 3 mois de dépôt de garantie et des contrats de 6 à 12 mois. Les loyers sont élevés dans les villes de premier rang (1 000–3 000+ $/mois) mais plus faibles dans les villes de second rang. La plupart des expatriés vivent dans des logements fournis par l'employeur. La qualité varie — les nouveaux développements sont modernes ; les immeubles plus anciens se détériorent rapidement. Les purificateurs d'air sont essentiels. L'enregistrement auprès de la police est obligatoire dans les 24 heures. Acheter une propriété est complexe avec des restrictions pour les étrangers.</p>
-<p>💼 Travail & économie
-L'économie chinoise est massive et diversifiée : industrie manufacturière, technologie, finance, commerce de détail, construction et services. Pour les étrangers, il existe des opportunités dans l'enseignement de l'anglais, les multinationales, les entreprises tech, la finance, les écoles internationales ou les startups. Les permis de travail exigent un diplôme de licence (ou 2 ans d'expérience), un casier judiciaire vierge et le parrainage d'un employeur. La concurrence locale augmente. Les salaires pour expatriés peuvent être généreux mais les impôts sont d'environ 30–40 %. La maîtrise du chinois aide grandement la carrière. La culture d'affaires met l'accent sur les relations (guanxi), la hiérarchie et la patience. Créer une entreprise nécessite des partenariats locaux et la navigation dans la bureaucratie.</p>
-<p>🛂 Visas & entrée
-La plupart des nationalités ont besoin d'un visa obtenu avant l'arrivée. Les visas de travail (visa Z) requièrent le parrainage d'un employeur et une documentation étendue. Le processus est bureaucratique et lent. La Chine a fermé ses frontières pendant la COVID et la réouverture a été progressive. La résidence permanente ('carte verte') est extrêmement rare et difficile. La naturalisation est presque impossible sans origine chinoise. Les récentes préoccupations sécuritaires et les tensions réciproques avec certains pays occidentaux ont rendu les visas plus restrictifs.</p>
-<p>🏥 Santé
-Le système de santé comprend des structures publiques et privées. Les hôpitaux publics sont surchargés, chaotiques, et demandent souvent un paiement immédiat. Les hôpitaux internationaux dans les grandes villes (Shanghai, Pékin) offrent des soins de niveau occidental à coût élevé. Beaucoup d'expatriés utilisent des cliniques internationales ou voyagent à l'étranger pour des opérations lourdes. La médecine traditionnelle chinoise (MTC) est intégrée. Les coûts médicaux augmentent. L'espérance de vie est d'environ 78 ans. La pollution de l'air provoque des problèmes respiratoires. Une assurance santé internationale est essentielle. Les barrières linguistiques dans le secteur médical sont importantes.</p>
-<p>🚗 Transport & mobilité
-Les grandes villes possèdent des transports publics de classe mondiale : métros modernes, trains à grande vitesse reliant les villes, et réseaux de bus étendus. Les applications de covoiturage (Didi) sont omniprésentes mais nécessitent des systèmes de paiement chinois. La circulation est chaotique et la conduite est stressante. Les permis étrangers ne sont pas reconnus ; obtenir un permis chinois est bureaucratique. Le train à grande vitesse chinois est efficace et couvre de longues distances. Les vols intérieurs sont nombreux. Les vols internationaux transitent par Pékin, Shanghai, Guangzhou. Le pays est immense — Shanghai à Urumqi, c'est 4 000 km.</p>
-<p>🍛 Note sur la gastronomie (plat national)
-Il n'y a pas de plat national unique en raison de la diversité régionale, mais le Canard laqué de Pékin est emblématique : canard rôti à la peau croustillante servi avec des crêpes, des oignons verts et de la sauce hoisin. Il représente la cuisine impériale et est servi lors de banquets d'État. Autrement, les raviolis (jiaozi) sont universellement chinois et symbolisent la prospérité.</p>
-<p>🔎 Conclusion
-La Chine convient aux aventuriers, aux apprenants du mandarin, à ceux qui cherchent une progression de carrière dans la deuxième économie mondiale, ou aux passionnés de culture. Avantages : opportunités massives, culture fascinante, infrastructures modernes, sécurité (faible criminalité violente) et excellente cuisine. Inconvénients : autoritarisme (surveillance, censure, manque de libertés), pollution, barrières linguistiques, Grand Pare-feu (VPN essentiel) et choc culturel. Les tensions géopolitiques récentes et la politique de Xi de plus en plus assertive rendent l'environnement moins accueillant. Idéal pour ceux qui peuvent supporter les restrictions et relever des défis.</p>
-<p>Note expatrié — 6.0 / 10</p></section>
+      <div class="card snapshot-card">
+        <div class="snapshot-title">Aperçu rapide</div>
+        <div class="kv"><span>Capitale</span><b>Pékin</b></div><div class="kv"><span>Population</span><b>~1,4 milliard</b></div><div class="kv"><span>Langues</span><b>mandarin (chinois)</b></div><div class="kv"><span>Monnaie</span><b>yuan chinois (CNY/RMB)</b></div><div class="kv kv-sub"><span>Exchange rate</span><b>1 USD ≈ 7,20 CNY</b></div><div class="kv-note">Monnaie contrôlée avec contrôles des capitaux. Pas librement convertible. Taux officiel fixé par le gouvernement.</div><div class="kv"><span>Crypto-friendly</span><b>Non</b></div><div class="kv-note">Le commerce et le minage de cryptomonnaies sont interdits. Application stricte des lois. Le gouvernement a développé le yuan numérique (monnaie numérique de banque centrale, CBDC). Les cryptos sont illégales.</div><div class="kv"><span>Conduite</span><b>à droite</b></div><div class="sector-block"><div class="sector-head">Secteurs phares</div><div class="sector-list"><div class="sector-pill">Industrie manufacturière &amp; exportations</div><div class="sector-pill">Technologie &amp; commerce en ligne</div><div class="sector-pill">Construction &amp; immobilier</div></div></div>
+      </div>
 
-  <section class="ttk"><h2>À savoir</h2><div class="ttk-grid">
-      <div class="ttk-card">
-        <div class="ttk-title">👤 Deng Xiaoping <small>(XXe siècle)</small></div>
-        <p>Dirigeant qui a lancé la « Réforme et ouverture » (1978) transformant la Chine d&#x27;une économie communiste isolée en une puissance orientée vers le marché. Son pragmatisme (&#x27;Peu importe qu&#x27;un chat soit noir ou blanc, pourvu qu&#x27;il attrape les souris&#x27;) a permis l&#x27;essor de la Chine. Le massacre de la place Tian&#x27;anmen (1989) reste un héritage sombre.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🧱 Grand Pare-feu = prison numérique</div>
-        <p>Google, Facebook, Twitter, YouTube, WhatsApp et d&#x27;innombrables sites sont bloqués. Les VPN sont indispensables mais c&#x27;est un jeu du chat et de la souris avec les autorités. Cela crée une bulle informationnelle et de la frustration. WeChat domine tout — messagerie, paiements, réseaux sociaux — mais est surveillé.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">👁️ L&#x27;État de surveillance est réel</div>
-        <p>Des caméras partout avec reconnaissance faciale. Le système de crédit social suit le comportement. WeChat est surveillé. Les discussions politiques sont dangereuses. Ce n&#x27;est pas de la paranoïa — c&#x27;est une réalité documentée. Des étrangers ont été détenus pour des publications sur WeChat. L&#x27;autocensure devient automatique.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">💨 La pollution de l&#x27;air est un danger pour la santé</div>
-        <p>Pékin, Shanghai et les villes du nord ont une pollution atmosphérique sévère — des niveaux de PM2,5 dangereux. Masques, purificateurs d&#x27;air et temps passé à l&#x27;intérieur sont nécessaires. L&#x27;hiver est le pire en raison du chauffage au charbon. Cela affecte la santé, en particulier des enfants. Beaucoup d&#x27;expatriés repartent à cause de la qualité de l&#x27;air.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🚄 Infrastructures de classe mondiale</div>
-        <p>Le train à grande vitesse relie tout le pays. Les métros sont modernes et efficaces. Les aéroports sont massifs. Les routes sont excellentes. Le développement des infrastructures est vraiment impressionnant et fait honte à de nombreux pays occidentaux. C&#x27;est un domaine où la Chine excelle.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">💳 Société sans numéraire</div>
-        <p>WeChat Pay et Alipay dominent. L&#x27;argent liquide est rare. Mais ces services nécessitent un compte bancaire chinois et un numéro de téléphone, créant des barrières pour les étrangers. Les paiements numériques sont incroyablement pratiques mais exclusifs.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🎭 Le choc culturel est inévitable</div>
-        <p>Cracher, bousculer, parler fort, normes d&#x27;espace personnel différentes, directivité, système de guanxi, hiérarchie — les différences culturelles sont profondes. Les concepts occidentaux de vie privée, d&#x27;individualisme et de liberté d&#x27;expression ne s&#x27;appliquent pas. L&#x27;adaptation demande ouverture d&#x27;esprit et humilité.</p>
-      </div></div></section>
+      
+        <div class="card persona-card">
+          <div class="snapshot-title">Figure du pays</div>
+          <div class="persona-name">Deng Xiaoping <small>(XXe siècle)</small></div>
+          <div class="persona-why">Dirigeant qui a lancé la « Réforme et ouverture » (1978) transformant la Chine d&#x27;une économie communiste isolée en une puissance orientée vers le marché. Son pragmatisme (&#x27;Peu importe qu&#x27;un chat soit noir ou blanc, pourvu qu&#x27;il attrape les souris&#x27;) a permis l&#x27;essor de la Chine. Le massacre de la place Tian&#x27;anmen (1989) reste un héritage sombre.</div>
+        </div>
+    </aside>
 
-  
-  <section class="related"><h2>Chroniques liées</h2><ul class="link-list"><li><a href="/chronicles/chronicle-elever-enfants-2026-fr.html">Où élever ses enfants en 2026 ?</a></li><li><a href="/chronicles/chronicle-2056-ou-vivra-t-on-le-mieux-fr.html">2056 : Où vivra-t-on le mieux dans 30 ans ?</a></li><li><a href="/chronicles/chronicle-asie-expatriation-partie2-2026-fr.html">Asie expatriation 2026 Partie 2 — Japon, Laos, Chine</a></li></ul></section>
-  
+    <div class="right-col">
+      <div class="rc-wrapper">
+        
+        <div class="rc-box">
+          <div class="rc-box-head">
+            <h2>Chroniques liées</h2>
+            <div class="rc-nav">
+              <button class="rc-nav-btn" data-target="rc-list" data-dir="-1" aria-label="Previous">&#8249;</button>
+              <button class="rc-nav-btn" data-target="rc-list" data-dir="1" aria-label="Next">&#8250;</button>
+            </div>
+          </div>
+          <div class="rc-track"><div id="rc-list" class="rc-row"><a class="rc-vcard" href="/chronicles/chronicle-elever-enfants-2026-fr.html"><img class="rc-vimg" src="/assets/hero-finland.jpg" alt="Où élever ses enfants en 2026 ?" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">📄</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Où élever ses enfants en 2026 ?</div></div></a><a class="rc-vcard" href="/chronicles/chronicle-2056-ou-vivra-t-on-le-mieux-fr.html"><img class="rc-vimg" src="/assets/hero-norway.jpg" alt="2056 : Où vivra-t-on le mieux dans 30 ans ?" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">📄</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">2056 : Où vivra-t-on le mieux dans 30 ans ?</div></div></a><a class="rc-vcard" href="/chronicles/chronicle-asie-expatriation-partie2-2026-fr.html"><img class="rc-vimg" src="/assets/hero-japan.jpg" alt="Asie expatriation 2026 Partie 2 — Japon, Laos, Chine" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">📄</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Asie expatriation 2026 Partie 2 — Japon, Laos, Chine</div></div></a></div></div>
+        </div>
+        
+      </div>
 
-  <p style="text-align:center;margin-top:30px"><a href="/globe.html" style="font-weight:600">Voir les 160+ pays →</a></p>
+      <div class="data-card">
+        <table class="data-table">
+      <tbody>
+        <tr class="sec"><td colspan="4">💼 Salaires (net / mois)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧾</span>Salaire minimum</td>
+          <td class="val">$285</td>
+          <td class="hint">Min urbain moyen 2 300-2 690 ¥ brut → net ≈ 2 070 ¥ (2025; varie par ville)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('min_wage')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📊</span>Salaire moyen</td>
+          <td class="val">$960</td>
+          <td class="hint">Moyenne nette ≈ 6 960 ¥/mois (NBS 2024 — Shanghai/Pékin ≈ ×2)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('avg_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🩺</span>Salaire médecin (généraliste)</td>
+          <td class="val">$3,500</td>
+          <td class="hint">Moyenne du secteur public</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('doctor_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🏠 Logement et charges (studio référence)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏚️</span>Loyer studio</td>
+          <td class="val">$450</td>
+          <td class="hint">Villes de niveau 2-3</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('rent_studio')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">⚡</span>Électricité</td>
+          <td class="val">$45</td>
+          <td class="hint">/ mois</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('electricity')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💧</span>Eau</td>
+          <td class="val">$10</td>
+          <td class="hint">/ mois</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('water')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📱</span>Forfait mobile</td>
+          <td class="val">$12</td>
+          <td class="hint">~30–100 Go (pas cher)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('mobile')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🍽️ Alimentation et boissons (prix indicatifs)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍺</span>Bière (pinte)</td>
+          <td class="val">$2.00</td>
+          <td class="hint">Bar local</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('beer')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☕</span>Café</td>
+          <td class="val">$3.00</td>
+          <td class="hint">Café régulier (chaînes courantes)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('coffee')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍲</span>Plat principal</td>
+          <td class="val">$6</td>
+          <td class="hint">milieu de gamme</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('dish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">⛽ Transport</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">⛽</span>Essence / litre</td>
+          <td class="val">1,15 $ / L</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('gas')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🧾 Fiscalité (indicatif)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏷️</span>TVA</td>
+          <td class="val">13%</td>
+          <td class="hint">taux de consommation typique</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('vat')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">👤</span>Impôt sur le revenu</td>
+          <td class="val">~15%</td>
+          <td class="hint">Progressif (3-45 %), tranche intermédiaire</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('income_tax')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏪</span>Fiscalité petite entreprise</td>
+          <td class="val">~25%</td>
+          <td class="hint">25 % norme CIT</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('smallbiz')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📱 Tech (prix indicatifs)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍎</span>iPhone (dernier 256 Go)</td>
+          <td class="val">$1,250</td>
+          <td class="hint">Tarification en Chine</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('iphone')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📲</span>Galaxy S (dernier 256 Go)</td>
+          <td class="val">$1,000</td>
+          <td class="hint">Tarification en Chine</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('samsung')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🛂 Immigration et installation</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🛂</span>Facilité d&#x27;immigration</td>
+          <td class="val">4 / 10</td>
+          <td class="hint">règles de visa strictes ; permis de travail difficiles</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('immigration')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🌤️ Qualité de vie</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🙂</span>Bonheur</td>
+          <td class="val">6.1 / 10</td>
+          <td class="hint">indicatif (src : Rapport mondial sur le bonheur 2024)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('happiness')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☀️</span>Jours de soleil / an</td>
+          <td class="val">~220 jours / an</td>
+          <td class="hint">varie considérablement selon la région (src : Données climatiques, OMM)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('sun')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏥</span>Santé publique</td>
+          <td class="val">Oui</td>
+          <td class="hint">public + privé en expansion</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('health')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧑‍⚕️</span>Assurance privée / mois</td>
+          <td class="val">80 $ / mois</td>
+          <td class="hint">exemple privé</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('insurance')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📈 Indices</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🚔</span>Indice criminalité</td>
+          <td class="val">35 / 100</td>
+          <td class="hint">indicatif (généralement sûr) (src : Indice de sécurité Numbeo 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('crime')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💶</span>Pouvoir d&#x27;achat</td>
+          <td class="val">70</td>
+          <td class="hint">indicatif (src : Indice PP de Numbeo 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('pp')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🕍 Religion</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">✝️</span>Chrétien</td>
+          <td class="val">~2%</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_christian')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☪️</span>Musulman</td>
+          <td class="val">~2%</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_muslim')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☸️</span>Bouddhiste</td>
+          <td class="val">~18%</td>
+          <td class="hint">indicatif (chevauchement avec le folklore)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_buddhist')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">✡️</span>Juif</td>
+          <td class="val">~0%</td>
+          <td class="hint">indicative (src: Pew Research / WJC)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_jewish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🕊️</span>Autre / Aucune</td>
+          <td class="val">~90%</td>
+          <td class="hint">folk/aucun commun</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_other')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+        </table>
+      </div>
+
+      
+      <div class="article-card">
+        <div class="section-head">
+          <h2>Vivre à Chine</h2>
+          <span class="score-badge"><span class="score-star">⭐</span> Score Expat: 6.0 / 10</span>
+        </div>
+        <div class="article-body"><p>🧭 Aperçu
+La Chine est la nation la plus peuplée du monde et la deuxième économie mondiale, un État-civilisation avec 5 000 ans d&#x27;histoire. Le Parti communiste gouverne cet État autoritaire à parti unique, mêlant économie de marché et contrôle politique. Une modernisation rapide sur 40 ans a créé des mégapoles chatoyantes (Shanghai, Pékin, Shenzhen), des infrastructures de classe mondiale, et a sorti plus de 800 millions de personnes de la pauvreté, mais a aussi engendré pollution, inégalités et contrôle social (le Grand Pare-feu, surveillance, système de crédit social). Pour les expatriés, la Chine offre des opportunités de carrière dans une économie massive, une culture fascinante et de l&#x27;aventure, mais aussi des frustrations liées à la censure, la pollution, la bureaucratie et la barrière linguistique.</p><p>👥 Population &amp; ambiance
+Avec ~1,4 milliard d&#x27;habitants, la Chine est majoritairement Han (~92%) avec 55 minorités reconnues (Ouïghours, Tibétains, Zhuang, Hui, et autres). Le mandarin est officiel mais il existe des langues et dialectes régionaux. L&#x27;anglais est limité en dehors des contextes d&#x27;affaires internationaux. La culture met l&#x27;accent sur la famille, le guanxi (relations), le &#x27;mianzi&#x27; (la réputation) et le collectif plutôt que l&#x27;individuel. Les valeurs sont façonnées par le confucianisme, le taoïsme et l&#x27;idéologie communiste. La fracture ville-campagne est marquée. Les grandes villes sont cosmopolites et rapides ; les zones rurales restent traditionnelles. L&#x27;ambiance est faite d&#x27;effervescence, d&#x27;ambition et de pragmatisme. Les normes sociales diffèrent de l&#x27;Occident — cracher, bousculer dans les files, parler fort sont courants.</p><p>🌦️ Climat &amp; paysages
+Le climat varie énormément sur ce vaste territoire : Pékin/nord a un climat continental (étés chauds, hivers froids avec tempêtes de sable) ; Shanghai a un climat subtropical (humide, quatre saisons) ; le sud (Guangzhou, Hong Kong) est tropical ; l&#x27;ouest (Tibet, Xinjiang) est aride/alpin ; le Sichuan est brumeux/humide. La pollution est sévère dans les villes du nord. Les paysages vont de l&#x27;Himalaya, du désert de Gobi, des montagnes calcaires (Guilin), des rizières en terrasses, des méga-deltas (Yangtsé, delta de la Perle), aux mégapoles modernes. La beauté naturelle existe mais la dégradation environnementale est importante.</p><p>🏠 Logement &amp; installation
+Les grandes villes proposent des logements adaptés aux expatriés : appartements avec services ou résidences fermées à Pékin, Shanghai, Shenzhen. Prévoir 1 à 3 mois de dépôt de garantie et des contrats de 6 à 12 mois. Les loyers sont élevés dans les villes de premier rang (1 000–3 000+ $/mois) mais plus faibles dans les villes de second rang. La plupart des expatriés vivent dans des logements fournis par l&#x27;employeur. La qualité varie — les nouveaux développements sont modernes ; les immeubles plus anciens se détériorent rapidement. Les purificateurs d&#x27;air sont essentiels. L&#x27;enregistrement auprès de la police est obligatoire dans les 24 heures. Acheter une propriété est complexe avec des restrictions pour les étrangers.</p><p>💼 Travail &amp; économie
+L&#x27;économie chinoise est massive et diversifiée : industrie manufacturière, technologie, finance, commerce de détail, construction et services. Pour les étrangers, il existe des opportunités dans l&#x27;enseignement de l&#x27;anglais, les multinationales, les entreprises tech, la finance, les écoles internationales ou les startups. Les permis de travail exigent un diplôme de licence (ou 2 ans d&#x27;expérience), un casier judiciaire vierge et le parrainage d&#x27;un employeur. La concurrence locale augmente. Les salaires pour expatriés peuvent être généreux mais les impôts sont d&#x27;environ 30–40 %. La maîtrise du chinois aide grandement la carrière. La culture d&#x27;affaires met l&#x27;accent sur les relations (guanxi), la hiérarchie et la patience. Créer une entreprise nécessite des partenariats locaux et la navigation dans la bureaucratie.</p>
+        <div class="map-card">
+          <div class="map-header">
+            <div class="map-title"><span class="map-flag">🇨🇳</span><span>Chine — Carte</span></div>
+            <div class="map-styles">
+              <button type="button" class="map-style-btn active" data-style="light">Clair</button>
+              <button type="button" class="map-style-btn" data-style="dark">Sombre</button>
+              <button type="button" class="map-style-btn" data-style="satellite">Satellite</button>
+            </div>
+          </div>
+          <div class="map-container">
+            <div id="wigg-country-map"></div>
+            <div class="map-loading" id="wiggMapLoading">Chargement de la carte…</div>
+          </div>
+        </div><p>🛂 Visas &amp; entrée
+La plupart des nationalités ont besoin d&#x27;un visa obtenu avant l&#x27;arrivée. Les visas de travail (visa Z) requièrent le parrainage d&#x27;un employeur et une documentation étendue. Le processus est bureaucratique et lent. La Chine a fermé ses frontières pendant la COVID et la réouverture a été progressive. La résidence permanente (&#x27;carte verte&#x27;) est extrêmement rare et difficile. La naturalisation est presque impossible sans origine chinoise. Les récentes préoccupations sécuritaires et les tensions réciproques avec certains pays occidentaux ont rendu les visas plus restrictifs.</p><p>🏥 Santé
+Le système de santé comprend des structures publiques et privées. Les hôpitaux publics sont surchargés, chaotiques, et demandent souvent un paiement immédiat. Les hôpitaux internationaux dans les grandes villes (Shanghai, Pékin) offrent des soins de niveau occidental à coût élevé. Beaucoup d&#x27;expatriés utilisent des cliniques internationales ou voyagent à l&#x27;étranger pour des opérations lourdes. La médecine traditionnelle chinoise (MTC) est intégrée. Les coûts médicaux augmentent. L&#x27;espérance de vie est d&#x27;environ 78 ans. La pollution de l&#x27;air provoque des problèmes respiratoires. Une assurance santé internationale est essentielle. Les barrières linguistiques dans le secteur médical sont importantes.</p><p>🚗 Transport &amp; mobilité
+Les grandes villes possèdent des transports publics de classe mondiale : métros modernes, trains à grande vitesse reliant les villes, et réseaux de bus étendus. Les applications de covoiturage (Didi) sont omniprésentes mais nécessitent des systèmes de paiement chinois. La circulation est chaotique et la conduite est stressante. Les permis étrangers ne sont pas reconnus ; obtenir un permis chinois est bureaucratique. Le train à grande vitesse chinois est efficace et couvre de longues distances. Les vols intérieurs sont nombreux. Les vols internationaux transitent par Pékin, Shanghai, Guangzhou. Le pays est immense — Shanghai à Urumqi, c&#x27;est 4 000 km.</p><p>🍛 Note sur la gastronomie (plat national)
+Il n&#x27;y a pas de plat national unique en raison de la diversité régionale, mais le Canard laqué de Pékin est emblématique : canard rôti à la peau croustillante servi avec des crêpes, des oignons verts et de la sauce hoisin. Il représente la cuisine impériale et est servi lors de banquets d&#x27;État. Autrement, les raviolis (jiaozi) sont universellement chinois et symbolisent la prospérité.</p><p>🔎 Conclusion
+La Chine convient aux aventuriers, aux apprenants du mandarin, à ceux qui cherchent une progression de carrière dans la deuxième économie mondiale, ou aux passionnés de culture. Avantages : opportunités massives, culture fascinante, infrastructures modernes, sécurité (faible criminalité violente) et excellente cuisine. Inconvénients : autoritarisme (surveillance, censure, manque de libertés), pollution, barrières linguistiques, Grand Pare-feu (VPN essentiel) et choc culturel. Les tensions géopolitiques récentes et la politique de Xi de plus en plus assertive rendent l&#x27;environnement moins accueillant. Idéal pour ceux qui peuvent supporter les restrictions et relever des défis.</p><p>Note expatrié — 6.0 / 10</p></div>
+      </div>
+
+      
+      <div class="things-section">
+        <div class="section-head"><h2>À savoir</h2><span class="wg-badge">À lire</span></div>
+        <div class="facts-grid"><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🧱 Grand Pare-feu = prison numérique</div><div class="fact-text">Google, Facebook, Twitter, YouTube, WhatsApp et d&#x27;innombrables sites sont bloqués. Les VPN sont indispensables mais c&#x27;est un jeu du chat et de la souris avec les autorités. Cela crée une bulle informationnelle et de la frustration. WeChat domine tout — messagerie, paiements, réseaux sociaux — mais est surveillé.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">👁️ L&#x27;État de surveillance est réel</div><div class="fact-text">Des caméras partout avec reconnaissance faciale. Le système de crédit social suit le comportement. WeChat est surveillé. Les discussions politiques sont dangereuses. Ce n&#x27;est pas de la paranoïa — c&#x27;est une réalité documentée. Des étrangers ont été détenus pour des publications sur WeChat. L&#x27;autocensure devient automatique.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">💨 La pollution de l&#x27;air est un danger pour la santé</div><div class="fact-text">Pékin, Shanghai et les villes du nord ont une pollution atmosphérique sévère — des niveaux de PM2,5 dangereux. Masques, purificateurs d&#x27;air et temps passé à l&#x27;intérieur sont nécessaires. L&#x27;hiver est le pire en raison du chauffage au charbon. Cela affecte la santé, en particulier des enfants. Beaucoup d&#x27;expatriés repartent à cause de la qualité de l&#x27;air.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🚄 Infrastructures de classe mondiale</div><div class="fact-text">Le train à grande vitesse relie tout le pays. Les métros sont modernes et efficaces. Les aéroports sont massifs. Les routes sont excellentes. Le développement des infrastructures est vraiment impressionnant et fait honte à de nombreux pays occidentaux. C&#x27;est un domaine où la Chine excelle.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">💳 Société sans numéraire</div><div class="fact-text">WeChat Pay et Alipay dominent. L&#x27;argent liquide est rare. Mais ces services nécessitent un compte bancaire chinois et un numéro de téléphone, créant des barrières pour les étrangers. Les paiements numériques sont incroyablement pratiques mais exclusifs.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🎭 Le choc culturel est inévitable</div><div class="fact-text">Cracher, bousculer, parler fort, normes d&#x27;espace personnel différentes, directivité, système de guanxi, hiérarchie — les différences culturelles sont profondes. Les concepts occidentaux de vie privée, d&#x27;individualisme et de liberté d&#x27;expression ne s&#x27;appliquent pas. L&#x27;adaptation demande ouverture d&#x27;esprit et humilité.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🍽️ Canard laqué / Raviolis</div><div class="fact-text">Canard laqué : rôti à la peau croustillante, servi avec des crêpes. Ou raviolis (jiaozi) — universellement chinois. Les cuisines régionales varient fortement.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏳️‍🌈 LGBT+: Faible</div><div class="fact-text">L&#x27;homosexualité est légale mais pas socialement acceptée. Pas de reconnaissance ou de protections juridiques. Communauté LGBTQ+ souterraine en croissance dans les grandes villes. La discrétion est conseillée. Le gouvernement censure le contenu LGBTQ+.</div></div></div>
+      </div>
+
+      
+    </div>
+  </div>
 </main>
 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
+<script src="/data/share.js"></script>
+<script src="/data/correction-form.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var t = document.getElementById("localTime");
+  if(t && t.dataset.tz){
+    function tick(){
+      try{
+        t.textContent = new Intl.DateTimeFormat("en-GB",{
+          timeZone: t.dataset.tz, hour:"2-digit", minute:"2-digit"
+        }).format(new Date());
+      }catch(e){}
+    }
+    tick(); setInterval(tick, 30000);
+  }
+  document.querySelectorAll(".rc-nav-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var targetId = btn.dataset.target;
+      var dir = parseInt(btn.dataset.dir||"1",10);
+      var row = document.getElementById(targetId);
+      if(!row) return;
+      var box = row.parentElement;
+      var first = row.querySelector(".rc-vcard");
+      if(!first) return;
+      var cardW = first.offsetWidth + 9;
+      var visible = Math.max(1, Math.floor(box.offsetWidth / cardW));
+      var maxOffset = Math.max(0, row.children.length - visible);
+      var current = parseInt(row.dataset.offset||"0", 10);
+      current = Math.min(maxOffset, Math.max(0, current + dir));
+      row.dataset.offset = current;
+      row.style.transform = "translateX(-" + (current * cardW) + "px)";
+      var nav = btn.parentNode;
+      var prev = nav.querySelector('[data-dir="-1"]');
+      var next = nav.querySelector('[data-dir="1"]');
+      if(prev) prev.disabled = (current === 0);
+      if(next) next.disabled = (current >= maxOffset);
+    });
+  });
+  var iso2 = "CN";
+  if(!iso2 || typeof L === "undefined") return;
+  var STYLES = {
+    light:     { url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", attr: "&copy; OSM &copy; CARTO" },
+    dark:      { url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",  attr: "&copy; OSM &copy; CARTO" },
+    satellite: { url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", attr: "&copy; Esri" }
+  };
+  var wMap=null, wLayer=null, wMarker=null;
+  function initMap(lat, lon){
+    var el = document.getElementById("wigg-country-map");
+    if(!el) return;
+    if(wMap){ try{wMap.remove();}catch(e){} }
+    wMap = L.map("wigg-country-map",{zoomControl:true}).setView([lat,lon],5);
+    wLayer = L.tileLayer(STYLES.light.url,{attribution:STYLES.light.attr,maxZoom:18}).addTo(wMap);
+    wMarker = L.marker([lat,lon]).addTo(wMap);
+    var loading = document.getElementById("wiggMapLoading");
+    if(loading) loading.classList.add("hidden");
+  }
+  document.querySelectorAll(".map-style-btn").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(!wMap) return;
+      var s = STYLES[b.dataset.style];
+      if(!s) return;
+      if(wLayer) wMap.removeLayer(wLayer);
+      wLayer = L.tileLayer(s.url,{attribution:s.attr,maxZoom:18}).addTo(wMap);
+      document.querySelectorAll(".map-style-btn").forEach(function(x){x.classList.remove("active");});
+      b.classList.add("active");
+    });
+  });
+  var cacheKey = "wigg_centroid_" + iso2;
+  var cached = null;
+  try { cached = JSON.parse(localStorage.getItem(cacheKey) || "null"); } catch(e){}
+  if(cached && cached.lat != null && cached.lon != null){
+    initMap(cached.lat, cached.lon); return;
+  }
+  fetch("https://nominatim.openstreetmap.org/search?country=" + encodeURIComponent(iso2) + "&format=json&limit=1")
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && d[0]){
+        var coords = { lat: +d[0].lat, lon: +d[0].lon };
+        try { localStorage.setItem(cacheKey, JSON.stringify(coords)); } catch(e){}
+        initMap(coords.lat, coords.lon);
+      } else {
+        var l = document.getElementById("wiggMapLoading");
+        if(l) l.textContent = "Carte indisponible";
+      }
+    })
+    .catch(function(){
+      var l = document.getElementById("wiggMapLoading");
+      if(l) l.textContent = "Carte indisponible";
+    });
+})();
+</script>
+
+<form name="wiggmap-corrections" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="wiggmap-corrections" />
+  <p><label>Don't fill this out: <input name="bot-field" /></label></p>
+  <input name="country" /><input name="field" /><input name="value" /><input name="email" /><textarea name="notes"></textarea>
+</form>
+
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
 </body>
 </html>

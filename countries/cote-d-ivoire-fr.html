@@ -25,65 +25,127 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#f6f1e8;--paper:#fffdf8;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--green:#1d7f48;--green-dk:#155f36;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
+    :root{--paper:#fffdf8;--paper-2:#fbf7ee;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--line-soft:rgba(23,23,20,.06);--green:#1d7f48;--green-dk:#155f36;--green-light:#e6f4ec;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
     html{scroll-behavior:smooth}
     body{font-family:"Inter",system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f9f5ed 0%,#f3ede3 100%);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
     a{color:var(--green);text-decoration:none}
     a:hover{text-decoration:underline}
-    main{max-width:980px;margin:0 auto;padding:28px 20px 80px}
-    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:18px;letter-spacing:.04em}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:14px;letter-spacing:.04em}
     .crumb a{color:var(--ink-soft)}
-    .hero{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:36px 32px;box-shadow:var(--shadow);margin-bottom:24px;position:relative;overflow:hidden}
-    .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 18%,rgba(29,127,72,.05),transparent 30%);pointer-events:none}
-    .hero-flag{font-size:48px;line-height:1;margin-bottom:14px}
-    .hero h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(36px,6vw,56px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:10px;position:relative;z-index:1}
-    .hero .subtitle{font-size:15px;color:var(--ink-soft);max-width:62ch;line-height:1.6;position:relative;z-index:1}
-    .hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;position:relative;z-index:1}
-    .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid var(--line)}
-    .badge.green{background:#e6f4ec;color:var(--green-dk);border-color:rgba(29,127,72,.2)}
+    .country-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:22px;flex-wrap:wrap}
+    .country-flag{font-size:42px;line-height:1;margin-bottom:8px}
+    .country-head h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(34px,5.2vw,52px);font-weight:800;letter-spacing:-.02em;line-height:1.02}
+    .country-head .subtitle{font-size:14px;color:var(--ink-soft);max-width:64ch;line-height:1.55;margin-top:8px}
+    .head-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+    .badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:7px 13px;border-radius:999px;background:#fff;border:1px solid var(--line)}
+    .badge.green{background:var(--green-light);color:var(--green-dk);border-color:rgba(29,127,72,.22)}
     .badge.yellow{background:#fef9e7;color:#a16207;border-color:rgba(202,138,4,.25)}
     .badge.red{background:#fdecec;color:#b91c1c;border-color:rgba(185,28,28,.25)}
-    .snapshot{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px 26px;box-shadow:var(--shadow);margin-bottom:24px}
-    .snapshot h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;margin-bottom:14px}
-    .snap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
-    .snap-item{font-size:13px}
-    .snap-item strong{display:block;color:var(--ink-soft);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
-    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
-    .data-card h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;padding:20px 26px 8px}
+    .badge .dot{width:8px;height:8px;border-radius:999px;background:currentColor;display:inline-block}
+    .local-time{font-size:12px;color:var(--ink-soft);font-weight:600}
+    .local-time b{color:var(--ink);margin-left:5px;font-weight:800}
+    .main-grid{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+    @media(max-width:900px){.main-grid{grid-template-columns:1fr}}
+    .sidebar{display:flex;flex-direction:column;gap:14px;align-self:start;position:sticky;top:18px}
+    @media(max-width:900px){.sidebar{position:static}}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .hero-img{width:100%;height:200px;object-fit:cover;display:block;background:#eaddc4}
+    .hero-actions{padding:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:8px;font-family:inherit;font-weight:700;font-size:12.5px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;transition:background .14s,border-color .14s}
+    .btn:hover{background:rgba(0,0,0,.04)}
+    .btn.primary{background:var(--green);color:#fff;border-color:transparent}
+    .btn.primary:hover{background:var(--green-dk)}
+    .snapshot-card{padding:16px}
+    .snapshot-title{font-family:"Fraunces",Georgia,serif;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px;letter-spacing:-.01em}
+    .kv{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--line-soft);font-size:12.5px}
+    .kv span{color:var(--ink-soft)}
+    .kv b{color:var(--ink);font-weight:700;text-align:right;max-width:60%}
+    .kv-sub{padding-left:10px;font-size:11.5px;opacity:.85}
+    .kv-note{font-size:11px;color:var(--ink-soft);line-height:1.5;padding:6px 0 8px;font-style:italic;border-bottom:1px solid var(--line-soft)}
+    .sector-block{padding-top:10px;margin-top:6px;border-top:1px solid var(--line-soft)}
+    .sector-head{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+    .sector-list{display:flex;flex-direction:column;gap:5px}
+    .sector-pill{background:rgba(29,127,72,.08);border:1px solid rgba(29,127,72,.2);border-radius:7px;padding:5px 10px;font-size:11.5px;font-weight:700;color:var(--green-dk);line-height:1.4}
+    .persona-card{padding:16px}
+    .persona-name{font-weight:800;font-size:13px;margin-bottom:6px}
+    .persona-name small{font-weight:500;opacity:.6;font-size:11px}
+    .persona-why{font-size:11.5px;color:var(--ink-soft);line-height:1.55;font-style:italic}
+    .right-col{display:flex;flex-direction:column;gap:18px;min-width:0}
+    .rc-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:760px){.rc-wrapper{grid-template-columns:1fr}}
+    .rc-box{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 14px 12px;overflow:hidden}
+    .rc-box-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:6px}
+    .rc-box-head h2{font-family:"Fraunces",Georgia,serif;font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+    .rc-nav{display:flex;gap:4px}
+    .rc-nav-btn{width:24px;height:24px;border-radius:6px;border:1px solid var(--line);background:#fff;font-size:13px;cursor:pointer;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;line-height:1;transition:all .14s}
+    .rc-nav-btn:hover{background:var(--green);color:#fff;border-color:transparent}
+    .rc-nav-btn:disabled{opacity:.35;cursor:not-allowed}
+    .rc-track{overflow:hidden}
+    .rc-row{display:flex;gap:9px;transition:transform .35s ease;will-change:transform}
+    .rc-vcard{flex-shrink:0;width:130px;height:90px;border-radius:10px;overflow:hidden;position:relative;background:#e9dfca;border:1px solid var(--line);transition:transform .15s,box-shadow .15s}
+    .rc-vcard:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10);text-decoration:none}
+    .rc-vimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .rc-vemoji{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;background:linear-gradient(135deg,#ede5d8,#ddd3c4)}
+    .rc-vgrad{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,8,.85) 0%,rgba(20,15,8,.2) 55%,transparent 100%)}
+    .rc-vbody{position:absolute;left:0;right:0;bottom:0;padding:7px 9px;z-index:2}
+    .rc-vtitle{font-family:"Fraunces",Georgia,serif;font-size:10.5px;font-weight:700;color:#fff;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
     .data-table{width:100%;border-collapse:collapse;font-size:13px}
-    .data-table .sec td{background:#f8f4eb;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:10px 26px;color:var(--ink-soft);border-top:1px solid var(--line)}
-    .data-table td{padding:9px 26px;border-bottom:1px solid var(--line);vertical-align:top}
+    .data-table .sec td{background:#f4eedf;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:11px 22px;color:var(--ink-soft);border-top:1px solid var(--line)}
+    .data-table td{padding:9px 22px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+    .data-table tr:last-child td{border-bottom:none}
     .data-table td.lbl{width:42%;color:var(--ink)}
-    .data-table td.val{width:22%;font-weight:700}
+    .data-table td.val{width:25%;font-weight:700}
     .data-table td.hint{font-size:11.5px;color:var(--ink-soft)}
+    .data-table td.edit{width:30px;text-align:right;padding-right:14px}
     .data-table .ico{margin-right:8px}
-    .article{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px;margin-bottom:24px}
-    .article h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:700;margin:24px 0 10px;color:var(--ink)}
-    .article h2:first-child{margin-top:0}
-    .article p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.75}
-    .article p strong{color:var(--ink);font-weight:600}
-    .ttk{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-bottom:24px}
-    .ttk h2{font-family:"Fraunces",Georgia,serif;font-size:20px;font-weight:700;margin-bottom:16px}
-    .ttk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-    .ttk-card{background:#fbf7ee;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
-    .ttk-card .ttk-title{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink)}
-    .ttk-card p{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
-    .ttk-card small{font-weight:500;color:var(--ink-soft)}
-    .related{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px;margin-bottom:18px}
-    .related h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
-    .link-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px 18px}
-    .link-list li{font-size:13.5px;line-height:1.5;padding-left:14px;position:relative}
-    .link-list li::before{content:"›";position:absolute;left:0;color:var(--green)}
-    @media (max-width:640px){
-      main{padding:20px 14px 60px}
-      .hero{padding:26px 22px}
-      .data-table td{padding:9px 16px}
-      .data-table .sec td{padding:10px 16px}
-      .article{padding:24px 22px}
-      .ttk{padding:22px 22px}
-      .related{padding:20px 22px}
+    .edit-btn{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:13px;opacity:.4;transition:opacity .14s;padding:2px 4px}
+    .edit-btn:hover{opacity:1;color:var(--green)}
+    .article-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px}
+    .section-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+    .section-head h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:800;letter-spacing:-.01em;color:var(--ink)}
+    .score-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-light);border:1px solid rgba(29,127,72,.25);color:var(--green-dk);padding:5px 12px;border-radius:999px;font-size:12px;font-weight:700}
+    .article-body p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.78}
+    .article-body p:last-child{margin-bottom:0}
+    .art-tag{display:inline-block;padding:3px 10px;border-radius:6px;font-weight:700;font-size:13px;margin-bottom:6px;line-height:1.5}
+    .map-card{margin:22px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper-2)}
+    .map-header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);gap:8px;flex-wrap:wrap}
+    .map-title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}
+    .map-flag{font-size:18px}
+    .map-styles{display:flex;gap:4px}
+    .map-style-btn{font-size:11px;font-weight:700;padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;color:var(--ink-soft);cursor:pointer;transition:all .14s}
+    .map-style-btn:hover{border-color:var(--green);color:var(--green)}
+    .map-style-btn.active{background:var(--green);color:#fff;border-color:transparent}
+    .map-container{position:relative;height:320px}
+    #wigg-country-map{position:absolute;inset:0}
+    .map-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper-2);color:var(--ink-soft);font-size:13px;z-index:10}
+    .map-loading.hidden{display:none}
+    .things-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px}
+    .wg-badge{display:inline-flex;align-items:center;gap:5px;background:#fef3c7;border:1px solid rgba(202,138,4,.3);color:#92400e;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+    .facts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .fact-card{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden}
+    .fact-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green)}
+    .fact-title{font-weight:800;font-size:13px;margin-bottom:6px;color:var(--ink);padding-left:6px}
+    .fact-text{font-size:12.5px;color:var(--ink-soft);line-height:1.55;padding-left:6px}
+    .cmp-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px}
+    .cmp-section h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
+    .cmp-pills{display:flex;flex-wrap:wrap;gap:8px}
+    .cmp-pill{display:inline-block;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:600;color:var(--ink);transition:all .14s}
+    .cmp-pill:hover{border-color:var(--green);background:var(--green);color:#fff;text-decoration:none}
+    @media(max-width:640px){
+      .wrap{padding:18px 14px 60px}
+      .country-head{flex-direction:column}
+      .head-right{align-items:flex-start}
+      .data-table td{padding:9px 14px}
+      .data-table .sec td{padding:11px 14px}
+      .article-card{padding:24px 22px}
+      .things-section{padding:22px 22px}
+      .cmp-section{padding:20px 22px}
+      .map-container{height:240px}
     }
   </style>
 </head>
@@ -92,268 +154,400 @@
 <div id="siteHeader"></div>
 <script src="/data/header.js"></script>
 
-<main>
+<main class="wrap">
   <nav class="crumb"><a href="/">Accueil</a> › <a href="/globe.html">Pays</a> › Côte d&#x27;Ivoire</nav>
 
-  <section class="hero">
-    <div class="hero-flag">🇨🇮</div>
-    <h1>Côte d&#x27;Ivoire</h1>
-    <p class="subtitle">Moyennes indicatives (Abidjan plus élevé ; net / mois sauf indication contraire)</p>
-    <div class="hero-badges">
-      <span class="badge yellow">WIGG: YELLOW</span>
-      <span class="badge">⭐ Score Expat: 4.5 / 10</span>
+  <div class="country-head">
+    <div>
+      <div class="country-flag">🇨🇮</div>
+      <h1>Côte d&#x27;Ivoire</h1>
+      <p class="subtitle">Moyennes indicatives (Abidjan plus élevé ; net / mois sauf indication contraire)</p>
     </div>
-  </section>
-
-  <section class="snapshot">
-    <h2>Aperçu rapide</h2>
-    <div class="snap-grid">
-      <div class="snap-item"><strong>Capitale</strong>Yamoussoukro (politique), Abidjan (économique)</div>
-      <div class="snap-item"><strong>Population</strong>~28M</div>
-      <div class="snap-item"><strong>Langues</strong>Français</div>
-      <div class="snap-item"><strong>Conduite</strong>Droite</div>
-      <div class="snap-item"><strong>Monnaie</strong>Franc CFA d&#x27;Afrique de l&#x27;Ouest (XOF)</div>
-      <div class="snap-item"><strong>Crypto-friendly</strong>Limité</div>
+    <div class="head-right">
+      <div class="badge yellow"><span class="dot"></span>WIGG: YELLOW</div>
+      <div class="local-time">Heure locale <b id="localTime" data-tz="Africa/Abidjan">--:--</b></div>
     </div>
-  </section>
+  </div>
 
-  <section class="data-card">
-    <h2>Coût de la vie, salaires et qualité de vie</h2>
-    <table class="data-table">
-    <tbody>
-      <tr class="sec"><td colspan="3">💼 Salaires (net / mois)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧾</span>Salaire minimum</td>
-        <td class="val">$110</td>
-        <td class="hint">SMIG ≈ 75 000 XOF → net ≈ 67 500 XOF (2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📊</span>Salaire moyen</td>
-        <td class="val">$290</td>
-        <td class="hint">Moyenne nette ≈ 175 000 XOF/mois (INS Côte d&#x27;Ivoire 2024 — Abidjan plus élevé; cacao/finance)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🩺</span>Salaire médecin (généraliste)</td>
-        <td class="val">$900</td>
-        <td class="hint">Moyenne du secteur public</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🏠 Logement et charges (studio référence)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏚️</span>Loyer studio</td>
-        <td class="val">$230</td>
-        <td class="hint">Villes régionales</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">⚡</span>Électricité</td>
-        <td class="val">$65</td>
-        <td class="hint">/ mois</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💧</span>Eau</td>
-        <td class="val">$15</td>
-        <td class="hint">/ mois</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📱</span>Forfait mobile</td>
-        <td class="val">$12</td>
-        <td class="hint">~10–30 Go</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🍽️ Alimentation et boissons (prix indicatifs)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍺</span>Bière (pinte)</td>
-        <td class="val">$1.80</td>
-        <td class="hint">Bar local</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☕</span>Café</td>
-        <td class="val">$1.50</td>
-        <td class="hint">Café régulier</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍲</span>Plat principal</td>
-        <td class="val">$7</td>
-        <td class="hint">restaurant local</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">⛽ Transport</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">⛽</span>Essence / litre</td>
-        <td class="val">1,35 $ / L</td>
-        <td class="hint">indicatif</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🧾 Fiscalité (indicatif)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏷️</span>TVA</td>
-        <td class="val">18%</td>
-        <td class="hint">taux standard</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">👤</span>Impôt sur le revenu</td>
-        <td class="val">~15%</td>
-        <td class="hint">Progressif, de milieu de gamme</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏪</span>Fiscalité petite entreprise</td>
-        <td class="val">~25%</td>
-        <td class="hint">25 % CIT (incitations disponibles)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📱 Tech (prix indicatifs)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍎</span>iPhone (dernier 256 Go)</td>
-        <td class="val">$1,250</td>
-        <td class="hint">l&#x27;importation des prix varie</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📲</span>Galaxy S (dernier 256 Go)</td>
-        <td class="val">$950</td>
-        <td class="hint">l&#x27;importation des prix varie</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🛂 Immigration et installation</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🛂</span>Facilité d&#x27;immigration</td>
-        <td class="val">5 / 10</td>
-        <td class="hint">les permis varient</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🌤️ Qualité de vie</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🙂</span>Bonheur</td>
-        <td class="val">5.6 / 10</td>
-        <td class="hint">indicatif (src : Rapport sur le bonheur dans le monde 2024)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☀️</span>Jours de soleil / an</td>
-        <td class="val">~280 jours / an</td>
-        <td class="hint">indicatif (src : Données climatiques, OMM)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏥</span>Santé publique</td>
-        <td class="val">Oui</td>
-        <td class="hint">public limité + privé</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧑‍⚕️</span>Assurance privée / mois</td>
-        <td class="val">40 $ / mois</td>
-        <td class="hint">exemple privé</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📈 Indices</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🚔</span>Indice criminalité</td>
-        <td class="val">55 / 100</td>
-        <td class="hint">indicatif (src : Indice de sécurité Numbeo 2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💶</span>Pouvoir d&#x27;achat</td>
-        <td class="val">48</td>
-        <td class="hint">indicatif (src : Indice PP de Numbeo 2025)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🕍 Religion</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">✝️</span>Chrétien</td>
-        <td class="val">~34%</td>
-        <td class="hint">indicatif</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☪️</span>Musulman</td>
-        <td class="val">~42%</td>
-        <td class="hint">indicatif</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☸️</span>Bouddhiste</td>
-        <td class="val">~0%</td>
-        <td class="hint">indicatif</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">✡️</span>Juif</td>
-        <td class="val">~0%</td>
-        <td class="hint">indicative (src: Pew Research / WJC)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🕊️</span>Autre / Aucune</td>
-        <td class="val">~7%</td>
-        <td class="hint">traditionnel/aucun</td>
-      </tr>
-    </tbody>
-    </table>
-  </section>
+  <div class="main-grid">
+    <aside class="sidebar">
+      <div class="card">
+        <img class="hero-img" src="/assets/hero-cote-d-ivoire.jpg" alt="Côte d&#x27;Ivoire"
+             onerror="this.onerror=null;this.src='/assets/hero-fallback.jpg'" />
+        <div class="hero-actions">
+          <button class="btn primary" type="button" onclick="openModal('general')">Corriger les données</button>
+          <button class="btn" type="button" id="btnShare">Partager</button>
+          <a class="btn" href="/compare.html?country=cote-d-ivoire">Comparer</a>
+        </div>
+      </div>
 
-  <section class="article"><h2>Aperçu du pays</h2><h2>🧭 Aperçu</h2>
-<p>La Côte d'Ivoire est la puissance économique de l'Afrique de l'Ouest et ancienne colonie française, qui se remet des guerres civiles (2002-2007, 2010-2011) qui ont divisé le pays. Abidjan, la capitale économique sur la côte, est une mégapole tentaculaire et un pôle d'affaires régional. Yamoussoukro est la capitale officielle avec la massive Basilique Notre-Dame de la Paix. L'économie est tirée par le cacao (plus grand producteur mondial, 40 % de l'offre mondiale), la noix de cajou, le pétrole et les services. L'investissement et l'influence français restent importants. Le pays est relativement stable aujourd'hui mais la corruption, les inégalités et les lacunes infrastructurelles persistent.</p>
-<h2>👥 Population et ambiance</h2>
-<p>Avec environ 28 millions d'habitants, la Côte d'Ivoire est ethniquement diverse avec plus de 60 groupes, dont Akan, Voltaïque, Mande du Nord, Krou et Mande du Sud. Le français est la langue officielle et la lingua franca. La population est partagée entre le christianisme (principalement au sud), l'islam (principalement au nord) et les croyances traditionnelles. Abidjan est cosmopolite, dynamique et constitue un centre de la culture francophone africaine. L'atmosphère est faite d'effervescence et d'ambition — aspiration au « Paris de l'Afrique de l'Ouest ». La musique (coupé-décalé, zouglou) est centrale. Les divisions sociales héritées de la guerre civile perdurent. La corruption et les inégalités sont visibles.</p>
-<h2>🌦️ Climat et paysage</h2>
-<p>Attendez-vous à un climat tropical : chaud et humide toute l'année (25-32°C) avec une saison des pluies (mai-octobre, plus intense en juin-juillet) et une saison plus sèche (novembre-avril). Abidjan est côtière et moite. Le paysage comprend une côte atlantique, des lagunes, une forêt tropicale au sud et au centre, et de la savane au nord. La déforestation est sévère en raison de la culture du cacao. Le mont Nimba, au nord-ouest, offre quelques altitudes. Le pays était autrefois très boisé mais a beaucoup perdu au profit de l'agriculture.</p>
-<h2>🏠 Logement et installation</h2>
-<p>Abidjan offre des logements pour expatriés dans des quartiers comme Cocody, le Plateau, Marcory et Deux Plateaux. Prévoyez 2-3 mois de dépôt de garantie et des contrats annuels souvent payés d'avance. Les loyers sont élevés pour la région (1 000 à 2 500 $/mois pour un logement au standard expatrié). La plupart des expatriés vivent dans des ensembles sécurisés avec groupes électrogènes et réserve d'eau. La qualité varie — des projets modernes existent mais l'infrastructure est inégale. Les coupures d'électricité sont fréquentes. En dehors d'Abidjan, les options pour les étrangers sont très limitées. Pour des raisons de sécurité, les communautés fermées et les gardes sont la norme.</p>
-<h2>💼 Travail et économie</h2>
-<p>L'économie repose sur le cacao, la noix de cajou, le pétrole, l'exploitation minière (or, manganèse) et les services. Pour les étrangers, les opportunités se trouvent surtout dans les multinationales (notamment françaises), la banque, les ONG, le secteur pétrolier ou les organisations internationales. Les permis de travail exigent un parrainage par l'employeur. La maîtrise du français est absolument essentielle. Les salaires pour les expatriés peuvent être généreux, mais le coût de la vie à Abidjan est élevé. Les salaires locaux sont bas. La corruption affecte les affaires. Créer une entreprise implique de naviguer dans la bureaucratie et souvent des paiements informels. L'économie croît mais les inégalités sont marquées.</p>
-<h2>🛂 Visa et entrée</h2>
-<p>La plupart des nationalités ont besoin de visas obtenus avant l'arrivée ou d'un e-visa. Des visas à l'arrivée existent pour certains à l'aéroport. Pour des séjours plus longs, les titres de séjour nécessitent le parrainage d'un employeur et une documentation importante. Le processus est bureaucratique et lent. Des extensions sont possibles mais impliquent des frais de facilitation. Le statut de résident permanent est rare. La naturalisation est extrêmement difficile. Les déplacements vers certaines zones proches des frontières nécessitent de la prudence en raison de problèmes de sécurité.</p>
-<h2>🏥 Santé</h2>
-<p>La qualité des soins publics est médiocre — surpeuplés, sous-équipés, insalubres. Les cliniques privées à Abidjan offrent de meilleurs soins mais sont coûteuses et restent en dessous des standards internationaux. Les problèmes médicaux graves nécessitent une évacuation vers le Maroc, l'Afrique du Sud ou la France. Le paludisme, la dengue, la fièvre jaune et d'autres maladies tropicales sont des risques importants. L'assainissement est insuffisant. L'espérance de vie est d'environ 58 ans. Une assurance santé internationale avec couverture d'évacuation est absolument essentielle.</p>
-<h2>🚗 Transport et mobilité</h2>
-<p>Abidjan dispose de taxis partagés (woro-woro), de bus (gbaka) et de motos-taxis. La circulation est intense et chaotique. Les routes d'Abidjan sont congestionnées et pleines de nids-de-poule. Les infrastructures s'améliorent (nouvelles ponts, autoroutes) mais des lacunes subsistent. Des bus interurbains relient les principales villes. Le pays possède des voies ferrées mais le service passagers est limité. Des vols intérieurs desservent quelques villes. L'aéroport Félix Houphouët-Boigny à Abidjan relie à l'Europe (principalement Paris), à l'Afrique et au Moyen-Orient. La conduite y est agressive et imprévisible.</p>
-<h2>🍛 Note sur l'alimentation (plat national)</h2>
-<p>Le plat national est l'<strong>Attiéké</strong> : couscous de manioc fermenté généralement servi avec du poisson grillé (souvent thon ou tilapia), une sauce tomate-oignon et du piment. C'est un incontournable de la street food et un classique des restaurants. Le manioc légèrement acidulé se marie avec le poisson frais et la sauce épicée. Ce plat représente l'identité ivoirienne et se consomme dans toutes les classes sociales.</p>
-<h2>🔎 En bref</h2>
-<p>La Côte d'Ivoire convient aux professionnels francophones travaillant pour des multinationales, aux acteurs du développement ou à ceux évoluant dans des secteurs spécifiques (cacao, mines, pétrole). L'économie est en croissance et offre des opportunités en Afrique de l'Ouest francophone. Cependant, la corruption, le coût élevé de la vie (Abidjan), la faiblesse des soins de santé, les lacunes infrastructurelles et les problèmes de sécurité posent des défis sérieux. Ce n'est ni confortable ni facile. Vivre ici exige un soutien institutionnel, la maîtrise du français, des attentes réalistes et une tolérance à l'inefficacité. Recommandé uniquement pour ceux ayant des raisons professionnelles claires et un solide soutien employeur.</p>
-<p>Score expatrié — 4.5 / 10</p></section>
+      <div class="card snapshot-card">
+        <div class="snapshot-title">Aperçu rapide</div>
+        <div class="kv"><span>Capitale</span><b>Yamoussoukro (politique), Abidjan (économique)</b></div><div class="kv"><span>Population</span><b>~28M</b></div><div class="kv"><span>Langues</span><b>Français</b></div><div class="kv"><span>Monnaie</span><b>Franc CFA d&#x27;Afrique de l&#x27;Ouest (XOF)</b></div><div class="kv kv-sub"><span>Exchange rate</span><b>1 USD ≈ 600 XOF</b></div><div class="kv-note">Monnaie stable arrimée à l&#x27;euro. Partagée avec 7 autres pays d&#x27;Afrique de l&#x27;Ouest.</div><div class="kv"><span>Crypto-friendly</span><b>Limité</b></div><div class="kv-note">Pas de réglementation spécifique. Infrastructure bancaire limitée. Intérêt crypto faible mais croissant, surtout chez les jeunes.</div><div class="kv"><span>Conduite</span><b>Droite</b></div><div class="sector-block"><div class="sector-head">Secteurs phares</div><div class="sector-list"><div class="sector-pill">Production et exportation de cacao</div><div class="sector-pill">Extraction de pétrole et de gaz</div><div class="sector-pill">Banque et services financiers</div></div></div>
+      </div>
 
-  <section class="ttk"><h2>À savoir</h2><div class="ttk-grid">
-      <div class="ttk-card">
-        <div class="ttk-title">👤 Félix Houphouët-Boigny <small>(XXe siècle)</small></div>
-        <p>Premier président (1960-1993) et « père de la nation ». Ses 33 années au pouvoir ont apporté stabilité et des politiques pro-françaises mais aussi un culte de la personnalité. Il a fait construire la basilique de Yamoussoukro (plus grande que Saint-Pierre) dans son village natal à un coût énorme. Héritage controversé — stabilité versus autoritarisme.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🍫 Empire du chocolat sur des salaires de pauvreté</div>
-        <p>La Côte d&#x27;Ivoire produit 40 % du cacao mondial, pourtant la plupart des paysans vivent dans la pauvreté en gagnant 1-2 $/jour. Le travail des enfants est répandu. La richesse retourne aux exportateurs et aux entreprises chocolatières, pas aux agriculteurs. C&#x27;est un exemple classique d&#x27;économie d&#x27;extraction.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">⛪ La basilique Notre-Dame de la Paix = absurdité</div>
-        <p>Plus grande église du monde (plus grande que Saint-Pierre), construite dans la jungle de Yamoussoukro pour plus de 300 M$ alors que le pays était en difficulté. Projet de vanité de Houphouët-Boigny. Elle compte 18 000 places mais est généralement vide. Symbole de priorités mal placées.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🇫🇷 Le terrain néocolonial de la France</div>
-        <p>Les entreprises françaises dominent l&#x27;économie. Des bases militaires françaises existent. Le franc CFA lie la monnaie à la France. Cela crée dépendance et ressentiment. Les jeunes remettent de plus en plus en question l&#x27;influence française. La relation est complexe et controversée.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🚧 Infrastructures en amélioration mais insuffisantes</div>
-        <p>Investissements majeurs dans des ponts, routes et bâtiments. La silhouette d&#x27;Abidjan change. Mais les coupures d&#x27;électricité, les pénuries d&#x27;eau et les embouteillages persistent. Le développement est inégal — tours brillantes à côté de bidonvilles.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">⚽ Le football rassemble</div>
-        <p>L&#x27;équipe nationale de Côte d&#x27;Ivoire (Les Éléphants) a uni la nation divisée pendant la guerre civile. Didier Drogba est un héros national. La victoire à la Coupe d&#x27;Afrique des Nations 2015 a été immense. Le football transcende les divisions ethniques.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🎵 Le coupé-décalé définit la culture</div>
-        <p>Genre de musique dansante né à Paris parmi la diaspora ivoirienne, caractérisé par un tempo rapide et de la vantardise. DJ Arafat (décédé en 2019) en était le roi. Les clips montrent richesse et réussite — aspiration pour une jeunesse en difficulté.</p>
-      </div></div></section>
+      
+        <div class="card persona-card">
+          <div class="snapshot-title">Figure du pays</div>
+          <div class="persona-name">Félix Houphouët-Boigny <small>(XXe siècle)</small></div>
+          <div class="persona-why">Premier président (1960-1993) et « père de la nation ». Ses 33 années au pouvoir ont apporté stabilité et des politiques pro-françaises mais aussi un culte de la personnalité. Il a fait construire la basilique de Yamoussoukro (plus grande que Saint-Pierre) dans son village natal à un coût énorme. Héritage controversé — stabilité versus autoritarisme.</div>
+        </div>
+    </aside>
 
-  
-  
-  
+    <div class="right-col">
+      <div class="rc-wrapper">
+        
+        
+      </div>
 
-  <p style="text-align:center;margin-top:30px"><a href="/globe.html" style="font-weight:600">Voir les 160+ pays →</a></p>
+      <div class="data-card">
+        <table class="data-table">
+      <tbody>
+        <tr class="sec"><td colspan="4">💼 Salaires (net / mois)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧾</span>Salaire minimum</td>
+          <td class="val">$110</td>
+          <td class="hint">SMIG ≈ 75 000 XOF → net ≈ 67 500 XOF (2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('min_wage')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📊</span>Salaire moyen</td>
+          <td class="val">$290</td>
+          <td class="hint">Moyenne nette ≈ 175 000 XOF/mois (INS Côte d&#x27;Ivoire 2024 — Abidjan plus élevé; cacao/finance)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('avg_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🩺</span>Salaire médecin (généraliste)</td>
+          <td class="val">$900</td>
+          <td class="hint">Moyenne du secteur public</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('doctor_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🏠 Logement et charges (studio référence)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏚️</span>Loyer studio</td>
+          <td class="val">$230</td>
+          <td class="hint">Villes régionales</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('rent_studio')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">⚡</span>Électricité</td>
+          <td class="val">$65</td>
+          <td class="hint">/ mois</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('electricity')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💧</span>Eau</td>
+          <td class="val">$15</td>
+          <td class="hint">/ mois</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('water')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📱</span>Forfait mobile</td>
+          <td class="val">$12</td>
+          <td class="hint">~10–30 Go</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('mobile')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🍽️ Alimentation et boissons (prix indicatifs)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍺</span>Bière (pinte)</td>
+          <td class="val">$1.80</td>
+          <td class="hint">Bar local</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('beer')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☕</span>Café</td>
+          <td class="val">$1.50</td>
+          <td class="hint">Café régulier</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('coffee')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍲</span>Plat principal</td>
+          <td class="val">$7</td>
+          <td class="hint">restaurant local</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('dish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">⛽ Transport</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">⛽</span>Essence / litre</td>
+          <td class="val">1,35 $ / L</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('gas')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🧾 Fiscalité (indicatif)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏷️</span>TVA</td>
+          <td class="val">18%</td>
+          <td class="hint">taux standard</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('vat')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">👤</span>Impôt sur le revenu</td>
+          <td class="val">~15%</td>
+          <td class="hint">Progressif, de milieu de gamme</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('income_tax')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏪</span>Fiscalité petite entreprise</td>
+          <td class="val">~25%</td>
+          <td class="hint">25 % CIT (incitations disponibles)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('smallbiz')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📱 Tech (prix indicatifs)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍎</span>iPhone (dernier 256 Go)</td>
+          <td class="val">$1,250</td>
+          <td class="hint">l&#x27;importation des prix varie</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('iphone')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📲</span>Galaxy S (dernier 256 Go)</td>
+          <td class="val">$950</td>
+          <td class="hint">l&#x27;importation des prix varie</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('samsung')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🛂 Immigration et installation</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🛂</span>Facilité d&#x27;immigration</td>
+          <td class="val">5 / 10</td>
+          <td class="hint">les permis varient</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('immigration')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🌤️ Qualité de vie</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🙂</span>Bonheur</td>
+          <td class="val">5.6 / 10</td>
+          <td class="hint">indicatif (src : Rapport sur le bonheur dans le monde 2024)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('happiness')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☀️</span>Jours de soleil / an</td>
+          <td class="val">~280 jours / an</td>
+          <td class="hint">indicatif (src : Données climatiques, OMM)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('sun')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏥</span>Santé publique</td>
+          <td class="val">Oui</td>
+          <td class="hint">public limité + privé</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('health')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧑‍⚕️</span>Assurance privée / mois</td>
+          <td class="val">40 $ / mois</td>
+          <td class="hint">exemple privé</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('insurance')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📈 Indices</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🚔</span>Indice criminalité</td>
+          <td class="val">55 / 100</td>
+          <td class="hint">indicatif (src : Indice de sécurité Numbeo 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('crime')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💶</span>Pouvoir d&#x27;achat</td>
+          <td class="val">48</td>
+          <td class="hint">indicatif (src : Indice PP de Numbeo 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('pp')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🕍 Religion</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">✝️</span>Chrétien</td>
+          <td class="val">~34%</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_christian')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☪️</span>Musulman</td>
+          <td class="val">~42%</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_muslim')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☸️</span>Bouddhiste</td>
+          <td class="val">~0%</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_buddhist')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">✡️</span>Juif</td>
+          <td class="val">~0%</td>
+          <td class="hint">indicative (src: Pew Research / WJC)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_jewish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🕊️</span>Autre / Aucune</td>
+          <td class="val">~7%</td>
+          <td class="hint">traditionnel/aucun</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_other')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+        </table>
+      </div>
+
+      
+      <div class="article-card">
+        <div class="section-head">
+          <h2>Vivre à Côte d&#x27;Ivoire</h2>
+          <span class="score-badge"><span class="score-star">⭐</span> Score Expat: 4.5 / 10</span>
+        </div>
+        <div class="article-body"><p>🧭 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Aperçu</span><br>
+La Côte d&#x27;Ivoire est la puissance économique de l&#x27;Afrique de l&#x27;Ouest et ancienne colonie française, qui se remet des guerres civiles (2002-2007, 2010-2011) qui ont divisé le pays. Abidjan, la capitale économique sur la côte, est une mégapole tentaculaire et un pôle d&#x27;affaires régional. Yamoussoukro est la capitale officielle avec la massive Basilique Notre-Dame de la Paix. L&#x27;économie est tirée par le cacao (plus grand producteur mondial, 40 % de l&#x27;offre mondiale), la noix de cajou, le pétrole et les services. L&#x27;investissement et l&#x27;influence français restent importants. Le pays est relativement stable aujourd&#x27;hui mais la corruption, les inégalités et les lacunes infrastructurelles persistent.</p><p>👥 <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Population et ambiance</span><br>
+Avec environ 28 millions d&#x27;habitants, la Côte d&#x27;Ivoire est ethniquement diverse avec plus de 60 groupes, dont Akan, Voltaïque, Mande du Nord, Krou et Mande du Sud. Le français est la langue officielle et la lingua franca. La population est partagée entre le christianisme (principalement au sud), l&#x27;islam (principalement au nord) et les croyances traditionnelles. Abidjan est cosmopolite, dynamique et constitue un centre de la culture francophone africaine. L&#x27;atmosphère est faite d&#x27;effervescence et d&#x27;ambition — aspiration au « Paris de l&#x27;Afrique de l&#x27;Ouest ». La musique (coupé-décalé, zouglou) est centrale. Les divisions sociales héritées de la guerre civile perdurent. La corruption et les inégalités sont visibles.</p><p>🌦️ <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Climat et paysage</span><br>
+Attendez-vous à un climat tropical : chaud et humide toute l&#x27;année (25-32°C) avec une saison des pluies (mai-octobre, plus intense en juin-juillet) et une saison plus sèche (novembre-avril). Abidjan est côtière et moite. Le paysage comprend une côte atlantique, des lagunes, une forêt tropicale au sud et au centre, et de la savane au nord. La déforestation est sévère en raison de la culture du cacao. Le mont Nimba, au nord-ouest, offre quelques altitudes. Le pays était autrefois très boisé mais a beaucoup perdu au profit de l&#x27;agriculture.</p><p>🏠 <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Logement et installation</span><br>
+Abidjan offre des logements pour expatriés dans des quartiers comme Cocody, le Plateau, Marcory et Deux Plateaux. Prévoyez 2-3 mois de dépôt de garantie et des contrats annuels souvent payés d&#x27;avance. Les loyers sont élevés pour la région (1 000 à 2 500 $/mois pour un logement au standard expatrié). La plupart des expatriés vivent dans des ensembles sécurisés avec groupes électrogènes et réserve d&#x27;eau. La qualité varie — des projets modernes existent mais l&#x27;infrastructure est inégale. Les coupures d&#x27;électricité sont fréquentes. En dehors d&#x27;Abidjan, les options pour les étrangers sont très limitées. Pour des raisons de sécurité, les communautés fermées et les gardes sont la norme.</p><p>💼 <span class="art-tag" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#6d28d9">Travail et économie</span><br>
+L&#x27;économie repose sur le cacao, la noix de cajou, le pétrole, l&#x27;exploitation minière (or, manganèse) et les services. Pour les étrangers, les opportunités se trouvent surtout dans les multinationales (notamment françaises), la banque, les ONG, le secteur pétrolier ou les organisations internationales. Les permis de travail exigent un parrainage par l&#x27;employeur. La maîtrise du français est absolument essentielle. Les salaires pour les expatriés peuvent être généreux, mais le coût de la vie à Abidjan est élevé. Les salaires locaux sont bas. La corruption affecte les affaires. Créer une entreprise implique de naviguer dans la bureaucratie et souvent des paiements informels. L&#x27;économie croît mais les inégalités sont marquées.</p>
+        <div class="map-card">
+          <div class="map-header">
+            <div class="map-title"><span class="map-flag">🇨🇮</span><span>Côte d&#x27;Ivoire — Carte</span></div>
+            <div class="map-styles">
+              <button type="button" class="map-style-btn active" data-style="light">Clair</button>
+              <button type="button" class="map-style-btn" data-style="dark">Sombre</button>
+              <button type="button" class="map-style-btn" data-style="satellite">Satellite</button>
+            </div>
+          </div>
+          <div class="map-container">
+            <div id="wigg-country-map"></div>
+            <div class="map-loading" id="wiggMapLoading">Chargement de la carte…</div>
+          </div>
+        </div><p>🛂 <span class="art-tag" style="background:rgba(236,72,153,.12);border:1px solid rgba(236,72,153,.25);color:#be185d">Visa et entrée</span><br>
+La plupart des nationalités ont besoin de visas obtenus avant l&#x27;arrivée ou d&#x27;un e-visa. Des visas à l&#x27;arrivée existent pour certains à l&#x27;aéroport. Pour des séjours plus longs, les titres de séjour nécessitent le parrainage d&#x27;un employeur et une documentation importante. Le processus est bureaucratique et lent. Des extensions sont possibles mais impliquent des frais de facilitation. Le statut de résident permanent est rare. La naturalisation est extrêmement difficile. Les déplacements vers certaines zones proches des frontières nécessitent de la prudence en raison de problèmes de sécurité.</p><p>🏥 <span class="art-tag" style="background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.25);color:#0e7490">Santé</span><br>
+La qualité des soins publics est médiocre — surpeuplés, sous-équipés, insalubres. Les cliniques privées à Abidjan offrent de meilleurs soins mais sont coûteuses et restent en dessous des standards internationaux. Les problèmes médicaux graves nécessitent une évacuation vers le Maroc, l&#x27;Afrique du Sud ou la France. Le paludisme, la dengue, la fièvre jaune et d&#x27;autres maladies tropicales sont des risques importants. L&#x27;assainissement est insuffisant. L&#x27;espérance de vie est d&#x27;environ 58 ans. Une assurance santé internationale avec couverture d&#x27;évacuation est absolument essentielle.</p><p>🚗 <span class="art-tag" style="background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#c2410c">Transport et mobilité</span><br>
+Abidjan dispose de taxis partagés (woro-woro), de bus (gbaka) et de motos-taxis. La circulation est intense et chaotique. Les routes d&#x27;Abidjan sont congestionnées et pleines de nids-de-poule. Les infrastructures s&#x27;améliorent (nouvelles ponts, autoroutes) mais des lacunes subsistent. Des bus interurbains relient les principales villes. Le pays possède des voies ferrées mais le service passagers est limité. Des vols intérieurs desservent quelques villes. L&#x27;aéroport Félix Houphouët-Boigny à Abidjan relie à l&#x27;Europe (principalement Paris), à l&#x27;Afrique et au Moyen-Orient. La conduite y est agressive et imprévisible.</p><p>🍛 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Note sur l&#x27;alimentation (plat national)</span><br>
+Le plat national est l&#x27;<span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Attiéké</span><br> : couscous de manioc fermenté généralement servi avec du poisson grillé (souvent thon ou tilapia), une sauce tomate-oignon et du piment. C&#x27;est un incontournable de la street food et un classique des restaurants. Le manioc légèrement acidulé se marie avec le poisson frais et la sauce épicée. Ce plat représente l&#x27;identité ivoirienne et se consomme dans toutes les classes sociales.</p><p>🔎 <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">En bref</span><br>
+La Côte d&#x27;Ivoire convient aux professionnels francophones travaillant pour des multinationales, aux acteurs du développement ou à ceux évoluant dans des secteurs spécifiques (cacao, mines, pétrole). L&#x27;économie est en croissance et offre des opportunités en Afrique de l&#x27;Ouest francophone. Cependant, la corruption, le coût élevé de la vie (Abidjan), la faiblesse des soins de santé, les lacunes infrastructurelles et les problèmes de sécurité posent des défis sérieux. Ce n&#x27;est ni confortable ni facile. Vivre ici exige un soutien institutionnel, la maîtrise du français, des attentes réalistes et une tolérance à l&#x27;inefficacité. Recommandé uniquement pour ceux ayant des raisons professionnelles claires et un solide soutien employeur.</p><p>Score expatrié — 4.5 / 10</p></div>
+      </div>
+
+      
+      <div class="things-section">
+        <div class="section-head"><h2>À savoir</h2><span class="wg-badge">À lire</span></div>
+        <div class="facts-grid"><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🍫 Empire du chocolat sur des salaires de pauvreté</div><div class="fact-text">La Côte d&#x27;Ivoire produit 40 % du cacao mondial, pourtant la plupart des paysans vivent dans la pauvreté en gagnant 1-2 $/jour. Le travail des enfants est répandu. La richesse retourne aux exportateurs et aux entreprises chocolatières, pas aux agriculteurs. C&#x27;est un exemple classique d&#x27;économie d&#x27;extraction.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">⛪ La basilique Notre-Dame de la Paix = absurdité</div><div class="fact-text">Plus grande église du monde (plus grande que Saint-Pierre), construite dans la jungle de Yamoussoukro pour plus de 300 M$ alors que le pays était en difficulté. Projet de vanité de Houphouët-Boigny. Elle compte 18 000 places mais est généralement vide. Symbole de priorités mal placées.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🇫🇷 Le terrain néocolonial de la France</div><div class="fact-text">Les entreprises françaises dominent l&#x27;économie. Des bases militaires françaises existent. Le franc CFA lie la monnaie à la France. Cela crée dépendance et ressentiment. Les jeunes remettent de plus en plus en question l&#x27;influence française. La relation est complexe et controversée.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🚧 Infrastructures en amélioration mais insuffisantes</div><div class="fact-text">Investissements majeurs dans des ponts, routes et bâtiments. La silhouette d&#x27;Abidjan change. Mais les coupures d&#x27;électricité, les pénuries d&#x27;eau et les embouteillages persistent. Le développement est inégal — tours brillantes à côté de bidonvilles.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">⚽ Le football rassemble</div><div class="fact-text">L&#x27;équipe nationale de Côte d&#x27;Ivoire (Les Éléphants) a uni la nation divisée pendant la guerre civile. Didier Drogba est un héros national. La victoire à la Coupe d&#x27;Afrique des Nations 2015 a été immense. Le football transcende les divisions ethniques.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🎵 Le coupé-décalé définit la culture</div><div class="fact-text">Genre de musique dansante né à Paris parmi la diaspora ivoirienne, caractérisé par un tempo rapide et de la vantardise. DJ Arafat (décédé en 2019) en était le roi. Les clips montrent richesse et réussite — aspiration pour une jeunesse en difficulté.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🍽️ Attiéké</div><div class="fact-text">Couscous de manioc fermenté avec poisson grillé, sauce tomate et piment — street food omniprésente, représente l&#x27;identité ivoirienne à travers les classes sociales.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏳️‍🌈 LGBT+: Très faible</div><div class="fact-text">L&#x27;homosexualité est légale mais fortement stigmatisée. Les attitudes sociales sont très conservatrices. La discrimination et le harcèlement sont courants. Une discrétion extrême est essentielle.</div></div></div>
+      </div>
+
+      
+    </div>
+  </div>
 </main>
 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
+<script src="/data/share.js"></script>
+<script src="/data/correction-form.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var t = document.getElementById("localTime");
+  if(t && t.dataset.tz){
+    function tick(){
+      try{
+        t.textContent = new Intl.DateTimeFormat("en-GB",{
+          timeZone: t.dataset.tz, hour:"2-digit", minute:"2-digit"
+        }).format(new Date());
+      }catch(e){}
+    }
+    tick(); setInterval(tick, 30000);
+  }
+  document.querySelectorAll(".rc-nav-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var targetId = btn.dataset.target;
+      var dir = parseInt(btn.dataset.dir||"1",10);
+      var row = document.getElementById(targetId);
+      if(!row) return;
+      var box = row.parentElement;
+      var first = row.querySelector(".rc-vcard");
+      if(!first) return;
+      var cardW = first.offsetWidth + 9;
+      var visible = Math.max(1, Math.floor(box.offsetWidth / cardW));
+      var maxOffset = Math.max(0, row.children.length - visible);
+      var current = parseInt(row.dataset.offset||"0", 10);
+      current = Math.min(maxOffset, Math.max(0, current + dir));
+      row.dataset.offset = current;
+      row.style.transform = "translateX(-" + (current * cardW) + "px)";
+      var nav = btn.parentNode;
+      var prev = nav.querySelector('[data-dir="-1"]');
+      var next = nav.querySelector('[data-dir="1"]');
+      if(prev) prev.disabled = (current === 0);
+      if(next) next.disabled = (current >= maxOffset);
+    });
+  });
+  var iso2 = "CI";
+  if(!iso2 || typeof L === "undefined") return;
+  var STYLES = {
+    light:     { url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", attr: "&copy; OSM &copy; CARTO" },
+    dark:      { url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",  attr: "&copy; OSM &copy; CARTO" },
+    satellite: { url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", attr: "&copy; Esri" }
+  };
+  var wMap=null, wLayer=null, wMarker=null;
+  function initMap(lat, lon){
+    var el = document.getElementById("wigg-country-map");
+    if(!el) return;
+    if(wMap){ try{wMap.remove();}catch(e){} }
+    wMap = L.map("wigg-country-map",{zoomControl:true}).setView([lat,lon],5);
+    wLayer = L.tileLayer(STYLES.light.url,{attribution:STYLES.light.attr,maxZoom:18}).addTo(wMap);
+    wMarker = L.marker([lat,lon]).addTo(wMap);
+    var loading = document.getElementById("wiggMapLoading");
+    if(loading) loading.classList.add("hidden");
+  }
+  document.querySelectorAll(".map-style-btn").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(!wMap) return;
+      var s = STYLES[b.dataset.style];
+      if(!s) return;
+      if(wLayer) wMap.removeLayer(wLayer);
+      wLayer = L.tileLayer(s.url,{attribution:s.attr,maxZoom:18}).addTo(wMap);
+      document.querySelectorAll(".map-style-btn").forEach(function(x){x.classList.remove("active");});
+      b.classList.add("active");
+    });
+  });
+  var cacheKey = "wigg_centroid_" + iso2;
+  var cached = null;
+  try { cached = JSON.parse(localStorage.getItem(cacheKey) || "null"); } catch(e){}
+  if(cached && cached.lat != null && cached.lon != null){
+    initMap(cached.lat, cached.lon); return;
+  }
+  fetch("https://nominatim.openstreetmap.org/search?country=" + encodeURIComponent(iso2) + "&format=json&limit=1")
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && d[0]){
+        var coords = { lat: +d[0].lat, lon: +d[0].lon };
+        try { localStorage.setItem(cacheKey, JSON.stringify(coords)); } catch(e){}
+        initMap(coords.lat, coords.lon);
+      } else {
+        var l = document.getElementById("wiggMapLoading");
+        if(l) l.textContent = "Carte indisponible";
+      }
+    })
+    .catch(function(){
+      var l = document.getElementById("wiggMapLoading");
+      if(l) l.textContent = "Carte indisponible";
+    });
+})();
+</script>
+
+<form name="wiggmap-corrections" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="wiggmap-corrections" />
+  <p><label>Don't fill this out: <input name="bot-field" /></label></p>
+  <input name="country" /><input name="field" /><input name="value" /><input name="email" /><textarea name="notes"></textarea>
+</form>
+
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
 </body>
 </html>

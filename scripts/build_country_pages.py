@@ -392,39 +392,136 @@ def iso2_to_flag(iso2):
     return ''.join(chr(ord(c) - ord('A') + 0x1F1E6) for c in iso2.upper())
 
 
-def parse_article(text):
-    """Convert the article markdown-ish text to clean HTML paragraphs."""
-    if not text: return ''
-    text = text.replace('[[MAP]]', '')
-    # bold
-    text = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', text)
-    # split into paragraphs by blank lines
-    paragraphs = [p.strip() for p in text.split('\n\n') if p.strip()]
-    out = []
-    for p in paragraphs:
-        # detect heading-like lines starting with an emoji marker
-        if re.match(r'^[^\w<]*<strong>([^<]+)</strong>\s*$', p):
-            m = re.search(r'<strong>([^<]+)</strong>', p)
-            heading = m.group(1) if m else p
-            out.append(f'<h2>{heading}</h2>')
-        elif p.startswith('🧭') or p.startswith('👥') or p.startswith('🌦️') or p.startswith('🏠') \
-             or p.startswith('💼') or p.startswith('🛂') or p.startswith('🏥') or p.startswith('🚗') \
-             or p.startswith('🍛') or p.startswith('🔎'):
-            # Extract heading from "EMOJI **Title**\nrest..."
-            lines = p.split('\n', 1)
-            first = lines[0]
-            rest = lines[1] if len(lines) > 1 else ''
-            m = re.search(r'<strong>([^<]+)</strong>', first)
-            if m:
-                heading = first.split('<strong>')[0].strip() + ' ' + m.group(1)
-                out.append(f'<h2>{heading}</h2>')
-                if rest.strip():
-                    out.append(f'<p>{rest.strip()}</p>')
-            else:
-                out.append(f'<p>{p}</p>')
-        else:
-            out.append(f'<p>{p}</p>')
-    return '\n'.join(out)
+# Same color cycle as the SPA's formatPara() in country.html
+TAG_COLORS = [
+    ("rgba(34,197,94,.12)",  "rgba(34,197,94,.25)",  "#15803d"),
+    ("rgba(59,130,246,.12)", "rgba(59,130,246,.25)", "#1d4ed8"),
+    ("rgba(245,158,11,.12)", "rgba(245,158,11,.25)", "#92400e"),
+    ("rgba(239,68,68,.12)",  "rgba(239,68,68,.25)",  "#b91c1c"),
+    ("rgba(139,92,246,.12)", "rgba(139,92,246,.25)", "#6d28d9"),
+    ("rgba(236,72,153,.12)", "rgba(236,72,153,.25)", "#be185d"),
+    ("rgba(6,182,212,.12)",  "rgba(6,182,212,.25)",  "#0e7490"),
+    ("rgba(249,115,22,.12)", "rgba(249,115,22,.25)", "#c2410c"),
+]
+
+
+def format_paragraph(text, tag_state):
+    """Convert one paragraph: escape HTML, then **bold** → coloured art-tag with <br>."""
+    safe = html.escape(text)
+    def repl(m):
+        title = m.group(1)
+        bg, br, fg = TAG_COLORS[tag_state['i'] % len(TAG_COLORS)]
+        tag_state['i'] += 1
+        return f'<span class="art-tag" style="background:{bg};border:1px solid {br};color:{fg}">{title}</span><br>'
+    safe = re.sub(r'\*\*(.+?)\*\*', repl, safe)
+    return f'<p>{safe}</p>'
+
+
+def render_article_body(article, map_block_html=''):
+    """Match the SPA's renderArticleBodyWithMap: split paragraphs, insert map at midpoint."""
+    if not article: return ''
+    article = article.replace('[[MAP]]', '')
+    paras = [p.strip() for p in re.split(r'\n{2,}', article) if p.strip()]
+    if not paras: return ''
+    state = {'i': 0}
+    mid = len(paras) // 2
+    before = ''.join(format_paragraph(p, state) for p in paras[:mid])
+    after  = ''.join(format_paragraph(p, state) for p in paras[mid:])
+    return before + map_block_html + after
+
+
+# City slug → image filename inside /assetscity/ (matches CV_IMAGES from country.html)
+CITY_IMAGE = {
+    'paris': 'paris.png', 'lyon': 'lyon.png', 'marseille': 'marseille.png', 'nice': 'nice.png',
+    'bangkok': 'bangkok.png', 'chiang-mai': 'chiangmai.png', 'phuket': 'phuket.png', 'hua-hin': 'huahin.png',
+    'sydney': 'sydney.png', 'melbourne': 'melbourne.png', 'cairns': 'cairns.png', 'perth': 'perth.png',
+    'vancouver': 'vancouver.png', 'montreal': 'montreal.png', 'toronto': 'toronto.png', 'calgary': 'calgary.png',
+    'madrid': 'madrid.png', 'barcelone': 'barcelone.png', 'valence': 'valence.png', 'malaga': 'malaga.png',
+    'sao-paulo': 'saopaulo.png', 'rio': 'rio.png', 'florianopolis': 'florianopolis.png', 'salvador': 'salvadorcity.png',
+    'tokyo': 'tokyo.png', 'osaka': 'osaka.png', 'fukuoka': 'fukuoka.png', 'kyoto': 'kyoto.png',
+    'mexico-city': 'mexicocity.png', 'guadalajara': 'guadalajara.png', 'monterrey': 'monterrey.png', 'cancun': 'cancun.png',
+    'new-york': 'new york.png', 'los-angeles': 'LA.png', 'miami': 'miami.png', 'austin': 'austin.png',
+    'lisbonne': 'lisbonne.png', 'porto': 'porto.png', 'faro': 'faro.png', 'funchal': 'funchal.png',
+    'athenes': 'athenes.png', 'thessalonique': 'thessalonique.png', 'heraklion': 'heraklion.png', 'la-canee': 'la-canee.png',
+    'bali': 'bali.png', 'jakarta': 'jakarta.png', 'surabaya': 'surabaya.png', 'yogyakarta': 'yogyakarta.png',
+}
+
+# Chronicle id → representative hero image (matches RC_IMAGES from country.html)
+RC_IMAGES = {
+    'chronicle-2056': '/assets/hero-norway.jpg',
+    'ameriques-1':    '/assets/hero-panama.jpg',
+    'ameriques-2':    '/assets/hero-bahamas.jpg',
+    'ameriques-3':    '/assets/hero-bahamas.jpg',
+    'australia-guide':'/assets/hero-australia.jpg',
+    'raise-children': '/assets/hero-finland.jpg',
+    'digital-nomads': '/assets/hero-indonesia.jpg',
+    'expats-crypto':  '/assets/hero-uae.jpg',
+    'asia-expat-1':   '/assets/hero-thailand.jpg',
+    'asia-expat-2':   '/assets/hero-japan.jpg',
+    'forgotten-countries': '/assets/hero-montenegro.jpg',
+    'africa-expat-1': '/assets/hero-morocco.jpg',
+    'africa-expat-2': '/assets/hero-tunisia.jpg',
+    'africa-expat-3': '/assets/hero-kenya.jpg',
+    'africa-expat-4': '/assets/hero-senegal.jpg',
+    'study-erasmus':  '/assets/hero-czech-republic.jpg',
+    'study-americas-africa': '/assets/hero-canada.jpg',
+    'study-asia-pacific':    '/assets/hero-japan.jpg',
+    'study-practical': '/assets/hero-france.jpg',
+    'property-abroad': '/assets/hero-portugal.jpg',
+    'ready-to-leave':  '/assets/hero-indonesia.jpg',
+}
+
+# City pretty name per language (used for thumbnails labels)
+CITY_NAME = {
+    'paris': {'en':'Paris','fr':'Paris','es':'París'},
+    'lyon': {'en':'Lyon','fr':'Lyon','es':'Lyon'},
+    'marseille': {'en':'Marseille','fr':'Marseille','es':'Marsella'},
+    'nice': {'en':'Nice','fr':'Nice','es':'Niza'},
+    'bangkok': {'en':'Bangkok','fr':'Bangkok','es':'Bangkok'},
+    'chiang-mai': {'en':'Chiang Mai','fr':'Chiang Mai','es':'Chiang Mai'},
+    'phuket': {'en':'Phuket','fr':'Phuket','es':'Phuket'},
+    'hua-hin': {'en':'Hua Hin','fr':'Hua Hin','es':'Hua Hin'},
+    'sydney': {'en':'Sydney','fr':'Sydney','es':'Sídney'},
+    'melbourne': {'en':'Melbourne','fr':'Melbourne','es':'Melbourne'},
+    'cairns': {'en':'Cairns','fr':'Cairns','es':'Cairns'},
+    'perth': {'en':'Perth','fr':'Perth','es':'Perth'},
+    'vancouver': {'en':'Vancouver','fr':'Vancouver','es':'Vancouver'},
+    'montreal': {'en':'Montreal','fr':'Montréal','es':'Montreal'},
+    'toronto': {'en':'Toronto','fr':'Toronto','es':'Toronto'},
+    'calgary': {'en':'Calgary','fr':'Calgary','es':'Calgary'},
+    'madrid': {'en':'Madrid','fr':'Madrid','es':'Madrid'},
+    'barcelone': {'en':'Barcelona','fr':'Barcelone','es':'Barcelona'},
+    'valence': {'en':'Valencia','fr':'Valence','es':'Valencia'},
+    'malaga': {'en':'Malaga','fr':'Malaga','es':'Málaga'},
+    'sao-paulo': {'en':'São Paulo','fr':'São Paulo','es':'São Paulo'},
+    'rio': {'en':'Rio de Janeiro','fr':'Rio de Janeiro','es':'Río de Janeiro'},
+    'florianopolis': {'en':'Florianópolis','fr':'Florianópolis','es':'Florianópolis'},
+    'salvador': {'en':'Salvador de Bahia','fr':'Salvador de Bahia','es':'Salvador de Bahía'},
+    'tokyo': {'en':'Tokyo','fr':'Tokyo','es':'Tokio'},
+    'osaka': {'en':'Osaka','fr':'Osaka','es':'Osaka'},
+    'fukuoka': {'en':'Fukuoka','fr':'Fukuoka','es':'Fukuoka'},
+    'kyoto': {'en':'Kyoto','fr':'Kyoto','es':'Kioto'},
+    'mexico-city': {'en':'Mexico City','fr':'Mexico','es':'Ciudad de México'},
+    'guadalajara': {'en':'Guadalajara','fr':'Guadalajara','es':'Guadalajara'},
+    'monterrey': {'en':'Monterrey','fr':'Monterrey','es':'Monterrey'},
+    'cancun': {'en':'Cancún','fr':'Cancún','es':'Cancún'},
+    'new-york': {'en':'New York','fr':'New York','es':'Nueva York'},
+    'los-angeles': {'en':'Los Angeles','fr':'Los Angeles','es':'Los Ángeles'},
+    'miami': {'en':'Miami','fr':'Miami','es':'Miami'},
+    'austin': {'en':'Austin','fr':'Austin','es':'Austin'},
+    'lisbonne': {'en':'Lisbon','fr':'Lisbonne','es':'Lisboa'},
+    'porto': {'en':'Porto','fr':'Porto','es':'Oporto'},
+    'faro': {'en':'Faro','fr':'Faro','es':'Faro'},
+    'funchal': {'en':'Funchal','fr':'Funchal','es':'Funchal'},
+    'athenes': {'en':'Athens','fr':'Athènes','es':'Atenas'},
+    'thessalonique': {'en':'Thessaloniki','fr':'Thessalonique','es':'Tesalónica'},
+    'heraklion': {'en':'Heraklion','fr':'Héraklion','es':'Heraclión'},
+    'la-canee': {'en':'Chania','fr':'La Canée','es':'La Canea'},
+    'bali': {'en':'Bali','fr':'Bali','es':'Bali'},
+    'jakarta': {'en':'Jakarta','fr':'Jakarta','es':'Yakarta'},
+    'surabaya': {'en':'Surabaya','fr':'Surabaya','es':'Surabaya'},
+    'yogyakarta': {'en':'Yogyakarta','fr':'Yogyakarta','es':'Yogyakarta'},
+}
 
 
 def find_city_chronicle_url(city_slug, country_slug, lang):
@@ -461,12 +558,13 @@ def esc(s):
 def build_page(slug, lang, base, details, geo, all_country_data):
     L = LABELS[lang]
     name = base.get('name', slug.title())
-    flag_emoji = iso2_to_flag(geo.get('iso2', ''))
+    iso2 = (geo.get('iso2') or '').upper()
+    tz = geo.get('tz', '')
+    flag_emoji = iso2_to_flag(iso2)
     seo = base.get('seo', {})
     title = seo.get('title') or f"{name} — {L['cost_table']} | WiggMap"
     description = seo.get('description') or ''
     if not description:
-        # Build a fallback from key fields
         fields = base.get('fields', {})
         sal = fields.get('avg_salary', {}).get('value', '')
         rent = fields.get('rent_studio', {}).get('value', '')
@@ -479,101 +577,235 @@ def build_page(slug, lang, base, details, geo, all_country_data):
         alternates += f'<link rel="alternate" hreflang="{L_code}" href="https://wiggmap.com/countries/{slug}-{L_code}.html" />\n  '
     alternates += f'<link rel="alternate" hreflang="x-default" href="https://wiggmap.com/countries/{slug}-en.html" />'
 
-    # Snapshot
-    snap = details.get('snapshot', {}) if details else {}
-    capital = snap.get('capital', '—')
-    population = snap.get('population', '—')
-    languages = snap.get('languages', '—')
-    driving = snap.get('driving_side', '—')
-    currency = (details.get('currency', {}) or {}).get('name', '—') if details else '—'
-    crypto_friendly = (details.get('crypto', {}) or {}).get('friendly', '—') if details else '—'
-    expat_score = (details.get('expat_score', {}) or {}).get('value', '') if details else ''
-    expat_max = (details.get('expat_score', {}) or {}).get('max', 10) if details else 10
+    # ── Snapshot data ──────────────────────────────────────
+    snap = (details.get('snapshot') if details else {}) or {}
+    capital = snap.get('capital', '')
+    population = snap.get('population', '')
+    languages = snap.get('languages', '')
+    driving = snap.get('driving_side', '')
+    cur = (details.get('currency') if details else {}) or {}
+    cur_name = cur.get('name', '')
+    cur_rate = cur.get('rate', '')
+    cur_note = cur.get('note', '')
+    cry = (details.get('crypto') if details else {}) or {}
+    cry_friendly = cry.get('friendly', '')
+    cry_note = cry.get('note', '')
+    expat_score = ((details.get('expat_score') if details else {}) or {}).get('value', '')
+    expat_max = ((details.get('expat_score') if details else {}) or {}).get('max', 10) or 10
+    top_sectors = (((details.get('goDeeper') if details else {}) or {}).get('top_sectors')) or []
 
-    # WIGG badge
+    # ── Persona (Icon of the country) ──────────────────────
+    persona = None
+    if details and details.get('goDeeper'):
+        ttk = (details['goDeeper'].get('things_to_know') or {})
+        persona = ttk.get('personality') or details['goDeeper'].get('personality')
+
+    # ── WIGG badge ─────────────────────────────────────────
     wigg = base.get('wigg', {})
     wigg_label = wigg.get('label', '')
     wigg_level = wigg.get('level', 'green')
 
-    # Cost-of-living table
+    # ── Cost-of-living table ───────────────────────────────
     fields = base.get('fields', {})
     table_html = ''
     for sec_key, items in SECTIONS:
         rows = ''
         for fkey, icon in items:
-            f = fields.get(fkey, {}) or {}
+            f = fields.get(fkey) or {}
             v = esc(f.get('value', '—'))
             h = esc(f.get('hint', ''))
             label = esc(L['fld'].get(fkey, fkey))
             rows += f'''
-      <tr>
-        <td class="lbl"><span class="ico">{icon}</span>{label}</td>
-        <td class="val">{v}</td>
-        <td class="hint">{h}</td>
-      </tr>'''
+        <tr>
+          <td class="lbl"><span class="ico">{icon}</span>{label}</td>
+          <td class="val">{v}</td>
+          <td class="hint">{h}</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('{fkey}')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>'''
         if rows:
             table_html += f'''
-    <tbody>
-      <tr class="sec"><td colspan="3">{L[sec_key]}</td></tr>{rows}
-    </tbody>'''
+      <tbody>
+        <tr class="sec"><td colspan="4">{L[sec_key]}</td></tr>{rows}
+      </tbody>'''
 
-    # Article
-    article_html = parse_article(details.get('article', '')) if details else ''
+    # ── Map block (embedded mid-article) ───────────────────
+    # Localised map labels
+    map_labels = {
+        'en': ('Map', 'Light', 'Dark', 'Satellite', 'Loading map…', 'Map unavailable'),
+        'fr': ('Carte', 'Clair', 'Sombre', 'Satellite', 'Chargement de la carte…', 'Carte indisponible'),
+        'es': ('Mapa', 'Claro', 'Oscuro', 'Satélite', 'Cargando mapa…', 'Mapa no disponible'),
+    }[lang]
+    map_block_html = f'''
+        <div class="map-card">
+          <div class="map-header">
+            <div class="map-title"><span class="map-flag">{flag_emoji or '🗺️'}</span><span>{esc(name)} — {map_labels[0]}</span></div>
+            <div class="map-styles">
+              <button type="button" class="map-style-btn active" data-style="light">{map_labels[1]}</button>
+              <button type="button" class="map-style-btn" data-style="dark">{map_labels[2]}</button>
+              <button type="button" class="map-style-btn" data-style="satellite">{map_labels[3]}</button>
+            </div>
+          </div>
+          <div class="map-container">
+            <div id="wigg-country-map"></div>
+            <div class="map-loading" id="wiggMapLoading">{map_labels[4]}</div>
+          </div>
+        </div>'''
 
-    # Things to know cards
+    # ── Article (with markdown bold parsed + map at midpoint) ──
+    article_text = (details.get('article') if details else '') or ''
+    article_body = render_article_body(article_text, map_block_html=map_block_html)
+    article_html = ''
+    if article_body:
+        living_label = {'en': f'Living in {name}', 'fr': f'Vivre à {name}' if name.endswith('e') else f'Vivre au {name}', 'es': f'Vivir en {name}'}[lang]
+        score_badge = f'<span class="score-badge"><span class="score-star">⭐</span> {L["expat_score"]}: {expat_score} / {expat_max}</span>' if expat_score else ''
+        article_html = f'''
+      <div class="article-card">
+        <div class="section-head">
+          <h2>{esc(living_label)}</h2>
+          {score_badge}
+        </div>
+        <div class="article-body">{article_body}</div>
+      </div>'''
+
+    # ── Things to know cards ───────────────────────────────
     things_html = ''
     if details and details.get('goDeeper'):
         gd = details['goDeeper']
-        cards = (gd.get('things_to_know', {}) or {}).get('cards', [])
-        pers = (gd.get('things_to_know', {}) or {}).get('personality')
-        if pers:
-            things_html += f'''
-      <div class="ttk-card">
-        <div class="ttk-title">👤 {esc(pers.get("name",""))} <small>({esc(pers.get("era",""))})</small></div>
-        <p>{esc(pers.get("story",""))}</p>
-      </div>'''
-        for c in cards:
-            things_html += f'''
-      <div class="ttk-card">
-        <div class="ttk-title">{esc(c.get("title",""))}</div>
-        <p>{esc(c.get("text",""))}</p>
+        ttk = gd.get('things_to_know') or {}
+        cards = ttk.get('cards') or []
+        extra = []
+        nd = gd.get('national_dish') or {}
+        if nd.get('name'):
+            extra.append({'title': f"🍽️ {nd.get('name','')}", 'text': nd.get('note','')})
+        lgbt = gd.get('lgbt_acceptance') or {}
+        if lgbt.get('level'):
+            extra.append({'title': f"🏳️‍🌈 LGBT+: {lgbt.get('level','')}", 'text': lgbt.get('note','')})
+        all_cards = list(cards) + extra
+        if all_cards:
+            cards_html = ''
+            for c in all_cards:
+                t = esc(c.get('title') or c.get('heading') or '')
+                txt = esc(c.get('text') or c.get('body') or '')
+                cards_html += f'<div class="fact-card"><div class="fact-bar"></div><div class="fact-title">{t}</div><div class="fact-text">{txt}</div></div>'
+            mustreads = {'en':'Must-reads','fr':'À lire','es':'Imprescindibles'}[lang]
+            things_html = f'''
+      <div class="things-section">
+        <div class="section-head"><h2>{esc(L["things_to_know"])}</h2><span class="wg-badge">{mustreads}</span></div>
+        <div class="facts-grid">{cards_html}</div>
       </div>'''
 
-    # City guides
-    cities_html = ''
+    # ── City guides carousel (with thumbnails) ────────────
+    cities_carousel = ''
     if slug in CITIES_BY_COUNTRY:
         items = []
         for city_slug in CITIES_BY_COUNTRY[slug]:
             url = find_city_chronicle_url(city_slug, slug, lang)
-            if url:
-                items.append(f'<li><a href="{url}">{city_slug.replace("-"," ").title()}</a></li>')
+            if not url: continue
+            img = CITY_IMAGE.get(city_slug, f'{city_slug}.png')
+            cname = CITY_NAME.get(city_slug, {}).get(lang) or city_slug.replace('-', ' ').title()
+            items.append(
+                f'<a class="rc-vcard" href="{url}">'
+                f'<img class="rc-vimg" src="/assetscity/{img}" alt="{esc(cname)}" loading="lazy" '
+                f'onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'
+                f'<div class="rc-vemoji" style="display:none">🏙️</div>'
+                f'<div class="rc-vgrad"></div>'
+                f'<div class="rc-vbody"><div class="rc-vtitle">{esc(cname)}</div></div>'
+                f'</a>'
+            )
         if items:
-            cities_html = f'<section class="related"><h2>{L["cities"]}</h2><ul class="link-list">{"".join(items)}</ul></section>'
+            cities_carousel = f'''
+        <div class="rc-box">
+          <div class="rc-box-head">
+            <h2>{esc(L["cities"])}</h2>
+            <div class="rc-nav">
+              <button class="rc-nav-btn" data-target="cv-list" data-dir="-1" aria-label="Previous">&#8249;</button>
+              <button class="rc-nav-btn" data-target="cv-list" data-dir="1" aria-label="Next">&#8250;</button>
+            </div>
+          </div>
+          <div class="rc-track"><div id="cv-list" class="rc-row">{''.join(items)}</div></div>
+        </div>'''
 
-    # Related chronicles
-    chr_html = ''
+    # ── Related chronicles carousel (with thumbnails) ─────
+    chr_carousel = ''
     if slug in CHRONICLES_BY_COUNTRY:
         items = []
         for cid in CHRONICLES_BY_COUNTRY[slug]:
             entry = CHRONICLES_INDEX.get(cid, {}).get(lang) or CHRONICLES_INDEX.get(cid, {}).get('en')
-            if entry:
-                t, u = entry
-                items.append(f'<li><a href="{u}">{esc(t)}</a></li>')
+            if not entry: continue
+            t, u = entry
+            img = RC_IMAGES.get(cid, '/assets/hero-fallback.jpg')
+            items.append(
+                f'<a class="rc-vcard" href="{u}">'
+                f'<img class="rc-vimg" src="{img}" alt="{esc(t)}" loading="lazy" '
+                f'onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'
+                f'<div class="rc-vemoji" style="display:none">📄</div>'
+                f'<div class="rc-vgrad"></div>'
+                f'<div class="rc-vbody"><div class="rc-vtitle">{esc(t)}</div></div>'
+                f'</a>'
+            )
         if items:
-            chr_html = f'<section class="related"><h2>{L["related"]}</h2><ul class="link-list">{"".join(items)}</ul></section>'
+            chr_carousel = f'''
+        <div class="rc-box">
+          <div class="rc-box-head">
+            <h2>{esc(L["related"])}</h2>
+            <div class="rc-nav">
+              <button class="rc-nav-btn" data-target="rc-list" data-dir="-1" aria-label="Previous">&#8249;</button>
+              <button class="rc-nav-btn" data-target="rc-list" data-dir="1" aria-label="Next">&#8250;</button>
+            </div>
+          </div>
+          <div class="rc-track"><div id="rc-list" class="rc-row">{''.join(items)}</div></div>
+        </div>'''
 
-    # Comparisons
+    # ── Comparisons (text list) ────────────────────────────
     cmp_html = ''
     cmps = find_comparisons(slug)
     if cmps:
         items = []
         for other, url in cmps:
             other_name = (all_country_data.get(other, {}).get('name')) or other.replace('-', ' ').title()
-            items.append(f'<li><a href="{url}">{esc(name)} vs {esc(other_name)}</a></li>')
-        cmp_html = f'<section class="related"><h2>{L["compare"]}</h2><ul class="link-list">{"".join(items)}</ul></section>'
+            items.append(f'<a class="cmp-pill" href="{url}">{esc(name)} vs {esc(other_name)}</a>')
+        cmp_html = f'<section class="cmp-section"><h2>{esc(L["compare"])}</h2><div class="cmp-pills">{"".join(items)}</div></section>'
 
-    # Build HTML
-    html_out = f'''<!DOCTYPE html>
+    # ── Sidebar HTML ───────────────────────────────────────
+    snapshot_rows = ''
+    if capital:    snapshot_rows += f'<div class="kv"><span>{esc(L["capital"])}</span><b>{esc(capital)}</b></div>'
+    if population: snapshot_rows += f'<div class="kv"><span>{esc(L["population"])}</span><b>{esc(population)}</b></div>'
+    if languages:  snapshot_rows += f'<div class="kv"><span>{esc(L["languages"])}</span><b>{esc(languages)}</b></div>'
+    if cur_name:   snapshot_rows += f'<div class="kv"><span>{esc(L["currency"])}</span><b>{esc(cur_name)}</b></div>'
+    if cur_rate:   snapshot_rows += f'<div class="kv kv-sub"><span>Exchange rate</span><b>{esc(cur_rate)}</b></div>'
+    if cur_note:   snapshot_rows += f'<div class="kv-note">{esc(cur_note)}</div>'
+    if cry_friendly: snapshot_rows += f'<div class="kv"><span>{esc(L["crypto"])}</span><b>{esc(cry_friendly)}</b></div>'
+    if cry_note:   snapshot_rows += f'<div class="kv-note">{esc(cry_note)}</div>'
+    if driving:    snapshot_rows += f'<div class="kv"><span>{esc(L["driving"])}</span><b>{esc(driving)}</b></div>'
+
+    if top_sectors:
+        top_label = {'en':'Top sectors','fr':'Secteurs phares','es':'Sectores principales'}[lang]
+        sectors_html = ''.join(f'<div class="sector-pill">{esc(s)}</div>' for s in top_sectors)
+        snapshot_rows += f'<div class="sector-block"><div class="sector-head">{top_label}</div><div class="sector-list">{sectors_html}</div></div>'
+
+    persona_html = ''
+    if persona and (persona.get('name') or persona.get('story')):
+        pname = esc(persona.get('name') or '')
+        pera  = esc(persona.get('era') or '')
+        pstory = esc(persona.get('story') or persona.get('description') or '')
+        icon_label = {'en':'Icon of the country','fr':'Figure du pays','es':'Figura del país'}[lang]
+        persona_html = f'''
+        <div class="card persona-card">
+          <div class="snapshot-title">{icon_label}</div>
+          <div class="persona-name">{pname}{f' <small>({pera})</small>' if pera else ''}</div>
+          {f'<div class="persona-why">{pstory}</div>' if pstory else ''}
+        </div>'''
+
+    # Action buttons labels
+    btn_labels = {
+        'en': ('Correct data', 'Share', 'Compare'),
+        'fr': ('Corriger les données', 'Partager', 'Comparer'),
+        'es': ('Corregir datos', 'Compartir', 'Comparar'),
+    }[lang]
+    local_time_label = {'en':'Local time','fr':'Heure locale','es':'Hora local'}[lang]
+
+    # ── HTML output (2-column rich layout, cream design preserved) ──
+    html_out = f"""<!DOCTYPE html>
 <html lang="{lang}">
 <head>
   <script>(function(w,d,s,l,i){{w[l]=w[l]||[];w[l].push({{'gtm.start':new Date().getTime(),event:'gtm.js'}});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);}})(window,document,'script','dataLayer','GTM-K4MMRD4R');</script>
@@ -597,65 +829,127 @@ def build_page(slug, lang, base, details, geo, all_country_data):
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     *,*::before,*::after{{box-sizing:border-box;margin:0;padding:0}}
-    :root{{--bg:#f6f1e8;--paper:#fffdf8;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--green:#1d7f48;--green-dk:#155f36;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}}
+    :root{{--paper:#fffdf8;--paper-2:#fbf7ee;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--line-soft:rgba(23,23,20,.06);--green:#1d7f48;--green-dk:#155f36;--green-light:#e6f4ec;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}}
     html{{scroll-behavior:smooth}}
     body{{font-family:"Inter",system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f9f5ed 0%,#f3ede3 100%);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}}
     a{{color:var(--green);text-decoration:none}}
     a:hover{{text-decoration:underline}}
-    main{{max-width:980px;margin:0 auto;padding:28px 20px 80px}}
-    .crumb{{font-size:12px;color:var(--ink-soft);margin-bottom:18px;letter-spacing:.04em}}
+    .wrap{{max-width:1180px;margin:0 auto;padding:24px 20px 80px}}
+    .crumb{{font-size:12px;color:var(--ink-soft);margin-bottom:14px;letter-spacing:.04em}}
     .crumb a{{color:var(--ink-soft)}}
-    .hero{{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:36px 32px;box-shadow:var(--shadow);margin-bottom:24px;position:relative;overflow:hidden}}
-    .hero::before{{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 18%,rgba(29,127,72,.05),transparent 30%);pointer-events:none}}
-    .hero-flag{{font-size:48px;line-height:1;margin-bottom:14px}}
-    .hero h1{{font-family:"Fraunces",Georgia,serif;font-size:clamp(36px,6vw,56px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:10px;position:relative;z-index:1}}
-    .hero .subtitle{{font-size:15px;color:var(--ink-soft);max-width:62ch;line-height:1.6;position:relative;z-index:1}}
-    .hero-badges{{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;position:relative;z-index:1}}
-    .badge{{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid var(--line)}}
-    .badge.green{{background:#e6f4ec;color:var(--green-dk);border-color:rgba(29,127,72,.2)}}
+    .country-head{{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:22px;flex-wrap:wrap}}
+    .country-flag{{font-size:42px;line-height:1;margin-bottom:8px}}
+    .country-head h1{{font-family:"Fraunces",Georgia,serif;font-size:clamp(34px,5.2vw,52px);font-weight:800;letter-spacing:-.02em;line-height:1.02}}
+    .country-head .subtitle{{font-size:14px;color:var(--ink-soft);max-width:64ch;line-height:1.55;margin-top:8px}}
+    .head-right{{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}}
+    .badge{{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:7px 13px;border-radius:999px;background:#fff;border:1px solid var(--line)}}
+    .badge.green{{background:var(--green-light);color:var(--green-dk);border-color:rgba(29,127,72,.22)}}
     .badge.yellow{{background:#fef9e7;color:#a16207;border-color:rgba(202,138,4,.25)}}
     .badge.red{{background:#fdecec;color:#b91c1c;border-color:rgba(185,28,28,.25)}}
-    .snapshot{{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px 26px;box-shadow:var(--shadow);margin-bottom:24px}}
-    .snapshot h2{{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;margin-bottom:14px}}
-    .snap-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}}
-    .snap-item{{font-size:13px}}
-    .snap-item strong{{display:block;color:var(--ink-soft);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}}
-    .data-card{{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}}
-    .data-card h2{{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;padding:20px 26px 8px}}
+    .badge .dot{{width:8px;height:8px;border-radius:999px;background:currentColor;display:inline-block}}
+    .local-time{{font-size:12px;color:var(--ink-soft);font-weight:600}}
+    .local-time b{{color:var(--ink);margin-left:5px;font-weight:800}}
+    .main-grid{{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}}
+    @media(max-width:900px){{.main-grid{{grid-template-columns:1fr}}}}
+    .sidebar{{display:flex;flex-direction:column;gap:14px;align-self:start;position:sticky;top:18px}}
+    @media(max-width:900px){{.sidebar{{position:static}}}}
+    .card{{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}}
+    .hero-img{{width:100%;height:200px;object-fit:cover;display:block;background:#eaddc4}}
+    .hero-actions{{padding:12px;display:flex;gap:8px;flex-wrap:wrap}}
+    .btn{{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:8px;font-family:inherit;font-weight:700;font-size:12.5px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;transition:background .14s,border-color .14s}}
+    .btn:hover{{background:rgba(0,0,0,.04)}}
+    .btn.primary{{background:var(--green);color:#fff;border-color:transparent}}
+    .btn.primary:hover{{background:var(--green-dk)}}
+    .snapshot-card{{padding:16px}}
+    .snapshot-title{{font-family:"Fraunces",Georgia,serif;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px;letter-spacing:-.01em}}
+    .kv{{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--line-soft);font-size:12.5px}}
+    .kv span{{color:var(--ink-soft)}}
+    .kv b{{color:var(--ink);font-weight:700;text-align:right;max-width:60%}}
+    .kv-sub{{padding-left:10px;font-size:11.5px;opacity:.85}}
+    .kv-note{{font-size:11px;color:var(--ink-soft);line-height:1.5;padding:6px 0 8px;font-style:italic;border-bottom:1px solid var(--line-soft)}}
+    .sector-block{{padding-top:10px;margin-top:6px;border-top:1px solid var(--line-soft)}}
+    .sector-head{{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}}
+    .sector-list{{display:flex;flex-direction:column;gap:5px}}
+    .sector-pill{{background:rgba(29,127,72,.08);border:1px solid rgba(29,127,72,.2);border-radius:7px;padding:5px 10px;font-size:11.5px;font-weight:700;color:var(--green-dk);line-height:1.4}}
+    .persona-card{{padding:16px}}
+    .persona-name{{font-weight:800;font-size:13px;margin-bottom:6px}}
+    .persona-name small{{font-weight:500;opacity:.6;font-size:11px}}
+    .persona-why{{font-size:11.5px;color:var(--ink-soft);line-height:1.55;font-style:italic}}
+    .right-col{{display:flex;flex-direction:column;gap:18px;min-width:0}}
+    .rc-wrapper{{display:grid;grid-template-columns:1fr 1fr;gap:14px}}
+    @media(max-width:760px){{.rc-wrapper{{grid-template-columns:1fr}}}}
+    .rc-box{{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 14px 12px;overflow:hidden}}
+    .rc-box-head{{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:6px}}
+    .rc-box-head h2{{font-family:"Fraunces",Georgia,serif;font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em}}
+    .rc-nav{{display:flex;gap:4px}}
+    .rc-nav-btn{{width:24px;height:24px;border-radius:6px;border:1px solid var(--line);background:#fff;font-size:13px;cursor:pointer;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;line-height:1;transition:all .14s}}
+    .rc-nav-btn:hover{{background:var(--green);color:#fff;border-color:transparent}}
+    .rc-nav-btn:disabled{{opacity:.35;cursor:not-allowed}}
+    .rc-track{{overflow:hidden}}
+    .rc-row{{display:flex;gap:9px;transition:transform .35s ease;will-change:transform}}
+    .rc-vcard{{flex-shrink:0;width:130px;height:90px;border-radius:10px;overflow:hidden;position:relative;background:#e9dfca;border:1px solid var(--line);transition:transform .15s,box-shadow .15s}}
+    .rc-vcard:hover{{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10);text-decoration:none}}
+    .rc-vimg{{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}}
+    .rc-vemoji{{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;background:linear-gradient(135deg,#ede5d8,#ddd3c4)}}
+    .rc-vgrad{{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,8,.85) 0%,rgba(20,15,8,.2) 55%,transparent 100%)}}
+    .rc-vbody{{position:absolute;left:0;right:0;bottom:0;padding:7px 9px;z-index:2}}
+    .rc-vtitle{{font-family:"Fraunces",Georgia,serif;font-size:10.5px;font-weight:700;color:#fff;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}}
+    .data-card{{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}}
     .data-table{{width:100%;border-collapse:collapse;font-size:13px}}
-    .data-table .sec td{{background:#f8f4eb;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:10px 26px;color:var(--ink-soft);border-top:1px solid var(--line)}}
-    .data-table td{{padding:9px 26px;border-bottom:1px solid var(--line);vertical-align:top}}
+    .data-table .sec td{{background:#f4eedf;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:11px 22px;color:var(--ink-soft);border-top:1px solid var(--line)}}
+    .data-table td{{padding:9px 22px;border-bottom:1px solid var(--line-soft);vertical-align:top}}
+    .data-table tr:last-child td{{border-bottom:none}}
     .data-table td.lbl{{width:42%;color:var(--ink)}}
-    .data-table td.val{{width:22%;font-weight:700}}
+    .data-table td.val{{width:25%;font-weight:700}}
     .data-table td.hint{{font-size:11.5px;color:var(--ink-soft)}}
+    .data-table td.edit{{width:30px;text-align:right;padding-right:14px}}
     .data-table .ico{{margin-right:8px}}
-    .article{{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px;margin-bottom:24px}}
-    .article h2{{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:700;margin:24px 0 10px;color:var(--ink)}}
-    .article h2:first-child{{margin-top:0}}
-    .article p{{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.75}}
-    .article p strong{{color:var(--ink);font-weight:600}}
-    .ttk{{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-bottom:24px}}
-    .ttk h2{{font-family:"Fraunces",Georgia,serif;font-size:20px;font-weight:700;margin-bottom:16px}}
-    .ttk-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}}
-    .ttk-card{{background:#fbf7ee;border:1px solid var(--line);border-radius:10px;padding:16px 18px}}
-    .ttk-card .ttk-title{{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink)}}
-    .ttk-card p{{font-size:12.5px;color:var(--ink-soft);line-height:1.55}}
-    .ttk-card small{{font-weight:500;color:var(--ink-soft)}}
-    .related{{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px;margin-bottom:18px}}
-    .related h2{{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}}
-    .link-list{{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px 18px}}
-    .link-list li{{font-size:13.5px;line-height:1.5;padding-left:14px;position:relative}}
-    .link-list li::before{{content:"›";position:absolute;left:0;color:var(--green)}}
-    @media (max-width:640px){{
-      main{{padding:20px 14px 60px}}
-      .hero{{padding:26px 22px}}
-      .data-table td{{padding:9px 16px}}
-      .data-table .sec td{{padding:10px 16px}}
-      .article{{padding:24px 22px}}
-      .ttk{{padding:22px 22px}}
-      .related{{padding:20px 22px}}
+    .edit-btn{{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:13px;opacity:.4;transition:opacity .14s;padding:2px 4px}}
+    .edit-btn:hover{{opacity:1;color:var(--green)}}
+    .article-card{{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px}}
+    .section-head{{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}}
+    .section-head h2{{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:800;letter-spacing:-.01em;color:var(--ink)}}
+    .score-badge{{display:inline-flex;align-items:center;gap:5px;background:var(--green-light);border:1px solid rgba(29,127,72,.25);color:var(--green-dk);padding:5px 12px;border-radius:999px;font-size:12px;font-weight:700}}
+    .article-body p{{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.78}}
+    .article-body p:last-child{{margin-bottom:0}}
+    .art-tag{{display:inline-block;padding:3px 10px;border-radius:6px;font-weight:700;font-size:13px;margin-bottom:6px;line-height:1.5}}
+    .map-card{{margin:22px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper-2)}}
+    .map-header{{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);gap:8px;flex-wrap:wrap}}
+    .map-title{{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}}
+    .map-flag{{font-size:18px}}
+    .map-styles{{display:flex;gap:4px}}
+    .map-style-btn{{font-size:11px;font-weight:700;padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;color:var(--ink-soft);cursor:pointer;transition:all .14s}}
+    .map-style-btn:hover{{border-color:var(--green);color:var(--green)}}
+    .map-style-btn.active{{background:var(--green);color:#fff;border-color:transparent}}
+    .map-container{{position:relative;height:320px}}
+    #wigg-country-map{{position:absolute;inset:0}}
+    .map-loading{{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper-2);color:var(--ink-soft);font-size:13px;z-index:10}}
+    .map-loading.hidden{{display:none}}
+    .things-section{{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px}}
+    .wg-badge{{display:inline-flex;align-items:center;gap:5px;background:#fef3c7;border:1px solid rgba(202,138,4,.3);color:#92400e;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}}
+    .facts-grid{{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}}
+    .fact-card{{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden}}
+    .fact-bar{{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green)}}
+    .fact-title{{font-weight:800;font-size:13px;margin-bottom:6px;color:var(--ink);padding-left:6px}}
+    .fact-text{{font-size:12.5px;color:var(--ink-soft);line-height:1.55;padding-left:6px}}
+    .cmp-section{{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px}}
+    .cmp-section h2{{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}}
+    .cmp-pills{{display:flex;flex-wrap:wrap;gap:8px}}
+    .cmp-pill{{display:inline-block;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:600;color:var(--ink);transition:all .14s}}
+    .cmp-pill:hover{{border-color:var(--green);background:var(--green);color:#fff;text-decoration:none}}
+    @media(max-width:640px){{
+      .wrap{{padding:18px 14px 60px}}
+      .country-head{{flex-direction:column}}
+      .head-right{{align-items:flex-start}}
+      .data-table td{{padding:9px 14px}}
+      .data-table .sec td{{padding:11px 14px}}
+      .article-card{{padding:24px 22px}}
+      .things-section{{padding:22px 22px}}
+      .cmp-section{{padding:20px 22px}}
+      .map-container{{height:240px}}
     }}
   </style>
 </head>
@@ -664,54 +958,166 @@ def build_page(slug, lang, base, details, geo, all_country_data):
 <div id="siteHeader"></div>
 <script src="/data/header.js"></script>
 
-<main>
+<main class="wrap">
   <nav class="crumb"><a href="/">{esc(L['home'])}</a> › <a href="/globe.html">{esc(L['countries'])}</a> › {esc(name)}</nav>
 
-  <section class="hero">
-    <div class="hero-flag">{flag_emoji}</div>
-    <h1>{esc(name)}</h1>
-    <p class="subtitle">{esc(base.get('subtitle',''))}</p>
-    <div class="hero-badges">
-      {f'<span class="badge {wigg_level}">{esc(wigg_label)}</span>' if wigg_label else ''}
-      {f'<span class="badge">⭐ {L["expat_score"]}: {expat_score} / {expat_max}</span>' if expat_score else ''}
+  <div class="country-head">
+    <div>
+      <div class="country-flag">{flag_emoji}</div>
+      <h1>{esc(name)}</h1>
+      <p class="subtitle">{esc(base.get('subtitle',''))}</p>
     </div>
-  </section>
-
-  <section class="snapshot">
-    <h2>{esc(L['snapshot'])}</h2>
-    <div class="snap-grid">
-      <div class="snap-item"><strong>{esc(L['capital'])}</strong>{esc(capital)}</div>
-      <div class="snap-item"><strong>{esc(L['population'])}</strong>{esc(population)}</div>
-      <div class="snap-item"><strong>{esc(L['languages'])}</strong>{esc(languages)}</div>
-      <div class="snap-item"><strong>{esc(L['driving'])}</strong>{esc(driving)}</div>
-      <div class="snap-item"><strong>{esc(L['currency'])}</strong>{esc(currency)}</div>
-      <div class="snap-item"><strong>{esc(L['crypto'])}</strong>{esc(crypto_friendly)}</div>
+    <div class="head-right">
+      {f'<div class="badge {wigg_level}"><span class="dot"></span>{esc(wigg_label)}</div>' if wigg_label else ''}
+      {f'<div class="local-time">{local_time_label} <b id="localTime" data-tz="{esc(tz)}">--:--</b></div>' if tz else ''}
     </div>
-  </section>
+  </div>
 
-  <section class="data-card">
-    <h2>{esc(L['cost_table'])}</h2>
-    <table class="data-table">{table_html}
-    </table>
-  </section>
+  <div class="main-grid">
+    <aside class="sidebar">
+      <div class="card">
+        <img class="hero-img" src="/assets/hero-{slug}.jpg" alt="{esc(name)}"
+             onerror="this.onerror=null;this.src='/assets/hero-fallback.jpg'" />
+        <div class="hero-actions">
+          <button class="btn primary" type="button" onclick="openModal('general')">{btn_labels[0]}</button>
+          <button class="btn" type="button" id="btnShare">{btn_labels[1]}</button>
+          <a class="btn" href="/compare.html?country={slug}">{btn_labels[2]}</a>
+        </div>
+      </div>
 
-  {f'<section class="article"><h2>{esc(L["overview"])}</h2>{article_html}</section>' if article_html else ''}
+      <div class="card snapshot-card">
+        <div class="snapshot-title">{esc(L['snapshot'])}</div>
+        {snapshot_rows}
+      </div>
 
-  {f'<section class="ttk"><h2>{esc(L["things_to_know"])}</h2><div class="ttk-grid">{things_html}</div></section>' if things_html else ''}
+      {persona_html}
+    </aside>
 
-  {cities_html}
-  {chr_html}
-  {cmp_html}
+    <div class="right-col">
+      <div class="rc-wrapper">
+        {chr_carousel}
+        {cities_carousel}
+      </div>
 
-  <p style="text-align:center;margin-top:30px"><a href="/globe.html" style="font-weight:600">{esc(L['see_all_countries'])} →</a></p>
+      <div class="data-card">
+        <table class="data-table">{table_html}
+        </table>
+      </div>
+
+      {article_html}
+
+      {things_html}
+
+      {cmp_html}
+    </div>
+  </div>
 </main>
 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
+<script src="/data/share.js"></script>
+<script src="/data/correction-form.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){{
+  var t = document.getElementById("localTime");
+  if(t && t.dataset.tz){{
+    function tick(){{
+      try{{
+        t.textContent = new Intl.DateTimeFormat("en-GB",{{
+          timeZone: t.dataset.tz, hour:"2-digit", minute:"2-digit"
+        }}).format(new Date());
+      }}catch(e){{}}
+    }}
+    tick(); setInterval(tick, 30000);
+  }}
+  document.querySelectorAll(".rc-nav-btn").forEach(function(btn){{
+    btn.addEventListener("click", function(){{
+      var targetId = btn.dataset.target;
+      var dir = parseInt(btn.dataset.dir||"1",10);
+      var row = document.getElementById(targetId);
+      if(!row) return;
+      var box = row.parentElement;
+      var first = row.querySelector(".rc-vcard");
+      if(!first) return;
+      var cardW = first.offsetWidth + 9;
+      var visible = Math.max(1, Math.floor(box.offsetWidth / cardW));
+      var maxOffset = Math.max(0, row.children.length - visible);
+      var current = parseInt(row.dataset.offset||"0", 10);
+      current = Math.min(maxOffset, Math.max(0, current + dir));
+      row.dataset.offset = current;
+      row.style.transform = "translateX(-" + (current * cardW) + "px)";
+      var nav = btn.parentNode;
+      var prev = nav.querySelector('[data-dir="-1"]');
+      var next = nav.querySelector('[data-dir="1"]');
+      if(prev) prev.disabled = (current === 0);
+      if(next) next.disabled = (current >= maxOffset);
+    }});
+  }});
+  var iso2 = {json.dumps(iso2)};
+  if(!iso2 || typeof L === "undefined") return;
+  var STYLES = {{
+    light:     {{ url: "https://{{s}}.basemaps.cartocdn.com/light_all/{{z}}/{{x}}/{{y}}{{r}}.png", attr: "&copy; OSM &copy; CARTO" }},
+    dark:      {{ url: "https://{{s}}.basemaps.cartocdn.com/dark_all/{{z}}/{{x}}/{{y}}{{r}}.png",  attr: "&copy; OSM &copy; CARTO" }},
+    satellite: {{ url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{{z}}/{{y}}/{{x}}", attr: "&copy; Esri" }}
+  }};
+  var wMap=null, wLayer=null, wMarker=null;
+  function initMap(lat, lon){{
+    var el = document.getElementById("wigg-country-map");
+    if(!el) return;
+    if(wMap){{ try{{wMap.remove();}}catch(e){{}} }}
+    wMap = L.map("wigg-country-map",{{zoomControl:true}}).setView([lat,lon],5);
+    wLayer = L.tileLayer(STYLES.light.url,{{attribution:STYLES.light.attr,maxZoom:18}}).addTo(wMap);
+    wMarker = L.marker([lat,lon]).addTo(wMap);
+    var loading = document.getElementById("wiggMapLoading");
+    if(loading) loading.classList.add("hidden");
+  }}
+  document.querySelectorAll(".map-style-btn").forEach(function(b){{
+    b.addEventListener("click", function(){{
+      if(!wMap) return;
+      var s = STYLES[b.dataset.style];
+      if(!s) return;
+      if(wLayer) wMap.removeLayer(wLayer);
+      wLayer = L.tileLayer(s.url,{{attribution:s.attr,maxZoom:18}}).addTo(wMap);
+      document.querySelectorAll(".map-style-btn").forEach(function(x){{x.classList.remove("active");}});
+      b.classList.add("active");
+    }});
+  }});
+  var cacheKey = "wigg_centroid_" + iso2;
+  var cached = null;
+  try {{ cached = JSON.parse(localStorage.getItem(cacheKey) || "null"); }} catch(e){{}}
+  if(cached && cached.lat != null && cached.lon != null){{
+    initMap(cached.lat, cached.lon); return;
+  }}
+  fetch("https://nominatim.openstreetmap.org/search?country=" + encodeURIComponent(iso2) + "&format=json&limit=1")
+    .then(function(r){{ return r.json(); }})
+    .then(function(d){{
+      if(d && d[0]){{
+        var coords = {{ lat: +d[0].lat, lon: +d[0].lon }};
+        try {{ localStorage.setItem(cacheKey, JSON.stringify(coords)); }} catch(e){{}}
+        initMap(coords.lat, coords.lon);
+      }} else {{
+        var l = document.getElementById("wiggMapLoading");
+        if(l) l.textContent = {json.dumps(map_labels[5])};
+      }}
+    }})
+    .catch(function(){{
+      var l = document.getElementById("wiggMapLoading");
+      if(l) l.textContent = {json.dumps(map_labels[5])};
+    }});
+}})();
+</script>
+
+<form name="wiggmap-corrections" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="wiggmap-corrections" />
+  <p><label>Don\'t fill this out: <input name="bot-field" /></label></p>
+  <input name="country" /><input name="field" /><input name="value" /><input name="email" /><textarea name="notes"></textarea>
+</form>
+
 <script>if('serviceWorker' in navigator){{navigator.serviceWorker.register('/sw.js').catch(function(){{}})}}</script>
 </body>
 </html>
-'''
+"""
     return html_out
 
 

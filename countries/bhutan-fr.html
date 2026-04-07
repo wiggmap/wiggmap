@@ -25,65 +25,127 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#f6f1e8;--paper:#fffdf8;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--green:#1d7f48;--green-dk:#155f36;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
+    :root{--paper:#fffdf8;--paper-2:#fbf7ee;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--line-soft:rgba(23,23,20,.06);--green:#1d7f48;--green-dk:#155f36;--green-light:#e6f4ec;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
     html{scroll-behavior:smooth}
     body{font-family:"Inter",system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f9f5ed 0%,#f3ede3 100%);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
     a{color:var(--green);text-decoration:none}
     a:hover{text-decoration:underline}
-    main{max-width:980px;margin:0 auto;padding:28px 20px 80px}
-    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:18px;letter-spacing:.04em}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:14px;letter-spacing:.04em}
     .crumb a{color:var(--ink-soft)}
-    .hero{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:36px 32px;box-shadow:var(--shadow);margin-bottom:24px;position:relative;overflow:hidden}
-    .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 18%,rgba(29,127,72,.05),transparent 30%);pointer-events:none}
-    .hero-flag{font-size:48px;line-height:1;margin-bottom:14px}
-    .hero h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(36px,6vw,56px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:10px;position:relative;z-index:1}
-    .hero .subtitle{font-size:15px;color:var(--ink-soft);max-width:62ch;line-height:1.6;position:relative;z-index:1}
-    .hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;position:relative;z-index:1}
-    .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid var(--line)}
-    .badge.green{background:#e6f4ec;color:var(--green-dk);border-color:rgba(29,127,72,.2)}
+    .country-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:22px;flex-wrap:wrap}
+    .country-flag{font-size:42px;line-height:1;margin-bottom:8px}
+    .country-head h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(34px,5.2vw,52px);font-weight:800;letter-spacing:-.02em;line-height:1.02}
+    .country-head .subtitle{font-size:14px;color:var(--ink-soft);max-width:64ch;line-height:1.55;margin-top:8px}
+    .head-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+    .badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:7px 13px;border-radius:999px;background:#fff;border:1px solid var(--line)}
+    .badge.green{background:var(--green-light);color:var(--green-dk);border-color:rgba(29,127,72,.22)}
     .badge.yellow{background:#fef9e7;color:#a16207;border-color:rgba(202,138,4,.25)}
     .badge.red{background:#fdecec;color:#b91c1c;border-color:rgba(185,28,28,.25)}
-    .snapshot{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px 26px;box-shadow:var(--shadow);margin-bottom:24px}
-    .snapshot h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;margin-bottom:14px}
-    .snap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
-    .snap-item{font-size:13px}
-    .snap-item strong{display:block;color:var(--ink-soft);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
-    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
-    .data-card h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;padding:20px 26px 8px}
+    .badge .dot{width:8px;height:8px;border-radius:999px;background:currentColor;display:inline-block}
+    .local-time{font-size:12px;color:var(--ink-soft);font-weight:600}
+    .local-time b{color:var(--ink);margin-left:5px;font-weight:800}
+    .main-grid{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+    @media(max-width:900px){.main-grid{grid-template-columns:1fr}}
+    .sidebar{display:flex;flex-direction:column;gap:14px;align-self:start;position:sticky;top:18px}
+    @media(max-width:900px){.sidebar{position:static}}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .hero-img{width:100%;height:200px;object-fit:cover;display:block;background:#eaddc4}
+    .hero-actions{padding:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:8px;font-family:inherit;font-weight:700;font-size:12.5px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;transition:background .14s,border-color .14s}
+    .btn:hover{background:rgba(0,0,0,.04)}
+    .btn.primary{background:var(--green);color:#fff;border-color:transparent}
+    .btn.primary:hover{background:var(--green-dk)}
+    .snapshot-card{padding:16px}
+    .snapshot-title{font-family:"Fraunces",Georgia,serif;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px;letter-spacing:-.01em}
+    .kv{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--line-soft);font-size:12.5px}
+    .kv span{color:var(--ink-soft)}
+    .kv b{color:var(--ink);font-weight:700;text-align:right;max-width:60%}
+    .kv-sub{padding-left:10px;font-size:11.5px;opacity:.85}
+    .kv-note{font-size:11px;color:var(--ink-soft);line-height:1.5;padding:6px 0 8px;font-style:italic;border-bottom:1px solid var(--line-soft)}
+    .sector-block{padding-top:10px;margin-top:6px;border-top:1px solid var(--line-soft)}
+    .sector-head{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+    .sector-list{display:flex;flex-direction:column;gap:5px}
+    .sector-pill{background:rgba(29,127,72,.08);border:1px solid rgba(29,127,72,.2);border-radius:7px;padding:5px 10px;font-size:11.5px;font-weight:700;color:var(--green-dk);line-height:1.4}
+    .persona-card{padding:16px}
+    .persona-name{font-weight:800;font-size:13px;margin-bottom:6px}
+    .persona-name small{font-weight:500;opacity:.6;font-size:11px}
+    .persona-why{font-size:11.5px;color:var(--ink-soft);line-height:1.55;font-style:italic}
+    .right-col{display:flex;flex-direction:column;gap:18px;min-width:0}
+    .rc-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:760px){.rc-wrapper{grid-template-columns:1fr}}
+    .rc-box{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 14px 12px;overflow:hidden}
+    .rc-box-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:6px}
+    .rc-box-head h2{font-family:"Fraunces",Georgia,serif;font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+    .rc-nav{display:flex;gap:4px}
+    .rc-nav-btn{width:24px;height:24px;border-radius:6px;border:1px solid var(--line);background:#fff;font-size:13px;cursor:pointer;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;line-height:1;transition:all .14s}
+    .rc-nav-btn:hover{background:var(--green);color:#fff;border-color:transparent}
+    .rc-nav-btn:disabled{opacity:.35;cursor:not-allowed}
+    .rc-track{overflow:hidden}
+    .rc-row{display:flex;gap:9px;transition:transform .35s ease;will-change:transform}
+    .rc-vcard{flex-shrink:0;width:130px;height:90px;border-radius:10px;overflow:hidden;position:relative;background:#e9dfca;border:1px solid var(--line);transition:transform .15s,box-shadow .15s}
+    .rc-vcard:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10);text-decoration:none}
+    .rc-vimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .rc-vemoji{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;background:linear-gradient(135deg,#ede5d8,#ddd3c4)}
+    .rc-vgrad{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,8,.85) 0%,rgba(20,15,8,.2) 55%,transparent 100%)}
+    .rc-vbody{position:absolute;left:0;right:0;bottom:0;padding:7px 9px;z-index:2}
+    .rc-vtitle{font-family:"Fraunces",Georgia,serif;font-size:10.5px;font-weight:700;color:#fff;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
     .data-table{width:100%;border-collapse:collapse;font-size:13px}
-    .data-table .sec td{background:#f8f4eb;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:10px 26px;color:var(--ink-soft);border-top:1px solid var(--line)}
-    .data-table td{padding:9px 26px;border-bottom:1px solid var(--line);vertical-align:top}
+    .data-table .sec td{background:#f4eedf;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:11px 22px;color:var(--ink-soft);border-top:1px solid var(--line)}
+    .data-table td{padding:9px 22px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+    .data-table tr:last-child td{border-bottom:none}
     .data-table td.lbl{width:42%;color:var(--ink)}
-    .data-table td.val{width:22%;font-weight:700}
+    .data-table td.val{width:25%;font-weight:700}
     .data-table td.hint{font-size:11.5px;color:var(--ink-soft)}
+    .data-table td.edit{width:30px;text-align:right;padding-right:14px}
     .data-table .ico{margin-right:8px}
-    .article{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px;margin-bottom:24px}
-    .article h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:700;margin:24px 0 10px;color:var(--ink)}
-    .article h2:first-child{margin-top:0}
-    .article p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.75}
-    .article p strong{color:var(--ink);font-weight:600}
-    .ttk{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-bottom:24px}
-    .ttk h2{font-family:"Fraunces",Georgia,serif;font-size:20px;font-weight:700;margin-bottom:16px}
-    .ttk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-    .ttk-card{background:#fbf7ee;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
-    .ttk-card .ttk-title{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink)}
-    .ttk-card p{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
-    .ttk-card small{font-weight:500;color:var(--ink-soft)}
-    .related{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px;margin-bottom:18px}
-    .related h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
-    .link-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px 18px}
-    .link-list li{font-size:13.5px;line-height:1.5;padding-left:14px;position:relative}
-    .link-list li::before{content:"›";position:absolute;left:0;color:var(--green)}
-    @media (max-width:640px){
-      main{padding:20px 14px 60px}
-      .hero{padding:26px 22px}
-      .data-table td{padding:9px 16px}
-      .data-table .sec td{padding:10px 16px}
-      .article{padding:24px 22px}
-      .ttk{padding:22px 22px}
-      .related{padding:20px 22px}
+    .edit-btn{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:13px;opacity:.4;transition:opacity .14s;padding:2px 4px}
+    .edit-btn:hover{opacity:1;color:var(--green)}
+    .article-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px}
+    .section-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+    .section-head h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:800;letter-spacing:-.01em;color:var(--ink)}
+    .score-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-light);border:1px solid rgba(29,127,72,.25);color:var(--green-dk);padding:5px 12px;border-radius:999px;font-size:12px;font-weight:700}
+    .article-body p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.78}
+    .article-body p:last-child{margin-bottom:0}
+    .art-tag{display:inline-block;padding:3px 10px;border-radius:6px;font-weight:700;font-size:13px;margin-bottom:6px;line-height:1.5}
+    .map-card{margin:22px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper-2)}
+    .map-header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);gap:8px;flex-wrap:wrap}
+    .map-title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}
+    .map-flag{font-size:18px}
+    .map-styles{display:flex;gap:4px}
+    .map-style-btn{font-size:11px;font-weight:700;padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;color:var(--ink-soft);cursor:pointer;transition:all .14s}
+    .map-style-btn:hover{border-color:var(--green);color:var(--green)}
+    .map-style-btn.active{background:var(--green);color:#fff;border-color:transparent}
+    .map-container{position:relative;height:320px}
+    #wigg-country-map{position:absolute;inset:0}
+    .map-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper-2);color:var(--ink-soft);font-size:13px;z-index:10}
+    .map-loading.hidden{display:none}
+    .things-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px}
+    .wg-badge{display:inline-flex;align-items:center;gap:5px;background:#fef3c7;border:1px solid rgba(202,138,4,.3);color:#92400e;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+    .facts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .fact-card{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden}
+    .fact-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green)}
+    .fact-title{font-weight:800;font-size:13px;margin-bottom:6px;color:var(--ink);padding-left:6px}
+    .fact-text{font-size:12.5px;color:var(--ink-soft);line-height:1.55;padding-left:6px}
+    .cmp-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px}
+    .cmp-section h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
+    .cmp-pills{display:flex;flex-wrap:wrap;gap:8px}
+    .cmp-pill{display:inline-block;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:600;color:var(--ink);transition:all .14s}
+    .cmp-pill:hover{border-color:var(--green);background:var(--green);color:#fff;text-decoration:none}
+    @media(max-width:640px){
+      .wrap{padding:18px 14px 60px}
+      .country-head{flex-direction:column}
+      .head-right{align-items:flex-start}
+      .data-table td{padding:9px 14px}
+      .data-table .sec td{padding:11px 14px}
+      .article-card{padding:24px 22px}
+      .things-section{padding:22px 22px}
+      .cmp-section{padding:20px 22px}
+      .map-container{height:240px}
     }
   </style>
 </head>
@@ -92,268 +154,400 @@
 <div id="siteHeader"></div>
 <script src="/data/header.js"></script>
 
-<main>
+<main class="wrap">
   <nav class="crumb"><a href="/">Accueil</a> › <a href="/globe.html">Pays</a> › Bhoutan</nav>
 
-  <section class="hero">
-    <div class="hero-flag">🇧🇹</div>
-    <h1>Bhoutan</h1>
-    <p class="subtitle">Moyennes indicatives (Thimphu plus élevé ; net / mois sauf indication contraire)</p>
-    <div class="hero-badges">
-      <span class="badge yellow">WIGG: YELLOW</span>
-      <span class="badge">⭐ Score Expat: 5.5 / 10</span>
+  <div class="country-head">
+    <div>
+      <div class="country-flag">🇧🇹</div>
+      <h1>Bhoutan</h1>
+      <p class="subtitle">Moyennes indicatives (Thimphu plus élevé ; net / mois sauf indication contraire)</p>
     </div>
-  </section>
-
-  <section class="snapshot">
-    <h2>Aperçu rapide</h2>
-    <div class="snap-grid">
-      <div class="snap-item"><strong>Capitale</strong>Thimphu</div>
-      <div class="snap-item"><strong>Population</strong>~780,000</div>
-      <div class="snap-item"><strong>Langues</strong>Dzongkha, anglais</div>
-      <div class="snap-item"><strong>Conduite</strong>Gauche</div>
-      <div class="snap-item"><strong>Monnaie</strong>Ngultrum bhoutanais (BTN) / Roupie indienne (INR)</div>
-      <div class="snap-item"><strong>Crypto-friendly</strong>Non</div>
+    <div class="head-right">
+      <div class="badge yellow"><span class="dot"></span>WIGG: YELLOW</div>
+      <div class="local-time">Heure locale <b id="localTime" data-tz="Asia/Thimphu">--:--</b></div>
     </div>
-  </section>
+  </div>
 
-  <section class="data-card">
-    <h2>Coût de la vie, salaires et qualité de vie</h2>
-    <table class="data-table">
-    <tbody>
-      <tr class="sec"><td colspan="3">💼 Salaires (net / mois)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧾</span>Salaire minimum</td>
-        <td class="val">$95</td>
-        <td class="hint">Min 8 000 BTN → net ≈ 7 280 BTN (2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📊</span>Salaire moyen</td>
-        <td class="val">$310</td>
-        <td class="hint">Moyenne nette ≈ 25 800 BTN/mois secteur formel (NSB Bhoutan 2024)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🩺</span>Salaire médecin (généraliste)</td>
-        <td class="val">$1,000</td>
-        <td class="hint">Moyenne du secteur public</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🏠 Logement et charges (studio référence)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏚️</span>Loyer studio</td>
-        <td class="val">$220</td>
-        <td class="hint">Villes régionales</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">⚡</span>Électricité</td>
-        <td class="val">$18</td>
-        <td class="hint">/ mois (énergie hydroélectrique bon marché)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💧</span>Eau</td>
-        <td class="val">$6</td>
-        <td class="hint">/ mois</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📱</span>Forfait mobile</td>
-        <td class="val">$8</td>
-        <td class="hint">~10–25 Go</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🍽️ Alimentation et boissons (prix indicatifs)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍺</span>Bière (pinte)</td>
-        <td class="val">$2.50</td>
-        <td class="hint">Bar local</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☕</span>Café</td>
-        <td class="val">$1.50</td>
-        <td class="hint">Café régulier</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍲</span>Plat principal</td>
-        <td class="val">$5</td>
-        <td class="hint">milieu de gamme</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">⛽ Transport</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">⛽</span>Essence / litre</td>
-        <td class="val">1,15 $ / L</td>
-        <td class="hint">indicatif</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🧾 Fiscalité (indicatif)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏷️</span>TVA</td>
-        <td class="val">0%</td>
-        <td class="hint">Pas de TVA (la taxe de vente varie)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">👤</span>Impôt sur le revenu</td>
-        <td class="val">~10%</td>
-        <td class="hint">Progressif, tranche intermédiaire</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏪</span>Fiscalité petite entreprise</td>
-        <td class="val">~25%</td>
-        <td class="hint">25 % norme CIT</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📱 Tech (prix indicatifs)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍎</span>iPhone (dernier 256 Go)</td>
-        <td class="val">$1,350</td>
-        <td class="hint">l&#x27;importation des prix varie</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📲</span>Galaxy S (dernier 256 Go)</td>
-        <td class="val">$1,050</td>
-        <td class="hint">l&#x27;importation des prix varie</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🛂 Immigration et installation</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🛂</span>Facilité d&#x27;immigration</td>
-        <td class="val">3 / 10</td>
-        <td class="hint">permis limités</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🌤️ Qualité de vie</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🙂</span>Bonheur</td>
-        <td class="val">6.1 / 10</td>
-        <td class="hint">indicatif (src : Rapport mondial sur le bonheur 2024)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☀️</span>Jours de soleil / an</td>
-        <td class="val">~270 jours / an</td>
-        <td class="hint">indicatif (src : Données climatiques, OMM)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏥</span>Santé publique</td>
-        <td class="val">Oui</td>
-        <td class="hint">public (gratuit) + privé</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧑‍⚕️</span>Assurance privée / mois</td>
-        <td class="val">28 $ / mois</td>
-        <td class="hint">exemple privé</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📈 Indices</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🚔</span>Indice criminalité</td>
-        <td class="val">22 / 100</td>
-        <td class="hint">indicatif (src : Indice de sécurité Numbeo 2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💶</span>Pouvoir d&#x27;achat</td>
-        <td class="val">55</td>
-        <td class="hint">indicatif (src : Indice PP de Numbeo 2025)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🕍 Religion</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">✝️</span>Chrétien</td>
-        <td class="val">~1%</td>
-        <td class="hint">indicatif</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☪️</span>Musulman</td>
-        <td class="val">~2%</td>
-        <td class="hint">indicatif</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☸️</span>Bouddhiste</td>
-        <td class="val">~75%</td>
-        <td class="hint">indicatif</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">✡️</span>Juif</td>
-        <td class="val">~0%</td>
-        <td class="hint">indicative (src: Pew Research / WJC)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🕊️</span>Autre / Aucune</td>
-        <td class="val">~5%</td>
-        <td class="hint">hindou/autre</td>
-      </tr>
-    </tbody>
-    </table>
-  </section>
+  <div class="main-grid">
+    <aside class="sidebar">
+      <div class="card">
+        <img class="hero-img" src="/assets/hero-bhutan.jpg" alt="Bhoutan"
+             onerror="this.onerror=null;this.src='/assets/hero-fallback.jpg'" />
+        <div class="hero-actions">
+          <button class="btn primary" type="button" onclick="openModal('general')">Corriger les données</button>
+          <button class="btn" type="button" id="btnShare">Partager</button>
+          <a class="btn" href="/compare.html?country=bhutan">Comparer</a>
+        </div>
+      </div>
 
-  <section class="article"><h2>Aperçu du pays</h2><h2>🧭 Aperçu</h2>
-<p>Le Bhoutan est un petit royaume himalayen coincé entre l'Inde et la Chine (Tibet), célèbre pour mesurer le Bonheur National Brut plutôt que le PIB. Le pays est resté isolé jusqu'aux années 1960 et la télévision/internet n'y sont arrivés qu'en 1999. Le bouddhisme imprègne tous les aspects de la vie, et la culture traditionnelle est farouchement protégée. Le tourisme est strictement contrôlé avec des frais journaliers élevés (200 $+/jour pour la plupart des touristes) afin de préserver la culture et l'environnement. Les paysages sont époustouflants — monastères accrochés aux falaises, forêts immaculées (72 % de couverture forestière) et sommets himalayens. Cependant, y vivre en tant qu'expatrié est restrictif et limité à des secteurs spécifiques.</p>
-<h2>👥 Population & ambiance</h2>
-<p>Avec environ 780 000 habitants, la population du Bhoutan est majoritairement bouddhiste, avec une minorité népalaise hindoue dans le sud. Le dzongkha est la langue officielle, mais l'anglais est enseigné à l'école et largement parlé. La culture tourne autour du bouddhisme, de la communauté et de la tradition. Le costume traditionnel (gho pour les hommes, kira pour les femmes) est obligatoire dans les bâtiments gouvernementaux et les écoles. L'hospitalité est chaleureuse mais réservée. La hiérarchie sociale est importante. Le rythme de vie est lent et contemplatif. Thimphu, la capitale, est la seule « ville » — en réalité plutôt une grande bourgade. La vie est communautaire et axée sur la famille.</p>
-<h2>🌦️ Climat & paysage</h2>
-<p>Le climat varie fortement selon l'altitude : zones subtropicales au sud, vallées tempérées centrales (où vit la plupart de la population) et hauts plateaux alpins avec neige permanente. La mousson de juin à septembre apporte de fortes précipitations. Les hivers sont froids et secs. Le paysage est montagneux — le Bhoutan est composé à plus de 70 % de montagnes avec des altitudes allant de 100 m à plus de 7 500 m. Forêts vierges, rivières impétueuses et vallées spectaculaires définissent le décor. La qualité de l'air est excellente. Les infrastructures sont limitées par le terrain.</p>
-<h2>🏠 Logement & installation</h2>
-<p>Le logement à Thimphu va des maisons traditionnelles aux appartements modernes, mais la disponibilité pour les étrangers est extrêmement limitée. La plupart des expatriés vivent dans des logements fournis par l'employeur. Les loyers sont modérés mais le marché est restreint. Les maisons traditionnelles sont belles mais manquent d'isolation moderne. Le chauffage (poêles à bois, bukhari) est essentiel en hiver. L'électricité est fiable (hydroélectricité). L'internet est disponible mais lent. En dehors de Thimphu, les options de logement pour les étrangers sont quasiment inexistantes. Les locations de longue durée nécessitent des permis de travail liés à un emploi.</p>
-<h2>💼 Travail & économie</h2>
-<p>L'économie est petite, basée sur l'hydroélectricité (exportations vers l'Inde), l'agriculture, la sylviculture et le tourisme. Pour les étrangers, les opportunités sont très limitées : organisations internationales (agences de l'ONU), ONG, enseignement (écoles/université) ou projets nécessitant une expertise technique spécifique. Les permis de travail sont restrictifs et exigent un parrainage de l'employeur prouvant qu'aucun Bhoutanais qualifié n'est disponible. Le marché du travail est fermé aux extérieurs sauf pour des postes spécialisés. Les salaires sont modestes. Créer une entreprise en tant qu'étranger est presque impossible en raison des réglementations protégeant les intérêts locaux.</p>
-<h2>🛂 Visa & entrée</h2>
-<p>Le tourisme est contrôlé via des frais journaliers élevés (200 $+/jour, frais de développement durable pour la plupart des nationalités, couvrant l'hébergement, le guide, le transport). Les ressortissants indiens, bangladais et maldiviens ont un accès facilité. Pour la résidence/le travail, le visa nécessite un parrainage de l'employeur et l'approbation du gouvernement — le processus est extrêmement restrictif. Les visas de longue durée sont liés à des emplois spécifiques, généralement au gouvernement, dans des ONG ou des organisations internationales. La résidence permanente est pratiquement impossible. La citoyenneté requiert des origines bhoutanaises. Le pays limite activement la présence étrangère pour préserver la culture.</p>
-<h2>🏥 Santé</h2>
-<p>Les soins de santé sont gratuits pour les citoyens et basiques pour tous. La qualité est adéquate pour les problèmes courants mais limitée pour les affections graves. L'hôpital de référence national Jigme Dorji Wangchuck à Thimphu est l'établissement principal. La médecine traditionnelle (gSo-ba Rig-pa) coexiste avec la médecine moderne. Les cas complexes nécessitent une évacuation vers l'Inde ou la Thaïlande. L'infrastructure médicale est basique. L'espérance de vie est d'environ 72 ans. Pour les expatriés, une assurance santé couvrant l'évacuation vers l'Inde est essentielle.</p>
-<h2>🚗 Transport & mobilité</h2>
-<p>Le Bhoutan n'a pas de chemin de fer et dispose d'un transport public limité. Des taxis existent à Thimphu mais sont rares. La plupart des expatriés ont des chauffeurs fournis par l'employeur ou louent des voitures. Les routes sont étroites, sinueuses et peuvent être dangereuses — cols de montagne, virages en épingle et glissements de terrain occasionnels. On conduit à gauche. Les distances sont courtes mais les trajets sont lents à cause du terrain. L'aéroport international de Paro est le seul aéroport — les vols sont limités et dépendants de la météo (seuls quelques pilotes sont certifiés pour l'approche difficile dans la vallée). Druk Air et Bhutan Airlines relient Bangkok, Delhi, Katmandou, Singapour.</p>
-<h2>🍛 Note sur la cuisine (plat national)</h2>
-<p>Le plat national est l'Ema Datshi : piments forts cuits dans une sauce au fromage. La cuisine bhoutanaise est extrêmement épicée par défaut. L'ema datshi est servi avec du riz rouge et apparaît à presque tous les repas. La chaleur est intense — ce n'est pas pour les palais sensibles. Cela reflète l'amour des Bhoutanais pour les piments.</p>
-<h2>🔎 En résumé</h2>
-<p>Le Bhoutan n'est PAS pour les expatriés ou retraités typiques — il s'adresse aux travailleurs en développement, aux éducateurs, aux spécialistes techniques sur des projets précis, ou aux chercheurs spirituels prêts à accepter d'importantes restrictions. Vivre ici implique d'accepter l'isolement, des libertés personnelles limitées, des contraintes culturelles et des commodités basiques. Les récompenses sont de vivre dans un environnement préservé, d'expérimenter une culture bouddhiste profonde et de contribuer de manière significative. Mais ce n'est ni confortable, ni pratique, ni ouvert. Le tourisme est accessible (cher) ; y vivre est restreint et difficile.</p>
-<p>Score Expat — 5.5 / 10</p></section>
+      <div class="card snapshot-card">
+        <div class="snapshot-title">Aperçu rapide</div>
+        <div class="kv"><span>Capitale</span><b>Thimphu</b></div><div class="kv"><span>Population</span><b>~780,000</b></div><div class="kv"><span>Langues</span><b>Dzongkha, anglais</b></div><div class="kv"><span>Monnaie</span><b>Ngultrum bhoutanais (BTN) / Roupie indienne (INR)</b></div><div class="kv kv-sub"><span>Exchange rate</span><b>1 USD ≈ 83 BTN/INR</b></div><div class="kv-note">Le ngultrum est arrimé 1:1 à la roupie indienne. Les deux devises circulent librement au Bhoutan.</div><div class="kv"><span>Crypto-friendly</span><b>Non</b></div><div class="kv-note">La cryptomonnaie est interdite. Le gouvernement prohibe le trading et le minage de crypto. L&#x27;application de la loi est stricte.</div><div class="kv"><span>Conduite</span><b>Gauche</b></div><div class="sector-block"><div class="sector-head">Secteurs phares</div><div class="sector-list"><div class="sector-pill">Hydroélectricité (exportations vers l&#x27;Inde)</div><div class="sector-pill">Agriculture &amp; sylviculture</div><div class="sector-pill">Tourisme (contrôlé)</div></div></div>
+      </div>
 
-  <section class="ttk"><h2>À savoir</h2><div class="ttk-grid">
-      <div class="ttk-card">
-        <div class="ttk-title">👤 Jigme Singye Wangchuck (4e roi) <small>(XXe-XXIe siècle)</small></div>
-        <p>Le roi bien-aimé qui a introduit le concept de Bonheur National Brut et a volontairement fait passer le Bhoutan d&#x27;une monarchie absolue à une monarchie constitutionnelle (2008). Sa sagesse et son altruisme ont façonné la philosophie de développement unique du Bhoutan moderne.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">😊 Le Bonheur National Brut plutôt que le PIB</div>
-        <p>Le Bhoutan mesure le succès via le BNB — bien-être psychologique, santé, éducation, culture, environnement, gouvernance, communauté, niveau de vie. Ce n&#x27;est pas un idéalisme hippie ; c&#x27;est une politique officielle guidant toutes les décisions. La croissance économique est secondaire par rapport au bonheur.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🚭 Premier pays à interdire la vente de tabac</div>
-        <p>La vente de tabac est interdite à l&#x27;échelle nationale depuis 2010 (bien que la réglementation ait été légèrement assouplie par la suite). Fumer en public est fortement restreint. Cette politique de santé reflète les valeurs bouddhistes et le paternalisme gouvernemental. La contrebande en provenance de l&#x27;Inde est courante.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🏔️ Aucun feu de signalisation dans tout le pays</div>
-        <p>Thimphu est la seule capitale au monde sans feux de circulation. Ils ont essayé d&#x27;installer des feux une fois mais les ont retirés après que les citoyens se soient plaints de cette technologie impersonnelle. Des policiers de la circulation dirigent manuellement le trafic avec des gants blancs et des gestes théâtraux.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🌳 Pays négatif en carbone</div>
-        <p>Le Bhoutan est l&#x27;un des seuls pays au monde à être négatif en carbone (il absorbe plus de CO2 qu&#x27;il n&#x27;en émet). La constitution impose un minimum de 60 % de couverture forestière. L&#x27;hydroélectricité fournit une énergie propre. La protection de l&#x27;environnement est une politique nationale non négociable.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">👔 Le costume traditionnel est obligatoire</div>
-        <p>Le gho (robe pour les hommes) et la kira (robe pour les femmes) doivent être portés dans les bureaux gouvernementaux, les écoles et les dzongs (forteresses). Ce n&#x27;est pas pour les touristes — les citoyens portent réellement les habits traditionnels au quotidien. C&#x27;est une préservation culturelle inscrite dans la loi.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">📺 La télévision est arrivée en 1999</div>
-        <p>La télévision et internet étaient interdits jusqu&#x27;en 1999 afin de préserver la culture. Le Bhoutan a été le dernier pays à introduire la télévision. Aujourd&#x27;hui la mondialisation s&#x27;immisce — les jeunes regardent YouTube, le cricket d&#x27;Inde est populaire, et la tradition est sous pression.</p>
-      </div></div></section>
+      
+        <div class="card persona-card">
+          <div class="snapshot-title">Figure du pays</div>
+          <div class="persona-name">Jigme Singye Wangchuck (4e roi) <small>(XXe-XXIe siècle)</small></div>
+          <div class="persona-why">Le roi bien-aimé qui a introduit le concept de Bonheur National Brut et a volontairement fait passer le Bhoutan d&#x27;une monarchie absolue à une monarchie constitutionnelle (2008). Sa sagesse et son altruisme ont façonné la philosophie de développement unique du Bhoutan moderne.</div>
+        </div>
+    </aside>
 
-  
-  
-  
+    <div class="right-col">
+      <div class="rc-wrapper">
+        
+        
+      </div>
 
-  <p style="text-align:center;margin-top:30px"><a href="/globe.html" style="font-weight:600">Voir les 160+ pays →</a></p>
+      <div class="data-card">
+        <table class="data-table">
+      <tbody>
+        <tr class="sec"><td colspan="4">💼 Salaires (net / mois)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧾</span>Salaire minimum</td>
+          <td class="val">$95</td>
+          <td class="hint">Min 8 000 BTN → net ≈ 7 280 BTN (2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('min_wage')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📊</span>Salaire moyen</td>
+          <td class="val">$310</td>
+          <td class="hint">Moyenne nette ≈ 25 800 BTN/mois secteur formel (NSB Bhoutan 2024)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('avg_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🩺</span>Salaire médecin (généraliste)</td>
+          <td class="val">$1,000</td>
+          <td class="hint">Moyenne du secteur public</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('doctor_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🏠 Logement et charges (studio référence)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏚️</span>Loyer studio</td>
+          <td class="val">$220</td>
+          <td class="hint">Villes régionales</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('rent_studio')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">⚡</span>Électricité</td>
+          <td class="val">$18</td>
+          <td class="hint">/ mois (énergie hydroélectrique bon marché)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('electricity')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💧</span>Eau</td>
+          <td class="val">$6</td>
+          <td class="hint">/ mois</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('water')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📱</span>Forfait mobile</td>
+          <td class="val">$8</td>
+          <td class="hint">~10–25 Go</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('mobile')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🍽️ Alimentation et boissons (prix indicatifs)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍺</span>Bière (pinte)</td>
+          <td class="val">$2.50</td>
+          <td class="hint">Bar local</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('beer')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☕</span>Café</td>
+          <td class="val">$1.50</td>
+          <td class="hint">Café régulier</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('coffee')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍲</span>Plat principal</td>
+          <td class="val">$5</td>
+          <td class="hint">milieu de gamme</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('dish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">⛽ Transport</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">⛽</span>Essence / litre</td>
+          <td class="val">1,15 $ / L</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('gas')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🧾 Fiscalité (indicatif)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏷️</span>TVA</td>
+          <td class="val">0%</td>
+          <td class="hint">Pas de TVA (la taxe de vente varie)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('vat')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">👤</span>Impôt sur le revenu</td>
+          <td class="val">~10%</td>
+          <td class="hint">Progressif, tranche intermédiaire</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('income_tax')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏪</span>Fiscalité petite entreprise</td>
+          <td class="val">~25%</td>
+          <td class="hint">25 % norme CIT</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('smallbiz')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📱 Tech (prix indicatifs)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍎</span>iPhone (dernier 256 Go)</td>
+          <td class="val">$1,350</td>
+          <td class="hint">l&#x27;importation des prix varie</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('iphone')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📲</span>Galaxy S (dernier 256 Go)</td>
+          <td class="val">$1,050</td>
+          <td class="hint">l&#x27;importation des prix varie</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('samsung')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🛂 Immigration et installation</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🛂</span>Facilité d&#x27;immigration</td>
+          <td class="val">3 / 10</td>
+          <td class="hint">permis limités</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('immigration')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🌤️ Qualité de vie</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🙂</span>Bonheur</td>
+          <td class="val">6.1 / 10</td>
+          <td class="hint">indicatif (src : Rapport mondial sur le bonheur 2024)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('happiness')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☀️</span>Jours de soleil / an</td>
+          <td class="val">~270 jours / an</td>
+          <td class="hint">indicatif (src : Données climatiques, OMM)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('sun')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏥</span>Santé publique</td>
+          <td class="val">Oui</td>
+          <td class="hint">public (gratuit) + privé</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('health')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧑‍⚕️</span>Assurance privée / mois</td>
+          <td class="val">28 $ / mois</td>
+          <td class="hint">exemple privé</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('insurance')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📈 Indices</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🚔</span>Indice criminalité</td>
+          <td class="val">22 / 100</td>
+          <td class="hint">indicatif (src : Indice de sécurité Numbeo 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('crime')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💶</span>Pouvoir d&#x27;achat</td>
+          <td class="val">55</td>
+          <td class="hint">indicatif (src : Indice PP de Numbeo 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('pp')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🕍 Religion</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">✝️</span>Chrétien</td>
+          <td class="val">~1%</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_christian')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☪️</span>Musulman</td>
+          <td class="val">~2%</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_muslim')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☸️</span>Bouddhiste</td>
+          <td class="val">~75%</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_buddhist')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">✡️</span>Juif</td>
+          <td class="val">~0%</td>
+          <td class="hint">indicative (src: Pew Research / WJC)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_jewish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🕊️</span>Autre / Aucune</td>
+          <td class="val">~5%</td>
+          <td class="hint">hindou/autre</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_other')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+        </table>
+      </div>
+
+      
+      <div class="article-card">
+        <div class="section-head">
+          <h2>Vivre au Bhoutan</h2>
+          <span class="score-badge"><span class="score-star">⭐</span> Score Expat: 5.5 / 10</span>
+        </div>
+        <div class="article-body"><p>🧭 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Aperçu</span><br>
+Le Bhoutan est un petit royaume himalayen coincé entre l&#x27;Inde et la Chine (Tibet), célèbre pour mesurer le Bonheur National Brut plutôt que le PIB. Le pays est resté isolé jusqu&#x27;aux années 1960 et la télévision/internet n&#x27;y sont arrivés qu&#x27;en 1999. Le bouddhisme imprègne tous les aspects de la vie, et la culture traditionnelle est farouchement protégée. Le tourisme est strictement contrôlé avec des frais journaliers élevés (200 $+/jour pour la plupart des touristes) afin de préserver la culture et l&#x27;environnement. Les paysages sont époustouflants — monastères accrochés aux falaises, forêts immaculées (72 % de couverture forestière) et sommets himalayens. Cependant, y vivre en tant qu&#x27;expatrié est restrictif et limité à des secteurs spécifiques.</p><p>👥 <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Population &amp; ambiance</span><br>
+Avec environ 780 000 habitants, la population du Bhoutan est majoritairement bouddhiste, avec une minorité népalaise hindoue dans le sud. Le dzongkha est la langue officielle, mais l&#x27;anglais est enseigné à l&#x27;école et largement parlé. La culture tourne autour du bouddhisme, de la communauté et de la tradition. Le costume traditionnel (gho pour les hommes, kira pour les femmes) est obligatoire dans les bâtiments gouvernementaux et les écoles. L&#x27;hospitalité est chaleureuse mais réservée. La hiérarchie sociale est importante. Le rythme de vie est lent et contemplatif. Thimphu, la capitale, est la seule « ville » — en réalité plutôt une grande bourgade. La vie est communautaire et axée sur la famille.</p><p>🌦️ <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Climat &amp; paysage</span><br>
+Le climat varie fortement selon l&#x27;altitude : zones subtropicales au sud, vallées tempérées centrales (où vit la plupart de la population) et hauts plateaux alpins avec neige permanente. La mousson de juin à septembre apporte de fortes précipitations. Les hivers sont froids et secs. Le paysage est montagneux — le Bhoutan est composé à plus de 70 % de montagnes avec des altitudes allant de 100 m à plus de 7 500 m. Forêts vierges, rivières impétueuses et vallées spectaculaires définissent le décor. La qualité de l&#x27;air est excellente. Les infrastructures sont limitées par le terrain.</p><p>🏠 <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Logement &amp; installation</span><br>
+Le logement à Thimphu va des maisons traditionnelles aux appartements modernes, mais la disponibilité pour les étrangers est extrêmement limitée. La plupart des expatriés vivent dans des logements fournis par l&#x27;employeur. Les loyers sont modérés mais le marché est restreint. Les maisons traditionnelles sont belles mais manquent d&#x27;isolation moderne. Le chauffage (poêles à bois, bukhari) est essentiel en hiver. L&#x27;électricité est fiable (hydroélectricité). L&#x27;internet est disponible mais lent. En dehors de Thimphu, les options de logement pour les étrangers sont quasiment inexistantes. Les locations de longue durée nécessitent des permis de travail liés à un emploi.</p><p>💼 <span class="art-tag" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#6d28d9">Travail &amp; économie</span><br>
+L&#x27;économie est petite, basée sur l&#x27;hydroélectricité (exportations vers l&#x27;Inde), l&#x27;agriculture, la sylviculture et le tourisme. Pour les étrangers, les opportunités sont très limitées : organisations internationales (agences de l&#x27;ONU), ONG, enseignement (écoles/université) ou projets nécessitant une expertise technique spécifique. Les permis de travail sont restrictifs et exigent un parrainage de l&#x27;employeur prouvant qu&#x27;aucun Bhoutanais qualifié n&#x27;est disponible. Le marché du travail est fermé aux extérieurs sauf pour des postes spécialisés. Les salaires sont modestes. Créer une entreprise en tant qu&#x27;étranger est presque impossible en raison des réglementations protégeant les intérêts locaux.</p>
+        <div class="map-card">
+          <div class="map-header">
+            <div class="map-title"><span class="map-flag">🇧🇹</span><span>Bhoutan — Carte</span></div>
+            <div class="map-styles">
+              <button type="button" class="map-style-btn active" data-style="light">Clair</button>
+              <button type="button" class="map-style-btn" data-style="dark">Sombre</button>
+              <button type="button" class="map-style-btn" data-style="satellite">Satellite</button>
+            </div>
+          </div>
+          <div class="map-container">
+            <div id="wigg-country-map"></div>
+            <div class="map-loading" id="wiggMapLoading">Chargement de la carte…</div>
+          </div>
+        </div><p>🛂 <span class="art-tag" style="background:rgba(236,72,153,.12);border:1px solid rgba(236,72,153,.25);color:#be185d">Visa &amp; entrée</span><br>
+Le tourisme est contrôlé via des frais journaliers élevés (200 $+/jour, frais de développement durable pour la plupart des nationalités, couvrant l&#x27;hébergement, le guide, le transport). Les ressortissants indiens, bangladais et maldiviens ont un accès facilité. Pour la résidence/le travail, le visa nécessite un parrainage de l&#x27;employeur et l&#x27;approbation du gouvernement — le processus est extrêmement restrictif. Les visas de longue durée sont liés à des emplois spécifiques, généralement au gouvernement, dans des ONG ou des organisations internationales. La résidence permanente est pratiquement impossible. La citoyenneté requiert des origines bhoutanaises. Le pays limite activement la présence étrangère pour préserver la culture.</p><p>🏥 <span class="art-tag" style="background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.25);color:#0e7490">Santé</span><br>
+Les soins de santé sont gratuits pour les citoyens et basiques pour tous. La qualité est adéquate pour les problèmes courants mais limitée pour les affections graves. L&#x27;hôpital de référence national Jigme Dorji Wangchuck à Thimphu est l&#x27;établissement principal. La médecine traditionnelle (gSo-ba Rig-pa) coexiste avec la médecine moderne. Les cas complexes nécessitent une évacuation vers l&#x27;Inde ou la Thaïlande. L&#x27;infrastructure médicale est basique. L&#x27;espérance de vie est d&#x27;environ 72 ans. Pour les expatriés, une assurance santé couvrant l&#x27;évacuation vers l&#x27;Inde est essentielle.</p><p>🚗 <span class="art-tag" style="background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#c2410c">Transport &amp; mobilité</span><br>
+Le Bhoutan n&#x27;a pas de chemin de fer et dispose d&#x27;un transport public limité. Des taxis existent à Thimphu mais sont rares. La plupart des expatriés ont des chauffeurs fournis par l&#x27;employeur ou louent des voitures. Les routes sont étroites, sinueuses et peuvent être dangereuses — cols de montagne, virages en épingle et glissements de terrain occasionnels. On conduit à gauche. Les distances sont courtes mais les trajets sont lents à cause du terrain. L&#x27;aéroport international de Paro est le seul aéroport — les vols sont limités et dépendants de la météo (seuls quelques pilotes sont certifiés pour l&#x27;approche difficile dans la vallée). Druk Air et Bhutan Airlines relient Bangkok, Delhi, Katmandou, Singapour.</p><p>🍛 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Note sur la cuisine (plat national)</span><br>
+Le plat national est l&#x27;Ema Datshi : piments forts cuits dans une sauce au fromage. La cuisine bhoutanaise est extrêmement épicée par défaut. L&#x27;ema datshi est servi avec du riz rouge et apparaît à presque tous les repas. La chaleur est intense — ce n&#x27;est pas pour les palais sensibles. Cela reflète l&#x27;amour des Bhoutanais pour les piments.</p><p>🔎 <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">En résumé</span><br>
+Le Bhoutan n&#x27;est PAS pour les expatriés ou retraités typiques — il s&#x27;adresse aux travailleurs en développement, aux éducateurs, aux spécialistes techniques sur des projets précis, ou aux chercheurs spirituels prêts à accepter d&#x27;importantes restrictions. Vivre ici implique d&#x27;accepter l&#x27;isolement, des libertés personnelles limitées, des contraintes culturelles et des commodités basiques. Les récompenses sont de vivre dans un environnement préservé, d&#x27;expérimenter une culture bouddhiste profonde et de contribuer de manière significative. Mais ce n&#x27;est ni confortable, ni pratique, ni ouvert. Le tourisme est accessible (cher) ; y vivre est restreint et difficile.</p><p>Score Expat — 5.5 / 10</p></div>
+      </div>
+
+      
+      <div class="things-section">
+        <div class="section-head"><h2>À savoir</h2><span class="wg-badge">À lire</span></div>
+        <div class="facts-grid"><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">😊 Le Bonheur National Brut plutôt que le PIB</div><div class="fact-text">Le Bhoutan mesure le succès via le BNB — bien-être psychologique, santé, éducation, culture, environnement, gouvernance, communauté, niveau de vie. Ce n&#x27;est pas un idéalisme hippie ; c&#x27;est une politique officielle guidant toutes les décisions. La croissance économique est secondaire par rapport au bonheur.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🚭 Premier pays à interdire la vente de tabac</div><div class="fact-text">La vente de tabac est interdite à l&#x27;échelle nationale depuis 2010 (bien que la réglementation ait été légèrement assouplie par la suite). Fumer en public est fortement restreint. Cette politique de santé reflète les valeurs bouddhistes et le paternalisme gouvernemental. La contrebande en provenance de l&#x27;Inde est courante.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏔️ Aucun feu de signalisation dans tout le pays</div><div class="fact-text">Thimphu est la seule capitale au monde sans feux de circulation. Ils ont essayé d&#x27;installer des feux une fois mais les ont retirés après que les citoyens se soient plaints de cette technologie impersonnelle. Des policiers de la circulation dirigent manuellement le trafic avec des gants blancs et des gestes théâtraux.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🌳 Pays négatif en carbone</div><div class="fact-text">Le Bhoutan est l&#x27;un des seuls pays au monde à être négatif en carbone (il absorbe plus de CO2 qu&#x27;il n&#x27;en émet). La constitution impose un minimum de 60 % de couverture forestière. L&#x27;hydroélectricité fournit une énergie propre. La protection de l&#x27;environnement est une politique nationale non négociable.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">👔 Le costume traditionnel est obligatoire</div><div class="fact-text">Le gho (robe pour les hommes) et la kira (robe pour les femmes) doivent être portés dans les bureaux gouvernementaux, les écoles et les dzongs (forteresses). Ce n&#x27;est pas pour les touristes — les citoyens portent réellement les habits traditionnels au quotidien. C&#x27;est une préservation culturelle inscrite dans la loi.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">📺 La télévision est arrivée en 1999</div><div class="fact-text">La télévision et internet étaient interdits jusqu&#x27;en 1999 afin de préserver la culture. Le Bhoutan a été le dernier pays à introduire la télévision. Aujourd&#x27;hui la mondialisation s&#x27;immisce — les jeunes regardent YouTube, le cricket d&#x27;Inde est populaire, et la tradition est sous pression.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🍽️ Ema Datshi</div><div class="fact-text">Piments forts dans une sauce au fromage servis avec du riz rouge — intensément épicé et présent à presque tous les repas. Cela reflète l&#x27;amour bhoutanais pour les piments.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏳️‍🌈 LGBT+: Faible</div><div class="fact-text">L&#x27;homosexualité a été dépénalisée en 2021 mais les attitudes sociales restent très conservatrices. La culture bouddhiste valorise la discrétion. Il n&#x27;existe pas de protections ou de reconnaissances légales.</div></div></div>
+      </div>
+
+      
+    </div>
+  </div>
 </main>
 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
+<script src="/data/share.js"></script>
+<script src="/data/correction-form.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var t = document.getElementById("localTime");
+  if(t && t.dataset.tz){
+    function tick(){
+      try{
+        t.textContent = new Intl.DateTimeFormat("en-GB",{
+          timeZone: t.dataset.tz, hour:"2-digit", minute:"2-digit"
+        }).format(new Date());
+      }catch(e){}
+    }
+    tick(); setInterval(tick, 30000);
+  }
+  document.querySelectorAll(".rc-nav-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var targetId = btn.dataset.target;
+      var dir = parseInt(btn.dataset.dir||"1",10);
+      var row = document.getElementById(targetId);
+      if(!row) return;
+      var box = row.parentElement;
+      var first = row.querySelector(".rc-vcard");
+      if(!first) return;
+      var cardW = first.offsetWidth + 9;
+      var visible = Math.max(1, Math.floor(box.offsetWidth / cardW));
+      var maxOffset = Math.max(0, row.children.length - visible);
+      var current = parseInt(row.dataset.offset||"0", 10);
+      current = Math.min(maxOffset, Math.max(0, current + dir));
+      row.dataset.offset = current;
+      row.style.transform = "translateX(-" + (current * cardW) + "px)";
+      var nav = btn.parentNode;
+      var prev = nav.querySelector('[data-dir="-1"]');
+      var next = nav.querySelector('[data-dir="1"]');
+      if(prev) prev.disabled = (current === 0);
+      if(next) next.disabled = (current >= maxOffset);
+    });
+  });
+  var iso2 = "BT";
+  if(!iso2 || typeof L === "undefined") return;
+  var STYLES = {
+    light:     { url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", attr: "&copy; OSM &copy; CARTO" },
+    dark:      { url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",  attr: "&copy; OSM &copy; CARTO" },
+    satellite: { url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", attr: "&copy; Esri" }
+  };
+  var wMap=null, wLayer=null, wMarker=null;
+  function initMap(lat, lon){
+    var el = document.getElementById("wigg-country-map");
+    if(!el) return;
+    if(wMap){ try{wMap.remove();}catch(e){} }
+    wMap = L.map("wigg-country-map",{zoomControl:true}).setView([lat,lon],5);
+    wLayer = L.tileLayer(STYLES.light.url,{attribution:STYLES.light.attr,maxZoom:18}).addTo(wMap);
+    wMarker = L.marker([lat,lon]).addTo(wMap);
+    var loading = document.getElementById("wiggMapLoading");
+    if(loading) loading.classList.add("hidden");
+  }
+  document.querySelectorAll(".map-style-btn").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(!wMap) return;
+      var s = STYLES[b.dataset.style];
+      if(!s) return;
+      if(wLayer) wMap.removeLayer(wLayer);
+      wLayer = L.tileLayer(s.url,{attribution:s.attr,maxZoom:18}).addTo(wMap);
+      document.querySelectorAll(".map-style-btn").forEach(function(x){x.classList.remove("active");});
+      b.classList.add("active");
+    });
+  });
+  var cacheKey = "wigg_centroid_" + iso2;
+  var cached = null;
+  try { cached = JSON.parse(localStorage.getItem(cacheKey) || "null"); } catch(e){}
+  if(cached && cached.lat != null && cached.lon != null){
+    initMap(cached.lat, cached.lon); return;
+  }
+  fetch("https://nominatim.openstreetmap.org/search?country=" + encodeURIComponent(iso2) + "&format=json&limit=1")
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && d[0]){
+        var coords = { lat: +d[0].lat, lon: +d[0].lon };
+        try { localStorage.setItem(cacheKey, JSON.stringify(coords)); } catch(e){}
+        initMap(coords.lat, coords.lon);
+      } else {
+        var l = document.getElementById("wiggMapLoading");
+        if(l) l.textContent = "Carte indisponible";
+      }
+    })
+    .catch(function(){
+      var l = document.getElementById("wiggMapLoading");
+      if(l) l.textContent = "Carte indisponible";
+    });
+})();
+</script>
+
+<form name="wiggmap-corrections" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="wiggmap-corrections" />
+  <p><label>Don't fill this out: <input name="bot-field" /></label></p>
+  <input name="country" /><input name="field" /><input name="value" /><input name="email" /><textarea name="notes"></textarea>
+</form>
+
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
 </body>
 </html>

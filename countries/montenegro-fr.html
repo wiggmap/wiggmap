@@ -25,65 +25,127 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#f6f1e8;--paper:#fffdf8;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--green:#1d7f48;--green-dk:#155f36;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
+    :root{--paper:#fffdf8;--paper-2:#fbf7ee;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--line-soft:rgba(23,23,20,.06);--green:#1d7f48;--green-dk:#155f36;--green-light:#e6f4ec;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
     html{scroll-behavior:smooth}
     body{font-family:"Inter",system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f9f5ed 0%,#f3ede3 100%);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
     a{color:var(--green);text-decoration:none}
     a:hover{text-decoration:underline}
-    main{max-width:980px;margin:0 auto;padding:28px 20px 80px}
-    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:18px;letter-spacing:.04em}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:14px;letter-spacing:.04em}
     .crumb a{color:var(--ink-soft)}
-    .hero{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:36px 32px;box-shadow:var(--shadow);margin-bottom:24px;position:relative;overflow:hidden}
-    .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 18%,rgba(29,127,72,.05),transparent 30%);pointer-events:none}
-    .hero-flag{font-size:48px;line-height:1;margin-bottom:14px}
-    .hero h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(36px,6vw,56px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:10px;position:relative;z-index:1}
-    .hero .subtitle{font-size:15px;color:var(--ink-soft);max-width:62ch;line-height:1.6;position:relative;z-index:1}
-    .hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;position:relative;z-index:1}
-    .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid var(--line)}
-    .badge.green{background:#e6f4ec;color:var(--green-dk);border-color:rgba(29,127,72,.2)}
+    .country-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:22px;flex-wrap:wrap}
+    .country-flag{font-size:42px;line-height:1;margin-bottom:8px}
+    .country-head h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(34px,5.2vw,52px);font-weight:800;letter-spacing:-.02em;line-height:1.02}
+    .country-head .subtitle{font-size:14px;color:var(--ink-soft);max-width:64ch;line-height:1.55;margin-top:8px}
+    .head-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+    .badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:7px 13px;border-radius:999px;background:#fff;border:1px solid var(--line)}
+    .badge.green{background:var(--green-light);color:var(--green-dk);border-color:rgba(29,127,72,.22)}
     .badge.yellow{background:#fef9e7;color:#a16207;border-color:rgba(202,138,4,.25)}
     .badge.red{background:#fdecec;color:#b91c1c;border-color:rgba(185,28,28,.25)}
-    .snapshot{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px 26px;box-shadow:var(--shadow);margin-bottom:24px}
-    .snapshot h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;margin-bottom:14px}
-    .snap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
-    .snap-item{font-size:13px}
-    .snap-item strong{display:block;color:var(--ink-soft);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
-    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
-    .data-card h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;padding:20px 26px 8px}
+    .badge .dot{width:8px;height:8px;border-radius:999px;background:currentColor;display:inline-block}
+    .local-time{font-size:12px;color:var(--ink-soft);font-weight:600}
+    .local-time b{color:var(--ink);margin-left:5px;font-weight:800}
+    .main-grid{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+    @media(max-width:900px){.main-grid{grid-template-columns:1fr}}
+    .sidebar{display:flex;flex-direction:column;gap:14px;align-self:start;position:sticky;top:18px}
+    @media(max-width:900px){.sidebar{position:static}}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .hero-img{width:100%;height:200px;object-fit:cover;display:block;background:#eaddc4}
+    .hero-actions{padding:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:8px;font-family:inherit;font-weight:700;font-size:12.5px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;transition:background .14s,border-color .14s}
+    .btn:hover{background:rgba(0,0,0,.04)}
+    .btn.primary{background:var(--green);color:#fff;border-color:transparent}
+    .btn.primary:hover{background:var(--green-dk)}
+    .snapshot-card{padding:16px}
+    .snapshot-title{font-family:"Fraunces",Georgia,serif;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px;letter-spacing:-.01em}
+    .kv{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--line-soft);font-size:12.5px}
+    .kv span{color:var(--ink-soft)}
+    .kv b{color:var(--ink);font-weight:700;text-align:right;max-width:60%}
+    .kv-sub{padding-left:10px;font-size:11.5px;opacity:.85}
+    .kv-note{font-size:11px;color:var(--ink-soft);line-height:1.5;padding:6px 0 8px;font-style:italic;border-bottom:1px solid var(--line-soft)}
+    .sector-block{padding-top:10px;margin-top:6px;border-top:1px solid var(--line-soft)}
+    .sector-head{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+    .sector-list{display:flex;flex-direction:column;gap:5px}
+    .sector-pill{background:rgba(29,127,72,.08);border:1px solid rgba(29,127,72,.2);border-radius:7px;padding:5px 10px;font-size:11.5px;font-weight:700;color:var(--green-dk);line-height:1.4}
+    .persona-card{padding:16px}
+    .persona-name{font-weight:800;font-size:13px;margin-bottom:6px}
+    .persona-name small{font-weight:500;opacity:.6;font-size:11px}
+    .persona-why{font-size:11.5px;color:var(--ink-soft);line-height:1.55;font-style:italic}
+    .right-col{display:flex;flex-direction:column;gap:18px;min-width:0}
+    .rc-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:760px){.rc-wrapper{grid-template-columns:1fr}}
+    .rc-box{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 14px 12px;overflow:hidden}
+    .rc-box-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:6px}
+    .rc-box-head h2{font-family:"Fraunces",Georgia,serif;font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+    .rc-nav{display:flex;gap:4px}
+    .rc-nav-btn{width:24px;height:24px;border-radius:6px;border:1px solid var(--line);background:#fff;font-size:13px;cursor:pointer;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;line-height:1;transition:all .14s}
+    .rc-nav-btn:hover{background:var(--green);color:#fff;border-color:transparent}
+    .rc-nav-btn:disabled{opacity:.35;cursor:not-allowed}
+    .rc-track{overflow:hidden}
+    .rc-row{display:flex;gap:9px;transition:transform .35s ease;will-change:transform}
+    .rc-vcard{flex-shrink:0;width:130px;height:90px;border-radius:10px;overflow:hidden;position:relative;background:#e9dfca;border:1px solid var(--line);transition:transform .15s,box-shadow .15s}
+    .rc-vcard:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10);text-decoration:none}
+    .rc-vimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .rc-vemoji{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;background:linear-gradient(135deg,#ede5d8,#ddd3c4)}
+    .rc-vgrad{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,8,.85) 0%,rgba(20,15,8,.2) 55%,transparent 100%)}
+    .rc-vbody{position:absolute;left:0;right:0;bottom:0;padding:7px 9px;z-index:2}
+    .rc-vtitle{font-family:"Fraunces",Georgia,serif;font-size:10.5px;font-weight:700;color:#fff;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
     .data-table{width:100%;border-collapse:collapse;font-size:13px}
-    .data-table .sec td{background:#f8f4eb;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:10px 26px;color:var(--ink-soft);border-top:1px solid var(--line)}
-    .data-table td{padding:9px 26px;border-bottom:1px solid var(--line);vertical-align:top}
+    .data-table .sec td{background:#f4eedf;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:11px 22px;color:var(--ink-soft);border-top:1px solid var(--line)}
+    .data-table td{padding:9px 22px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+    .data-table tr:last-child td{border-bottom:none}
     .data-table td.lbl{width:42%;color:var(--ink)}
-    .data-table td.val{width:22%;font-weight:700}
+    .data-table td.val{width:25%;font-weight:700}
     .data-table td.hint{font-size:11.5px;color:var(--ink-soft)}
+    .data-table td.edit{width:30px;text-align:right;padding-right:14px}
     .data-table .ico{margin-right:8px}
-    .article{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px;margin-bottom:24px}
-    .article h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:700;margin:24px 0 10px;color:var(--ink)}
-    .article h2:first-child{margin-top:0}
-    .article p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.75}
-    .article p strong{color:var(--ink);font-weight:600}
-    .ttk{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-bottom:24px}
-    .ttk h2{font-family:"Fraunces",Georgia,serif;font-size:20px;font-weight:700;margin-bottom:16px}
-    .ttk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-    .ttk-card{background:#fbf7ee;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
-    .ttk-card .ttk-title{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink)}
-    .ttk-card p{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
-    .ttk-card small{font-weight:500;color:var(--ink-soft)}
-    .related{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px;margin-bottom:18px}
-    .related h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
-    .link-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px 18px}
-    .link-list li{font-size:13.5px;line-height:1.5;padding-left:14px;position:relative}
-    .link-list li::before{content:"›";position:absolute;left:0;color:var(--green)}
-    @media (max-width:640px){
-      main{padding:20px 14px 60px}
-      .hero{padding:26px 22px}
-      .data-table td{padding:9px 16px}
-      .data-table .sec td{padding:10px 16px}
-      .article{padding:24px 22px}
-      .ttk{padding:22px 22px}
-      .related{padding:20px 22px}
+    .edit-btn{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:13px;opacity:.4;transition:opacity .14s;padding:2px 4px}
+    .edit-btn:hover{opacity:1;color:var(--green)}
+    .article-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px}
+    .section-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+    .section-head h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:800;letter-spacing:-.01em;color:var(--ink)}
+    .score-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-light);border:1px solid rgba(29,127,72,.25);color:var(--green-dk);padding:5px 12px;border-radius:999px;font-size:12px;font-weight:700}
+    .article-body p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.78}
+    .article-body p:last-child{margin-bottom:0}
+    .art-tag{display:inline-block;padding:3px 10px;border-radius:6px;font-weight:700;font-size:13px;margin-bottom:6px;line-height:1.5}
+    .map-card{margin:22px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper-2)}
+    .map-header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);gap:8px;flex-wrap:wrap}
+    .map-title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}
+    .map-flag{font-size:18px}
+    .map-styles{display:flex;gap:4px}
+    .map-style-btn{font-size:11px;font-weight:700;padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;color:var(--ink-soft);cursor:pointer;transition:all .14s}
+    .map-style-btn:hover{border-color:var(--green);color:var(--green)}
+    .map-style-btn.active{background:var(--green);color:#fff;border-color:transparent}
+    .map-container{position:relative;height:320px}
+    #wigg-country-map{position:absolute;inset:0}
+    .map-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper-2);color:var(--ink-soft);font-size:13px;z-index:10}
+    .map-loading.hidden{display:none}
+    .things-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px}
+    .wg-badge{display:inline-flex;align-items:center;gap:5px;background:#fef3c7;border:1px solid rgba(202,138,4,.3);color:#92400e;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+    .facts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .fact-card{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden}
+    .fact-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green)}
+    .fact-title{font-weight:800;font-size:13px;margin-bottom:6px;color:var(--ink);padding-left:6px}
+    .fact-text{font-size:12.5px;color:var(--ink-soft);line-height:1.55;padding-left:6px}
+    .cmp-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px}
+    .cmp-section h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
+    .cmp-pills{display:flex;flex-wrap:wrap;gap:8px}
+    .cmp-pill{display:inline-block;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:600;color:var(--ink);transition:all .14s}
+    .cmp-pill:hover{border-color:var(--green);background:var(--green);color:#fff;text-decoration:none}
+    @media(max-width:640px){
+      .wrap{padding:18px 14px 60px}
+      .country-head{flex-direction:column}
+      .head-right{align-items:flex-start}
+      .data-table td{padding:9px 14px}
+      .data-table .sec td{padding:11px 14px}
+      .article-card{padding:24px 22px}
+      .things-section{padding:22px 22px}
+      .cmp-section{padding:20px 22px}
+      .map-container{height:240px}
     }
   </style>
 </head>
@@ -92,268 +154,410 @@
 <div id="siteHeader"></div>
 <script src="/data/header.js"></script>
 
-<main>
+<main class="wrap">
   <nav class="crumb"><a href="/">Accueil</a> › <a href="/globe.html">Pays</a> › Monténégro</nav>
 
-  <section class="hero">
-    <div class="hero-flag">🇲🇪</div>
-    <h1>Monténégro</h1>
-    <p class="subtitle">Moyennes indicatives (zones côtières plus élevées ; net / mois sauf indication contraire)</p>
-    <div class="hero-badges">
-      <span class="badge yellow">WIGG: YELLOW</span>
-      <span class="badge">⭐ Score Expat: 7.0 / 10</span>
+  <div class="country-head">
+    <div>
+      <div class="country-flag">🇲🇪</div>
+      <h1>Monténégro</h1>
+      <p class="subtitle">Moyennes indicatives (zones côtières plus élevées ; net / mois sauf indication contraire)</p>
     </div>
-  </section>
-
-  <section class="snapshot">
-    <h2>Aperçu rapide</h2>
-    <div class="snap-grid">
-      <div class="snap-item"><strong>Capitale</strong>Podgorica</div>
-      <div class="snap-item"><strong>Population</strong>~620k</div>
-      <div class="snap-item"><strong>Langues</strong>monténégrin, serbe, anglais</div>
-      <div class="snap-item"><strong>Conduite</strong>Droite</div>
-      <div class="snap-item"><strong>Monnaie</strong>Euro (EUR)</div>
-      <div class="snap-item"><strong>Crypto-friendly</strong>Oui</div>
+    <div class="head-right">
+      <div class="badge yellow"><span class="dot"></span>WIGG: YELLOW</div>
+      <div class="local-time">Heure locale <b id="localTime" data-tz="Europe/Podgorica">--:--</b></div>
     </div>
-  </section>
+  </div>
 
-  <section class="data-card">
-    <h2>Coût de la vie, salaires et qualité de vie</h2>
-    <table class="data-table">
-    <tbody>
-      <tr class="sec"><td colspan="3">💼 Salaires (net / mois)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧾</span>Salaire minimum</td>
-        <td class="val">$500</td>
-        <td class="hint">Minimum 550 € brut → net ≈ 476 € (2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📊</span>Salaire moyen</td>
-        <td class="val">$1,010</td>
-        <td class="hint">Moyenne nette ≈ 963 €/mois (MONSTAT 2024)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🩺</span>Salaire médecin (généraliste)</td>
-        <td class="val">$2,900</td>
-        <td class="hint">médecin hospitalier indicatif moyen</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🏠 Logement et charges (studio référence)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏚️</span>Loyer studio</td>
-        <td class="val">$420</td>
-        <td class="hint">moyenne indicative nationale ; villes côtières ~550$</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">⚡</span>Électricité</td>
-        <td class="val">$65</td>
-        <td class="hint">facture mensuelle d&#x27;électricité moyenne d&#x27;un appartement</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💧</span>Eau</td>
-        <td class="val">$18</td>
-        <td class="hint">coût mensuel de l&#x27;eau d&#x27;un appartement typique</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📱</span>Forfait mobile</td>
-        <td class="val">$13</td>
-        <td class="hint">Plans de ~10 à 30 Go</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🍽️ Alimentation et boissons (prix indicatifs)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍺</span>Bière (pinte)</td>
-        <td class="val">$2.8</td>
-        <td class="hint">prix typique d&#x27;un bar local de 0,5 L</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☕</span>Café</td>
-        <td class="val">$1.3</td>
-        <td class="hint">prix moyen de l&#x27;espresso ; cappuccino ~2,2$</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍲</span>Plat principal</td>
-        <td class="val">$10</td>
-        <td class="hint">repas dans un restaurant de milieu de gamme</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">⛽ Transport</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">⛽</span>Essence / litre</td>
-        <td class="val">1,60 $ / L</td>
-        <td class="hint">prix moyen du carburant 2025–2026</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🧾 Fiscalité (indicatif)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏷️</span>TVA</td>
-        <td class="val">21%</td>
-        <td class="hint">taux de TVA standard</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">👤</span>Impôt sur le revenu</td>
-        <td class="val">9–15%</td>
-        <td class="hint">tranches d&#x27;imposition progressive sur le revenu personnel</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏪</span>Fiscalité petite entreprise</td>
-        <td class="val">~22%</td>
-        <td class="hint">charge effective des petites entreprises y compris les contributions sociales</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📱 Tech (prix indicatifs)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍎</span>iPhone (dernier 256 Go)</td>
-        <td class="val">$1,450</td>
-        <td class="hint">l&#x27;importation des prix varie</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📲</span>Galaxy S (dernier 256 Go)</td>
-        <td class="val">$1,100</td>
-        <td class="hint">l&#x27;importation des prix varie</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🛂 Immigration et installation</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🛂</span>Facilité d&#x27;immigration</td>
-        <td class="val">6 / 10</td>
-        <td class="hint">options de résidence disponibles</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🌤️ Qualité de vie</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🙂</span>Bonheur</td>
-        <td class="val">5.90 / 10</td>
-        <td class="hint">Rapport mondial sur le bonheur</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☀️</span>Jours de soleil / an</td>
-        <td class="val">~250 jours / an</td>
-        <td class="hint">régions côtières plus ensoleillées</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏥</span>Santé publique</td>
-        <td class="val">Oui</td>
-        <td class="hint">système de santé public + options privées</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧑‍⚕️</span>Assurance privée / mois</td>
-        <td class="val">40 $ / mois</td>
-        <td class="hint">exemple d&#x27;assurance privée</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📈 Indices</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🚔</span>Indice criminalité</td>
-        <td class="val">38 / 100</td>
-        <td class="hint">niveau de sécurité modéré</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💶</span>Pouvoir d&#x27;achat</td>
-        <td class="val">60</td>
-        <td class="hint">indice de pouvoir d&#x27;achat (relatif régional)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🕍 Religion</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">✝️</span>Chrétien</td>
-        <td class="val">~72%</td>
-        <td class="hint">indicatif</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☪️</span>Musulman</td>
-        <td class="val">~19%</td>
-        <td class="hint">indicatif</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☸️</span>Bouddhiste</td>
-        <td class="val">~0%</td>
-        <td class="hint">indicatif</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">✡️</span>Juif</td>
-        <td class="val">~0%</td>
-        <td class="hint">indicative (src: Pew Research / WJC)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🕊️</span>Autre / Aucune</td>
-        <td class="val">~2%</td>
-        <td class="hint">autres religions</td>
-      </tr>
-    </tbody>
-    </table>
-  </section>
+  <div class="main-grid">
+    <aside class="sidebar">
+      <div class="card">
+        <img class="hero-img" src="/assets/hero-montenegro.jpg" alt="Monténégro"
+             onerror="this.onerror=null;this.src='/assets/hero-fallback.jpg'" />
+        <div class="hero-actions">
+          <button class="btn primary" type="button" onclick="openModal('general')">Corriger les données</button>
+          <button class="btn" type="button" id="btnShare">Partager</button>
+          <a class="btn" href="/compare.html?country=montenegro">Comparer</a>
+        </div>
+      </div>
 
-  <section class="article"><h2>Aperçu du pays</h2><h2>🧭 Aperçu</h2>
-<p>Le Monténégro est une petite nation des Balkans (la plus petite de la région, environ 620 000 habitants) qui s'est séparée pacifiquement de la Serbie (référendum de 2006) et est candidate à l'UE. Podgorica est la capitale ; Kotor est une ville portuaire de type fjord inscrite au patrimoine mondial de l'UNESCO ; Budva est axée sur le tourisme balnéaire. Le pays offre une côte adriatique (la magnifique baie de Kotor), des montagnes (parc national du Durmitor), un coût de la vie abordable et l'euro comme monnaie malgré l'absence d'adhésion à l'UE. L'économie repose sur le tourisme (côte), l'énergie (aluminium) et l'immobilier (programme de citoyenneté par investissement de 450 000 $, bientôt terminé). Le Monténégro offre beauté naturelle, sécurité et mode de vie méditerranéen. Cependant, sa petite taille, l'influence russe (oligarques ayant acheté des pans de la côte), la corruption et le crime organisé posent des défis.</p>
-<h2>👥 Population et ambiance</h2>
-<p>Avec environ 620 000 habitants, le Monténégro est ethniquement monténégrin (~45 %), serbe (~29 %, identité disputée/fluctuante), bosniaque/musulman (~9 %) et albanais (~5 %). Le monténégrin et le serbe sont essentiellement la même langue. Christianisme orthodoxe (~72 %), islam (~19 %). La culture met l'accent sur l'hospitalité, la culture du café (kafa), un rythme de vie détendu et la fierté nationale (indépendance vis‑à‑vis de la Serbie en 2006). Les Monténégrins sont détendus et amicaux. L'ambiance est un mélange des Balkans et de la Méditerranée. Kotor et Budva sont touristiques en bord de mer ; Podgorica est administrative ; les montagnes sont plus traditionnelles. Des oligarques russes possèdent des pans de la côte (Porto Montenegro, complexes de luxe).</p>
-<h2>🌦️ Climat et paysage</h2>
-<p>Attendez-vous à une côte méditerranéenne (étés chauds 28–35 °C, hivers doux) et un intérieur continental/montagnard (plus froid, neige). Le paysage comprend la baie de Kotor (site UNESCO, de type fjord, magnifique), des plages adriatiques, le parc national du Durmitor (gorges de la Tara — la plus profonde d'Europe, 1 300 m), le lac Skadar (partagé avec l'Albanie) et des massifs montagneux. La beauté naturelle est remarquable pour un si petit pays. La qualité de l'air est bonne.</p>
-<h2>🏠 Logement et installation</h2>
-<p>Kotor, Budva, Tivat (marina de Porto Montenegro) attirent expatriés et retraités. Prévoir un dépôt de garantie de 1–2 mois. Loyers : 400–1 000 €/mois sur la côte ; Podgorica 300–600 €. La qualité s'améliore — bâtiments rénovés, nouveaux projets (certains financés par des Russes). La côte est chère (acheteurs russes/occidentaux ont fait monter les prix). L'achat immobilier est populaire (programme de citoyenneté par investissement à partir de 450 000 $, en cours de fermeture). Enregistrement requis.</p>
-<h2>💼 Travail et économie</h2>
-<p>L'économie repose sur le tourisme (25 % du PIB — côte, ski), l'énergie (fonderie d'aluminium) et l'immobilier. Pour les étrangers, des opportunités existent dans le tourisme, l'enseignement de l'anglais, l'informatique (petit secteur) ou l'immobilier. Les permis de travail nécessitent un parrainage par l'employeur. Les salaires sont bas (500–1 200 €/mois) mais les coûts restent modérés. Beaucoup travaillent à distance. Créer une entreprise est possible. La maîtrise du monténégrin/serbe aide.</p>
-<h2>🛂 Visa et entrée</h2>
-<p>De nombreuses nationalités bénéficient d'une entrée sans visa (90 jours). Pour des séjours plus longs, la résidence temporaire (propriété immobilière, revenus suffisants, emploi) est possible. La procédure est relativement efficace. Résidence permanente après 5 ans. La citoyenneté requiert 10 ans de résidence ou la citoyenneté par investissement (immobilier à partir de 450 000 $, programme en cours de cessation). La double nationalité est autorisée.</p>
-<h2>🏥 Santé</h2>
-<p>Le système de santé est universel et adéquat. Les hôpitaux publics sont basiques. Les cliniques privées dans les villes côtières offrent de meilleurs soins. Les cas graves peuvent nécessiter un transfert vers la Croatie ou la Serbie. L'espérance de vie est d'environ 77 ans. Les médicaments sur ordonnance sont abordables. Les citoyens de l'UE peuvent utiliser la carte CEAM. La qualité s'améliore.</p>
-<h2>🚗 Transports et mobilité</h2>
-<p>La côte est desservie par des bus reliant les villes. La plupart des gens conduisent. Les routes sont pittoresques mais étroites et sinueuses (cols montagneux). La circulation est faible sauf en été. Des bus interurbains relient les villes. Le pays est petit — Podgorica à Kotor en environ 1 h. Les aéroports de Podgorica et Tivat relient l'Europe. Pas de trains notables.</p>
-<h2>🍛 Remarque sur la cuisine (plat national)</h2>
-<p>Le plat national est <strong>Njeguški Pršut</strong> : jambon fumé du village de Njeguši. On trouve aussi <strong>Ćevapi</strong> ou le <strong>risotto noir</strong> (à l'encre de seiche). La cuisine monténégrine est balcóno‑méditerranéenne — viandes grillées, fruits de mer, fromages, influencée par les traditions serbe, turque et italienne.</p>
-<h2>🔎 En résumé</h2>
-<p>Le Monténégro convient aux retraités (abordable, monnaie euro, ambiance méditerranéenne), aux nomades numériques, aux amateurs de plage, aux passionnés de yachts (Porto Montenegro) et aux voyageurs à budget limité. Avantages : la superbe baie de Kotor, les plages adriatiques, les montagnes du Durmitor, le coût abordable (moins cher que la Croatie), l'euro (malgré l'absence d'UE), la sécurité et le statut de candidat à l'UE. Inconvénients : petite taille (opportunités limitées), influence russe (oligarques propriétaires de la côte, sanctions affectant certains), corruption, crime organisé (routes de drogue dans les Balkans) et surtourisme en été (Kotor submergée par les navires de croisière). Kotor est une beauté classée à l'UNESCO ; Budva est une destination festive ; les montagnes sont un paradis de randonnée. Idéal pour ceux qui cherchent une Méditerranée abordable avec de la nature. Le programme de citoyenneté par investissement a attiré des Russes (la marina de Porto Montenegro est un terrain de jeu pour oligarques), mais l'adhésion à l'UE nécessite sa suppression. Si vous recherchez la Méditerranée balkanique, une nature à couper le souffle, l'euro et que vous pouvez accepter la petite taille et la présence russe, le Monténégro tient ses promesses.</p>
-<p>Score expatrié — 7,0 / 10</p></section>
+      <div class="card snapshot-card">
+        <div class="snapshot-title">Aperçu rapide</div>
+        <div class="kv"><span>Capitale</span><b>Podgorica</b></div><div class="kv"><span>Population</span><b>~620k</b></div><div class="kv"><span>Langues</span><b>monténégrin, serbe, anglais</b></div><div class="kv"><span>Monnaie</span><b>Euro (EUR)</b></div><div class="kv kv-sub"><span>Exchange rate</span><b>1 USD ≈ 0,92 EUR</b></div><div class="kv-note">Utilise l&#x27;euro unilatéralement (pas membre de la zone euro mais a adopté l&#x27;EUR en 2002). Monnaie stable.</div><div class="kv"><span>Crypto-friendly</span><b>Oui</b></div><div class="kv-note">Accueil favorable aux cryptos avec une adoption croissante. Des réglementations claires sont en cours d&#x27;élaboration. Intérêt actif pour la blockchain.</div><div class="kv"><span>Conduite</span><b>Droite</b></div><div class="sector-block"><div class="sector-head">Secteurs phares</div><div class="sector-list"><div class="sector-pill">Tourisme (côte, ski)</div><div class="sector-pill">Immobilier</div><div class="sector-pill">Énergie (aluminium)</div></div></div>
+      </div>
 
-  <section class="ttk"><h2>À savoir</h2><div class="ttk-grid">
-      <div class="ttk-card">
-        <div class="ttk-title">👤 Milo Đukanović <small>(XXe–XXIe siècle)</small></div>
-        <p>Politicien dominant (PM/Président 1991–2023, plus de 30 ans au pouvoir). A mené la campagne pour l&#x27;indépendance vis‑à‑vis de la Serbie (2006). Accusé de corruption et de liens avec le crime organisé, mais acquitté. Il incarne la transition du Monténégro et la corruption persistante. Finalement hors du pouvoir (2023).</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🏰 Baie de Kotor = fjord adriatique</div>
-        <p>La Boka Kotorska (baie de Kotor) est une baie de type fjord (en réalité un canyon fluvial submergé) avec des villes médiévales (Kotor, Perast, Herceg Novi). Site UNESCO. Fortifications vénitiennes, montagnes plongeant dans la mer. Les navires de croisière pullulent (surtourisme), mais la beauté est saisissante. C&#x27;est le joyau du Monténégro.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🇷🇺 Influence russe = côte des oligarques</div>
-        <p>Porto Montenegro (Tivat) est une marina de luxe — des oligarques russes y ont investi. L&#x27;immobilier côtier a attiré des capitaux russes/ukrainiens (avant la guerre de 2022). Les sanctions compliquent la situation. Des Russes se sont réfugiés au Monténégro (entrée sans visa). C&#x27;est une mini‑Riviera russe. L&#x27;adhésion à l&#x27;UE pourrait imposer des changements.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🗳️ Indépendance 2006 = séparation pacifique</div>
-        <p>Référendum (mai 2006) approuvé à 55,5 % (seuil requis par l&#x27;UE : &gt;55 %). Le Monténégro s&#x27;est séparé pacifiquement de l&#x27;union Serbie‑Monténégro. Milo Đukanović a mené la campagne pour l&#x27;indépendance. La Serbie a accepté le résultat. C&#x27;est une séparation pacifique rare dans les Balkans. Le Monténégro est devenu le 27e membre de l&#x27;OTAN (2017) et est candidat à l&#x27;UE.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">⛰️ Durmitor et canyon de la Tara</div>
-        <p>Le parc national du Durmitor (UNESCO) présente des sommets spectaculaires (plus de 2 500 m), le canyon de la rivière Tara (1 300 m de profondeur — le plus profond d&#x27;Europe), et le lac Noir. Rafting, randonnées, ski (Žabljak). Le sentier Via Dinarica le traverse. C&#x27;est un contraste sauvage par rapport au tourisme côtier.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">💶 L&#x27;euro sans la zone euro</div>
-        <p>Le Monténégro a adopté l&#x27;euro de manière unilatérale (2002, utilisait auparavant le mark allemand). Il n&#x27;est pas membre de l&#x27;UE ni de la zone euro, mais utilise l&#x27;EUR. Cela apporte une stabilité monétaire mais sans contrôle de la politique monétaire. L&#x27;UE le tolère. Situation unique — les avantages de l&#x27;euro sans les obligations.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">💰 Citoyenneté par investissement = en voie de suppression</div>
-        <p>Le programme (2019–2022) vendait la citoyenneté contre un investissement immobilier de 450 000 € ou plus. Il a attiré des Russes, des Chinois et d&#x27;autres. L&#x27;UE a exigé sa suppression comme condition d&#x27;adhésion (le « shopping » de passeports incompatible avec l&#x27;UE). Le programme est officiellement terminé mais des héritages demeurent — certains dossiers sont encore en cours. Il a financé des développements mais créé des acheteurs de passeports.</p>
-      </div></div></section>
+      
+        <div class="card persona-card">
+          <div class="snapshot-title">Figure du pays</div>
+          <div class="persona-name">Milo Đukanović <small>(XXe–XXIe siècle)</small></div>
+          <div class="persona-why">Politicien dominant (PM/Président 1991–2023, plus de 30 ans au pouvoir). A mené la campagne pour l&#x27;indépendance vis‑à‑vis de la Serbie (2006). Accusé de corruption et de liens avec le crime organisé, mais acquitté. Il incarne la transition du Monténégro et la corruption persistante. Finalement hors du pouvoir (2023).</div>
+        </div>
+    </aside>
 
-  
-  <section class="related"><h2>Chroniques liées</h2><ul class="link-list"><li><a href="/chronicles/chronicle-pays-oublies-expatriation-2026-fr.html">Les pays oubliés — 6 destinations sous-cotées</a></li></ul></section>
-  
+    <div class="right-col">
+      <div class="rc-wrapper">
+        
+        <div class="rc-box">
+          <div class="rc-box-head">
+            <h2>Chroniques liées</h2>
+            <div class="rc-nav">
+              <button class="rc-nav-btn" data-target="rc-list" data-dir="-1" aria-label="Previous">&#8249;</button>
+              <button class="rc-nav-btn" data-target="rc-list" data-dir="1" aria-label="Next">&#8250;</button>
+            </div>
+          </div>
+          <div class="rc-track"><div id="rc-list" class="rc-row"><a class="rc-vcard" href="/chronicles/chronicle-pays-oublies-expatriation-2026-fr.html"><img class="rc-vimg" src="/assets/hero-montenegro.jpg" alt="Les pays oubliés — 6 destinations sous-cotées" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">📄</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Les pays oubliés — 6 destinations sous-cotées</div></div></a></div></div>
+        </div>
+        
+      </div>
 
-  <p style="text-align:center;margin-top:30px"><a href="/globe.html" style="font-weight:600">Voir les 160+ pays →</a></p>
+      <div class="data-card">
+        <table class="data-table">
+      <tbody>
+        <tr class="sec"><td colspan="4">💼 Salaires (net / mois)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧾</span>Salaire minimum</td>
+          <td class="val">$500</td>
+          <td class="hint">Minimum 550 € brut → net ≈ 476 € (2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('min_wage')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📊</span>Salaire moyen</td>
+          <td class="val">$1,010</td>
+          <td class="hint">Moyenne nette ≈ 963 €/mois (MONSTAT 2024)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('avg_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🩺</span>Salaire médecin (généraliste)</td>
+          <td class="val">$2,900</td>
+          <td class="hint">médecin hospitalier indicatif moyen</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('doctor_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🏠 Logement et charges (studio référence)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏚️</span>Loyer studio</td>
+          <td class="val">$420</td>
+          <td class="hint">moyenne indicative nationale ; villes côtières ~550$</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('rent_studio')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">⚡</span>Électricité</td>
+          <td class="val">$65</td>
+          <td class="hint">facture mensuelle d&#x27;électricité moyenne d&#x27;un appartement</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('electricity')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💧</span>Eau</td>
+          <td class="val">$18</td>
+          <td class="hint">coût mensuel de l&#x27;eau d&#x27;un appartement typique</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('water')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📱</span>Forfait mobile</td>
+          <td class="val">$13</td>
+          <td class="hint">Plans de ~10 à 30 Go</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('mobile')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🍽️ Alimentation et boissons (prix indicatifs)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍺</span>Bière (pinte)</td>
+          <td class="val">$2.8</td>
+          <td class="hint">prix typique d&#x27;un bar local de 0,5 L</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('beer')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☕</span>Café</td>
+          <td class="val">$1.3</td>
+          <td class="hint">prix moyen de l&#x27;espresso ; cappuccino ~2,2$</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('coffee')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍲</span>Plat principal</td>
+          <td class="val">$10</td>
+          <td class="hint">repas dans un restaurant de milieu de gamme</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('dish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">⛽ Transport</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">⛽</span>Essence / litre</td>
+          <td class="val">1,60 $ / L</td>
+          <td class="hint">prix moyen du carburant 2025–2026</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('gas')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🧾 Fiscalité (indicatif)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏷️</span>TVA</td>
+          <td class="val">21%</td>
+          <td class="hint">taux de TVA standard</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('vat')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">👤</span>Impôt sur le revenu</td>
+          <td class="val">9–15%</td>
+          <td class="hint">tranches d&#x27;imposition progressive sur le revenu personnel</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('income_tax')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏪</span>Fiscalité petite entreprise</td>
+          <td class="val">~22%</td>
+          <td class="hint">charge effective des petites entreprises y compris les contributions sociales</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('smallbiz')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📱 Tech (prix indicatifs)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍎</span>iPhone (dernier 256 Go)</td>
+          <td class="val">$1,450</td>
+          <td class="hint">l&#x27;importation des prix varie</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('iphone')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📲</span>Galaxy S (dernier 256 Go)</td>
+          <td class="val">$1,100</td>
+          <td class="hint">l&#x27;importation des prix varie</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('samsung')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🛂 Immigration et installation</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🛂</span>Facilité d&#x27;immigration</td>
+          <td class="val">6 / 10</td>
+          <td class="hint">options de résidence disponibles</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('immigration')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🌤️ Qualité de vie</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🙂</span>Bonheur</td>
+          <td class="val">5.90 / 10</td>
+          <td class="hint">Rapport mondial sur le bonheur</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('happiness')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☀️</span>Jours de soleil / an</td>
+          <td class="val">~250 jours / an</td>
+          <td class="hint">régions côtières plus ensoleillées</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('sun')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏥</span>Santé publique</td>
+          <td class="val">Oui</td>
+          <td class="hint">système de santé public + options privées</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('health')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧑‍⚕️</span>Assurance privée / mois</td>
+          <td class="val">40 $ / mois</td>
+          <td class="hint">exemple d&#x27;assurance privée</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('insurance')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📈 Indices</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🚔</span>Indice criminalité</td>
+          <td class="val">38 / 100</td>
+          <td class="hint">niveau de sécurité modéré</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('crime')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💶</span>Pouvoir d&#x27;achat</td>
+          <td class="val">60</td>
+          <td class="hint">indice de pouvoir d&#x27;achat (relatif régional)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('pp')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🕍 Religion</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">✝️</span>Chrétien</td>
+          <td class="val">~72%</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_christian')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☪️</span>Musulman</td>
+          <td class="val">~19%</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_muslim')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☸️</span>Bouddhiste</td>
+          <td class="val">~0%</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_buddhist')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">✡️</span>Juif</td>
+          <td class="val">~0%</td>
+          <td class="hint">indicative (src: Pew Research / WJC)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_jewish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🕊️</span>Autre / Aucune</td>
+          <td class="val">~2%</td>
+          <td class="hint">autres religions</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_other')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+        </table>
+      </div>
+
+      
+      <div class="article-card">
+        <div class="section-head">
+          <h2>Vivre au Monténégro</h2>
+          <span class="score-badge"><span class="score-star">⭐</span> Score Expat: 7.0 / 10</span>
+        </div>
+        <div class="article-body"><p>🧭 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Aperçu</span><br>
+Le Monténégro est une petite nation des Balkans (la plus petite de la région, environ 620 000 habitants) qui s&#x27;est séparée pacifiquement de la Serbie (référendum de 2006) et est candidate à l&#x27;UE. Podgorica est la capitale ; Kotor est une ville portuaire de type fjord inscrite au patrimoine mondial de l&#x27;UNESCO ; Budva est axée sur le tourisme balnéaire. Le pays offre une côte adriatique (la magnifique baie de Kotor), des montagnes (parc national du Durmitor), un coût de la vie abordable et l&#x27;euro comme monnaie malgré l&#x27;absence d&#x27;adhésion à l&#x27;UE. L&#x27;économie repose sur le tourisme (côte), l&#x27;énergie (aluminium) et l&#x27;immobilier (programme de citoyenneté par investissement de 450 000 $, bientôt terminé). Le Monténégro offre beauté naturelle, sécurité et mode de vie méditerranéen. Cependant, sa petite taille, l&#x27;influence russe (oligarques ayant acheté des pans de la côte), la corruption et le crime organisé posent des défis.</p><p>👥 <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Population et ambiance</span><br>
+Avec environ 620 000 habitants, le Monténégro est ethniquement monténégrin (~45 %), serbe (~29 %, identité disputée/fluctuante), bosniaque/musulman (~9 %) et albanais (~5 %). Le monténégrin et le serbe sont essentiellement la même langue. Christianisme orthodoxe (~72 %), islam (~19 %). La culture met l&#x27;accent sur l&#x27;hospitalité, la culture du café (kafa), un rythme de vie détendu et la fierté nationale (indépendance vis‑à‑vis de la Serbie en 2006). Les Monténégrins sont détendus et amicaux. L&#x27;ambiance est un mélange des Balkans et de la Méditerranée. Kotor et Budva sont touristiques en bord de mer ; Podgorica est administrative ; les montagnes sont plus traditionnelles. Des oligarques russes possèdent des pans de la côte (Porto Montenegro, complexes de luxe).</p><p>🌦️ <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Climat et paysage</span><br>
+Attendez-vous à une côte méditerranéenne (étés chauds 28–35 °C, hivers doux) et un intérieur continental/montagnard (plus froid, neige). Le paysage comprend la baie de Kotor (site UNESCO, de type fjord, magnifique), des plages adriatiques, le parc national du Durmitor (gorges de la Tara — la plus profonde d&#x27;Europe, 1 300 m), le lac Skadar (partagé avec l&#x27;Albanie) et des massifs montagneux. La beauté naturelle est remarquable pour un si petit pays. La qualité de l&#x27;air est bonne.</p><p>🏠 <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Logement et installation</span><br>
+Kotor, Budva, Tivat (marina de Porto Montenegro) attirent expatriés et retraités. Prévoir un dépôt de garantie de 1–2 mois. Loyers : 400–1 000 €/mois sur la côte ; Podgorica 300–600 €. La qualité s&#x27;améliore — bâtiments rénovés, nouveaux projets (certains financés par des Russes). La côte est chère (acheteurs russes/occidentaux ont fait monter les prix). L&#x27;achat immobilier est populaire (programme de citoyenneté par investissement à partir de 450 000 $, en cours de fermeture). Enregistrement requis.</p><p>💼 <span class="art-tag" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#6d28d9">Travail et économie</span><br>
+L&#x27;économie repose sur le tourisme (25 % du PIB — côte, ski), l&#x27;énergie (fonderie d&#x27;aluminium) et l&#x27;immobilier. Pour les étrangers, des opportunités existent dans le tourisme, l&#x27;enseignement de l&#x27;anglais, l&#x27;informatique (petit secteur) ou l&#x27;immobilier. Les permis de travail nécessitent un parrainage par l&#x27;employeur. Les salaires sont bas (500–1 200 €/mois) mais les coûts restent modérés. Beaucoup travaillent à distance. Créer une entreprise est possible. La maîtrise du monténégrin/serbe aide.</p>
+        <div class="map-card">
+          <div class="map-header">
+            <div class="map-title"><span class="map-flag">🇲🇪</span><span>Monténégro — Carte</span></div>
+            <div class="map-styles">
+              <button type="button" class="map-style-btn active" data-style="light">Clair</button>
+              <button type="button" class="map-style-btn" data-style="dark">Sombre</button>
+              <button type="button" class="map-style-btn" data-style="satellite">Satellite</button>
+            </div>
+          </div>
+          <div class="map-container">
+            <div id="wigg-country-map"></div>
+            <div class="map-loading" id="wiggMapLoading">Chargement de la carte…</div>
+          </div>
+        </div><p>🛂 <span class="art-tag" style="background:rgba(236,72,153,.12);border:1px solid rgba(236,72,153,.25);color:#be185d">Visa et entrée</span><br>
+De nombreuses nationalités bénéficient d&#x27;une entrée sans visa (90 jours). Pour des séjours plus longs, la résidence temporaire (propriété immobilière, revenus suffisants, emploi) est possible. La procédure est relativement efficace. Résidence permanente après 5 ans. La citoyenneté requiert 10 ans de résidence ou la citoyenneté par investissement (immobilier à partir de 450 000 $, programme en cours de cessation). La double nationalité est autorisée.</p><p>🏥 <span class="art-tag" style="background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.25);color:#0e7490">Santé</span><br>
+Le système de santé est universel et adéquat. Les hôpitaux publics sont basiques. Les cliniques privées dans les villes côtières offrent de meilleurs soins. Les cas graves peuvent nécessiter un transfert vers la Croatie ou la Serbie. L&#x27;espérance de vie est d&#x27;environ 77 ans. Les médicaments sur ordonnance sont abordables. Les citoyens de l&#x27;UE peuvent utiliser la carte CEAM. La qualité s&#x27;améliore.</p><p>🚗 <span class="art-tag" style="background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#c2410c">Transports et mobilité</span><br>
+La côte est desservie par des bus reliant les villes. La plupart des gens conduisent. Les routes sont pittoresques mais étroites et sinueuses (cols montagneux). La circulation est faible sauf en été. Des bus interurbains relient les villes. Le pays est petit — Podgorica à Kotor en environ 1 h. Les aéroports de Podgorica et Tivat relient l&#x27;Europe. Pas de trains notables.</p><p>🍛 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Remarque sur la cuisine (plat national)</span><br>
+Le plat national est <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Njeguški Pršut</span><br> : jambon fumé du village de Njeguši. On trouve aussi <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Ćevapi</span><br> ou le <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">risotto noir</span><br> (à l&#x27;encre de seiche). La cuisine monténégrine est balcóno‑méditerranéenne — viandes grillées, fruits de mer, fromages, influencée par les traditions serbe, turque et italienne.</p><p>🔎 <span class="art-tag" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#6d28d9">En résumé</span><br>
+Le Monténégro convient aux retraités (abordable, monnaie euro, ambiance méditerranéenne), aux nomades numériques, aux amateurs de plage, aux passionnés de yachts (Porto Montenegro) et aux voyageurs à budget limité. Avantages : la superbe baie de Kotor, les plages adriatiques, les montagnes du Durmitor, le coût abordable (moins cher que la Croatie), l&#x27;euro (malgré l&#x27;absence d&#x27;UE), la sécurité et le statut de candidat à l&#x27;UE. Inconvénients : petite taille (opportunités limitées), influence russe (oligarques propriétaires de la côte, sanctions affectant certains), corruption, crime organisé (routes de drogue dans les Balkans) et surtourisme en été (Kotor submergée par les navires de croisière). Kotor est une beauté classée à l&#x27;UNESCO ; Budva est une destination festive ; les montagnes sont un paradis de randonnée. Idéal pour ceux qui cherchent une Méditerranée abordable avec de la nature. Le programme de citoyenneté par investissement a attiré des Russes (la marina de Porto Montenegro est un terrain de jeu pour oligarques), mais l&#x27;adhésion à l&#x27;UE nécessite sa suppression. Si vous recherchez la Méditerranée balkanique, une nature à couper le souffle, l&#x27;euro et que vous pouvez accepter la petite taille et la présence russe, le Monténégro tient ses promesses.</p><p>Score expatrié — 7,0 / 10</p></div>
+      </div>
+
+      
+      <div class="things-section">
+        <div class="section-head"><h2>À savoir</h2><span class="wg-badge">À lire</span></div>
+        <div class="facts-grid"><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏰 Baie de Kotor = fjord adriatique</div><div class="fact-text">La Boka Kotorska (baie de Kotor) est une baie de type fjord (en réalité un canyon fluvial submergé) avec des villes médiévales (Kotor, Perast, Herceg Novi). Site UNESCO. Fortifications vénitiennes, montagnes plongeant dans la mer. Les navires de croisière pullulent (surtourisme), mais la beauté est saisissante. C&#x27;est le joyau du Monténégro.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🇷🇺 Influence russe = côte des oligarques</div><div class="fact-text">Porto Montenegro (Tivat) est une marina de luxe — des oligarques russes y ont investi. L&#x27;immobilier côtier a attiré des capitaux russes/ukrainiens (avant la guerre de 2022). Les sanctions compliquent la situation. Des Russes se sont réfugiés au Monténégro (entrée sans visa). C&#x27;est une mini‑Riviera russe. L&#x27;adhésion à l&#x27;UE pourrait imposer des changements.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🗳️ Indépendance 2006 = séparation pacifique</div><div class="fact-text">Référendum (mai 2006) approuvé à 55,5 % (seuil requis par l&#x27;UE : &gt;55 %). Le Monténégro s&#x27;est séparé pacifiquement de l&#x27;union Serbie‑Monténégro. Milo Đukanović a mené la campagne pour l&#x27;indépendance. La Serbie a accepté le résultat. C&#x27;est une séparation pacifique rare dans les Balkans. Le Monténégro est devenu le 27e membre de l&#x27;OTAN (2017) et est candidat à l&#x27;UE.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">⛰️ Durmitor et canyon de la Tara</div><div class="fact-text">Le parc national du Durmitor (UNESCO) présente des sommets spectaculaires (plus de 2 500 m), le canyon de la rivière Tara (1 300 m de profondeur — le plus profond d&#x27;Europe), et le lac Noir. Rafting, randonnées, ski (Žabljak). Le sentier Via Dinarica le traverse. C&#x27;est un contraste sauvage par rapport au tourisme côtier.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">💶 L&#x27;euro sans la zone euro</div><div class="fact-text">Le Monténégro a adopté l&#x27;euro de manière unilatérale (2002, utilisait auparavant le mark allemand). Il n&#x27;est pas membre de l&#x27;UE ni de la zone euro, mais utilise l&#x27;EUR. Cela apporte une stabilité monétaire mais sans contrôle de la politique monétaire. L&#x27;UE le tolère. Situation unique — les avantages de l&#x27;euro sans les obligations.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">💰 Citoyenneté par investissement = en voie de suppression</div><div class="fact-text">Le programme (2019–2022) vendait la citoyenneté contre un investissement immobilier de 450 000 € ou plus. Il a attiré des Russes, des Chinois et d&#x27;autres. L&#x27;UE a exigé sa suppression comme condition d&#x27;adhésion (le « shopping » de passeports incompatible avec l&#x27;UE). Le programme est officiellement terminé mais des héritages demeurent — certains dossiers sont encore en cours. Il a financé des développements mais créé des acheteurs de passeports.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🍽️ Njeguški Pršut / Ćevapi / Risotto noir</div><div class="fact-text">Jambon fumé, viande grillée ou risotto à l&#x27;encre de seiche — fusion balkano‑méditerranéenne. Influences serbes, turques et italiennes.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏳️‍🌈 LGBT+: Faible</div><div class="fact-text">L&#x27;homosexualité est légale mais il n&#x27;existe ni mariage pour les couples de même sexe ni protections spécifiques. Les attitudes sociales sont conservatrices. L&#x27;Église orthodoxe s&#x27;oppose aux droits LGBTQ+. La discrétion est recommandée.</div></div></div>
+      </div>
+
+      
+    </div>
+  </div>
 </main>
 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
+<script src="/data/share.js"></script>
+<script src="/data/correction-form.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var t = document.getElementById("localTime");
+  if(t && t.dataset.tz){
+    function tick(){
+      try{
+        t.textContent = new Intl.DateTimeFormat("en-GB",{
+          timeZone: t.dataset.tz, hour:"2-digit", minute:"2-digit"
+        }).format(new Date());
+      }catch(e){}
+    }
+    tick(); setInterval(tick, 30000);
+  }
+  document.querySelectorAll(".rc-nav-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var targetId = btn.dataset.target;
+      var dir = parseInt(btn.dataset.dir||"1",10);
+      var row = document.getElementById(targetId);
+      if(!row) return;
+      var box = row.parentElement;
+      var first = row.querySelector(".rc-vcard");
+      if(!first) return;
+      var cardW = first.offsetWidth + 9;
+      var visible = Math.max(1, Math.floor(box.offsetWidth / cardW));
+      var maxOffset = Math.max(0, row.children.length - visible);
+      var current = parseInt(row.dataset.offset||"0", 10);
+      current = Math.min(maxOffset, Math.max(0, current + dir));
+      row.dataset.offset = current;
+      row.style.transform = "translateX(-" + (current * cardW) + "px)";
+      var nav = btn.parentNode;
+      var prev = nav.querySelector('[data-dir="-1"]');
+      var next = nav.querySelector('[data-dir="1"]');
+      if(prev) prev.disabled = (current === 0);
+      if(next) next.disabled = (current >= maxOffset);
+    });
+  });
+  var iso2 = "ME";
+  if(!iso2 || typeof L === "undefined") return;
+  var STYLES = {
+    light:     { url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", attr: "&copy; OSM &copy; CARTO" },
+    dark:      { url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",  attr: "&copy; OSM &copy; CARTO" },
+    satellite: { url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", attr: "&copy; Esri" }
+  };
+  var wMap=null, wLayer=null, wMarker=null;
+  function initMap(lat, lon){
+    var el = document.getElementById("wigg-country-map");
+    if(!el) return;
+    if(wMap){ try{wMap.remove();}catch(e){} }
+    wMap = L.map("wigg-country-map",{zoomControl:true}).setView([lat,lon],5);
+    wLayer = L.tileLayer(STYLES.light.url,{attribution:STYLES.light.attr,maxZoom:18}).addTo(wMap);
+    wMarker = L.marker([lat,lon]).addTo(wMap);
+    var loading = document.getElementById("wiggMapLoading");
+    if(loading) loading.classList.add("hidden");
+  }
+  document.querySelectorAll(".map-style-btn").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(!wMap) return;
+      var s = STYLES[b.dataset.style];
+      if(!s) return;
+      if(wLayer) wMap.removeLayer(wLayer);
+      wLayer = L.tileLayer(s.url,{attribution:s.attr,maxZoom:18}).addTo(wMap);
+      document.querySelectorAll(".map-style-btn").forEach(function(x){x.classList.remove("active");});
+      b.classList.add("active");
+    });
+  });
+  var cacheKey = "wigg_centroid_" + iso2;
+  var cached = null;
+  try { cached = JSON.parse(localStorage.getItem(cacheKey) || "null"); } catch(e){}
+  if(cached && cached.lat != null && cached.lon != null){
+    initMap(cached.lat, cached.lon); return;
+  }
+  fetch("https://nominatim.openstreetmap.org/search?country=" + encodeURIComponent(iso2) + "&format=json&limit=1")
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && d[0]){
+        var coords = { lat: +d[0].lat, lon: +d[0].lon };
+        try { localStorage.setItem(cacheKey, JSON.stringify(coords)); } catch(e){}
+        initMap(coords.lat, coords.lon);
+      } else {
+        var l = document.getElementById("wiggMapLoading");
+        if(l) l.textContent = "Carte indisponible";
+      }
+    })
+    .catch(function(){
+      var l = document.getElementById("wiggMapLoading");
+      if(l) l.textContent = "Carte indisponible";
+    });
+})();
+</script>
+
+<form name="wiggmap-corrections" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="wiggmap-corrections" />
+  <p><label>Don't fill this out: <input name="bot-field" /></label></p>
+  <input name="country" /><input name="field" /><input name="value" /><input name="email" /><textarea name="notes"></textarea>
+</form>
+
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
 </body>
 </html>

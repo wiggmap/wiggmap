@@ -25,65 +25,127 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#f6f1e8;--paper:#fffdf8;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--green:#1d7f48;--green-dk:#155f36;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
+    :root{--paper:#fffdf8;--paper-2:#fbf7ee;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--line-soft:rgba(23,23,20,.06);--green:#1d7f48;--green-dk:#155f36;--green-light:#e6f4ec;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
     html{scroll-behavior:smooth}
     body{font-family:"Inter",system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f9f5ed 0%,#f3ede3 100%);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
     a{color:var(--green);text-decoration:none}
     a:hover{text-decoration:underline}
-    main{max-width:980px;margin:0 auto;padding:28px 20px 80px}
-    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:18px;letter-spacing:.04em}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:14px;letter-spacing:.04em}
     .crumb a{color:var(--ink-soft)}
-    .hero{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:36px 32px;box-shadow:var(--shadow);margin-bottom:24px;position:relative;overflow:hidden}
-    .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 18%,rgba(29,127,72,.05),transparent 30%);pointer-events:none}
-    .hero-flag{font-size:48px;line-height:1;margin-bottom:14px}
-    .hero h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(36px,6vw,56px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:10px;position:relative;z-index:1}
-    .hero .subtitle{font-size:15px;color:var(--ink-soft);max-width:62ch;line-height:1.6;position:relative;z-index:1}
-    .hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;position:relative;z-index:1}
-    .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid var(--line)}
-    .badge.green{background:#e6f4ec;color:var(--green-dk);border-color:rgba(29,127,72,.2)}
+    .country-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:22px;flex-wrap:wrap}
+    .country-flag{font-size:42px;line-height:1;margin-bottom:8px}
+    .country-head h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(34px,5.2vw,52px);font-weight:800;letter-spacing:-.02em;line-height:1.02}
+    .country-head .subtitle{font-size:14px;color:var(--ink-soft);max-width:64ch;line-height:1.55;margin-top:8px}
+    .head-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+    .badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:7px 13px;border-radius:999px;background:#fff;border:1px solid var(--line)}
+    .badge.green{background:var(--green-light);color:var(--green-dk);border-color:rgba(29,127,72,.22)}
     .badge.yellow{background:#fef9e7;color:#a16207;border-color:rgba(202,138,4,.25)}
     .badge.red{background:#fdecec;color:#b91c1c;border-color:rgba(185,28,28,.25)}
-    .snapshot{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px 26px;box-shadow:var(--shadow);margin-bottom:24px}
-    .snapshot h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;margin-bottom:14px}
-    .snap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
-    .snap-item{font-size:13px}
-    .snap-item strong{display:block;color:var(--ink-soft);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
-    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
-    .data-card h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;padding:20px 26px 8px}
+    .badge .dot{width:8px;height:8px;border-radius:999px;background:currentColor;display:inline-block}
+    .local-time{font-size:12px;color:var(--ink-soft);font-weight:600}
+    .local-time b{color:var(--ink);margin-left:5px;font-weight:800}
+    .main-grid{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+    @media(max-width:900px){.main-grid{grid-template-columns:1fr}}
+    .sidebar{display:flex;flex-direction:column;gap:14px;align-self:start;position:sticky;top:18px}
+    @media(max-width:900px){.sidebar{position:static}}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .hero-img{width:100%;height:200px;object-fit:cover;display:block;background:#eaddc4}
+    .hero-actions{padding:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:8px;font-family:inherit;font-weight:700;font-size:12.5px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;transition:background .14s,border-color .14s}
+    .btn:hover{background:rgba(0,0,0,.04)}
+    .btn.primary{background:var(--green);color:#fff;border-color:transparent}
+    .btn.primary:hover{background:var(--green-dk)}
+    .snapshot-card{padding:16px}
+    .snapshot-title{font-family:"Fraunces",Georgia,serif;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px;letter-spacing:-.01em}
+    .kv{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--line-soft);font-size:12.5px}
+    .kv span{color:var(--ink-soft)}
+    .kv b{color:var(--ink);font-weight:700;text-align:right;max-width:60%}
+    .kv-sub{padding-left:10px;font-size:11.5px;opacity:.85}
+    .kv-note{font-size:11px;color:var(--ink-soft);line-height:1.5;padding:6px 0 8px;font-style:italic;border-bottom:1px solid var(--line-soft)}
+    .sector-block{padding-top:10px;margin-top:6px;border-top:1px solid var(--line-soft)}
+    .sector-head{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+    .sector-list{display:flex;flex-direction:column;gap:5px}
+    .sector-pill{background:rgba(29,127,72,.08);border:1px solid rgba(29,127,72,.2);border-radius:7px;padding:5px 10px;font-size:11.5px;font-weight:700;color:var(--green-dk);line-height:1.4}
+    .persona-card{padding:16px}
+    .persona-name{font-weight:800;font-size:13px;margin-bottom:6px}
+    .persona-name small{font-weight:500;opacity:.6;font-size:11px}
+    .persona-why{font-size:11.5px;color:var(--ink-soft);line-height:1.55;font-style:italic}
+    .right-col{display:flex;flex-direction:column;gap:18px;min-width:0}
+    .rc-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:760px){.rc-wrapper{grid-template-columns:1fr}}
+    .rc-box{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 14px 12px;overflow:hidden}
+    .rc-box-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:6px}
+    .rc-box-head h2{font-family:"Fraunces",Georgia,serif;font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+    .rc-nav{display:flex;gap:4px}
+    .rc-nav-btn{width:24px;height:24px;border-radius:6px;border:1px solid var(--line);background:#fff;font-size:13px;cursor:pointer;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;line-height:1;transition:all .14s}
+    .rc-nav-btn:hover{background:var(--green);color:#fff;border-color:transparent}
+    .rc-nav-btn:disabled{opacity:.35;cursor:not-allowed}
+    .rc-track{overflow:hidden}
+    .rc-row{display:flex;gap:9px;transition:transform .35s ease;will-change:transform}
+    .rc-vcard{flex-shrink:0;width:130px;height:90px;border-radius:10px;overflow:hidden;position:relative;background:#e9dfca;border:1px solid var(--line);transition:transform .15s,box-shadow .15s}
+    .rc-vcard:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10);text-decoration:none}
+    .rc-vimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .rc-vemoji{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;background:linear-gradient(135deg,#ede5d8,#ddd3c4)}
+    .rc-vgrad{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,8,.85) 0%,rgba(20,15,8,.2) 55%,transparent 100%)}
+    .rc-vbody{position:absolute;left:0;right:0;bottom:0;padding:7px 9px;z-index:2}
+    .rc-vtitle{font-family:"Fraunces",Georgia,serif;font-size:10.5px;font-weight:700;color:#fff;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
     .data-table{width:100%;border-collapse:collapse;font-size:13px}
-    .data-table .sec td{background:#f8f4eb;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:10px 26px;color:var(--ink-soft);border-top:1px solid var(--line)}
-    .data-table td{padding:9px 26px;border-bottom:1px solid var(--line);vertical-align:top}
+    .data-table .sec td{background:#f4eedf;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:11px 22px;color:var(--ink-soft);border-top:1px solid var(--line)}
+    .data-table td{padding:9px 22px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+    .data-table tr:last-child td{border-bottom:none}
     .data-table td.lbl{width:42%;color:var(--ink)}
-    .data-table td.val{width:22%;font-weight:700}
+    .data-table td.val{width:25%;font-weight:700}
     .data-table td.hint{font-size:11.5px;color:var(--ink-soft)}
+    .data-table td.edit{width:30px;text-align:right;padding-right:14px}
     .data-table .ico{margin-right:8px}
-    .article{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px;margin-bottom:24px}
-    .article h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:700;margin:24px 0 10px;color:var(--ink)}
-    .article h2:first-child{margin-top:0}
-    .article p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.75}
-    .article p strong{color:var(--ink);font-weight:600}
-    .ttk{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-bottom:24px}
-    .ttk h2{font-family:"Fraunces",Georgia,serif;font-size:20px;font-weight:700;margin-bottom:16px}
-    .ttk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-    .ttk-card{background:#fbf7ee;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
-    .ttk-card .ttk-title{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink)}
-    .ttk-card p{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
-    .ttk-card small{font-weight:500;color:var(--ink-soft)}
-    .related{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px;margin-bottom:18px}
-    .related h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
-    .link-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px 18px}
-    .link-list li{font-size:13.5px;line-height:1.5;padding-left:14px;position:relative}
-    .link-list li::before{content:"›";position:absolute;left:0;color:var(--green)}
-    @media (max-width:640px){
-      main{padding:20px 14px 60px}
-      .hero{padding:26px 22px}
-      .data-table td{padding:9px 16px}
-      .data-table .sec td{padding:10px 16px}
-      .article{padding:24px 22px}
-      .ttk{padding:22px 22px}
-      .related{padding:20px 22px}
+    .edit-btn{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:13px;opacity:.4;transition:opacity .14s;padding:2px 4px}
+    .edit-btn:hover{opacity:1;color:var(--green)}
+    .article-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px}
+    .section-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+    .section-head h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:800;letter-spacing:-.01em;color:var(--ink)}
+    .score-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-light);border:1px solid rgba(29,127,72,.25);color:var(--green-dk);padding:5px 12px;border-radius:999px;font-size:12px;font-weight:700}
+    .article-body p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.78}
+    .article-body p:last-child{margin-bottom:0}
+    .art-tag{display:inline-block;padding:3px 10px;border-radius:6px;font-weight:700;font-size:13px;margin-bottom:6px;line-height:1.5}
+    .map-card{margin:22px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper-2)}
+    .map-header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);gap:8px;flex-wrap:wrap}
+    .map-title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}
+    .map-flag{font-size:18px}
+    .map-styles{display:flex;gap:4px}
+    .map-style-btn{font-size:11px;font-weight:700;padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;color:var(--ink-soft);cursor:pointer;transition:all .14s}
+    .map-style-btn:hover{border-color:var(--green);color:var(--green)}
+    .map-style-btn.active{background:var(--green);color:#fff;border-color:transparent}
+    .map-container{position:relative;height:320px}
+    #wigg-country-map{position:absolute;inset:0}
+    .map-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper-2);color:var(--ink-soft);font-size:13px;z-index:10}
+    .map-loading.hidden{display:none}
+    .things-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px}
+    .wg-badge{display:inline-flex;align-items:center;gap:5px;background:#fef3c7;border:1px solid rgba(202,138,4,.3);color:#92400e;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+    .facts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .fact-card{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden}
+    .fact-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green)}
+    .fact-title{font-weight:800;font-size:13px;margin-bottom:6px;color:var(--ink);padding-left:6px}
+    .fact-text{font-size:12.5px;color:var(--ink-soft);line-height:1.55;padding-left:6px}
+    .cmp-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px}
+    .cmp-section h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
+    .cmp-pills{display:flex;flex-wrap:wrap;gap:8px}
+    .cmp-pill{display:inline-block;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:600;color:var(--ink);transition:all .14s}
+    .cmp-pill:hover{border-color:var(--green);background:var(--green);color:#fff;text-decoration:none}
+    @media(max-width:640px){
+      .wrap{padding:18px 14px 60px}
+      .country-head{flex-direction:column}
+      .head-right{align-items:flex-start}
+      .data-table td{padding:9px 14px}
+      .data-table .sec td{padding:11px 14px}
+      .article-card{padding:24px 22px}
+      .things-section{padding:22px 22px}
+      .cmp-section{padding:20px 22px}
+      .map-container{height:240px}
     }
   </style>
 </head>
@@ -92,268 +154,420 @@
 <div id="siteHeader"></div>
 <script src="/data/header.js"></script>
 
-<main>
+<main class="wrap">
   <nav class="crumb"><a href="/">Accueil</a> › <a href="/globe.html">Pays</a> › Grèce</nav>
 
-  <section class="hero">
-    <div class="hero-flag">🇬🇷</div>
-    <h1>Grèce</h1>
-    <p class="subtitle">Moyennes indicatives (Athènes plus élevé ; net / mois sauf indication contraire)</p>
-    <div class="hero-badges">
-      <span class="badge green">WIGG: GREEN</span>
-      <span class="badge">⭐ Score Expat: 7.0 / 10</span>
+  <div class="country-head">
+    <div>
+      <div class="country-flag">🇬🇷</div>
+      <h1>Grèce</h1>
+      <p class="subtitle">Moyennes indicatives (Athènes plus élevé ; net / mois sauf indication contraire)</p>
     </div>
-  </section>
-
-  <section class="snapshot">
-    <h2>Aperçu rapide</h2>
-    <div class="snap-grid">
-      <div class="snap-item"><strong>Capitale</strong>Athènes</div>
-      <div class="snap-item"><strong>Population</strong>~10,5M</div>
-      <div class="snap-item"><strong>Langues</strong>Grec, anglais</div>
-      <div class="snap-item"><strong>Conduite</strong>Droite</div>
-      <div class="snap-item"><strong>Monnaie</strong>Euro (EUR)</div>
-      <div class="snap-item"><strong>Crypto-friendly</strong>Oui</div>
+    <div class="head-right">
+      <div class="badge green"><span class="dot"></span>WIGG: GREEN</div>
+      <div class="local-time">Heure locale <b id="localTime" data-tz="Europe/Athens">--:--</b></div>
     </div>
-  </section>
+  </div>
 
-  <section class="data-card">
-    <h2>Coût de la vie, salaires et qualité de vie</h2>
-    <table class="data-table">
-    <tbody>
-      <tr class="sec"><td colspan="3">💼 Salaires (net / mois)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧾</span>Salaire minimum</td>
-        <td class="val">$845</td>
-        <td class="hint">Salaire minimum légal 950 € brut → net ≈ 805 € (2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📊</span>Salaire moyen</td>
-        <td class="val">$1,320</td>
-        <td class="hint">Moyenne nette ≈ 1 259 €/mois (ELSTAT 2024)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🩺</span>Salaire médecin (généraliste)</td>
-        <td class="val">$4,000</td>
-        <td class="hint">Moyenne du secteur public</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🏠 Logement et charges (studio référence)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏚️</span>Loyer studio</td>
-        <td class="val">$550</td>
-        <td class="hint">Villes régionales</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">⚡</span>Électricité</td>
-        <td class="val">$120</td>
-        <td class="hint">/ mois (taux élevés)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💧</span>Eau</td>
-        <td class="val">$25</td>
-        <td class="hint">/ mois</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📱</span>Forfait mobile</td>
-        <td class="val">$20</td>
-        <td class="hint">~20–50 Go</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🍽️ Alimentation et boissons (prix indicatifs)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍺</span>Bière (pinte)</td>
-        <td class="val">$5.00</td>
-        <td class="hint">Bar local</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☕</span>Café</td>
-        <td class="val">$3.00</td>
-        <td class="hint">Café régulier</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍲</span>Plat principal</td>
-        <td class="val">$13</td>
-        <td class="hint">taverne de milieu de gamme</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">⛽ Transport</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">⛽</span>Essence / litre</td>
-        <td class="val">1,95 $ / L</td>
-        <td class="hint">indicatif</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🧾 Fiscalité (indicatif)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏷️</span>TVA</td>
-        <td class="val">24%</td>
-        <td class="hint">taux standard</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">👤</span>Impôt sur le revenu</td>
-        <td class="val">~25%</td>
-        <td class="hint">Progressif (9-44%), tranche intermédiaire</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏪</span>Fiscalité petite entreprise</td>
-        <td class="val">~30%</td>
-        <td class="hint">22% IS + contributions</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📱 Tech (prix indicatifs)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍎</span>iPhone (dernier 256 Go)</td>
-        <td class="val">$1,450</td>
-        <td class="hint">Tarification UE</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📲</span>Galaxy S (dernier 256 Go)</td>
-        <td class="val">$1,150</td>
-        <td class="hint">Tarification UE</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🛂 Immigration et installation</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🛂</span>Facilité d&#x27;immigration</td>
-        <td class="val">7 / 10</td>
-        <td class="hint">UE/Non-UE diffère ; visa de nomade numérique</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🌤️ Qualité de vie</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🙂</span>Bonheur</td>
-        <td class="val">6.4 / 10</td>
-        <td class="hint">indicatif (src : Rapport mondial sur le bonheur 2024)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☀️</span>Jours de soleil / an</td>
-        <td class="val">~270 jours / an</td>
-        <td class="hint">indicatif (src : Données climatiques, OMM)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏥</span>Santé publique</td>
-        <td class="val">Oui</td>
-        <td class="hint">public ESY + privé</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧑‍⚕️</span>Assurance privée / mois</td>
-        <td class="val">65 $ / mois</td>
-        <td class="hint">exemple privé</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📈 Indices</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🚔</span>Indice criminalité</td>
-        <td class="val">45 / 100</td>
-        <td class="hint">indicatif (src : Indice de sécurité Numbeo 2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💶</span>Pouvoir d&#x27;achat</td>
-        <td class="val">68</td>
-        <td class="hint">indicatif (src : Indice PP de Numbeo 2025)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🕍 Religion</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">✝️</span>Chrétien</td>
-        <td class="val">~90%</td>
-        <td class="hint">indicatif (orthodoxe)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☪️</span>Musulman</td>
-        <td class="val">~2%</td>
-        <td class="hint">indicatif</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☸️</span>Bouddhiste</td>
-        <td class="val">~0%</td>
-        <td class="hint">indicatif</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">✡️</span>Juif</td>
-        <td class="val">~0.1%</td>
-        <td class="hint">indicative (src: Pew Research / WJC)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🕊️</span>Autre / Aucune</td>
-        <td class="val">~8%</td>
-        <td class="hint">aucun/autre</td>
-      </tr>
-    </tbody>
-    </table>
-  </section>
+  <div class="main-grid">
+    <aside class="sidebar">
+      <div class="card">
+        <img class="hero-img" src="/assets/hero-greece.jpg" alt="Grèce"
+             onerror="this.onerror=null;this.src='/assets/hero-fallback.jpg'" />
+        <div class="hero-actions">
+          <button class="btn primary" type="button" onclick="openModal('general')">Corriger les données</button>
+          <button class="btn" type="button" id="btnShare">Partager</button>
+          <a class="btn" href="/compare.html?country=greece">Comparer</a>
+        </div>
+      </div>
 
-  <section class="article"><h2>Aperçu du pays</h2><h2>🧭 Aperçu</h2>
-<p>La Grèce est le berceau de la civilisation occidentale, de la démocratie et de la philosophie, offrant des ruines antiques, des îles époustouflantes, un mode de vie méditerranéen et du soleil. Athènes est la capitale ; les îles (Santorin, Mykonos, Crète) attirent des millions de touristes. L'économie repose fortement sur le tourisme (plus de 20 % du PIB), le transport maritime et l'agriculture. La Grèce a subi une sévère crise de la dette (2010-2018) nécessitant des plans de sauvetage, des mesures d'austérité et des réformes — cela a façonné la Grèce moderne. Le pays offre un mode de vie méditerranéen abordable, l'appartenance à l'UE et un rythme de vie détendu, mais fait face à des défis : difficultés économiques, bureaucratie, chômage des jeunes et fuite des cerveaux. Le programme Golden Visa attire les investisseurs immobiliers.</p>
-<h2>👥 Population & ambiance</h2>
-<p>Avec environ 10,5 millions d'habitants, la Grèce est majoritairement d'origine grecque (~90 %) avec des minorités albanaises, bulgares et autres. La langue grecque est unique (branche hellénique), mais l'anglais est largement parlé dans les zones touristiques. La culture met l'accent sur la famille (liens très forts), l'hospitalité (philoxenia — « l'ami de l'étranger ») et la jouissance de la vie (parea — socialisation en groupe, repas longs). Les Grecs sont chaleureux, bruyants, passionnés et politiquement engagés. L'ambiance est méditerranéenne et détendue mais aussi marquée par la fatigue liée à la crise. Athènes est un chaos urbain ; les îles sont un paradis ; Thessalonique est culturelle ; le Péloponnèse est historique. Grèves et manifestations sont courantes.</p>
-<h2>🌦️ Climat & paysages</h2>
-<p>Attendez‑vous à un climat méditerranéen : étés chauds et secs (28-35°C+, juin-sept.), hivers doux et humides (10-15°C, nov.-mars). Plus de 300 jours de soleil par an. Paysage montagneux (80 % du territoire), plus de 6 000 îles (227 habitées), littoral de 13 676 km, oliveraies et ruines antiques. La beauté naturelle est spectaculaire — villages blancs accrochés aux falaises, mers turquoise, sites archéologiques. Risque sismique présent. La qualité de l'air à Athènes s'améliore mais reste mauvaise en été. Stress hydrique sur les îles.</p>
-<h2>🏠 Logement & installation</h2>
-<p>Des quartiers d'Athènes comme Kolonaki, Exarchia, Pangrati attirent les expats ; les îles ont des marchés locatifs saisonniers. Prévoir 1 à 2 mois de dépôt et des contrats de 6 à 12 mois. Loyers modérés : Athènes €400-900/mois ; les îles varient selon la saison. Le niveau de qualité va du néoclassique rénové aux immeubles en béton. Le chauffage est indispensable en hiver (souvent des chauffages au fioul coûteux) ; la climatisation est nécessaire en été. La vie insulaire est saisonnière — beaucoup de services ferment l'hiver. L'achat immobilier est populaire (Golden Visa pour investissement ≥ €250k donne la résidence). L'enregistrement est requis mais la bureaucratie est pénible.</p>
-<h2>💼 Travail & économie</h2>
-<p>L'économie est axée sur le tourisme (saisonnier estival), plus le transport maritime (la Grèce possède la plus grande flotte marchande mondiale), l'agriculture et les services. Pour les citoyens de l'UE, la libre circulation s'applique. Les non‑UE ont besoin de permis de travail. Les opportunités pour étrangers sont limitées — enseignement de l'anglais, tourisme, travail à distance. Le chômage des jeunes est d'environ 25 %. Les salaires sont bas (moyenne €800-1 500/mois) et ne se sont pas pleinement remis de la crise. Beaucoup de diplômés émigrent. Les nomades numériques trouvent les îles attractives. Créer une entreprise implique bureaucratie et impôts. La langue grecque aide mais l'anglais suffit dans le tourisme. La reprise économique est en cours mais lente.</p>
-<h2>🛂 Visa & entrée</h2>
-<p>Les citoyens de l'UE/EEE/Suisse bénéficient de la libre circulation. Les non‑UE peuvent visiter l'espace Schengen 90 jours sur 180 jours. Pour des séjours plus longs, options : Golden Visa (investissement immobilier €250k+), visa pour nomades numériques, permis de travail ou regroupement familial. Le processus est bureaucratique. La résidence permanente est possible après 5 ans pour les citoyens de l'UE. La citoyenneté requiert 7 à 12 ans de résidence (selon la catégorie) plus un test de langue grecque. Le Golden Visa est une voie populaire mais n'accorde pas le droit de travailler.</p>
-<h2>🏥 Santé</h2>
-<p>Le système de santé est universel via l'ESY (public) ou via des assurances privées. Le système public est gratuit mais surchargé, sous‑financé et la qualité varie. Les hôpitaux privés offrent un meilleur service à coût raisonnable. Les médecins sont bien formés (beaucoup se sont formés à l'étranger). L'espérance de vie est d'environ 82 ans. Les soins sur les îles sont limités — les cas graves sont transférés à Athènes. Le tourisme médical existe pour certaines interventions. Les citoyens de l'UE utilisent la CEAM. Les médicaments sur ordonnance sont abordables. L'austérité a fortement réduit les budgets de santé.</p>
-<h2>🚗 Transports & mobilité</h2>
-<p>Athènes dispose d'un métro (3 lignes), de bus et de tramways — fonctionnels mais bondés. La circulation est chaotique ; le stationnement est un cauchemar. Les îles reposent sur les ferries (réseau étendu mais retards/annulations fréquents), bus et scooters. La plupart des expats sur les îles utilisent voitures ou scooters. Les routes vont des autoroutes correctes aux pistes montagneuses étroites. Le comportement au volant est agressif. Des vols intérieurs relient les îles principales à Athènes. L'aéroport d'Athènes connecte l'Europe, le Moyen‑Orient et, en saison, l'Amérique du Nord. Le voyage en ferry est charmant mais dépend de la météo.</p>
-<h2>🍛 Note culinaire (plat national)</h2>
-<p>Le plat national est la <strong>Moussaka</strong> : plat en couches d'aubergine, viande hachée (bœuf/agneau), sauce tomate et béchamel, gratiné jusqu'à obtenir une croûte dorée. En alternative, la <strong>salade grecque (horiatiki)</strong> avec feta, olives, tomates et concombres est emblématique. La cuisine grecque est méditerranéenne et saine — huile d'olive, légumes frais, poisson, yaourt, miel. La culture du mezze (petites assiettes accompagnées d'ouzo) est un rituel social.</p>
-<h2>🔎 En conclusion</h2>
-<p>La Grèce convient aux retraités (coût de la vie abordable, soleil, Golden Visa), aux nomades numériques (îles, style de vie), aux passionnés d'histoire et à ceux qui recherchent la vie méditerranéenne à moindre coût que l'Italie/France/Espagne. Points forts : îles magnifiques, histoire antique, soleil, régime méditerranéen, population accueillante, appartenance à l'UE et coût de la vie accessible. Points faibles : difficultés économiques (même si en amélioration), bureaucratie, marché du travail limité, surpeuplement estival (surtourisme) et isolement hivernal des îles. La crise a laissé des cicatrices — chômage des jeunes, fuite des cerveaux, fatigue liée à l'austérité. Idéal pour les citoyens de l'UE (libre circulation) ou les investisseurs du Golden Visa. Le grec aide mais l'anglais fonctionne dans les zones touristiques. Si vous privilégiez le style de vie, le soleil et l'histoire plutôt que les opportunités de carrière, la Grèce tient ses promesses. Les îles sont un paradis mais Athènes offre plus de services et d'emplois.</p>
-<p>Indice Expat — 7,0 / 10</p></section>
+      <div class="card snapshot-card">
+        <div class="snapshot-title">Aperçu rapide</div>
+        <div class="kv"><span>Capitale</span><b>Athènes</b></div><div class="kv"><span>Population</span><b>~10,5M</b></div><div class="kv"><span>Langues</span><b>Grec, anglais</b></div><div class="kv"><span>Monnaie</span><b>Euro (EUR)</b></div><div class="kv kv-sub"><span>Exchange rate</span><b>1 USD ≈ 0,92 EUR</b></div><div class="kv-note">Adopté l&#x27;euro en 2001. La crise de la dette (années 2010) a mis les finances sous tension mais la stabilité a été rétablie.</div><div class="kv"><span>Crypto-friendly</span><b>Oui</b></div><div class="kv-note">Accueil favorable aux cryptomonnaies avec une fiscalité claire. Les gains sont imposés en tant que plus‑values. Communauté crypto en croissance, surtout à Athènes.</div><div class="kv"><span>Conduite</span><b>Droite</b></div><div class="sector-block"><div class="sector-head">Secteurs phares</div><div class="sector-list"><div class="sector-pill">Tourisme &amp; hôtellerie</div><div class="sector-pill">Transport maritime &amp; maritime</div><div class="sector-pill">Agriculture (oliviers, vin)</div></div></div>
+      </div>
 
-  <section class="ttk"><h2>À savoir</h2><div class="ttk-grid">
-      <div class="ttk-card">
-        <div class="ttk-title">👤 Périclès <small>(Ve siècle av. J.-C.)</small></div>
-        <p>Un homme d&#x27;État athénien qui a dirigé pendant l&#x27;Âge d&#x27;or, fait ériger le Parthénon et promu la démocratie. Son oraison funèbre a défini des valeurs démocratiques. Il est ancien mais son héritage façonne l&#x27;identité grecque et la civilisation occidentale. « Ce que vous laissez derrière vous n&#x27;est pas ce qui est gravé dans les monuments de pierre, mais ce qui est tissé dans la vie des autres. »</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🏛️ La crise de la dette a marqué une génération</div>
-        <p>La crise 2010-2018 a entraîné un chômage d&#x27;environ 27 %, des coupes d&#x27;austérité, des contrôles de capitaux et des plans de sauvetage de l&#x27;UE. Une décennie perdue pour les jeunes. La fuite des cerveaux se poursuit. Les coupes des retraites ont touché les personnes âgées. Le traumatisme économique est récent. La Grèce se remet mais des cicatrices subsistent. La « crise grecque » a marqué les années 2010 en Europe.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🏝️ 6 000 îles (227 habitées)</div>
-        <p>Santorin, Mykonos, Crète, Rhodes, Corfou — chaque île a son caractère. Faire le tour des îles est un mode de vie. Mais le surtourisme détruit certaines (Santorin accueille plus de 2 millions de touristes pour 15 000 résidents). Beaucoup d&#x27;îles se dépeuplent en hiver. La pénurie d&#x27;eau est un problème réel.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">💶 Golden Visa = résidence pour €250k</div>
-        <p>Achetez un bien immobilier d&#x27;une valeur ≥ €250k (montant récemment relevé dans certaines zones d&#x27;Athènes/populaires à €400k+), obtenez un permis de séjour pour vous et votre famille. Pas de droits de travail mais accès Schengen. Populaire auprès des Chinois, Russes et habitants du Moyen‑Orient. Critiqué pour faire monter les prix de l&#x27;immobilier.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">⚓ Empire maritime</div>
-        <p>La Grèce possède la plus grande flotte marchande mondiale — plus de 20 % de la capacité mondiale. Les familles du shipping sont milliardaires. Cet héritage maritime remonte à des millénaires. Des incitations fiscales pour le transport maritime maintiennent le pavillon grec. C&#x27;est un pilier économique discret.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">☀️ 300+ jours de soleil</div>
-        <p>La Grèce bénéficie de certains des meilleurs climats d&#x27;Europe. Le soleil est fiable, les étés sont longs et chauds, les hivers doux (sauf en montagne). Ce climat méditerranéen est un atout majeur. Les carences en vitamine D ne sont pas un problème ici. Le soleil est thérapeutique.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">📜 Bureaucratie = kafkaïenne</div>
-        <p>La bureaucratie grecque est légendaire : exigences floues, informations contradictoires, services fermés pour des raisons inexplicables, les grèves retardent tout. Mais les Grecs s&#x27;en sortent avec patience et réseaux personnels. Frustrante mais finit par fonctionner. « Siga siga » (doucement doucement) est la devise.</p>
-      </div></div></section>
+      
+        <div class="card persona-card">
+          <div class="snapshot-title">Figure du pays</div>
+          <div class="persona-name">Périclès <small>(Ve siècle av. J.-C.)</small></div>
+          <div class="persona-why">Un homme d&#x27;État athénien qui a dirigé pendant l&#x27;Âge d&#x27;or, fait ériger le Parthénon et promu la démocratie. Son oraison funèbre a défini des valeurs démocratiques. Il est ancien mais son héritage façonne l&#x27;identité grecque et la civilisation occidentale. « Ce que vous laissez derrière vous n&#x27;est pas ce qui est gravé dans les monuments de pierre, mais ce qui est tissé dans la vie des autres. »</div>
+        </div>
+    </aside>
 
-  <section class="related"><h2>Guides villes</h2><ul class="link-list"><li><a href="/chronicles/villes/chronicle-athenes-grece-fr.html">Athenes</a></li><li><a href="/chronicles/villes/chronicle-thessalonique-grece-fr.html">Thessalonique</a></li><li><a href="/chronicles/villes/chronicle-heraklion-grece-fr.html">Heraklion</a></li><li><a href="/chronicles/villes/chronicle-la-canee-grece-fr.html">La Canee</a></li></ul></section>
-  <section class="related"><h2>Chroniques liées</h2><ul class="link-list"><li><a href="/chronicles/chronicle-ameriques-partie1-fr.html">Panama, Costa Rica, Puerto Rico — comparatif expat 2026 Partie 1</a></li><li><a href="/chronicles/digital-nomads-2026-fr.html">Meilleurs pays pour digital nomads 2026</a></li><li><a href="/chronicles/chronicle-2056-ou-vivra-t-on-le-mieux-fr.html">2056 : Où vivra-t-on le mieux dans 30 ans ?</a></li><li><a href="/chronicles/chronicle-immo-etranger-2026-fr.html">Immobilier à l&#x27;étranger — Ce que les étrangers possèdent vraiment</a></li></ul></section>
-  <section class="related"><h2>Comparaisons de pays</h2><ul class="link-list"><li><a href="/compare/static/italy-vs-greece/">Grèce vs Italy</a></li><li><a href="/compare/static/portugal-vs-greece/">Grèce vs Portugal</a></li></ul></section>
+    <div class="right-col">
+      <div class="rc-wrapper">
+        
+        <div class="rc-box">
+          <div class="rc-box-head">
+            <h2>Chroniques liées</h2>
+            <div class="rc-nav">
+              <button class="rc-nav-btn" data-target="rc-list" data-dir="-1" aria-label="Previous">&#8249;</button>
+              <button class="rc-nav-btn" data-target="rc-list" data-dir="1" aria-label="Next">&#8250;</button>
+            </div>
+          </div>
+          <div class="rc-track"><div id="rc-list" class="rc-row"><a class="rc-vcard" href="/chronicles/chronicle-ameriques-partie1-fr.html"><img class="rc-vimg" src="/assets/hero-panama.jpg" alt="Panama, Costa Rica, Puerto Rico — comparatif expat 2026 Partie 1" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">📄</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Panama, Costa Rica, Puerto Rico — comparatif expat 2026 Partie 1</div></div></a><a class="rc-vcard" href="/chronicles/digital-nomads-2026-fr.html"><img class="rc-vimg" src="/assets/hero-indonesia.jpg" alt="Meilleurs pays pour digital nomads 2026" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">📄</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Meilleurs pays pour digital nomads 2026</div></div></a><a class="rc-vcard" href="/chronicles/chronicle-2056-ou-vivra-t-on-le-mieux-fr.html"><img class="rc-vimg" src="/assets/hero-norway.jpg" alt="2056 : Où vivra-t-on le mieux dans 30 ans ?" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">📄</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">2056 : Où vivra-t-on le mieux dans 30 ans ?</div></div></a><a class="rc-vcard" href="/chronicles/chronicle-immo-etranger-2026-fr.html"><img class="rc-vimg" src="/assets/hero-portugal.jpg" alt="Immobilier à l&#x27;étranger — Ce que les étrangers possèdent vraiment" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">📄</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Immobilier à l&#x27;étranger — Ce que les étrangers possèdent vraiment</div></div></a></div></div>
+        </div>
+        
+        <div class="rc-box">
+          <div class="rc-box-head">
+            <h2>Guides villes</h2>
+            <div class="rc-nav">
+              <button class="rc-nav-btn" data-target="cv-list" data-dir="-1" aria-label="Previous">&#8249;</button>
+              <button class="rc-nav-btn" data-target="cv-list" data-dir="1" aria-label="Next">&#8250;</button>
+            </div>
+          </div>
+          <div class="rc-track"><div id="cv-list" class="rc-row"><a class="rc-vcard" href="/chronicles/villes/chronicle-athenes-grece-fr.html"><img class="rc-vimg" src="/assetscity/athenes.png" alt="Athènes" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">🏙️</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Athènes</div></div></a><a class="rc-vcard" href="/chronicles/villes/chronicle-thessalonique-grece-fr.html"><img class="rc-vimg" src="/assetscity/thessalonique.png" alt="Thessalonique" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">🏙️</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Thessalonique</div></div></a><a class="rc-vcard" href="/chronicles/villes/chronicle-heraklion-grece-fr.html"><img class="rc-vimg" src="/assetscity/heraklion.png" alt="Héraklion" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">🏙️</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Héraklion</div></div></a><a class="rc-vcard" href="/chronicles/villes/chronicle-la-canee-grece-fr.html"><img class="rc-vimg" src="/assetscity/la-canee.png" alt="La Canée" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">🏙️</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">La Canée</div></div></a></div></div>
+        </div>
+      </div>
 
-  <p style="text-align:center;margin-top:30px"><a href="/globe.html" style="font-weight:600">Voir les 160+ pays →</a></p>
+      <div class="data-card">
+        <table class="data-table">
+      <tbody>
+        <tr class="sec"><td colspan="4">💼 Salaires (net / mois)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧾</span>Salaire minimum</td>
+          <td class="val">$845</td>
+          <td class="hint">Salaire minimum légal 950 € brut → net ≈ 805 € (2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('min_wage')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📊</span>Salaire moyen</td>
+          <td class="val">$1,320</td>
+          <td class="hint">Moyenne nette ≈ 1 259 €/mois (ELSTAT 2024)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('avg_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🩺</span>Salaire médecin (généraliste)</td>
+          <td class="val">$4,000</td>
+          <td class="hint">Moyenne du secteur public</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('doctor_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🏠 Logement et charges (studio référence)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏚️</span>Loyer studio</td>
+          <td class="val">$550</td>
+          <td class="hint">Villes régionales</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('rent_studio')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">⚡</span>Électricité</td>
+          <td class="val">$120</td>
+          <td class="hint">/ mois (taux élevés)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('electricity')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💧</span>Eau</td>
+          <td class="val">$25</td>
+          <td class="hint">/ mois</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('water')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📱</span>Forfait mobile</td>
+          <td class="val">$20</td>
+          <td class="hint">~20–50 Go</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('mobile')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🍽️ Alimentation et boissons (prix indicatifs)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍺</span>Bière (pinte)</td>
+          <td class="val">$5.00</td>
+          <td class="hint">Bar local</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('beer')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☕</span>Café</td>
+          <td class="val">$3.00</td>
+          <td class="hint">Café régulier</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('coffee')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍲</span>Plat principal</td>
+          <td class="val">$13</td>
+          <td class="hint">taverne de milieu de gamme</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('dish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">⛽ Transport</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">⛽</span>Essence / litre</td>
+          <td class="val">1,95 $ / L</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('gas')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🧾 Fiscalité (indicatif)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏷️</span>TVA</td>
+          <td class="val">24%</td>
+          <td class="hint">taux standard</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('vat')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">👤</span>Impôt sur le revenu</td>
+          <td class="val">~25%</td>
+          <td class="hint">Progressif (9-44%), tranche intermédiaire</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('income_tax')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏪</span>Fiscalité petite entreprise</td>
+          <td class="val">~30%</td>
+          <td class="hint">22% IS + contributions</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('smallbiz')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📱 Tech (prix indicatifs)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍎</span>iPhone (dernier 256 Go)</td>
+          <td class="val">$1,450</td>
+          <td class="hint">Tarification UE</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('iphone')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📲</span>Galaxy S (dernier 256 Go)</td>
+          <td class="val">$1,150</td>
+          <td class="hint">Tarification UE</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('samsung')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🛂 Immigration et installation</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🛂</span>Facilité d&#x27;immigration</td>
+          <td class="val">7 / 10</td>
+          <td class="hint">UE/Non-UE diffère ; visa de nomade numérique</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('immigration')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🌤️ Qualité de vie</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🙂</span>Bonheur</td>
+          <td class="val">6.4 / 10</td>
+          <td class="hint">indicatif (src : Rapport mondial sur le bonheur 2024)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('happiness')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☀️</span>Jours de soleil / an</td>
+          <td class="val">~270 jours / an</td>
+          <td class="hint">indicatif (src : Données climatiques, OMM)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('sun')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏥</span>Santé publique</td>
+          <td class="val">Oui</td>
+          <td class="hint">public ESY + privé</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('health')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧑‍⚕️</span>Assurance privée / mois</td>
+          <td class="val">65 $ / mois</td>
+          <td class="hint">exemple privé</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('insurance')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📈 Indices</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🚔</span>Indice criminalité</td>
+          <td class="val">45 / 100</td>
+          <td class="hint">indicatif (src : Indice de sécurité Numbeo 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('crime')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💶</span>Pouvoir d&#x27;achat</td>
+          <td class="val">68</td>
+          <td class="hint">indicatif (src : Indice PP de Numbeo 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('pp')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🕍 Religion</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">✝️</span>Chrétien</td>
+          <td class="val">~90%</td>
+          <td class="hint">indicatif (orthodoxe)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_christian')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☪️</span>Musulman</td>
+          <td class="val">~2%</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_muslim')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☸️</span>Bouddhiste</td>
+          <td class="val">~0%</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_buddhist')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">✡️</span>Juif</td>
+          <td class="val">~0.1%</td>
+          <td class="hint">indicative (src: Pew Research / WJC)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_jewish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🕊️</span>Autre / Aucune</td>
+          <td class="val">~8%</td>
+          <td class="hint">aucun/autre</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_other')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+        </table>
+      </div>
+
+      
+      <div class="article-card">
+        <div class="section-head">
+          <h2>Vivre à Grèce</h2>
+          <span class="score-badge"><span class="score-star">⭐</span> Score Expat: 7.0 / 10</span>
+        </div>
+        <div class="article-body"><p>🧭 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Aperçu</span><br>
+La Grèce est le berceau de la civilisation occidentale, de la démocratie et de la philosophie, offrant des ruines antiques, des îles époustouflantes, un mode de vie méditerranéen et du soleil. Athènes est la capitale ; les îles (Santorin, Mykonos, Crète) attirent des millions de touristes. L&#x27;économie repose fortement sur le tourisme (plus de 20 % du PIB), le transport maritime et l&#x27;agriculture. La Grèce a subi une sévère crise de la dette (2010-2018) nécessitant des plans de sauvetage, des mesures d&#x27;austérité et des réformes — cela a façonné la Grèce moderne. Le pays offre un mode de vie méditerranéen abordable, l&#x27;appartenance à l&#x27;UE et un rythme de vie détendu, mais fait face à des défis : difficultés économiques, bureaucratie, chômage des jeunes et fuite des cerveaux. Le programme Golden Visa attire les investisseurs immobiliers.</p><p>👥 <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Population &amp; ambiance</span><br>
+Avec environ 10,5 millions d&#x27;habitants, la Grèce est majoritairement d&#x27;origine grecque (~90 %) avec des minorités albanaises, bulgares et autres. La langue grecque est unique (branche hellénique), mais l&#x27;anglais est largement parlé dans les zones touristiques. La culture met l&#x27;accent sur la famille (liens très forts), l&#x27;hospitalité (philoxenia — « l&#x27;ami de l&#x27;étranger ») et la jouissance de la vie (parea — socialisation en groupe, repas longs). Les Grecs sont chaleureux, bruyants, passionnés et politiquement engagés. L&#x27;ambiance est méditerranéenne et détendue mais aussi marquée par la fatigue liée à la crise. Athènes est un chaos urbain ; les îles sont un paradis ; Thessalonique est culturelle ; le Péloponnèse est historique. Grèves et manifestations sont courantes.</p><p>🌦️ <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Climat &amp; paysages</span><br>
+Attendez‑vous à un climat méditerranéen : étés chauds et secs (28-35°C+, juin-sept.), hivers doux et humides (10-15°C, nov.-mars). Plus de 300 jours de soleil par an. Paysage montagneux (80 % du territoire), plus de 6 000 îles (227 habitées), littoral de 13 676 km, oliveraies et ruines antiques. La beauté naturelle est spectaculaire — villages blancs accrochés aux falaises, mers turquoise, sites archéologiques. Risque sismique présent. La qualité de l&#x27;air à Athènes s&#x27;améliore mais reste mauvaise en été. Stress hydrique sur les îles.</p><p>🏠 <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Logement &amp; installation</span><br>
+Des quartiers d&#x27;Athènes comme Kolonaki, Exarchia, Pangrati attirent les expats ; les îles ont des marchés locatifs saisonniers. Prévoir 1 à 2 mois de dépôt et des contrats de 6 à 12 mois. Loyers modérés : Athènes €400-900/mois ; les îles varient selon la saison. Le niveau de qualité va du néoclassique rénové aux immeubles en béton. Le chauffage est indispensable en hiver (souvent des chauffages au fioul coûteux) ; la climatisation est nécessaire en été. La vie insulaire est saisonnière — beaucoup de services ferment l&#x27;hiver. L&#x27;achat immobilier est populaire (Golden Visa pour investissement ≥ €250k donne la résidence). L&#x27;enregistrement est requis mais la bureaucratie est pénible.</p><p>💼 <span class="art-tag" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#6d28d9">Travail &amp; économie</span><br>
+L&#x27;économie est axée sur le tourisme (saisonnier estival), plus le transport maritime (la Grèce possède la plus grande flotte marchande mondiale), l&#x27;agriculture et les services. Pour les citoyens de l&#x27;UE, la libre circulation s&#x27;applique. Les non‑UE ont besoin de permis de travail. Les opportunités pour étrangers sont limitées — enseignement de l&#x27;anglais, tourisme, travail à distance. Le chômage des jeunes est d&#x27;environ 25 %. Les salaires sont bas (moyenne €800-1 500/mois) et ne se sont pas pleinement remis de la crise. Beaucoup de diplômés émigrent. Les nomades numériques trouvent les îles attractives. Créer une entreprise implique bureaucratie et impôts. La langue grecque aide mais l&#x27;anglais suffit dans le tourisme. La reprise économique est en cours mais lente.</p>
+        <div class="map-card">
+          <div class="map-header">
+            <div class="map-title"><span class="map-flag">🇬🇷</span><span>Grèce — Carte</span></div>
+            <div class="map-styles">
+              <button type="button" class="map-style-btn active" data-style="light">Clair</button>
+              <button type="button" class="map-style-btn" data-style="dark">Sombre</button>
+              <button type="button" class="map-style-btn" data-style="satellite">Satellite</button>
+            </div>
+          </div>
+          <div class="map-container">
+            <div id="wigg-country-map"></div>
+            <div class="map-loading" id="wiggMapLoading">Chargement de la carte…</div>
+          </div>
+        </div><p>🛂 <span class="art-tag" style="background:rgba(236,72,153,.12);border:1px solid rgba(236,72,153,.25);color:#be185d">Visa &amp; entrée</span><br>
+Les citoyens de l&#x27;UE/EEE/Suisse bénéficient de la libre circulation. Les non‑UE peuvent visiter l&#x27;espace Schengen 90 jours sur 180 jours. Pour des séjours plus longs, options : Golden Visa (investissement immobilier €250k+), visa pour nomades numériques, permis de travail ou regroupement familial. Le processus est bureaucratique. La résidence permanente est possible après 5 ans pour les citoyens de l&#x27;UE. La citoyenneté requiert 7 à 12 ans de résidence (selon la catégorie) plus un test de langue grecque. Le Golden Visa est une voie populaire mais n&#x27;accorde pas le droit de travailler.</p><p>🏥 <span class="art-tag" style="background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.25);color:#0e7490">Santé</span><br>
+Le système de santé est universel via l&#x27;ESY (public) ou via des assurances privées. Le système public est gratuit mais surchargé, sous‑financé et la qualité varie. Les hôpitaux privés offrent un meilleur service à coût raisonnable. Les médecins sont bien formés (beaucoup se sont formés à l&#x27;étranger). L&#x27;espérance de vie est d&#x27;environ 82 ans. Les soins sur les îles sont limités — les cas graves sont transférés à Athènes. Le tourisme médical existe pour certaines interventions. Les citoyens de l&#x27;UE utilisent la CEAM. Les médicaments sur ordonnance sont abordables. L&#x27;austérité a fortement réduit les budgets de santé.</p><p>🚗 <span class="art-tag" style="background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#c2410c">Transports &amp; mobilité</span><br>
+Athènes dispose d&#x27;un métro (3 lignes), de bus et de tramways — fonctionnels mais bondés. La circulation est chaotique ; le stationnement est un cauchemar. Les îles reposent sur les ferries (réseau étendu mais retards/annulations fréquents), bus et scooters. La plupart des expats sur les îles utilisent voitures ou scooters. Les routes vont des autoroutes correctes aux pistes montagneuses étroites. Le comportement au volant est agressif. Des vols intérieurs relient les îles principales à Athènes. L&#x27;aéroport d&#x27;Athènes connecte l&#x27;Europe, le Moyen‑Orient et, en saison, l&#x27;Amérique du Nord. Le voyage en ferry est charmant mais dépend de la météo.</p><p>🍛 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Note culinaire (plat national)</span><br>
+Le plat national est la <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Moussaka</span><br> : plat en couches d&#x27;aubergine, viande hachée (bœuf/agneau), sauce tomate et béchamel, gratiné jusqu&#x27;à obtenir une croûte dorée. En alternative, la <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">salade grecque (horiatiki)</span><br> avec feta, olives, tomates et concombres est emblématique. La cuisine grecque est méditerranéenne et saine — huile d&#x27;olive, légumes frais, poisson, yaourt, miel. La culture du mezze (petites assiettes accompagnées d&#x27;ouzo) est un rituel social.</p><p>🔎 <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">En conclusion</span><br>
+La Grèce convient aux retraités (coût de la vie abordable, soleil, Golden Visa), aux nomades numériques (îles, style de vie), aux passionnés d&#x27;histoire et à ceux qui recherchent la vie méditerranéenne à moindre coût que l&#x27;Italie/France/Espagne. Points forts : îles magnifiques, histoire antique, soleil, régime méditerranéen, population accueillante, appartenance à l&#x27;UE et coût de la vie accessible. Points faibles : difficultés économiques (même si en amélioration), bureaucratie, marché du travail limité, surpeuplement estival (surtourisme) et isolement hivernal des îles. La crise a laissé des cicatrices — chômage des jeunes, fuite des cerveaux, fatigue liée à l&#x27;austérité. Idéal pour les citoyens de l&#x27;UE (libre circulation) ou les investisseurs du Golden Visa. Le grec aide mais l&#x27;anglais fonctionne dans les zones touristiques. Si vous privilégiez le style de vie, le soleil et l&#x27;histoire plutôt que les opportunités de carrière, la Grèce tient ses promesses. Les îles sont un paradis mais Athènes offre plus de services et d&#x27;emplois.</p><p>Indice Expat — 7,0 / 10</p></div>
+      </div>
+
+      
+      <div class="things-section">
+        <div class="section-head"><h2>À savoir</h2><span class="wg-badge">À lire</span></div>
+        <div class="facts-grid"><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏛️ La crise de la dette a marqué une génération</div><div class="fact-text">La crise 2010-2018 a entraîné un chômage d&#x27;environ 27 %, des coupes d&#x27;austérité, des contrôles de capitaux et des plans de sauvetage de l&#x27;UE. Une décennie perdue pour les jeunes. La fuite des cerveaux se poursuit. Les coupes des retraites ont touché les personnes âgées. Le traumatisme économique est récent. La Grèce se remet mais des cicatrices subsistent. La « crise grecque » a marqué les années 2010 en Europe.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏝️ 6 000 îles (227 habitées)</div><div class="fact-text">Santorin, Mykonos, Crète, Rhodes, Corfou — chaque île a son caractère. Faire le tour des îles est un mode de vie. Mais le surtourisme détruit certaines (Santorin accueille plus de 2 millions de touristes pour 15 000 résidents). Beaucoup d&#x27;îles se dépeuplent en hiver. La pénurie d&#x27;eau est un problème réel.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">💶 Golden Visa = résidence pour €250k</div><div class="fact-text">Achetez un bien immobilier d&#x27;une valeur ≥ €250k (montant récemment relevé dans certaines zones d&#x27;Athènes/populaires à €400k+), obtenez un permis de séjour pour vous et votre famille. Pas de droits de travail mais accès Schengen. Populaire auprès des Chinois, Russes et habitants du Moyen‑Orient. Critiqué pour faire monter les prix de l&#x27;immobilier.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">⚓ Empire maritime</div><div class="fact-text">La Grèce possède la plus grande flotte marchande mondiale — plus de 20 % de la capacité mondiale. Les familles du shipping sont milliardaires. Cet héritage maritime remonte à des millénaires. Des incitations fiscales pour le transport maritime maintiennent le pavillon grec. C&#x27;est un pilier économique discret.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">☀️ 300+ jours de soleil</div><div class="fact-text">La Grèce bénéficie de certains des meilleurs climats d&#x27;Europe. Le soleil est fiable, les étés sont longs et chauds, les hivers doux (sauf en montagne). Ce climat méditerranéen est un atout majeur. Les carences en vitamine D ne sont pas un problème ici. Le soleil est thérapeutique.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">📜 Bureaucratie = kafkaïenne</div><div class="fact-text">La bureaucratie grecque est légendaire : exigences floues, informations contradictoires, services fermés pour des raisons inexplicables, les grèves retardent tout. Mais les Grecs s&#x27;en sortent avec patience et réseaux personnels. Frustrante mais finit par fonctionner. « Siga siga » (doucement doucement) est la devise.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🍽️ Moussaka / Salade grecque</div><div class="fact-text">Gratin en couches aubergine‑viande‑béchamel ou salade fraîche avec feta — cuisine méditerranéenne saine, à base d&#x27;huile d&#x27;olive, culture du mezze.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏳️‍🌈 LGBT+: Modéré à élevé</div><div class="fact-text">Mariage entre personnes de même sexe légal depuis 2024 (premier pays chrétien orthodoxe). Athènes a une scène LGBTQ+ visible. Les attitudes s&#x27;améliorent mais l&#x27;Église orthodoxe s&#x27;oppose. Les îles sont généralement plus tolérantes.</div></div></div>
+      </div>
+
+      <section class="cmp-section"><h2>Comparaisons de pays</h2><div class="cmp-pills"><a class="cmp-pill" href="/compare/static/italy-vs-greece/">Grèce vs Italy</a><a class="cmp-pill" href="/compare/static/portugal-vs-greece/">Grèce vs Portugal</a></div></section>
+    </div>
+  </div>
 </main>
 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
+<script src="/data/share.js"></script>
+<script src="/data/correction-form.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var t = document.getElementById("localTime");
+  if(t && t.dataset.tz){
+    function tick(){
+      try{
+        t.textContent = new Intl.DateTimeFormat("en-GB",{
+          timeZone: t.dataset.tz, hour:"2-digit", minute:"2-digit"
+        }).format(new Date());
+      }catch(e){}
+    }
+    tick(); setInterval(tick, 30000);
+  }
+  document.querySelectorAll(".rc-nav-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var targetId = btn.dataset.target;
+      var dir = parseInt(btn.dataset.dir||"1",10);
+      var row = document.getElementById(targetId);
+      if(!row) return;
+      var box = row.parentElement;
+      var first = row.querySelector(".rc-vcard");
+      if(!first) return;
+      var cardW = first.offsetWidth + 9;
+      var visible = Math.max(1, Math.floor(box.offsetWidth / cardW));
+      var maxOffset = Math.max(0, row.children.length - visible);
+      var current = parseInt(row.dataset.offset||"0", 10);
+      current = Math.min(maxOffset, Math.max(0, current + dir));
+      row.dataset.offset = current;
+      row.style.transform = "translateX(-" + (current * cardW) + "px)";
+      var nav = btn.parentNode;
+      var prev = nav.querySelector('[data-dir="-1"]');
+      var next = nav.querySelector('[data-dir="1"]');
+      if(prev) prev.disabled = (current === 0);
+      if(next) next.disabled = (current >= maxOffset);
+    });
+  });
+  var iso2 = "GR";
+  if(!iso2 || typeof L === "undefined") return;
+  var STYLES = {
+    light:     { url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", attr: "&copy; OSM &copy; CARTO" },
+    dark:      { url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",  attr: "&copy; OSM &copy; CARTO" },
+    satellite: { url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", attr: "&copy; Esri" }
+  };
+  var wMap=null, wLayer=null, wMarker=null;
+  function initMap(lat, lon){
+    var el = document.getElementById("wigg-country-map");
+    if(!el) return;
+    if(wMap){ try{wMap.remove();}catch(e){} }
+    wMap = L.map("wigg-country-map",{zoomControl:true}).setView([lat,lon],5);
+    wLayer = L.tileLayer(STYLES.light.url,{attribution:STYLES.light.attr,maxZoom:18}).addTo(wMap);
+    wMarker = L.marker([lat,lon]).addTo(wMap);
+    var loading = document.getElementById("wiggMapLoading");
+    if(loading) loading.classList.add("hidden");
+  }
+  document.querySelectorAll(".map-style-btn").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(!wMap) return;
+      var s = STYLES[b.dataset.style];
+      if(!s) return;
+      if(wLayer) wMap.removeLayer(wLayer);
+      wLayer = L.tileLayer(s.url,{attribution:s.attr,maxZoom:18}).addTo(wMap);
+      document.querySelectorAll(".map-style-btn").forEach(function(x){x.classList.remove("active");});
+      b.classList.add("active");
+    });
+  });
+  var cacheKey = "wigg_centroid_" + iso2;
+  var cached = null;
+  try { cached = JSON.parse(localStorage.getItem(cacheKey) || "null"); } catch(e){}
+  if(cached && cached.lat != null && cached.lon != null){
+    initMap(cached.lat, cached.lon); return;
+  }
+  fetch("https://nominatim.openstreetmap.org/search?country=" + encodeURIComponent(iso2) + "&format=json&limit=1")
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && d[0]){
+        var coords = { lat: +d[0].lat, lon: +d[0].lon };
+        try { localStorage.setItem(cacheKey, JSON.stringify(coords)); } catch(e){}
+        initMap(coords.lat, coords.lon);
+      } else {
+        var l = document.getElementById("wiggMapLoading");
+        if(l) l.textContent = "Carte indisponible";
+      }
+    })
+    .catch(function(){
+      var l = document.getElementById("wiggMapLoading");
+      if(l) l.textContent = "Carte indisponible";
+    });
+})();
+</script>
+
+<form name="wiggmap-corrections" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="wiggmap-corrections" />
+  <p><label>Don't fill this out: <input name="bot-field" /></label></p>
+  <input name="country" /><input name="field" /><input name="value" /><input name="email" /><textarea name="notes"></textarea>
+</form>
+
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
 </body>
 </html>

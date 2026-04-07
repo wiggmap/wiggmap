@@ -25,65 +25,127 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#f6f1e8;--paper:#fffdf8;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--green:#1d7f48;--green-dk:#155f36;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
+    :root{--paper:#fffdf8;--paper-2:#fbf7ee;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--line-soft:rgba(23,23,20,.06);--green:#1d7f48;--green-dk:#155f36;--green-light:#e6f4ec;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
     html{scroll-behavior:smooth}
     body{font-family:"Inter",system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f9f5ed 0%,#f3ede3 100%);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
     a{color:var(--green);text-decoration:none}
     a:hover{text-decoration:underline}
-    main{max-width:980px;margin:0 auto;padding:28px 20px 80px}
-    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:18px;letter-spacing:.04em}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:14px;letter-spacing:.04em}
     .crumb a{color:var(--ink-soft)}
-    .hero{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:36px 32px;box-shadow:var(--shadow);margin-bottom:24px;position:relative;overflow:hidden}
-    .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 18%,rgba(29,127,72,.05),transparent 30%);pointer-events:none}
-    .hero-flag{font-size:48px;line-height:1;margin-bottom:14px}
-    .hero h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(36px,6vw,56px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:10px;position:relative;z-index:1}
-    .hero .subtitle{font-size:15px;color:var(--ink-soft);max-width:62ch;line-height:1.6;position:relative;z-index:1}
-    .hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;position:relative;z-index:1}
-    .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid var(--line)}
-    .badge.green{background:#e6f4ec;color:var(--green-dk);border-color:rgba(29,127,72,.2)}
+    .country-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:22px;flex-wrap:wrap}
+    .country-flag{font-size:42px;line-height:1;margin-bottom:8px}
+    .country-head h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(34px,5.2vw,52px);font-weight:800;letter-spacing:-.02em;line-height:1.02}
+    .country-head .subtitle{font-size:14px;color:var(--ink-soft);max-width:64ch;line-height:1.55;margin-top:8px}
+    .head-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+    .badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:7px 13px;border-radius:999px;background:#fff;border:1px solid var(--line)}
+    .badge.green{background:var(--green-light);color:var(--green-dk);border-color:rgba(29,127,72,.22)}
     .badge.yellow{background:#fef9e7;color:#a16207;border-color:rgba(202,138,4,.25)}
     .badge.red{background:#fdecec;color:#b91c1c;border-color:rgba(185,28,28,.25)}
-    .snapshot{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px 26px;box-shadow:var(--shadow);margin-bottom:24px}
-    .snapshot h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;margin-bottom:14px}
-    .snap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
-    .snap-item{font-size:13px}
-    .snap-item strong{display:block;color:var(--ink-soft);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
-    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
-    .data-card h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;padding:20px 26px 8px}
+    .badge .dot{width:8px;height:8px;border-radius:999px;background:currentColor;display:inline-block}
+    .local-time{font-size:12px;color:var(--ink-soft);font-weight:600}
+    .local-time b{color:var(--ink);margin-left:5px;font-weight:800}
+    .main-grid{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+    @media(max-width:900px){.main-grid{grid-template-columns:1fr}}
+    .sidebar{display:flex;flex-direction:column;gap:14px;align-self:start;position:sticky;top:18px}
+    @media(max-width:900px){.sidebar{position:static}}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .hero-img{width:100%;height:200px;object-fit:cover;display:block;background:#eaddc4}
+    .hero-actions{padding:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:8px;font-family:inherit;font-weight:700;font-size:12.5px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;transition:background .14s,border-color .14s}
+    .btn:hover{background:rgba(0,0,0,.04)}
+    .btn.primary{background:var(--green);color:#fff;border-color:transparent}
+    .btn.primary:hover{background:var(--green-dk)}
+    .snapshot-card{padding:16px}
+    .snapshot-title{font-family:"Fraunces",Georgia,serif;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px;letter-spacing:-.01em}
+    .kv{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--line-soft);font-size:12.5px}
+    .kv span{color:var(--ink-soft)}
+    .kv b{color:var(--ink);font-weight:700;text-align:right;max-width:60%}
+    .kv-sub{padding-left:10px;font-size:11.5px;opacity:.85}
+    .kv-note{font-size:11px;color:var(--ink-soft);line-height:1.5;padding:6px 0 8px;font-style:italic;border-bottom:1px solid var(--line-soft)}
+    .sector-block{padding-top:10px;margin-top:6px;border-top:1px solid var(--line-soft)}
+    .sector-head{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+    .sector-list{display:flex;flex-direction:column;gap:5px}
+    .sector-pill{background:rgba(29,127,72,.08);border:1px solid rgba(29,127,72,.2);border-radius:7px;padding:5px 10px;font-size:11.5px;font-weight:700;color:var(--green-dk);line-height:1.4}
+    .persona-card{padding:16px}
+    .persona-name{font-weight:800;font-size:13px;margin-bottom:6px}
+    .persona-name small{font-weight:500;opacity:.6;font-size:11px}
+    .persona-why{font-size:11.5px;color:var(--ink-soft);line-height:1.55;font-style:italic}
+    .right-col{display:flex;flex-direction:column;gap:18px;min-width:0}
+    .rc-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:760px){.rc-wrapper{grid-template-columns:1fr}}
+    .rc-box{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 14px 12px;overflow:hidden}
+    .rc-box-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:6px}
+    .rc-box-head h2{font-family:"Fraunces",Georgia,serif;font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+    .rc-nav{display:flex;gap:4px}
+    .rc-nav-btn{width:24px;height:24px;border-radius:6px;border:1px solid var(--line);background:#fff;font-size:13px;cursor:pointer;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;line-height:1;transition:all .14s}
+    .rc-nav-btn:hover{background:var(--green);color:#fff;border-color:transparent}
+    .rc-nav-btn:disabled{opacity:.35;cursor:not-allowed}
+    .rc-track{overflow:hidden}
+    .rc-row{display:flex;gap:9px;transition:transform .35s ease;will-change:transform}
+    .rc-vcard{flex-shrink:0;width:130px;height:90px;border-radius:10px;overflow:hidden;position:relative;background:#e9dfca;border:1px solid var(--line);transition:transform .15s,box-shadow .15s}
+    .rc-vcard:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10);text-decoration:none}
+    .rc-vimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .rc-vemoji{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;background:linear-gradient(135deg,#ede5d8,#ddd3c4)}
+    .rc-vgrad{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,8,.85) 0%,rgba(20,15,8,.2) 55%,transparent 100%)}
+    .rc-vbody{position:absolute;left:0;right:0;bottom:0;padding:7px 9px;z-index:2}
+    .rc-vtitle{font-family:"Fraunces",Georgia,serif;font-size:10.5px;font-weight:700;color:#fff;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
     .data-table{width:100%;border-collapse:collapse;font-size:13px}
-    .data-table .sec td{background:#f8f4eb;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:10px 26px;color:var(--ink-soft);border-top:1px solid var(--line)}
-    .data-table td{padding:9px 26px;border-bottom:1px solid var(--line);vertical-align:top}
+    .data-table .sec td{background:#f4eedf;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:11px 22px;color:var(--ink-soft);border-top:1px solid var(--line)}
+    .data-table td{padding:9px 22px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+    .data-table tr:last-child td{border-bottom:none}
     .data-table td.lbl{width:42%;color:var(--ink)}
-    .data-table td.val{width:22%;font-weight:700}
+    .data-table td.val{width:25%;font-weight:700}
     .data-table td.hint{font-size:11.5px;color:var(--ink-soft)}
+    .data-table td.edit{width:30px;text-align:right;padding-right:14px}
     .data-table .ico{margin-right:8px}
-    .article{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px;margin-bottom:24px}
-    .article h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:700;margin:24px 0 10px;color:var(--ink)}
-    .article h2:first-child{margin-top:0}
-    .article p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.75}
-    .article p strong{color:var(--ink);font-weight:600}
-    .ttk{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-bottom:24px}
-    .ttk h2{font-family:"Fraunces",Georgia,serif;font-size:20px;font-weight:700;margin-bottom:16px}
-    .ttk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-    .ttk-card{background:#fbf7ee;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
-    .ttk-card .ttk-title{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink)}
-    .ttk-card p{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
-    .ttk-card small{font-weight:500;color:var(--ink-soft)}
-    .related{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px;margin-bottom:18px}
-    .related h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
-    .link-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px 18px}
-    .link-list li{font-size:13.5px;line-height:1.5;padding-left:14px;position:relative}
-    .link-list li::before{content:"›";position:absolute;left:0;color:var(--green)}
-    @media (max-width:640px){
-      main{padding:20px 14px 60px}
-      .hero{padding:26px 22px}
-      .data-table td{padding:9px 16px}
-      .data-table .sec td{padding:10px 16px}
-      .article{padding:24px 22px}
-      .ttk{padding:22px 22px}
-      .related{padding:20px 22px}
+    .edit-btn{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:13px;opacity:.4;transition:opacity .14s;padding:2px 4px}
+    .edit-btn:hover{opacity:1;color:var(--green)}
+    .article-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px}
+    .section-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+    .section-head h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:800;letter-spacing:-.01em;color:var(--ink)}
+    .score-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-light);border:1px solid rgba(29,127,72,.25);color:var(--green-dk);padding:5px 12px;border-radius:999px;font-size:12px;font-weight:700}
+    .article-body p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.78}
+    .article-body p:last-child{margin-bottom:0}
+    .art-tag{display:inline-block;padding:3px 10px;border-radius:6px;font-weight:700;font-size:13px;margin-bottom:6px;line-height:1.5}
+    .map-card{margin:22px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper-2)}
+    .map-header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);gap:8px;flex-wrap:wrap}
+    .map-title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}
+    .map-flag{font-size:18px}
+    .map-styles{display:flex;gap:4px}
+    .map-style-btn{font-size:11px;font-weight:700;padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;color:var(--ink-soft);cursor:pointer;transition:all .14s}
+    .map-style-btn:hover{border-color:var(--green);color:var(--green)}
+    .map-style-btn.active{background:var(--green);color:#fff;border-color:transparent}
+    .map-container{position:relative;height:320px}
+    #wigg-country-map{position:absolute;inset:0}
+    .map-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper-2);color:var(--ink-soft);font-size:13px;z-index:10}
+    .map-loading.hidden{display:none}
+    .things-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px}
+    .wg-badge{display:inline-flex;align-items:center;gap:5px;background:#fef3c7;border:1px solid rgba(202,138,4,.3);color:#92400e;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+    .facts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .fact-card{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden}
+    .fact-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green)}
+    .fact-title{font-weight:800;font-size:13px;margin-bottom:6px;color:var(--ink);padding-left:6px}
+    .fact-text{font-size:12.5px;color:var(--ink-soft);line-height:1.55;padding-left:6px}
+    .cmp-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px}
+    .cmp-section h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
+    .cmp-pills{display:flex;flex-wrap:wrap;gap:8px}
+    .cmp-pill{display:inline-block;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:600;color:var(--ink);transition:all .14s}
+    .cmp-pill:hover{border-color:var(--green);background:var(--green);color:#fff;text-decoration:none}
+    @media(max-width:640px){
+      .wrap{padding:18px 14px 60px}
+      .country-head{flex-direction:column}
+      .head-right{align-items:flex-start}
+      .data-table td{padding:9px 14px}
+      .data-table .sec td{padding:11px 14px}
+      .article-card{padding:24px 22px}
+      .things-section{padding:22px 22px}
+      .cmp-section{padding:20px 22px}
+      .map-container{height:240px}
     }
   </style>
 </head>
@@ -92,268 +154,410 @@
 <div id="siteHeader"></div>
 <script src="/data/header.js"></script>
 
-<main>
+<main class="wrap">
   <nav class="crumb"><a href="/">Accueil</a> › <a href="/globe.html">Pays</a> › Cuba</nav>
 
-  <section class="hero">
-    <div class="hero-flag">🇨🇺</div>
-    <h1>Cuba</h1>
-    <p class="subtitle">Moyennes indicatives (La Havane plus élevée ; net / mois sauf indication contraire)</p>
-    <div class="hero-badges">
-      <span class="badge red">WIGG: RED</span>
-      <span class="badge">⭐ Score Expat: 4.5 / 10</span>
+  <div class="country-head">
+    <div>
+      <div class="country-flag">🇨🇺</div>
+      <h1>Cuba</h1>
+      <p class="subtitle">Moyennes indicatives (La Havane plus élevée ; net / mois sauf indication contraire)</p>
     </div>
-  </section>
-
-  <section class="snapshot">
-    <h2>Aperçu rapide</h2>
-    <div class="snap-grid">
-      <div class="snap-item"><strong>Capitale</strong>La Havane</div>
-      <div class="snap-item"><strong>Population</strong>~11M</div>
-      <div class="snap-item"><strong>Langues</strong>espagnol</div>
-      <div class="snap-item"><strong>Conduite</strong>droite</div>
-      <div class="snap-item"><strong>Monnaie</strong>Peso cubain (CUP)</div>
-      <div class="snap-item"><strong>Crypto-friendly</strong>Limitée</div>
+    <div class="head-right">
+      <div class="badge red"><span class="dot"></span>WIGG: RED</div>
+      <div class="local-time">Heure locale <b id="localTime" data-tz="America/Havana">--:--</b></div>
     </div>
-  </section>
+  </div>
 
-  <section class="data-card">
-    <h2>Coût de la vie, salaires et qualité de vie</h2>
-    <table class="data-table">
-    <tbody>
-      <tr class="sec"><td colspan="3">💼 Salaires (net / mois)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧾</span>Salaire minimum</td>
-        <td class="val">$15</td>
-        <td class="hint">Min officiel ≈ 2 100 CUP/mois → net ≈ 15 $ au taux du marché (2025; très incertain)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📊</span>Salaire moyen</td>
-        <td class="val">$55</td>
-        <td class="hint">Estimé moyen net ≈ 55 $/mois au taux parallèle (salaires de l&#x27;État érodés par l&#x27;inflation)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🩺</span>Salaire médecin (généraliste)</td>
-        <td class="val">$150</td>
-        <td class="hint">Médecins généralistes du secteur public ; certaines missions médicales à l&#x27;étranger offrent des revenus nettement plus élevés.</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🏠 Logement et charges (studio référence)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏚️</span>Loyer studio</td>
-        <td class="val">$220</td>
-        <td class="hint">Régional (tarification en USD informelle)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">⚡</span>Électricité</td>
-        <td class="val">$15</td>
-        <td class="hint">/ mois (subventionné, pannes)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💧</span>Eau</td>
-        <td class="val">$5</td>
-        <td class="hint">/ mois</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📱</span>Forfait mobile</td>
-        <td class="val">$15</td>
-        <td class="hint">~5–15 Go (cher par rapport aux salaires)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🍽️ Alimentation et boissons (prix indicatifs)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍺</span>Bière (pinte)</td>
-        <td class="val">$1.50</td>
-        <td class="hint">Bar local (CUP)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☕</span>Café</td>
-        <td class="val">$0.50</td>
-        <td class="hint">Café régulier (local)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍲</span>Plat principal</td>
-        <td class="val">$4</td>
-        <td class="hint">restaurant local</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">⛽ Transport</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">⛽</span>Essence / litre</td>
-        <td class="val">1,10 $ / L</td>
-        <td class="hint">La disponibilité varie</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🧾 Fiscalité (indicatif)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏷️</span>TVA</td>
-        <td class="val">10%</td>
-        <td class="hint">Taxe de vente (marché limité)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">👤</span>Impôt sur le revenu</td>
-        <td class="val">~10%</td>
-        <td class="hint">Progressif (secteur informel large)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏪</span>Fiscalité petite entreprise</td>
-        <td class="val">~25%</td>
-        <td class="hint">Impôt sur les entreprises privées (varie)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📱 Tech (prix indicatifs)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍎</span>iPhone (dernier 256 Go)</td>
-        <td class="val">$1,800</td>
-        <td class="hint">la disponibilité varie</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📲</span>Galaxy S (dernier 256 Go)</td>
-        <td class="val">$1,400</td>
-        <td class="hint">la disponibilité varie</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🛂 Immigration et installation</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🛂</span>Facilité d&#x27;immigration</td>
-        <td class="val">2 / 10</td>
-        <td class="hint">contexte complexe</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🌤️ Qualité de vie</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🙂</span>Bonheur</td>
-        <td class="val">5.2 / 10</td>
-        <td class="hint">indicatif (src : Rapport mondial sur le bonheur 2024)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☀️</span>Jours de soleil / an</td>
-        <td class="val">~310 jours / an</td>
-        <td class="hint">indicatif (src : Données climatiques, OMM)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏥</span>Santé publique</td>
-        <td class="val">Oui</td>
-        <td class="hint">système public (les ressources varient)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧑‍⚕️</span>Assurance privée / mois</td>
-        <td class="val">35 $ / mois</td>
-        <td class="hint">exemple privé (limité)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📈 Indices</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🚔</span>Indice criminalité</td>
-        <td class="val">45 / 100</td>
-        <td class="hint">indicatif (src : Indice de sécurité Numbeo 2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💶</span>Pouvoir d&#x27;achat</td>
-        <td class="val">30</td>
-        <td class="hint">indicatif (src : Indice PP de Numbeo 2025)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🕍 Religion</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">✝️</span>Chrétien</td>
-        <td class="val">~60%</td>
-        <td class="hint">indicatif</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☪️</span>Musulman</td>
-        <td class="val">~0%</td>
-        <td class="hint">indicatif</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☸️</span>Bouddhiste</td>
-        <td class="val">~0%</td>
-        <td class="hint">indicatif</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">✡️</span>Juif</td>
-        <td class="val">~0.1%</td>
-        <td class="hint">indicative (src: Pew Research / WJC)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🕊️</span>Autre / Aucune</td>
-        <td class="val">~35%</td>
-        <td class="hint">santeria/autre/aucun</td>
-      </tr>
-    </tbody>
-    </table>
-  </section>
+  <div class="main-grid">
+    <aside class="sidebar">
+      <div class="card">
+        <img class="hero-img" src="/assets/hero-cuba.jpg" alt="Cuba"
+             onerror="this.onerror=null;this.src='/assets/hero-fallback.jpg'" />
+        <div class="hero-actions">
+          <button class="btn primary" type="button" onclick="openModal('general')">Corriger les données</button>
+          <button class="btn" type="button" id="btnShare">Partager</button>
+          <a class="btn" href="/compare.html?country=cuba">Comparer</a>
+        </div>
+      </div>
 
-  <section class="article"><h2>Aperçu du pays</h2><h2>🧭 Aperçu</h2>
-<p>Cuba est une nation insulaire des Caraïbes figée dans le temps mais qui change lentement. Le gouvernement communiste dirigé par les frères Castro (Fidel jusqu'en 2008, Raúl jusqu'en 2018, maintenant Miguel Díaz-Canel) gouverne depuis la révolution de 1959. L'embargo américain (1960-présent) a façonné l'économie et isolé Cuba. Le pays offre des voitures vintage, une architecture coloniale, la salsa, des cigares et du rhum — mais aussi des pénuries, de la répression, des infrastructures délabrées et une économie duale. La récente crise économique (COVID, renforcement des sanctions américaines, mauvaise gestion économique) a créé de grandes difficultés. Vivre à Cuba est fascinant mais extrêmement difficile en raison des pénuries, des restrictions et du climat politique.</p>
-<h2>👥 Population & ambiance</h2>
-<p>Avec environ 11 millions d'habitants, la population cubaine est mixte : blanche (~64 %), métisse (~27 %), noire (~9 %). L'espagnol est la langue. La culture mêle l'héritage colonial espagnol, des influences africaines (héritées de l'esclavage) et l'idéologie révolutionnaire. La musique (son, salsa, rumba, reggaeton) est omniprésente. Les Cubains sont chaleureux, créatifs et résilients malgré les difficultés. L'éducation et la santé sont gratuites et prioritaires. La vie sociale tourne autour de la famille, de la musique et de la gestion des pénuries. L'ambiance est contradictoire — joie et frustration, fierté et désespoir. L'émigration est une soupape de fuite massive.</p>
-<h2>🌦️ Climat & paysage</h2>
-<p>Prévoyez un climat tropical : chaud et humide toute l'année (25-32°C) avec une saison des pluies (mai-octobre, risque d'ouragans) et une saison sèche (novembre-avril). Les ouragans sont des menaces fréquentes. Le paysage comprend de magnifiques plages (Varadero, Cayo Coco), des vallées à tabac (Viñales), des montagnes (Sierra Maestra) et des villes coloniales (La Havane, Trinidad). La beauté naturelle est réelle mais la dégradation environnementale et le manque d'entretien sont visibles. L'île mesure ~1 100 km de long.</p>
-<h2>🏠 Logement & installation</h2>
-<p>Les résidents étrangers louent généralement des casas particulares approuvées par l'État ou des appartements privés (de plus en plus courants mais juridiquement complexes). Les quartiers de Vedado et Miramar à La Havane attirent les étrangers. Attendez-vous à des conditions négociées — souvent mensuelles en USD/EUR. La qualité varie énormément — quelques maisons coloniales rénovées sont charmantes ; la plupart des logements se détériorent faute d'entretien. Coupures d'électricité, pénuries d'eau et défaillances des infrastructures sont des réalités quotidiennes. Acheter un bien en tant qu'étranger est essentiellement impossible en raison des restrictions. L'enregistrement est requis et surveillé.</p>
-<h2>💼 Travail & économie</h2>
-<p>L'économie est contrôlée par l'État avec un secteur privé en croissance (cuentapropismo). Pour les étrangers, les opportunités sont extrêmement limitées : travailler pour des organisations internationales, ONG, ambassades ou en tant que journaliste/chercheur nécessite l'approbation du gouvernement. Le secteur touristique emploie de nombreux Cubains mais les étrangers ont besoin d'autorisations spéciales. Le télétravail est théoriquement possible mais l'internet est cher et peu fiable. L'économie duale (le secteur d'État paie ~50 $/mois, le secteur privé/touristique gagne en USD/EUR) crée des distorsions surréalistes. Lancer une entreprise en tant qu'étranger n'est pas réaliste.</p>
-<h2>🛂 Visa & entrée</h2>
-<p>Les touristes obtiennent une visa de 30 jours (carte de touriste) à l'arrivée. Des prolongations sont possibles. Pour la résidence, les options sont extrêmement limitées : mariage avec un Cubain, travail pour une entité approuvée ou statut de retraité (rarement accordé). Le processus est opaque et politique. Les citoyens américains font face à des restrictions supplémentaires mais peuvent visiter sous des catégories spécifiques. La résidence permanente est très difficile. La double nationalité n'est pas reconnue — les natifs cubains sont toujours citoyens cubains indépendamment d'autres passeports. Le système est restrictif et politique.</p>
-<h2>🏥 Santé</h2>
-<p>Le système de santé est universel et gratuit. Cuba a un ratio médecin/population élevé et forme des médecins pour l'exportation. Pour les soins de base, la qualité est adéquate. Cependant, les pénuries de médicaments, d'équipements et de fournitures sont sévères. Les étrangers et les Cubains aisés paient en espèces pour de meilleurs services. Des cliniques internationales à La Havane servent les diplomates/touristes. Pour des affections graves, il faut quitter Cuba. L'espérance de vie est d'environ 79 ans, impressionnante compte tenu des contraintes. La prévention est forte mais la prise en charge des maladies chroniques est difficile.</p>
-<h2>🚗 Transport & mobilité</h2>
-<p>Les transports publics sont inadéquats — les bus sont surpeuplés et peu fiables. Des taxis partagés (colectivos) et des taxis privés desservent La Havane. Les voitures américaines classiques (années 1950) sont emblématiques mais à peine fonctionnelles. Les Cubains pratiquent beaucoup l'auto-stop. Les bus interurbains (Viazul pour les touristes, bus d'État pour les Cubains) sont des systèmes séparés. Des vols intérieurs existent mais sont peu fiables. L'aéroport José Martí de La Havane relie un nombre limité de destinations internationales (Cancún, Espagne, Canada). Le système de transport est dysfonctionnel mais les Cubains le gèrent avec une ingéniosité remarquable.</p>
-<h2>🍛 Note sur la cuisine (plat national)</h2>
-<p>Le plat national est <strong>Ropa Vieja</strong> : du bœuf effiloché en sauce tomate avec poivrons et oignons, servi avec du riz, des haricots noirs et des plantains. Le nom signifie « vieux vêtements » en raison de son aspect effiloché. Cependant, les pénuries de viande rendent souvent ce plat indisponible. La cuisine cubaine est simple en raison des ingrédients limités — riz, haricots, porc et plantains dominent.</p>
-<h2>🔎 En conclusion</h2>
-<p>Cuba N'EST PAS pour les expatriés ou retraités typiques. C'est pour des journalistes, chercheurs, diplomates, travailleurs d'ONG ou des personnes ayant des missions spécifiques. Vivre ici signifie accepter de sévères pénuries (nourriture, médicaments, biens de première nécessité), des coupures d'électricité fréquentes, un internet restreint, une répression politique et des cauchemars bureaucratiques. Le peuple cubain est formidable, mais le système est étouffant. C'est fascinant pour de courts séjours mais éprouvant pour y vivre. Venez seulement avec un soutien institutionnel, des attentes réalistes et une grande tolérance aux difficultés. Le romantisme des voitures vintage et de la salsa ne compense pas les luttes quotidiennes.</p>
-<p>Expat Score — 4.5 / 10</p></section>
+      <div class="card snapshot-card">
+        <div class="snapshot-title">Aperçu rapide</div>
+        <div class="kv"><span>Capitale</span><b>La Havane</b></div><div class="kv"><span>Population</span><b>~11M</b></div><div class="kv"><span>Langues</span><b>espagnol</b></div><div class="kv"><span>Monnaie</span><b>Peso cubain (CUP)</b></div><div class="kv kv-sub"><span>Exchange rate</span><b>1 USD ≈ 120 CUP (officiel) / 200+ CUP (marché noir)</b></div><div class="kv-note">L&#x27;économie duale s&#x27;est effondrée en 2021 mais le USD/EUR continuent à opérer parallèlement au peso. La situation monétaire est complexe et volatile.</div><div class="kv"><span>Crypto-friendly</span><b>Limitée</b></div><div class="kv-note">Pas de réglementation claire. Le système bancaire est isolé. Certains Cubains utilisent la crypto pour recevoir des envois de fonds mais l&#x27;infrastructure est minimale.</div><div class="kv"><span>Conduite</span><b>droite</b></div><div class="sector-block"><div class="sector-head">Secteurs phares</div><div class="sector-list"><div class="sector-pill">Tourisme et hôtellerie</div><div class="sector-pill">Services médicaux (médecins, biotechnologie)</div><div class="sector-pill">Production de tabac et de rhum</div></div></div>
+      </div>
 
-  <section class="ttk"><h2>À savoir</h2><div class="ttk-grid">
-      <div class="ttk-card">
-        <div class="ttk-title">👤 Fidel Castro <small>(XXe-XXIe siècle)</small></div>
-        <p>Chef révolutionnaire qui renversa Batista (1959) et dirigea jusqu&#x27;en 2008. Son alliance avec l&#x27;URSS a marqué la Guerre froide. Figure polarisante — héros de l&#x27;anti-impérialisme pour ses partisans, dictateur brutal pour ses détracteurs. Son héritage domine Cuba. Décédé en 2016.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🚗 Voitures des années 1950 = nécessité, pas nostalgie</div>
-        <p>Les voitures américaines classiques ne sont pas préservées — elles sont maintenues en vie par l&#x27;ingéniosité car l&#x27;embargo américain a empêché de nouvelles importations. Les moteurs sont des combinaisons Frankenstein. Elles tombent constamment en panne. Pour les touristes c&#x27;est charmant ; pour les Cubains c&#x27;est un symbole frustrant d&#x27;isolement.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🏥 Des médecins partout sauf à Cuba</div>
-        <p>Cuba exporte des médecins vers le Venezuela, le Brésil, l&#x27;Afrique pour obtenir des devises. Cette diplomatie médicale rapporte des milliards. Mais à l&#x27;intérieur du pays, les pénuries de médecins et de médicaments créent une crise. Les médecins gagnent ~70 $/mois. La fuite des cerveaux est sévère.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">📡 Internet est un privilège, pas un droit</div>
-        <p>L&#x27;internet est cher (1 $/heure), lent, censuré et nécessite des cartes WiFi ETECSA à des hotspots spécifiques. La plupart des Cubains ne peuvent pas se le permettre. Le gouvernement surveille l&#x27;utilisation. Le contrôle de l&#x27;information est réel. La fracture numérique est extrême.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🍞 Le carnet de rationnement (libreta) existe toujours</div>
-        <p>Rations mensuelles de riz, haricots, sucre, pain qui tiennent à peine 2 semaines. Les Cubains font la queue des heures pour des biens rares. Le marché noir est nécessaire pour survivre. Les pénuries se sont fortement aggravées depuis 2019. La faim est réelle.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">💸 L&#x27;économie duale crée l&#x27;absurde</div>
-        <p>Les employés d&#x27;État gagnent ~50 $/mois. Mais tout coûte en USD/EUR. Un serveur gagne plus en pourboires en une nuit que ce qu&#x27;un médecin gagne en un mois. Cette économie inversée crée des incitations bizarres et du gaspillage de talents.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🎭 Les protestations du 11 juillet 2021 furent sans précédent</div>
-        <p>Des manifestations de masse rares ont éclaté contre les pénuries, la répression et les échecs liés au COVID. La répression du gouvernement a été sévère — des centaines d&#x27;arrestations et des peines lourdes. Cela a révélé la vulnérabilité du régime et la frustration populaire. La répression continue.</p>
-      </div></div></section>
+      
+        <div class="card persona-card">
+          <div class="snapshot-title">Figure du pays</div>
+          <div class="persona-name">Fidel Castro <small>(XXe-XXIe siècle)</small></div>
+          <div class="persona-why">Chef révolutionnaire qui renversa Batista (1959) et dirigea jusqu&#x27;en 2008. Son alliance avec l&#x27;URSS a marqué la Guerre froide. Figure polarisante — héros de l&#x27;anti-impérialisme pour ses partisans, dictateur brutal pour ses détracteurs. Son héritage domine Cuba. Décédé en 2016.</div>
+        </div>
+    </aside>
 
-  
-  <section class="related"><h2>Chroniques liées</h2><ul class="link-list"><li><a href="/chronicles/chronicle-ameriques-partie2-fr.html">Saint Kitts, Bahamas, Antigua — Zéro impôt 2026 Partie 2</a></li></ul></section>
-  
+    <div class="right-col">
+      <div class="rc-wrapper">
+        
+        <div class="rc-box">
+          <div class="rc-box-head">
+            <h2>Chroniques liées</h2>
+            <div class="rc-nav">
+              <button class="rc-nav-btn" data-target="rc-list" data-dir="-1" aria-label="Previous">&#8249;</button>
+              <button class="rc-nav-btn" data-target="rc-list" data-dir="1" aria-label="Next">&#8250;</button>
+            </div>
+          </div>
+          <div class="rc-track"><div id="rc-list" class="rc-row"><a class="rc-vcard" href="/chronicles/chronicle-ameriques-partie2-fr.html"><img class="rc-vimg" src="/assets/hero-bahamas.jpg" alt="Saint Kitts, Bahamas, Antigua — Zéro impôt 2026 Partie 2" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">📄</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Saint Kitts, Bahamas, Antigua — Zéro impôt 2026 Partie 2</div></div></a></div></div>
+        </div>
+        
+      </div>
 
-  <p style="text-align:center;margin-top:30px"><a href="/globe.html" style="font-weight:600">Voir les 160+ pays →</a></p>
+      <div class="data-card">
+        <table class="data-table">
+      <tbody>
+        <tr class="sec"><td colspan="4">💼 Salaires (net / mois)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧾</span>Salaire minimum</td>
+          <td class="val">$15</td>
+          <td class="hint">Min officiel ≈ 2 100 CUP/mois → net ≈ 15 $ au taux du marché (2025; très incertain)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('min_wage')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📊</span>Salaire moyen</td>
+          <td class="val">$55</td>
+          <td class="hint">Estimé moyen net ≈ 55 $/mois au taux parallèle (salaires de l&#x27;État érodés par l&#x27;inflation)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('avg_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🩺</span>Salaire médecin (généraliste)</td>
+          <td class="val">$150</td>
+          <td class="hint">Médecins généralistes du secteur public ; certaines missions médicales à l&#x27;étranger offrent des revenus nettement plus élevés.</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('doctor_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🏠 Logement et charges (studio référence)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏚️</span>Loyer studio</td>
+          <td class="val">$220</td>
+          <td class="hint">Régional (tarification en USD informelle)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('rent_studio')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">⚡</span>Électricité</td>
+          <td class="val">$15</td>
+          <td class="hint">/ mois (subventionné, pannes)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('electricity')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💧</span>Eau</td>
+          <td class="val">$5</td>
+          <td class="hint">/ mois</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('water')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📱</span>Forfait mobile</td>
+          <td class="val">$15</td>
+          <td class="hint">~5–15 Go (cher par rapport aux salaires)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('mobile')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🍽️ Alimentation et boissons (prix indicatifs)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍺</span>Bière (pinte)</td>
+          <td class="val">$1.50</td>
+          <td class="hint">Bar local (CUP)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('beer')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☕</span>Café</td>
+          <td class="val">$0.50</td>
+          <td class="hint">Café régulier (local)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('coffee')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍲</span>Plat principal</td>
+          <td class="val">$4</td>
+          <td class="hint">restaurant local</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('dish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">⛽ Transport</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">⛽</span>Essence / litre</td>
+          <td class="val">1,10 $ / L</td>
+          <td class="hint">La disponibilité varie</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('gas')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🧾 Fiscalité (indicatif)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏷️</span>TVA</td>
+          <td class="val">10%</td>
+          <td class="hint">Taxe de vente (marché limité)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('vat')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">👤</span>Impôt sur le revenu</td>
+          <td class="val">~10%</td>
+          <td class="hint">Progressif (secteur informel large)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('income_tax')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏪</span>Fiscalité petite entreprise</td>
+          <td class="val">~25%</td>
+          <td class="hint">Impôt sur les entreprises privées (varie)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('smallbiz')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📱 Tech (prix indicatifs)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍎</span>iPhone (dernier 256 Go)</td>
+          <td class="val">$1,800</td>
+          <td class="hint">la disponibilité varie</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('iphone')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📲</span>Galaxy S (dernier 256 Go)</td>
+          <td class="val">$1,400</td>
+          <td class="hint">la disponibilité varie</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('samsung')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🛂 Immigration et installation</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🛂</span>Facilité d&#x27;immigration</td>
+          <td class="val">2 / 10</td>
+          <td class="hint">contexte complexe</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('immigration')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🌤️ Qualité de vie</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🙂</span>Bonheur</td>
+          <td class="val">5.2 / 10</td>
+          <td class="hint">indicatif (src : Rapport mondial sur le bonheur 2024)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('happiness')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☀️</span>Jours de soleil / an</td>
+          <td class="val">~310 jours / an</td>
+          <td class="hint">indicatif (src : Données climatiques, OMM)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('sun')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏥</span>Santé publique</td>
+          <td class="val">Oui</td>
+          <td class="hint">système public (les ressources varient)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('health')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧑‍⚕️</span>Assurance privée / mois</td>
+          <td class="val">35 $ / mois</td>
+          <td class="hint">exemple privé (limité)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('insurance')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📈 Indices</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🚔</span>Indice criminalité</td>
+          <td class="val">45 / 100</td>
+          <td class="hint">indicatif (src : Indice de sécurité Numbeo 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('crime')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💶</span>Pouvoir d&#x27;achat</td>
+          <td class="val">30</td>
+          <td class="hint">indicatif (src : Indice PP de Numbeo 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('pp')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🕍 Religion</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">✝️</span>Chrétien</td>
+          <td class="val">~60%</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_christian')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☪️</span>Musulman</td>
+          <td class="val">~0%</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_muslim')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☸️</span>Bouddhiste</td>
+          <td class="val">~0%</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_buddhist')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">✡️</span>Juif</td>
+          <td class="val">~0.1%</td>
+          <td class="hint">indicative (src: Pew Research / WJC)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_jewish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🕊️</span>Autre / Aucune</td>
+          <td class="val">~35%</td>
+          <td class="hint">santeria/autre/aucun</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_other')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+        </table>
+      </div>
+
+      
+      <div class="article-card">
+        <div class="section-head">
+          <h2>Vivre au Cuba</h2>
+          <span class="score-badge"><span class="score-star">⭐</span> Score Expat: 4.5 / 10</span>
+        </div>
+        <div class="article-body"><p>🧭 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Aperçu</span><br>
+Cuba est une nation insulaire des Caraïbes figée dans le temps mais qui change lentement. Le gouvernement communiste dirigé par les frères Castro (Fidel jusqu&#x27;en 2008, Raúl jusqu&#x27;en 2018, maintenant Miguel Díaz-Canel) gouverne depuis la révolution de 1959. L&#x27;embargo américain (1960-présent) a façonné l&#x27;économie et isolé Cuba. Le pays offre des voitures vintage, une architecture coloniale, la salsa, des cigares et du rhum — mais aussi des pénuries, de la répression, des infrastructures délabrées et une économie duale. La récente crise économique (COVID, renforcement des sanctions américaines, mauvaise gestion économique) a créé de grandes difficultés. Vivre à Cuba est fascinant mais extrêmement difficile en raison des pénuries, des restrictions et du climat politique.</p><p>👥 <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Population &amp; ambiance</span><br>
+Avec environ 11 millions d&#x27;habitants, la population cubaine est mixte : blanche (~64 %), métisse (~27 %), noire (~9 %). L&#x27;espagnol est la langue. La culture mêle l&#x27;héritage colonial espagnol, des influences africaines (héritées de l&#x27;esclavage) et l&#x27;idéologie révolutionnaire. La musique (son, salsa, rumba, reggaeton) est omniprésente. Les Cubains sont chaleureux, créatifs et résilients malgré les difficultés. L&#x27;éducation et la santé sont gratuites et prioritaires. La vie sociale tourne autour de la famille, de la musique et de la gestion des pénuries. L&#x27;ambiance est contradictoire — joie et frustration, fierté et désespoir. L&#x27;émigration est une soupape de fuite massive.</p><p>🌦️ <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Climat &amp; paysage</span><br>
+Prévoyez un climat tropical : chaud et humide toute l&#x27;année (25-32°C) avec une saison des pluies (mai-octobre, risque d&#x27;ouragans) et une saison sèche (novembre-avril). Les ouragans sont des menaces fréquentes. Le paysage comprend de magnifiques plages (Varadero, Cayo Coco), des vallées à tabac (Viñales), des montagnes (Sierra Maestra) et des villes coloniales (La Havane, Trinidad). La beauté naturelle est réelle mais la dégradation environnementale et le manque d&#x27;entretien sont visibles. L&#x27;île mesure ~1 100 km de long.</p><p>🏠 <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Logement &amp; installation</span><br>
+Les résidents étrangers louent généralement des casas particulares approuvées par l&#x27;État ou des appartements privés (de plus en plus courants mais juridiquement complexes). Les quartiers de Vedado et Miramar à La Havane attirent les étrangers. Attendez-vous à des conditions négociées — souvent mensuelles en USD/EUR. La qualité varie énormément — quelques maisons coloniales rénovées sont charmantes ; la plupart des logements se détériorent faute d&#x27;entretien. Coupures d&#x27;électricité, pénuries d&#x27;eau et défaillances des infrastructures sont des réalités quotidiennes. Acheter un bien en tant qu&#x27;étranger est essentiellement impossible en raison des restrictions. L&#x27;enregistrement est requis et surveillé.</p><p>💼 <span class="art-tag" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#6d28d9">Travail &amp; économie</span><br>
+L&#x27;économie est contrôlée par l&#x27;État avec un secteur privé en croissance (cuentapropismo). Pour les étrangers, les opportunités sont extrêmement limitées : travailler pour des organisations internationales, ONG, ambassades ou en tant que journaliste/chercheur nécessite l&#x27;approbation du gouvernement. Le secteur touristique emploie de nombreux Cubains mais les étrangers ont besoin d&#x27;autorisations spéciales. Le télétravail est théoriquement possible mais l&#x27;internet est cher et peu fiable. L&#x27;économie duale (le secteur d&#x27;État paie ~50 $/mois, le secteur privé/touristique gagne en USD/EUR) crée des distorsions surréalistes. Lancer une entreprise en tant qu&#x27;étranger n&#x27;est pas réaliste.</p>
+        <div class="map-card">
+          <div class="map-header">
+            <div class="map-title"><span class="map-flag">🇨🇺</span><span>Cuba — Carte</span></div>
+            <div class="map-styles">
+              <button type="button" class="map-style-btn active" data-style="light">Clair</button>
+              <button type="button" class="map-style-btn" data-style="dark">Sombre</button>
+              <button type="button" class="map-style-btn" data-style="satellite">Satellite</button>
+            </div>
+          </div>
+          <div class="map-container">
+            <div id="wigg-country-map"></div>
+            <div class="map-loading" id="wiggMapLoading">Chargement de la carte…</div>
+          </div>
+        </div><p>🛂 <span class="art-tag" style="background:rgba(236,72,153,.12);border:1px solid rgba(236,72,153,.25);color:#be185d">Visa &amp; entrée</span><br>
+Les touristes obtiennent une visa de 30 jours (carte de touriste) à l&#x27;arrivée. Des prolongations sont possibles. Pour la résidence, les options sont extrêmement limitées : mariage avec un Cubain, travail pour une entité approuvée ou statut de retraité (rarement accordé). Le processus est opaque et politique. Les citoyens américains font face à des restrictions supplémentaires mais peuvent visiter sous des catégories spécifiques. La résidence permanente est très difficile. La double nationalité n&#x27;est pas reconnue — les natifs cubains sont toujours citoyens cubains indépendamment d&#x27;autres passeports. Le système est restrictif et politique.</p><p>🏥 <span class="art-tag" style="background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.25);color:#0e7490">Santé</span><br>
+Le système de santé est universel et gratuit. Cuba a un ratio médecin/population élevé et forme des médecins pour l&#x27;exportation. Pour les soins de base, la qualité est adéquate. Cependant, les pénuries de médicaments, d&#x27;équipements et de fournitures sont sévères. Les étrangers et les Cubains aisés paient en espèces pour de meilleurs services. Des cliniques internationales à La Havane servent les diplomates/touristes. Pour des affections graves, il faut quitter Cuba. L&#x27;espérance de vie est d&#x27;environ 79 ans, impressionnante compte tenu des contraintes. La prévention est forte mais la prise en charge des maladies chroniques est difficile.</p><p>🚗 <span class="art-tag" style="background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#c2410c">Transport &amp; mobilité</span><br>
+Les transports publics sont inadéquats — les bus sont surpeuplés et peu fiables. Des taxis partagés (colectivos) et des taxis privés desservent La Havane. Les voitures américaines classiques (années 1950) sont emblématiques mais à peine fonctionnelles. Les Cubains pratiquent beaucoup l&#x27;auto-stop. Les bus interurbains (Viazul pour les touristes, bus d&#x27;État pour les Cubains) sont des systèmes séparés. Des vols intérieurs existent mais sont peu fiables. L&#x27;aéroport José Martí de La Havane relie un nombre limité de destinations internationales (Cancún, Espagne, Canada). Le système de transport est dysfonctionnel mais les Cubains le gèrent avec une ingéniosité remarquable.</p><p>🍛 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Note sur la cuisine (plat national)</span><br>
+Le plat national est <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Ropa Vieja</span><br> : du bœuf effiloché en sauce tomate avec poivrons et oignons, servi avec du riz, des haricots noirs et des plantains. Le nom signifie « vieux vêtements » en raison de son aspect effiloché. Cependant, les pénuries de viande rendent souvent ce plat indisponible. La cuisine cubaine est simple en raison des ingrédients limités — riz, haricots, porc et plantains dominent.</p><p>🔎 <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">En conclusion</span><br>
+Cuba N&#x27;EST PAS pour les expatriés ou retraités typiques. C&#x27;est pour des journalistes, chercheurs, diplomates, travailleurs d&#x27;ONG ou des personnes ayant des missions spécifiques. Vivre ici signifie accepter de sévères pénuries (nourriture, médicaments, biens de première nécessité), des coupures d&#x27;électricité fréquentes, un internet restreint, une répression politique et des cauchemars bureaucratiques. Le peuple cubain est formidable, mais le système est étouffant. C&#x27;est fascinant pour de courts séjours mais éprouvant pour y vivre. Venez seulement avec un soutien institutionnel, des attentes réalistes et une grande tolérance aux difficultés. Le romantisme des voitures vintage et de la salsa ne compense pas les luttes quotidiennes.</p><p>Expat Score — 4.5 / 10</p></div>
+      </div>
+
+      
+      <div class="things-section">
+        <div class="section-head"><h2>À savoir</h2><span class="wg-badge">À lire</span></div>
+        <div class="facts-grid"><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🚗 Voitures des années 1950 = nécessité, pas nostalgie</div><div class="fact-text">Les voitures américaines classiques ne sont pas préservées — elles sont maintenues en vie par l&#x27;ingéniosité car l&#x27;embargo américain a empêché de nouvelles importations. Les moteurs sont des combinaisons Frankenstein. Elles tombent constamment en panne. Pour les touristes c&#x27;est charmant ; pour les Cubains c&#x27;est un symbole frustrant d&#x27;isolement.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏥 Des médecins partout sauf à Cuba</div><div class="fact-text">Cuba exporte des médecins vers le Venezuela, le Brésil, l&#x27;Afrique pour obtenir des devises. Cette diplomatie médicale rapporte des milliards. Mais à l&#x27;intérieur du pays, les pénuries de médecins et de médicaments créent une crise. Les médecins gagnent ~70 $/mois. La fuite des cerveaux est sévère.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">📡 Internet est un privilège, pas un droit</div><div class="fact-text">L&#x27;internet est cher (1 $/heure), lent, censuré et nécessite des cartes WiFi ETECSA à des hotspots spécifiques. La plupart des Cubains ne peuvent pas se le permettre. Le gouvernement surveille l&#x27;utilisation. Le contrôle de l&#x27;information est réel. La fracture numérique est extrême.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🍞 Le carnet de rationnement (libreta) existe toujours</div><div class="fact-text">Rations mensuelles de riz, haricots, sucre, pain qui tiennent à peine 2 semaines. Les Cubains font la queue des heures pour des biens rares. Le marché noir est nécessaire pour survivre. Les pénuries se sont fortement aggravées depuis 2019. La faim est réelle.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">💸 L&#x27;économie duale crée l&#x27;absurde</div><div class="fact-text">Les employés d&#x27;État gagnent ~50 $/mois. Mais tout coûte en USD/EUR. Un serveur gagne plus en pourboires en une nuit que ce qu&#x27;un médecin gagne en un mois. Cette économie inversée crée des incitations bizarres et du gaspillage de talents.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🎭 Les protestations du 11 juillet 2021 furent sans précédent</div><div class="fact-text">Des manifestations de masse rares ont éclaté contre les pénuries, la répression et les échecs liés au COVID. La répression du gouvernement a été sévère — des centaines d&#x27;arrestations et des peines lourdes. Cela a révélé la vulnérabilité du régime et la frustration populaire. La répression continue.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🍽️ Ropa Vieja</div><div class="fact-text">Bœuf effiloché en sauce tomate avec riz et haricots — plat « vieux vêtements ». Cependant, les pénuries de viande le rendent rare malgré son statut de symbole national.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏳️‍🌈 LGBT+: Modérée</div><div class="fact-text">L&#x27;homosexualité est légale. Les attitudes s&#x27;améliorent — la fille de Raúl Castro, Mariela, défend les droits LGBTQ+. La scène à La Havane est petite. Les zones rurales sont plus conservatrices. Des progrès existent mais la discrimination persiste.</div></div></div>
+      </div>
+
+      
+    </div>
+  </div>
 </main>
 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
+<script src="/data/share.js"></script>
+<script src="/data/correction-form.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var t = document.getElementById("localTime");
+  if(t && t.dataset.tz){
+    function tick(){
+      try{
+        t.textContent = new Intl.DateTimeFormat("en-GB",{
+          timeZone: t.dataset.tz, hour:"2-digit", minute:"2-digit"
+        }).format(new Date());
+      }catch(e){}
+    }
+    tick(); setInterval(tick, 30000);
+  }
+  document.querySelectorAll(".rc-nav-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var targetId = btn.dataset.target;
+      var dir = parseInt(btn.dataset.dir||"1",10);
+      var row = document.getElementById(targetId);
+      if(!row) return;
+      var box = row.parentElement;
+      var first = row.querySelector(".rc-vcard");
+      if(!first) return;
+      var cardW = first.offsetWidth + 9;
+      var visible = Math.max(1, Math.floor(box.offsetWidth / cardW));
+      var maxOffset = Math.max(0, row.children.length - visible);
+      var current = parseInt(row.dataset.offset||"0", 10);
+      current = Math.min(maxOffset, Math.max(0, current + dir));
+      row.dataset.offset = current;
+      row.style.transform = "translateX(-" + (current * cardW) + "px)";
+      var nav = btn.parentNode;
+      var prev = nav.querySelector('[data-dir="-1"]');
+      var next = nav.querySelector('[data-dir="1"]');
+      if(prev) prev.disabled = (current === 0);
+      if(next) next.disabled = (current >= maxOffset);
+    });
+  });
+  var iso2 = "CU";
+  if(!iso2 || typeof L === "undefined") return;
+  var STYLES = {
+    light:     { url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", attr: "&copy; OSM &copy; CARTO" },
+    dark:      { url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",  attr: "&copy; OSM &copy; CARTO" },
+    satellite: { url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", attr: "&copy; Esri" }
+  };
+  var wMap=null, wLayer=null, wMarker=null;
+  function initMap(lat, lon){
+    var el = document.getElementById("wigg-country-map");
+    if(!el) return;
+    if(wMap){ try{wMap.remove();}catch(e){} }
+    wMap = L.map("wigg-country-map",{zoomControl:true}).setView([lat,lon],5);
+    wLayer = L.tileLayer(STYLES.light.url,{attribution:STYLES.light.attr,maxZoom:18}).addTo(wMap);
+    wMarker = L.marker([lat,lon]).addTo(wMap);
+    var loading = document.getElementById("wiggMapLoading");
+    if(loading) loading.classList.add("hidden");
+  }
+  document.querySelectorAll(".map-style-btn").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(!wMap) return;
+      var s = STYLES[b.dataset.style];
+      if(!s) return;
+      if(wLayer) wMap.removeLayer(wLayer);
+      wLayer = L.tileLayer(s.url,{attribution:s.attr,maxZoom:18}).addTo(wMap);
+      document.querySelectorAll(".map-style-btn").forEach(function(x){x.classList.remove("active");});
+      b.classList.add("active");
+    });
+  });
+  var cacheKey = "wigg_centroid_" + iso2;
+  var cached = null;
+  try { cached = JSON.parse(localStorage.getItem(cacheKey) || "null"); } catch(e){}
+  if(cached && cached.lat != null && cached.lon != null){
+    initMap(cached.lat, cached.lon); return;
+  }
+  fetch("https://nominatim.openstreetmap.org/search?country=" + encodeURIComponent(iso2) + "&format=json&limit=1")
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && d[0]){
+        var coords = { lat: +d[0].lat, lon: +d[0].lon };
+        try { localStorage.setItem(cacheKey, JSON.stringify(coords)); } catch(e){}
+        initMap(coords.lat, coords.lon);
+      } else {
+        var l = document.getElementById("wiggMapLoading");
+        if(l) l.textContent = "Carte indisponible";
+      }
+    })
+    .catch(function(){
+      var l = document.getElementById("wiggMapLoading");
+      if(l) l.textContent = "Carte indisponible";
+    });
+})();
+</script>
+
+<form name="wiggmap-corrections" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="wiggmap-corrections" />
+  <p><label>Don't fill this out: <input name="bot-field" /></label></p>
+  <input name="country" /><input name="field" /><input name="value" /><input name="email" /><textarea name="notes"></textarea>
+</form>
+
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
 </body>
 </html>

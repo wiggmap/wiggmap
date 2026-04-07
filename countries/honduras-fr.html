@@ -25,65 +25,127 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#f6f1e8;--paper:#fffdf8;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--green:#1d7f48;--green-dk:#155f36;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
+    :root{--paper:#fffdf8;--paper-2:#fbf7ee;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--line-soft:rgba(23,23,20,.06);--green:#1d7f48;--green-dk:#155f36;--green-light:#e6f4ec;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
     html{scroll-behavior:smooth}
     body{font-family:"Inter",system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f9f5ed 0%,#f3ede3 100%);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
     a{color:var(--green);text-decoration:none}
     a:hover{text-decoration:underline}
-    main{max-width:980px;margin:0 auto;padding:28px 20px 80px}
-    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:18px;letter-spacing:.04em}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:14px;letter-spacing:.04em}
     .crumb a{color:var(--ink-soft)}
-    .hero{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:36px 32px;box-shadow:var(--shadow);margin-bottom:24px;position:relative;overflow:hidden}
-    .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 18%,rgba(29,127,72,.05),transparent 30%);pointer-events:none}
-    .hero-flag{font-size:48px;line-height:1;margin-bottom:14px}
-    .hero h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(36px,6vw,56px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:10px;position:relative;z-index:1}
-    .hero .subtitle{font-size:15px;color:var(--ink-soft);max-width:62ch;line-height:1.6;position:relative;z-index:1}
-    .hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;position:relative;z-index:1}
-    .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid var(--line)}
-    .badge.green{background:#e6f4ec;color:var(--green-dk);border-color:rgba(29,127,72,.2)}
+    .country-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:22px;flex-wrap:wrap}
+    .country-flag{font-size:42px;line-height:1;margin-bottom:8px}
+    .country-head h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(34px,5.2vw,52px);font-weight:800;letter-spacing:-.02em;line-height:1.02}
+    .country-head .subtitle{font-size:14px;color:var(--ink-soft);max-width:64ch;line-height:1.55;margin-top:8px}
+    .head-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+    .badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:7px 13px;border-radius:999px;background:#fff;border:1px solid var(--line)}
+    .badge.green{background:var(--green-light);color:var(--green-dk);border-color:rgba(29,127,72,.22)}
     .badge.yellow{background:#fef9e7;color:#a16207;border-color:rgba(202,138,4,.25)}
     .badge.red{background:#fdecec;color:#b91c1c;border-color:rgba(185,28,28,.25)}
-    .snapshot{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px 26px;box-shadow:var(--shadow);margin-bottom:24px}
-    .snapshot h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;margin-bottom:14px}
-    .snap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
-    .snap-item{font-size:13px}
-    .snap-item strong{display:block;color:var(--ink-soft);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
-    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
-    .data-card h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;padding:20px 26px 8px}
+    .badge .dot{width:8px;height:8px;border-radius:999px;background:currentColor;display:inline-block}
+    .local-time{font-size:12px;color:var(--ink-soft);font-weight:600}
+    .local-time b{color:var(--ink);margin-left:5px;font-weight:800}
+    .main-grid{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+    @media(max-width:900px){.main-grid{grid-template-columns:1fr}}
+    .sidebar{display:flex;flex-direction:column;gap:14px;align-self:start;position:sticky;top:18px}
+    @media(max-width:900px){.sidebar{position:static}}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .hero-img{width:100%;height:200px;object-fit:cover;display:block;background:#eaddc4}
+    .hero-actions{padding:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:8px;font-family:inherit;font-weight:700;font-size:12.5px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;transition:background .14s,border-color .14s}
+    .btn:hover{background:rgba(0,0,0,.04)}
+    .btn.primary{background:var(--green);color:#fff;border-color:transparent}
+    .btn.primary:hover{background:var(--green-dk)}
+    .snapshot-card{padding:16px}
+    .snapshot-title{font-family:"Fraunces",Georgia,serif;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px;letter-spacing:-.01em}
+    .kv{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--line-soft);font-size:12.5px}
+    .kv span{color:var(--ink-soft)}
+    .kv b{color:var(--ink);font-weight:700;text-align:right;max-width:60%}
+    .kv-sub{padding-left:10px;font-size:11.5px;opacity:.85}
+    .kv-note{font-size:11px;color:var(--ink-soft);line-height:1.5;padding:6px 0 8px;font-style:italic;border-bottom:1px solid var(--line-soft)}
+    .sector-block{padding-top:10px;margin-top:6px;border-top:1px solid var(--line-soft)}
+    .sector-head{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+    .sector-list{display:flex;flex-direction:column;gap:5px}
+    .sector-pill{background:rgba(29,127,72,.08);border:1px solid rgba(29,127,72,.2);border-radius:7px;padding:5px 10px;font-size:11.5px;font-weight:700;color:var(--green-dk);line-height:1.4}
+    .persona-card{padding:16px}
+    .persona-name{font-weight:800;font-size:13px;margin-bottom:6px}
+    .persona-name small{font-weight:500;opacity:.6;font-size:11px}
+    .persona-why{font-size:11.5px;color:var(--ink-soft);line-height:1.55;font-style:italic}
+    .right-col{display:flex;flex-direction:column;gap:18px;min-width:0}
+    .rc-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:760px){.rc-wrapper{grid-template-columns:1fr}}
+    .rc-box{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 14px 12px;overflow:hidden}
+    .rc-box-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:6px}
+    .rc-box-head h2{font-family:"Fraunces",Georgia,serif;font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+    .rc-nav{display:flex;gap:4px}
+    .rc-nav-btn{width:24px;height:24px;border-radius:6px;border:1px solid var(--line);background:#fff;font-size:13px;cursor:pointer;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;line-height:1;transition:all .14s}
+    .rc-nav-btn:hover{background:var(--green);color:#fff;border-color:transparent}
+    .rc-nav-btn:disabled{opacity:.35;cursor:not-allowed}
+    .rc-track{overflow:hidden}
+    .rc-row{display:flex;gap:9px;transition:transform .35s ease;will-change:transform}
+    .rc-vcard{flex-shrink:0;width:130px;height:90px;border-radius:10px;overflow:hidden;position:relative;background:#e9dfca;border:1px solid var(--line);transition:transform .15s,box-shadow .15s}
+    .rc-vcard:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10);text-decoration:none}
+    .rc-vimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .rc-vemoji{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;background:linear-gradient(135deg,#ede5d8,#ddd3c4)}
+    .rc-vgrad{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,8,.85) 0%,rgba(20,15,8,.2) 55%,transparent 100%)}
+    .rc-vbody{position:absolute;left:0;right:0;bottom:0;padding:7px 9px;z-index:2}
+    .rc-vtitle{font-family:"Fraunces",Georgia,serif;font-size:10.5px;font-weight:700;color:#fff;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
     .data-table{width:100%;border-collapse:collapse;font-size:13px}
-    .data-table .sec td{background:#f8f4eb;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:10px 26px;color:var(--ink-soft);border-top:1px solid var(--line)}
-    .data-table td{padding:9px 26px;border-bottom:1px solid var(--line);vertical-align:top}
+    .data-table .sec td{background:#f4eedf;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:11px 22px;color:var(--ink-soft);border-top:1px solid var(--line)}
+    .data-table td{padding:9px 22px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+    .data-table tr:last-child td{border-bottom:none}
     .data-table td.lbl{width:42%;color:var(--ink)}
-    .data-table td.val{width:22%;font-weight:700}
+    .data-table td.val{width:25%;font-weight:700}
     .data-table td.hint{font-size:11.5px;color:var(--ink-soft)}
+    .data-table td.edit{width:30px;text-align:right;padding-right:14px}
     .data-table .ico{margin-right:8px}
-    .article{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px;margin-bottom:24px}
-    .article h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:700;margin:24px 0 10px;color:var(--ink)}
-    .article h2:first-child{margin-top:0}
-    .article p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.75}
-    .article p strong{color:var(--ink);font-weight:600}
-    .ttk{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-bottom:24px}
-    .ttk h2{font-family:"Fraunces",Georgia,serif;font-size:20px;font-weight:700;margin-bottom:16px}
-    .ttk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-    .ttk-card{background:#fbf7ee;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
-    .ttk-card .ttk-title{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink)}
-    .ttk-card p{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
-    .ttk-card small{font-weight:500;color:var(--ink-soft)}
-    .related{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px;margin-bottom:18px}
-    .related h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
-    .link-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px 18px}
-    .link-list li{font-size:13.5px;line-height:1.5;padding-left:14px;position:relative}
-    .link-list li::before{content:"›";position:absolute;left:0;color:var(--green)}
-    @media (max-width:640px){
-      main{padding:20px 14px 60px}
-      .hero{padding:26px 22px}
-      .data-table td{padding:9px 16px}
-      .data-table .sec td{padding:10px 16px}
-      .article{padding:24px 22px}
-      .ttk{padding:22px 22px}
-      .related{padding:20px 22px}
+    .edit-btn{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:13px;opacity:.4;transition:opacity .14s;padding:2px 4px}
+    .edit-btn:hover{opacity:1;color:var(--green)}
+    .article-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px}
+    .section-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+    .section-head h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:800;letter-spacing:-.01em;color:var(--ink)}
+    .score-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-light);border:1px solid rgba(29,127,72,.25);color:var(--green-dk);padding:5px 12px;border-radius:999px;font-size:12px;font-weight:700}
+    .article-body p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.78}
+    .article-body p:last-child{margin-bottom:0}
+    .art-tag{display:inline-block;padding:3px 10px;border-radius:6px;font-weight:700;font-size:13px;margin-bottom:6px;line-height:1.5}
+    .map-card{margin:22px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper-2)}
+    .map-header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);gap:8px;flex-wrap:wrap}
+    .map-title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}
+    .map-flag{font-size:18px}
+    .map-styles{display:flex;gap:4px}
+    .map-style-btn{font-size:11px;font-weight:700;padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;color:var(--ink-soft);cursor:pointer;transition:all .14s}
+    .map-style-btn:hover{border-color:var(--green);color:var(--green)}
+    .map-style-btn.active{background:var(--green);color:#fff;border-color:transparent}
+    .map-container{position:relative;height:320px}
+    #wigg-country-map{position:absolute;inset:0}
+    .map-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper-2);color:var(--ink-soft);font-size:13px;z-index:10}
+    .map-loading.hidden{display:none}
+    .things-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px}
+    .wg-badge{display:inline-flex;align-items:center;gap:5px;background:#fef3c7;border:1px solid rgba(202,138,4,.3);color:#92400e;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+    .facts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .fact-card{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden}
+    .fact-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green)}
+    .fact-title{font-weight:800;font-size:13px;margin-bottom:6px;color:var(--ink);padding-left:6px}
+    .fact-text{font-size:12.5px;color:var(--ink-soft);line-height:1.55;padding-left:6px}
+    .cmp-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px}
+    .cmp-section h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
+    .cmp-pills{display:flex;flex-wrap:wrap;gap:8px}
+    .cmp-pill{display:inline-block;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:600;color:var(--ink);transition:all .14s}
+    .cmp-pill:hover{border-color:var(--green);background:var(--green);color:#fff;text-decoration:none}
+    @media(max-width:640px){
+      .wrap{padding:18px 14px 60px}
+      .country-head{flex-direction:column}
+      .head-right{align-items:flex-start}
+      .data-table td{padding:9px 14px}
+      .data-table .sec td{padding:11px 14px}
+      .article-card{padding:24px 22px}
+      .things-section{padding:22px 22px}
+      .cmp-section{padding:20px 22px}
+      .map-container{height:240px}
     }
   </style>
 </head>
@@ -92,268 +154,400 @@
 <div id="siteHeader"></div>
 <script src="/data/header.js"></script>
 
-<main>
+<main class="wrap">
   <nav class="crumb"><a href="/">Accueil</a> › <a href="/globe.html">Pays</a> › Honduras</nav>
 
-  <section class="hero">
-    <div class="hero-flag">🇭🇳</div>
-    <h1>Honduras</h1>
-    <p class="subtitle">Moyennes indicatives (Tegucigalpa plus élevées ; net / mois sauf indication contraire)</p>
-    <div class="hero-badges">
-      <span class="badge red">WIGG: RED</span>
-      <span class="badge">⭐ Score Expat: 4.5 / 10</span>
+  <div class="country-head">
+    <div>
+      <div class="country-flag">🇭🇳</div>
+      <h1>Honduras</h1>
+      <p class="subtitle">Moyennes indicatives (Tegucigalpa plus élevées ; net / mois sauf indication contraire)</p>
     </div>
-  </section>
-
-  <section class="snapshot">
-    <h2>Aperçu rapide</h2>
-    <div class="snap-grid">
-      <div class="snap-item"><strong>Capitale</strong>Tegucigalpa</div>
-      <div class="snap-item"><strong>Population</strong>~10M</div>
-      <div class="snap-item"><strong>Langues</strong>Espagnol</div>
-      <div class="snap-item"><strong>Conduite</strong>Droite</div>
-      <div class="snap-item"><strong>Monnaie</strong>Lempira hondurien (HNL)</div>
-      <div class="snap-item"><strong>Crypto-friendly</strong>Limitée</div>
+    <div class="head-right">
+      <div class="badge red"><span class="dot"></span>WIGG: RED</div>
+      <div class="local-time">Heure locale <b id="localTime" data-tz="America/Tegucigalpa">--:--</b></div>
     </div>
-  </section>
+  </div>
 
-  <section class="data-card">
-    <h2>Coût de la vie, salaires et qualité de vie</h2>
-    <table class="data-table">
-    <tbody>
-      <tr class="sec"><td colspan="3">💼 Salaires (net / mois)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧾</span>Salaire minimum</td>
-        <td class="val">$420</td>
-        <td class="hint">Moyenne sectorielle ≈ 12 000 HNL → net ≈ 10 500 HNL (IHSS ; 2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📊</span>Salaire moyen</td>
-        <td class="val">$460</td>
-        <td class="hint">Moyenne nette ≈ 11 500 HNL/mois (INE Honduras 2024 — Tegucigalpa plus élevé)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🩺</span>Salaire médecin (généraliste)</td>
-        <td class="val">$1,200</td>
-        <td class="hint">Moyenne du secteur public</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🏠 Logement et charges (studio référence)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏚️</span>Loyer studio</td>
-        <td class="val">$250</td>
-        <td class="hint">Villes régionales</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">⚡</span>Électricité</td>
-        <td class="val">$55</td>
-        <td class="hint">/ mois</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💧</span>Eau</td>
-        <td class="val">$12</td>
-        <td class="hint">/ mois</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📱</span>Forfait mobile</td>
-        <td class="val">$18</td>
-        <td class="hint">~20–40 Go</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🍽️ Alimentation et boissons (prix indicatifs)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍺</span>Bière (pinte)</td>
-        <td class="val">$1.80</td>
-        <td class="hint">Bar local</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☕</span>Café</td>
-        <td class="val">$1.00</td>
-        <td class="hint">Café régulier</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍲</span>Plat principal</td>
-        <td class="val">$6</td>
-        <td class="hint">restaurant local</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">⛽ Transport</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">⛽</span>Essence / litre</td>
-        <td class="val">1,20 $ / L</td>
-        <td class="hint">indicatif</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🧾 Fiscalité (indicatif)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏷️</span>TVA</td>
-        <td class="val">15%</td>
-        <td class="hint">taux standard</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">👤</span>Impôt sur le revenu</td>
-        <td class="val">~15%</td>
-        <td class="hint">Progressif, de milieu de gamme</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏪</span>Fiscalité petite entreprise</td>
-        <td class="val">~25%</td>
-        <td class="hint">25 % norme CIT (2025)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📱 Tech (prix indicatifs)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍎</span>iPhone (dernier 256 Go)</td>
-        <td class="val">$1,350</td>
-        <td class="hint">l&#x27;importation des prix varie</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📲</span>Galaxy S (dernier 256 Go)</td>
-        <td class="val">$1,050</td>
-        <td class="hint">l&#x27;importation des prix varie</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🛂 Immigration et installation</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🛂</span>Facilité d&#x27;immigration</td>
-        <td class="val">4 / 10</td>
-        <td class="hint">la paperasse varie</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🌤️ Qualité de vie</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🙂</span>Bonheur</td>
-        <td class="val">5.3 / 10</td>
-        <td class="hint">indicatif (src : Rapport sur le bonheur dans le monde 2024)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☀️</span>Jours de soleil / an</td>
-        <td class="val">~250 jours / an</td>
-        <td class="hint">indicatif (src : Données climatiques, OMM)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏥</span>Santé publique</td>
-        <td class="val">Oui</td>
-        <td class="hint">public + privé</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧑‍⚕️</span>Assurance privée / mois</td>
-        <td class="val">40 $ / mois</td>
-        <td class="hint">exemple privé</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📈 Indices</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🚔</span>Indice criminalité</td>
-        <td class="val">70 / 100</td>
-        <td class="hint">indicatif (src : Indice de sécurité Numbeo 2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💶</span>Pouvoir d&#x27;achat</td>
-        <td class="val">45</td>
-        <td class="hint">indicatif (src : Indice PP de Numbeo 2025)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🕍 Religion</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">✝️</span>Chrétien</td>
-        <td class="val">~87%</td>
-        <td class="hint">indicatif</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☪️</span>Musulman</td>
-        <td class="val">~1%</td>
-        <td class="hint">indicatif</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☸️</span>Bouddhiste</td>
-        <td class="val">~0%</td>
-        <td class="hint">indicatif</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">✡️</span>Juif</td>
-        <td class="val">~0%</td>
-        <td class="hint">indicative (src: Pew Research / WJC)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🕊️</span>Autre / Aucune</td>
-        <td class="val">~11%</td>
-        <td class="hint">autre/aucun</td>
-      </tr>
-    </tbody>
-    </table>
-  </section>
+  <div class="main-grid">
+    <aside class="sidebar">
+      <div class="card">
+        <img class="hero-img" src="/assets/hero-honduras.jpg" alt="Honduras"
+             onerror="this.onerror=null;this.src='/assets/hero-fallback.jpg'" />
+        <div class="hero-actions">
+          <button class="btn primary" type="button" onclick="openModal('general')">Corriger les données</button>
+          <button class="btn" type="button" id="btnShare">Partager</button>
+          <a class="btn" href="/compare.html?country=honduras">Comparer</a>
+        </div>
+      </div>
 
-  <section class="article"><h2>Aperçu du pays</h2><h2>🧭 Aperçu</h2>
-<p>Le Honduras est un pays d'Amérique centrale connu pour Roatán/les Îles de la Baie (paradis de plongée caribéen — récifs coralliens), les ruines de Copán (site maya inscrit à l'UNESCO), la violence extrême (taux d'homicide le plus élevé au monde de 2011 à 2014, aujourd'hui amélioré mais toujours dangereux) et la pauvreté. Tegucigalpa est la capitale située en montagne ; San Pedro Sula est le centre industriel/commercial (historique 'capitale des meurtres'). Le pays offre des plages caribéennes, des ruines mayas, des forêts nuageuses et un coût de la vie abordable. Cependant, la violence des gangs (MS-13, Barrio 18 contrôlent des quartiers), l'instabilité politique (coup d'État de 2009, crise électorale de 2017), la corruption, la pauvreté (plus de 60 % vivent dans la pauvreté) et la crise migratoire posent de graves défis. L'économie dépend des envois de fonds (plus de 20 % du PIB depuis la diaspora aux États‑Unis), du textile (maquiladoras), de l'agriculture (café, bananes) et du tourisme (Îles de la Baie).</p>
-<h2>👥 Population & ambiance</h2>
-<p>Avec environ 10 millions d'habitants, le Honduras est ethniquement majoritairement métis (~90 %), autochtone (~7 % — Lenca, Miskito, autres), afro-hondurien (Garífuna — 2 %, côte nord), blanc (~1 %). L'espagnol est la langue. Le catholicisme (~46 %) et le protestantisme (~41 %) dominent. La culture met l'accent sur la famille, la résilience malgré la violence, et les liens avec la diaspora (les envois de fonds soutiennent l'économie). Les Honduriens sont chaleureux, travailleurs, éprouvés. L'ambiance est passée d'une lutte permanente (pauvreté chronique) à une situation de crise (violence des gangs dans les années 2010, caravanes migratoires vers les États‑Unis). Tegucigalpa/San Pedro Sula sont dangereux ; les Îles de la Baie constituent une bulle touristique ; les zones rurales sont marquées par la pauvreté.</p>
-<h2>🌦️ Climat & paysage</h2>
-<p>Attendez-vous à un climat varié : côte caribéenne (chaude et humide toute l'année 25–32 °C), hautes terres (Tegucigalpa — tempéré, plus frais), côte pacifique (chaude). La saison des ouragans (juin‑novembre) dévaste régulièrement (Mitch en 1998 a tué plus de 7 000 personnes, Eta et Iota en 2020). Le paysage comprend les Îles de la Baie (Roatán, Utila — récifs coralliens, plages), les ruines de Copán (site maya UNESCO), des forêts nuageuses (Pico Bonito), des montagnes et des côtes caraïbes/pacifiques. La beauté naturelle est accessible mais la violence limite les déplacements. La déforestation est sévère.</p>
-<h2>🏠 Logement & installation</h2>
-<p>Les Îles de la Baie (Roatán, Utila) attirent les expatriés/plongeurs. Tegucigalpa compte très peu d'expatriés. Attendez-vous à des conditions négociables. Loyers : Roatán 500–1 500 $/mois ; Tegucigalpa 300–800 $. La qualité varie — les Îles de la Baie proposent des logements pour expatriés ; le continent est basique. La sécurité est prioritaire — lotissements fermés, gardes. En dehors des Îles de la Baie et de certains quartiers de Tegucigalpa, les infrastructures sont minimales. La criminalité est une menace constante. L'achat de propriété est possible (les Îles de la Baie sont prisées pour la retraite).</p>
-<h2>💼 Emploi & économie</h2>
-<p>L'économie repose sur les envois de fonds (plus de 20 % du PIB envoyés par plus d'1 million de Honduriens aux États‑Unis), le textile (maquiladoras — usines de vêtements), l'agriculture (café, bananes, huile de palme) et le tourisme (Îles de la Baie). Pour les étrangers, des opportunités existent dans la plongée/le tourisme (Îles de la Baie), les ONG, l'enseignement de l'anglais ou la gestion des maquiladoras. Les permis de travail nécessitent un parrainage employeur. Les salaires sont très bas (500–1 500 $/mois) mais le coût de la vie est faible. Beaucoup travaillent avec des visas de tourisme (Îles de la Baie). La violence et la corruption découragent les investissements. Le chômage/sous‑emploi dépasse 50 %.</p>
-<h2>🛂 Visa & entrée</h2>
-<p>L'accord CA‑4 permet une circulation sans visa de 90 jours (Honduras, Guatemala, Salvador, Nicaragua). Pour des séjours plus longs, il existe des permis de séjour (pensionado — retraité avec 600 $/mois de revenus, rentista — 2 500 $/mois, propriété foncière). Le processus est bureaucratique. La résidence permanente est possible. La citoyenneté requiert 3 ans de résidence. Le système est corrompu.</p>
-<h2>🏥 Santé</h2>
-<p>Les soins de santé sont de mauvaise qualité. Les hôpitaux publics sont surpeuplés, insalubres, manquent de médicaments. Les cliniques privées à Tegucigalpa/San Pedro Sula offrent de meilleurs soins à des prix abordables. Les Îles de la Baie disposent de cliniques basiques. Les cas graves nécessitent une évacuation vers le Guatemala, le Costa Rica ou les États‑Unis. L'espérance de vie est d'environ 75 ans. La dengue, le Zika et le chikungunya sont endémiques. Une assurance santé internationale avec évacuation est essentielle.</p>
-<h2>🚗 Transport & mobilité</h2>
-<p>Les transports publics sont des bus (chicken buses — anciens bus scolaires américains, colorés, dangereux). La circulation à Tegucigalpa/San Pedro Sula est épouvantable. Les routes vont d'autoroutes correctes à des pistes rurales en très mauvais état. Les gangs extorquent et affectent les lignes de bus. Les bus interurbains sont bon marché mais risqués (vols). Le pays est de taille modérée. Les aéroports de Tegucigalpa et San Pedro Sula desservent les États‑Unis. L'aéroport de Roatán dessert les Îles de la Baie. Conduire est dangereux — criminalité, routes mauvaises, culture agressive.</p>
-<h2>🍛 Note sur la nourriture (plat national)</h2>
-<p>Le plat national est la <strong>Baleada</strong> : tortilla de farine garnie de haricots frits, fromage, crème aigre, parfois viande/avocat. Aliment de rue courant. Autrement, la <strong>Sopa de Caracol</strong> (soupe de conque) ou le <strong>Plato Típico</strong> (haricots, riz, viande, plantains, fromage). La cuisine hondurienne est d'Amérique centrale — haricots, riz, tortillas, influencée par les traditions autochtones, espagnoles et garífuna.</p>
-<h2>🔎 En résumé</h2>
-<p>Le Honduras n'est PAS recommandé pour les expatriés en général. Les Îles de la Baie (Roatán, Utila) font exception — paradis de la plongée, communautés d'expatriés retraités existent avec sécurité. Le continent est dangereux. Taux d'homicide le plus élevé au monde (2011‑2014, 90+ pour 100 000 à San Pedro Sula). La violence s'est améliorée (taux d'homicide ≈ 36 pour 100 000 aujourd'hui) mais le contrôle des gangs persiste — MS-13, Barrio 18 extorquent les entreprises et contrôlent des quartiers. Coup d'État de 2009 (destitution du président Zelaya), crise électorale de 2017 (Hernández accusé d'avoir volé l'élection, manifestations réprimées), corruption endémique. Des caravanes migratoires fuient vers les États‑Unis (des centaines de milliers de personnes). Points forts : plongée aux Îles de la Baie (récifs coralliens de classe mondiale, certification de plongée bon marché), ruines de Copán (site maya UNESCO), coût de la vie abordable. Points faibles : violence extrême, contrôle des gangs, pauvreté (plus de 60 % vivent avec moins de 5,50 $/jour), instabilité politique, corruption et crise migratoire. Seules les Îles de la Baie sont viables pour les expatriés (plongée, retraite) — le continent est trop dangereux. Si vous voulez de la plongée caribéenne abordable et acceptez de vivre uniquement sur les îles, Roatán/Utila conviennent. Évitez le continent.</p>
-<p>Score Expat — 4.5 / 10</p></section>
+      <div class="card snapshot-card">
+        <div class="snapshot-title">Aperçu rapide</div>
+        <div class="kv"><span>Capitale</span><b>Tegucigalpa</b></div><div class="kv"><span>Population</span><b>~10M</b></div><div class="kv"><span>Langues</span><b>Espagnol</b></div><div class="kv"><span>Monnaie</span><b>Lempira hondurien (HNL)</b></div><div class="kv kv-sub"><span>Exchange rate</span><b>1 USD ≈ 24.7 HNL</b></div><div class="kv-note">Monnaie relativement stable. Soumise aux transferts de fonds (plus de 20 % du PIB) et aux liens économiques avec les États-Unis.</div><div class="kv"><span>Crypto-friendly</span><b>Limitée</b></div><div class="kv-note">Pas de réglementations spécifiques. Intérêt croissant mais infrastructure limitée.</div><div class="kv"><span>Conduite</span><b>Droite</b></div><div class="sector-block"><div class="sector-head">Secteurs phares</div><div class="sector-list"><div class="sector-pill">Envois de fonds (plus de 20 % du PIB)</div><div class="sector-pill">Textile (maquiladoras)</div><div class="sector-pill">Tourisme (plongée aux Îles de la Baie)</div></div></div>
+      </div>
 
-  <section class="ttk"><h2>À savoir</h2><div class="ttk-grid">
-      <div class="ttk-card">
-        <div class="ttk-title">👤 Berta Cáceres <small>(XXe–XXIe siècle)</small></div>
-        <p>Militante environnementale autochtone lenca qui s&#x27;est opposée au barrage Agua Zarca (menace pour les terres et les rivières indigènes). Assassinée en 2016 (des hommes armés l&#x27;ont tuée chez elle). Indignation internationale. Son meurtre a mis en lumière la violence contre les activistes. Lauréate posthume du prix Goldman. Elle représente la lutte du Honduras pour les droits environnementaux et des peuples autochtones.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">💀 Capitale des meurtres = taux mondial le plus élevé (2011-14)</div>
-        <p>San Pedro Sula fut la capitale mondiale des meurtres (2011‑2014, 170+ pour 100 000). La violence des gangs (MS-13, Barrio 18) contrôlait des quartiers et extorquait les entreprises. Le taux d&#x27;homicide a diminué (≈ 36 pour 100 000 aujourd&#x27;hui, 2023) mais reste élevé. Une répression à la manière de Bukele (arrestations massives) a commencé en 2022. La violence traumatise la société.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🧳 Crise migratoire = caravanes vers les États‑Unis</div>
-        <p>Des centaines de milliers fuient la violence et la pauvreté. Les caravanes migratoires (2018-19) ont traversé le Mexique jusqu&#x27;à la frontière américaine. Trump les a qualifiées &#x27;d&#x27;invasion.&#x27; Biden a maintenu des restrictions. Les envois de fonds (plus de 20 % du PIB) soutiennent ceux qui restent. La fuite des cerveaux vide le pays. Les familles sont séparées. L&#x27;émigration est une stratégie de survie.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🏝️ Îles de la Baie = paradis de la plongée</div>
-        <p>Roatán, Utila sont des îles caraïbes bordées par la barrière mésoaméricaine (2e plus grande au monde). Plongée de classe mondiale — certification bon marché (250 $ PADI Open Water), récifs coralliens, requins-baleines (Utila). Anglophones (héritage britannique). Retraités expatriés, instructeurs de plongée. C&#x27;est une bulle sécurisée par rapport au continent dangereux.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🏛️ Ruines de Copán = site maya UNESCO</div>
-        <p>Cité maya (5e-9e siècle ap. J.-C.) près de la frontière guatémaltèque. Site UNESCO. Escalier hiéroglyphique (le plus long texte maya), stèles, terrain de jeu de balle. Moins célèbre que Tikal/Chichen Itza mais tout aussi impressionnant. Un joyau archéologique dans un pays violent. Le potentiel touristique est limité par les problèmes de sécurité.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🪖 Coup de 2009 = crise constitutionnelle</div>
-        <p>Le président Manuel Zelaya évincé par l&#x27;armée (juin 2009). Contesté — selon les opposants il a tenté un référendum illégal, selon les partisans l&#x27;armée a outrepassé ses pouvoirs. L&#x27;OEA a condamné l&#x27;événement. En 2017, Juan Orlando Hernández a remporté une élection contestée (allégations de fraude, manifestations réprimées). En 2022, Xiomara Castro (femme de Zelaya) est devenue présidente. La stabilité politique reste précaire.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🌊 Dévastations cycloniques = récurrentes</div>
-        <p>L&#x27;ouragan Mitch (1998) a tué plus de 7 000 personnes et détruit les infrastructures. Eta et Iota (novembre 2020, espacés de quelques semaines) ont de nouveau dévasté le pays — plus de 100 morts et infrastructures détruites. Inondations, glissements de terrain. Le changement climatique renforce l&#x27;intensité des ouragans. La reconstruction n&#x27;est jamais terminée qu&#x27;un nouveau désastre survient. C&#x27;est une vulnérabilité climatique.</p>
-      </div></div></section>
+      
+        <div class="card persona-card">
+          <div class="snapshot-title">Figure du pays</div>
+          <div class="persona-name">Berta Cáceres <small>(XXe–XXIe siècle)</small></div>
+          <div class="persona-why">Militante environnementale autochtone lenca qui s&#x27;est opposée au barrage Agua Zarca (menace pour les terres et les rivières indigènes). Assassinée en 2016 (des hommes armés l&#x27;ont tuée chez elle). Indignation internationale. Son meurtre a mis en lumière la violence contre les activistes. Lauréate posthume du prix Goldman. Elle représente la lutte du Honduras pour les droits environnementaux et des peuples autochtones.</div>
+        </div>
+    </aside>
 
-  
-  
-  
+    <div class="right-col">
+      <div class="rc-wrapper">
+        
+        
+      </div>
 
-  <p style="text-align:center;margin-top:30px"><a href="/globe.html" style="font-weight:600">Voir les 160+ pays →</a></p>
+      <div class="data-card">
+        <table class="data-table">
+      <tbody>
+        <tr class="sec"><td colspan="4">💼 Salaires (net / mois)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧾</span>Salaire minimum</td>
+          <td class="val">$420</td>
+          <td class="hint">Moyenne sectorielle ≈ 12 000 HNL → net ≈ 10 500 HNL (IHSS ; 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('min_wage')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📊</span>Salaire moyen</td>
+          <td class="val">$460</td>
+          <td class="hint">Moyenne nette ≈ 11 500 HNL/mois (INE Honduras 2024 — Tegucigalpa plus élevé)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('avg_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🩺</span>Salaire médecin (généraliste)</td>
+          <td class="val">$1,200</td>
+          <td class="hint">Moyenne du secteur public</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('doctor_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🏠 Logement et charges (studio référence)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏚️</span>Loyer studio</td>
+          <td class="val">$250</td>
+          <td class="hint">Villes régionales</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('rent_studio')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">⚡</span>Électricité</td>
+          <td class="val">$55</td>
+          <td class="hint">/ mois</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('electricity')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💧</span>Eau</td>
+          <td class="val">$12</td>
+          <td class="hint">/ mois</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('water')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📱</span>Forfait mobile</td>
+          <td class="val">$18</td>
+          <td class="hint">~20–40 Go</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('mobile')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🍽️ Alimentation et boissons (prix indicatifs)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍺</span>Bière (pinte)</td>
+          <td class="val">$1.80</td>
+          <td class="hint">Bar local</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('beer')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☕</span>Café</td>
+          <td class="val">$1.00</td>
+          <td class="hint">Café régulier</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('coffee')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍲</span>Plat principal</td>
+          <td class="val">$6</td>
+          <td class="hint">restaurant local</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('dish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">⛽ Transport</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">⛽</span>Essence / litre</td>
+          <td class="val">1,20 $ / L</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('gas')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🧾 Fiscalité (indicatif)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏷️</span>TVA</td>
+          <td class="val">15%</td>
+          <td class="hint">taux standard</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('vat')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">👤</span>Impôt sur le revenu</td>
+          <td class="val">~15%</td>
+          <td class="hint">Progressif, de milieu de gamme</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('income_tax')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏪</span>Fiscalité petite entreprise</td>
+          <td class="val">~25%</td>
+          <td class="hint">25 % norme CIT (2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('smallbiz')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📱 Tech (prix indicatifs)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍎</span>iPhone (dernier 256 Go)</td>
+          <td class="val">$1,350</td>
+          <td class="hint">l&#x27;importation des prix varie</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('iphone')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📲</span>Galaxy S (dernier 256 Go)</td>
+          <td class="val">$1,050</td>
+          <td class="hint">l&#x27;importation des prix varie</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('samsung')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🛂 Immigration et installation</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🛂</span>Facilité d&#x27;immigration</td>
+          <td class="val">4 / 10</td>
+          <td class="hint">la paperasse varie</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('immigration')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🌤️ Qualité de vie</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🙂</span>Bonheur</td>
+          <td class="val">5.3 / 10</td>
+          <td class="hint">indicatif (src : Rapport sur le bonheur dans le monde 2024)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('happiness')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☀️</span>Jours de soleil / an</td>
+          <td class="val">~250 jours / an</td>
+          <td class="hint">indicatif (src : Données climatiques, OMM)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('sun')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏥</span>Santé publique</td>
+          <td class="val">Oui</td>
+          <td class="hint">public + privé</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('health')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧑‍⚕️</span>Assurance privée / mois</td>
+          <td class="val">40 $ / mois</td>
+          <td class="hint">exemple privé</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('insurance')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📈 Indices</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🚔</span>Indice criminalité</td>
+          <td class="val">70 / 100</td>
+          <td class="hint">indicatif (src : Indice de sécurité Numbeo 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('crime')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💶</span>Pouvoir d&#x27;achat</td>
+          <td class="val">45</td>
+          <td class="hint">indicatif (src : Indice PP de Numbeo 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('pp')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🕍 Religion</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">✝️</span>Chrétien</td>
+          <td class="val">~87%</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_christian')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☪️</span>Musulman</td>
+          <td class="val">~1%</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_muslim')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☸️</span>Bouddhiste</td>
+          <td class="val">~0%</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_buddhist')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">✡️</span>Juif</td>
+          <td class="val">~0%</td>
+          <td class="hint">indicative (src: Pew Research / WJC)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_jewish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🕊️</span>Autre / Aucune</td>
+          <td class="val">~11%</td>
+          <td class="hint">autre/aucun</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_other')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+        </table>
+      </div>
+
+      
+      <div class="article-card">
+        <div class="section-head">
+          <h2>Vivre au Honduras</h2>
+          <span class="score-badge"><span class="score-star">⭐</span> Score Expat: 4.5 / 10</span>
+        </div>
+        <div class="article-body"><p>🧭 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Aperçu</span><br>
+Le Honduras est un pays d&#x27;Amérique centrale connu pour Roatán/les Îles de la Baie (paradis de plongée caribéen — récifs coralliens), les ruines de Copán (site maya inscrit à l&#x27;UNESCO), la violence extrême (taux d&#x27;homicide le plus élevé au monde de 2011 à 2014, aujourd&#x27;hui amélioré mais toujours dangereux) et la pauvreté. Tegucigalpa est la capitale située en montagne ; San Pedro Sula est le centre industriel/commercial (historique &#x27;capitale des meurtres&#x27;). Le pays offre des plages caribéennes, des ruines mayas, des forêts nuageuses et un coût de la vie abordable. Cependant, la violence des gangs (MS-13, Barrio 18 contrôlent des quartiers), l&#x27;instabilité politique (coup d&#x27;État de 2009, crise électorale de 2017), la corruption, la pauvreté (plus de 60 % vivent dans la pauvreté) et la crise migratoire posent de graves défis. L&#x27;économie dépend des envois de fonds (plus de 20 % du PIB depuis la diaspora aux États‑Unis), du textile (maquiladoras), de l&#x27;agriculture (café, bananes) et du tourisme (Îles de la Baie).</p><p>👥 <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Population &amp; ambiance</span><br>
+Avec environ 10 millions d&#x27;habitants, le Honduras est ethniquement majoritairement métis (~90 %), autochtone (~7 % — Lenca, Miskito, autres), afro-hondurien (Garífuna — 2 %, côte nord), blanc (~1 %). L&#x27;espagnol est la langue. Le catholicisme (~46 %) et le protestantisme (~41 %) dominent. La culture met l&#x27;accent sur la famille, la résilience malgré la violence, et les liens avec la diaspora (les envois de fonds soutiennent l&#x27;économie). Les Honduriens sont chaleureux, travailleurs, éprouvés. L&#x27;ambiance est passée d&#x27;une lutte permanente (pauvreté chronique) à une situation de crise (violence des gangs dans les années 2010, caravanes migratoires vers les États‑Unis). Tegucigalpa/San Pedro Sula sont dangereux ; les Îles de la Baie constituent une bulle touristique ; les zones rurales sont marquées par la pauvreté.</p><p>🌦️ <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Climat &amp; paysage</span><br>
+Attendez-vous à un climat varié : côte caribéenne (chaude et humide toute l&#x27;année 25–32 °C), hautes terres (Tegucigalpa — tempéré, plus frais), côte pacifique (chaude). La saison des ouragans (juin‑novembre) dévaste régulièrement (Mitch en 1998 a tué plus de 7 000 personnes, Eta et Iota en 2020). Le paysage comprend les Îles de la Baie (Roatán, Utila — récifs coralliens, plages), les ruines de Copán (site maya UNESCO), des forêts nuageuses (Pico Bonito), des montagnes et des côtes caraïbes/pacifiques. La beauté naturelle est accessible mais la violence limite les déplacements. La déforestation est sévère.</p><p>🏠 <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Logement &amp; installation</span><br>
+Les Îles de la Baie (Roatán, Utila) attirent les expatriés/plongeurs. Tegucigalpa compte très peu d&#x27;expatriés. Attendez-vous à des conditions négociables. Loyers : Roatán 500–1 500 $/mois ; Tegucigalpa 300–800 $. La qualité varie — les Îles de la Baie proposent des logements pour expatriés ; le continent est basique. La sécurité est prioritaire — lotissements fermés, gardes. En dehors des Îles de la Baie et de certains quartiers de Tegucigalpa, les infrastructures sont minimales. La criminalité est une menace constante. L&#x27;achat de propriété est possible (les Îles de la Baie sont prisées pour la retraite).</p><p>💼 <span class="art-tag" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#6d28d9">Emploi &amp; économie</span><br>
+L&#x27;économie repose sur les envois de fonds (plus de 20 % du PIB envoyés par plus d&#x27;1 million de Honduriens aux États‑Unis), le textile (maquiladoras — usines de vêtements), l&#x27;agriculture (café, bananes, huile de palme) et le tourisme (Îles de la Baie). Pour les étrangers, des opportunités existent dans la plongée/le tourisme (Îles de la Baie), les ONG, l&#x27;enseignement de l&#x27;anglais ou la gestion des maquiladoras. Les permis de travail nécessitent un parrainage employeur. Les salaires sont très bas (500–1 500 $/mois) mais le coût de la vie est faible. Beaucoup travaillent avec des visas de tourisme (Îles de la Baie). La violence et la corruption découragent les investissements. Le chômage/sous‑emploi dépasse 50 %.</p>
+        <div class="map-card">
+          <div class="map-header">
+            <div class="map-title"><span class="map-flag">🇭🇳</span><span>Honduras — Carte</span></div>
+            <div class="map-styles">
+              <button type="button" class="map-style-btn active" data-style="light">Clair</button>
+              <button type="button" class="map-style-btn" data-style="dark">Sombre</button>
+              <button type="button" class="map-style-btn" data-style="satellite">Satellite</button>
+            </div>
+          </div>
+          <div class="map-container">
+            <div id="wigg-country-map"></div>
+            <div class="map-loading" id="wiggMapLoading">Chargement de la carte…</div>
+          </div>
+        </div><p>🛂 <span class="art-tag" style="background:rgba(236,72,153,.12);border:1px solid rgba(236,72,153,.25);color:#be185d">Visa &amp; entrée</span><br>
+L&#x27;accord CA‑4 permet une circulation sans visa de 90 jours (Honduras, Guatemala, Salvador, Nicaragua). Pour des séjours plus longs, il existe des permis de séjour (pensionado — retraité avec 600 $/mois de revenus, rentista — 2 500 $/mois, propriété foncière). Le processus est bureaucratique. La résidence permanente est possible. La citoyenneté requiert 3 ans de résidence. Le système est corrompu.</p><p>🏥 <span class="art-tag" style="background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.25);color:#0e7490">Santé</span><br>
+Les soins de santé sont de mauvaise qualité. Les hôpitaux publics sont surpeuplés, insalubres, manquent de médicaments. Les cliniques privées à Tegucigalpa/San Pedro Sula offrent de meilleurs soins à des prix abordables. Les Îles de la Baie disposent de cliniques basiques. Les cas graves nécessitent une évacuation vers le Guatemala, le Costa Rica ou les États‑Unis. L&#x27;espérance de vie est d&#x27;environ 75 ans. La dengue, le Zika et le chikungunya sont endémiques. Une assurance santé internationale avec évacuation est essentielle.</p><p>🚗 <span class="art-tag" style="background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#c2410c">Transport &amp; mobilité</span><br>
+Les transports publics sont des bus (chicken buses — anciens bus scolaires américains, colorés, dangereux). La circulation à Tegucigalpa/San Pedro Sula est épouvantable. Les routes vont d&#x27;autoroutes correctes à des pistes rurales en très mauvais état. Les gangs extorquent et affectent les lignes de bus. Les bus interurbains sont bon marché mais risqués (vols). Le pays est de taille modérée. Les aéroports de Tegucigalpa et San Pedro Sula desservent les États‑Unis. L&#x27;aéroport de Roatán dessert les Îles de la Baie. Conduire est dangereux — criminalité, routes mauvaises, culture agressive.</p><p>🍛 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Note sur la nourriture (plat national)</span><br>
+Le plat national est la <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Baleada</span><br> : tortilla de farine garnie de haricots frits, fromage, crème aigre, parfois viande/avocat. Aliment de rue courant. Autrement, la <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Sopa de Caracol</span><br> (soupe de conque) ou le <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Plato Típico</span><br> (haricots, riz, viande, plantains, fromage). La cuisine hondurienne est d&#x27;Amérique centrale — haricots, riz, tortillas, influencée par les traditions autochtones, espagnoles et garífuna.</p><p>🔎 <span class="art-tag" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#6d28d9">En résumé</span><br>
+Le Honduras n&#x27;est PAS recommandé pour les expatriés en général. Les Îles de la Baie (Roatán, Utila) font exception — paradis de la plongée, communautés d&#x27;expatriés retraités existent avec sécurité. Le continent est dangereux. Taux d&#x27;homicide le plus élevé au monde (2011‑2014, 90+ pour 100 000 à San Pedro Sula). La violence s&#x27;est améliorée (taux d&#x27;homicide ≈ 36 pour 100 000 aujourd&#x27;hui) mais le contrôle des gangs persiste — MS-13, Barrio 18 extorquent les entreprises et contrôlent des quartiers. Coup d&#x27;État de 2009 (destitution du président Zelaya), crise électorale de 2017 (Hernández accusé d&#x27;avoir volé l&#x27;élection, manifestations réprimées), corruption endémique. Des caravanes migratoires fuient vers les États‑Unis (des centaines de milliers de personnes). Points forts : plongée aux Îles de la Baie (récifs coralliens de classe mondiale, certification de plongée bon marché), ruines de Copán (site maya UNESCO), coût de la vie abordable. Points faibles : violence extrême, contrôle des gangs, pauvreté (plus de 60 % vivent avec moins de 5,50 $/jour), instabilité politique, corruption et crise migratoire. Seules les Îles de la Baie sont viables pour les expatriés (plongée, retraite) — le continent est trop dangereux. Si vous voulez de la plongée caribéenne abordable et acceptez de vivre uniquement sur les îles, Roatán/Utila conviennent. Évitez le continent.</p><p>Score Expat — 4.5 / 10</p></div>
+      </div>
+
+      
+      <div class="things-section">
+        <div class="section-head"><h2>À savoir</h2><span class="wg-badge">À lire</span></div>
+        <div class="facts-grid"><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">💀 Capitale des meurtres = taux mondial le plus élevé (2011-14)</div><div class="fact-text">San Pedro Sula fut la capitale mondiale des meurtres (2011‑2014, 170+ pour 100 000). La violence des gangs (MS-13, Barrio 18) contrôlait des quartiers et extorquait les entreprises. Le taux d&#x27;homicide a diminué (≈ 36 pour 100 000 aujourd&#x27;hui, 2023) mais reste élevé. Une répression à la manière de Bukele (arrestations massives) a commencé en 2022. La violence traumatise la société.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🧳 Crise migratoire = caravanes vers les États‑Unis</div><div class="fact-text">Des centaines de milliers fuient la violence et la pauvreté. Les caravanes migratoires (2018-19) ont traversé le Mexique jusqu&#x27;à la frontière américaine. Trump les a qualifiées &#x27;d&#x27;invasion.&#x27; Biden a maintenu des restrictions. Les envois de fonds (plus de 20 % du PIB) soutiennent ceux qui restent. La fuite des cerveaux vide le pays. Les familles sont séparées. L&#x27;émigration est une stratégie de survie.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏝️ Îles de la Baie = paradis de la plongée</div><div class="fact-text">Roatán, Utila sont des îles caraïbes bordées par la barrière mésoaméricaine (2e plus grande au monde). Plongée de classe mondiale — certification bon marché (250 $ PADI Open Water), récifs coralliens, requins-baleines (Utila). Anglophones (héritage britannique). Retraités expatriés, instructeurs de plongée. C&#x27;est une bulle sécurisée par rapport au continent dangereux.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏛️ Ruines de Copán = site maya UNESCO</div><div class="fact-text">Cité maya (5e-9e siècle ap. J.-C.) près de la frontière guatémaltèque. Site UNESCO. Escalier hiéroglyphique (le plus long texte maya), stèles, terrain de jeu de balle. Moins célèbre que Tikal/Chichen Itza mais tout aussi impressionnant. Un joyau archéologique dans un pays violent. Le potentiel touristique est limité par les problèmes de sécurité.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🪖 Coup de 2009 = crise constitutionnelle</div><div class="fact-text">Le président Manuel Zelaya évincé par l&#x27;armée (juin 2009). Contesté — selon les opposants il a tenté un référendum illégal, selon les partisans l&#x27;armée a outrepassé ses pouvoirs. L&#x27;OEA a condamné l&#x27;événement. En 2017, Juan Orlando Hernández a remporté une élection contestée (allégations de fraude, manifestations réprimées). En 2022, Xiomara Castro (femme de Zelaya) est devenue présidente. La stabilité politique reste précaire.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🌊 Dévastations cycloniques = récurrentes</div><div class="fact-text">L&#x27;ouragan Mitch (1998) a tué plus de 7 000 personnes et détruit les infrastructures. Eta et Iota (novembre 2020, espacés de quelques semaines) ont de nouveau dévasté le pays — plus de 100 morts et infrastructures détruites. Inondations, glissements de terrain. Le changement climatique renforce l&#x27;intensité des ouragans. La reconstruction n&#x27;est jamais terminée qu&#x27;un nouveau désastre survient. C&#x27;est une vulnérabilité climatique.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🍽️ Baleada / Sopa de Caracol</div><div class="fact-text">Tortilla avec haricots ou soupe de conque — aliment de base d&#x27;Amérique centrale. Haricots, riz, tortillas. Influencé par les traditions autochtones, espagnoles et garífuna.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏳️‍🌈 LGBT+: Très faible</div><div class="fact-text">L&#x27;homosexualité est légale mais les attitudes sociales sont extrêmement hostiles. La violence contre les personnes LGBTQ+ est fréquente (crimes haineux, meurtres). Aucune protection. Très dangereux.</div></div></div>
+      </div>
+
+      
+    </div>
+  </div>
 </main>
 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
+<script src="/data/share.js"></script>
+<script src="/data/correction-form.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var t = document.getElementById("localTime");
+  if(t && t.dataset.tz){
+    function tick(){
+      try{
+        t.textContent = new Intl.DateTimeFormat("en-GB",{
+          timeZone: t.dataset.tz, hour:"2-digit", minute:"2-digit"
+        }).format(new Date());
+      }catch(e){}
+    }
+    tick(); setInterval(tick, 30000);
+  }
+  document.querySelectorAll(".rc-nav-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var targetId = btn.dataset.target;
+      var dir = parseInt(btn.dataset.dir||"1",10);
+      var row = document.getElementById(targetId);
+      if(!row) return;
+      var box = row.parentElement;
+      var first = row.querySelector(".rc-vcard");
+      if(!first) return;
+      var cardW = first.offsetWidth + 9;
+      var visible = Math.max(1, Math.floor(box.offsetWidth / cardW));
+      var maxOffset = Math.max(0, row.children.length - visible);
+      var current = parseInt(row.dataset.offset||"0", 10);
+      current = Math.min(maxOffset, Math.max(0, current + dir));
+      row.dataset.offset = current;
+      row.style.transform = "translateX(-" + (current * cardW) + "px)";
+      var nav = btn.parentNode;
+      var prev = nav.querySelector('[data-dir="-1"]');
+      var next = nav.querySelector('[data-dir="1"]');
+      if(prev) prev.disabled = (current === 0);
+      if(next) next.disabled = (current >= maxOffset);
+    });
+  });
+  var iso2 = "HN";
+  if(!iso2 || typeof L === "undefined") return;
+  var STYLES = {
+    light:     { url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", attr: "&copy; OSM &copy; CARTO" },
+    dark:      { url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",  attr: "&copy; OSM &copy; CARTO" },
+    satellite: { url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", attr: "&copy; Esri" }
+  };
+  var wMap=null, wLayer=null, wMarker=null;
+  function initMap(lat, lon){
+    var el = document.getElementById("wigg-country-map");
+    if(!el) return;
+    if(wMap){ try{wMap.remove();}catch(e){} }
+    wMap = L.map("wigg-country-map",{zoomControl:true}).setView([lat,lon],5);
+    wLayer = L.tileLayer(STYLES.light.url,{attribution:STYLES.light.attr,maxZoom:18}).addTo(wMap);
+    wMarker = L.marker([lat,lon]).addTo(wMap);
+    var loading = document.getElementById("wiggMapLoading");
+    if(loading) loading.classList.add("hidden");
+  }
+  document.querySelectorAll(".map-style-btn").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(!wMap) return;
+      var s = STYLES[b.dataset.style];
+      if(!s) return;
+      if(wLayer) wMap.removeLayer(wLayer);
+      wLayer = L.tileLayer(s.url,{attribution:s.attr,maxZoom:18}).addTo(wMap);
+      document.querySelectorAll(".map-style-btn").forEach(function(x){x.classList.remove("active");});
+      b.classList.add("active");
+    });
+  });
+  var cacheKey = "wigg_centroid_" + iso2;
+  var cached = null;
+  try { cached = JSON.parse(localStorage.getItem(cacheKey) || "null"); } catch(e){}
+  if(cached && cached.lat != null && cached.lon != null){
+    initMap(cached.lat, cached.lon); return;
+  }
+  fetch("https://nominatim.openstreetmap.org/search?country=" + encodeURIComponent(iso2) + "&format=json&limit=1")
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && d[0]){
+        var coords = { lat: +d[0].lat, lon: +d[0].lon };
+        try { localStorage.setItem(cacheKey, JSON.stringify(coords)); } catch(e){}
+        initMap(coords.lat, coords.lon);
+      } else {
+        var l = document.getElementById("wiggMapLoading");
+        if(l) l.textContent = "Carte indisponible";
+      }
+    })
+    .catch(function(){
+      var l = document.getElementById("wiggMapLoading");
+      if(l) l.textContent = "Carte indisponible";
+    });
+})();
+</script>
+
+<form name="wiggmap-corrections" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="wiggmap-corrections" />
+  <p><label>Don't fill this out: <input name="bot-field" /></label></p>
+  <input name="country" /><input name="field" /><input name="value" /><input name="email" /><textarea name="notes"></textarea>
+</form>
+
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
 </body>
 </html>

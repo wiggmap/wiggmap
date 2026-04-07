@@ -25,65 +25,127 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#f6f1e8;--paper:#fffdf8;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--green:#1d7f48;--green-dk:#155f36;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
+    :root{--paper:#fffdf8;--paper-2:#fbf7ee;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--line-soft:rgba(23,23,20,.06);--green:#1d7f48;--green-dk:#155f36;--green-light:#e6f4ec;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
     html{scroll-behavior:smooth}
     body{font-family:"Inter",system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f9f5ed 0%,#f3ede3 100%);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
     a{color:var(--green);text-decoration:none}
     a:hover{text-decoration:underline}
-    main{max-width:980px;margin:0 auto;padding:28px 20px 80px}
-    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:18px;letter-spacing:.04em}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:14px;letter-spacing:.04em}
     .crumb a{color:var(--ink-soft)}
-    .hero{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:36px 32px;box-shadow:var(--shadow);margin-bottom:24px;position:relative;overflow:hidden}
-    .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 18%,rgba(29,127,72,.05),transparent 30%);pointer-events:none}
-    .hero-flag{font-size:48px;line-height:1;margin-bottom:14px}
-    .hero h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(36px,6vw,56px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:10px;position:relative;z-index:1}
-    .hero .subtitle{font-size:15px;color:var(--ink-soft);max-width:62ch;line-height:1.6;position:relative;z-index:1}
-    .hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;position:relative;z-index:1}
-    .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid var(--line)}
-    .badge.green{background:#e6f4ec;color:var(--green-dk);border-color:rgba(29,127,72,.2)}
+    .country-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:22px;flex-wrap:wrap}
+    .country-flag{font-size:42px;line-height:1;margin-bottom:8px}
+    .country-head h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(34px,5.2vw,52px);font-weight:800;letter-spacing:-.02em;line-height:1.02}
+    .country-head .subtitle{font-size:14px;color:var(--ink-soft);max-width:64ch;line-height:1.55;margin-top:8px}
+    .head-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+    .badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:7px 13px;border-radius:999px;background:#fff;border:1px solid var(--line)}
+    .badge.green{background:var(--green-light);color:var(--green-dk);border-color:rgba(29,127,72,.22)}
     .badge.yellow{background:#fef9e7;color:#a16207;border-color:rgba(202,138,4,.25)}
     .badge.red{background:#fdecec;color:#b91c1c;border-color:rgba(185,28,28,.25)}
-    .snapshot{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px 26px;box-shadow:var(--shadow);margin-bottom:24px}
-    .snapshot h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;margin-bottom:14px}
-    .snap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
-    .snap-item{font-size:13px}
-    .snap-item strong{display:block;color:var(--ink-soft);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
-    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
-    .data-card h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;padding:20px 26px 8px}
+    .badge .dot{width:8px;height:8px;border-radius:999px;background:currentColor;display:inline-block}
+    .local-time{font-size:12px;color:var(--ink-soft);font-weight:600}
+    .local-time b{color:var(--ink);margin-left:5px;font-weight:800}
+    .main-grid{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+    @media(max-width:900px){.main-grid{grid-template-columns:1fr}}
+    .sidebar{display:flex;flex-direction:column;gap:14px;align-self:start;position:sticky;top:18px}
+    @media(max-width:900px){.sidebar{position:static}}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .hero-img{width:100%;height:200px;object-fit:cover;display:block;background:#eaddc4}
+    .hero-actions{padding:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:8px;font-family:inherit;font-weight:700;font-size:12.5px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;transition:background .14s,border-color .14s}
+    .btn:hover{background:rgba(0,0,0,.04)}
+    .btn.primary{background:var(--green);color:#fff;border-color:transparent}
+    .btn.primary:hover{background:var(--green-dk)}
+    .snapshot-card{padding:16px}
+    .snapshot-title{font-family:"Fraunces",Georgia,serif;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px;letter-spacing:-.01em}
+    .kv{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--line-soft);font-size:12.5px}
+    .kv span{color:var(--ink-soft)}
+    .kv b{color:var(--ink);font-weight:700;text-align:right;max-width:60%}
+    .kv-sub{padding-left:10px;font-size:11.5px;opacity:.85}
+    .kv-note{font-size:11px;color:var(--ink-soft);line-height:1.5;padding:6px 0 8px;font-style:italic;border-bottom:1px solid var(--line-soft)}
+    .sector-block{padding-top:10px;margin-top:6px;border-top:1px solid var(--line-soft)}
+    .sector-head{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+    .sector-list{display:flex;flex-direction:column;gap:5px}
+    .sector-pill{background:rgba(29,127,72,.08);border:1px solid rgba(29,127,72,.2);border-radius:7px;padding:5px 10px;font-size:11.5px;font-weight:700;color:var(--green-dk);line-height:1.4}
+    .persona-card{padding:16px}
+    .persona-name{font-weight:800;font-size:13px;margin-bottom:6px}
+    .persona-name small{font-weight:500;opacity:.6;font-size:11px}
+    .persona-why{font-size:11.5px;color:var(--ink-soft);line-height:1.55;font-style:italic}
+    .right-col{display:flex;flex-direction:column;gap:18px;min-width:0}
+    .rc-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:760px){.rc-wrapper{grid-template-columns:1fr}}
+    .rc-box{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 14px 12px;overflow:hidden}
+    .rc-box-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:6px}
+    .rc-box-head h2{font-family:"Fraunces",Georgia,serif;font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+    .rc-nav{display:flex;gap:4px}
+    .rc-nav-btn{width:24px;height:24px;border-radius:6px;border:1px solid var(--line);background:#fff;font-size:13px;cursor:pointer;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;line-height:1;transition:all .14s}
+    .rc-nav-btn:hover{background:var(--green);color:#fff;border-color:transparent}
+    .rc-nav-btn:disabled{opacity:.35;cursor:not-allowed}
+    .rc-track{overflow:hidden}
+    .rc-row{display:flex;gap:9px;transition:transform .35s ease;will-change:transform}
+    .rc-vcard{flex-shrink:0;width:130px;height:90px;border-radius:10px;overflow:hidden;position:relative;background:#e9dfca;border:1px solid var(--line);transition:transform .15s,box-shadow .15s}
+    .rc-vcard:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10);text-decoration:none}
+    .rc-vimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .rc-vemoji{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;background:linear-gradient(135deg,#ede5d8,#ddd3c4)}
+    .rc-vgrad{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,8,.85) 0%,rgba(20,15,8,.2) 55%,transparent 100%)}
+    .rc-vbody{position:absolute;left:0;right:0;bottom:0;padding:7px 9px;z-index:2}
+    .rc-vtitle{font-family:"Fraunces",Georgia,serif;font-size:10.5px;font-weight:700;color:#fff;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
     .data-table{width:100%;border-collapse:collapse;font-size:13px}
-    .data-table .sec td{background:#f8f4eb;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:10px 26px;color:var(--ink-soft);border-top:1px solid var(--line)}
-    .data-table td{padding:9px 26px;border-bottom:1px solid var(--line);vertical-align:top}
+    .data-table .sec td{background:#f4eedf;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:11px 22px;color:var(--ink-soft);border-top:1px solid var(--line)}
+    .data-table td{padding:9px 22px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+    .data-table tr:last-child td{border-bottom:none}
     .data-table td.lbl{width:42%;color:var(--ink)}
-    .data-table td.val{width:22%;font-weight:700}
+    .data-table td.val{width:25%;font-weight:700}
     .data-table td.hint{font-size:11.5px;color:var(--ink-soft)}
+    .data-table td.edit{width:30px;text-align:right;padding-right:14px}
     .data-table .ico{margin-right:8px}
-    .article{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px;margin-bottom:24px}
-    .article h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:700;margin:24px 0 10px;color:var(--ink)}
-    .article h2:first-child{margin-top:0}
-    .article p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.75}
-    .article p strong{color:var(--ink);font-weight:600}
-    .ttk{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-bottom:24px}
-    .ttk h2{font-family:"Fraunces",Georgia,serif;font-size:20px;font-weight:700;margin-bottom:16px}
-    .ttk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-    .ttk-card{background:#fbf7ee;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
-    .ttk-card .ttk-title{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink)}
-    .ttk-card p{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
-    .ttk-card small{font-weight:500;color:var(--ink-soft)}
-    .related{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px;margin-bottom:18px}
-    .related h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
-    .link-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px 18px}
-    .link-list li{font-size:13.5px;line-height:1.5;padding-left:14px;position:relative}
-    .link-list li::before{content:"›";position:absolute;left:0;color:var(--green)}
-    @media (max-width:640px){
-      main{padding:20px 14px 60px}
-      .hero{padding:26px 22px}
-      .data-table td{padding:9px 16px}
-      .data-table .sec td{padding:10px 16px}
-      .article{padding:24px 22px}
-      .ttk{padding:22px 22px}
-      .related{padding:20px 22px}
+    .edit-btn{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:13px;opacity:.4;transition:opacity .14s;padding:2px 4px}
+    .edit-btn:hover{opacity:1;color:var(--green)}
+    .article-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px}
+    .section-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+    .section-head h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:800;letter-spacing:-.01em;color:var(--ink)}
+    .score-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-light);border:1px solid rgba(29,127,72,.25);color:var(--green-dk);padding:5px 12px;border-radius:999px;font-size:12px;font-weight:700}
+    .article-body p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.78}
+    .article-body p:last-child{margin-bottom:0}
+    .art-tag{display:inline-block;padding:3px 10px;border-radius:6px;font-weight:700;font-size:13px;margin-bottom:6px;line-height:1.5}
+    .map-card{margin:22px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper-2)}
+    .map-header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);gap:8px;flex-wrap:wrap}
+    .map-title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}
+    .map-flag{font-size:18px}
+    .map-styles{display:flex;gap:4px}
+    .map-style-btn{font-size:11px;font-weight:700;padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;color:var(--ink-soft);cursor:pointer;transition:all .14s}
+    .map-style-btn:hover{border-color:var(--green);color:var(--green)}
+    .map-style-btn.active{background:var(--green);color:#fff;border-color:transparent}
+    .map-container{position:relative;height:320px}
+    #wigg-country-map{position:absolute;inset:0}
+    .map-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper-2);color:var(--ink-soft);font-size:13px;z-index:10}
+    .map-loading.hidden{display:none}
+    .things-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px}
+    .wg-badge{display:inline-flex;align-items:center;gap:5px;background:#fef3c7;border:1px solid rgba(202,138,4,.3);color:#92400e;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+    .facts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .fact-card{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden}
+    .fact-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green)}
+    .fact-title{font-weight:800;font-size:13px;margin-bottom:6px;color:var(--ink);padding-left:6px}
+    .fact-text{font-size:12.5px;color:var(--ink-soft);line-height:1.55;padding-left:6px}
+    .cmp-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px}
+    .cmp-section h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
+    .cmp-pills{display:flex;flex-wrap:wrap;gap:8px}
+    .cmp-pill{display:inline-block;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:600;color:var(--ink);transition:all .14s}
+    .cmp-pill:hover{border-color:var(--green);background:var(--green);color:#fff;text-decoration:none}
+    @media(max-width:640px){
+      .wrap{padding:18px 14px 60px}
+      .country-head{flex-direction:column}
+      .head-right{align-items:flex-start}
+      .data-table td{padding:9px 14px}
+      .data-table .sec td{padding:11px 14px}
+      .article-card{padding:24px 22px}
+      .things-section{padding:22px 22px}
+      .cmp-section{padding:20px 22px}
+      .map-container{height:240px}
     }
   </style>
 </head>
@@ -92,268 +154,400 @@
 <div id="siteHeader"></div>
 <script src="/data/header.js"></script>
 
-<main>
+<main class="wrap">
   <nav class="crumb"><a href="/">Home</a> › <a href="/globe.html">Countries</a> › Bolivia</nav>
 
-  <section class="hero">
-    <div class="hero-flag">🇧🇴</div>
-    <h1>Bolivia</h1>
-    <p class="subtitle">Indicative averages (La Paz/Santa Cruz higher; net / month unless stated)</p>
-    <div class="hero-badges">
-      <span class="badge yellow">WIGG: YELLOW</span>
-      <span class="badge">⭐ Expat Score: 5.5 / 10</span>
+  <div class="country-head">
+    <div>
+      <div class="country-flag">🇧🇴</div>
+      <h1>Bolivia</h1>
+      <p class="subtitle">Indicative averages (La Paz/Santa Cruz higher; net / month unless stated)</p>
     </div>
-  </section>
-
-  <section class="snapshot">
-    <h2>Quick snapshot</h2>
-    <div class="snap-grid">
-      <div class="snap-item"><strong>Capital</strong>Sucre (constitutional), La Paz (administrative)</div>
-      <div class="snap-item"><strong>Population</strong>~12M</div>
-      <div class="snap-item"><strong>Languages</strong>Spanish, Quechua, Aymara</div>
-      <div class="snap-item"><strong>Driving side</strong>Right</div>
-      <div class="snap-item"><strong>Currency</strong>Boliviano (BOB)</div>
-      <div class="snap-item"><strong>Crypto-friendly</strong>Limited</div>
+    <div class="head-right">
+      <div class="badge yellow"><span class="dot"></span>WIGG: YELLOW</div>
+      <div class="local-time">Local time <b id="localTime" data-tz="America/La_Paz">--:--</b></div>
     </div>
-  </section>
+  </div>
 
-  <section class="data-card">
-    <h2>Cost of living, salaries &amp; quality of life</h2>
-    <table class="data-table">
-    <tbody>
-      <tr class="sec"><td colspan="3">💼 Salaries (net / month)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧾</span>Minimum wage</td>
-        <td class="val">$300</td>
-        <td class="hint">SMN BOB 2,362 + Bono Solidaridad BOB 500 → net ~BOB 2,080 (2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📊</span>Average salary</td>
-        <td class="val">$400</td>
-        <td class="hint">Avg net ~BOB 2,750/mo (INE Bolivia 2024 — large informal sector)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🩺</span>Doctor (GP) salary</td>
-        <td class="val">$1,200</td>
-        <td class="hint">Public sector avg</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🏠 Housing & utilities (studio reference)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏚️</span>Studio rent</td>
-        <td class="val">$220</td>
-        <td class="hint">Regional cities</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">⚡</span>Electricity</td>
-        <td class="val">$25</td>
-        <td class="hint">/ month</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💧</span>Water</td>
-        <td class="val">$8</td>
-        <td class="hint">/ month</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📱</span>Mobile plan</td>
-        <td class="val">$12</td>
-        <td class="hint">~15–30GB</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🍽️ Food & drink (typical prices)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍺</span>Beer (pint)</td>
-        <td class="val">$1.50</td>
-        <td class="hint">Local bar</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☕</span>Coffee</td>
-        <td class="val">$1.00</td>
-        <td class="hint">Regular coffee</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍲</span>Main dish</td>
-        <td class="val">$5</td>
-        <td class="hint">local restaurant</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">⛽ Transport</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">⛽</span>Gasoline / litre</td>
-        <td class="val">$0.55 / L</td>
-        <td class="hint">Subsidized</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🧾 Taxes (indicative)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏷️</span>VAT</td>
-        <td class="val">13%</td>
-        <td class="hint">standard rate</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">👤</span>Income tax</td>
-        <td class="val">~13%</td>
-        <td class="hint">Progressive, mid-bracket</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏪</span>Small business tax</td>
-        <td class="val">~25%</td>
-        <td class="hint">25% CIT standard (2025)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📱 Tech (indicative prices)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍎</span>iPhone (latest 256GB)</td>
-        <td class="val">$1,250</td>
-        <td class="hint">import pricing varies</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📲</span>Galaxy S (latest 256GB)</td>
-        <td class="val">$980</td>
-        <td class="hint">import pricing varies</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🛂 Moving & immigration</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🛂</span>Immigration-friendly</td>
-        <td class="val">6 / 10</td>
-        <td class="hint">residency possible</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🌤️ Quality of life</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🙂</span>Happiness</td>
-        <td class="val">5.8 / 10</td>
-        <td class="hint">indicative (src: World Happiness Report 2024)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☀️</span>Sunny days / year</td>
-        <td class="val">~260 days / year</td>
-        <td class="hint">indicative (src: Climate data, WMO)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏥</span>Public healthcare</td>
-        <td class="val">Yes</td>
-        <td class="hint">public + private</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧑‍⚕️</span>Private insurance / mo</td>
-        <td class="val">$35 / month</td>
-        <td class="hint">example private</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📈 Indices</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🚔</span>Crime Index</td>
-        <td class="val">45 / 100</td>
-        <td class="hint">indicative (src: Numbeo Safety Index 2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💶</span>Purchasing Power</td>
-        <td class="val">55</td>
-        <td class="hint">indicative (src: Numbeo PP Index 2025)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🕍 Religion snapshot</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">✝️</span>Christian</td>
-        <td class="val">~90.8%</td>
-        <td class="hint">indicative</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☪️</span>Muslim</td>
-        <td class="val">~1.0%</td>
-        <td class="hint">indicative</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☸️</span>Buddhist</td>
-        <td class="val">~0%</td>
-        <td class="hint">indicative</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">✡️</span>Jewish</td>
-        <td class="val">~0.1%</td>
-        <td class="hint">indicative (src: Pew Research / WJC)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🕊️</span>Other / None</td>
-        <td class="val">~8.1%</td>
-        <td class="hint">other/none</td>
-      </tr>
-    </tbody>
-    </table>
-  </section>
+  <div class="main-grid">
+    <aside class="sidebar">
+      <div class="card">
+        <img class="hero-img" src="/assets/hero-bolivia.jpg" alt="Bolivia"
+             onerror="this.onerror=null;this.src='/assets/hero-fallback.jpg'" />
+        <div class="hero-actions">
+          <button class="btn primary" type="button" onclick="openModal('general')">Correct data</button>
+          <button class="btn" type="button" id="btnShare">Share</button>
+          <a class="btn" href="/compare.html?country=bolivia">Compare</a>
+        </div>
+      </div>
 
-  <section class="article"><h2>Country overview</h2><h2>🧭 Overview</h2>
-<p>Bolivia is a landlocked South American nation with dramatic geography spanning Amazon rainforest, Andes mountains, and high-altitude altiplano plateau. It's the continent's poorest country but richest in indigenous culture — majority population is indigenous (Aymara, Quechua) rather than mestizo or European descent. La Paz is the world's highest administrative capital at 3,640m altitude. Bolivia has two capitals: Sucre (constitutional/judicial) and La Paz (executive/legislative). The country is politically leftist, resource-rich (lithium, natural gas), and culturally distinct from more Europeanized South American neighbors.</p>
-<h2>👥 People & vibe</h2>
-<p>With roughly 12 million people, Bolivia is ~40% indigenous, ~30% mestizo, and smaller white and Afro-Bolivian minorities. Spanish is dominant in cities, but Quechua and Aymara are widely spoken, especially in rural highlands. The culture is deeply rooted in indigenous traditions — colorful textiles, traditional festivals, and coca leaf chewing. Political awareness is high with history of social movements. People are generally reserved but warm once relationships develop. Pace of life is slow and altitude affects everything. Santa Cruz in the lowlands is more cosmopolitan; La Paz/El Alto are indigenous-dominated.</p>
-<h2>🌦️ Climate & landscape</h2>
-<p>Climate varies dramatically: the altiplano (La Paz, Lake Titicaca) is cold and dry with intense sun; lowlands (Santa Cruz) are tropical and humid; valleys (Cochabamba, Sucre) are temperate. Rainy season is November-March. The landscape is stunning and diverse — snow-capped Andes, vast salt flats (Salar de Uyuni), Amazon rainforest, high-altitude deserts. Altitude sickness (soroche) is real and affects newcomers to La Paz. Air quality in El Alto is poor.</p>
-<h2>🏠 Housing & settling in</h2>
-<p>La Paz and Santa Cruz have rental markets. Expect 1-2 months deposit and 6-12 month contracts. La Paz neighborhoods like Sopocachi, Zona Sur, and Calacoto attract expats. Santa Cruz is more modern and spacious. Rents are cheap ($200-600/month for decent places). Quality varies — newer buildings have amenities; older ones lack heating/insulation (critical in La Paz's cold). Outside major cities, housing is very basic. Registration with immigration is required. Furnished options are limited.</p>
-<h2>💼 Work & economy</h2>
-<p>The economy is based on natural gas, mining (silver, tin, lithium), agriculture, and coca production. For foreigners, opportunities are limited to NGO work, teaching English, tourism, or missionary work. Work permits require employer sponsorship and are difficult to obtain — Bolivia prioritizes local employment. Salaries are low even for skilled positions. Remote work is growing among digital nomads attracted by low costs. Starting a business involves bureaucracy. Corruption is endemic. Spanish fluency is essential.</p>
-<h2>🛂 Visa & entry</h2>
-<p>Visa requirements vary by nationality. Some (US, some EU) can get tourist visa on arrival for 30-90 days. For longer stays, options include specific purpose visas (work, study, volunteer) or temporary residence. The process is bureaucratic, inconsistent, and frustrating. Requirements change unpredictably. Overstaying fines are steep. Work visas require extensive documentation and employer sponsorship. Permanent residence takes years. Citizenship requires 3 years residence plus language/culture tests.</p>
-<h2>🏥 Healthcare</h2>
-<p>Healthcare quality is poor in public system — underfunded, overcrowded, unsanitary. Private clinics in La Paz and Santa Cruz offer decent care at low cost but are still below international standards. Serious conditions require evacuation to Lima, Santiago, or Miami. Altitude-related health issues are common. Infectious diseases and waterborne illnesses are risks. International health insurance is essential. Life expectancy is ~72 years. Medical tourism is not a thing here — people leave Bolivia for care elsewhere.</p>
-<h2>🚗 Transport & mobility</h2>
-<p>La Paz has cable cars (Mi Teleférico) connecting to El Alto — they're efficient, scenic, and cheap. Minibuses (micros, trufis) serve urban areas but are chaotic. Most expats use taxis or drive. Roads range from paved highways to terrifying mountain tracks (Death Road is infamous). Long-distance buses are the main intercity transport — cheap but uncomfortable and sometimes dangerous. Trains are limited. Domestic flights connect main cities. El Alto International Airport (highest commercial airport) serves La Paz. Santa Cruz has better international connections.</p>
-<h2>🍛 Food note (national dish)</h2>
-<p>The national dish is <strong>Salteñas</strong>: savory pastries filled with spiced meat, potatoes, peas, and slightly sweet, juicy filling. Eaten mid-morning as a snack, not at lunch. They're Bolivia's answer to empanadas but sweeter and juicier. Street vendors and salteñerías sell them fresh in mornings.</p>
-<h2>🔎 Bottom line</h2>
-<p>Bolivia suits budget travelers, NGO workers, Spanish learners, anthropology enthusiasts, and those seeking authentic indigenous culture. It's cheap, culturally rich, and geographically stunning. However, altitude challenges, poor infrastructure, bureaucratic nightmares, political instability (coups, protests), healthcare limitations, and poverty create serious barriers. It's not comfortable or easy but offers unique experiences unavailable elsewhere. Best for short-term adventures or specific missions rather than comfortable long-term relocation.</p>
-<p>Expat Score — 5.5 / 10</p></section>
+      <div class="card snapshot-card">
+        <div class="snapshot-title">Quick snapshot</div>
+        <div class="kv"><span>Capital</span><b>Sucre (constitutional), La Paz (administrative)</b></div><div class="kv"><span>Population</span><b>~12M</b></div><div class="kv"><span>Languages</span><b>Spanish, Quechua, Aymara</b></div><div class="kv"><span>Currency</span><b>Boliviano (BOB)</b></div><div class="kv kv-sub"><span>Exchange rate</span><b>1 USD ≈ 6.90 BOB</b></div><div class="kv-note">Relatively stable currency. USD accepted in some tourist areas but bolivianos needed for daily life.</div><div class="kv"><span>Crypto-friendly</span><b>Limited</b></div><div class="kv-note">No specific regulations but banking system is traditional. Small crypto community exists. Legal status unclear.</div><div class="kv"><span>Driving side</span><b>Right</b></div><div class="sector-block"><div class="sector-head">Top sectors</div><div class="sector-list"><div class="sector-pill">Natural gas extraction</div><div class="sector-pill">Mining (lithium, tin, silver)</div><div class="sector-pill">Agriculture &amp; coca production</div></div></div>
+      </div>
 
-  <section class="ttk"><h2>Things to know</h2><div class="ttk-grid">
-      <div class="ttk-card">
-        <div class="ttk-title">👤 Evo Morales <small>(21st century)</small></div>
-        <p>First indigenous president (2006-2019), former coca grower who nationalized gas industry and championed indigenous rights. Controversial figure — praised for poverty reduction, criticized for authoritarianism. Resigned amid election fraud allegations and fled to Mexico. His legacy divides Bolivia.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🏔️ World&#x27;s highest everything</div>
-        <p>La Paz is world&#x27;s highest administrative capital (3,640m). El Alto airport is highest commercial airport. Lake Titicaca is highest navigable lake. Altitude affects everything — cooking times, alcohol tolerance, breathing, sleep. Soroche (altitude sickness) is no joke.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🧂 Salar de Uyuni = largest salt flat</div>
-        <p>The world&#x27;s largest salt flat (10,000+ sq km) creates surreal mirror effect when wet. It&#x27;s a major tourist draw and sits atop massive lithium deposits — potentially Bolivia&#x27;s economic future if they can develop extraction sustainably.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🌿 Coca is sacred, not just cocaine</div>
-        <p>Coca leaves are traditional, legal, and central to indigenous culture — chewed for altitude, energy, and ritual. It&#x27;s not cocaine (which is illegal). Trying to ban coca is cultural imperialism. The leaf market in La Paz is legal; cocaine production in jungles is not.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🏴 Lost the ocean, never forgot</div>
-        <p>Bolivia lost its coast to Chile in the War of the Pacific (1879-83) and has been landlocked ever since. Día del Mar (Day of the Sea) commemorates this loss annually. Reclaiming ocean access is national obsession. Navy still exists, training on Lake Titicaca.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🎭 Cholitas are cultural icons</div>
-        <p>Indigenous women in traditional dress (bowler hats, layered skirts) called cholitas represent cultural pride. Cholita wrestling combines traditional dress with lucha libre spectacle. What was once derogatory term became badge of pride.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">💀 Death Road = tourist attraction</div>
-        <p>The Yungas Road (nicknamed Death Road) was once world&#x27;s most dangerous — narrow, unpaved, sheer drops, hundreds of deaths annually. Now largely bypassed by new road, it&#x27;s a mountain biking tourist attraction. Still terrifying.</p>
-      </div></div></section>
+      
+        <div class="card persona-card">
+          <div class="snapshot-title">Icon of the country</div>
+          <div class="persona-name">Evo Morales <small>(21st century)</small></div>
+          <div class="persona-why">First indigenous president (2006-2019), former coca grower who nationalized gas industry and championed indigenous rights. Controversial figure — praised for poverty reduction, criticized for authoritarianism. Resigned amid election fraud allegations and fled to Mexico. His legacy divides Bolivia.</div>
+        </div>
+    </aside>
 
-  
-  
-  
+    <div class="right-col">
+      <div class="rc-wrapper">
+        
+        
+      </div>
 
-  <p style="text-align:center;margin-top:30px"><a href="/globe.html" style="font-weight:600">See all 160+ countries →</a></p>
+      <div class="data-card">
+        <table class="data-table">
+      <tbody>
+        <tr class="sec"><td colspan="4">💼 Salaries (net / month)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧾</span>Minimum wage</td>
+          <td class="val">$300</td>
+          <td class="hint">SMN BOB 2,362 + Bono Solidaridad BOB 500 → net ~BOB 2,080 (2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('min_wage')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📊</span>Average salary</td>
+          <td class="val">$400</td>
+          <td class="hint">Avg net ~BOB 2,750/mo (INE Bolivia 2024 — large informal sector)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('avg_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🩺</span>Doctor (GP) salary</td>
+          <td class="val">$1,200</td>
+          <td class="hint">Public sector avg</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('doctor_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🏠 Housing & utilities (studio reference)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏚️</span>Studio rent</td>
+          <td class="val">$220</td>
+          <td class="hint">Regional cities</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('rent_studio')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">⚡</span>Electricity</td>
+          <td class="val">$25</td>
+          <td class="hint">/ month</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('electricity')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💧</span>Water</td>
+          <td class="val">$8</td>
+          <td class="hint">/ month</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('water')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📱</span>Mobile plan</td>
+          <td class="val">$12</td>
+          <td class="hint">~15–30GB</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('mobile')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🍽️ Food & drink (typical prices)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍺</span>Beer (pint)</td>
+          <td class="val">$1.50</td>
+          <td class="hint">Local bar</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('beer')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☕</span>Coffee</td>
+          <td class="val">$1.00</td>
+          <td class="hint">Regular coffee</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('coffee')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍲</span>Main dish</td>
+          <td class="val">$5</td>
+          <td class="hint">local restaurant</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('dish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">⛽ Transport</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">⛽</span>Gasoline / litre</td>
+          <td class="val">$0.55 / L</td>
+          <td class="hint">Subsidized</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('gas')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🧾 Taxes (indicative)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏷️</span>VAT</td>
+          <td class="val">13%</td>
+          <td class="hint">standard rate</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('vat')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">👤</span>Income tax</td>
+          <td class="val">~13%</td>
+          <td class="hint">Progressive, mid-bracket</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('income_tax')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏪</span>Small business tax</td>
+          <td class="val">~25%</td>
+          <td class="hint">25% CIT standard (2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('smallbiz')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📱 Tech (indicative prices)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍎</span>iPhone (latest 256GB)</td>
+          <td class="val">$1,250</td>
+          <td class="hint">import pricing varies</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('iphone')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📲</span>Galaxy S (latest 256GB)</td>
+          <td class="val">$980</td>
+          <td class="hint">import pricing varies</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('samsung')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🛂 Moving & immigration</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🛂</span>Immigration-friendly</td>
+          <td class="val">6 / 10</td>
+          <td class="hint">residency possible</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('immigration')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🌤️ Quality of life</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🙂</span>Happiness</td>
+          <td class="val">5.8 / 10</td>
+          <td class="hint">indicative (src: World Happiness Report 2024)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('happiness')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☀️</span>Sunny days / year</td>
+          <td class="val">~260 days / year</td>
+          <td class="hint">indicative (src: Climate data, WMO)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('sun')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏥</span>Public healthcare</td>
+          <td class="val">Yes</td>
+          <td class="hint">public + private</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('health')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧑‍⚕️</span>Private insurance / mo</td>
+          <td class="val">$35 / month</td>
+          <td class="hint">example private</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('insurance')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📈 Indices</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🚔</span>Crime Index</td>
+          <td class="val">45 / 100</td>
+          <td class="hint">indicative (src: Numbeo Safety Index 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('crime')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💶</span>Purchasing Power</td>
+          <td class="val">55</td>
+          <td class="hint">indicative (src: Numbeo PP Index 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('pp')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🕍 Religion snapshot</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">✝️</span>Christian</td>
+          <td class="val">~90.8%</td>
+          <td class="hint">indicative</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_christian')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☪️</span>Muslim</td>
+          <td class="val">~1.0%</td>
+          <td class="hint">indicative</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_muslim')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☸️</span>Buddhist</td>
+          <td class="val">~0%</td>
+          <td class="hint">indicative</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_buddhist')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">✡️</span>Jewish</td>
+          <td class="val">~0.1%</td>
+          <td class="hint">indicative (src: Pew Research / WJC)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_jewish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🕊️</span>Other / None</td>
+          <td class="val">~8.1%</td>
+          <td class="hint">other/none</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_other')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+        </table>
+      </div>
+
+      
+      <div class="article-card">
+        <div class="section-head">
+          <h2>Living in Bolivia</h2>
+          <span class="score-badge"><span class="score-star">⭐</span> Expat Score: 5.5 / 10</span>
+        </div>
+        <div class="article-body"><p>🧭 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Overview</span><br>
+Bolivia is a landlocked South American nation with dramatic geography spanning Amazon rainforest, Andes mountains, and high-altitude altiplano plateau. It&#x27;s the continent&#x27;s poorest country but richest in indigenous culture — majority population is indigenous (Aymara, Quechua) rather than mestizo or European descent. La Paz is the world&#x27;s highest administrative capital at 3,640m altitude. Bolivia has two capitals: Sucre (constitutional/judicial) and La Paz (executive/legislative). The country is politically leftist, resource-rich (lithium, natural gas), and culturally distinct from more Europeanized South American neighbors.</p><p>👥 <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">People &amp; vibe</span><br>
+With roughly 12 million people, Bolivia is ~40% indigenous, ~30% mestizo, and smaller white and Afro-Bolivian minorities. Spanish is dominant in cities, but Quechua and Aymara are widely spoken, especially in rural highlands. The culture is deeply rooted in indigenous traditions — colorful textiles, traditional festivals, and coca leaf chewing. Political awareness is high with history of social movements. People are generally reserved but warm once relationships develop. Pace of life is slow and altitude affects everything. Santa Cruz in the lowlands is more cosmopolitan; La Paz/El Alto are indigenous-dominated.</p><p>🌦️ <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Climate &amp; landscape</span><br>
+Climate varies dramatically: the altiplano (La Paz, Lake Titicaca) is cold and dry with intense sun; lowlands (Santa Cruz) are tropical and humid; valleys (Cochabamba, Sucre) are temperate. Rainy season is November-March. The landscape is stunning and diverse — snow-capped Andes, vast salt flats (Salar de Uyuni), Amazon rainforest, high-altitude deserts. Altitude sickness (soroche) is real and affects newcomers to La Paz. Air quality in El Alto is poor.</p><p>🏠 <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Housing &amp; settling in</span><br>
+La Paz and Santa Cruz have rental markets. Expect 1-2 months deposit and 6-12 month contracts. La Paz neighborhoods like Sopocachi, Zona Sur, and Calacoto attract expats. Santa Cruz is more modern and spacious. Rents are cheap ($200-600/month for decent places). Quality varies — newer buildings have amenities; older ones lack heating/insulation (critical in La Paz&#x27;s cold). Outside major cities, housing is very basic. Registration with immigration is required. Furnished options are limited.</p><p>💼 <span class="art-tag" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#6d28d9">Work &amp; economy</span><br>
+The economy is based on natural gas, mining (silver, tin, lithium), agriculture, and coca production. For foreigners, opportunities are limited to NGO work, teaching English, tourism, or missionary work. Work permits require employer sponsorship and are difficult to obtain — Bolivia prioritizes local employment. Salaries are low even for skilled positions. Remote work is growing among digital nomads attracted by low costs. Starting a business involves bureaucracy. Corruption is endemic. Spanish fluency is essential.</p>
+        <div class="map-card">
+          <div class="map-header">
+            <div class="map-title"><span class="map-flag">🇧🇴</span><span>Bolivia — Map</span></div>
+            <div class="map-styles">
+              <button type="button" class="map-style-btn active" data-style="light">Light</button>
+              <button type="button" class="map-style-btn" data-style="dark">Dark</button>
+              <button type="button" class="map-style-btn" data-style="satellite">Satellite</button>
+            </div>
+          </div>
+          <div class="map-container">
+            <div id="wigg-country-map"></div>
+            <div class="map-loading" id="wiggMapLoading">Loading map…</div>
+          </div>
+        </div><p>🛂 <span class="art-tag" style="background:rgba(236,72,153,.12);border:1px solid rgba(236,72,153,.25);color:#be185d">Visa &amp; entry</span><br>
+Visa requirements vary by nationality. Some (US, some EU) can get tourist visa on arrival for 30-90 days. For longer stays, options include specific purpose visas (work, study, volunteer) or temporary residence. The process is bureaucratic, inconsistent, and frustrating. Requirements change unpredictably. Overstaying fines are steep. Work visas require extensive documentation and employer sponsorship. Permanent residence takes years. Citizenship requires 3 years residence plus language/culture tests.</p><p>🏥 <span class="art-tag" style="background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.25);color:#0e7490">Healthcare</span><br>
+Healthcare quality is poor in public system — underfunded, overcrowded, unsanitary. Private clinics in La Paz and Santa Cruz offer decent care at low cost but are still below international standards. Serious conditions require evacuation to Lima, Santiago, or Miami. Altitude-related health issues are common. Infectious diseases and waterborne illnesses are risks. International health insurance is essential. Life expectancy is ~72 years. Medical tourism is not a thing here — people leave Bolivia for care elsewhere.</p><p>🚗 <span class="art-tag" style="background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#c2410c">Transport &amp; mobility</span><br>
+La Paz has cable cars (Mi Teleférico) connecting to El Alto — they&#x27;re efficient, scenic, and cheap. Minibuses (micros, trufis) serve urban areas but are chaotic. Most expats use taxis or drive. Roads range from paved highways to terrifying mountain tracks (Death Road is infamous). Long-distance buses are the main intercity transport — cheap but uncomfortable and sometimes dangerous. Trains are limited. Domestic flights connect main cities. El Alto International Airport (highest commercial airport) serves La Paz. Santa Cruz has better international connections.</p><p>🍛 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Food note (national dish)</span><br>
+The national dish is <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Salteñas</span><br>: savory pastries filled with spiced meat, potatoes, peas, and slightly sweet, juicy filling. Eaten mid-morning as a snack, not at lunch. They&#x27;re Bolivia&#x27;s answer to empanadas but sweeter and juicier. Street vendors and salteñerías sell them fresh in mornings.</p><p>🔎 <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Bottom line</span><br>
+Bolivia suits budget travelers, NGO workers, Spanish learners, anthropology enthusiasts, and those seeking authentic indigenous culture. It&#x27;s cheap, culturally rich, and geographically stunning. However, altitude challenges, poor infrastructure, bureaucratic nightmares, political instability (coups, protests), healthcare limitations, and poverty create serious barriers. It&#x27;s not comfortable or easy but offers unique experiences unavailable elsewhere. Best for short-term adventures or specific missions rather than comfortable long-term relocation.</p><p>Expat Score — 5.5 / 10</p></div>
+      </div>
+
+      
+      <div class="things-section">
+        <div class="section-head"><h2>Things to know</h2><span class="wg-badge">Must-reads</span></div>
+        <div class="facts-grid"><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏔️ World&#x27;s highest everything</div><div class="fact-text">La Paz is world&#x27;s highest administrative capital (3,640m). El Alto airport is highest commercial airport. Lake Titicaca is highest navigable lake. Altitude affects everything — cooking times, alcohol tolerance, breathing, sleep. Soroche (altitude sickness) is no joke.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🧂 Salar de Uyuni = largest salt flat</div><div class="fact-text">The world&#x27;s largest salt flat (10,000+ sq km) creates surreal mirror effect when wet. It&#x27;s a major tourist draw and sits atop massive lithium deposits — potentially Bolivia&#x27;s economic future if they can develop extraction sustainably.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🌿 Coca is sacred, not just cocaine</div><div class="fact-text">Coca leaves are traditional, legal, and central to indigenous culture — chewed for altitude, energy, and ritual. It&#x27;s not cocaine (which is illegal). Trying to ban coca is cultural imperialism. The leaf market in La Paz is legal; cocaine production in jungles is not.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏴 Lost the ocean, never forgot</div><div class="fact-text">Bolivia lost its coast to Chile in the War of the Pacific (1879-83) and has been landlocked ever since. Día del Mar (Day of the Sea) commemorates this loss annually. Reclaiming ocean access is national obsession. Navy still exists, training on Lake Titicaca.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🎭 Cholitas are cultural icons</div><div class="fact-text">Indigenous women in traditional dress (bowler hats, layered skirts) called cholitas represent cultural pride. Cholita wrestling combines traditional dress with lucha libre spectacle. What was once derogatory term became badge of pride.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">💀 Death Road = tourist attraction</div><div class="fact-text">The Yungas Road (nicknamed Death Road) was once world&#x27;s most dangerous — narrow, unpaved, sheer drops, hundreds of deaths annually. Now largely bypassed by new road, it&#x27;s a mountain biking tourist attraction. Still terrifying.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🍽️ Salteñas</div><div class="fact-text">Savory pastries with spiced meat, potatoes, and juicy filling — eaten mid-morning as snack. Bolivia&#x27;s sweeter answer to empanadas.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏳️‍🌈 LGBT+: Low to moderate</div><div class="fact-text">Homosexuality is legal and some anti-discrimination laws exist, but social attitudes remain conservative. La Paz is more tolerant than rural areas. Discretion advised.</div></div></div>
+      </div>
+
+      
+    </div>
+  </div>
 </main>
 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
+<script src="/data/share.js"></script>
+<script src="/data/correction-form.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var t = document.getElementById("localTime");
+  if(t && t.dataset.tz){
+    function tick(){
+      try{
+        t.textContent = new Intl.DateTimeFormat("en-GB",{
+          timeZone: t.dataset.tz, hour:"2-digit", minute:"2-digit"
+        }).format(new Date());
+      }catch(e){}
+    }
+    tick(); setInterval(tick, 30000);
+  }
+  document.querySelectorAll(".rc-nav-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var targetId = btn.dataset.target;
+      var dir = parseInt(btn.dataset.dir||"1",10);
+      var row = document.getElementById(targetId);
+      if(!row) return;
+      var box = row.parentElement;
+      var first = row.querySelector(".rc-vcard");
+      if(!first) return;
+      var cardW = first.offsetWidth + 9;
+      var visible = Math.max(1, Math.floor(box.offsetWidth / cardW));
+      var maxOffset = Math.max(0, row.children.length - visible);
+      var current = parseInt(row.dataset.offset||"0", 10);
+      current = Math.min(maxOffset, Math.max(0, current + dir));
+      row.dataset.offset = current;
+      row.style.transform = "translateX(-" + (current * cardW) + "px)";
+      var nav = btn.parentNode;
+      var prev = nav.querySelector('[data-dir="-1"]');
+      var next = nav.querySelector('[data-dir="1"]');
+      if(prev) prev.disabled = (current === 0);
+      if(next) next.disabled = (current >= maxOffset);
+    });
+  });
+  var iso2 = "BO";
+  if(!iso2 || typeof L === "undefined") return;
+  var STYLES = {
+    light:     { url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", attr: "&copy; OSM &copy; CARTO" },
+    dark:      { url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",  attr: "&copy; OSM &copy; CARTO" },
+    satellite: { url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", attr: "&copy; Esri" }
+  };
+  var wMap=null, wLayer=null, wMarker=null;
+  function initMap(lat, lon){
+    var el = document.getElementById("wigg-country-map");
+    if(!el) return;
+    if(wMap){ try{wMap.remove();}catch(e){} }
+    wMap = L.map("wigg-country-map",{zoomControl:true}).setView([lat,lon],5);
+    wLayer = L.tileLayer(STYLES.light.url,{attribution:STYLES.light.attr,maxZoom:18}).addTo(wMap);
+    wMarker = L.marker([lat,lon]).addTo(wMap);
+    var loading = document.getElementById("wiggMapLoading");
+    if(loading) loading.classList.add("hidden");
+  }
+  document.querySelectorAll(".map-style-btn").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(!wMap) return;
+      var s = STYLES[b.dataset.style];
+      if(!s) return;
+      if(wLayer) wMap.removeLayer(wLayer);
+      wLayer = L.tileLayer(s.url,{attribution:s.attr,maxZoom:18}).addTo(wMap);
+      document.querySelectorAll(".map-style-btn").forEach(function(x){x.classList.remove("active");});
+      b.classList.add("active");
+    });
+  });
+  var cacheKey = "wigg_centroid_" + iso2;
+  var cached = null;
+  try { cached = JSON.parse(localStorage.getItem(cacheKey) || "null"); } catch(e){}
+  if(cached && cached.lat != null && cached.lon != null){
+    initMap(cached.lat, cached.lon); return;
+  }
+  fetch("https://nominatim.openstreetmap.org/search?country=" + encodeURIComponent(iso2) + "&format=json&limit=1")
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && d[0]){
+        var coords = { lat: +d[0].lat, lon: +d[0].lon };
+        try { localStorage.setItem(cacheKey, JSON.stringify(coords)); } catch(e){}
+        initMap(coords.lat, coords.lon);
+      } else {
+        var l = document.getElementById("wiggMapLoading");
+        if(l) l.textContent = "Map unavailable";
+      }
+    })
+    .catch(function(){
+      var l = document.getElementById("wiggMapLoading");
+      if(l) l.textContent = "Map unavailable";
+    });
+})();
+</script>
+
+<form name="wiggmap-corrections" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="wiggmap-corrections" />
+  <p><label>Don't fill this out: <input name="bot-field" /></label></p>
+  <input name="country" /><input name="field" /><input name="value" /><input name="email" /><textarea name="notes"></textarea>
+</form>
+
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
 </body>
 </html>

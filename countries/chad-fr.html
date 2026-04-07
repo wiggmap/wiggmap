@@ -25,65 +25,127 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#f6f1e8;--paper:#fffdf8;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--green:#1d7f48;--green-dk:#155f36;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
+    :root{--paper:#fffdf8;--paper-2:#fbf7ee;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--line-soft:rgba(23,23,20,.06);--green:#1d7f48;--green-dk:#155f36;--green-light:#e6f4ec;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
     html{scroll-behavior:smooth}
     body{font-family:"Inter",system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f9f5ed 0%,#f3ede3 100%);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
     a{color:var(--green);text-decoration:none}
     a:hover{text-decoration:underline}
-    main{max-width:980px;margin:0 auto;padding:28px 20px 80px}
-    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:18px;letter-spacing:.04em}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:14px;letter-spacing:.04em}
     .crumb a{color:var(--ink-soft)}
-    .hero{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:36px 32px;box-shadow:var(--shadow);margin-bottom:24px;position:relative;overflow:hidden}
-    .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 18%,rgba(29,127,72,.05),transparent 30%);pointer-events:none}
-    .hero-flag{font-size:48px;line-height:1;margin-bottom:14px}
-    .hero h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(36px,6vw,56px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:10px;position:relative;z-index:1}
-    .hero .subtitle{font-size:15px;color:var(--ink-soft);max-width:62ch;line-height:1.6;position:relative;z-index:1}
-    .hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;position:relative;z-index:1}
-    .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid var(--line)}
-    .badge.green{background:#e6f4ec;color:var(--green-dk);border-color:rgba(29,127,72,.2)}
+    .country-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:22px;flex-wrap:wrap}
+    .country-flag{font-size:42px;line-height:1;margin-bottom:8px}
+    .country-head h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(34px,5.2vw,52px);font-weight:800;letter-spacing:-.02em;line-height:1.02}
+    .country-head .subtitle{font-size:14px;color:var(--ink-soft);max-width:64ch;line-height:1.55;margin-top:8px}
+    .head-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+    .badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:7px 13px;border-radius:999px;background:#fff;border:1px solid var(--line)}
+    .badge.green{background:var(--green-light);color:var(--green-dk);border-color:rgba(29,127,72,.22)}
     .badge.yellow{background:#fef9e7;color:#a16207;border-color:rgba(202,138,4,.25)}
     .badge.red{background:#fdecec;color:#b91c1c;border-color:rgba(185,28,28,.25)}
-    .snapshot{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px 26px;box-shadow:var(--shadow);margin-bottom:24px}
-    .snapshot h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;margin-bottom:14px}
-    .snap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
-    .snap-item{font-size:13px}
-    .snap-item strong{display:block;color:var(--ink-soft);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
-    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
-    .data-card h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;padding:20px 26px 8px}
+    .badge .dot{width:8px;height:8px;border-radius:999px;background:currentColor;display:inline-block}
+    .local-time{font-size:12px;color:var(--ink-soft);font-weight:600}
+    .local-time b{color:var(--ink);margin-left:5px;font-weight:800}
+    .main-grid{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+    @media(max-width:900px){.main-grid{grid-template-columns:1fr}}
+    .sidebar{display:flex;flex-direction:column;gap:14px;align-self:start;position:sticky;top:18px}
+    @media(max-width:900px){.sidebar{position:static}}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .hero-img{width:100%;height:200px;object-fit:cover;display:block;background:#eaddc4}
+    .hero-actions{padding:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:8px;font-family:inherit;font-weight:700;font-size:12.5px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;transition:background .14s,border-color .14s}
+    .btn:hover{background:rgba(0,0,0,.04)}
+    .btn.primary{background:var(--green);color:#fff;border-color:transparent}
+    .btn.primary:hover{background:var(--green-dk)}
+    .snapshot-card{padding:16px}
+    .snapshot-title{font-family:"Fraunces",Georgia,serif;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px;letter-spacing:-.01em}
+    .kv{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--line-soft);font-size:12.5px}
+    .kv span{color:var(--ink-soft)}
+    .kv b{color:var(--ink);font-weight:700;text-align:right;max-width:60%}
+    .kv-sub{padding-left:10px;font-size:11.5px;opacity:.85}
+    .kv-note{font-size:11px;color:var(--ink-soft);line-height:1.5;padding:6px 0 8px;font-style:italic;border-bottom:1px solid var(--line-soft)}
+    .sector-block{padding-top:10px;margin-top:6px;border-top:1px solid var(--line-soft)}
+    .sector-head{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+    .sector-list{display:flex;flex-direction:column;gap:5px}
+    .sector-pill{background:rgba(29,127,72,.08);border:1px solid rgba(29,127,72,.2);border-radius:7px;padding:5px 10px;font-size:11.5px;font-weight:700;color:var(--green-dk);line-height:1.4}
+    .persona-card{padding:16px}
+    .persona-name{font-weight:800;font-size:13px;margin-bottom:6px}
+    .persona-name small{font-weight:500;opacity:.6;font-size:11px}
+    .persona-why{font-size:11.5px;color:var(--ink-soft);line-height:1.55;font-style:italic}
+    .right-col{display:flex;flex-direction:column;gap:18px;min-width:0}
+    .rc-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:760px){.rc-wrapper{grid-template-columns:1fr}}
+    .rc-box{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 14px 12px;overflow:hidden}
+    .rc-box-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:6px}
+    .rc-box-head h2{font-family:"Fraunces",Georgia,serif;font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+    .rc-nav{display:flex;gap:4px}
+    .rc-nav-btn{width:24px;height:24px;border-radius:6px;border:1px solid var(--line);background:#fff;font-size:13px;cursor:pointer;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;line-height:1;transition:all .14s}
+    .rc-nav-btn:hover{background:var(--green);color:#fff;border-color:transparent}
+    .rc-nav-btn:disabled{opacity:.35;cursor:not-allowed}
+    .rc-track{overflow:hidden}
+    .rc-row{display:flex;gap:9px;transition:transform .35s ease;will-change:transform}
+    .rc-vcard{flex-shrink:0;width:130px;height:90px;border-radius:10px;overflow:hidden;position:relative;background:#e9dfca;border:1px solid var(--line);transition:transform .15s,box-shadow .15s}
+    .rc-vcard:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10);text-decoration:none}
+    .rc-vimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .rc-vemoji{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;background:linear-gradient(135deg,#ede5d8,#ddd3c4)}
+    .rc-vgrad{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,8,.85) 0%,rgba(20,15,8,.2) 55%,transparent 100%)}
+    .rc-vbody{position:absolute;left:0;right:0;bottom:0;padding:7px 9px;z-index:2}
+    .rc-vtitle{font-family:"Fraunces",Georgia,serif;font-size:10.5px;font-weight:700;color:#fff;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
     .data-table{width:100%;border-collapse:collapse;font-size:13px}
-    .data-table .sec td{background:#f8f4eb;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:10px 26px;color:var(--ink-soft);border-top:1px solid var(--line)}
-    .data-table td{padding:9px 26px;border-bottom:1px solid var(--line);vertical-align:top}
+    .data-table .sec td{background:#f4eedf;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:11px 22px;color:var(--ink-soft);border-top:1px solid var(--line)}
+    .data-table td{padding:9px 22px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+    .data-table tr:last-child td{border-bottom:none}
     .data-table td.lbl{width:42%;color:var(--ink)}
-    .data-table td.val{width:22%;font-weight:700}
+    .data-table td.val{width:25%;font-weight:700}
     .data-table td.hint{font-size:11.5px;color:var(--ink-soft)}
+    .data-table td.edit{width:30px;text-align:right;padding-right:14px}
     .data-table .ico{margin-right:8px}
-    .article{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px;margin-bottom:24px}
-    .article h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:700;margin:24px 0 10px;color:var(--ink)}
-    .article h2:first-child{margin-top:0}
-    .article p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.75}
-    .article p strong{color:var(--ink);font-weight:600}
-    .ttk{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-bottom:24px}
-    .ttk h2{font-family:"Fraunces",Georgia,serif;font-size:20px;font-weight:700;margin-bottom:16px}
-    .ttk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-    .ttk-card{background:#fbf7ee;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
-    .ttk-card .ttk-title{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink)}
-    .ttk-card p{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
-    .ttk-card small{font-weight:500;color:var(--ink-soft)}
-    .related{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px;margin-bottom:18px}
-    .related h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
-    .link-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px 18px}
-    .link-list li{font-size:13.5px;line-height:1.5;padding-left:14px;position:relative}
-    .link-list li::before{content:"›";position:absolute;left:0;color:var(--green)}
-    @media (max-width:640px){
-      main{padding:20px 14px 60px}
-      .hero{padding:26px 22px}
-      .data-table td{padding:9px 16px}
-      .data-table .sec td{padding:10px 16px}
-      .article{padding:24px 22px}
-      .ttk{padding:22px 22px}
-      .related{padding:20px 22px}
+    .edit-btn{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:13px;opacity:.4;transition:opacity .14s;padding:2px 4px}
+    .edit-btn:hover{opacity:1;color:var(--green)}
+    .article-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px}
+    .section-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+    .section-head h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:800;letter-spacing:-.01em;color:var(--ink)}
+    .score-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-light);border:1px solid rgba(29,127,72,.25);color:var(--green-dk);padding:5px 12px;border-radius:999px;font-size:12px;font-weight:700}
+    .article-body p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.78}
+    .article-body p:last-child{margin-bottom:0}
+    .art-tag{display:inline-block;padding:3px 10px;border-radius:6px;font-weight:700;font-size:13px;margin-bottom:6px;line-height:1.5}
+    .map-card{margin:22px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper-2)}
+    .map-header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);gap:8px;flex-wrap:wrap}
+    .map-title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}
+    .map-flag{font-size:18px}
+    .map-styles{display:flex;gap:4px}
+    .map-style-btn{font-size:11px;font-weight:700;padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;color:var(--ink-soft);cursor:pointer;transition:all .14s}
+    .map-style-btn:hover{border-color:var(--green);color:var(--green)}
+    .map-style-btn.active{background:var(--green);color:#fff;border-color:transparent}
+    .map-container{position:relative;height:320px}
+    #wigg-country-map{position:absolute;inset:0}
+    .map-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper-2);color:var(--ink-soft);font-size:13px;z-index:10}
+    .map-loading.hidden{display:none}
+    .things-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px}
+    .wg-badge{display:inline-flex;align-items:center;gap:5px;background:#fef3c7;border:1px solid rgba(202,138,4,.3);color:#92400e;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+    .facts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .fact-card{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden}
+    .fact-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green)}
+    .fact-title{font-weight:800;font-size:13px;margin-bottom:6px;color:var(--ink);padding-left:6px}
+    .fact-text{font-size:12.5px;color:var(--ink-soft);line-height:1.55;padding-left:6px}
+    .cmp-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px}
+    .cmp-section h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
+    .cmp-pills{display:flex;flex-wrap:wrap;gap:8px}
+    .cmp-pill{display:inline-block;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:600;color:var(--ink);transition:all .14s}
+    .cmp-pill:hover{border-color:var(--green);background:var(--green);color:#fff;text-decoration:none}
+    @media(max-width:640px){
+      .wrap{padding:18px 14px 60px}
+      .country-head{flex-direction:column}
+      .head-right{align-items:flex-start}
+      .data-table td{padding:9px 14px}
+      .data-table .sec td{padding:11px 14px}
+      .article-card{padding:24px 22px}
+      .things-section{padding:22px 22px}
+      .cmp-section{padding:20px 22px}
+      .map-container{height:240px}
     }
   </style>
 </head>
@@ -92,268 +154,400 @@
 <div id="siteHeader"></div>
 <script src="/data/header.js"></script>
 
-<main>
+<main class="wrap">
   <nav class="crumb"><a href="/">Accueil</a> › <a href="/globe.html">Pays</a> › Chad</nav>
 
-  <section class="hero">
-    <div class="hero-flag">🇹🇩</div>
-    <h1>Chad</h1>
-    <p class="subtitle">Indicative averages (N&#x27;Djamena higher; gross / month)</p>
-    <div class="hero-badges">
-      <span class="badge red">WIGG: RED</span>
-      <span class="badge">⭐ Score Expat: 2.5 / 10</span>
+  <div class="country-head">
+    <div>
+      <div class="country-flag">🇹🇩</div>
+      <h1>Chad</h1>
+      <p class="subtitle">Indicative averages (N&#x27;Djamena higher; gross / month)</p>
     </div>
-  </section>
-
-  <section class="snapshot">
-    <h2>Aperçu rapide</h2>
-    <div class="snap-grid">
-      <div class="snap-item"><strong>Capitale</strong>N&#x27;Djamena</div>
-      <div class="snap-item"><strong>Population</strong>~18M</div>
-      <div class="snap-item"><strong>Langues</strong>Français, arabe (tous deux officiels) + ~120 langues locales</div>
-      <div class="snap-item"><strong>Conduite</strong>Droite</div>
-      <div class="snap-item"><strong>Monnaie</strong>Franc CFA BEAC (XAF)</div>
-      <div class="snap-item"><strong>Crypto-friendly</strong>Non</div>
+    <div class="head-right">
+      <div class="badge red"><span class="dot"></span>WIGG: RED</div>
+      <div class="local-time">Heure locale <b id="localTime" data-tz="Africa/Ndjamena">--:--</b></div>
     </div>
-  </section>
+  </div>
 
-  <section class="data-card">
-    <h2>Coût de la vie, salaires et qualité de vie</h2>
-    <table class="data-table">
-    <tbody>
-      <tr class="sec"><td colspan="3">💼 Salaires (net / mois)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧾</span>Salaire minimum</td>
-        <td class="val">$100</td>
-        <td class="hint">SMIG ≈ 60 000 XAF → net ≈ 54 000 XAF (2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📊</span>Salaire moyen</td>
-        <td class="val">$210</td>
-        <td class="hint">Moyenne nette ≈ 127 000 XAF/mois secteur formel (INSEED Tchad 2024 — N&#x27;Djamena plus élevé; prime pétrolière)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🩺</span>Salaire médecin (généraliste)</td>
-        <td class="val">$800</td>
-        <td class="hint">public sector physician indicative</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🏠 Logement et charges (studio référence)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏚️</span>Loyer studio</td>
-        <td class="val">$200</td>
-        <td class="hint">N&#x27;Djamena basic accommodation; rural much less</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">⚡</span>Électricité</td>
-        <td class="val">$45</td>
-        <td class="hint">limited access; frequent outages</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💧</span>Eau</td>
-        <td class="val">$15</td>
-        <td class="hint">access extremely limited outside cities</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📱</span>Forfait mobile</td>
-        <td class="val">$12</td>
-        <td class="hint">basic mobile plan</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🍽️ Alimentation et boissons (prix indicatifs)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍺</span>Bière (pinte)</td>
-        <td class="val">$3</td>
-        <td class="hint">local bar price where available</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☕</span>Café</td>
-        <td class="val">$1.5</td>
-        <td class="hint">basic coffee</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍲</span>Plat principal</td>
-        <td class="val">$8</td>
-        <td class="hint">local restaurant meal</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">⛽ Transport</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">⛽</span>Essence / litre</td>
-        <td class="val">$1.35 / L</td>
-        <td class="hint">fuel price 2025</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🧾 Fiscalité (indicatif)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏷️</span>TVA</td>
-        <td class="val">18%</td>
-        <td class="hint">standard VAT rate</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">👤</span>Impôt sur le revenu</td>
-        <td class="val">0-30%</td>
-        <td class="hint">progressive income tax</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏪</span>Fiscalité petite entreprise</td>
-        <td class="val">N/A</td>
-        <td class="hint">informal economy dominates</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📱 Tech (prix indicatifs)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍎</span>iPhone (dernier 256 Go)</td>
-        <td class="val">$1,200</td>
-        <td class="hint">imported electronics expensive</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📲</span>Galaxy S (dernier 256 Go)</td>
-        <td class="val">$800</td>
-        <td class="hint">imported pricing</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🛂 Immigration et installation</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🛂</span>Facilité d&#x27;immigration</td>
-        <td class="val">2 / 10</td>
-        <td class="hint">extremely difficult; conflict zone</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🌤️ Qualité de vie</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🙂</span>Bonheur</td>
-        <td class="val">3.76 / 10</td>
-        <td class="hint">World Happiness Report (one of lowest)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☀️</span>Jours de soleil / an</td>
-        <td class="val">~300 days / year</td>
-        <td class="hint">Sahel climate; very hot</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏥</span>Santé publique</td>
-        <td class="val">Very Limited</td>
-        <td class="hint">minimal public healthcare infrastructure</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧑‍⚕️</span>Assurance privée / mois</td>
-        <td class="val">N/A</td>
-        <td class="hint">private insurance rare</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📈 Indices</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🚔</span>Indice criminalité</td>
-        <td class="val">65 / 100</td>
-        <td class="hint">high insecurity; terrorism threat</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💶</span>Pouvoir d&#x27;achat</td>
-        <td class="val">18</td>
-        <td class="hint">very low purchasing power</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🕍 Religion</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">✝️</span>Chrétien</td>
-        <td class="val">~35.0%</td>
-        <td class="hint">mainly in south</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☪️</span>Musulman</td>
-        <td class="val">~55.0%</td>
-        <td class="hint">mainly in north</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☸️</span>Bouddhiste</td>
-        <td class="val">~0%</td>
-        <td class="hint">negligible</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">✡️</span>Juif</td>
-        <td class="val">~0%</td>
-        <td class="hint">indicative (src: Pew Research / WJC)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🕊️</span>Autre / Aucune</td>
-        <td class="val">~10.0%</td>
-        <td class="hint">animist/other</td>
-      </tr>
-    </tbody>
-    </table>
-  </section>
+  <div class="main-grid">
+    <aside class="sidebar">
+      <div class="card">
+        <img class="hero-img" src="/assets/hero-chad.jpg" alt="Chad"
+             onerror="this.onerror=null;this.src='/assets/hero-fallback.jpg'" />
+        <div class="hero-actions">
+          <button class="btn primary" type="button" onclick="openModal('general')">Corriger les données</button>
+          <button class="btn" type="button" id="btnShare">Partager</button>
+          <a class="btn" href="/compare.html?country=chad">Comparer</a>
+        </div>
+      </div>
 
-  <section class="article"><h2>Aperçu du pays</h2><h2>🧭 Aperçu</h2>
-<p>Le Tchad est un géant saharien enclavé — le 5e plus grand pays d'Afrique (1,28 M km²) et constamment parmi les nations les moins développées de la planète. Il est bordé par la Libye, le Soudan, la République centrafricaine, le Cameroun, le Nigeria et le Niger, ce qui en fait un carrefour géopolitique et une zone tampon face à l'instabilité du Sahel. N'Djamena est la capitale et la seule véritable ville. Du pétrole a été découvert en 2003 (oléoduc Tchad-Cameroun) et a brièvement promis une transformation ; les revenus ont été en grande partie captés par l'État et l'armée. Le pays est gouverné par la famille Déby depuis qu'Idriss Déby a pris le pouvoir en 1990. Il est mort en combattant des rebelles au front en 2021 ; son fils Mahamat Idriss Déby a pris le pouvoir, ratifié nominalement par une élection contestée en mai 2024. Le Tchad accueille plus de 1,1 million de réfugiés venant du Soudan, de la RCA et du Nigeria — l'un des ratios réfugiés/population les plus élevés au monde. Le lac Tchad, autrefois 4e plus grand lac d'Afrique, a rétréci de 90 % depuis les années 1960 — l'une des catastrophes climatiques les plus visibles au monde.</p>
-<h2>👥 Population & ambiance</h2>
-<p>Les ~18 millions d'habitants du Tchad sont répartis en environ 200 groupes ethniques. Le nord est majoritairement musulman et arabophone (Zaghawa, Toubou, groupes arabes) ; le sud est majoritairement chrétien ou animiste (Sara, Mundang). Cette division nord-sud a alimenté des conflits depuis l'indépendance en 1960. Le français est la langue administrative ; l'arabe est la lingua franca du commerce et de l'islam. La culture est conservatrice, tribale et profondément religieuse. N'Djamena est poussiéreuse et fonctionnelle — pas cosmopolite. Les Tchadiens sont résilients et personnellement hospitaliers, mais l'environnement social est marqué par des décennies de guerre, de pauvreté et de gouvernance militaire.</p>
-<h2>🌦️ Climat & paysage</h2>
-<p>Trois zones du nord au sud : saharienne (presque pas de pluie, jusqu'à 48 °C), sahélienne (semi-aride, 300–600 mm/an) et savane soudanienne (600–1 200 mm). N'Djamena est sahélienne — saison sèche très dure (octobre–mai, 38–45 °C), courte saison des pluies (juin–septembre). Le paysage comprend des dunes sahariennes dans le Borkou, le massif volcanique du Tibesti (Emi Koussi, 3 415 m — plus haut volcan d'Afrique) et le bassin du lac Tchad en régression. Les tempêtes de poussière Harmattan sont sévères.</p>
-<h2>🏠 Logement & installation</h2>
-<p>Pratiquement tous les expatriés se trouvent à N'Djamena, dans les quartiers Ambassades, Sabangali et Chagoua. Des compounds murés avec groupes électrogènes de secours et réservoirs d'eau sont la norme. Loyers : appartement meublé basique 900–1 600 $/mois ; villa pour expatriés 2 500–5 000 $/mois. Coupures d'électricité quotidiennes, eau transportée par camion et Internet lent sont la norme. Le logement fourni par l'employeur est courant pour le personnel humanitaire et diplomatique. En dehors de N'Djamena, aucune infrastructure expat n'existe.</p>
-<h2>💼 Travail & économie</h2>
-<p>L'économie repose sur le pétrole (plus de 60 % des recettes d'exportation), l'agriculture de subsistance (80 % de la main-d'œuvre) et l'aide humanitaire. Le Tchad reçoit chaque année des milliards d'aide internationale. Pour les étrangers, les voies viables sont : agences de l'ONU (HCR, PAM, OCHA — opérations massives), grandes ONG internationales (MSF, IRC, NRC), secteur pétrolier (CNPC), ou missions diplomatiques. Le secteur privé est négligeable. Salaires humanitaires ajustés au hardship : 3 500–8 000 $/mois. La corruption est endémique — Transparency International classe le Tchad parmi les 5 pires pays au monde.</p>
-<h2>🛂 Visa & entrée</h2>
-<p>Visa requis pour la plupart des nationalités (~130–150 $). Permis de séjour requis pour les séjours de plus de 3 mois. Permis de travail via une organisation sponsor. Autorisation de sécurité du Ministère de l'Intérieur exigée pour voyager hors de N'Djamena. De nombreuses régions sont effectivement interdites : Tibesti, l'est du Tchad (frontière du Darfour) et des parties du bassin du lac Tchad. Les gouvernements occidentaux maintiennent des avis de voyage au niveau le plus élevé pour la plupart du pays.</p>
-<h2>🏥 Santé</h2>
-<p>Le système de santé du Tchad est parmi les pires au monde — l'OMS le classe 187/191. Les hôpitaux publics sont gravement sous-dotés. Toute affection sérieuse nécessite une évacuation médicale vers le Cameroun (Yaoundé), le Kenya ou la France. Espérance de vie : ~54 ans. Paludisme hyperendémique. Ceinture de la méningite. Fièvre jaune, choléra, typhoïde et rage endémiques. Une assurance internationale complète avec évacuation aérienne (couverture minimale 1 M$) est absolument obligatoire.</p>
-<h2>🚗 Transport & mobilité</h2>
-<p>N'Djamena dispose de routes bitumées dans le centre — ailleurs, c'est du sable ou du latérite. Un 4x4 est indispensable partout en dehors de la capitale. La saison des pluies (juin–septembre) rend de nombreuses routes impraticables. Pas de chemin de fer. L'aéroport Hassan Djamous relie Paris (Air France), Addis-Abeba (Ethiopian) et Casablanca (RAM). Vols intérieurs vers Abéché et Moundou via des charters. Déplacements interurbains : taxis-brousse ou convois ONU/ONG. Des escortes armées sont requises dans les zones de conflit.</p>
-<p>🍽️ <strong>Note sur la nourriture (plat national)</strong>
-L'aliment de base est la boule (mil ou sorgho) consommée avec la sauce gombo (ragoût d'okra et de viande) ou la sauce d'arachide (sauce au beurre de cacahuète). La daraba (ragoût de feuilles) est aussi courante. À N'Djamena, les restaurants tenus par des Libanais et des Chinois constituent les meilleures options pour les expatriés. Les brochettes grillées sont le type de street food le plus répandu ; la baguette française reste un incontournable hérité de la colonisation.</p>
-<h2>🔎 En conclusion</h2>
-<p>Le Tchad n'est pas une destination de vie — c'est l'un des postes d'affectation les plus éprouvants au monde. Classement IDH : 190/193. La sécurité, la gouvernance, les infrastructures et la santé sont proches du bas de l'échelle mondiale. Ceux qui s'y rendent sont des professionnels de l'ONU/ONG, des travailleurs pétroliers, des diplomates, des journalistes ou des chercheurs. Ce que le Tchad offre, c'est le contexte : il se situe à l'intersection de la crise des réfugiés soudanais (1,1 M+ de déplacés), de l'effondrement écologique du lac Tchad, de la pression de Boko Haram à l'ouest et du débordement djihadiste du Sahel depuis le Niger et le Mali. La transition post-Déby reste fragile. À éviter si on n'est pas préparé — mais des travaux cruciaux s'y déroulent.</p>
-<p>Score expatrié — 2,5 / 10</p></section>
+      <div class="card snapshot-card">
+        <div class="snapshot-title">Aperçu rapide</div>
+        <div class="kv"><span>Capitale</span><b>N&#x27;Djamena</b></div><div class="kv"><span>Population</span><b>~18M</b></div><div class="kv"><span>Langues</span><b>Français, arabe (tous deux officiels) + ~120 langues locales</b></div><div class="kv"><span>Monnaie</span><b>Franc CFA BEAC (XAF)</b></div><div class="kv kv-sub"><span>Exchange rate</span><b>1 USD ≈ 615 XAF</b></div><div class="kv-note">Partagé avec 5 autres pays d&#x27;Afrique centrale. Arrimé à l&#x27;euro via le Trésor français. Officiellement stable, mais des pénuries de liquidités sont courantes au Tchad.</div><div class="kv"><span>Crypto-friendly</span><b>Non</b></div><div class="kv-note">Aucun cadre réglementaire. Aucune infrastructure crypto. Taux de pénétration d&#x27;Internet ~20 %. La finance numérique est quasi inexistante en dehors de N&#x27;Djamena.</div><div class="kv"><span>Conduite</span><b>Droite</b></div><div class="sector-block"><div class="sector-head">Secteurs phares</div><div class="sector-list"><div class="sector-pill">Pétrole &amp; gaz (CNPC, anciennement ExxonMobil)</div><div class="sector-pill">Secteur humanitaire / ONG (ONU, ONG internationales)</div><div class="sector-pill">Agriculture de subsistance (coton, mil, sorgho)</div></div></div>
+      </div>
 
-  <section class="ttk"><h2>À savoir</h2><div class="ttk-grid">
-      <div class="ttk-card">
-        <div class="ttk-title">👤 Idriss Déby <small>(20e–21e siècle)</small></div>
-        <p>Officier militaire qui a pris le pouvoir en décembre 1990 et a dirigé le Tchad pendant 30 ans. D&#x27;origine zaghawa du nord, il a survécu à huit offensives rebelles majeures en s&#x27;appuyant sur son réseau tribal et le soutien militaire français. Il a sécurisé l&#x27;oléoduc Tchad-Cameroun et positionné le Tchad comme l&#x27;allié occidental contre le terrorisme au Sahel. Il est mort le 20 avril 2021 — le lendemain de sa victoire à un 6e mandat présidentiel — tué en commandant les troupes contre le groupe rebelle FACT au front nord. Son fils Mahamat a pris le pouvoir immédiatement, en contournant la constitution. Héritage : 30 ans de stabilité imposée, des revenus pétroliers sans développement et une dynastie militaire en devenir.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">💧 Lac Tchad — une mer intérieure qui disparaît</div>
-        <p>Autrefois 25 000 km², le lac Tchad a rétréci à moins de 2 500 km² — une réduction de 90 % depuis les années 1960. Le changement climatique, l&#x27;irrigation en amont et la croissance démographique ont provoqué cet effondrement. Trente millions de personnes dans 4 pays (Tchad, Niger, Nigeria, Cameroun) dépendent du bassin pour survivre. Les stocks de poissons se sont effondrés, les pasteurs et agriculteurs se disputent violemment l&#x27;eau restante, et Boko Haram exploite la pauvreté et les déplacements résultants. L&#x27;un des exemples les plus clairs de catastrophe climatique — presque totalement ignorée par les médias mondiaux.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🛢️ La malédiction du pétrole — édition livre scolaire</div>
-        <p>La production pétrolière a démarré en 2003 via l&#x27;oléoduc Tchad-Cameroun (4,2 Md$, soutenu par la Banque mondiale). La Banque avait négocié une loi de gestion des revenus imposant un pourcentage dédié à la santé, l&#x27;éducation et les infrastructures. En 2006, Déby a rompu l&#x27;accord et détourné les fonds vers l&#x27;armée. La Banque s&#x27;est retirée. La production a décliné depuis son pic de 2004. Le Tchad reste au rang 190/193 sur l&#x27;IDH. Les revenus ont financé l&#x27;État de sécurité, pas le développement. Le résultat est un cas d&#x27;école étudié en économie du développement.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🏜️ Tibesti — le bastion volcanique interdit de l&#x27;Afrique</div>
-        <p>Le massif du Tibesti, dans l&#x27;extrême nord du Tchad, est l&#x27;un des endroits les plus reculés de la planète. Abritant Emi Koussi (3 415 m, plus haut volcan d&#x27;Afrique) et des caldeiras spectaculaires, il fut exploré par des expéditions françaises au début du 20e siècle. Aujourd&#x27;hui, il est contrôlé par des groupes armés toubous, inaccessible aux étrangers, et serait utilisé comme corridor d&#x27;orpaillage avec des routes de contrebande vers la Libye. Une merveille géologique que presque personne n&#x27;a vue depuis des décennies.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🌍 1,1 million de réfugiés — la méga-crise silencieuse</div>
-        <p>Le Tchad accueille plus de 1,1 million de réfugiés — principalement soudanais (fuyant le génocide au Darfour et la guerre civile de 2023), ainsi que des Centrafricains et des Nigérians. Il affiche l&#x27;un des ratios réfugiés/PIB les plus élevés au monde. L&#x27;est du Tchad (Adré, Iriba, Farchana) est devenu un vaste corridor humanitaire. Le HCR, le PAM et des dizaines d&#x27;ONG y opèrent à grande échelle. Cette crise reçoit une fraction de la couverture médiatique accordée aux histoires migratoires européennes alors qu&#x27;elle est bien plus vaste en termes humains.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">⚔️ Le dernier fort du Sahel pour la France</div>
-        <p>Le Tchad a été la pierre angulaire de la présence militaire française au Sahel pendant des décennies. L&#x27;opération Barkhane était basée à N&#x27;Djamena jusqu&#x27;en 2022. Les forces françaises sont intervenues militairement pour maintenir des gouvernements tchadiens au pouvoir au moins 4 fois. Alors que le Mali, le Burkina Faso et le Niger ont expulsé les forces françaises, le Tchad est devenu le dernier partenaire fiable de la France dans la région. Cette relation Françafrique — protection militaire en échange de loyauté et d&#x27;accès aux ressources — est à la fois le bouclier sécuritaire du Tchad et sa cage politique.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🦁 Zakouma — l&#x27;histoire du succès de la conservation africaine</div>
-        <p>Le parc national de Zakouma, dans le sud-est du Tchad, est un véritable succès de conservation. Lorsque African Parks a pris la gestion en 2010, les éléphants étaient passés de 4 000 à ~450 à cause du braconnage par les milices Janjaweed. En 2024, les éléphants ont retrouvé plus de 1 000 individus. Lions, buffles, girafes du Kordofan et élands géants prospèrent. C&#x27;est un lieu éloigné (vols affrétés depuis N&#x27;Djamena), coûteux et extraordinaire — la preuve que la conservation fonctionne avec un financement et une gestion appropriés, même dans les environnements les plus difficiles.</p>
-      </div></div></section>
+      
+        <div class="card persona-card">
+          <div class="snapshot-title">Figure du pays</div>
+          <div class="persona-name">Idriss Déby <small>(20e–21e siècle)</small></div>
+          <div class="persona-why">Officier militaire qui a pris le pouvoir en décembre 1990 et a dirigé le Tchad pendant 30 ans. D&#x27;origine zaghawa du nord, il a survécu à huit offensives rebelles majeures en s&#x27;appuyant sur son réseau tribal et le soutien militaire français. Il a sécurisé l&#x27;oléoduc Tchad-Cameroun et positionné le Tchad comme l&#x27;allié occidental contre le terrorisme au Sahel. Il est mort le 20 avril 2021 — le lendemain de sa victoire à un 6e mandat présidentiel — tué en commandant les troupes contre le groupe rebelle FACT au front nord. Son fils Mahamat a pris le pouvoir immédiatement, en contournant la constitution. Héritage : 30 ans de stabilité imposée, des revenus pétroliers sans développement et une dynastie militaire en devenir.</div>
+        </div>
+    </aside>
 
-  
-  
-  
+    <div class="right-col">
+      <div class="rc-wrapper">
+        
+        
+      </div>
 
-  <p style="text-align:center;margin-top:30px"><a href="/globe.html" style="font-weight:600">Voir les 160+ pays →</a></p>
+      <div class="data-card">
+        <table class="data-table">
+      <tbody>
+        <tr class="sec"><td colspan="4">💼 Salaires (net / mois)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧾</span>Salaire minimum</td>
+          <td class="val">$100</td>
+          <td class="hint">SMIG ≈ 60 000 XAF → net ≈ 54 000 XAF (2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('min_wage')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📊</span>Salaire moyen</td>
+          <td class="val">$210</td>
+          <td class="hint">Moyenne nette ≈ 127 000 XAF/mois secteur formel (INSEED Tchad 2024 — N&#x27;Djamena plus élevé; prime pétrolière)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('avg_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🩺</span>Salaire médecin (généraliste)</td>
+          <td class="val">$800</td>
+          <td class="hint">public sector physician indicative</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('doctor_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🏠 Logement et charges (studio référence)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏚️</span>Loyer studio</td>
+          <td class="val">$200</td>
+          <td class="hint">N&#x27;Djamena basic accommodation; rural much less</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('rent_studio')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">⚡</span>Électricité</td>
+          <td class="val">$45</td>
+          <td class="hint">limited access; frequent outages</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('electricity')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💧</span>Eau</td>
+          <td class="val">$15</td>
+          <td class="hint">access extremely limited outside cities</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('water')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📱</span>Forfait mobile</td>
+          <td class="val">$12</td>
+          <td class="hint">basic mobile plan</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('mobile')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🍽️ Alimentation et boissons (prix indicatifs)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍺</span>Bière (pinte)</td>
+          <td class="val">$3</td>
+          <td class="hint">local bar price where available</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('beer')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☕</span>Café</td>
+          <td class="val">$1.5</td>
+          <td class="hint">basic coffee</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('coffee')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍲</span>Plat principal</td>
+          <td class="val">$8</td>
+          <td class="hint">local restaurant meal</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('dish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">⛽ Transport</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">⛽</span>Essence / litre</td>
+          <td class="val">$1.35 / L</td>
+          <td class="hint">fuel price 2025</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('gas')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🧾 Fiscalité (indicatif)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏷️</span>TVA</td>
+          <td class="val">18%</td>
+          <td class="hint">standard VAT rate</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('vat')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">👤</span>Impôt sur le revenu</td>
+          <td class="val">0-30%</td>
+          <td class="hint">progressive income tax</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('income_tax')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏪</span>Fiscalité petite entreprise</td>
+          <td class="val">N/A</td>
+          <td class="hint">informal economy dominates</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('smallbiz')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📱 Tech (prix indicatifs)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍎</span>iPhone (dernier 256 Go)</td>
+          <td class="val">$1,200</td>
+          <td class="hint">imported electronics expensive</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('iphone')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📲</span>Galaxy S (dernier 256 Go)</td>
+          <td class="val">$800</td>
+          <td class="hint">imported pricing</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('samsung')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🛂 Immigration et installation</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🛂</span>Facilité d&#x27;immigration</td>
+          <td class="val">2 / 10</td>
+          <td class="hint">extremely difficult; conflict zone</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('immigration')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🌤️ Qualité de vie</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🙂</span>Bonheur</td>
+          <td class="val">3.76 / 10</td>
+          <td class="hint">World Happiness Report (one of lowest)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('happiness')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☀️</span>Jours de soleil / an</td>
+          <td class="val">~300 days / year</td>
+          <td class="hint">Sahel climate; very hot</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('sun')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏥</span>Santé publique</td>
+          <td class="val">Very Limited</td>
+          <td class="hint">minimal public healthcare infrastructure</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('health')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧑‍⚕️</span>Assurance privée / mois</td>
+          <td class="val">N/A</td>
+          <td class="hint">private insurance rare</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('insurance')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📈 Indices</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🚔</span>Indice criminalité</td>
+          <td class="val">65 / 100</td>
+          <td class="hint">high insecurity; terrorism threat</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('crime')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💶</span>Pouvoir d&#x27;achat</td>
+          <td class="val">18</td>
+          <td class="hint">very low purchasing power</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('pp')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🕍 Religion</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">✝️</span>Chrétien</td>
+          <td class="val">~35.0%</td>
+          <td class="hint">mainly in south</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_christian')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☪️</span>Musulman</td>
+          <td class="val">~55.0%</td>
+          <td class="hint">mainly in north</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_muslim')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☸️</span>Bouddhiste</td>
+          <td class="val">~0%</td>
+          <td class="hint">negligible</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_buddhist')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">✡️</span>Juif</td>
+          <td class="val">~0%</td>
+          <td class="hint">indicative (src: Pew Research / WJC)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_jewish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🕊️</span>Autre / Aucune</td>
+          <td class="val">~10.0%</td>
+          <td class="hint">animist/other</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_other')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+        </table>
+      </div>
+
+      
+      <div class="article-card">
+        <div class="section-head">
+          <h2>Vivre au Chad</h2>
+          <span class="score-badge"><span class="score-star">⭐</span> Score Expat: 2.5 / 10</span>
+        </div>
+        <div class="article-body"><p>🧭 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Aperçu</span><br>
+Le Tchad est un géant saharien enclavé — le 5e plus grand pays d&#x27;Afrique (1,28 M km²) et constamment parmi les nations les moins développées de la planète. Il est bordé par la Libye, le Soudan, la République centrafricaine, le Cameroun, le Nigeria et le Niger, ce qui en fait un carrefour géopolitique et une zone tampon face à l&#x27;instabilité du Sahel. N&#x27;Djamena est la capitale et la seule véritable ville. Du pétrole a été découvert en 2003 (oléoduc Tchad-Cameroun) et a brièvement promis une transformation ; les revenus ont été en grande partie captés par l&#x27;État et l&#x27;armée. Le pays est gouverné par la famille Déby depuis qu&#x27;Idriss Déby a pris le pouvoir en 1990. Il est mort en combattant des rebelles au front en 2021 ; son fils Mahamat Idriss Déby a pris le pouvoir, ratifié nominalement par une élection contestée en mai 2024. Le Tchad accueille plus de 1,1 million de réfugiés venant du Soudan, de la RCA et du Nigeria — l&#x27;un des ratios réfugiés/population les plus élevés au monde. Le lac Tchad, autrefois 4e plus grand lac d&#x27;Afrique, a rétréci de 90 % depuis les années 1960 — l&#x27;une des catastrophes climatiques les plus visibles au monde.</p><p>👥 <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Population &amp; ambiance</span><br>
+Les ~18 millions d&#x27;habitants du Tchad sont répartis en environ 200 groupes ethniques. Le nord est majoritairement musulman et arabophone (Zaghawa, Toubou, groupes arabes) ; le sud est majoritairement chrétien ou animiste (Sara, Mundang). Cette division nord-sud a alimenté des conflits depuis l&#x27;indépendance en 1960. Le français est la langue administrative ; l&#x27;arabe est la lingua franca du commerce et de l&#x27;islam. La culture est conservatrice, tribale et profondément religieuse. N&#x27;Djamena est poussiéreuse et fonctionnelle — pas cosmopolite. Les Tchadiens sont résilients et personnellement hospitaliers, mais l&#x27;environnement social est marqué par des décennies de guerre, de pauvreté et de gouvernance militaire.</p><p>🌦️ <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Climat &amp; paysage</span><br>
+Trois zones du nord au sud : saharienne (presque pas de pluie, jusqu&#x27;à 48 °C), sahélienne (semi-aride, 300–600 mm/an) et savane soudanienne (600–1 200 mm). N&#x27;Djamena est sahélienne — saison sèche très dure (octobre–mai, 38–45 °C), courte saison des pluies (juin–septembre). Le paysage comprend des dunes sahariennes dans le Borkou, le massif volcanique du Tibesti (Emi Koussi, 3 415 m — plus haut volcan d&#x27;Afrique) et le bassin du lac Tchad en régression. Les tempêtes de poussière Harmattan sont sévères.</p><p>🏠 <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Logement &amp; installation</span><br>
+Pratiquement tous les expatriés se trouvent à N&#x27;Djamena, dans les quartiers Ambassades, Sabangali et Chagoua. Des compounds murés avec groupes électrogènes de secours et réservoirs d&#x27;eau sont la norme. Loyers : appartement meublé basique 900–1 600 $/mois ; villa pour expatriés 2 500–5 000 $/mois. Coupures d&#x27;électricité quotidiennes, eau transportée par camion et Internet lent sont la norme. Le logement fourni par l&#x27;employeur est courant pour le personnel humanitaire et diplomatique. En dehors de N&#x27;Djamena, aucune infrastructure expat n&#x27;existe.</p><p>💼 <span class="art-tag" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#6d28d9">Travail &amp; économie</span><br>
+L&#x27;économie repose sur le pétrole (plus de 60 % des recettes d&#x27;exportation), l&#x27;agriculture de subsistance (80 % de la main-d&#x27;œuvre) et l&#x27;aide humanitaire. Le Tchad reçoit chaque année des milliards d&#x27;aide internationale. Pour les étrangers, les voies viables sont : agences de l&#x27;ONU (HCR, PAM, OCHA — opérations massives), grandes ONG internationales (MSF, IRC, NRC), secteur pétrolier (CNPC), ou missions diplomatiques. Le secteur privé est négligeable. Salaires humanitaires ajustés au hardship : 3 500–8 000 $/mois. La corruption est endémique — Transparency International classe le Tchad parmi les 5 pires pays au monde.</p>
+        <div class="map-card">
+          <div class="map-header">
+            <div class="map-title"><span class="map-flag">🇹🇩</span><span>Chad — Carte</span></div>
+            <div class="map-styles">
+              <button type="button" class="map-style-btn active" data-style="light">Clair</button>
+              <button type="button" class="map-style-btn" data-style="dark">Sombre</button>
+              <button type="button" class="map-style-btn" data-style="satellite">Satellite</button>
+            </div>
+          </div>
+          <div class="map-container">
+            <div id="wigg-country-map"></div>
+            <div class="map-loading" id="wiggMapLoading">Chargement de la carte…</div>
+          </div>
+        </div><p>🛂 <span class="art-tag" style="background:rgba(236,72,153,.12);border:1px solid rgba(236,72,153,.25);color:#be185d">Visa &amp; entrée</span><br>
+Visa requis pour la plupart des nationalités (~130–150 $). Permis de séjour requis pour les séjours de plus de 3 mois. Permis de travail via une organisation sponsor. Autorisation de sécurité du Ministère de l&#x27;Intérieur exigée pour voyager hors de N&#x27;Djamena. De nombreuses régions sont effectivement interdites : Tibesti, l&#x27;est du Tchad (frontière du Darfour) et des parties du bassin du lac Tchad. Les gouvernements occidentaux maintiennent des avis de voyage au niveau le plus élevé pour la plupart du pays.</p><p>🏥 <span class="art-tag" style="background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.25);color:#0e7490">Santé</span><br>
+Le système de santé du Tchad est parmi les pires au monde — l&#x27;OMS le classe 187/191. Les hôpitaux publics sont gravement sous-dotés. Toute affection sérieuse nécessite une évacuation médicale vers le Cameroun (Yaoundé), le Kenya ou la France. Espérance de vie : ~54 ans. Paludisme hyperendémique. Ceinture de la méningite. Fièvre jaune, choléra, typhoïde et rage endémiques. Une assurance internationale complète avec évacuation aérienne (couverture minimale 1 M$) est absolument obligatoire.</p><p>🚗 <span class="art-tag" style="background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#c2410c">Transport &amp; mobilité</span><br>
+N&#x27;Djamena dispose de routes bitumées dans le centre — ailleurs, c&#x27;est du sable ou du latérite. Un 4x4 est indispensable partout en dehors de la capitale. La saison des pluies (juin–septembre) rend de nombreuses routes impraticables. Pas de chemin de fer. L&#x27;aéroport Hassan Djamous relie Paris (Air France), Addis-Abeba (Ethiopian) et Casablanca (RAM). Vols intérieurs vers Abéché et Moundou via des charters. Déplacements interurbains : taxis-brousse ou convois ONU/ONG. Des escortes armées sont requises dans les zones de conflit.</p><p>🍽️ <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Note sur la nourriture (plat national)</span><br>
+L&#x27;aliment de base est la boule (mil ou sorgho) consommée avec la sauce gombo (ragoût d&#x27;okra et de viande) ou la sauce d&#x27;arachide (sauce au beurre de cacahuète). La daraba (ragoût de feuilles) est aussi courante. À N&#x27;Djamena, les restaurants tenus par des Libanais et des Chinois constituent les meilleures options pour les expatriés. Les brochettes grillées sont le type de street food le plus répandu ; la baguette française reste un incontournable hérité de la colonisation.</p><p>🔎 <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">En conclusion</span><br>
+Le Tchad n&#x27;est pas une destination de vie — c&#x27;est l&#x27;un des postes d&#x27;affectation les plus éprouvants au monde. Classement IDH : 190/193. La sécurité, la gouvernance, les infrastructures et la santé sont proches du bas de l&#x27;échelle mondiale. Ceux qui s&#x27;y rendent sont des professionnels de l&#x27;ONU/ONG, des travailleurs pétroliers, des diplomates, des journalistes ou des chercheurs. Ce que le Tchad offre, c&#x27;est le contexte : il se situe à l&#x27;intersection de la crise des réfugiés soudanais (1,1 M+ de déplacés), de l&#x27;effondrement écologique du lac Tchad, de la pression de Boko Haram à l&#x27;ouest et du débordement djihadiste du Sahel depuis le Niger et le Mali. La transition post-Déby reste fragile. À éviter si on n&#x27;est pas préparé — mais des travaux cruciaux s&#x27;y déroulent.</p><p>Score expatrié — 2,5 / 10</p></div>
+      </div>
+
+      
+      <div class="things-section">
+        <div class="section-head"><h2>À savoir</h2><span class="wg-badge">À lire</span></div>
+        <div class="facts-grid"><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">💧 Lac Tchad — une mer intérieure qui disparaît</div><div class="fact-text">Autrefois 25 000 km², le lac Tchad a rétréci à moins de 2 500 km² — une réduction de 90 % depuis les années 1960. Le changement climatique, l&#x27;irrigation en amont et la croissance démographique ont provoqué cet effondrement. Trente millions de personnes dans 4 pays (Tchad, Niger, Nigeria, Cameroun) dépendent du bassin pour survivre. Les stocks de poissons se sont effondrés, les pasteurs et agriculteurs se disputent violemment l&#x27;eau restante, et Boko Haram exploite la pauvreté et les déplacements résultants. L&#x27;un des exemples les plus clairs de catastrophe climatique — presque totalement ignorée par les médias mondiaux.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🛢️ La malédiction du pétrole — édition livre scolaire</div><div class="fact-text">La production pétrolière a démarré en 2003 via l&#x27;oléoduc Tchad-Cameroun (4,2 Md$, soutenu par la Banque mondiale). La Banque avait négocié une loi de gestion des revenus imposant un pourcentage dédié à la santé, l&#x27;éducation et les infrastructures. En 2006, Déby a rompu l&#x27;accord et détourné les fonds vers l&#x27;armée. La Banque s&#x27;est retirée. La production a décliné depuis son pic de 2004. Le Tchad reste au rang 190/193 sur l&#x27;IDH. Les revenus ont financé l&#x27;État de sécurité, pas le développement. Le résultat est un cas d&#x27;école étudié en économie du développement.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏜️ Tibesti — le bastion volcanique interdit de l&#x27;Afrique</div><div class="fact-text">Le massif du Tibesti, dans l&#x27;extrême nord du Tchad, est l&#x27;un des endroits les plus reculés de la planète. Abritant Emi Koussi (3 415 m, plus haut volcan d&#x27;Afrique) et des caldeiras spectaculaires, il fut exploré par des expéditions françaises au début du 20e siècle. Aujourd&#x27;hui, il est contrôlé par des groupes armés toubous, inaccessible aux étrangers, et serait utilisé comme corridor d&#x27;orpaillage avec des routes de contrebande vers la Libye. Une merveille géologique que presque personne n&#x27;a vue depuis des décennies.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🌍 1,1 million de réfugiés — la méga-crise silencieuse</div><div class="fact-text">Le Tchad accueille plus de 1,1 million de réfugiés — principalement soudanais (fuyant le génocide au Darfour et la guerre civile de 2023), ainsi que des Centrafricains et des Nigérians. Il affiche l&#x27;un des ratios réfugiés/PIB les plus élevés au monde. L&#x27;est du Tchad (Adré, Iriba, Farchana) est devenu un vaste corridor humanitaire. Le HCR, le PAM et des dizaines d&#x27;ONG y opèrent à grande échelle. Cette crise reçoit une fraction de la couverture médiatique accordée aux histoires migratoires européennes alors qu&#x27;elle est bien plus vaste en termes humains.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">⚔️ Le dernier fort du Sahel pour la France</div><div class="fact-text">Le Tchad a été la pierre angulaire de la présence militaire française au Sahel pendant des décennies. L&#x27;opération Barkhane était basée à N&#x27;Djamena jusqu&#x27;en 2022. Les forces françaises sont intervenues militairement pour maintenir des gouvernements tchadiens au pouvoir au moins 4 fois. Alors que le Mali, le Burkina Faso et le Niger ont expulsé les forces françaises, le Tchad est devenu le dernier partenaire fiable de la France dans la région. Cette relation Françafrique — protection militaire en échange de loyauté et d&#x27;accès aux ressources — est à la fois le bouclier sécuritaire du Tchad et sa cage politique.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🦁 Zakouma — l&#x27;histoire du succès de la conservation africaine</div><div class="fact-text">Le parc national de Zakouma, dans le sud-est du Tchad, est un véritable succès de conservation. Lorsque African Parks a pris la gestion en 2010, les éléphants étaient passés de 4 000 à ~450 à cause du braconnage par les milices Janjaweed. En 2024, les éléphants ont retrouvé plus de 1 000 individus. Lions, buffles, girafes du Kordofan et élands géants prospèrent. C&#x27;est un lieu éloigné (vols affrétés depuis N&#x27;Djamena), coûteux et extraordinaire — la preuve que la conservation fonctionne avec un financement et une gestion appropriés, même dans les environnements les plus difficiles.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🍽️ Boule de mil / Sauce gombo / Daraba</div><div class="fact-text">Boules de mil accompagnées d&#x27;un ragoût d&#x27;okra ou d&#x27;une sauce d&#x27;arachide — le plat de base quotidien. N&#x27;Djamena compte des restaurants libanais et chinois pour varier.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏳️‍🌈 LGBT+: Illégal / extrêmement hostile</div><div class="fact-text">L&#x27;homosexualité est criminalisée — jusqu&#x27;à 3 ans d&#x27;emprisonnement. Complètement taboue culturellement et religieusement. Aucune visibilité, aucune protection. Une discrétion absolue est impérative.</div></div></div>
+      </div>
+
+      
+    </div>
+  </div>
 </main>
 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
+<script src="/data/share.js"></script>
+<script src="/data/correction-form.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var t = document.getElementById("localTime");
+  if(t && t.dataset.tz){
+    function tick(){
+      try{
+        t.textContent = new Intl.DateTimeFormat("en-GB",{
+          timeZone: t.dataset.tz, hour:"2-digit", minute:"2-digit"
+        }).format(new Date());
+      }catch(e){}
+    }
+    tick(); setInterval(tick, 30000);
+  }
+  document.querySelectorAll(".rc-nav-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var targetId = btn.dataset.target;
+      var dir = parseInt(btn.dataset.dir||"1",10);
+      var row = document.getElementById(targetId);
+      if(!row) return;
+      var box = row.parentElement;
+      var first = row.querySelector(".rc-vcard");
+      if(!first) return;
+      var cardW = first.offsetWidth + 9;
+      var visible = Math.max(1, Math.floor(box.offsetWidth / cardW));
+      var maxOffset = Math.max(0, row.children.length - visible);
+      var current = parseInt(row.dataset.offset||"0", 10);
+      current = Math.min(maxOffset, Math.max(0, current + dir));
+      row.dataset.offset = current;
+      row.style.transform = "translateX(-" + (current * cardW) + "px)";
+      var nav = btn.parentNode;
+      var prev = nav.querySelector('[data-dir="-1"]');
+      var next = nav.querySelector('[data-dir="1"]');
+      if(prev) prev.disabled = (current === 0);
+      if(next) next.disabled = (current >= maxOffset);
+    });
+  });
+  var iso2 = "TD";
+  if(!iso2 || typeof L === "undefined") return;
+  var STYLES = {
+    light:     { url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", attr: "&copy; OSM &copy; CARTO" },
+    dark:      { url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",  attr: "&copy; OSM &copy; CARTO" },
+    satellite: { url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", attr: "&copy; Esri" }
+  };
+  var wMap=null, wLayer=null, wMarker=null;
+  function initMap(lat, lon){
+    var el = document.getElementById("wigg-country-map");
+    if(!el) return;
+    if(wMap){ try{wMap.remove();}catch(e){} }
+    wMap = L.map("wigg-country-map",{zoomControl:true}).setView([lat,lon],5);
+    wLayer = L.tileLayer(STYLES.light.url,{attribution:STYLES.light.attr,maxZoom:18}).addTo(wMap);
+    wMarker = L.marker([lat,lon]).addTo(wMap);
+    var loading = document.getElementById("wiggMapLoading");
+    if(loading) loading.classList.add("hidden");
+  }
+  document.querySelectorAll(".map-style-btn").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(!wMap) return;
+      var s = STYLES[b.dataset.style];
+      if(!s) return;
+      if(wLayer) wMap.removeLayer(wLayer);
+      wLayer = L.tileLayer(s.url,{attribution:s.attr,maxZoom:18}).addTo(wMap);
+      document.querySelectorAll(".map-style-btn").forEach(function(x){x.classList.remove("active");});
+      b.classList.add("active");
+    });
+  });
+  var cacheKey = "wigg_centroid_" + iso2;
+  var cached = null;
+  try { cached = JSON.parse(localStorage.getItem(cacheKey) || "null"); } catch(e){}
+  if(cached && cached.lat != null && cached.lon != null){
+    initMap(cached.lat, cached.lon); return;
+  }
+  fetch("https://nominatim.openstreetmap.org/search?country=" + encodeURIComponent(iso2) + "&format=json&limit=1")
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && d[0]){
+        var coords = { lat: +d[0].lat, lon: +d[0].lon };
+        try { localStorage.setItem(cacheKey, JSON.stringify(coords)); } catch(e){}
+        initMap(coords.lat, coords.lon);
+      } else {
+        var l = document.getElementById("wiggMapLoading");
+        if(l) l.textContent = "Carte indisponible";
+      }
+    })
+    .catch(function(){
+      var l = document.getElementById("wiggMapLoading");
+      if(l) l.textContent = "Carte indisponible";
+    });
+})();
+</script>
+
+<form name="wiggmap-corrections" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="wiggmap-corrections" />
+  <p><label>Don't fill this out: <input name="bot-field" /></label></p>
+  <input name="country" /><input name="field" /><input name="value" /><input name="email" /><textarea name="notes"></textarea>
+</form>
+
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
 </body>
 </html>

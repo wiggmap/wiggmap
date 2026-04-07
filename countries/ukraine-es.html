@@ -25,65 +25,127 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#f6f1e8;--paper:#fffdf8;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--green:#1d7f48;--green-dk:#155f36;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
+    :root{--paper:#fffdf8;--paper-2:#fbf7ee;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--line-soft:rgba(23,23,20,.06);--green:#1d7f48;--green-dk:#155f36;--green-light:#e6f4ec;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
     html{scroll-behavior:smooth}
     body{font-family:"Inter",system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f9f5ed 0%,#f3ede3 100%);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
     a{color:var(--green);text-decoration:none}
     a:hover{text-decoration:underline}
-    main{max-width:980px;margin:0 auto;padding:28px 20px 80px}
-    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:18px;letter-spacing:.04em}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:14px;letter-spacing:.04em}
     .crumb a{color:var(--ink-soft)}
-    .hero{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:36px 32px;box-shadow:var(--shadow);margin-bottom:24px;position:relative;overflow:hidden}
-    .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 18%,rgba(29,127,72,.05),transparent 30%);pointer-events:none}
-    .hero-flag{font-size:48px;line-height:1;margin-bottom:14px}
-    .hero h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(36px,6vw,56px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:10px;position:relative;z-index:1}
-    .hero .subtitle{font-size:15px;color:var(--ink-soft);max-width:62ch;line-height:1.6;position:relative;z-index:1}
-    .hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;position:relative;z-index:1}
-    .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid var(--line)}
-    .badge.green{background:#e6f4ec;color:var(--green-dk);border-color:rgba(29,127,72,.2)}
+    .country-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:22px;flex-wrap:wrap}
+    .country-flag{font-size:42px;line-height:1;margin-bottom:8px}
+    .country-head h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(34px,5.2vw,52px);font-weight:800;letter-spacing:-.02em;line-height:1.02}
+    .country-head .subtitle{font-size:14px;color:var(--ink-soft);max-width:64ch;line-height:1.55;margin-top:8px}
+    .head-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+    .badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:7px 13px;border-radius:999px;background:#fff;border:1px solid var(--line)}
+    .badge.green{background:var(--green-light);color:var(--green-dk);border-color:rgba(29,127,72,.22)}
     .badge.yellow{background:#fef9e7;color:#a16207;border-color:rgba(202,138,4,.25)}
     .badge.red{background:#fdecec;color:#b91c1c;border-color:rgba(185,28,28,.25)}
-    .snapshot{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px 26px;box-shadow:var(--shadow);margin-bottom:24px}
-    .snapshot h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;margin-bottom:14px}
-    .snap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
-    .snap-item{font-size:13px}
-    .snap-item strong{display:block;color:var(--ink-soft);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
-    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
-    .data-card h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;padding:20px 26px 8px}
+    .badge .dot{width:8px;height:8px;border-radius:999px;background:currentColor;display:inline-block}
+    .local-time{font-size:12px;color:var(--ink-soft);font-weight:600}
+    .local-time b{color:var(--ink);margin-left:5px;font-weight:800}
+    .main-grid{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+    @media(max-width:900px){.main-grid{grid-template-columns:1fr}}
+    .sidebar{display:flex;flex-direction:column;gap:14px;align-self:start;position:sticky;top:18px}
+    @media(max-width:900px){.sidebar{position:static}}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .hero-img{width:100%;height:200px;object-fit:cover;display:block;background:#eaddc4}
+    .hero-actions{padding:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:8px;font-family:inherit;font-weight:700;font-size:12.5px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;transition:background .14s,border-color .14s}
+    .btn:hover{background:rgba(0,0,0,.04)}
+    .btn.primary{background:var(--green);color:#fff;border-color:transparent}
+    .btn.primary:hover{background:var(--green-dk)}
+    .snapshot-card{padding:16px}
+    .snapshot-title{font-family:"Fraunces",Georgia,serif;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px;letter-spacing:-.01em}
+    .kv{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--line-soft);font-size:12.5px}
+    .kv span{color:var(--ink-soft)}
+    .kv b{color:var(--ink);font-weight:700;text-align:right;max-width:60%}
+    .kv-sub{padding-left:10px;font-size:11.5px;opacity:.85}
+    .kv-note{font-size:11px;color:var(--ink-soft);line-height:1.5;padding:6px 0 8px;font-style:italic;border-bottom:1px solid var(--line-soft)}
+    .sector-block{padding-top:10px;margin-top:6px;border-top:1px solid var(--line-soft)}
+    .sector-head{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+    .sector-list{display:flex;flex-direction:column;gap:5px}
+    .sector-pill{background:rgba(29,127,72,.08);border:1px solid rgba(29,127,72,.2);border-radius:7px;padding:5px 10px;font-size:11.5px;font-weight:700;color:var(--green-dk);line-height:1.4}
+    .persona-card{padding:16px}
+    .persona-name{font-weight:800;font-size:13px;margin-bottom:6px}
+    .persona-name small{font-weight:500;opacity:.6;font-size:11px}
+    .persona-why{font-size:11.5px;color:var(--ink-soft);line-height:1.55;font-style:italic}
+    .right-col{display:flex;flex-direction:column;gap:18px;min-width:0}
+    .rc-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:760px){.rc-wrapper{grid-template-columns:1fr}}
+    .rc-box{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 14px 12px;overflow:hidden}
+    .rc-box-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:6px}
+    .rc-box-head h2{font-family:"Fraunces",Georgia,serif;font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+    .rc-nav{display:flex;gap:4px}
+    .rc-nav-btn{width:24px;height:24px;border-radius:6px;border:1px solid var(--line);background:#fff;font-size:13px;cursor:pointer;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;line-height:1;transition:all .14s}
+    .rc-nav-btn:hover{background:var(--green);color:#fff;border-color:transparent}
+    .rc-nav-btn:disabled{opacity:.35;cursor:not-allowed}
+    .rc-track{overflow:hidden}
+    .rc-row{display:flex;gap:9px;transition:transform .35s ease;will-change:transform}
+    .rc-vcard{flex-shrink:0;width:130px;height:90px;border-radius:10px;overflow:hidden;position:relative;background:#e9dfca;border:1px solid var(--line);transition:transform .15s,box-shadow .15s}
+    .rc-vcard:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10);text-decoration:none}
+    .rc-vimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .rc-vemoji{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;background:linear-gradient(135deg,#ede5d8,#ddd3c4)}
+    .rc-vgrad{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,8,.85) 0%,rgba(20,15,8,.2) 55%,transparent 100%)}
+    .rc-vbody{position:absolute;left:0;right:0;bottom:0;padding:7px 9px;z-index:2}
+    .rc-vtitle{font-family:"Fraunces",Georgia,serif;font-size:10.5px;font-weight:700;color:#fff;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
     .data-table{width:100%;border-collapse:collapse;font-size:13px}
-    .data-table .sec td{background:#f8f4eb;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:10px 26px;color:var(--ink-soft);border-top:1px solid var(--line)}
-    .data-table td{padding:9px 26px;border-bottom:1px solid var(--line);vertical-align:top}
+    .data-table .sec td{background:#f4eedf;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:11px 22px;color:var(--ink-soft);border-top:1px solid var(--line)}
+    .data-table td{padding:9px 22px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+    .data-table tr:last-child td{border-bottom:none}
     .data-table td.lbl{width:42%;color:var(--ink)}
-    .data-table td.val{width:22%;font-weight:700}
+    .data-table td.val{width:25%;font-weight:700}
     .data-table td.hint{font-size:11.5px;color:var(--ink-soft)}
+    .data-table td.edit{width:30px;text-align:right;padding-right:14px}
     .data-table .ico{margin-right:8px}
-    .article{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px;margin-bottom:24px}
-    .article h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:700;margin:24px 0 10px;color:var(--ink)}
-    .article h2:first-child{margin-top:0}
-    .article p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.75}
-    .article p strong{color:var(--ink);font-weight:600}
-    .ttk{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-bottom:24px}
-    .ttk h2{font-family:"Fraunces",Georgia,serif;font-size:20px;font-weight:700;margin-bottom:16px}
-    .ttk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-    .ttk-card{background:#fbf7ee;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
-    .ttk-card .ttk-title{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink)}
-    .ttk-card p{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
-    .ttk-card small{font-weight:500;color:var(--ink-soft)}
-    .related{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px;margin-bottom:18px}
-    .related h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
-    .link-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px 18px}
-    .link-list li{font-size:13.5px;line-height:1.5;padding-left:14px;position:relative}
-    .link-list li::before{content:"›";position:absolute;left:0;color:var(--green)}
-    @media (max-width:640px){
-      main{padding:20px 14px 60px}
-      .hero{padding:26px 22px}
-      .data-table td{padding:9px 16px}
-      .data-table .sec td{padding:10px 16px}
-      .article{padding:24px 22px}
-      .ttk{padding:22px 22px}
-      .related{padding:20px 22px}
+    .edit-btn{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:13px;opacity:.4;transition:opacity .14s;padding:2px 4px}
+    .edit-btn:hover{opacity:1;color:var(--green)}
+    .article-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px}
+    .section-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+    .section-head h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:800;letter-spacing:-.01em;color:var(--ink)}
+    .score-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-light);border:1px solid rgba(29,127,72,.25);color:var(--green-dk);padding:5px 12px;border-radius:999px;font-size:12px;font-weight:700}
+    .article-body p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.78}
+    .article-body p:last-child{margin-bottom:0}
+    .art-tag{display:inline-block;padding:3px 10px;border-radius:6px;font-weight:700;font-size:13px;margin-bottom:6px;line-height:1.5}
+    .map-card{margin:22px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper-2)}
+    .map-header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);gap:8px;flex-wrap:wrap}
+    .map-title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}
+    .map-flag{font-size:18px}
+    .map-styles{display:flex;gap:4px}
+    .map-style-btn{font-size:11px;font-weight:700;padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;color:var(--ink-soft);cursor:pointer;transition:all .14s}
+    .map-style-btn:hover{border-color:var(--green);color:var(--green)}
+    .map-style-btn.active{background:var(--green);color:#fff;border-color:transparent}
+    .map-container{position:relative;height:320px}
+    #wigg-country-map{position:absolute;inset:0}
+    .map-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper-2);color:var(--ink-soft);font-size:13px;z-index:10}
+    .map-loading.hidden{display:none}
+    .things-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px}
+    .wg-badge{display:inline-flex;align-items:center;gap:5px;background:#fef3c7;border:1px solid rgba(202,138,4,.3);color:#92400e;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+    .facts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .fact-card{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden}
+    .fact-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green)}
+    .fact-title{font-weight:800;font-size:13px;margin-bottom:6px;color:var(--ink);padding-left:6px}
+    .fact-text{font-size:12.5px;color:var(--ink-soft);line-height:1.55;padding-left:6px}
+    .cmp-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px}
+    .cmp-section h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
+    .cmp-pills{display:flex;flex-wrap:wrap;gap:8px}
+    .cmp-pill{display:inline-block;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:600;color:var(--ink);transition:all .14s}
+    .cmp-pill:hover{border-color:var(--green);background:var(--green);color:#fff;text-decoration:none}
+    @media(max-width:640px){
+      .wrap{padding:18px 14px 60px}
+      .country-head{flex-direction:column}
+      .head-right{align-items:flex-start}
+      .data-table td{padding:9px 14px}
+      .data-table .sec td{padding:11px 14px}
+      .article-card{padding:24px 22px}
+      .things-section{padding:22px 22px}
+      .cmp-section{padding:20px 22px}
+      .map-container{height:240px}
     }
   </style>
 </head>
@@ -92,268 +154,410 @@
 <div id="siteHeader"></div>
 <script src="/data/header.js"></script>
 
-<main>
+<main class="wrap">
   <nav class="crumb"><a href="/">Inicio</a> › <a href="/globe.html">Países</a> › Ucrania</nav>
 
-  <section class="hero">
-    <div class="hero-flag">🇺🇦</div>
-    <h1>Ucrania</h1>
-    <p class="subtitle">Promedios indicativos (Kiev más alto; las condiciones varían; neto / mes a menos que se indique)</p>
-    <div class="hero-badges">
-      <span class="badge red">WIGG: RED</span>
-      <span class="badge">⭐ Puntuación expat: 2.0 / 10</span>
+  <div class="country-head">
+    <div>
+      <div class="country-flag">🇺🇦</div>
+      <h1>Ucrania</h1>
+      <p class="subtitle">Promedios indicativos (Kiev más alto; las condiciones varían; neto / mes a menos que se indique)</p>
     </div>
-  </section>
-
-  <section class="snapshot">
-    <h2>Vistazo rápido</h2>
-    <div class="snap-grid">
-      <div class="snap-item"><strong>Capital</strong>Kyiv</div>
-      <div class="snap-item"><strong>Población</strong>~38M (pre-guerra ~43M, millones desplazados/que huyeron)</div>
-      <div class="snap-item"><strong>Idiomas</strong>Ucraniano, ruso, inglés</div>
-      <div class="snap-item"><strong>Conducción</strong>Derecha</div>
-      <div class="snap-item"><strong>Moneda</strong>Grivna ucraniana (UAH)</div>
-      <div class="snap-item"><strong>Crypto-amigable</strong>Sí</div>
+    <div class="head-right">
+      <div class="badge red"><span class="dot"></span>WIGG: RED</div>
+      <div class="local-time">Hora local <b id="localTime" data-tz="Europe/Kiev">--:--</b></div>
     </div>
-  </section>
+  </div>
 
-  <section class="data-card">
-    <h2>Coste de vida, salarios y calidad de vida</h2>
-    <table class="data-table">
-    <tbody>
-      <tr class="sec"><td colspan="3">💼 Salarios (neto / mes)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧾</span>Salario mínimo</td>
-        <td class="val">$330</td>
-        <td class="hint">Mínimo ≈ UAH 16.000 bruto → neto ≈ UAH 13.750 (2025, contexto bélico)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📊</span>Salario medio</td>
-        <td class="val">$740</td>
-        <td class="hint">Promedio neto ≈ UAH 30.800/mes (Estadísticas del Estado 2024 — variable por región)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🩺</span>Salario médico (general)</td>
-        <td class="val">$2,200</td>
-        <td class="hint">Promedio del sector público</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🏠 Vivienda y servicios (estudio de referencia)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏚️</span>Alquiler estudio</td>
-        <td class="val">$325</td>
-        <td class="hint">Ciudades regionales (varía ampliamente)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">⚡</span>Electricidad</td>
-        <td class="val">$40</td>
-        <td class="hint">/ mes (interrupciones comunes)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💧</span>Agua</td>
-        <td class="val">$12</td>
-        <td class="hint">/ mes</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📱</span>Plan móvil</td>
-        <td class="val">$10</td>
-        <td class="hint">~15–40GB</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🍽️ Comida y bebida (precios típicos)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍺</span>Cerveza (pinta)</td>
-        <td class="val">$1.00</td>
-        <td class="hint">Bar local</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☕</span>Café</td>
-        <td class="val">$1.00</td>
-        <td class="hint">Café regular</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍲</span>Plato principal</td>
-        <td class="val">$6</td>
-        <td class="hint">gama media</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">⛽ Transporte</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">⛽</span>Gasolina / litro</td>
-        <td class="val">$1.35 / L</td>
-        <td class="hint">indicativo</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🧾 Impuestos (indicativo)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏷️</span>IVA</td>
-        <td class="val">20%</td>
-        <td class="hint">tarifa estándar</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">👤</span>Impuesto sobre la renta</td>
-        <td class="val">~19.5%</td>
-        <td class="hint">Tasa plana del 18% + 1.5% de recargo militar (2022+)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏪</span>Impuesto pequeña empresa</td>
-        <td class="val">~23%</td>
-        <td class="hint">18% CIT + contribuciones sociales (existen regímenes simplificados)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📱 Tech (precios indicativos)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍎</span>iPhone (último 256GB)</td>
-        <td class="val">$1,300</td>
-        <td class="hint">Precios de importación</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📲</span>Galaxy S (último 256GB)</td>
-        <td class="val">$1,000</td>
-        <td class="hint">Precios de importación</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🛂 Mudanza e inmigración</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🛂</span>Facilidad de inmigración</td>
-        <td class="val">3 / 10</td>
-        <td class="hint">ley marcial en tiempos de guerra</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🌤️ Calidad de vida</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🙂</span>Felicidad</td>
-        <td class="val">5.5 / 10</td>
-        <td class="hint">indicativo (contexto de guerra) (src: Informe Mundial de la Felicidad 2024)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☀️</span>Días de sol / año</td>
-        <td class="val">~190 días / año</td>
-        <td class="hint">indicativo (fuente: Datos climáticos, OMM)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏥</span>Sanidad pública</td>
-        <td class="val">Limitado</td>
-        <td class="hint">sistema público bajo presión</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧑‍⚕️</span>Seguro privado / mes</td>
-        <td class="val">$35 / mes</td>
-        <td class="hint">ejemplo privado</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📈 Índices</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🚔</span>Índice de criminalidad</td>
-        <td class="val">45 / 100</td>
-        <td class="hint">indicativo (contexto de guerra) (src: Índice de Seguridad de Numbeo 2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💶</span>Poder adquisitivo</td>
-        <td class="val">50</td>
-        <td class="hint">indicativo (fuente: Índice PP de Numbeo 2025)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🕍 Religión</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">✝️</span>Cristiano</td>
-        <td class="val">~85%</td>
-        <td class="hint">indicativo (mayoría ortodoxa)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☪️</span>Musulmán</td>
-        <td class="val">~1%</td>
-        <td class="hint">indicativo</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☸️</span>Budista</td>
-        <td class="val">~0%</td>
-        <td class="hint">indicativo</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">✡️</span>Judío</td>
-        <td class="val">~0.2%</td>
-        <td class="hint">indicative (src: Pew Research / WJC)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🕊️</span>Otra / Ninguna</td>
-        <td class="val">~13%</td>
-        <td class="hint">ninguno/otro</td>
-      </tr>
-    </tbody>
-    </table>
-  </section>
+  <div class="main-grid">
+    <aside class="sidebar">
+      <div class="card">
+        <img class="hero-img" src="/assets/hero-ukraine.jpg" alt="Ucrania"
+             onerror="this.onerror=null;this.src='/assets/hero-fallback.jpg'" />
+        <div class="hero-actions">
+          <button class="btn primary" type="button" onclick="openModal('general')">Corregir datos</button>
+          <button class="btn" type="button" id="btnShare">Compartir</button>
+          <a class="btn" href="/compare.html?country=ukraine">Comparar</a>
+        </div>
+      </div>
 
-  <section class="article"><h2>Visión general del país</h2><h2>🧭 Resumen</h2>
-<p>Ucrania es una nación de Europa del Este bajo una invasión rusa a gran escala desde el 24 de febrero de 2022. Lo que fue el granero de Europa, conocido por su suelo fértil, las cúpulas doradas de Kyiv, la zona de exclusión de Chernóbil y la subcontratación tecnológica, es ahora una zona de guerra activa. Las fuerzas rusas controlan ~20% del territorio (Crimea desde 2014, Donbás, regiones del sur). Kyiv sigue siendo la capital, con alertas de ataques aéreos. La guerra ha matado a más de 100.000 ucranianos (militares y civiles), desplazado a millones y destruido ciudades (Mariupol arrasada, Bakhmut destruida), pero la resistencia ucraniana continúa con el apoyo de armas occidentales. La economía es una economía de guerra sostenida por ayuda occidental (más de $150.000 M comprometidos). Ucrania NO es para expatriados actualmente — solo periodistas, trabajadores humanitarios o quienes tengan una misión específica y protocolos de seguridad exhaustivos deberían estar allí.</p>
-<h2>👥 Población y ambiente</h2>
-<p>Antes de la guerra ~43 millones de personas, ahora ~38M (más de 5M de refugiados en el extranjero, más de 6M desplazados internos). Étnicamente ucranianos (~78%), rusos (~17%) y otros. Se hablan ucraniano y ruso (la guerra ha desplazado la preferencia hacia el ucraniano). Predomina la cristianidad ortodoxa. La cultura antes de la guerra enfatizaba la hospitalidad, la resiliencia y la gastronomía (borscht/varenyky). Ahora: solidaridad en tiempos de guerra, resistencia, trauma y determinación. Los ucranianos demostraron coraje resistiendo la invasión rusa — voluntarios, defensa territorial, civiles apoyando al ejército. El ambiente es de desafío y sufrimiento. Kyiv funciona bajo sirenas de ataque; las ciudades del este son zonas de guerra; el oeste de Ucrania es un refugio relativamente más seguro.</p>
-<h2>🌦️ Clima y paisaje</h2>
-<p>Espere un clima continental: veranos cálidos (20-30°C), inviernos fríos (-5 a 0°C, más duros en el este). El paisaje incluía llanuras fértiles (suelo negro — chernozem), los Cárpatos (oeste), la península de Crimea (ocupada), el río Dniéper y bosques. Ahora: campos minados cubren más del 30% del territorio (el país más minado del mundo), ciudades reducidas a escombros (Mariupol, Bakhmut), infraestructura bombardeada. La belleza natural persiste donde la guerra no ha llegado.</p>
-<h2>🏠 Vivienda y asentamiento</h2>
-<p>La mayoría de expatriados han sido evacuados. Hay vivienda en Kyiv pero las sirenas de ataque aéreo son una realidad diaria. Los alquileres se derrumbaron por la guerra pero la vida es modo supervivencia. Cortes de energía por ataques rusos dirigidos a la infraestructura energética (el invierno 2022-23 tuvo apagones rotativos). Agua y calefacción interrumpidas. El oeste de Ucrania (Lviv) es más seguro pero aún bajo ley marcial. La vivienda NO es la preocupación principal — la supervivencia lo es.</p>
-<h2>💼 Trabajo y economía</h2>
-<p>La economía colapsó y luego se recuperó parcialmente como economía de guerra. El PIB se contrajo más del 30% (2022), con una ligera recuperación. La agricultura continúa (Ucrania exporta grano vía el corredor del Mar Negro — crítica para la seguridad alimentaria global). El sector TI funciona parcialmente (teletrabajo). Para extranjeros, solo operan organizaciones humanitarias, periodistas o trabajadores de reconstrucción. La economía se mantiene con más de $150.000 M en ayuda occidental. No existen oportunidades laborales normales.</p>
-<h2>🛂 Visas y entrada</h2>
-<p>La ley marcial está en vigor. La entrada es posible pero desaconsejada para turistas. Periodistas y trabajadores humanitarios necesitan acreditación. Hombres de 18 a 60 años no pueden salir (mobilización). Se requiere permiso de salida. El sistema está en protocolos de guerra. NO venga como turista.</p>
-<h2>🏥 Sanidad</h2>
-<p>El sistema sanitario está desbordado. Los hospitales atienden a heridos de guerra. Hubo ataques rusos contra hospitales (crímenes de guerra). Suministros médicos occidentales son donados. Las lesiones graves requieren evacuación a Polonia o Alemania. La infraestructura médica en áreas ocupadas/fronterizas está destruida. La atención sanitaria es triage y supervivencia.</p>
-<h2>🚗 Transporte y movilidad</h2>
-<p>El metro de Kyiv funciona como refugio antiaéreo. Los trenes circulan (a menudo con retrasos por las alertas aéreas). Las carreteras están dañadas o minadas. Las regiones del este son inaccesibles (línea del frente). Las fronteras occidentales (Polonia, Eslovaquia, Hungría, Rumanía) son rutas de salida para refugiados. No hay vuelos internos (espacio aéreo cerrado). Vuelos internacionales desde Polonia. El movimiento es peligroso — campos minados, bombardeos, ataques con misiles.</p>
-<h2>🍛 Nota sobre comida (plato nacional)</h2>
-<p>El plato nacional es el <strong>Borscht</strong>: sopa de remolacha con crema agria. La UNESCO lo reconoció como patrimonio inmaterial ucraniano (2022) — declaración política frente a las reclamaciones rusas sobre el borscht. Alternativamente, <strong>Varenyky</strong> (empanadillas). La cocina ucraniana es contundente — borscht, varenyky, salo (grasa de cerdo), influenciada por tradiciones polacas, rusas y turcas. La seguridad alimentaria es ahora un problema de guerra.</p>
-<h2>🔎 Conclusión</h2>
-<p>Ucrania NO es para expatriados, turistas o jubilados. Es una ZONA DE GUERRA ACTIVA. La invasión rusa a gran escala (24 de feb. de 2022) continúa: ataques con misiles a ciudades, combates en la línea del frente (batallas en Bakhmut, Avdiivka que causaron miles de bajas), infraestructura energética destruida (apagones invernales), millones desplazados y más de 100.000 muertos. La resistencia ucraniana con armas occidentales (HIMARS, tanques Leopard, llegada prevista de F-16) continúa, pero la guerra se prolonga. Los territorios ocupados enfrentan atrocidades rusas (la masacre de Bucha reveló crímenes). El oeste de Ucrania (Lviv) es más seguro pero aún bajo ley marcial y sujeto a ataques aéreos. Solo venga si: (1) es periodista cubriendo la guerra con seguridad, seguro y plan de evacuación; (2) trabajador humanitario con ONG establecida que provea ayuda crítica; (3) especialista en reconstrucción post-conflicto (futuro). El coraje y la resiliencia de los ucranianos defendiendo su país contra la agresión rusa es inspirador, pero actualmente no es un lugar para una vida de expatriado voluntaria. Ucrania necesita apoyo, armas y ayuda — no expatriados buscando estilo de vida.</p>
-<p>Puntuación para expatriados — 2.0 / 10</p></section>
+      <div class="card snapshot-card">
+        <div class="snapshot-title">Vistazo rápido</div>
+        <div class="kv"><span>Capital</span><b>Kyiv</b></div><div class="kv"><span>Población</span><b>~38M (pre-guerra ~43M, millones desplazados/que huyeron)</b></div><div class="kv"><span>Idiomas</span><b>Ucraniano, ruso, inglés</b></div><div class="kv"><span>Moneda</span><b>Grivna ucraniana (UAH)</b></div><div class="kv kv-sub"><span>Exchange rate</span><b>1 USD ≈ 37 UAH</b></div><div class="kv-note">Moneda controlada por el Banco Nacional. Relativamente estable a pesar de la guerra debido al masivo apoyo financiero occidental. La ley marcial controla los flujos de capital.</div><div class="kv"><span>Crypto-amigable</span><b>Sí</b></div><div class="kv-note">Muy amigable con las criptomonedas. Ucrania legalizó las cripto (2022). Alta adopción (la guerra aceleró su uso para donaciones y transacciones). Regulaciones claras.</div><div class="kv"><span>Conducción</span><b>Derecha</b></div><div class="sector-block"><div class="sector-head">Sectores principales</div><div class="sector-list"><div class="sector-pill">Ayuda humanitaria</div><div class="sector-pill">Periodismo (cobertura de guerra)</div><div class="sector-pill">Reconstrucción futura</div></div></div>
+      </div>
 
-  <section class="ttk"><h2>Lo que hay que saber</h2><div class="ttk-grid">
-      <div class="ttk-card">
-        <div class="ttk-title">👤 Volodymyr Zelenskyy <small>(Siglo XXI)</small></div>
-        <p>Presidente desde 2019 (excomediante, actor de &#x27;Servant of the People&#x27;). Se convirtió en líder de guerra en feb. de 2022 — rechazó la oferta de evacuación de EE. UU. (&#x27;Necesito munición, no un viaje&#x27;), impulsó la resistencia y aseguró armas occidentales. Su liderazgo inspiró apoyo global. Representa el coraje ucraniano.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">💔 24 de febrero de 2022 = invasión a gran escala</div>
-        <p>Rusia lanzó una invasión a gran escala esperando una victoria rápida (cambio de régimen). Kyiv resistió (Batalla de Kyiv, retirada rusa). Sitio de Mariupol (90% destruida, defensores en Azovstal). La masacre de Bucha expuso atrocidades. Más de 100.000 muertos, millones desplazados, ciudades destruidas. La guerra continúa con apoyo de armas occidentales (HIMARS, tanques, F-16).</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🌾 Granero bajo asedio</div>
-        <p>Ucrania es el quinto mayor exportador mundial de trigo (10% del trigo global). El bloqueo ruso amenazó la seguridad alimentaria global (África, Medio Oriente dependen del grano ucraniano). La Iniciativa del Grano del Mar Negro (2022-23) permitió exportaciones. La comida se usa como arma — minas en los campos, silos de granos bombardeados.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">💣 País más minado del mundo</div>
-        <p>Más del 30% del territorio (174.000 km²) está contaminado con minas y artefactos sin explotar. El desminado tomará décadas y costará miles de millones. Agricultores mueren limpiando campos. Niños encuentran minas. Es una herencia oculta de la guerra que matará a generaciones.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">⚡ Infraestructura energética atacada</div>
-        <p>Invierno 2022-23: Rusia lanzó ataques con misiles/drones dirigidos a plantas de energía, calefacción y suministro de agua. Apagones rotativos, sin calefacción a -10°C. Civiles sufrieron congelamiento. Es un crimen de guerra al atacar a la población civil. Ucrania se adaptó (generadores, resiliencia) pero el daño a la infraestructura es enorme.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🇪🇺 Estatus de candidato a la UE (2022)</div>
-        <p>Ucrania obtuvo el estatus de candidato a la UE (junio de 2022) — acelerado por la guerra. La adhesión llevará años pero es una integración estratégica con Occidente. La membresía en la OTAN es un objetivo pero complicada (el Artículo 5 podría desencadenar la Tercera Guerra Mundial). Ucrania está luchando literalmente por valores europeos.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🏛️ Chernóbil = ocupado y luego liberado</div>
-        <p>Las fuerzas rusas ocuparon la Zona de Exclusión de Chernóbil (feb-mar 2022), cavaron trincheras en suelo radiactivo (soldados sufrieron enfermedad por radiación). La central nuclear de Zaporizhzhia (la mayor de Europa) fue bombardeada — se evitó por poco un desastre nuclear. Los sitios nucleares son una vulnerabilidad en la guerra.</p>
-      </div></div></section>
+      
+        <div class="card persona-card">
+          <div class="snapshot-title">Figura del país</div>
+          <div class="persona-name">Volodymyr Zelenskyy <small>(Siglo XXI)</small></div>
+          <div class="persona-why">Presidente desde 2019 (excomediante, actor de &#x27;Servant of the People&#x27;). Se convirtió en líder de guerra en feb. de 2022 — rechazó la oferta de evacuación de EE. UU. (&#x27;Necesito munición, no un viaje&#x27;), impulsó la resistencia y aseguró armas occidentales. Su liderazgo inspiró apoyo global. Representa el coraje ucraniano.</div>
+        </div>
+    </aside>
 
-  
-  <section class="related"><h2>Crónicas relacionadas</h2><ul class="link-list"><li><a href="/chronicles/chronicle-2056-mejores-paises-30-anos-es.html">2056: ¿Dónde se vivirá mejor en 30 años?</a></li></ul></section>
-  
+    <div class="right-col">
+      <div class="rc-wrapper">
+        
+        <div class="rc-box">
+          <div class="rc-box-head">
+            <h2>Crónicas relacionadas</h2>
+            <div class="rc-nav">
+              <button class="rc-nav-btn" data-target="rc-list" data-dir="-1" aria-label="Previous">&#8249;</button>
+              <button class="rc-nav-btn" data-target="rc-list" data-dir="1" aria-label="Next">&#8250;</button>
+            </div>
+          </div>
+          <div class="rc-track"><div id="rc-list" class="rc-row"><a class="rc-vcard" href="/chronicles/chronicle-2056-mejores-paises-30-anos-es.html"><img class="rc-vimg" src="/assets/hero-norway.jpg" alt="2056: ¿Dónde se vivirá mejor en 30 años?" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">📄</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">2056: ¿Dónde se vivirá mejor en 30 años?</div></div></a></div></div>
+        </div>
+        
+      </div>
 
-  <p style="text-align:center;margin-top:30px"><a href="/globe.html" style="font-weight:600">Ver los 160+ países →</a></p>
+      <div class="data-card">
+        <table class="data-table">
+      <tbody>
+        <tr class="sec"><td colspan="4">💼 Salarios (neto / mes)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧾</span>Salario mínimo</td>
+          <td class="val">$330</td>
+          <td class="hint">Mínimo ≈ UAH 16.000 bruto → neto ≈ UAH 13.750 (2025, contexto bélico)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('min_wage')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📊</span>Salario medio</td>
+          <td class="val">$740</td>
+          <td class="hint">Promedio neto ≈ UAH 30.800/mes (Estadísticas del Estado 2024 — variable por región)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('avg_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🩺</span>Salario médico (general)</td>
+          <td class="val">$2,200</td>
+          <td class="hint">Promedio del sector público</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('doctor_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🏠 Vivienda y servicios (estudio de referencia)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏚️</span>Alquiler estudio</td>
+          <td class="val">$325</td>
+          <td class="hint">Ciudades regionales (varía ampliamente)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('rent_studio')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">⚡</span>Electricidad</td>
+          <td class="val">$40</td>
+          <td class="hint">/ mes (interrupciones comunes)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('electricity')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💧</span>Agua</td>
+          <td class="val">$12</td>
+          <td class="hint">/ mes</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('water')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📱</span>Plan móvil</td>
+          <td class="val">$10</td>
+          <td class="hint">~15–40GB</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('mobile')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🍽️ Comida y bebida (precios típicos)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍺</span>Cerveza (pinta)</td>
+          <td class="val">$1.00</td>
+          <td class="hint">Bar local</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('beer')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☕</span>Café</td>
+          <td class="val">$1.00</td>
+          <td class="hint">Café regular</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('coffee')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍲</span>Plato principal</td>
+          <td class="val">$6</td>
+          <td class="hint">gama media</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('dish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">⛽ Transporte</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">⛽</span>Gasolina / litro</td>
+          <td class="val">$1.35 / L</td>
+          <td class="hint">indicativo</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('gas')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🧾 Impuestos (indicativo)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏷️</span>IVA</td>
+          <td class="val">20%</td>
+          <td class="hint">tarifa estándar</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('vat')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">👤</span>Impuesto sobre la renta</td>
+          <td class="val">~19.5%</td>
+          <td class="hint">Tasa plana del 18% + 1.5% de recargo militar (2022+)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('income_tax')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏪</span>Impuesto pequeña empresa</td>
+          <td class="val">~23%</td>
+          <td class="hint">18% CIT + contribuciones sociales (existen regímenes simplificados)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('smallbiz')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📱 Tech (precios indicativos)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍎</span>iPhone (último 256GB)</td>
+          <td class="val">$1,300</td>
+          <td class="hint">Precios de importación</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('iphone')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📲</span>Galaxy S (último 256GB)</td>
+          <td class="val">$1,000</td>
+          <td class="hint">Precios de importación</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('samsung')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🛂 Mudanza e inmigración</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🛂</span>Facilidad de inmigración</td>
+          <td class="val">3 / 10</td>
+          <td class="hint">ley marcial en tiempos de guerra</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('immigration')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🌤️ Calidad de vida</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🙂</span>Felicidad</td>
+          <td class="val">5.5 / 10</td>
+          <td class="hint">indicativo (contexto de guerra) (src: Informe Mundial de la Felicidad 2024)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('happiness')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☀️</span>Días de sol / año</td>
+          <td class="val">~190 días / año</td>
+          <td class="hint">indicativo (fuente: Datos climáticos, OMM)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('sun')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏥</span>Sanidad pública</td>
+          <td class="val">Limitado</td>
+          <td class="hint">sistema público bajo presión</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('health')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧑‍⚕️</span>Seguro privado / mes</td>
+          <td class="val">$35 / mes</td>
+          <td class="hint">ejemplo privado</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('insurance')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📈 Índices</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🚔</span>Índice de criminalidad</td>
+          <td class="val">45 / 100</td>
+          <td class="hint">indicativo (contexto de guerra) (src: Índice de Seguridad de Numbeo 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('crime')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💶</span>Poder adquisitivo</td>
+          <td class="val">50</td>
+          <td class="hint">indicativo (fuente: Índice PP de Numbeo 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('pp')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🕍 Religión</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">✝️</span>Cristiano</td>
+          <td class="val">~85%</td>
+          <td class="hint">indicativo (mayoría ortodoxa)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_christian')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☪️</span>Musulmán</td>
+          <td class="val">~1%</td>
+          <td class="hint">indicativo</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_muslim')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☸️</span>Budista</td>
+          <td class="val">~0%</td>
+          <td class="hint">indicativo</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_buddhist')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">✡️</span>Judío</td>
+          <td class="val">~0.2%</td>
+          <td class="hint">indicative (src: Pew Research / WJC)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_jewish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🕊️</span>Otra / Ninguna</td>
+          <td class="val">~13%</td>
+          <td class="hint">ninguno/otro</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_other')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+        </table>
+      </div>
+
+      
+      <div class="article-card">
+        <div class="section-head">
+          <h2>Vivir en Ucrania</h2>
+          <span class="score-badge"><span class="score-star">⭐</span> Puntuación expat: 2.0 / 10</span>
+        </div>
+        <div class="article-body"><p>🧭 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Resumen</span><br>
+Ucrania es una nación de Europa del Este bajo una invasión rusa a gran escala desde el 24 de febrero de 2022. Lo que fue el granero de Europa, conocido por su suelo fértil, las cúpulas doradas de Kyiv, la zona de exclusión de Chernóbil y la subcontratación tecnológica, es ahora una zona de guerra activa. Las fuerzas rusas controlan ~20% del territorio (Crimea desde 2014, Donbás, regiones del sur). Kyiv sigue siendo la capital, con alertas de ataques aéreos. La guerra ha matado a más de 100.000 ucranianos (militares y civiles), desplazado a millones y destruido ciudades (Mariupol arrasada, Bakhmut destruida), pero la resistencia ucraniana continúa con el apoyo de armas occidentales. La economía es una economía de guerra sostenida por ayuda occidental (más de $150.000 M comprometidos). Ucrania NO es para expatriados actualmente — solo periodistas, trabajadores humanitarios o quienes tengan una misión específica y protocolos de seguridad exhaustivos deberían estar allí.</p><p>👥 <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Población y ambiente</span><br>
+Antes de la guerra ~43 millones de personas, ahora ~38M (más de 5M de refugiados en el extranjero, más de 6M desplazados internos). Étnicamente ucranianos (~78%), rusos (~17%) y otros. Se hablan ucraniano y ruso (la guerra ha desplazado la preferencia hacia el ucraniano). Predomina la cristianidad ortodoxa. La cultura antes de la guerra enfatizaba la hospitalidad, la resiliencia y la gastronomía (borscht/varenyky). Ahora: solidaridad en tiempos de guerra, resistencia, trauma y determinación. Los ucranianos demostraron coraje resistiendo la invasión rusa — voluntarios, defensa territorial, civiles apoyando al ejército. El ambiente es de desafío y sufrimiento. Kyiv funciona bajo sirenas de ataque; las ciudades del este son zonas de guerra; el oeste de Ucrania es un refugio relativamente más seguro.</p><p>🌦️ <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Clima y paisaje</span><br>
+Espere un clima continental: veranos cálidos (20-30°C), inviernos fríos (-5 a 0°C, más duros en el este). El paisaje incluía llanuras fértiles (suelo negro — chernozem), los Cárpatos (oeste), la península de Crimea (ocupada), el río Dniéper y bosques. Ahora: campos minados cubren más del 30% del territorio (el país más minado del mundo), ciudades reducidas a escombros (Mariupol, Bakhmut), infraestructura bombardeada. La belleza natural persiste donde la guerra no ha llegado.</p><p>🏠 <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Vivienda y asentamiento</span><br>
+La mayoría de expatriados han sido evacuados. Hay vivienda en Kyiv pero las sirenas de ataque aéreo son una realidad diaria. Los alquileres se derrumbaron por la guerra pero la vida es modo supervivencia. Cortes de energía por ataques rusos dirigidos a la infraestructura energética (el invierno 2022-23 tuvo apagones rotativos). Agua y calefacción interrumpidas. El oeste de Ucrania (Lviv) es más seguro pero aún bajo ley marcial. La vivienda NO es la preocupación principal — la supervivencia lo es.</p><p>💼 <span class="art-tag" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#6d28d9">Trabajo y economía</span><br>
+La economía colapsó y luego se recuperó parcialmente como economía de guerra. El PIB se contrajo más del 30% (2022), con una ligera recuperación. La agricultura continúa (Ucrania exporta grano vía el corredor del Mar Negro — crítica para la seguridad alimentaria global). El sector TI funciona parcialmente (teletrabajo). Para extranjeros, solo operan organizaciones humanitarias, periodistas o trabajadores de reconstrucción. La economía se mantiene con más de $150.000 M en ayuda occidental. No existen oportunidades laborales normales.</p>
+        <div class="map-card">
+          <div class="map-header">
+            <div class="map-title"><span class="map-flag">🇺🇦</span><span>Ucrania — Mapa</span></div>
+            <div class="map-styles">
+              <button type="button" class="map-style-btn active" data-style="light">Claro</button>
+              <button type="button" class="map-style-btn" data-style="dark">Oscuro</button>
+              <button type="button" class="map-style-btn" data-style="satellite">Satélite</button>
+            </div>
+          </div>
+          <div class="map-container">
+            <div id="wigg-country-map"></div>
+            <div class="map-loading" id="wiggMapLoading">Cargando mapa…</div>
+          </div>
+        </div><p>🛂 <span class="art-tag" style="background:rgba(236,72,153,.12);border:1px solid rgba(236,72,153,.25);color:#be185d">Visas y entrada</span><br>
+La ley marcial está en vigor. La entrada es posible pero desaconsejada para turistas. Periodistas y trabajadores humanitarios necesitan acreditación. Hombres de 18 a 60 años no pueden salir (mobilización). Se requiere permiso de salida. El sistema está en protocolos de guerra. NO venga como turista.</p><p>🏥 <span class="art-tag" style="background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.25);color:#0e7490">Sanidad</span><br>
+El sistema sanitario está desbordado. Los hospitales atienden a heridos de guerra. Hubo ataques rusos contra hospitales (crímenes de guerra). Suministros médicos occidentales son donados. Las lesiones graves requieren evacuación a Polonia o Alemania. La infraestructura médica en áreas ocupadas/fronterizas está destruida. La atención sanitaria es triage y supervivencia.</p><p>🚗 <span class="art-tag" style="background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#c2410c">Transporte y movilidad</span><br>
+El metro de Kyiv funciona como refugio antiaéreo. Los trenes circulan (a menudo con retrasos por las alertas aéreas). Las carreteras están dañadas o minadas. Las regiones del este son inaccesibles (línea del frente). Las fronteras occidentales (Polonia, Eslovaquia, Hungría, Rumanía) son rutas de salida para refugiados. No hay vuelos internos (espacio aéreo cerrado). Vuelos internacionales desde Polonia. El movimiento es peligroso — campos minados, bombardeos, ataques con misiles.</p><p>🍛 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Nota sobre comida (plato nacional)</span><br>
+El plato nacional es el <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Borscht</span><br>: sopa de remolacha con crema agria. La UNESCO lo reconoció como patrimonio inmaterial ucraniano (2022) — declaración política frente a las reclamaciones rusas sobre el borscht. Alternativamente, <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Varenyky</span><br> (empanadillas). La cocina ucraniana es contundente — borscht, varenyky, salo (grasa de cerdo), influenciada por tradiciones polacas, rusas y turcas. La seguridad alimentaria es ahora un problema de guerra.</p><p>🔎 <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Conclusión</span><br>
+Ucrania NO es para expatriados, turistas o jubilados. Es una ZONA DE GUERRA ACTIVA. La invasión rusa a gran escala (24 de feb. de 2022) continúa: ataques con misiles a ciudades, combates en la línea del frente (batallas en Bakhmut, Avdiivka que causaron miles de bajas), infraestructura energética destruida (apagones invernales), millones desplazados y más de 100.000 muertos. La resistencia ucraniana con armas occidentales (HIMARS, tanques Leopard, llegada prevista de F-16) continúa, pero la guerra se prolonga. Los territorios ocupados enfrentan atrocidades rusas (la masacre de Bucha reveló crímenes). El oeste de Ucrania (Lviv) es más seguro pero aún bajo ley marcial y sujeto a ataques aéreos. Solo venga si: (1) es periodista cubriendo la guerra con seguridad, seguro y plan de evacuación; (2) trabajador humanitario con ONG establecida que provea ayuda crítica; (3) especialista en reconstrucción post-conflicto (futuro). El coraje y la resiliencia de los ucranianos defendiendo su país contra la agresión rusa es inspirador, pero actualmente no es un lugar para una vida de expatriado voluntaria. Ucrania necesita apoyo, armas y ayuda — no expatriados buscando estilo de vida.</p><p>Puntuación para expatriados — 2.0 / 10</p></div>
+      </div>
+
+      
+      <div class="things-section">
+        <div class="section-head"><h2>Lo que hay que saber</h2><span class="wg-badge">Imprescindibles</span></div>
+        <div class="facts-grid"><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">💔 24 de febrero de 2022 = invasión a gran escala</div><div class="fact-text">Rusia lanzó una invasión a gran escala esperando una victoria rápida (cambio de régimen). Kyiv resistió (Batalla de Kyiv, retirada rusa). Sitio de Mariupol (90% destruida, defensores en Azovstal). La masacre de Bucha expuso atrocidades. Más de 100.000 muertos, millones desplazados, ciudades destruidas. La guerra continúa con apoyo de armas occidentales (HIMARS, tanques, F-16).</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🌾 Granero bajo asedio</div><div class="fact-text">Ucrania es el quinto mayor exportador mundial de trigo (10% del trigo global). El bloqueo ruso amenazó la seguridad alimentaria global (África, Medio Oriente dependen del grano ucraniano). La Iniciativa del Grano del Mar Negro (2022-23) permitió exportaciones. La comida se usa como arma — minas en los campos, silos de granos bombardeados.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">💣 País más minado del mundo</div><div class="fact-text">Más del 30% del territorio (174.000 km²) está contaminado con minas y artefactos sin explotar. El desminado tomará décadas y costará miles de millones. Agricultores mueren limpiando campos. Niños encuentran minas. Es una herencia oculta de la guerra que matará a generaciones.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">⚡ Infraestructura energética atacada</div><div class="fact-text">Invierno 2022-23: Rusia lanzó ataques con misiles/drones dirigidos a plantas de energía, calefacción y suministro de agua. Apagones rotativos, sin calefacción a -10°C. Civiles sufrieron congelamiento. Es un crimen de guerra al atacar a la población civil. Ucrania se adaptó (generadores, resiliencia) pero el daño a la infraestructura es enorme.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🇪🇺 Estatus de candidato a la UE (2022)</div><div class="fact-text">Ucrania obtuvo el estatus de candidato a la UE (junio de 2022) — acelerado por la guerra. La adhesión llevará años pero es una integración estratégica con Occidente. La membresía en la OTAN es un objetivo pero complicada (el Artículo 5 podría desencadenar la Tercera Guerra Mundial). Ucrania está luchando literalmente por valores europeos.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏛️ Chernóbil = ocupado y luego liberado</div><div class="fact-text">Las fuerzas rusas ocuparon la Zona de Exclusión de Chernóbil (feb-mar 2022), cavaron trincheras en suelo radiactivo (soldados sufrieron enfermedad por radiación). La central nuclear de Zaporizhzhia (la mayor de Europa) fue bombardeada — se evitó por poco un desastre nuclear. Los sitios nucleares son una vulnerabilidad en la guerra.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🍽️ Borscht / Varenyky</div><div class="fact-text">Sopa de remolacha o empanadillas — cocina ucraniana contundente. La UNESCO reconoció el borscht (2022) como patrimonio ucraniano (frente a las reclamaciones rusas).</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏳️‍🌈 LGBT+: Bajo a moderado</div><div class="fact-text">La homosexualidad es legal. Las actitudes sociales son conservadoras pero están mejorando (especialmente entre los jóvenes). No hay matrimonio entre personas del mismo sexo. La solidaridad en tiempos de guerra ha reducido algunos prejuicios. Se aconseja discreción.</div></div></div>
+      </div>
+
+      
+    </div>
+  </div>
 </main>
 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
+<script src="/data/share.js"></script>
+<script src="/data/correction-form.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var t = document.getElementById("localTime");
+  if(t && t.dataset.tz){
+    function tick(){
+      try{
+        t.textContent = new Intl.DateTimeFormat("en-GB",{
+          timeZone: t.dataset.tz, hour:"2-digit", minute:"2-digit"
+        }).format(new Date());
+      }catch(e){}
+    }
+    tick(); setInterval(tick, 30000);
+  }
+  document.querySelectorAll(".rc-nav-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var targetId = btn.dataset.target;
+      var dir = parseInt(btn.dataset.dir||"1",10);
+      var row = document.getElementById(targetId);
+      if(!row) return;
+      var box = row.parentElement;
+      var first = row.querySelector(".rc-vcard");
+      if(!first) return;
+      var cardW = first.offsetWidth + 9;
+      var visible = Math.max(1, Math.floor(box.offsetWidth / cardW));
+      var maxOffset = Math.max(0, row.children.length - visible);
+      var current = parseInt(row.dataset.offset||"0", 10);
+      current = Math.min(maxOffset, Math.max(0, current + dir));
+      row.dataset.offset = current;
+      row.style.transform = "translateX(-" + (current * cardW) + "px)";
+      var nav = btn.parentNode;
+      var prev = nav.querySelector('[data-dir="-1"]');
+      var next = nav.querySelector('[data-dir="1"]');
+      if(prev) prev.disabled = (current === 0);
+      if(next) next.disabled = (current >= maxOffset);
+    });
+  });
+  var iso2 = "UA";
+  if(!iso2 || typeof L === "undefined") return;
+  var STYLES = {
+    light:     { url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", attr: "&copy; OSM &copy; CARTO" },
+    dark:      { url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",  attr: "&copy; OSM &copy; CARTO" },
+    satellite: { url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", attr: "&copy; Esri" }
+  };
+  var wMap=null, wLayer=null, wMarker=null;
+  function initMap(lat, lon){
+    var el = document.getElementById("wigg-country-map");
+    if(!el) return;
+    if(wMap){ try{wMap.remove();}catch(e){} }
+    wMap = L.map("wigg-country-map",{zoomControl:true}).setView([lat,lon],5);
+    wLayer = L.tileLayer(STYLES.light.url,{attribution:STYLES.light.attr,maxZoom:18}).addTo(wMap);
+    wMarker = L.marker([lat,lon]).addTo(wMap);
+    var loading = document.getElementById("wiggMapLoading");
+    if(loading) loading.classList.add("hidden");
+  }
+  document.querySelectorAll(".map-style-btn").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(!wMap) return;
+      var s = STYLES[b.dataset.style];
+      if(!s) return;
+      if(wLayer) wMap.removeLayer(wLayer);
+      wLayer = L.tileLayer(s.url,{attribution:s.attr,maxZoom:18}).addTo(wMap);
+      document.querySelectorAll(".map-style-btn").forEach(function(x){x.classList.remove("active");});
+      b.classList.add("active");
+    });
+  });
+  var cacheKey = "wigg_centroid_" + iso2;
+  var cached = null;
+  try { cached = JSON.parse(localStorage.getItem(cacheKey) || "null"); } catch(e){}
+  if(cached && cached.lat != null && cached.lon != null){
+    initMap(cached.lat, cached.lon); return;
+  }
+  fetch("https://nominatim.openstreetmap.org/search?country=" + encodeURIComponent(iso2) + "&format=json&limit=1")
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && d[0]){
+        var coords = { lat: +d[0].lat, lon: +d[0].lon };
+        try { localStorage.setItem(cacheKey, JSON.stringify(coords)); } catch(e){}
+        initMap(coords.lat, coords.lon);
+      } else {
+        var l = document.getElementById("wiggMapLoading");
+        if(l) l.textContent = "Mapa no disponible";
+      }
+    })
+    .catch(function(){
+      var l = document.getElementById("wiggMapLoading");
+      if(l) l.textContent = "Mapa no disponible";
+    });
+})();
+</script>
+
+<form name="wiggmap-corrections" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="wiggmap-corrections" />
+  <p><label>Don't fill this out: <input name="bot-field" /></label></p>
+  <input name="country" /><input name="field" /><input name="value" /><input name="email" /><textarea name="notes"></textarea>
+</form>
+
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
 </body>
 </html>

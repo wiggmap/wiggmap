@@ -25,65 +25,127 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#f6f1e8;--paper:#fffdf8;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--green:#1d7f48;--green-dk:#155f36;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
+    :root{--paper:#fffdf8;--paper-2:#fbf7ee;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--line-soft:rgba(23,23,20,.06);--green:#1d7f48;--green-dk:#155f36;--green-light:#e6f4ec;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
     html{scroll-behavior:smooth}
     body{font-family:"Inter",system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f9f5ed 0%,#f3ede3 100%);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
     a{color:var(--green);text-decoration:none}
     a:hover{text-decoration:underline}
-    main{max-width:980px;margin:0 auto;padding:28px 20px 80px}
-    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:18px;letter-spacing:.04em}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:14px;letter-spacing:.04em}
     .crumb a{color:var(--ink-soft)}
-    .hero{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:36px 32px;box-shadow:var(--shadow);margin-bottom:24px;position:relative;overflow:hidden}
-    .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 18%,rgba(29,127,72,.05),transparent 30%);pointer-events:none}
-    .hero-flag{font-size:48px;line-height:1;margin-bottom:14px}
-    .hero h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(36px,6vw,56px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:10px;position:relative;z-index:1}
-    .hero .subtitle{font-size:15px;color:var(--ink-soft);max-width:62ch;line-height:1.6;position:relative;z-index:1}
-    .hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;position:relative;z-index:1}
-    .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid var(--line)}
-    .badge.green{background:#e6f4ec;color:var(--green-dk);border-color:rgba(29,127,72,.2)}
+    .country-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:22px;flex-wrap:wrap}
+    .country-flag{font-size:42px;line-height:1;margin-bottom:8px}
+    .country-head h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(34px,5.2vw,52px);font-weight:800;letter-spacing:-.02em;line-height:1.02}
+    .country-head .subtitle{font-size:14px;color:var(--ink-soft);max-width:64ch;line-height:1.55;margin-top:8px}
+    .head-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+    .badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:7px 13px;border-radius:999px;background:#fff;border:1px solid var(--line)}
+    .badge.green{background:var(--green-light);color:var(--green-dk);border-color:rgba(29,127,72,.22)}
     .badge.yellow{background:#fef9e7;color:#a16207;border-color:rgba(202,138,4,.25)}
     .badge.red{background:#fdecec;color:#b91c1c;border-color:rgba(185,28,28,.25)}
-    .snapshot{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px 26px;box-shadow:var(--shadow);margin-bottom:24px}
-    .snapshot h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;margin-bottom:14px}
-    .snap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
-    .snap-item{font-size:13px}
-    .snap-item strong{display:block;color:var(--ink-soft);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
-    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
-    .data-card h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;padding:20px 26px 8px}
+    .badge .dot{width:8px;height:8px;border-radius:999px;background:currentColor;display:inline-block}
+    .local-time{font-size:12px;color:var(--ink-soft);font-weight:600}
+    .local-time b{color:var(--ink);margin-left:5px;font-weight:800}
+    .main-grid{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+    @media(max-width:900px){.main-grid{grid-template-columns:1fr}}
+    .sidebar{display:flex;flex-direction:column;gap:14px;align-self:start;position:sticky;top:18px}
+    @media(max-width:900px){.sidebar{position:static}}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .hero-img{width:100%;height:200px;object-fit:cover;display:block;background:#eaddc4}
+    .hero-actions{padding:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:8px;font-family:inherit;font-weight:700;font-size:12.5px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;transition:background .14s,border-color .14s}
+    .btn:hover{background:rgba(0,0,0,.04)}
+    .btn.primary{background:var(--green);color:#fff;border-color:transparent}
+    .btn.primary:hover{background:var(--green-dk)}
+    .snapshot-card{padding:16px}
+    .snapshot-title{font-family:"Fraunces",Georgia,serif;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px;letter-spacing:-.01em}
+    .kv{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--line-soft);font-size:12.5px}
+    .kv span{color:var(--ink-soft)}
+    .kv b{color:var(--ink);font-weight:700;text-align:right;max-width:60%}
+    .kv-sub{padding-left:10px;font-size:11.5px;opacity:.85}
+    .kv-note{font-size:11px;color:var(--ink-soft);line-height:1.5;padding:6px 0 8px;font-style:italic;border-bottom:1px solid var(--line-soft)}
+    .sector-block{padding-top:10px;margin-top:6px;border-top:1px solid var(--line-soft)}
+    .sector-head{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+    .sector-list{display:flex;flex-direction:column;gap:5px}
+    .sector-pill{background:rgba(29,127,72,.08);border:1px solid rgba(29,127,72,.2);border-radius:7px;padding:5px 10px;font-size:11.5px;font-weight:700;color:var(--green-dk);line-height:1.4}
+    .persona-card{padding:16px}
+    .persona-name{font-weight:800;font-size:13px;margin-bottom:6px}
+    .persona-name small{font-weight:500;opacity:.6;font-size:11px}
+    .persona-why{font-size:11.5px;color:var(--ink-soft);line-height:1.55;font-style:italic}
+    .right-col{display:flex;flex-direction:column;gap:18px;min-width:0}
+    .rc-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:760px){.rc-wrapper{grid-template-columns:1fr}}
+    .rc-box{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 14px 12px;overflow:hidden}
+    .rc-box-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:6px}
+    .rc-box-head h2{font-family:"Fraunces",Georgia,serif;font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+    .rc-nav{display:flex;gap:4px}
+    .rc-nav-btn{width:24px;height:24px;border-radius:6px;border:1px solid var(--line);background:#fff;font-size:13px;cursor:pointer;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;line-height:1;transition:all .14s}
+    .rc-nav-btn:hover{background:var(--green);color:#fff;border-color:transparent}
+    .rc-nav-btn:disabled{opacity:.35;cursor:not-allowed}
+    .rc-track{overflow:hidden}
+    .rc-row{display:flex;gap:9px;transition:transform .35s ease;will-change:transform}
+    .rc-vcard{flex-shrink:0;width:130px;height:90px;border-radius:10px;overflow:hidden;position:relative;background:#e9dfca;border:1px solid var(--line);transition:transform .15s,box-shadow .15s}
+    .rc-vcard:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10);text-decoration:none}
+    .rc-vimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .rc-vemoji{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;background:linear-gradient(135deg,#ede5d8,#ddd3c4)}
+    .rc-vgrad{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,8,.85) 0%,rgba(20,15,8,.2) 55%,transparent 100%)}
+    .rc-vbody{position:absolute;left:0;right:0;bottom:0;padding:7px 9px;z-index:2}
+    .rc-vtitle{font-family:"Fraunces",Georgia,serif;font-size:10.5px;font-weight:700;color:#fff;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
     .data-table{width:100%;border-collapse:collapse;font-size:13px}
-    .data-table .sec td{background:#f8f4eb;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:10px 26px;color:var(--ink-soft);border-top:1px solid var(--line)}
-    .data-table td{padding:9px 26px;border-bottom:1px solid var(--line);vertical-align:top}
+    .data-table .sec td{background:#f4eedf;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:11px 22px;color:var(--ink-soft);border-top:1px solid var(--line)}
+    .data-table td{padding:9px 22px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+    .data-table tr:last-child td{border-bottom:none}
     .data-table td.lbl{width:42%;color:var(--ink)}
-    .data-table td.val{width:22%;font-weight:700}
+    .data-table td.val{width:25%;font-weight:700}
     .data-table td.hint{font-size:11.5px;color:var(--ink-soft)}
+    .data-table td.edit{width:30px;text-align:right;padding-right:14px}
     .data-table .ico{margin-right:8px}
-    .article{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px;margin-bottom:24px}
-    .article h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:700;margin:24px 0 10px;color:var(--ink)}
-    .article h2:first-child{margin-top:0}
-    .article p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.75}
-    .article p strong{color:var(--ink);font-weight:600}
-    .ttk{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-bottom:24px}
-    .ttk h2{font-family:"Fraunces",Georgia,serif;font-size:20px;font-weight:700;margin-bottom:16px}
-    .ttk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-    .ttk-card{background:#fbf7ee;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
-    .ttk-card .ttk-title{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink)}
-    .ttk-card p{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
-    .ttk-card small{font-weight:500;color:var(--ink-soft)}
-    .related{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px;margin-bottom:18px}
-    .related h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
-    .link-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px 18px}
-    .link-list li{font-size:13.5px;line-height:1.5;padding-left:14px;position:relative}
-    .link-list li::before{content:"›";position:absolute;left:0;color:var(--green)}
-    @media (max-width:640px){
-      main{padding:20px 14px 60px}
-      .hero{padding:26px 22px}
-      .data-table td{padding:9px 16px}
-      .data-table .sec td{padding:10px 16px}
-      .article{padding:24px 22px}
-      .ttk{padding:22px 22px}
-      .related{padding:20px 22px}
+    .edit-btn{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:13px;opacity:.4;transition:opacity .14s;padding:2px 4px}
+    .edit-btn:hover{opacity:1;color:var(--green)}
+    .article-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px}
+    .section-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+    .section-head h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:800;letter-spacing:-.01em;color:var(--ink)}
+    .score-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-light);border:1px solid rgba(29,127,72,.25);color:var(--green-dk);padding:5px 12px;border-radius:999px;font-size:12px;font-weight:700}
+    .article-body p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.78}
+    .article-body p:last-child{margin-bottom:0}
+    .art-tag{display:inline-block;padding:3px 10px;border-radius:6px;font-weight:700;font-size:13px;margin-bottom:6px;line-height:1.5}
+    .map-card{margin:22px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper-2)}
+    .map-header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);gap:8px;flex-wrap:wrap}
+    .map-title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}
+    .map-flag{font-size:18px}
+    .map-styles{display:flex;gap:4px}
+    .map-style-btn{font-size:11px;font-weight:700;padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;color:var(--ink-soft);cursor:pointer;transition:all .14s}
+    .map-style-btn:hover{border-color:var(--green);color:var(--green)}
+    .map-style-btn.active{background:var(--green);color:#fff;border-color:transparent}
+    .map-container{position:relative;height:320px}
+    #wigg-country-map{position:absolute;inset:0}
+    .map-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper-2);color:var(--ink-soft);font-size:13px;z-index:10}
+    .map-loading.hidden{display:none}
+    .things-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px}
+    .wg-badge{display:inline-flex;align-items:center;gap:5px;background:#fef3c7;border:1px solid rgba(202,138,4,.3);color:#92400e;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+    .facts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .fact-card{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden}
+    .fact-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green)}
+    .fact-title{font-weight:800;font-size:13px;margin-bottom:6px;color:var(--ink);padding-left:6px}
+    .fact-text{font-size:12.5px;color:var(--ink-soft);line-height:1.55;padding-left:6px}
+    .cmp-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px}
+    .cmp-section h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
+    .cmp-pills{display:flex;flex-wrap:wrap;gap:8px}
+    .cmp-pill{display:inline-block;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:600;color:var(--ink);transition:all .14s}
+    .cmp-pill:hover{border-color:var(--green);background:var(--green);color:#fff;text-decoration:none}
+    @media(max-width:640px){
+      .wrap{padding:18px 14px 60px}
+      .country-head{flex-direction:column}
+      .head-right{align-items:flex-start}
+      .data-table td{padding:9px 14px}
+      .data-table .sec td{padding:11px 14px}
+      .article-card{padding:24px 22px}
+      .things-section{padding:22px 22px}
+      .cmp-section{padding:20px 22px}
+      .map-container{height:240px}
     }
   </style>
 </head>
@@ -92,268 +154,420 @@
 <div id="siteHeader"></div>
 <script src="/data/header.js"></script>
 
-<main>
+<main class="wrap">
   <nav class="crumb"><a href="/">Accueil</a> › <a href="/globe.html">Pays</a> › Indonésie</nav>
 
-  <section class="hero">
-    <div class="hero-flag">🇮🇩</div>
-    <h1>Indonésie</h1>
-    <p class="subtitle">Moyennes indicatives (Jakarta plus élevé ; net / mois sauf indication contraire)</p>
-    <div class="hero-badges">
-      <span class="badge yellow">WIGG: YELLOW</span>
-      <span class="badge">⭐ Score Expat: 6.5 / 10</span>
+  <div class="country-head">
+    <div>
+      <div class="country-flag">🇮🇩</div>
+      <h1>Indonésie</h1>
+      <p class="subtitle">Moyennes indicatives (Jakarta plus élevé ; net / mois sauf indication contraire)</p>
     </div>
-  </section>
-
-  <section class="snapshot">
-    <h2>Aperçu rapide</h2>
-    <div class="snap-grid">
-      <div class="snap-item"><strong>Capitale</strong>Jakarta</div>
-      <div class="snap-item"><strong>Population</strong>~275M</div>
-      <div class="snap-item"><strong>Langues</strong>Indonésien (Bahasa Indonesia), anglais</div>
-      <div class="snap-item"><strong>Conduite</strong>Gauche</div>
-      <div class="snap-item"><strong>Monnaie</strong>Roupie indonésienne (IDR)</div>
-      <div class="snap-item"><strong>Crypto-friendly</strong>Limitée</div>
+    <div class="head-right">
+      <div class="badge yellow"><span class="dot"></span>WIGG: YELLOW</div>
+      <div class="local-time">Heure locale <b id="localTime" data-tz="Asia/Jakarta">--:--</b></div>
     </div>
-  </section>
+  </div>
 
-  <section class="data-card">
-    <h2>Coût de la vie, salaires et qualité de vie</h2>
-    <table class="data-table">
-    <tbody>
-      <tr class="sec"><td colspan="3">💼 Salaires (net / mois)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧾</span>Salaire minimum</td>
-        <td class="val">$200</td>
-        <td class="hint">UMR provincial moyen ≈ 3 500 000 IDR → net ≈ 3 220 000 IDR (2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📊</span>Salaire moyen</td>
-        <td class="val">$490</td>
-        <td class="hint">Moyenne nette ≈ 7 900 000 IDR/mois (BPS 2024 — Jakarta ≈ ×1,5)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🩺</span>Salaire médecin (généraliste)</td>
-        <td class="val">$2,800</td>
-        <td class="hint">Moyenne du secteur public</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🏠 Logement et charges (studio référence)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏚️</span>Loyer studio</td>
-        <td class="val">$300</td>
-        <td class="hint">Villes régionales</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">⚡</span>Électricité</td>
-        <td class="val">$35</td>
-        <td class="hint">/ mois</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💧</span>Eau</td>
-        <td class="val">$8</td>
-        <td class="hint">/ mois</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📱</span>Forfait mobile</td>
-        <td class="val">$7</td>
-        <td class="hint">~10–40 Go</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🍽️ Alimentation et boissons (prix indicatifs)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍺</span>Bière (pinte)</td>
-        <td class="val">$4.00</td>
-        <td class="hint">Bar local (alcool taxé)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☕</span>Café</td>
-        <td class="val">$1.00</td>
-        <td class="hint">Kopi régulier</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍲</span>Plat principal</td>
-        <td class="val">$3.50</td>
-        <td class="hint">warung de milieu de gamme</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">⛽ Transport</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">⛽</span>Essence / litre</td>
-        <td class="val">0,75 $ / L</td>
-        <td class="hint">subventionné</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🧾 Fiscalité (indicatif)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏷️</span>TVA</td>
-        <td class="val">11%</td>
-        <td class="hint">taux standard (PPN)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">👤</span>Impôt sur le revenu</td>
-        <td class="val">~10%</td>
-        <td class="hint">Progressif (5-35%), tranche intermédiaire</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏪</span>Fiscalité petite entreprise</td>
-        <td class="val">~32%</td>
-        <td class="hint">22 % d&#x27;IS + contributions sociales</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📱 Tech (prix indicatifs)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍎</span>iPhone (dernier 256 Go)</td>
-        <td class="val">$1,300</td>
-        <td class="hint">L&#x27;importation/la taxe varie</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📲</span>Galaxy S (dernier 256 Go)</td>
-        <td class="val">$1,000</td>
-        <td class="hint">L&#x27;importation/la taxe varie</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🛂 Immigration et installation</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🛂</span>Facilité d&#x27;immigration</td>
-        <td class="val">5 / 10</td>
-        <td class="hint">options de visa ; changement de règles ; KITAS/KITAP</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🌤️ Qualité de vie</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🙂</span>Bonheur</td>
-        <td class="val">6.2 / 10</td>
-        <td class="hint">indicatif (src : Rapport mondial sur le bonheur 2024)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☀️</span>Jours de soleil / an</td>
-        <td class="val">~240 jours / an</td>
-        <td class="hint">varie selon la région (tropical) (src : Données climatiques, OMM)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏥</span>Santé publique</td>
-        <td class="val">Oui</td>
-        <td class="hint">public BPJS + privé en expansion</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧑‍⚕️</span>Assurance privée / mois</td>
-        <td class="val">45 $ / mois</td>
-        <td class="hint">exemple privé</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📈 Indices</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🚔</span>Indice criminalité</td>
-        <td class="val">48 / 100</td>
-        <td class="hint">indicatif (varie selon la région) (src : Indice de sécurité Numbeo 2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💶</span>Pouvoir d&#x27;achat</td>
-        <td class="val">55</td>
-        <td class="hint">indicatif (src : Indice PP de Numbeo 2025)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🕍 Religion</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">✝️</span>Chrétien</td>
-        <td class="val">~10%</td>
-        <td class="hint">indicatif</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☪️</span>Musulman</td>
-        <td class="val">~87%</td>
-        <td class="hint">indicatif (plus grande population musulmane)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☸️</span>Bouddhiste</td>
-        <td class="val">~1%</td>
-        <td class="hint">indicatif</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">✡️</span>Juif</td>
-        <td class="val">~0%</td>
-        <td class="hint">indicative (src: Pew Research / WJC)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🕊️</span>Autre / Aucune</td>
-        <td class="val">~2%</td>
-        <td class="hint">autre/aucun</td>
-      </tr>
-    </tbody>
-    </table>
-  </section>
+  <div class="main-grid">
+    <aside class="sidebar">
+      <div class="card">
+        <img class="hero-img" src="/assets/hero-indonesia.jpg" alt="Indonésie"
+             onerror="this.onerror=null;this.src='/assets/hero-fallback.jpg'" />
+        <div class="hero-actions">
+          <button class="btn primary" type="button" onclick="openModal('general')">Corriger les données</button>
+          <button class="btn" type="button" id="btnShare">Partager</button>
+          <a class="btn" href="/compare.html?country=indonesia">Comparer</a>
+        </div>
+      </div>
 
-  <section class="article"><h2>Aperçu du pays</h2><h2>🧭 Aperçu</h2>
-<p>L'Indonésie est le plus grand archipel du monde (plus de 17 000 îles), le quatrième pays le plus peuplé et le plus grand pays à majorité musulmane. Elle s'étend sur trois fuseaux horaires, de Sumatra à la Papouasie. Jakarta, la capitale qui s'enfonce (en cours de remplacement par Nusantara au Bornéo), est une mégapole chaotique. Bali est un aimant touristique attirant nomades numériques et surfeurs. L'économie est diversifiée : huile de palme, charbon, industrie manufacturière et services. L'Indonésie offre des îles tropicales, une culture riche, un coût de la vie abordable et des opportunités croissantes. Cependant, la corruption, le chaos routier (Jakarta a le pire trafic au monde), la pollution, les catastrophes naturelles (tremblements de terre, tsunamis, volcans) et la bureaucratie posent des défis.</p>
-<h2>👥 Population & ambiance</h2>
-<p>Avec environ 275 millions d'habitants répartis sur plus de 17 000 îles, l'Indonésie est ethniquement diverse : javanais (~40 %), soundanais (~15 %), plus de 300 groupes ethniques. Le bahasa Indonesia est la langue nationale (relativement facile à apprendre). L'anglais est parlé dans les milieux d'affaires et touristiques. L'islam domine (~87 %) mais Bali est hindoue, la Papouasie est chrétienne, et il existe une grande diversité. La culture met l'accent sur la communauté (gotong royong), l'harmonie et le respect. Les Indonésiens sont généralement amicaux, hospitaliers et indirects (évitant la confrontation). L'ambiance varie : Jakarta est effervescente ; Bali est une bulle touristique/expat ; Yogyakarta est culturelle ; Sumatra est propice à l'aventure. Le trafic et la pollution sont des constantes.</p>
-<h2>🌦️ Climat & paysages</h2>
-<p>Attendez-vous à un climat tropical : chaud et humide toute l'année (25-32°C) avec une saison des pluies (octobre-mars) et une saison plus sèche (avril-septembre). Les paysages sont extraordinairement divers : montagnes volcaniques (plus de 130 volcans actifs), forêts tropicales (Sumatra, Bornéo, Papouasie), rizières en terrasses (Bali), plages et récifs coralliens. La beauté naturelle est époustouflante mais les catastrophes naturelles sont fréquentes — tremblements de terre, tsunamis, éruptions volcaniques sont des risques réels. La biodiversité est exceptionnelle. La déforestation (huile de palme) est un grave problème environnemental.</p>
-<h2>🏠 Logement & installation</h2>
-<p>Bali (Canggu, Ubud, Seminyak) et Jakarta (Kemang, Menteng) sont des zones populaires auprès des expatriés. Attendez-vous à des conditions négociables. Loyers à Bali : 300-1 000 $/mois ; Jakarta : 500-2 000 $/mois. La qualité varie énormément — les villas à Bali sont charmantes ; les appartements à Jakarta vont du luxe au basique. La plupart des expatriés vivent dans des résidences sécurisées. Les coupures de courant sont moins fréquentes qu'avant. La qualité de l'eau est mauvaise — l'eau embouteillée est essentielle. Le trafic détermine le choix du logement à Jakarta. Bali offre un meilleur cadre de vie. L'enregistrement (KITAS) est requis.</p>
-<h2>💼 Travail & économie</h2>
-<p>L'économie repose sur l'huile de palme, le charbon, la manufacture, le textile et les services. Pour les étrangers, des opportunités existent dans le pétrole/gaz, les mines, les ONG, l'enseignement de l'anglais, le tourisme ou les startups technologiques (Jakarta a un écosystème en croissance). Les permis de travail (KITAS) nécessitent un parrainage de l'employeur et la preuve qu'aucun Indonésien ne peut occuper le poste. Le processus est bureaucratique et coûteux. Beaucoup de nomades numériques travaillent avec des visas touristiques (techniquement illégal). Les salaires pour les expatriés sont généreux avec avantages. Les salaires locaux sont très bas (Rp 4-10M/mois, 250-650 $). Créer une entreprise nécessite des partenariats locaux et de naviguer dans la corruption. Le bahasa Indonesia aide à l'intégration.</p>
-<h2>🛂 Visa & entrée</h2>
-<p>La plupart des nationalités obtiennent un visa touristique de 30 jours à l'arrivée (prolongeable une fois pour 30 jours). Pour des séjours plus longs, les options incluent les permis de travail (KITAS), le visa de retraite (55+ avec justificatifs financiers) ou le visa social/culturel. Le processus est bureaucratique, coûteux et nécessite généralement des agents. Les « visa runs » (sortir vers Singapour/Malaisie) sont courants. La résidence permanente (KITAP) nécessite 5 ans de KITAS. La naturalisation est presque impossible sans ascendance indonésienne.</p>
-<h2>🏥 Santé</h2>
-<p>La qualité des soins varie énormément. Les hôpitaux publics sont surchargés et de faible qualité. Les hôpitaux internationaux à Jakarta et Bali (BIMC, Siloam) offrent des soins corrects à coût raisonnable. Les cas graves nécessitent une évacuation vers Singapour. Le tourisme médical est inexistant — les gens quittent l'Indonésie pour se soigner. La dengue, le paludisme (dans certaines zones) et les maladies d'origine hydrique sont des risques. L'espérance de vie est d'environ 72 ans. Une assurance santé internationale avec évacuation vers Singapour est essentielle.</p>
-<h2>🚗 Transport & mobilité</h2>
-<p>Jakarta a un trafic épouvantable — des trajets de 2-3 heures pour de courtes distances sont fréquents. Le MRT et le LRT sont récents mais limités. Les applications de transport (Gojek, Grab) pour motos et voitures sont salvatrices. Les taxis motos (ojek) se faufilent dans le trafic. La plupart des expatriés emploient des chauffeurs. Le trafic à Bali est aussi terrible sur les routes principales. Des bus interurbains et des trains relient Java. Les vols intérieurs sont essentiels pour traverser l'archipel. Des ferries relient les îles. Les routes vont du correct au dégradé. Les catastrophes naturelles peuvent perturber les transports. Les vols internationaux passent par Jakarta et Bali.</p>
-<h2>🍛 Note culinaire (plat national)</h2>
-<p>Le plat national est le <strong>Nasi Goreng</strong> : riz frit avec kecap manis (sauce soja sucrée), pâte de crevettes, légumes, œuf et souvent poulet ou crevettes. C'est de la nourriture de rue omniprésente et un plat réconfortant. Autres plats emblématiques : <strong>Rendang</strong> (curry de bœuf mijoté) ou <strong>Gado-Gado</strong> (salade de légumes avec sauce aux cacahuètes). La cuisine indonésienne varie selon les îles — les styles padangais, javanais et balinais diffèrent fortement.</p>
-<h2>🔎 En bref</h2>
-<p>L'Indonésie convient aux nomades numériques (style de vie à Bali), aux surfeurs, aux enseignants, aux professionnels du pétrole/gaz et aux aventuriers recherchant la vie tropicale. Avantages : abordable (surtout hors zones très touristiques), îles tropicales, plongée/surf, population accueillante et économie en croissance. Inconvénients : trafic à Jakarta (pire du monde), pollution, corruption, risques de catastrophes naturelles, bureaucratie et le fait que Jakarta s'enfonce (la capitale est en train d'être déplacée). Bali est surpeuplée par les touristes et les nomades numériques ; l'authenticité demande des efforts. Idéal pour ceux qui privilégient le style de vie, l'accessibilité et le climat tropical plutôt que l'infrastructure et l'efficacité. Les catastrophes naturelles sont un risque réel — tremblements de terre, tsunamis et éruptions volcaniques surviennent. Bali offre une meilleure qualité de vie que Jakarta mais reste une bulle touristique. Le bahasa Indonesia est relativement facile à apprendre. Les nomades numériques affluent ici mais travaillent techniquement avec des visas touristiques (risqué).</p>
-<p>Score Expat — 6.5 / 10</p></section>
+      <div class="card snapshot-card">
+        <div class="snapshot-title">Aperçu rapide</div>
+        <div class="kv"><span>Capitale</span><b>Jakarta</b></div><div class="kv"><span>Population</span><b>~275M</b></div><div class="kv"><span>Langues</span><b>Indonésien (Bahasa Indonesia), anglais</b></div><div class="kv"><span>Monnaie</span><b>Roupie indonésienne (IDR)</b></div><div class="kv kv-sub"><span>Exchange rate</span><b>1 USD ≈ 15,700 IDR</b></div><div class="kv-note">Monnaie faible mais relativement stable. Grandes coupures (10 000, 50 000, 100 000) en raison de la faible valeur.</div><div class="kv"><span>Crypto-friendly</span><b>Limitée</b></div><div class="kv-note">Le trading de crypto est légal mais ne peut pas être utilisé comme moyen de paiement (seulement comme marchandise/investissement). Réglementé par l&#x27;autorité des contrats à terme. Intérêt en croissance.</div><div class="kv"><span>Conduite</span><b>Gauche</b></div><div class="sector-block"><div class="sector-head">Secteurs phares</div><div class="sector-list"><div class="sector-pill">Production d&#x27;huile de palme</div><div class="sector-pill">Exploitation et exportation de charbon</div><div class="sector-pill">Industrie manufacturière et textile</div></div></div>
+      </div>
 
-  <section class="ttk"><h2>À savoir</h2><div class="ttk-grid">
-      <div class="ttk-card">
-        <div class="ttk-title">👤 Sukarno <small>(XXe siècle)</small></div>
-        <p>Premier président et leader de l&#x27;indépendance qui proclama l&#x27;indépendance des Pays-Bas (1945). Orateur charismatique qui a défendu le mouvement des non-alignés. Renversé lors du coup/purge de 1965-66 qui fit plus de 500 000 morts. Sa fille Megawati devint plus tard présidente. Père fondateur.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🌊 Jakarta s&#x27;enfonce</div>
-        <p>Jakarta s&#x27;enfonce de 25 cm par an en raison de l&#x27;extraction des eaux souterraines et du poids des constructions. Les zones nord sont sous le niveau de la mer. Les inondations sont sévères. Le gouvernement déplace la capitale vers Nusantara au Bornéo (Kalimantan). L&#x27;enfoncement est une crise réelle — Jakarta pourrait devenir inhabitable d&#x27;ici 2050.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🚦 Trafic = apocalyptique</div>
-        <p>Jakarta se classe constamment comme la pire ville au monde pour le trafic. Des trajets de 3 heures pour 10 km sont normaux. Les embouteillages sont permanents. Les applications de transport avec taxis moto (ojek) sont la seule façon de se déplacer efficacement. La perte de productivité est énorme. Ce problème unique affecte massivement la qualité de vie.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🌴 L&#x27;huile de palme = moteur de la déforestation</div>
-        <p>L&#x27;Indonésie est le plus grand producteur d&#x27;huile de palme au monde. Les forêts tropicales sont défrichées pour des plantations — détruisant l&#x27;habitat des orangs-outans, les tourbières (libérant du carbone) et la biodiversité. La destruction environnementale est catastrophique. L&#x27;huile de palme se trouve dans 50 % des produits de supermarché mondiaux.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🏝️ Bali = invasion de nomades numériques</div>
-        <p>Canggu est passé de village de surf à hub de cafés Instagram. Les nomades numériques travaillent avec des visas touristiques (techniquement illégal). Les « visa runs » vers Singapour sont routiniers. C&#x27;est un fantasme tropical de coworking mais l&#x27;authenticité est perdue. La culture balinaise est diluée par le tourisme.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🌋 Ceinture de feu = zone à risques</div>
-        <p>L&#x27;Indonésie se situe sur la ceinture de feu du Pacifique — plus de 130 volcans actifs, séismes fréquents, tsunamis (2004 a fait 230 000 morts, 2018 plus de 2 000 morts). Les catastrophes naturelles sont une réalité existentielle. L&#x27;éruption du Krakatoa en 1883 fut entendue à 4 800 km. Vivre ici signifie accepter des risques géologiques.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🕌 Plus grande nation musulmane, tradition modérée</div>
-        <p>L&#x27;Indonésie compte plus de 230 millions de musulmans — plus que le Moyen-Orient réuni. Historiquement, l&#x27;islam y est modéré (syncrétisé avec des traditions hindoues/bouddhistes). Les dernières décennies ont vu un virage conservateur. Aceh applique la loi sharia. L&#x27;équilibre entre modération et conservatisme est une tension persistante.</p>
-      </div></div></section>
+      
+        <div class="card persona-card">
+          <div class="snapshot-title">Figure du pays</div>
+          <div class="persona-name">Sukarno <small>(XXe siècle)</small></div>
+          <div class="persona-why">Premier président et leader de l&#x27;indépendance qui proclama l&#x27;indépendance des Pays-Bas (1945). Orateur charismatique qui a défendu le mouvement des non-alignés. Renversé lors du coup/purge de 1965-66 qui fit plus de 500 000 morts. Sa fille Megawati devint plus tard présidente. Père fondateur.</div>
+        </div>
+    </aside>
 
-  <section class="related"><h2>Guides villes</h2><ul class="link-list"><li><a href="/chronicles/villes/chronicle-bali-indonesia-fr.html">Bali</a></li><li><a href="/chronicles/villes/chronicle-jakarta-indonesia-fr.html">Jakarta</a></li><li><a href="/chronicles/villes/chronicle-surabaya-indonesia-fr.html">Surabaya</a></li><li><a href="/chronicles/villes/chronicle-yogyakarta-indonesia-fr.html">Yogyakarta</a></li></ul></section>
-  <section class="related"><h2>Chroniques liées</h2><ul class="link-list"><li><a href="/chronicles/expatries-nomades-crypto-2026-fr.html">Meilleur pays pour expatriés, nomades et crypto 2026</a></li><li><a href="/chronicles/chronicle-asie-expatriation-partie1-2026-fr.html">Asie expatriation 2026 Partie 1 — Thaïlande, Vietnam, Bali</a></li><li><a href="/chronicles/chronicle-immo-etranger-2026-fr.html">Immobilier à l&#x27;étranger — Ce que les étrangers possèdent vraiment</a></li></ul></section>
-  <section class="related"><h2>Comparaisons de pays</h2><ul class="link-list"><li><a href="/compare/static/malaysia-vs-indonesia/">Indonésie vs Malaysia</a></li><li><a href="/compare/static/thailand-vs-indonesia/">Indonésie vs Thailand</a></li><li><a href="/compare/static/vietnam-vs-indonesia/">Indonésie vs Vietnam</a></li></ul></section>
+    <div class="right-col">
+      <div class="rc-wrapper">
+        
+        <div class="rc-box">
+          <div class="rc-box-head">
+            <h2>Chroniques liées</h2>
+            <div class="rc-nav">
+              <button class="rc-nav-btn" data-target="rc-list" data-dir="-1" aria-label="Previous">&#8249;</button>
+              <button class="rc-nav-btn" data-target="rc-list" data-dir="1" aria-label="Next">&#8250;</button>
+            </div>
+          </div>
+          <div class="rc-track"><div id="rc-list" class="rc-row"><a class="rc-vcard" href="/chronicles/expatries-nomades-crypto-2026-fr.html"><img class="rc-vimg" src="/assets/hero-uae.jpg" alt="Meilleur pays pour expatriés, nomades et crypto 2026" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">📄</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Meilleur pays pour expatriés, nomades et crypto 2026</div></div></a><a class="rc-vcard" href="/chronicles/chronicle-asie-expatriation-partie1-2026-fr.html"><img class="rc-vimg" src="/assets/hero-thailand.jpg" alt="Asie expatriation 2026 Partie 1 — Thaïlande, Vietnam, Bali" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">📄</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Asie expatriation 2026 Partie 1 — Thaïlande, Vietnam, Bali</div></div></a><a class="rc-vcard" href="/chronicles/chronicle-immo-etranger-2026-fr.html"><img class="rc-vimg" src="/assets/hero-portugal.jpg" alt="Immobilier à l&#x27;étranger — Ce que les étrangers possèdent vraiment" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">📄</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Immobilier à l&#x27;étranger — Ce que les étrangers possèdent vraiment</div></div></a></div></div>
+        </div>
+        
+        <div class="rc-box">
+          <div class="rc-box-head">
+            <h2>Guides villes</h2>
+            <div class="rc-nav">
+              <button class="rc-nav-btn" data-target="cv-list" data-dir="-1" aria-label="Previous">&#8249;</button>
+              <button class="rc-nav-btn" data-target="cv-list" data-dir="1" aria-label="Next">&#8250;</button>
+            </div>
+          </div>
+          <div class="rc-track"><div id="cv-list" class="rc-row"><a class="rc-vcard" href="/chronicles/villes/chronicle-bali-indonesia-fr.html"><img class="rc-vimg" src="/assetscity/bali.png" alt="Bali" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">🏙️</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Bali</div></div></a><a class="rc-vcard" href="/chronicles/villes/chronicle-jakarta-indonesia-fr.html"><img class="rc-vimg" src="/assetscity/jakarta.png" alt="Jakarta" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">🏙️</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Jakarta</div></div></a><a class="rc-vcard" href="/chronicles/villes/chronicle-surabaya-indonesia-fr.html"><img class="rc-vimg" src="/assetscity/surabaya.png" alt="Surabaya" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">🏙️</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Surabaya</div></div></a><a class="rc-vcard" href="/chronicles/villes/chronicle-yogyakarta-indonesia-fr.html"><img class="rc-vimg" src="/assetscity/yogyakarta.png" alt="Yogyakarta" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">🏙️</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Yogyakarta</div></div></a></div></div>
+        </div>
+      </div>
 
-  <p style="text-align:center;margin-top:30px"><a href="/globe.html" style="font-weight:600">Voir les 160+ pays →</a></p>
+      <div class="data-card">
+        <table class="data-table">
+      <tbody>
+        <tr class="sec"><td colspan="4">💼 Salaires (net / mois)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧾</span>Salaire minimum</td>
+          <td class="val">$200</td>
+          <td class="hint">UMR provincial moyen ≈ 3 500 000 IDR → net ≈ 3 220 000 IDR (2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('min_wage')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📊</span>Salaire moyen</td>
+          <td class="val">$490</td>
+          <td class="hint">Moyenne nette ≈ 7 900 000 IDR/mois (BPS 2024 — Jakarta ≈ ×1,5)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('avg_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🩺</span>Salaire médecin (généraliste)</td>
+          <td class="val">$2,800</td>
+          <td class="hint">Moyenne du secteur public</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('doctor_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🏠 Logement et charges (studio référence)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏚️</span>Loyer studio</td>
+          <td class="val">$300</td>
+          <td class="hint">Villes régionales</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('rent_studio')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">⚡</span>Électricité</td>
+          <td class="val">$35</td>
+          <td class="hint">/ mois</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('electricity')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💧</span>Eau</td>
+          <td class="val">$8</td>
+          <td class="hint">/ mois</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('water')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📱</span>Forfait mobile</td>
+          <td class="val">$7</td>
+          <td class="hint">~10–40 Go</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('mobile')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🍽️ Alimentation et boissons (prix indicatifs)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍺</span>Bière (pinte)</td>
+          <td class="val">$4.00</td>
+          <td class="hint">Bar local (alcool taxé)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('beer')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☕</span>Café</td>
+          <td class="val">$1.00</td>
+          <td class="hint">Kopi régulier</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('coffee')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍲</span>Plat principal</td>
+          <td class="val">$3.50</td>
+          <td class="hint">warung de milieu de gamme</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('dish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">⛽ Transport</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">⛽</span>Essence / litre</td>
+          <td class="val">0,75 $ / L</td>
+          <td class="hint">subventionné</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('gas')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🧾 Fiscalité (indicatif)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏷️</span>TVA</td>
+          <td class="val">11%</td>
+          <td class="hint">taux standard (PPN)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('vat')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">👤</span>Impôt sur le revenu</td>
+          <td class="val">~10%</td>
+          <td class="hint">Progressif (5-35%), tranche intermédiaire</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('income_tax')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏪</span>Fiscalité petite entreprise</td>
+          <td class="val">~32%</td>
+          <td class="hint">22 % d&#x27;IS + contributions sociales</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('smallbiz')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📱 Tech (prix indicatifs)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍎</span>iPhone (dernier 256 Go)</td>
+          <td class="val">$1,300</td>
+          <td class="hint">L&#x27;importation/la taxe varie</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('iphone')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📲</span>Galaxy S (dernier 256 Go)</td>
+          <td class="val">$1,000</td>
+          <td class="hint">L&#x27;importation/la taxe varie</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('samsung')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🛂 Immigration et installation</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🛂</span>Facilité d&#x27;immigration</td>
+          <td class="val">5 / 10</td>
+          <td class="hint">options de visa ; changement de règles ; KITAS/KITAP</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('immigration')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🌤️ Qualité de vie</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🙂</span>Bonheur</td>
+          <td class="val">6.2 / 10</td>
+          <td class="hint">indicatif (src : Rapport mondial sur le bonheur 2024)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('happiness')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☀️</span>Jours de soleil / an</td>
+          <td class="val">~240 jours / an</td>
+          <td class="hint">varie selon la région (tropical) (src : Données climatiques, OMM)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('sun')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏥</span>Santé publique</td>
+          <td class="val">Oui</td>
+          <td class="hint">public BPJS + privé en expansion</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('health')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧑‍⚕️</span>Assurance privée / mois</td>
+          <td class="val">45 $ / mois</td>
+          <td class="hint">exemple privé</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('insurance')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📈 Indices</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🚔</span>Indice criminalité</td>
+          <td class="val">48 / 100</td>
+          <td class="hint">indicatif (varie selon la région) (src : Indice de sécurité Numbeo 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('crime')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💶</span>Pouvoir d&#x27;achat</td>
+          <td class="val">55</td>
+          <td class="hint">indicatif (src : Indice PP de Numbeo 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('pp')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🕍 Religion</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">✝️</span>Chrétien</td>
+          <td class="val">~10%</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_christian')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☪️</span>Musulman</td>
+          <td class="val">~87%</td>
+          <td class="hint">indicatif (plus grande population musulmane)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_muslim')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☸️</span>Bouddhiste</td>
+          <td class="val">~1%</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_buddhist')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">✡️</span>Juif</td>
+          <td class="val">~0%</td>
+          <td class="hint">indicative (src: Pew Research / WJC)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_jewish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🕊️</span>Autre / Aucune</td>
+          <td class="val">~2%</td>
+          <td class="hint">autre/aucun</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_other')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+        </table>
+      </div>
+
+      
+      <div class="article-card">
+        <div class="section-head">
+          <h2>Vivre à Indonésie</h2>
+          <span class="score-badge"><span class="score-star">⭐</span> Score Expat: 6.5 / 10</span>
+        </div>
+        <div class="article-body"><p>🧭 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Aperçu</span><br>
+L&#x27;Indonésie est le plus grand archipel du monde (plus de 17 000 îles), le quatrième pays le plus peuplé et le plus grand pays à majorité musulmane. Elle s&#x27;étend sur trois fuseaux horaires, de Sumatra à la Papouasie. Jakarta, la capitale qui s&#x27;enfonce (en cours de remplacement par Nusantara au Bornéo), est une mégapole chaotique. Bali est un aimant touristique attirant nomades numériques et surfeurs. L&#x27;économie est diversifiée : huile de palme, charbon, industrie manufacturière et services. L&#x27;Indonésie offre des îles tropicales, une culture riche, un coût de la vie abordable et des opportunités croissantes. Cependant, la corruption, le chaos routier (Jakarta a le pire trafic au monde), la pollution, les catastrophes naturelles (tremblements de terre, tsunamis, volcans) et la bureaucratie posent des défis.</p><p>👥 <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Population &amp; ambiance</span><br>
+Avec environ 275 millions d&#x27;habitants répartis sur plus de 17 000 îles, l&#x27;Indonésie est ethniquement diverse : javanais (~40 %), soundanais (~15 %), plus de 300 groupes ethniques. Le bahasa Indonesia est la langue nationale (relativement facile à apprendre). L&#x27;anglais est parlé dans les milieux d&#x27;affaires et touristiques. L&#x27;islam domine (~87 %) mais Bali est hindoue, la Papouasie est chrétienne, et il existe une grande diversité. La culture met l&#x27;accent sur la communauté (gotong royong), l&#x27;harmonie et le respect. Les Indonésiens sont généralement amicaux, hospitaliers et indirects (évitant la confrontation). L&#x27;ambiance varie : Jakarta est effervescente ; Bali est une bulle touristique/expat ; Yogyakarta est culturelle ; Sumatra est propice à l&#x27;aventure. Le trafic et la pollution sont des constantes.</p><p>🌦️ <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Climat &amp; paysages</span><br>
+Attendez-vous à un climat tropical : chaud et humide toute l&#x27;année (25-32°C) avec une saison des pluies (octobre-mars) et une saison plus sèche (avril-septembre). Les paysages sont extraordinairement divers : montagnes volcaniques (plus de 130 volcans actifs), forêts tropicales (Sumatra, Bornéo, Papouasie), rizières en terrasses (Bali), plages et récifs coralliens. La beauté naturelle est époustouflante mais les catastrophes naturelles sont fréquentes — tremblements de terre, tsunamis, éruptions volcaniques sont des risques réels. La biodiversité est exceptionnelle. La déforestation (huile de palme) est un grave problème environnemental.</p><p>🏠 <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Logement &amp; installation</span><br>
+Bali (Canggu, Ubud, Seminyak) et Jakarta (Kemang, Menteng) sont des zones populaires auprès des expatriés. Attendez-vous à des conditions négociables. Loyers à Bali : 300-1 000 $/mois ; Jakarta : 500-2 000 $/mois. La qualité varie énormément — les villas à Bali sont charmantes ; les appartements à Jakarta vont du luxe au basique. La plupart des expatriés vivent dans des résidences sécurisées. Les coupures de courant sont moins fréquentes qu&#x27;avant. La qualité de l&#x27;eau est mauvaise — l&#x27;eau embouteillée est essentielle. Le trafic détermine le choix du logement à Jakarta. Bali offre un meilleur cadre de vie. L&#x27;enregistrement (KITAS) est requis.</p><p>💼 <span class="art-tag" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#6d28d9">Travail &amp; économie</span><br>
+L&#x27;économie repose sur l&#x27;huile de palme, le charbon, la manufacture, le textile et les services. Pour les étrangers, des opportunités existent dans le pétrole/gaz, les mines, les ONG, l&#x27;enseignement de l&#x27;anglais, le tourisme ou les startups technologiques (Jakarta a un écosystème en croissance). Les permis de travail (KITAS) nécessitent un parrainage de l&#x27;employeur et la preuve qu&#x27;aucun Indonésien ne peut occuper le poste. Le processus est bureaucratique et coûteux. Beaucoup de nomades numériques travaillent avec des visas touristiques (techniquement illégal). Les salaires pour les expatriés sont généreux avec avantages. Les salaires locaux sont très bas (Rp 4-10M/mois, 250-650 $). Créer une entreprise nécessite des partenariats locaux et de naviguer dans la corruption. Le bahasa Indonesia aide à l&#x27;intégration.</p>
+        <div class="map-card">
+          <div class="map-header">
+            <div class="map-title"><span class="map-flag">🇮🇩</span><span>Indonésie — Carte</span></div>
+            <div class="map-styles">
+              <button type="button" class="map-style-btn active" data-style="light">Clair</button>
+              <button type="button" class="map-style-btn" data-style="dark">Sombre</button>
+              <button type="button" class="map-style-btn" data-style="satellite">Satellite</button>
+            </div>
+          </div>
+          <div class="map-container">
+            <div id="wigg-country-map"></div>
+            <div class="map-loading" id="wiggMapLoading">Chargement de la carte…</div>
+          </div>
+        </div><p>🛂 <span class="art-tag" style="background:rgba(236,72,153,.12);border:1px solid rgba(236,72,153,.25);color:#be185d">Visa &amp; entrée</span><br>
+La plupart des nationalités obtiennent un visa touristique de 30 jours à l&#x27;arrivée (prolongeable une fois pour 30 jours). Pour des séjours plus longs, les options incluent les permis de travail (KITAS), le visa de retraite (55+ avec justificatifs financiers) ou le visa social/culturel. Le processus est bureaucratique, coûteux et nécessite généralement des agents. Les « visa runs » (sortir vers Singapour/Malaisie) sont courants. La résidence permanente (KITAP) nécessite 5 ans de KITAS. La naturalisation est presque impossible sans ascendance indonésienne.</p><p>🏥 <span class="art-tag" style="background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.25);color:#0e7490">Santé</span><br>
+La qualité des soins varie énormément. Les hôpitaux publics sont surchargés et de faible qualité. Les hôpitaux internationaux à Jakarta et Bali (BIMC, Siloam) offrent des soins corrects à coût raisonnable. Les cas graves nécessitent une évacuation vers Singapour. Le tourisme médical est inexistant — les gens quittent l&#x27;Indonésie pour se soigner. La dengue, le paludisme (dans certaines zones) et les maladies d&#x27;origine hydrique sont des risques. L&#x27;espérance de vie est d&#x27;environ 72 ans. Une assurance santé internationale avec évacuation vers Singapour est essentielle.</p><p>🚗 <span class="art-tag" style="background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#c2410c">Transport &amp; mobilité</span><br>
+Jakarta a un trafic épouvantable — des trajets de 2-3 heures pour de courtes distances sont fréquents. Le MRT et le LRT sont récents mais limités. Les applications de transport (Gojek, Grab) pour motos et voitures sont salvatrices. Les taxis motos (ojek) se faufilent dans le trafic. La plupart des expatriés emploient des chauffeurs. Le trafic à Bali est aussi terrible sur les routes principales. Des bus interurbains et des trains relient Java. Les vols intérieurs sont essentiels pour traverser l&#x27;archipel. Des ferries relient les îles. Les routes vont du correct au dégradé. Les catastrophes naturelles peuvent perturber les transports. Les vols internationaux passent par Jakarta et Bali.</p><p>🍛 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Note culinaire (plat national)</span><br>
+Le plat national est le <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Nasi Goreng</span><br> : riz frit avec kecap manis (sauce soja sucrée), pâte de crevettes, légumes, œuf et souvent poulet ou crevettes. C&#x27;est de la nourriture de rue omniprésente et un plat réconfortant. Autres plats emblématiques : <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Rendang</span><br> (curry de bœuf mijoté) ou <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Gado-Gado</span><br> (salade de légumes avec sauce aux cacahuètes). La cuisine indonésienne varie selon les îles — les styles padangais, javanais et balinais diffèrent fortement.</p><p>🔎 <span class="art-tag" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#6d28d9">En bref</span><br>
+L&#x27;Indonésie convient aux nomades numériques (style de vie à Bali), aux surfeurs, aux enseignants, aux professionnels du pétrole/gaz et aux aventuriers recherchant la vie tropicale. Avantages : abordable (surtout hors zones très touristiques), îles tropicales, plongée/surf, population accueillante et économie en croissance. Inconvénients : trafic à Jakarta (pire du monde), pollution, corruption, risques de catastrophes naturelles, bureaucratie et le fait que Jakarta s&#x27;enfonce (la capitale est en train d&#x27;être déplacée). Bali est surpeuplée par les touristes et les nomades numériques ; l&#x27;authenticité demande des efforts. Idéal pour ceux qui privilégient le style de vie, l&#x27;accessibilité et le climat tropical plutôt que l&#x27;infrastructure et l&#x27;efficacité. Les catastrophes naturelles sont un risque réel — tremblements de terre, tsunamis et éruptions volcaniques surviennent. Bali offre une meilleure qualité de vie que Jakarta mais reste une bulle touristique. Le bahasa Indonesia est relativement facile à apprendre. Les nomades numériques affluent ici mais travaillent techniquement avec des visas touristiques (risqué).</p><p>Score Expat — 6.5 / 10</p></div>
+      </div>
+
+      
+      <div class="things-section">
+        <div class="section-head"><h2>À savoir</h2><span class="wg-badge">À lire</span></div>
+        <div class="facts-grid"><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🌊 Jakarta s&#x27;enfonce</div><div class="fact-text">Jakarta s&#x27;enfonce de 25 cm par an en raison de l&#x27;extraction des eaux souterraines et du poids des constructions. Les zones nord sont sous le niveau de la mer. Les inondations sont sévères. Le gouvernement déplace la capitale vers Nusantara au Bornéo (Kalimantan). L&#x27;enfoncement est une crise réelle — Jakarta pourrait devenir inhabitable d&#x27;ici 2050.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🚦 Trafic = apocalyptique</div><div class="fact-text">Jakarta se classe constamment comme la pire ville au monde pour le trafic. Des trajets de 3 heures pour 10 km sont normaux. Les embouteillages sont permanents. Les applications de transport avec taxis moto (ojek) sont la seule façon de se déplacer efficacement. La perte de productivité est énorme. Ce problème unique affecte massivement la qualité de vie.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🌴 L&#x27;huile de palme = moteur de la déforestation</div><div class="fact-text">L&#x27;Indonésie est le plus grand producteur d&#x27;huile de palme au monde. Les forêts tropicales sont défrichées pour des plantations — détruisant l&#x27;habitat des orangs-outans, les tourbières (libérant du carbone) et la biodiversité. La destruction environnementale est catastrophique. L&#x27;huile de palme se trouve dans 50 % des produits de supermarché mondiaux.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏝️ Bali = invasion de nomades numériques</div><div class="fact-text">Canggu est passé de village de surf à hub de cafés Instagram. Les nomades numériques travaillent avec des visas touristiques (techniquement illégal). Les « visa runs » vers Singapour sont routiniers. C&#x27;est un fantasme tropical de coworking mais l&#x27;authenticité est perdue. La culture balinaise est diluée par le tourisme.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🌋 Ceinture de feu = zone à risques</div><div class="fact-text">L&#x27;Indonésie se situe sur la ceinture de feu du Pacifique — plus de 130 volcans actifs, séismes fréquents, tsunamis (2004 a fait 230 000 morts, 2018 plus de 2 000 morts). Les catastrophes naturelles sont une réalité existentielle. L&#x27;éruption du Krakatoa en 1883 fut entendue à 4 800 km. Vivre ici signifie accepter des risques géologiques.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🕌 Plus grande nation musulmane, tradition modérée</div><div class="fact-text">L&#x27;Indonésie compte plus de 230 millions de musulmans — plus que le Moyen-Orient réuni. Historiquement, l&#x27;islam y est modéré (syncrétisé avec des traditions hindoues/bouddhistes). Les dernières décennies ont vu un virage conservateur. Aceh applique la loi sharia. L&#x27;équilibre entre modération et conservatisme est une tension persistante.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🍽️ Nasi Goreng / Rendang</div><div class="fact-text">Riz frit avec sauce soja sucrée ou curry de bœuf mijoté — les cuisines régionales varient énormément. La culture de la street food est vivante et délicieuse.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏳️‍🌈 LGBT+: Très faible</div><div class="fact-text">L&#x27;homosexualité est légale au niveau national mais illégale dans la province d&#x27;Aceh (loi sharia). Les attitudes sociales sont hostiles. Aucune protection légale. Des violences ont lieu. Une extrême discrétion est essentielle.</div></div></div>
+      </div>
+
+      <section class="cmp-section"><h2>Comparaisons de pays</h2><div class="cmp-pills"><a class="cmp-pill" href="/compare/static/malaysia-vs-indonesia/">Indonésie vs Malaysia</a><a class="cmp-pill" href="/compare/static/thailand-vs-indonesia/">Indonésie vs Thailand</a><a class="cmp-pill" href="/compare/static/vietnam-vs-indonesia/">Indonésie vs Vietnam</a></div></section>
+    </div>
+  </div>
 </main>
 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
+<script src="/data/share.js"></script>
+<script src="/data/correction-form.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var t = document.getElementById("localTime");
+  if(t && t.dataset.tz){
+    function tick(){
+      try{
+        t.textContent = new Intl.DateTimeFormat("en-GB",{
+          timeZone: t.dataset.tz, hour:"2-digit", minute:"2-digit"
+        }).format(new Date());
+      }catch(e){}
+    }
+    tick(); setInterval(tick, 30000);
+  }
+  document.querySelectorAll(".rc-nav-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var targetId = btn.dataset.target;
+      var dir = parseInt(btn.dataset.dir||"1",10);
+      var row = document.getElementById(targetId);
+      if(!row) return;
+      var box = row.parentElement;
+      var first = row.querySelector(".rc-vcard");
+      if(!first) return;
+      var cardW = first.offsetWidth + 9;
+      var visible = Math.max(1, Math.floor(box.offsetWidth / cardW));
+      var maxOffset = Math.max(0, row.children.length - visible);
+      var current = parseInt(row.dataset.offset||"0", 10);
+      current = Math.min(maxOffset, Math.max(0, current + dir));
+      row.dataset.offset = current;
+      row.style.transform = "translateX(-" + (current * cardW) + "px)";
+      var nav = btn.parentNode;
+      var prev = nav.querySelector('[data-dir="-1"]');
+      var next = nav.querySelector('[data-dir="1"]');
+      if(prev) prev.disabled = (current === 0);
+      if(next) next.disabled = (current >= maxOffset);
+    });
+  });
+  var iso2 = "ID";
+  if(!iso2 || typeof L === "undefined") return;
+  var STYLES = {
+    light:     { url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", attr: "&copy; OSM &copy; CARTO" },
+    dark:      { url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",  attr: "&copy; OSM &copy; CARTO" },
+    satellite: { url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", attr: "&copy; Esri" }
+  };
+  var wMap=null, wLayer=null, wMarker=null;
+  function initMap(lat, lon){
+    var el = document.getElementById("wigg-country-map");
+    if(!el) return;
+    if(wMap){ try{wMap.remove();}catch(e){} }
+    wMap = L.map("wigg-country-map",{zoomControl:true}).setView([lat,lon],5);
+    wLayer = L.tileLayer(STYLES.light.url,{attribution:STYLES.light.attr,maxZoom:18}).addTo(wMap);
+    wMarker = L.marker([lat,lon]).addTo(wMap);
+    var loading = document.getElementById("wiggMapLoading");
+    if(loading) loading.classList.add("hidden");
+  }
+  document.querySelectorAll(".map-style-btn").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(!wMap) return;
+      var s = STYLES[b.dataset.style];
+      if(!s) return;
+      if(wLayer) wMap.removeLayer(wLayer);
+      wLayer = L.tileLayer(s.url,{attribution:s.attr,maxZoom:18}).addTo(wMap);
+      document.querySelectorAll(".map-style-btn").forEach(function(x){x.classList.remove("active");});
+      b.classList.add("active");
+    });
+  });
+  var cacheKey = "wigg_centroid_" + iso2;
+  var cached = null;
+  try { cached = JSON.parse(localStorage.getItem(cacheKey) || "null"); } catch(e){}
+  if(cached && cached.lat != null && cached.lon != null){
+    initMap(cached.lat, cached.lon); return;
+  }
+  fetch("https://nominatim.openstreetmap.org/search?country=" + encodeURIComponent(iso2) + "&format=json&limit=1")
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && d[0]){
+        var coords = { lat: +d[0].lat, lon: +d[0].lon };
+        try { localStorage.setItem(cacheKey, JSON.stringify(coords)); } catch(e){}
+        initMap(coords.lat, coords.lon);
+      } else {
+        var l = document.getElementById("wiggMapLoading");
+        if(l) l.textContent = "Carte indisponible";
+      }
+    })
+    .catch(function(){
+      var l = document.getElementById("wiggMapLoading");
+      if(l) l.textContent = "Carte indisponible";
+    });
+})();
+</script>
+
+<form name="wiggmap-corrections" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="wiggmap-corrections" />
+  <p><label>Don't fill this out: <input name="bot-field" /></label></p>
+  <input name="country" /><input name="field" /><input name="value" /><input name="email" /><textarea name="notes"></textarea>
+</form>
+
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
 </body>
 </html>

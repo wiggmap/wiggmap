@@ -25,65 +25,127 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#f6f1e8;--paper:#fffdf8;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--green:#1d7f48;--green-dk:#155f36;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
+    :root{--paper:#fffdf8;--paper-2:#fbf7ee;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--line-soft:rgba(23,23,20,.06);--green:#1d7f48;--green-dk:#155f36;--green-light:#e6f4ec;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
     html{scroll-behavior:smooth}
     body{font-family:"Inter",system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f9f5ed 0%,#f3ede3 100%);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
     a{color:var(--green);text-decoration:none}
     a:hover{text-decoration:underline}
-    main{max-width:980px;margin:0 auto;padding:28px 20px 80px}
-    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:18px;letter-spacing:.04em}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:14px;letter-spacing:.04em}
     .crumb a{color:var(--ink-soft)}
-    .hero{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:36px 32px;box-shadow:var(--shadow);margin-bottom:24px;position:relative;overflow:hidden}
-    .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 18%,rgba(29,127,72,.05),transparent 30%);pointer-events:none}
-    .hero-flag{font-size:48px;line-height:1;margin-bottom:14px}
-    .hero h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(36px,6vw,56px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:10px;position:relative;z-index:1}
-    .hero .subtitle{font-size:15px;color:var(--ink-soft);max-width:62ch;line-height:1.6;position:relative;z-index:1}
-    .hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;position:relative;z-index:1}
-    .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid var(--line)}
-    .badge.green{background:#e6f4ec;color:var(--green-dk);border-color:rgba(29,127,72,.2)}
+    .country-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:22px;flex-wrap:wrap}
+    .country-flag{font-size:42px;line-height:1;margin-bottom:8px}
+    .country-head h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(34px,5.2vw,52px);font-weight:800;letter-spacing:-.02em;line-height:1.02}
+    .country-head .subtitle{font-size:14px;color:var(--ink-soft);max-width:64ch;line-height:1.55;margin-top:8px}
+    .head-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+    .badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:7px 13px;border-radius:999px;background:#fff;border:1px solid var(--line)}
+    .badge.green{background:var(--green-light);color:var(--green-dk);border-color:rgba(29,127,72,.22)}
     .badge.yellow{background:#fef9e7;color:#a16207;border-color:rgba(202,138,4,.25)}
     .badge.red{background:#fdecec;color:#b91c1c;border-color:rgba(185,28,28,.25)}
-    .snapshot{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px 26px;box-shadow:var(--shadow);margin-bottom:24px}
-    .snapshot h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;margin-bottom:14px}
-    .snap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
-    .snap-item{font-size:13px}
-    .snap-item strong{display:block;color:var(--ink-soft);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
-    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
-    .data-card h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;padding:20px 26px 8px}
+    .badge .dot{width:8px;height:8px;border-radius:999px;background:currentColor;display:inline-block}
+    .local-time{font-size:12px;color:var(--ink-soft);font-weight:600}
+    .local-time b{color:var(--ink);margin-left:5px;font-weight:800}
+    .main-grid{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+    @media(max-width:900px){.main-grid{grid-template-columns:1fr}}
+    .sidebar{display:flex;flex-direction:column;gap:14px;align-self:start;position:sticky;top:18px}
+    @media(max-width:900px){.sidebar{position:static}}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .hero-img{width:100%;height:200px;object-fit:cover;display:block;background:#eaddc4}
+    .hero-actions{padding:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:8px;font-family:inherit;font-weight:700;font-size:12.5px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;transition:background .14s,border-color .14s}
+    .btn:hover{background:rgba(0,0,0,.04)}
+    .btn.primary{background:var(--green);color:#fff;border-color:transparent}
+    .btn.primary:hover{background:var(--green-dk)}
+    .snapshot-card{padding:16px}
+    .snapshot-title{font-family:"Fraunces",Georgia,serif;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px;letter-spacing:-.01em}
+    .kv{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--line-soft);font-size:12.5px}
+    .kv span{color:var(--ink-soft)}
+    .kv b{color:var(--ink);font-weight:700;text-align:right;max-width:60%}
+    .kv-sub{padding-left:10px;font-size:11.5px;opacity:.85}
+    .kv-note{font-size:11px;color:var(--ink-soft);line-height:1.5;padding:6px 0 8px;font-style:italic;border-bottom:1px solid var(--line-soft)}
+    .sector-block{padding-top:10px;margin-top:6px;border-top:1px solid var(--line-soft)}
+    .sector-head{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+    .sector-list{display:flex;flex-direction:column;gap:5px}
+    .sector-pill{background:rgba(29,127,72,.08);border:1px solid rgba(29,127,72,.2);border-radius:7px;padding:5px 10px;font-size:11.5px;font-weight:700;color:var(--green-dk);line-height:1.4}
+    .persona-card{padding:16px}
+    .persona-name{font-weight:800;font-size:13px;margin-bottom:6px}
+    .persona-name small{font-weight:500;opacity:.6;font-size:11px}
+    .persona-why{font-size:11.5px;color:var(--ink-soft);line-height:1.55;font-style:italic}
+    .right-col{display:flex;flex-direction:column;gap:18px;min-width:0}
+    .rc-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:760px){.rc-wrapper{grid-template-columns:1fr}}
+    .rc-box{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 14px 12px;overflow:hidden}
+    .rc-box-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:6px}
+    .rc-box-head h2{font-family:"Fraunces",Georgia,serif;font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+    .rc-nav{display:flex;gap:4px}
+    .rc-nav-btn{width:24px;height:24px;border-radius:6px;border:1px solid var(--line);background:#fff;font-size:13px;cursor:pointer;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;line-height:1;transition:all .14s}
+    .rc-nav-btn:hover{background:var(--green);color:#fff;border-color:transparent}
+    .rc-nav-btn:disabled{opacity:.35;cursor:not-allowed}
+    .rc-track{overflow:hidden}
+    .rc-row{display:flex;gap:9px;transition:transform .35s ease;will-change:transform}
+    .rc-vcard{flex-shrink:0;width:130px;height:90px;border-radius:10px;overflow:hidden;position:relative;background:#e9dfca;border:1px solid var(--line);transition:transform .15s,box-shadow .15s}
+    .rc-vcard:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10);text-decoration:none}
+    .rc-vimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .rc-vemoji{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;background:linear-gradient(135deg,#ede5d8,#ddd3c4)}
+    .rc-vgrad{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,8,.85) 0%,rgba(20,15,8,.2) 55%,transparent 100%)}
+    .rc-vbody{position:absolute;left:0;right:0;bottom:0;padding:7px 9px;z-index:2}
+    .rc-vtitle{font-family:"Fraunces",Georgia,serif;font-size:10.5px;font-weight:700;color:#fff;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
     .data-table{width:100%;border-collapse:collapse;font-size:13px}
-    .data-table .sec td{background:#f8f4eb;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:10px 26px;color:var(--ink-soft);border-top:1px solid var(--line)}
-    .data-table td{padding:9px 26px;border-bottom:1px solid var(--line);vertical-align:top}
+    .data-table .sec td{background:#f4eedf;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:11px 22px;color:var(--ink-soft);border-top:1px solid var(--line)}
+    .data-table td{padding:9px 22px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+    .data-table tr:last-child td{border-bottom:none}
     .data-table td.lbl{width:42%;color:var(--ink)}
-    .data-table td.val{width:22%;font-weight:700}
+    .data-table td.val{width:25%;font-weight:700}
     .data-table td.hint{font-size:11.5px;color:var(--ink-soft)}
+    .data-table td.edit{width:30px;text-align:right;padding-right:14px}
     .data-table .ico{margin-right:8px}
-    .article{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px;margin-bottom:24px}
-    .article h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:700;margin:24px 0 10px;color:var(--ink)}
-    .article h2:first-child{margin-top:0}
-    .article p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.75}
-    .article p strong{color:var(--ink);font-weight:600}
-    .ttk{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-bottom:24px}
-    .ttk h2{font-family:"Fraunces",Georgia,serif;font-size:20px;font-weight:700;margin-bottom:16px}
-    .ttk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-    .ttk-card{background:#fbf7ee;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
-    .ttk-card .ttk-title{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink)}
-    .ttk-card p{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
-    .ttk-card small{font-weight:500;color:var(--ink-soft)}
-    .related{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px;margin-bottom:18px}
-    .related h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
-    .link-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px 18px}
-    .link-list li{font-size:13.5px;line-height:1.5;padding-left:14px;position:relative}
-    .link-list li::before{content:"›";position:absolute;left:0;color:var(--green)}
-    @media (max-width:640px){
-      main{padding:20px 14px 60px}
-      .hero{padding:26px 22px}
-      .data-table td{padding:9px 16px}
-      .data-table .sec td{padding:10px 16px}
-      .article{padding:24px 22px}
-      .ttk{padding:22px 22px}
-      .related{padding:20px 22px}
+    .edit-btn{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:13px;opacity:.4;transition:opacity .14s;padding:2px 4px}
+    .edit-btn:hover{opacity:1;color:var(--green)}
+    .article-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px}
+    .section-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+    .section-head h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:800;letter-spacing:-.01em;color:var(--ink)}
+    .score-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-light);border:1px solid rgba(29,127,72,.25);color:var(--green-dk);padding:5px 12px;border-radius:999px;font-size:12px;font-weight:700}
+    .article-body p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.78}
+    .article-body p:last-child{margin-bottom:0}
+    .art-tag{display:inline-block;padding:3px 10px;border-radius:6px;font-weight:700;font-size:13px;margin-bottom:6px;line-height:1.5}
+    .map-card{margin:22px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper-2)}
+    .map-header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);gap:8px;flex-wrap:wrap}
+    .map-title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}
+    .map-flag{font-size:18px}
+    .map-styles{display:flex;gap:4px}
+    .map-style-btn{font-size:11px;font-weight:700;padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;color:var(--ink-soft);cursor:pointer;transition:all .14s}
+    .map-style-btn:hover{border-color:var(--green);color:var(--green)}
+    .map-style-btn.active{background:var(--green);color:#fff;border-color:transparent}
+    .map-container{position:relative;height:320px}
+    #wigg-country-map{position:absolute;inset:0}
+    .map-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper-2);color:var(--ink-soft);font-size:13px;z-index:10}
+    .map-loading.hidden{display:none}
+    .things-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px}
+    .wg-badge{display:inline-flex;align-items:center;gap:5px;background:#fef3c7;border:1px solid rgba(202,138,4,.3);color:#92400e;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+    .facts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .fact-card{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden}
+    .fact-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green)}
+    .fact-title{font-weight:800;font-size:13px;margin-bottom:6px;color:var(--ink);padding-left:6px}
+    .fact-text{font-size:12.5px;color:var(--ink-soft);line-height:1.55;padding-left:6px}
+    .cmp-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px}
+    .cmp-section h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
+    .cmp-pills{display:flex;flex-wrap:wrap;gap:8px}
+    .cmp-pill{display:inline-block;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:600;color:var(--ink);transition:all .14s}
+    .cmp-pill:hover{border-color:var(--green);background:var(--green);color:#fff;text-decoration:none}
+    @media(max-width:640px){
+      .wrap{padding:18px 14px 60px}
+      .country-head{flex-direction:column}
+      .head-right{align-items:flex-start}
+      .data-table td{padding:9px 14px}
+      .data-table .sec td{padding:11px 14px}
+      .article-card{padding:24px 22px}
+      .things-section{padding:22px 22px}
+      .cmp-section{padding:20px 22px}
+      .map-container{height:240px}
     }
   </style>
 </head>
@@ -92,268 +154,420 @@
 <div id="siteHeader"></div>
 <script src="/data/header.js"></script>
 
-<main>
+<main class="wrap">
   <nav class="crumb"><a href="/">Accueil</a> › <a href="/globe.html">Pays</a> › Thaïlande</nav>
 
-  <section class="hero">
-    <div class="hero-flag">🇹🇭</div>
-    <h1>Thaïlande</h1>
-    <p class="subtitle">Moyennes indicatives (Bangkok plus élevé ; net / mois sauf indication contraire)</p>
-    <div class="hero-badges">
-      <span class="badge green">WIGG: GREEN</span>
-      <span class="badge">⭐ Score Expat: 7.0 / 10</span>
+  <div class="country-head">
+    <div>
+      <div class="country-flag">🇹🇭</div>
+      <h1>Thaïlande</h1>
+      <p class="subtitle">Moyennes indicatives (Bangkok plus élevé ; net / mois sauf indication contraire)</p>
     </div>
-  </section>
-
-  <section class="snapshot">
-    <h2>Aperçu rapide</h2>
-    <div class="snap-grid">
-      <div class="snap-item"><strong>Capitale</strong>Bangkok</div>
-      <div class="snap-item"><strong>Population</strong>~70M</div>
-      <div class="snap-item"><strong>Langues</strong>thaï, anglais</div>
-      <div class="snap-item"><strong>Conduite</strong>Gauche</div>
-      <div class="snap-item"><strong>Monnaie</strong>Baht thaïlandais (THB)</div>
-      <div class="snap-item"><strong>Crypto-friendly</strong>Oui</div>
+    <div class="head-right">
+      <div class="badge green"><span class="dot"></span>WIGG: GREEN</div>
+      <div class="local-time">Heure locale <b id="localTime" data-tz="Asia/Bangkok">--:--</b></div>
     </div>
-  </section>
+  </div>
 
-  <section class="data-card">
-    <h2>Coût de la vie, salaires et qualité de vie</h2>
-    <table class="data-table">
-    <tbody>
-      <tr class="sec"><td colspan="3">💼 Salaires (net / mois)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧾</span>Salaire minimum</td>
-        <td class="val">$290</td>
-        <td class="hint">Min journalier 400 THB × 26 → 10 400 THB → net ≈ 9 880 THB (SSO 5 % ; 2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📊</span>Salaire moyen</td>
-        <td class="val">$500</td>
-        <td class="hint">Moyenne nette ≈ 17 200 THB/mois (NESDC 2024 — Bangkok ≈ ×1,5)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🩺</span>Salaire médecin (généraliste)</td>
-        <td class="val">$3,000</td>
-        <td class="hint">Moyenne du secteur public</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🏠 Logement et charges (studio référence)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏚️</span>Loyer studio</td>
-        <td class="val">$400</td>
-        <td class="hint">Villes régionales</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">⚡</span>Électricité</td>
-        <td class="val">$55</td>
-        <td class="hint">/ mois (coût des variateurs AC)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💧</span>Eau</td>
-        <td class="val">$8</td>
-        <td class="hint">/ mois</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📱</span>Forfait mobile</td>
-        <td class="val">$10</td>
-        <td class="hint">~30–100 Go</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🍽️ Alimentation et boissons (prix indicatifs)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍺</span>Bière (pinte)</td>
-        <td class="val">$2.00</td>
-        <td class="hint">Bar local (Sin ha/Chang)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☕</span>Café</td>
-        <td class="val">$2.00</td>
-        <td class="hint">Café régulier</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍲</span>Plat principal</td>
-        <td class="val">$3.50</td>
-        <td class="hint">milieu de gamme</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">⛽ Transport</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">⛽</span>Essence / litre</td>
-        <td class="val">1,10 $ / L</td>
-        <td class="hint">indicatif</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🧾 Fiscalité (indicatif)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏷️</span>TVA</td>
-        <td class="val">7%</td>
-        <td class="hint">taux standard (bas)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">👤</span>Impôt sur le revenu</td>
-        <td class="val">~10%</td>
-        <td class="hint">Progressif (5-35%), tranche intermédiaire</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏪</span>Fiscalité petite entreprise</td>
-        <td class="val">~30%</td>
-        <td class="hint">20 % d&#x27;IS + contributions</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📱 Tech (prix indicatifs)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍎</span>iPhone (dernier 256 Go)</td>
-        <td class="val">$1,250</td>
-        <td class="hint">Tarification en Thaïlande</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📲</span>Galaxy S (dernier 256 Go)</td>
-        <td class="val">$950</td>
-        <td class="hint">Tarification en Thaïlande</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🛂 Immigration et installation</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🛂</span>Facilité d&#x27;immigration</td>
-        <td class="val">5 / 10</td>
-        <td class="hint">options de visa ; changement de règles ; DTV 2024+</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🌤️ Qualité de vie</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🙂</span>Bonheur</td>
-        <td class="val">6.3 / 10</td>
-        <td class="hint">indicatif (src : Rapport mondial sur le bonheur 2024)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☀️</span>Jours de soleil / an</td>
-        <td class="val">~240 jours / an</td>
-        <td class="hint">indicatif (varie selon la région) (src : Données climatiques, OMM)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏥</span>Santé publique</td>
-        <td class="val">Oui</td>
-        <td class="hint">public + fort privé</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧑‍⚕️</span>Assurance privée / mois</td>
-        <td class="val">60 $ / mois</td>
-        <td class="hint">exemple privé</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📈 Indices</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🚔</span>Indice criminalité</td>
-        <td class="val">42 / 100</td>
-        <td class="hint">indicatif (généralement sûr) (src : Indice de sécurité Numbeo 2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💶</span>Pouvoir d&#x27;achat</td>
-        <td class="val">60</td>
-        <td class="hint">indicatif (src : Indice PP de Numbeo 2025)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🕍 Religion</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">✝️</span>Chrétien</td>
-        <td class="val">~1%</td>
-        <td class="hint">indicatif</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☪️</span>Musulman</td>
-        <td class="val">~5%</td>
-        <td class="hint">indicatif (Sud)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☸️</span>Bouddhiste</td>
-        <td class="val">~93%</td>
-        <td class="hint">indicatif (Theravada)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">✡️</span>Juif</td>
-        <td class="val">~0%</td>
-        <td class="hint">indicative (src: Pew Research / WJC)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🕊️</span>Autre / Aucune</td>
-        <td class="val">~4%</td>
-        <td class="hint">aucun/autre</td>
-      </tr>
-    </tbody>
-    </table>
-  </section>
+  <div class="main-grid">
+    <aside class="sidebar">
+      <div class="card">
+        <img class="hero-img" src="/assets/hero-thailand.jpg" alt="Thaïlande"
+             onerror="this.onerror=null;this.src='/assets/hero-fallback.jpg'" />
+        <div class="hero-actions">
+          <button class="btn primary" type="button" onclick="openModal('general')">Corriger les données</button>
+          <button class="btn" type="button" id="btnShare">Partager</button>
+          <a class="btn" href="/compare.html?country=thailand">Comparer</a>
+        </div>
+      </div>
 
-  <section class="article"><h2>Aperçu du pays</h2><h2>🧭 Aperçu</h2>
-<p>La Thaïlande est un royaume d'Asie du Sud-Est (seul pays de la région jamais colonisé) connu pour ses plages (Phuket, Krabi, Koh Samui), ses temples (Grand Palace, Wat Pho), sa street food, sa culture du massage et son industrie touristique. Bangkok est une capitale chaotique ; Chiang Mai est le centre culturel du nord ; les îles sont des paradis balnéaires. Le pays offre un bon rapport qualité-prix, une cuisine excellente (meilleure street food au monde), de l'hospitalité ('Pays du sourire') et un style de vie tropical. Toutefois, l'instabilité politique (13 coups d'État depuis 1932, le plus récent en 2014), les lois strictes sur la lèse-majesté (critiquer la monarchie = 15 ans de prison), le chaos routier, la pollution et une tarification à deux vitesses posent des défis. L'économie dépend du tourisme (20 % du PIB avant le COVID), de l'industrie manufacturière et de l'agriculture.</p>
-<h2>👥 Population & ambiance</h2>
-<p>Avec environ 70 millions d'habitants, la Thaïlande est majoritairement ethniquement thaïe (~95%), avec des populations d'origine chinoise, malaise (sud) et des peuples des collines (nord). La langue thaïe est tonale et difficile ; l'anglais est parlé dans les zones touristiques. Le bouddhisme (theravāda, 95 %) imprègne profondément la culture. La culture met l'accent sur le sanuk (le plaisir), le mai pen rai (peu importe), le respect (salutation wai) et la vénération de la monarchie (Roi Rama X). Les Thaïlandais sont amicaux, non confrontants et orientés service. L'ambiance est détendue et tropicale. Bangkok est un chaos urbain ; Chiang Mai est un hub d'expatriés ; les îles sont des zones touristiques ; le sud est majoritairement malais musulman. La critique de la monarchie est absolument interdite (lèse-majesté).</p>
-<h2>🌦️ Climat & paysages</h2>
-<p>Attendez-vous à un climat tropical : saison chaude (mars-mai, 35-40°C, chaleur écrasante), saison des pluies (juin-oct., mousson), saison fraîche (nov.-fév., 25-30°C agréable). Le paysage comprend des plages (mer d'Andaman, golfe de Thaïlande), des montagnes (nord), des jungles, des rizières et plus de 1 430 îles. La beauté naturelle est impressionnante mais surdéveloppée dans certains endroits (Phuket, Pattaya). La qualité de l'air à Bangkok est mauvaise (pollution PM2,5). Les inondations sont fréquentes pendant la saison des pluies.</p>
-<h2>🏠 Logement & installation</h2>
-<p>Bangkok (Sukhumvit, Silom, Sathorn), Chiang Mai (Nimman, vieille ville), Phuket et Pattaya attirent les expatriés. Préparez-vous à 2 mois de dépôt et des contrats annuels. Loyers : Bangkok ฿15k-40k/mois ($430-1,150) ; Chiang Mai ฿8k-25k ; îles ฿10k-30k. La qualité varie — les condos modernes sont bons ; les bâtiments anciens manquent d'entretien. La climatisation est indispensable (fonctionne 24/7). En dehors des zones touristiques/expat, les options pour étrangers sont limitées. Enregistrement requis. L'achat immobilier est restreint (les étrangers peuvent posséder des appartements en copropriété, pas de terrain). Certaines zones sont sujettes aux inondations.</p>
-<h2>💼 Travail & économie</h2>
-<p>L'économie repose sur le tourisme (20 % du PIB avant le COVID, en reprise), la fabrication (automobile, électronique), l'agriculture (riz, caoutchouc) et les services. Pour les étrangers, des opportunités existent dans l'enseignement de l'anglais, le tourisme, l'hôtellerie, l'encadrement de plongée ou le travail à distance (visa digital nomad). Les permis de travail exigent un sponsor employeur et sont difficiles à obtenir. Les salaires sont bas (฿30k-80k/mois, $860-2,300) mais le coût de la vie est adapté. Beaucoup travaillent illégalement ou avec des visas touristiques (risqué — déportation, mise sur liste noire). Créer une entreprise demande généralement un partenaire thaï (majorité 51 %+). La scène des nomades numériques est très importante (Chiang Mai, Bangkok).</p>
-<h2>🛂 Visa & entrée</h2>
-<p>La plupart des nationalités bénéficient d'une exemption de visa de 30 jours (60 jours pour certaines). Des visas touristiques (60 jours) sont disponibles. Pour des séjours plus longs : visa d'études (écoles de langue), visa de retraite (50 ans+, ฿800k en banque), visa de mariage, ou visa Elite (฿600k-2M pour 5-20 ans). Un visa digital nomad (DTV) lancé en 2024 (180 jours). Les permis de travail restent difficiles. La résidence permanente est extrêmement compliquée. La citoyenneté est quasi impossible. Les « visa runs » vers les pays voisins sont courants.</p>
-<h2>🏥 Santé</h2>
-<p>Le système de santé est à deux vitesses. Les hôpitaux publics sont bondés mais abordables. Les hôpitaux privés (Bumrungrad, Bangkok Hospital) offrent d'excellents soins à des prix raisonnables — le tourisme médical attire des étrangers (chirurgie esthétique, dentaire, interventions). Les médecins sont bien formés (beaucoup formés en Occident). L'espérance de vie est d'environ 77 ans. Une assurance internationale ou le paiement à l'acte fonctionne. Les médicaments sur ordonnance sont peu coûteux et disponibles (les pharmacies sont partout).</p>
-<h2>🚗 Transport & mobilité</h2>
-<p>Bangkok dispose du BTS Skytrain, du MRT, de bus, de bateaux et de tuk-tuks — fonctionnels mais le trafic est un cauchemar (parmi les 10 pires au monde). La plupart des expatriés utilisent le BTS/MRT ou des motos. Les bus interurbains sont bon marché et confortables. Les trains sont lents mais pittoresques. Le pays est de taille modérée — Bangkok à Chiang Mai = 700 km (9 h en bus, 1 h en vol). Les vols intérieurs sont peu coûteux. Les îles nécessitent bateaux/quelques ferries. L'aéroport de Suvarnabhumi (Bangkok) est un hub. Conduire est dangereux (2e taux de mortalité routière le plus élevé au monde).</p>
-<h2>🍛 Note sur la nourriture (plat national)</h2>
-<p>Le plat national est <strong>Pad Thai</strong> : nouilles de riz sautées avec crevettes/poulet, œuf, cacahuètes, citron vert. Autres classiques : <strong>Tom Yum Goong</strong> (soupe épicée aux crevettes) ou <strong>Som Tam</strong> (salade de papaye). La cuisine thaïe est de classe mondiale — équilibre sucré/aigre/salé/épicé/umami. La street food est excellente et sûre. Les cuisines régionales diffèrent fortement (nord, nord-est, sud).</p>
-<h2>🔎 Conclusion</h2>
-<p>La Thaïlande convient aux nomades numériques (Chiang Mai est un hub), aux retraités (abordable, santé, climat), aux professeurs d'anglais, aux amateurs de plage et aux voyageurs à petit budget souhaitant prolonger leur séjour. Avantages : coût de la vie, nourriture (meilleure street food du monde), plages, soins médicaux (tourisme médical), convivialité et climat tropical. Inconvénients : instabilité politique (13 coups d'État depuis 1932), lois de lèse-majesté (15 ans pour critiquer le roi — étrangers poursuivis), trafic/pollution (Bangkok), tarification à deux vitesses (les étrangers payent plus) et incertitude visa. Bangkok est chaotique ; Chiang Mai est la capitale des nomades numériques ; les îles sont surdéveloppées mais belles. Idéal pour ceux qui ont des revenus à distance, des pensions ou un travail d'enseignant et qui acceptent l'incertitude politique. La critique de la monarchie est absolument interdite — des étrangers sont emprisonnés. Si vous supportez la chaleur, la pollution et acceptez une monarchie autoritaire pour bénéficier du coût de la vie et du style de vie, la Thaïlande tient ses promesses.</p>
-<p>Expat Score — 7.0 / 10</p></section>
+      <div class="card snapshot-card">
+        <div class="snapshot-title">Aperçu rapide</div>
+        <div class="kv"><span>Capitale</span><b>Bangkok</b></div><div class="kv"><span>Population</span><b>~70M</b></div><div class="kv"><span>Langues</span><b>thaï, anglais</b></div><div class="kv"><span>Monnaie</span><b>Baht thaïlandais (THB)</b></div><div class="kv kv-sub"><span>Exchange rate</span><b>1 USD ≈ 35 THB</b></div><div class="kv-note">Monnaie relativement stable. Soumise aux fluctuations du tourisme et à l&#x27;instabilité politique.</div><div class="kv"><span>Crypto-friendly</span><b>Oui</b></div><div class="kv-note">Favorable aux cryptos avec des réglementations claires. Les autorités délivrent des licences aux plateformes. Adoption en croissance. Cadre fiscal établi.</div><div class="kv"><span>Conduite</span><b>Gauche</b></div><div class="sector-block"><div class="sector-head">Secteurs phares</div><div class="sector-list"><div class="sector-pill">Tourisme</div><div class="sector-pill">Industrie (automobile, électronique)</div><div class="sector-pill">Agriculture (riz, caoutchouc)</div></div></div>
+      </div>
 
-  <section class="ttk"><h2>À savoir</h2><div class="ttk-grid">
-      <div class="ttk-card">
-        <div class="ttk-title">👤 Roi Bhumibol Adulyadej (Rama IX) <small>(XXe-XXIe siècle)</small></div>
-        <p>Roi (1946-2016) — le monarque ayant régné le plus longtemps au monde. Figure aimée représentant la stabilité à travers coups d&#x27;État et crises. Son fils, le Roi Rama X (actuel), est controversé — il vit en Allemagne et mène un style de vie perçu comme extravagant. Les lois de lèse-majesté interdisent la critique.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">👑 Lèse-majesté = tabou absolu</div>
-        <p>Article 112 : critiquer la monarchie = 3 à 15 ans de prison par infraction. Les étrangers sont poursuivis (un touriste a été emprisonné pour un avis d&#x27;hôtel négatif mentionnant le roi). Pas de mise en liberté sous caution. Des centaines de personnes emprisonnées depuis 2020 (protestations de la jeunesse). C&#x27;est une loi draconienne qui muselle la dissidence. Ne parlez jamais de la monarchie.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🪖 Coups = schéma récurrent</div>
-        <p>13 coups d&#x27;État réussis depuis 1932 (le plus récent en 2014). L&#x27;armée détient un pouvoir de veto. En 2020, des protestations étudiantes ont demandé une réforme de la monarchie et la démocratie — des dirigeants ont été emprisonnés sous la loi de lèse-majesté. Le vainqueur des élections 2023 (Move Forward Party) a été empêché d&#x27;exercer le pouvoir par l&#x27;establishment. La démocratie y est largement une façade.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🏝️ Sur-tourisme = paradis perdu</div>
-        <p>39 millions de touristes annuels avant le COVID (contre 70 millions d&#x27;habitants). Maya Bay (film The Beach) a été fermée en raison des dégâts. Phuket et Pattaya sont des zones surdéveloppées et piégées par le tourisme. Le tourisme sexuel est visible (Pattaya). La pause liée au COVID a montré un potentiel de récupération mais le tourisme est revenu en force.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🚗 Décès routiers = 2e pire au monde</div>
-        <p>32+ décès pour 100 000 habitants (2e pire au monde après la Libye). Beaucoup de motos, conduite en état d&#x27;ivresse, absence de casques et manque d&#x27;application des règles. Le Songkran (fête de l&#x27;eau) est la semaine la plus mortelle — &#x27;Seven Dangerous Days&#x27;. Les routes sont réellement dangereuses. Conduire comporte un risque important.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">💰 Tarification à deux vitesses = taxe sur les étrangers</div>
-        <p>Les parcs nationaux et attractions facturent aux étrangers 10x le prix des locaux (฿20 contre ฿200). Les chauffeurs de tuk-tuk appliquent des tarifs pour touristes. Le &#x27;prix farang&#x27; est une réalité. Thaïs et étrangers paient des tarifs différents. Le ressentiment monte mais c&#x27;est une norme culturelle. La discrimination est légale et pratiquée.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🧘 Temples bouddhistes partout</div>
-        <p>Plus de 40 000 temples (wat). Les moines sont vénérés — laissez-leur la place, ne les touchez pas. L&#x27;ordination en tant que novice est un rite de passage pour les garçons. Le bouddhisme façonne profondément la culture — mérites, karma, respect de la vie. Les temples sont des centres communautaires et des merveilles architecturales.</p>
-      </div></div></section>
+      
+        <div class="card persona-card">
+          <div class="snapshot-title">Figure du pays</div>
+          <div class="persona-name">Roi Bhumibol Adulyadej (Rama IX) <small>(XXe-XXIe siècle)</small></div>
+          <div class="persona-why">Roi (1946-2016) — le monarque ayant régné le plus longtemps au monde. Figure aimée représentant la stabilité à travers coups d&#x27;État et crises. Son fils, le Roi Rama X (actuel), est controversé — il vit en Allemagne et mène un style de vie perçu comme extravagant. Les lois de lèse-majesté interdisent la critique.</div>
+        </div>
+    </aside>
 
-  <section class="related"><h2>Guides villes</h2><ul class="link-list"><li><a href="/chronicles/villes/chronicle-bangkok-thailand-fr.html">Bangkok</a></li><li><a href="/chronicles/villes/chronicle-chiang-mai-thailand-fr.html">Chiang Mai</a></li><li><a href="/chronicles/villes/chronicle-phuket-thailand-fr.html">Phuket</a></li><li><a href="/chronicles/villes/chronicle-hua-hin-thailand-fr.html">Hua Hin</a></li></ul></section>
-  <section class="related"><h2>Chroniques liées</h2><ul class="link-list"><li><a href="/chronicles/expatries-nomades-crypto-2026-fr.html">Meilleur pays pour expatriés, nomades et crypto 2026</a></li><li><a href="/chronicles/digital-nomads-2026-fr.html">Meilleurs pays pour digital nomads 2026</a></li><li><a href="/chronicles/chronicle-asie-expatriation-partie1-2026-fr.html">Asie expatriation 2026 Partie 1 — Thaïlande, Vietnam, Bali</a></li><li><a href="/chronicles/chronicle-immo-etranger-2026-fr.html">Immobilier à l&#x27;étranger — Ce que les étrangers possèdent vraiment</a></li></ul></section>
-  <section class="related"><h2>Comparaisons de pays</h2><ul class="link-list"><li><a href="/compare/static/france-vs-thailand/">Thaïlande vs France</a></li><li><a href="/compare/static/georgia-vs-thailand/">Thaïlande vs Georgia</a></li><li><a href="/compare/static/germany-vs-thailand/">Thaïlande vs Germany</a></li><li><a href="/compare/static/thailand-vs-indonesia/">Thaïlande vs Indonesia</a></li><li><a href="/compare/static/thailand-vs-malaysia/">Thaïlande vs Malaysia</a></li><li><a href="/compare/static/thailand-vs-panama/">Thaïlande vs Panama</a></li><li><a href="/compare/static/thailand-vs-philippines/">Thaïlande vs Philippines</a></li><li><a href="/compare/static/portugal-vs-thailand/">Thaïlande vs Portugal</a></li><li><a href="/compare/static/singapore-vs-thailand/">Thaïlande vs Singapore</a></li><li><a href="/compare/static/spain-vs-thailand/">Thaïlande vs Spain</a></li><li><a href="/compare/static/united-arab-emirates-vs-thailand/">Thaïlande vs United Arab Emirates</a></li><li><a href="/compare/static/thailand-vs-vietnam/">Thaïlande vs Vietnam</a></li></ul></section>
+    <div class="right-col">
+      <div class="rc-wrapper">
+        
+        <div class="rc-box">
+          <div class="rc-box-head">
+            <h2>Chroniques liées</h2>
+            <div class="rc-nav">
+              <button class="rc-nav-btn" data-target="rc-list" data-dir="-1" aria-label="Previous">&#8249;</button>
+              <button class="rc-nav-btn" data-target="rc-list" data-dir="1" aria-label="Next">&#8250;</button>
+            </div>
+          </div>
+          <div class="rc-track"><div id="rc-list" class="rc-row"><a class="rc-vcard" href="/chronicles/expatries-nomades-crypto-2026-fr.html"><img class="rc-vimg" src="/assets/hero-uae.jpg" alt="Meilleur pays pour expatriés, nomades et crypto 2026" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">📄</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Meilleur pays pour expatriés, nomades et crypto 2026</div></div></a><a class="rc-vcard" href="/chronicles/digital-nomads-2026-fr.html"><img class="rc-vimg" src="/assets/hero-indonesia.jpg" alt="Meilleurs pays pour digital nomads 2026" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">📄</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Meilleurs pays pour digital nomads 2026</div></div></a><a class="rc-vcard" href="/chronicles/chronicle-asie-expatriation-partie1-2026-fr.html"><img class="rc-vimg" src="/assets/hero-thailand.jpg" alt="Asie expatriation 2026 Partie 1 — Thaïlande, Vietnam, Bali" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">📄</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Asie expatriation 2026 Partie 1 — Thaïlande, Vietnam, Bali</div></div></a><a class="rc-vcard" href="/chronicles/chronicle-immo-etranger-2026-fr.html"><img class="rc-vimg" src="/assets/hero-portugal.jpg" alt="Immobilier à l&#x27;étranger — Ce que les étrangers possèdent vraiment" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">📄</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Immobilier à l&#x27;étranger — Ce que les étrangers possèdent vraiment</div></div></a></div></div>
+        </div>
+        
+        <div class="rc-box">
+          <div class="rc-box-head">
+            <h2>Guides villes</h2>
+            <div class="rc-nav">
+              <button class="rc-nav-btn" data-target="cv-list" data-dir="-1" aria-label="Previous">&#8249;</button>
+              <button class="rc-nav-btn" data-target="cv-list" data-dir="1" aria-label="Next">&#8250;</button>
+            </div>
+          </div>
+          <div class="rc-track"><div id="cv-list" class="rc-row"><a class="rc-vcard" href="/chronicles/villes/chronicle-bangkok-thailand-fr.html"><img class="rc-vimg" src="/assetscity/bangkok.png" alt="Bangkok" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">🏙️</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Bangkok</div></div></a><a class="rc-vcard" href="/chronicles/villes/chronicle-chiang-mai-thailand-fr.html"><img class="rc-vimg" src="/assetscity/chiangmai.png" alt="Chiang Mai" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">🏙️</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Chiang Mai</div></div></a><a class="rc-vcard" href="/chronicles/villes/chronicle-phuket-thailand-fr.html"><img class="rc-vimg" src="/assetscity/phuket.png" alt="Phuket" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">🏙️</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Phuket</div></div></a><a class="rc-vcard" href="/chronicles/villes/chronicle-hua-hin-thailand-fr.html"><img class="rc-vimg" src="/assetscity/huahin.png" alt="Hua Hin" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">🏙️</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">Hua Hin</div></div></a></div></div>
+        </div>
+      </div>
 
-  <p style="text-align:center;margin-top:30px"><a href="/globe.html" style="font-weight:600">Voir les 160+ pays →</a></p>
+      <div class="data-card">
+        <table class="data-table">
+      <tbody>
+        <tr class="sec"><td colspan="4">💼 Salaires (net / mois)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧾</span>Salaire minimum</td>
+          <td class="val">$290</td>
+          <td class="hint">Min journalier 400 THB × 26 → 10 400 THB → net ≈ 9 880 THB (SSO 5 % ; 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('min_wage')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📊</span>Salaire moyen</td>
+          <td class="val">$500</td>
+          <td class="hint">Moyenne nette ≈ 17 200 THB/mois (NESDC 2024 — Bangkok ≈ ×1,5)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('avg_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🩺</span>Salaire médecin (généraliste)</td>
+          <td class="val">$3,000</td>
+          <td class="hint">Moyenne du secteur public</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('doctor_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🏠 Logement et charges (studio référence)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏚️</span>Loyer studio</td>
+          <td class="val">$400</td>
+          <td class="hint">Villes régionales</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('rent_studio')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">⚡</span>Électricité</td>
+          <td class="val">$55</td>
+          <td class="hint">/ mois (coût des variateurs AC)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('electricity')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💧</span>Eau</td>
+          <td class="val">$8</td>
+          <td class="hint">/ mois</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('water')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📱</span>Forfait mobile</td>
+          <td class="val">$10</td>
+          <td class="hint">~30–100 Go</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('mobile')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🍽️ Alimentation et boissons (prix indicatifs)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍺</span>Bière (pinte)</td>
+          <td class="val">$2.00</td>
+          <td class="hint">Bar local (Sin ha/Chang)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('beer')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☕</span>Café</td>
+          <td class="val">$2.00</td>
+          <td class="hint">Café régulier</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('coffee')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍲</span>Plat principal</td>
+          <td class="val">$3.50</td>
+          <td class="hint">milieu de gamme</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('dish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">⛽ Transport</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">⛽</span>Essence / litre</td>
+          <td class="val">1,10 $ / L</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('gas')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🧾 Fiscalité (indicatif)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏷️</span>TVA</td>
+          <td class="val">7%</td>
+          <td class="hint">taux standard (bas)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('vat')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">👤</span>Impôt sur le revenu</td>
+          <td class="val">~10%</td>
+          <td class="hint">Progressif (5-35%), tranche intermédiaire</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('income_tax')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏪</span>Fiscalité petite entreprise</td>
+          <td class="val">~30%</td>
+          <td class="hint">20 % d&#x27;IS + contributions</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('smallbiz')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📱 Tech (prix indicatifs)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍎</span>iPhone (dernier 256 Go)</td>
+          <td class="val">$1,250</td>
+          <td class="hint">Tarification en Thaïlande</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('iphone')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📲</span>Galaxy S (dernier 256 Go)</td>
+          <td class="val">$950</td>
+          <td class="hint">Tarification en Thaïlande</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('samsung')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🛂 Immigration et installation</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🛂</span>Facilité d&#x27;immigration</td>
+          <td class="val">5 / 10</td>
+          <td class="hint">options de visa ; changement de règles ; DTV 2024+</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('immigration')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🌤️ Qualité de vie</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🙂</span>Bonheur</td>
+          <td class="val">6.3 / 10</td>
+          <td class="hint">indicatif (src : Rapport mondial sur le bonheur 2024)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('happiness')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☀️</span>Jours de soleil / an</td>
+          <td class="val">~240 jours / an</td>
+          <td class="hint">indicatif (varie selon la région) (src : Données climatiques, OMM)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('sun')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏥</span>Santé publique</td>
+          <td class="val">Oui</td>
+          <td class="hint">public + fort privé</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('health')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧑‍⚕️</span>Assurance privée / mois</td>
+          <td class="val">60 $ / mois</td>
+          <td class="hint">exemple privé</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('insurance')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📈 Indices</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🚔</span>Indice criminalité</td>
+          <td class="val">42 / 100</td>
+          <td class="hint">indicatif (généralement sûr) (src : Indice de sécurité Numbeo 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('crime')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💶</span>Pouvoir d&#x27;achat</td>
+          <td class="val">60</td>
+          <td class="hint">indicatif (src : Indice PP de Numbeo 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('pp')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🕍 Religion</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">✝️</span>Chrétien</td>
+          <td class="val">~1%</td>
+          <td class="hint">indicatif</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_christian')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☪️</span>Musulman</td>
+          <td class="val">~5%</td>
+          <td class="hint">indicatif (Sud)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_muslim')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☸️</span>Bouddhiste</td>
+          <td class="val">~93%</td>
+          <td class="hint">indicatif (Theravada)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_buddhist')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">✡️</span>Juif</td>
+          <td class="val">~0%</td>
+          <td class="hint">indicative (src: Pew Research / WJC)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_jewish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🕊️</span>Autre / Aucune</td>
+          <td class="val">~4%</td>
+          <td class="hint">aucun/autre</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_other')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+        </table>
+      </div>
+
+      
+      <div class="article-card">
+        <div class="section-head">
+          <h2>Vivre à Thaïlande</h2>
+          <span class="score-badge"><span class="score-star">⭐</span> Score Expat: 7.0 / 10</span>
+        </div>
+        <div class="article-body"><p>🧭 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Aperçu</span><br>
+La Thaïlande est un royaume d&#x27;Asie du Sud-Est (seul pays de la région jamais colonisé) connu pour ses plages (Phuket, Krabi, Koh Samui), ses temples (Grand Palace, Wat Pho), sa street food, sa culture du massage et son industrie touristique. Bangkok est une capitale chaotique ; Chiang Mai est le centre culturel du nord ; les îles sont des paradis balnéaires. Le pays offre un bon rapport qualité-prix, une cuisine excellente (meilleure street food au monde), de l&#x27;hospitalité (&#x27;Pays du sourire&#x27;) et un style de vie tropical. Toutefois, l&#x27;instabilité politique (13 coups d&#x27;État depuis 1932, le plus récent en 2014), les lois strictes sur la lèse-majesté (critiquer la monarchie = 15 ans de prison), le chaos routier, la pollution et une tarification à deux vitesses posent des défis. L&#x27;économie dépend du tourisme (20 % du PIB avant le COVID), de l&#x27;industrie manufacturière et de l&#x27;agriculture.</p><p>👥 <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Population &amp; ambiance</span><br>
+Avec environ 70 millions d&#x27;habitants, la Thaïlande est majoritairement ethniquement thaïe (~95%), avec des populations d&#x27;origine chinoise, malaise (sud) et des peuples des collines (nord). La langue thaïe est tonale et difficile ; l&#x27;anglais est parlé dans les zones touristiques. Le bouddhisme (theravāda, 95 %) imprègne profondément la culture. La culture met l&#x27;accent sur le sanuk (le plaisir), le mai pen rai (peu importe), le respect (salutation wai) et la vénération de la monarchie (Roi Rama X). Les Thaïlandais sont amicaux, non confrontants et orientés service. L&#x27;ambiance est détendue et tropicale. Bangkok est un chaos urbain ; Chiang Mai est un hub d&#x27;expatriés ; les îles sont des zones touristiques ; le sud est majoritairement malais musulman. La critique de la monarchie est absolument interdite (lèse-majesté).</p><p>🌦️ <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Climat &amp; paysages</span><br>
+Attendez-vous à un climat tropical : saison chaude (mars-mai, 35-40°C, chaleur écrasante), saison des pluies (juin-oct., mousson), saison fraîche (nov.-fév., 25-30°C agréable). Le paysage comprend des plages (mer d&#x27;Andaman, golfe de Thaïlande), des montagnes (nord), des jungles, des rizières et plus de 1 430 îles. La beauté naturelle est impressionnante mais surdéveloppée dans certains endroits (Phuket, Pattaya). La qualité de l&#x27;air à Bangkok est mauvaise (pollution PM2,5). Les inondations sont fréquentes pendant la saison des pluies.</p><p>🏠 <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Logement &amp; installation</span><br>
+Bangkok (Sukhumvit, Silom, Sathorn), Chiang Mai (Nimman, vieille ville), Phuket et Pattaya attirent les expatriés. Préparez-vous à 2 mois de dépôt et des contrats annuels. Loyers : Bangkok ฿15k-40k/mois ($430-1,150) ; Chiang Mai ฿8k-25k ; îles ฿10k-30k. La qualité varie — les condos modernes sont bons ; les bâtiments anciens manquent d&#x27;entretien. La climatisation est indispensable (fonctionne 24/7). En dehors des zones touristiques/expat, les options pour étrangers sont limitées. Enregistrement requis. L&#x27;achat immobilier est restreint (les étrangers peuvent posséder des appartements en copropriété, pas de terrain). Certaines zones sont sujettes aux inondations.</p><p>💼 <span class="art-tag" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#6d28d9">Travail &amp; économie</span><br>
+L&#x27;économie repose sur le tourisme (20 % du PIB avant le COVID, en reprise), la fabrication (automobile, électronique), l&#x27;agriculture (riz, caoutchouc) et les services. Pour les étrangers, des opportunités existent dans l&#x27;enseignement de l&#x27;anglais, le tourisme, l&#x27;hôtellerie, l&#x27;encadrement de plongée ou le travail à distance (visa digital nomad). Les permis de travail exigent un sponsor employeur et sont difficiles à obtenir. Les salaires sont bas (฿30k-80k/mois, $860-2,300) mais le coût de la vie est adapté. Beaucoup travaillent illégalement ou avec des visas touristiques (risqué — déportation, mise sur liste noire). Créer une entreprise demande généralement un partenaire thaï (majorité 51 %+). La scène des nomades numériques est très importante (Chiang Mai, Bangkok).</p>
+        <div class="map-card">
+          <div class="map-header">
+            <div class="map-title"><span class="map-flag">🇹🇭</span><span>Thaïlande — Carte</span></div>
+            <div class="map-styles">
+              <button type="button" class="map-style-btn active" data-style="light">Clair</button>
+              <button type="button" class="map-style-btn" data-style="dark">Sombre</button>
+              <button type="button" class="map-style-btn" data-style="satellite">Satellite</button>
+            </div>
+          </div>
+          <div class="map-container">
+            <div id="wigg-country-map"></div>
+            <div class="map-loading" id="wiggMapLoading">Chargement de la carte…</div>
+          </div>
+        </div><p>🛂 <span class="art-tag" style="background:rgba(236,72,153,.12);border:1px solid rgba(236,72,153,.25);color:#be185d">Visa &amp; entrée</span><br>
+La plupart des nationalités bénéficient d&#x27;une exemption de visa de 30 jours (60 jours pour certaines). Des visas touristiques (60 jours) sont disponibles. Pour des séjours plus longs : visa d&#x27;études (écoles de langue), visa de retraite (50 ans+, ฿800k en banque), visa de mariage, ou visa Elite (฿600k-2M pour 5-20 ans). Un visa digital nomad (DTV) lancé en 2024 (180 jours). Les permis de travail restent difficiles. La résidence permanente est extrêmement compliquée. La citoyenneté est quasi impossible. Les « visa runs » vers les pays voisins sont courants.</p><p>🏥 <span class="art-tag" style="background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.25);color:#0e7490">Santé</span><br>
+Le système de santé est à deux vitesses. Les hôpitaux publics sont bondés mais abordables. Les hôpitaux privés (Bumrungrad, Bangkok Hospital) offrent d&#x27;excellents soins à des prix raisonnables — le tourisme médical attire des étrangers (chirurgie esthétique, dentaire, interventions). Les médecins sont bien formés (beaucoup formés en Occident). L&#x27;espérance de vie est d&#x27;environ 77 ans. Une assurance internationale ou le paiement à l&#x27;acte fonctionne. Les médicaments sur ordonnance sont peu coûteux et disponibles (les pharmacies sont partout).</p><p>🚗 <span class="art-tag" style="background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#c2410c">Transport &amp; mobilité</span><br>
+Bangkok dispose du BTS Skytrain, du MRT, de bus, de bateaux et de tuk-tuks — fonctionnels mais le trafic est un cauchemar (parmi les 10 pires au monde). La plupart des expatriés utilisent le BTS/MRT ou des motos. Les bus interurbains sont bon marché et confortables. Les trains sont lents mais pittoresques. Le pays est de taille modérée — Bangkok à Chiang Mai = 700 km (9 h en bus, 1 h en vol). Les vols intérieurs sont peu coûteux. Les îles nécessitent bateaux/quelques ferries. L&#x27;aéroport de Suvarnabhumi (Bangkok) est un hub. Conduire est dangereux (2e taux de mortalité routière le plus élevé au monde).</p><p>🍛 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Note sur la nourriture (plat national)</span><br>
+Le plat national est <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Pad Thai</span><br> : nouilles de riz sautées avec crevettes/poulet, œuf, cacahuètes, citron vert. Autres classiques : <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Tom Yum Goong</span><br> (soupe épicée aux crevettes) ou <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Som Tam</span><br> (salade de papaye). La cuisine thaïe est de classe mondiale — équilibre sucré/aigre/salé/épicé/umami. La street food est excellente et sûre. Les cuisines régionales diffèrent fortement (nord, nord-est, sud).</p><p>🔎 <span class="art-tag" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#6d28d9">Conclusion</span><br>
+La Thaïlande convient aux nomades numériques (Chiang Mai est un hub), aux retraités (abordable, santé, climat), aux professeurs d&#x27;anglais, aux amateurs de plage et aux voyageurs à petit budget souhaitant prolonger leur séjour. Avantages : coût de la vie, nourriture (meilleure street food du monde), plages, soins médicaux (tourisme médical), convivialité et climat tropical. Inconvénients : instabilité politique (13 coups d&#x27;État depuis 1932), lois de lèse-majesté (15 ans pour critiquer le roi — étrangers poursuivis), trafic/pollution (Bangkok), tarification à deux vitesses (les étrangers payent plus) et incertitude visa. Bangkok est chaotique ; Chiang Mai est la capitale des nomades numériques ; les îles sont surdéveloppées mais belles. Idéal pour ceux qui ont des revenus à distance, des pensions ou un travail d&#x27;enseignant et qui acceptent l&#x27;incertitude politique. La critique de la monarchie est absolument interdite — des étrangers sont emprisonnés. Si vous supportez la chaleur, la pollution et acceptez une monarchie autoritaire pour bénéficier du coût de la vie et du style de vie, la Thaïlande tient ses promesses.</p><p>Expat Score — 7.0 / 10</p></div>
+      </div>
+
+      
+      <div class="things-section">
+        <div class="section-head"><h2>À savoir</h2><span class="wg-badge">À lire</span></div>
+        <div class="facts-grid"><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">👑 Lèse-majesté = tabou absolu</div><div class="fact-text">Article 112 : critiquer la monarchie = 3 à 15 ans de prison par infraction. Les étrangers sont poursuivis (un touriste a été emprisonné pour un avis d&#x27;hôtel négatif mentionnant le roi). Pas de mise en liberté sous caution. Des centaines de personnes emprisonnées depuis 2020 (protestations de la jeunesse). C&#x27;est une loi draconienne qui muselle la dissidence. Ne parlez jamais de la monarchie.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🪖 Coups = schéma récurrent</div><div class="fact-text">13 coups d&#x27;État réussis depuis 1932 (le plus récent en 2014). L&#x27;armée détient un pouvoir de veto. En 2020, des protestations étudiantes ont demandé une réforme de la monarchie et la démocratie — des dirigeants ont été emprisonnés sous la loi de lèse-majesté. Le vainqueur des élections 2023 (Move Forward Party) a été empêché d&#x27;exercer le pouvoir par l&#x27;establishment. La démocratie y est largement une façade.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏝️ Sur-tourisme = paradis perdu</div><div class="fact-text">39 millions de touristes annuels avant le COVID (contre 70 millions d&#x27;habitants). Maya Bay (film The Beach) a été fermée en raison des dégâts. Phuket et Pattaya sont des zones surdéveloppées et piégées par le tourisme. Le tourisme sexuel est visible (Pattaya). La pause liée au COVID a montré un potentiel de récupération mais le tourisme est revenu en force.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🚗 Décès routiers = 2e pire au monde</div><div class="fact-text">32+ décès pour 100 000 habitants (2e pire au monde après la Libye). Beaucoup de motos, conduite en état d&#x27;ivresse, absence de casques et manque d&#x27;application des règles. Le Songkran (fête de l&#x27;eau) est la semaine la plus mortelle — &#x27;Seven Dangerous Days&#x27;. Les routes sont réellement dangereuses. Conduire comporte un risque important.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">💰 Tarification à deux vitesses = taxe sur les étrangers</div><div class="fact-text">Les parcs nationaux et attractions facturent aux étrangers 10x le prix des locaux (฿20 contre ฿200). Les chauffeurs de tuk-tuk appliquent des tarifs pour touristes. Le &#x27;prix farang&#x27; est une réalité. Thaïs et étrangers paient des tarifs différents. Le ressentiment monte mais c&#x27;est une norme culturelle. La discrimination est légale et pratiquée.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🧘 Temples bouddhistes partout</div><div class="fact-text">Plus de 40 000 temples (wat). Les moines sont vénérés — laissez-leur la place, ne les touchez pas. L&#x27;ordination en tant que novice est un rite de passage pour les garçons. Le bouddhisme façonne profondément la culture — mérites, karma, respect de la vie. Les temples sont des centres communautaires et des merveilles architecturales.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🍽️ Pad Thai / Tom Yum / Som Tam</div><div class="fact-text">Nouilles sautées, soupe épicée ou salade de papaye — street food de classe mondiale. Équilibre sucré/acide/salé/épicé. Grande diversité régionale.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏳️‍🌈 LGBT+: Élevé</div><div class="fact-text">L&#x27;homosexualité est légale. Les attitudes sociales sont généralement acceptantes (la culture katoey/ladyboy est visible). Pas encore de mariage pour tous (projet de loi en attente). Bangkok possède une immense scène LGBTQ+. Plus tolérant que de nombreux voisins.</div></div></div>
+      </div>
+
+      <section class="cmp-section"><h2>Comparaisons de pays</h2><div class="cmp-pills"><a class="cmp-pill" href="/compare/static/france-vs-thailand/">Thaïlande vs France</a><a class="cmp-pill" href="/compare/static/georgia-vs-thailand/">Thaïlande vs Georgia</a><a class="cmp-pill" href="/compare/static/germany-vs-thailand/">Thaïlande vs Germany</a><a class="cmp-pill" href="/compare/static/thailand-vs-indonesia/">Thaïlande vs Indonesia</a><a class="cmp-pill" href="/compare/static/thailand-vs-malaysia/">Thaïlande vs Malaysia</a><a class="cmp-pill" href="/compare/static/thailand-vs-panama/">Thaïlande vs Panama</a><a class="cmp-pill" href="/compare/static/thailand-vs-philippines/">Thaïlande vs Philippines</a><a class="cmp-pill" href="/compare/static/portugal-vs-thailand/">Thaïlande vs Portugal</a><a class="cmp-pill" href="/compare/static/singapore-vs-thailand/">Thaïlande vs Singapore</a><a class="cmp-pill" href="/compare/static/spain-vs-thailand/">Thaïlande vs Spain</a><a class="cmp-pill" href="/compare/static/united-arab-emirates-vs-thailand/">Thaïlande vs United Arab Emirates</a><a class="cmp-pill" href="/compare/static/thailand-vs-vietnam/">Thaïlande vs Vietnam</a></div></section>
+    </div>
+  </div>
 </main>
 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
+<script src="/data/share.js"></script>
+<script src="/data/correction-form.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var t = document.getElementById("localTime");
+  if(t && t.dataset.tz){
+    function tick(){
+      try{
+        t.textContent = new Intl.DateTimeFormat("en-GB",{
+          timeZone: t.dataset.tz, hour:"2-digit", minute:"2-digit"
+        }).format(new Date());
+      }catch(e){}
+    }
+    tick(); setInterval(tick, 30000);
+  }
+  document.querySelectorAll(".rc-nav-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var targetId = btn.dataset.target;
+      var dir = parseInt(btn.dataset.dir||"1",10);
+      var row = document.getElementById(targetId);
+      if(!row) return;
+      var box = row.parentElement;
+      var first = row.querySelector(".rc-vcard");
+      if(!first) return;
+      var cardW = first.offsetWidth + 9;
+      var visible = Math.max(1, Math.floor(box.offsetWidth / cardW));
+      var maxOffset = Math.max(0, row.children.length - visible);
+      var current = parseInt(row.dataset.offset||"0", 10);
+      current = Math.min(maxOffset, Math.max(0, current + dir));
+      row.dataset.offset = current;
+      row.style.transform = "translateX(-" + (current * cardW) + "px)";
+      var nav = btn.parentNode;
+      var prev = nav.querySelector('[data-dir="-1"]');
+      var next = nav.querySelector('[data-dir="1"]');
+      if(prev) prev.disabled = (current === 0);
+      if(next) next.disabled = (current >= maxOffset);
+    });
+  });
+  var iso2 = "TH";
+  if(!iso2 || typeof L === "undefined") return;
+  var STYLES = {
+    light:     { url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", attr: "&copy; OSM &copy; CARTO" },
+    dark:      { url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",  attr: "&copy; OSM &copy; CARTO" },
+    satellite: { url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", attr: "&copy; Esri" }
+  };
+  var wMap=null, wLayer=null, wMarker=null;
+  function initMap(lat, lon){
+    var el = document.getElementById("wigg-country-map");
+    if(!el) return;
+    if(wMap){ try{wMap.remove();}catch(e){} }
+    wMap = L.map("wigg-country-map",{zoomControl:true}).setView([lat,lon],5);
+    wLayer = L.tileLayer(STYLES.light.url,{attribution:STYLES.light.attr,maxZoom:18}).addTo(wMap);
+    wMarker = L.marker([lat,lon]).addTo(wMap);
+    var loading = document.getElementById("wiggMapLoading");
+    if(loading) loading.classList.add("hidden");
+  }
+  document.querySelectorAll(".map-style-btn").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(!wMap) return;
+      var s = STYLES[b.dataset.style];
+      if(!s) return;
+      if(wLayer) wMap.removeLayer(wLayer);
+      wLayer = L.tileLayer(s.url,{attribution:s.attr,maxZoom:18}).addTo(wMap);
+      document.querySelectorAll(".map-style-btn").forEach(function(x){x.classList.remove("active");});
+      b.classList.add("active");
+    });
+  });
+  var cacheKey = "wigg_centroid_" + iso2;
+  var cached = null;
+  try { cached = JSON.parse(localStorage.getItem(cacheKey) || "null"); } catch(e){}
+  if(cached && cached.lat != null && cached.lon != null){
+    initMap(cached.lat, cached.lon); return;
+  }
+  fetch("https://nominatim.openstreetmap.org/search?country=" + encodeURIComponent(iso2) + "&format=json&limit=1")
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && d[0]){
+        var coords = { lat: +d[0].lat, lon: +d[0].lon };
+        try { localStorage.setItem(cacheKey, JSON.stringify(coords)); } catch(e){}
+        initMap(coords.lat, coords.lon);
+      } else {
+        var l = document.getElementById("wiggMapLoading");
+        if(l) l.textContent = "Carte indisponible";
+      }
+    })
+    .catch(function(){
+      var l = document.getElementById("wiggMapLoading");
+      if(l) l.textContent = "Carte indisponible";
+    });
+})();
+</script>
+
+<form name="wiggmap-corrections" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="wiggmap-corrections" />
+  <p><label>Don't fill this out: <input name="bot-field" /></label></p>
+  <input name="country" /><input name="field" /><input name="value" /><input name="email" /><textarea name="notes"></textarea>
+</form>
+
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
 </body>
 </html>

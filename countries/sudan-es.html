@@ -25,65 +25,127 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#f6f1e8;--paper:#fffdf8;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--green:#1d7f48;--green-dk:#155f36;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
+    :root{--paper:#fffdf8;--paper-2:#fbf7ee;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--line-soft:rgba(23,23,20,.06);--green:#1d7f48;--green-dk:#155f36;--green-light:#e6f4ec;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
     html{scroll-behavior:smooth}
     body{font-family:"Inter",system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f9f5ed 0%,#f3ede3 100%);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
     a{color:var(--green);text-decoration:none}
     a:hover{text-decoration:underline}
-    main{max-width:980px;margin:0 auto;padding:28px 20px 80px}
-    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:18px;letter-spacing:.04em}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:14px;letter-spacing:.04em}
     .crumb a{color:var(--ink-soft)}
-    .hero{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:36px 32px;box-shadow:var(--shadow);margin-bottom:24px;position:relative;overflow:hidden}
-    .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 18%,rgba(29,127,72,.05),transparent 30%);pointer-events:none}
-    .hero-flag{font-size:48px;line-height:1;margin-bottom:14px}
-    .hero h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(36px,6vw,56px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:10px;position:relative;z-index:1}
-    .hero .subtitle{font-size:15px;color:var(--ink-soft);max-width:62ch;line-height:1.6;position:relative;z-index:1}
-    .hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;position:relative;z-index:1}
-    .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid var(--line)}
-    .badge.green{background:#e6f4ec;color:var(--green-dk);border-color:rgba(29,127,72,.2)}
+    .country-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:22px;flex-wrap:wrap}
+    .country-flag{font-size:42px;line-height:1;margin-bottom:8px}
+    .country-head h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(34px,5.2vw,52px);font-weight:800;letter-spacing:-.02em;line-height:1.02}
+    .country-head .subtitle{font-size:14px;color:var(--ink-soft);max-width:64ch;line-height:1.55;margin-top:8px}
+    .head-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+    .badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:7px 13px;border-radius:999px;background:#fff;border:1px solid var(--line)}
+    .badge.green{background:var(--green-light);color:var(--green-dk);border-color:rgba(29,127,72,.22)}
     .badge.yellow{background:#fef9e7;color:#a16207;border-color:rgba(202,138,4,.25)}
     .badge.red{background:#fdecec;color:#b91c1c;border-color:rgba(185,28,28,.25)}
-    .snapshot{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px 26px;box-shadow:var(--shadow);margin-bottom:24px}
-    .snapshot h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;margin-bottom:14px}
-    .snap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
-    .snap-item{font-size:13px}
-    .snap-item strong{display:block;color:var(--ink-soft);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
-    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
-    .data-card h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;padding:20px 26px 8px}
+    .badge .dot{width:8px;height:8px;border-radius:999px;background:currentColor;display:inline-block}
+    .local-time{font-size:12px;color:var(--ink-soft);font-weight:600}
+    .local-time b{color:var(--ink);margin-left:5px;font-weight:800}
+    .main-grid{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+    @media(max-width:900px){.main-grid{grid-template-columns:1fr}}
+    .sidebar{display:flex;flex-direction:column;gap:14px;align-self:start;position:sticky;top:18px}
+    @media(max-width:900px){.sidebar{position:static}}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .hero-img{width:100%;height:200px;object-fit:cover;display:block;background:#eaddc4}
+    .hero-actions{padding:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:8px;font-family:inherit;font-weight:700;font-size:12.5px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;transition:background .14s,border-color .14s}
+    .btn:hover{background:rgba(0,0,0,.04)}
+    .btn.primary{background:var(--green);color:#fff;border-color:transparent}
+    .btn.primary:hover{background:var(--green-dk)}
+    .snapshot-card{padding:16px}
+    .snapshot-title{font-family:"Fraunces",Georgia,serif;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px;letter-spacing:-.01em}
+    .kv{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--line-soft);font-size:12.5px}
+    .kv span{color:var(--ink-soft)}
+    .kv b{color:var(--ink);font-weight:700;text-align:right;max-width:60%}
+    .kv-sub{padding-left:10px;font-size:11.5px;opacity:.85}
+    .kv-note{font-size:11px;color:var(--ink-soft);line-height:1.5;padding:6px 0 8px;font-style:italic;border-bottom:1px solid var(--line-soft)}
+    .sector-block{padding-top:10px;margin-top:6px;border-top:1px solid var(--line-soft)}
+    .sector-head{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+    .sector-list{display:flex;flex-direction:column;gap:5px}
+    .sector-pill{background:rgba(29,127,72,.08);border:1px solid rgba(29,127,72,.2);border-radius:7px;padding:5px 10px;font-size:11.5px;font-weight:700;color:var(--green-dk);line-height:1.4}
+    .persona-card{padding:16px}
+    .persona-name{font-weight:800;font-size:13px;margin-bottom:6px}
+    .persona-name small{font-weight:500;opacity:.6;font-size:11px}
+    .persona-why{font-size:11.5px;color:var(--ink-soft);line-height:1.55;font-style:italic}
+    .right-col{display:flex;flex-direction:column;gap:18px;min-width:0}
+    .rc-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:760px){.rc-wrapper{grid-template-columns:1fr}}
+    .rc-box{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 14px 12px;overflow:hidden}
+    .rc-box-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:6px}
+    .rc-box-head h2{font-family:"Fraunces",Georgia,serif;font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+    .rc-nav{display:flex;gap:4px}
+    .rc-nav-btn{width:24px;height:24px;border-radius:6px;border:1px solid var(--line);background:#fff;font-size:13px;cursor:pointer;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;line-height:1;transition:all .14s}
+    .rc-nav-btn:hover{background:var(--green);color:#fff;border-color:transparent}
+    .rc-nav-btn:disabled{opacity:.35;cursor:not-allowed}
+    .rc-track{overflow:hidden}
+    .rc-row{display:flex;gap:9px;transition:transform .35s ease;will-change:transform}
+    .rc-vcard{flex-shrink:0;width:130px;height:90px;border-radius:10px;overflow:hidden;position:relative;background:#e9dfca;border:1px solid var(--line);transition:transform .15s,box-shadow .15s}
+    .rc-vcard:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10);text-decoration:none}
+    .rc-vimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .rc-vemoji{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;background:linear-gradient(135deg,#ede5d8,#ddd3c4)}
+    .rc-vgrad{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,8,.85) 0%,rgba(20,15,8,.2) 55%,transparent 100%)}
+    .rc-vbody{position:absolute;left:0;right:0;bottom:0;padding:7px 9px;z-index:2}
+    .rc-vtitle{font-family:"Fraunces",Georgia,serif;font-size:10.5px;font-weight:700;color:#fff;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
     .data-table{width:100%;border-collapse:collapse;font-size:13px}
-    .data-table .sec td{background:#f8f4eb;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:10px 26px;color:var(--ink-soft);border-top:1px solid var(--line)}
-    .data-table td{padding:9px 26px;border-bottom:1px solid var(--line);vertical-align:top}
+    .data-table .sec td{background:#f4eedf;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:11px 22px;color:var(--ink-soft);border-top:1px solid var(--line)}
+    .data-table td{padding:9px 22px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+    .data-table tr:last-child td{border-bottom:none}
     .data-table td.lbl{width:42%;color:var(--ink)}
-    .data-table td.val{width:22%;font-weight:700}
+    .data-table td.val{width:25%;font-weight:700}
     .data-table td.hint{font-size:11.5px;color:var(--ink-soft)}
+    .data-table td.edit{width:30px;text-align:right;padding-right:14px}
     .data-table .ico{margin-right:8px}
-    .article{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px;margin-bottom:24px}
-    .article h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:700;margin:24px 0 10px;color:var(--ink)}
-    .article h2:first-child{margin-top:0}
-    .article p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.75}
-    .article p strong{color:var(--ink);font-weight:600}
-    .ttk{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-bottom:24px}
-    .ttk h2{font-family:"Fraunces",Georgia,serif;font-size:20px;font-weight:700;margin-bottom:16px}
-    .ttk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-    .ttk-card{background:#fbf7ee;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
-    .ttk-card .ttk-title{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink)}
-    .ttk-card p{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
-    .ttk-card small{font-weight:500;color:var(--ink-soft)}
-    .related{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px;margin-bottom:18px}
-    .related h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
-    .link-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px 18px}
-    .link-list li{font-size:13.5px;line-height:1.5;padding-left:14px;position:relative}
-    .link-list li::before{content:"›";position:absolute;left:0;color:var(--green)}
-    @media (max-width:640px){
-      main{padding:20px 14px 60px}
-      .hero{padding:26px 22px}
-      .data-table td{padding:9px 16px}
-      .data-table .sec td{padding:10px 16px}
-      .article{padding:24px 22px}
-      .ttk{padding:22px 22px}
-      .related{padding:20px 22px}
+    .edit-btn{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:13px;opacity:.4;transition:opacity .14s;padding:2px 4px}
+    .edit-btn:hover{opacity:1;color:var(--green)}
+    .article-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px}
+    .section-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+    .section-head h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:800;letter-spacing:-.01em;color:var(--ink)}
+    .score-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-light);border:1px solid rgba(29,127,72,.25);color:var(--green-dk);padding:5px 12px;border-radius:999px;font-size:12px;font-weight:700}
+    .article-body p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.78}
+    .article-body p:last-child{margin-bottom:0}
+    .art-tag{display:inline-block;padding:3px 10px;border-radius:6px;font-weight:700;font-size:13px;margin-bottom:6px;line-height:1.5}
+    .map-card{margin:22px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper-2)}
+    .map-header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);gap:8px;flex-wrap:wrap}
+    .map-title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}
+    .map-flag{font-size:18px}
+    .map-styles{display:flex;gap:4px}
+    .map-style-btn{font-size:11px;font-weight:700;padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;color:var(--ink-soft);cursor:pointer;transition:all .14s}
+    .map-style-btn:hover{border-color:var(--green);color:var(--green)}
+    .map-style-btn.active{background:var(--green);color:#fff;border-color:transparent}
+    .map-container{position:relative;height:320px}
+    #wigg-country-map{position:absolute;inset:0}
+    .map-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper-2);color:var(--ink-soft);font-size:13px;z-index:10}
+    .map-loading.hidden{display:none}
+    .things-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px}
+    .wg-badge{display:inline-flex;align-items:center;gap:5px;background:#fef3c7;border:1px solid rgba(202,138,4,.3);color:#92400e;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+    .facts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .fact-card{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden}
+    .fact-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green)}
+    .fact-title{font-weight:800;font-size:13px;margin-bottom:6px;color:var(--ink);padding-left:6px}
+    .fact-text{font-size:12.5px;color:var(--ink-soft);line-height:1.55;padding-left:6px}
+    .cmp-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px}
+    .cmp-section h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
+    .cmp-pills{display:flex;flex-wrap:wrap;gap:8px}
+    .cmp-pill{display:inline-block;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:600;color:var(--ink);transition:all .14s}
+    .cmp-pill:hover{border-color:var(--green);background:var(--green);color:#fff;text-decoration:none}
+    @media(max-width:640px){
+      .wrap{padding:18px 14px 60px}
+      .country-head{flex-direction:column}
+      .head-right{align-items:flex-start}
+      .data-table td{padding:9px 14px}
+      .data-table .sec td{padding:11px 14px}
+      .article-card{padding:24px 22px}
+      .things-section{padding:22px 22px}
+      .cmp-section{padding:20px 22px}
+      .map-container{height:240px}
     }
   </style>
 </head>
@@ -92,268 +154,400 @@
 <div id="siteHeader"></div>
 <script src="/data/header.js"></script>
 
-<main>
+<main class="wrap">
   <nav class="crumb"><a href="/">Inicio</a> › <a href="/globe.html">Países</a> › Sudan</nav>
 
-  <section class="hero">
-    <div class="hero-flag">🇸🇩</div>
-    <h1>Sudan</h1>
-    <p class="subtitle">Indicative averages (pre-conflict data; 2025 situation dire)</p>
-    <div class="hero-badges">
-      <span class="badge red">WIGG: RED</span>
-      <span class="badge">⭐ Puntuación expat: 1.0 / 10</span>
+  <div class="country-head">
+    <div>
+      <div class="country-flag">🇸🇩</div>
+      <h1>Sudan</h1>
+      <p class="subtitle">Indicative averages (pre-conflict data; 2025 situation dire)</p>
     </div>
-  </section>
-
-  <section class="snapshot">
-    <h2>Vistazo rápido</h2>
-    <div class="snap-grid">
-      <div class="snap-item"><strong>Capital</strong>Jartum (destruida/contendida) — de facto: Puerto Sudán</div>
-      <div class="snap-item"><strong>Población</strong>~48M</div>
-      <div class="snap-item"><strong>Idiomas</strong>árabe, inglés (oficial)</div>
-      <div class="snap-item"><strong>Conducción</strong>Derecha</div>
-      <div class="snap-item"><strong>Moneda</strong>Libra sudanesa (SDG)</div>
-      <div class="snap-item"><strong>Crypto-amigable</strong>Ninguna/Prohibida</div>
+    <div class="head-right">
+      <div class="badge red"><span class="dot"></span>WIGG: RED</div>
+      <div class="local-time">Hora local <b id="localTime" data-tz="Africa/Khartoum">--:--</b></div>
     </div>
-  </section>
+  </div>
 
-  <section class="data-card">
-    <h2>Coste de vida, salarios y calidad de vida</h2>
-    <table class="data-table">
-    <tbody>
-      <tr class="sec"><td colspan="3">💼 Salarios (neto / mes)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧾</span>Salario mínimo</td>
-        <td class="val">~$5</td>
-        <td class="hint">Oficial ≈ SDG 425/mes → neto ≈ $5 a tasa paralela (2025; hiperinflación por conflicto)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📊</span>Salario medio</td>
-        <td class="val">$45</td>
-        <td class="hint">Est. promedio neto ≈ $45/mes a tasa paralela (conflicto perturba gravemente la economía formal)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🩺</span>Salario médico (general)</td>
-        <td class="val">$200</td>
-        <td class="hint">public sector; many fled; USD value collapsed</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🏠 Vivienda y servicios (estudio de referencia)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏚️</span>Alquiler estudio</td>
-        <td class="val">$80</td>
-        <td class="hint">Khartoum pre-war; current situation unknown</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">⚡</span>Electricidad</td>
-        <td class="val">$25</td>
-        <td class="hint">infrastructure destroyed; frequent blackouts</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💧</span>Agua</td>
-        <td class="val">$8</td>
-        <td class="hint">infrastructure damaged</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📱</span>Plan móvil</td>
-        <td class="val">$7</td>
-        <td class="hint">network disrupted by war</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🍽️ Comida y bebida (precios típicos)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍺</span>Cerveza (pinta)</td>
-        <td class="val">N/A</td>
-        <td class="hint">alcohol prohibited</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☕</span>Café</td>
-        <td class="val">$0.80</td>
-        <td class="hint">tea more common</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍲</span>Plato principal</td>
-        <td class="val">$4</td>
-        <td class="hint">local meal where available</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">⛽ Transporte</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">⛽</span>Gasolina / litro</td>
-        <td class="val">$0.60 / L</td>
-        <td class="hint">subsidized but shortages</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🧾 Impuestos (indicativo)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏷️</span>IVA</td>
-        <td class="val">17%</td>
-        <td class="hint">standard VAT</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">👤</span>Impuesto sobre la renta</td>
-        <td class="val">0-35%</td>
-        <td class="hint">progressive system; enforcement collapsed</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏪</span>Impuesto pequeña empresa</td>
-        <td class="val">N/A</td>
-        <td class="hint">economy collapsed due to civil war</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📱 Tech (precios indicativos)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍎</span>iPhone (último 256GB)</td>
-        <td class="val">$1,000</td>
-        <td class="hint">imported; if available</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📲</span>Galaxy S (último 256GB)</td>
-        <td class="val">$700</td>
-        <td class="hint">imported pricing</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🛂 Mudanza e inmigración</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🛂</span>Facilidad de inmigración</td>
-        <td class="val">0 / 10</td>
-        <td class="hint">active war zone; mass exodus</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🌤️ Calidad de vida</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🙂</span>Felicidad</td>
-        <td class="val">2.43 / 10</td>
-        <td class="hint">among lowest globally; civil war</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☀️</span>Días de sol / año</td>
-        <td class="val">~330 days / year</td>
-        <td class="hint">desert climate</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏥</span>Sanidad pública</td>
-        <td class="val">Collapsed</td>
-        <td class="hint">war destroyed healthcare system</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧑‍⚕️</span>Seguro privado / mes</td>
-        <td class="val">N/A</td>
-        <td class="hint">non-functional</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📈 Índices</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🚔</span>Índice de criminalidad</td>
-        <td class="val">90 / 100</td>
-        <td class="hint">civil war; ethnic violence; atrocities</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💶</span>Poder adquisitivo</td>
-        <td class="val">8</td>
-        <td class="hint">hyperinflation destroyed purchasing power</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🕍 Religión</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">✝️</span>Cristiano</td>
-        <td class="val">~5.0%</td>
-        <td class="hint">small minority</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☪️</span>Musulmán</td>
-        <td class="val">~93.0%</td>
-        <td class="hint">Sunni Islam majority</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☸️</span>Budista</td>
-        <td class="val">~0%</td>
-        <td class="hint">negligible</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">✡️</span>Judío</td>
-        <td class="val">~0%</td>
-        <td class="hint">indicative (src: Pew Research / WJC)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🕊️</span>Otra / Ninguna</td>
-        <td class="val">~2.0%</td>
-        <td class="hint">traditional beliefs</td>
-      </tr>
-    </tbody>
-    </table>
-  </section>
+  <div class="main-grid">
+    <aside class="sidebar">
+      <div class="card">
+        <img class="hero-img" src="/assets/hero-sudan.jpg" alt="Sudan"
+             onerror="this.onerror=null;this.src='/assets/hero-fallback.jpg'" />
+        <div class="hero-actions">
+          <button class="btn primary" type="button" onclick="openModal('general')">Corregir datos</button>
+          <button class="btn" type="button" id="btnShare">Compartir</button>
+          <a class="btn" href="/compare.html?country=sudan">Comparar</a>
+        </div>
+      </div>
 
-  <section class="article"><h2>Visión general del país</h2><h2>🧭 Resumen</h2>
-<p>Sudán está en medio de una de las peores guerras activas del mundo. El 15 de abril de 2023, una lucha por el poder entre dos generales — Abdel Fattah al-Burhan (Fuerzas Armadas Sudanesas, SAF) y Mohamed Hamdan Dagalo, conocido como Hemedti (Fuerzas de Apoyo Rápido, RSF) — estalló en una guerra civil a gran escala en todo el país. Jartum, una ciudad de 7 millones de habitantes, se convirtió en un campo de batalla. A finales de 2023, las RSF controlaban la mayor parte de Darfur (donde se documentaron masacres genocidas contra el pueblo masalit) y gran parte del centro. Las SAF recuperaron impulso durante 2024–2025 utilizando drones iraníes y retomaron Jartum a mediados de 2025. Pero la guerra continúa en Darfur, Kordofán y Gezira. El costo humano: más de 400.000 muertos estimados, 13 millones desplazados internamente y 4 millones de refugiados (la mayor crisis de desplazamiento del mundo en 2024). El PIB se contrajo entre un 40 y un 48% desde 2023. Sudán ya era uno de los países más pobres e inestables del mundo antes de esta guerra — un legado de la dictadura islamista de 30 años de Omar al-Bashir, acusado de genocidio en Darfur (2003–2005, 300.000 muertos), y el golpe de 2021 que puso fin a la transición democrática de Sudán.</p>
-<h2>👥 Personas y ambiente</h2>
-<p>Sudán es étnicamente extraordinariamente diverso — árabes, nubios, beja, fur, nuba, dinka y docenas de otros grupos. El islam (~97% suní) es la religión dominante, pero las prácticas culturales varían enormemente entre el norte influenciado por los árabes en el Valle del Nilo y el sur y el oeste de mayoría africana (Darfur, Kordofán). Antes de la guerra de 2023, Jartum era una ciudad genuinamente cosmopolita — universidades, cafeterías, una vibrante escena musical nubia, una gran clase media educada. Ese mundo ha sido destruido. Millones de habitantes de Jartum que huyeron no pueden regresar a casas que ya no existen. Los pocos residentes que quedan describen una ciudad fantasma que lentamente vuelve a la vida entre ruinas, sin electricidad, con escasez de agua y mercados apenas reabiertos.</p>
-<h2>🌦️ Clima y paisaje</h2>
-<p>Mayormente árido y semiárido. El Nilo (Nilo Blanco y Nilo Azul se encuentran en Jartum) es la arteria vital del país. El norte es el desierto nubio — antiguas pirámides emergen de la arena. El centro es sabana saheliana. El sur (ahora un país separado — Sudán del Sur se independizó en 2011) era tropical. Las montañas Nuba y el volcán Jebel Marra en Darfur ofrecen paisajes montañosos dramáticos. Antes de la guerra, Sudán tenía algunos de los sitios históricos menos valorados de África: las pirámides meroíticas en Meroe, los templos nubios en Soleb, los reinos cristianos medievales en Old Dongola. Todos ahora inaccesibles.</p>
-<h2>🏠 Vivienda y asentamiento</h2>
-<p>Prácticamente no existe un mercado de vivienda civil para expatriados en el sentido convencional. Antes de la guerra, Jartum tenía una comunidad de expatriados funcional (barrios Amarat, Riyad) con villas por $600–1.500/mes. Ese mercado ahora está en escombros o ocupado. Puerto Sudán — la capital de facto y refugio seguro en el Mar Rojo — ha visto explotar los alquileres: $2.000–3.000/mes por apartamentos que costaban $300 antes de la guerra. Las operaciones de la ONU y ONG se gestionan principalmente desde Puerto Sudán, Gedaref y a través de las fronteras (Chad, Egipto, Sudán del Sur). No se recomienda ni es viable la reubicación civil de expatriados a Sudán en 2025.</p>
-<h2>💼 Trabajo y economía</h2>
-<p>Antes de la guerra: minería de oro (Sudán fue el tercer mayor productor de África), agricultura (goma arábiga — Sudán produce el 75–80% del suministro mundial), algo de petróleo (la mayor parte del petróleo se fue con la secesión de Sudán del Sur en 2011). Hoy: la economía formal se ha derrumbado efectivamente. El PIB cayó entre un 40 y 48%. 5,2 millones de empleos perdidos. La economía informal — contrabando, comercio de oro, mercado negro de divisas — se ha disparado. Las operaciones humanitarias (PMA, ACNUR, CICR, MSF) son la economía de facto en las zonas accesibles. El comercio de goma arábiga continúa a través del contrabando hacia Chad y Egipto.</p>
-<h2>🛂 Visado y entrada</h2>
-<p>Todos los gobiernos occidentales desaconsejan viajar a Sudán y urgen a sus nacionales a salir. El aeropuerto de Puerto Sudán mantiene conectividad internacional limitada (El Cairo, Estambul, Doha, Addis Abeba). La entrada para trabajadores humanitarios requiere coordinación con las autoridades de las SAF en Puerto Sudán. En la práctica no se están tramitando visados turísticos.</p>
-<h2>🏥 Atención médica</h2>
-<p>El sistema de salud ha colapsado prácticamente. En Jartum, más del 70% de las instalaciones de salud fueron destruidas, saqueadas o convertidas en usos militares. 40 millones de dosis de vacunas y viales de insulina se perdieron cuando se cortó la energía de las cámaras frías. MSF, CICR y la OMS operan en las zonas accesibles. Cólera, sarampión, dengue y malaria son epidémicos. La esperanza de vida (pre-guerra): ~67 años — ahora en fuerte descenso. La evacuación médica a El Cairo o Nairobi es la única opción para casos graves.</p>
-<h2>🚗 Transporte y movilidad</h2>
-<p>La infraestructura de Jartum — carreteras, puentes, red eléctrica, sistema de agua — está más del 70% destruida. Puerto Sudán es el centro funcional: su aeropuerto opera y su puerto maneja ayuda. El viaje por carretera entre Puerto Sudán y Jartum es posible pero peligroso (controles, bandidaje). Viajar a Darfur, Kordofán y Gezira es extremadamente peligroso o imposible. Las SAF controlan la mayoría de los corredores aéreos; las RSF controlan rutas terrestres occidentales.</p>
-<h2>🍛 Nota sobre comida (plato nacional)</h2>
-<p>El plato nacional es <strong>Ful medames</strong>: habas cocidas lentamente condimentadas con limón, aceite de oliva y especias — el desayuno sudanés por excelencia consumido en todos los niveles económicos. <strong>Kisra</strong> (tortilla fermentada de sorgo, similar a la injera etíope) acompaña la mayoría de las comidas. <strong>Asida</strong> (gachas espesas de sorgo) con carne o salsa de cacahuete es el alimento básico rural. <strong>Shaiyah</strong> (carne a la parrilla) en restaurantes a orillas del Nilo fue la institución social de la clase media prebélica. La cultura del té sudanés (especiado con canela y jengibre) está profundamente arraigada.</p>
-<h2>🔎 Conclusión</h2>
-<p>Sudán es actualmente uno de los lugares más peligrosos del planeta. No existe vida civil de expatriados aquí — solo misiones humanitarias que operan bajo protocolos de seguridad extremos. La recuperación cauta iniciada tras la reconquista de Jartum por las SAF a mediados de 2025 ha abierto una fase limitada de reconstrucción, pero Darfur sigue siendo una zona de genocidio, millones padecen condiciones de hambruna y las RSF no han sido derrotadas. El potencial de Sudán es real — el Nilo, la histórica civilización nubia, el monopolio de la goma arábiga, las reservas de oro, tierras agrícolas — pero está enterrado bajo décadas de dictadura, guerra civil y ahora la destrucción sistemática del tercer país más poblado de África. Si trabajas aquí: solamente a través de una gran organización internacional, con protocolos de seguridad completos, planes de evacuación y apoyo de salud mental. Este es uno de los puestos humanitarios más desafiantes del mundo.</p>
-<p>Puntuación para expatriados — 1.0 / 10</p></section>
+      <div class="card snapshot-card">
+        <div class="snapshot-title">Vistazo rápido</div>
+        <div class="kv"><span>Capital</span><b>Jartum (destruida/contendida) — de facto: Puerto Sudán</b></div><div class="kv"><span>Población</span><b>~48M</b></div><div class="kv"><span>Idiomas</span><b>árabe, inglés (oficial)</b></div><div class="kv"><span>Moneda</span><b>Libra sudanesa (SDG)</b></div><div class="kv kv-sub"><span>Exchange rate</span><b>1 USD ≈ 2,600 SDG (oficial) / 3,500+ (mercado negro)</b></div><div class="kv-note">La moneda se desploma desde que comenzó la guerra en 2023. Hiperinflación, colapso del sistema bancario; el USD y el oro dominan las transacciones en zonas en conflicto. El Banco Central se trasladó a Puerto Sudán.</div><div class="kv"><span>Crypto-amigable</span><b>Ninguna/Prohibida</b></div><div class="kv-note">El Banco Central de Sudán ha prohibido las transacciones con criptomonedas. Infraestructura destruida por la guerra civil. Irrelevante en el contexto actual.</div><div class="kv"><span>Conducción</span><b>Derecha</b></div><div class="sector-block"><div class="sector-head">Sectores principales</div><div class="sector-list"><div class="sector-pill">Minería de oro (tercer mayor productor de África antes de la guerra — ahora en gran parte informal)</div><div class="sector-pill">Goma arábiga (75–80% del suministro mundial — continúa vía contrabando)</div><div class="sector-pill">Operaciones humanitarias (la mayor crisis de desplazamiento del mundo en 2024)</div></div></div>
+      </div>
 
-  <section class="ttk"><h2>Lo que hay que saber</h2><div class="ttk-grid">
-      <div class="ttk-card">
-        <div class="ttk-title">👤 Omar al-Bashir <small>(Finales del siglo XX–siglo XXI)</small></div>
-        <p>Gobernó Sudán durante 30 años (1989–2019) tras un golpe islamista. Fue acusado por la Corte Penal Internacional de genocidio, crímenes contra la humanidad y crímenes de guerra en Darfur — el primer jefe de Estado en ejercicio en ser acusado por la CPI. Se estima que mató a 300.000 personas en Darfur (2003–2005) utilizando las milicias Janjaweed — predecesoras de las actuales RSF, comandadas por su propio aliado Hemedti. Fue derrocado en 2019 por los mismos generales a quienes había fortalecido. Murió en prisión en enero de 2025 mientras esperaba una extradición a la CPI que nunca llegó.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🔺 Pirámides nubias: civilización olvidada</div>
-        <p>Sudán tiene más pirámides antiguas que Egipto — más de 200, dispersas por el desierto nubio en Meroe, Nuri y El-Kurru. El Reino Meroítico (el Reino de Kush) gobernó el noreste de África durante 1.000 años, conquistó Egipto en el 712 a. C. y construyó una civilización sofisticada con su propia escritura (meroítica — todavía solo parcialmente descifrada). Estas pirámides son sitios del Patrimonio Mundial de la UNESCO. Antes de la guerra las visitaban menos de 2.000 turistas al año — entre los sitios arqueológicos importantes menos visitados del mundo.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">⚔️ Dos generales, una catástrofe</div>
-        <p>La causa inmediata de la guerra de 2023 fue una lucha por el poder entre dos hombres que habían sido aliados en cada golpe y atrocidad desde 2003. Al-Burhan (jefe de las SAF) y Hemedti (comandante de las RSF) derrocaron juntos la transición democrática de Sudán en 2021. Se enfrentaron por la integración de las RSF en el ejército regular — Hemedti se negó a disolver su fuerza paralela de 100.000 hombres. El 15 de abril de 2023 se fueron a la guerra. Ambos son acusados de crímenes de guerra. Ambos afirman representar el futuro de Sudán. El país que destruyeron entre los dos tenía 48 millones de habitantes.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🌿 Goma arábiga: monopolio invisible</div>
-        <p>Sudán produce el 75–80% de la goma arábiga mundial — la resina del árbol de acacia usada en todo, desde Coca-Cola (estabilizante E414) hasta recubrimientos de cápsulas farmacéuticas y adhesivo para sellos postales. Casi todos los alimentos envasados a nivel mundial contienen goma arábiga sudanesa. Durante la guerra, el comercio continúa vía contrabando a través de Chad y Egipto porque las cadenas de suministro global dependen de ella y no existe una fuente alternativa. Es una de las materias primas más trascendentes del mundo que prácticamente nadie conoce.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🌊 Civilización del Nilo: la fuente original</div>
-        <p>El Nilo — tanto el Blanco (desde Uganda/Lago Victoria) como el Azul (desde Etiopía/Lago Tana) — se encuentran en Jartum. El valle norteño del Nilo en Sudán fue hogar de la cultura de Kerma (2500 a. C.), el Reino de Napata y la civilización meroítica — culturas nubias que precedieron e influyeron en el Egipto faraónico. La Gran Presa de Merowe (2009) y la ahora disputada presa GERD en Etiopía han remodelado la política del flujo del Nilo. Egipto, Sudán y Etiopía están enfrascados en una disputa por los derechos del agua que podría perdurar más allá de la guerra civil.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">☁️ Darfur: un genocidio que se repite</div>
-        <p>Darfur — del tamaño de Francia en el oeste de Sudán — ha sufrido dos genocidios en 20 años. En 2003–2005, las milicias Janjaweed de Bashir mataron a 300.000 personas y desplazaron a 2 millones en lo que el gobierno de EE. UU. reconoció oficialmente como genocidio. Las mismas milicias, renombradas como RSF bajo Hemedti, regresaron en 2023 y cometieron masacres sistemáticas contra el pueblo masalit en El Geneina y en todo Darfur Occidental. El Alto Comisionado de la ONU lo calificó como una repetición del genocidio de 2003. El mundo volvió a mirar.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">✊ La Revolución de las Sonrisas</div>
-        <p>En diciembre de 2018, los ciudadanos sudaneses iniciaron protestas por el precio del pan que crecieron hasta convertirse en una revolución. Las mujeres — muchas con tobes blancos — estuvieron en la vanguardia. En abril de 2019, Bashir fue derrocado. Las imágenes del sit-in en Jartum (multitudes masivas, cantos, velas) se convirtieron en iconos de la resistencia pacífica. Un consejo transitorio civil-militar gobernó brevemente. Luego, en octubre de 2021, los mismos generales que habían &#x27;apoyado&#x27; la revolución la aplastaron en un golpe, encarcelando al primer ministro civil Hamdok. La primavera democrática de Sudán duró dos años — luego dos generales la destruyeron, y después se destruyeron entre ellos.</p>
-      </div></div></section>
+      
+        <div class="card persona-card">
+          <div class="snapshot-title">Figura del país</div>
+          <div class="persona-name">Omar al-Bashir <small>(Finales del siglo XX–siglo XXI)</small></div>
+          <div class="persona-why">Gobernó Sudán durante 30 años (1989–2019) tras un golpe islamista. Fue acusado por la Corte Penal Internacional de genocidio, crímenes contra la humanidad y crímenes de guerra en Darfur — el primer jefe de Estado en ejercicio en ser acusado por la CPI. Se estima que mató a 300.000 personas en Darfur (2003–2005) utilizando las milicias Janjaweed — predecesoras de las actuales RSF, comandadas por su propio aliado Hemedti. Fue derrocado en 2019 por los mismos generales a quienes había fortalecido. Murió en prisión en enero de 2025 mientras esperaba una extradición a la CPI que nunca llegó.</div>
+        </div>
+    </aside>
 
-  
-  
-  
+    <div class="right-col">
+      <div class="rc-wrapper">
+        
+        
+      </div>
 
-  <p style="text-align:center;margin-top:30px"><a href="/globe.html" style="font-weight:600">Ver los 160+ países →</a></p>
+      <div class="data-card">
+        <table class="data-table">
+      <tbody>
+        <tr class="sec"><td colspan="4">💼 Salarios (neto / mes)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧾</span>Salario mínimo</td>
+          <td class="val">~$5</td>
+          <td class="hint">Oficial ≈ SDG 425/mes → neto ≈ $5 a tasa paralela (2025; hiperinflación por conflicto)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('min_wage')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📊</span>Salario medio</td>
+          <td class="val">$45</td>
+          <td class="hint">Est. promedio neto ≈ $45/mes a tasa paralela (conflicto perturba gravemente la economía formal)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('avg_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🩺</span>Salario médico (general)</td>
+          <td class="val">$200</td>
+          <td class="hint">public sector; many fled; USD value collapsed</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('doctor_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🏠 Vivienda y servicios (estudio de referencia)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏚️</span>Alquiler estudio</td>
+          <td class="val">$80</td>
+          <td class="hint">Khartoum pre-war; current situation unknown</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('rent_studio')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">⚡</span>Electricidad</td>
+          <td class="val">$25</td>
+          <td class="hint">infrastructure destroyed; frequent blackouts</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('electricity')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💧</span>Agua</td>
+          <td class="val">$8</td>
+          <td class="hint">infrastructure damaged</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('water')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📱</span>Plan móvil</td>
+          <td class="val">$7</td>
+          <td class="hint">network disrupted by war</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('mobile')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🍽️ Comida y bebida (precios típicos)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍺</span>Cerveza (pinta)</td>
+          <td class="val">N/A</td>
+          <td class="hint">alcohol prohibited</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('beer')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☕</span>Café</td>
+          <td class="val">$0.80</td>
+          <td class="hint">tea more common</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('coffee')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍲</span>Plato principal</td>
+          <td class="val">$4</td>
+          <td class="hint">local meal where available</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('dish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">⛽ Transporte</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">⛽</span>Gasolina / litro</td>
+          <td class="val">$0.60 / L</td>
+          <td class="hint">subsidized but shortages</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('gas')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🧾 Impuestos (indicativo)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏷️</span>IVA</td>
+          <td class="val">17%</td>
+          <td class="hint">standard VAT</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('vat')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">👤</span>Impuesto sobre la renta</td>
+          <td class="val">0-35%</td>
+          <td class="hint">progressive system; enforcement collapsed</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('income_tax')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏪</span>Impuesto pequeña empresa</td>
+          <td class="val">N/A</td>
+          <td class="hint">economy collapsed due to civil war</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('smallbiz')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📱 Tech (precios indicativos)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍎</span>iPhone (último 256GB)</td>
+          <td class="val">$1,000</td>
+          <td class="hint">imported; if available</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('iphone')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📲</span>Galaxy S (último 256GB)</td>
+          <td class="val">$700</td>
+          <td class="hint">imported pricing</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('samsung')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🛂 Mudanza e inmigración</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🛂</span>Facilidad de inmigración</td>
+          <td class="val">0 / 10</td>
+          <td class="hint">active war zone; mass exodus</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('immigration')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🌤️ Calidad de vida</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🙂</span>Felicidad</td>
+          <td class="val">2.43 / 10</td>
+          <td class="hint">among lowest globally; civil war</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('happiness')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☀️</span>Días de sol / año</td>
+          <td class="val">~330 days / year</td>
+          <td class="hint">desert climate</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('sun')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏥</span>Sanidad pública</td>
+          <td class="val">Collapsed</td>
+          <td class="hint">war destroyed healthcare system</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('health')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧑‍⚕️</span>Seguro privado / mes</td>
+          <td class="val">N/A</td>
+          <td class="hint">non-functional</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('insurance')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📈 Índices</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🚔</span>Índice de criminalidad</td>
+          <td class="val">90 / 100</td>
+          <td class="hint">civil war; ethnic violence; atrocities</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('crime')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💶</span>Poder adquisitivo</td>
+          <td class="val">8</td>
+          <td class="hint">hyperinflation destroyed purchasing power</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('pp')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🕍 Religión</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">✝️</span>Cristiano</td>
+          <td class="val">~5.0%</td>
+          <td class="hint">small minority</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_christian')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☪️</span>Musulmán</td>
+          <td class="val">~93.0%</td>
+          <td class="hint">Sunni Islam majority</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_muslim')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☸️</span>Budista</td>
+          <td class="val">~0%</td>
+          <td class="hint">negligible</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_buddhist')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">✡️</span>Judío</td>
+          <td class="val">~0%</td>
+          <td class="hint">indicative (src: Pew Research / WJC)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_jewish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🕊️</span>Otra / Ninguna</td>
+          <td class="val">~2.0%</td>
+          <td class="hint">traditional beliefs</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_other')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+        </table>
+      </div>
+
+      
+      <div class="article-card">
+        <div class="section-head">
+          <h2>Vivir en Sudan</h2>
+          <span class="score-badge"><span class="score-star">⭐</span> Puntuación expat: 1.0 / 10</span>
+        </div>
+        <div class="article-body"><p>🧭 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Resumen</span><br>
+Sudán está en medio de una de las peores guerras activas del mundo. El 15 de abril de 2023, una lucha por el poder entre dos generales — Abdel Fattah al-Burhan (Fuerzas Armadas Sudanesas, SAF) y Mohamed Hamdan Dagalo, conocido como Hemedti (Fuerzas de Apoyo Rápido, RSF) — estalló en una guerra civil a gran escala en todo el país. Jartum, una ciudad de 7 millones de habitantes, se convirtió en un campo de batalla. A finales de 2023, las RSF controlaban la mayor parte de Darfur (donde se documentaron masacres genocidas contra el pueblo masalit) y gran parte del centro. Las SAF recuperaron impulso durante 2024–2025 utilizando drones iraníes y retomaron Jartum a mediados de 2025. Pero la guerra continúa en Darfur, Kordofán y Gezira. El costo humano: más de 400.000 muertos estimados, 13 millones desplazados internamente y 4 millones de refugiados (la mayor crisis de desplazamiento del mundo en 2024). El PIB se contrajo entre un 40 y un 48% desde 2023. Sudán ya era uno de los países más pobres e inestables del mundo antes de esta guerra — un legado de la dictadura islamista de 30 años de Omar al-Bashir, acusado de genocidio en Darfur (2003–2005, 300.000 muertos), y el golpe de 2021 que puso fin a la transición democrática de Sudán.</p><p>👥 <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Personas y ambiente</span><br>
+Sudán es étnicamente extraordinariamente diverso — árabes, nubios, beja, fur, nuba, dinka y docenas de otros grupos. El islam (~97% suní) es la religión dominante, pero las prácticas culturales varían enormemente entre el norte influenciado por los árabes en el Valle del Nilo y el sur y el oeste de mayoría africana (Darfur, Kordofán). Antes de la guerra de 2023, Jartum era una ciudad genuinamente cosmopolita — universidades, cafeterías, una vibrante escena musical nubia, una gran clase media educada. Ese mundo ha sido destruido. Millones de habitantes de Jartum que huyeron no pueden regresar a casas que ya no existen. Los pocos residentes que quedan describen una ciudad fantasma que lentamente vuelve a la vida entre ruinas, sin electricidad, con escasez de agua y mercados apenas reabiertos.</p><p>🌦️ <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Clima y paisaje</span><br>
+Mayormente árido y semiárido. El Nilo (Nilo Blanco y Nilo Azul se encuentran en Jartum) es la arteria vital del país. El norte es el desierto nubio — antiguas pirámides emergen de la arena. El centro es sabana saheliana. El sur (ahora un país separado — Sudán del Sur se independizó en 2011) era tropical. Las montañas Nuba y el volcán Jebel Marra en Darfur ofrecen paisajes montañosos dramáticos. Antes de la guerra, Sudán tenía algunos de los sitios históricos menos valorados de África: las pirámides meroíticas en Meroe, los templos nubios en Soleb, los reinos cristianos medievales en Old Dongola. Todos ahora inaccesibles.</p><p>🏠 <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Vivienda y asentamiento</span><br>
+Prácticamente no existe un mercado de vivienda civil para expatriados en el sentido convencional. Antes de la guerra, Jartum tenía una comunidad de expatriados funcional (barrios Amarat, Riyad) con villas por $600–1.500/mes. Ese mercado ahora está en escombros o ocupado. Puerto Sudán — la capital de facto y refugio seguro en el Mar Rojo — ha visto explotar los alquileres: $2.000–3.000/mes por apartamentos que costaban $300 antes de la guerra. Las operaciones de la ONU y ONG se gestionan principalmente desde Puerto Sudán, Gedaref y a través de las fronteras (Chad, Egipto, Sudán del Sur). No se recomienda ni es viable la reubicación civil de expatriados a Sudán en 2025.</p><p>💼 <span class="art-tag" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#6d28d9">Trabajo y economía</span><br>
+Antes de la guerra: minería de oro (Sudán fue el tercer mayor productor de África), agricultura (goma arábiga — Sudán produce el 75–80% del suministro mundial), algo de petróleo (la mayor parte del petróleo se fue con la secesión de Sudán del Sur en 2011). Hoy: la economía formal se ha derrumbado efectivamente. El PIB cayó entre un 40 y 48%. 5,2 millones de empleos perdidos. La economía informal — contrabando, comercio de oro, mercado negro de divisas — se ha disparado. Las operaciones humanitarias (PMA, ACNUR, CICR, MSF) son la economía de facto en las zonas accesibles. El comercio de goma arábiga continúa a través del contrabando hacia Chad y Egipto.</p>
+        <div class="map-card">
+          <div class="map-header">
+            <div class="map-title"><span class="map-flag">🇸🇩</span><span>Sudan — Mapa</span></div>
+            <div class="map-styles">
+              <button type="button" class="map-style-btn active" data-style="light">Claro</button>
+              <button type="button" class="map-style-btn" data-style="dark">Oscuro</button>
+              <button type="button" class="map-style-btn" data-style="satellite">Satélite</button>
+            </div>
+          </div>
+          <div class="map-container">
+            <div id="wigg-country-map"></div>
+            <div class="map-loading" id="wiggMapLoading">Cargando mapa…</div>
+          </div>
+        </div><p>🛂 <span class="art-tag" style="background:rgba(236,72,153,.12);border:1px solid rgba(236,72,153,.25);color:#be185d">Visado y entrada</span><br>
+Todos los gobiernos occidentales desaconsejan viajar a Sudán y urgen a sus nacionales a salir. El aeropuerto de Puerto Sudán mantiene conectividad internacional limitada (El Cairo, Estambul, Doha, Addis Abeba). La entrada para trabajadores humanitarios requiere coordinación con las autoridades de las SAF en Puerto Sudán. En la práctica no se están tramitando visados turísticos.</p><p>🏥 <span class="art-tag" style="background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.25);color:#0e7490">Atención médica</span><br>
+El sistema de salud ha colapsado prácticamente. En Jartum, más del 70% de las instalaciones de salud fueron destruidas, saqueadas o convertidas en usos militares. 40 millones de dosis de vacunas y viales de insulina se perdieron cuando se cortó la energía de las cámaras frías. MSF, CICR y la OMS operan en las zonas accesibles. Cólera, sarampión, dengue y malaria son epidémicos. La esperanza de vida (pre-guerra): ~67 años — ahora en fuerte descenso. La evacuación médica a El Cairo o Nairobi es la única opción para casos graves.</p><p>🚗 <span class="art-tag" style="background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#c2410c">Transporte y movilidad</span><br>
+La infraestructura de Jartum — carreteras, puentes, red eléctrica, sistema de agua — está más del 70% destruida. Puerto Sudán es el centro funcional: su aeropuerto opera y su puerto maneja ayuda. El viaje por carretera entre Puerto Sudán y Jartum es posible pero peligroso (controles, bandidaje). Viajar a Darfur, Kordofán y Gezira es extremadamente peligroso o imposible. Las SAF controlan la mayoría de los corredores aéreos; las RSF controlan rutas terrestres occidentales.</p><p>🍛 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Nota sobre comida (plato nacional)</span><br>
+El plato nacional es <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Ful medames</span><br>: habas cocidas lentamente condimentadas con limón, aceite de oliva y especias — el desayuno sudanés por excelencia consumido en todos los niveles económicos. <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Kisra</span><br> (tortilla fermentada de sorgo, similar a la injera etíope) acompaña la mayoría de las comidas. <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Asida</span><br> (gachas espesas de sorgo) con carne o salsa de cacahuete es el alimento básico rural. <span class="art-tag" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#6d28d9">Shaiyah</span><br> (carne a la parrilla) en restaurantes a orillas del Nilo fue la institución social de la clase media prebélica. La cultura del té sudanés (especiado con canela y jengibre) está profundamente arraigada.</p><p>🔎 <span class="art-tag" style="background:rgba(236,72,153,.12);border:1px solid rgba(236,72,153,.25);color:#be185d">Conclusión</span><br>
+Sudán es actualmente uno de los lugares más peligrosos del planeta. No existe vida civil de expatriados aquí — solo misiones humanitarias que operan bajo protocolos de seguridad extremos. La recuperación cauta iniciada tras la reconquista de Jartum por las SAF a mediados de 2025 ha abierto una fase limitada de reconstrucción, pero Darfur sigue siendo una zona de genocidio, millones padecen condiciones de hambruna y las RSF no han sido derrotadas. El potencial de Sudán es real — el Nilo, la histórica civilización nubia, el monopolio de la goma arábiga, las reservas de oro, tierras agrícolas — pero está enterrado bajo décadas de dictadura, guerra civil y ahora la destrucción sistemática del tercer país más poblado de África. Si trabajas aquí: solamente a través de una gran organización internacional, con protocolos de seguridad completos, planes de evacuación y apoyo de salud mental. Este es uno de los puestos humanitarios más desafiantes del mundo.</p><p>Puntuación para expatriados — 1.0 / 10</p></div>
+      </div>
+
+      
+      <div class="things-section">
+        <div class="section-head"><h2>Lo que hay que saber</h2><span class="wg-badge">Imprescindibles</span></div>
+        <div class="facts-grid"><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🔺 Pirámides nubias: civilización olvidada</div><div class="fact-text">Sudán tiene más pirámides antiguas que Egipto — más de 200, dispersas por el desierto nubio en Meroe, Nuri y El-Kurru. El Reino Meroítico (el Reino de Kush) gobernó el noreste de África durante 1.000 años, conquistó Egipto en el 712 a. C. y construyó una civilización sofisticada con su propia escritura (meroítica — todavía solo parcialmente descifrada). Estas pirámides son sitios del Patrimonio Mundial de la UNESCO. Antes de la guerra las visitaban menos de 2.000 turistas al año — entre los sitios arqueológicos importantes menos visitados del mundo.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">⚔️ Dos generales, una catástrofe</div><div class="fact-text">La causa inmediata de la guerra de 2023 fue una lucha por el poder entre dos hombres que habían sido aliados en cada golpe y atrocidad desde 2003. Al-Burhan (jefe de las SAF) y Hemedti (comandante de las RSF) derrocaron juntos la transición democrática de Sudán en 2021. Se enfrentaron por la integración de las RSF en el ejército regular — Hemedti se negó a disolver su fuerza paralela de 100.000 hombres. El 15 de abril de 2023 se fueron a la guerra. Ambos son acusados de crímenes de guerra. Ambos afirman representar el futuro de Sudán. El país que destruyeron entre los dos tenía 48 millones de habitantes.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🌿 Goma arábiga: monopolio invisible</div><div class="fact-text">Sudán produce el 75–80% de la goma arábiga mundial — la resina del árbol de acacia usada en todo, desde Coca-Cola (estabilizante E414) hasta recubrimientos de cápsulas farmacéuticas y adhesivo para sellos postales. Casi todos los alimentos envasados a nivel mundial contienen goma arábiga sudanesa. Durante la guerra, el comercio continúa vía contrabando a través de Chad y Egipto porque las cadenas de suministro global dependen de ella y no existe una fuente alternativa. Es una de las materias primas más trascendentes del mundo que prácticamente nadie conoce.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🌊 Civilización del Nilo: la fuente original</div><div class="fact-text">El Nilo — tanto el Blanco (desde Uganda/Lago Victoria) como el Azul (desde Etiopía/Lago Tana) — se encuentran en Jartum. El valle norteño del Nilo en Sudán fue hogar de la cultura de Kerma (2500 a. C.), el Reino de Napata y la civilización meroítica — culturas nubias que precedieron e influyeron en el Egipto faraónico. La Gran Presa de Merowe (2009) y la ahora disputada presa GERD en Etiopía han remodelado la política del flujo del Nilo. Egipto, Sudán y Etiopía están enfrascados en una disputa por los derechos del agua que podría perdurar más allá de la guerra civil.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">☁️ Darfur: un genocidio que se repite</div><div class="fact-text">Darfur — del tamaño de Francia en el oeste de Sudán — ha sufrido dos genocidios en 20 años. En 2003–2005, las milicias Janjaweed de Bashir mataron a 300.000 personas y desplazaron a 2 millones en lo que el gobierno de EE. UU. reconoció oficialmente como genocidio. Las mismas milicias, renombradas como RSF bajo Hemedti, regresaron en 2023 y cometieron masacres sistemáticas contra el pueblo masalit en El Geneina y en todo Darfur Occidental. El Alto Comisionado de la ONU lo calificó como una repetición del genocidio de 2003. El mundo volvió a mirar.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">✊ La Revolución de las Sonrisas</div><div class="fact-text">En diciembre de 2018, los ciudadanos sudaneses iniciaron protestas por el precio del pan que crecieron hasta convertirse en una revolución. Las mujeres — muchas con tobes blancos — estuvieron en la vanguardia. En abril de 2019, Bashir fue derrocado. Las imágenes del sit-in en Jartum (multitudes masivas, cantos, velas) se convirtieron en iconos de la resistencia pacífica. Un consejo transitorio civil-militar gobernó brevemente. Luego, en octubre de 2021, los mismos generales que habían &#x27;apoyado&#x27; la revolución la aplastaron en un golpe, encarcelando al primer ministro civil Hamdok. La primavera democrática de Sudán duró dos años — luego dos generales la destruyeron, y después se destruyeron entre ellos.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🍽️ Ful medames / Kisra</div><div class="fact-text">Habas con limón y aceite — el desayuno nacional en todos los niveles de ingresos. Tortilla de sorgo (Kisra) con carne o salsa de cacahuete. La cultura del té especiado sudanés es central en la vida social.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏳️‍🌈 LGBT+: Ilegal / posible pena de muerte</div><div class="fact-text">La homosexualidad es ilegal. Los reincidentes pueden enfrentarse a la pena de muerte según el Código Penal; en primera instancia: latigazos + prisión. Sociedad profundamente conservadora. Peligro absoluto y total. Sin excepciones.</div></div></div>
+      </div>
+
+      
+    </div>
+  </div>
 </main>
 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
+<script src="/data/share.js"></script>
+<script src="/data/correction-form.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var t = document.getElementById("localTime");
+  if(t && t.dataset.tz){
+    function tick(){
+      try{
+        t.textContent = new Intl.DateTimeFormat("en-GB",{
+          timeZone: t.dataset.tz, hour:"2-digit", minute:"2-digit"
+        }).format(new Date());
+      }catch(e){}
+    }
+    tick(); setInterval(tick, 30000);
+  }
+  document.querySelectorAll(".rc-nav-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var targetId = btn.dataset.target;
+      var dir = parseInt(btn.dataset.dir||"1",10);
+      var row = document.getElementById(targetId);
+      if(!row) return;
+      var box = row.parentElement;
+      var first = row.querySelector(".rc-vcard");
+      if(!first) return;
+      var cardW = first.offsetWidth + 9;
+      var visible = Math.max(1, Math.floor(box.offsetWidth / cardW));
+      var maxOffset = Math.max(0, row.children.length - visible);
+      var current = parseInt(row.dataset.offset||"0", 10);
+      current = Math.min(maxOffset, Math.max(0, current + dir));
+      row.dataset.offset = current;
+      row.style.transform = "translateX(-" + (current * cardW) + "px)";
+      var nav = btn.parentNode;
+      var prev = nav.querySelector('[data-dir="-1"]');
+      var next = nav.querySelector('[data-dir="1"]');
+      if(prev) prev.disabled = (current === 0);
+      if(next) next.disabled = (current >= maxOffset);
+    });
+  });
+  var iso2 = "SD";
+  if(!iso2 || typeof L === "undefined") return;
+  var STYLES = {
+    light:     { url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", attr: "&copy; OSM &copy; CARTO" },
+    dark:      { url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",  attr: "&copy; OSM &copy; CARTO" },
+    satellite: { url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", attr: "&copy; Esri" }
+  };
+  var wMap=null, wLayer=null, wMarker=null;
+  function initMap(lat, lon){
+    var el = document.getElementById("wigg-country-map");
+    if(!el) return;
+    if(wMap){ try{wMap.remove();}catch(e){} }
+    wMap = L.map("wigg-country-map",{zoomControl:true}).setView([lat,lon],5);
+    wLayer = L.tileLayer(STYLES.light.url,{attribution:STYLES.light.attr,maxZoom:18}).addTo(wMap);
+    wMarker = L.marker([lat,lon]).addTo(wMap);
+    var loading = document.getElementById("wiggMapLoading");
+    if(loading) loading.classList.add("hidden");
+  }
+  document.querySelectorAll(".map-style-btn").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(!wMap) return;
+      var s = STYLES[b.dataset.style];
+      if(!s) return;
+      if(wLayer) wMap.removeLayer(wLayer);
+      wLayer = L.tileLayer(s.url,{attribution:s.attr,maxZoom:18}).addTo(wMap);
+      document.querySelectorAll(".map-style-btn").forEach(function(x){x.classList.remove("active");});
+      b.classList.add("active");
+    });
+  });
+  var cacheKey = "wigg_centroid_" + iso2;
+  var cached = null;
+  try { cached = JSON.parse(localStorage.getItem(cacheKey) || "null"); } catch(e){}
+  if(cached && cached.lat != null && cached.lon != null){
+    initMap(cached.lat, cached.lon); return;
+  }
+  fetch("https://nominatim.openstreetmap.org/search?country=" + encodeURIComponent(iso2) + "&format=json&limit=1")
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && d[0]){
+        var coords = { lat: +d[0].lat, lon: +d[0].lon };
+        try { localStorage.setItem(cacheKey, JSON.stringify(coords)); } catch(e){}
+        initMap(coords.lat, coords.lon);
+      } else {
+        var l = document.getElementById("wiggMapLoading");
+        if(l) l.textContent = "Mapa no disponible";
+      }
+    })
+    .catch(function(){
+      var l = document.getElementById("wiggMapLoading");
+      if(l) l.textContent = "Mapa no disponible";
+    });
+})();
+</script>
+
+<form name="wiggmap-corrections" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="wiggmap-corrections" />
+  <p><label>Don't fill this out: <input name="bot-field" /></label></p>
+  <input name="country" /><input name="field" /><input name="value" /><input name="email" /><textarea name="notes"></textarea>
+</form>
+
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
 </body>
 </html>

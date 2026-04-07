@@ -25,65 +25,127 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#f6f1e8;--paper:#fffdf8;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--green:#1d7f48;--green-dk:#155f36;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
+    :root{--paper:#fffdf8;--paper-2:#fbf7ee;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--line-soft:rgba(23,23,20,.06);--green:#1d7f48;--green-dk:#155f36;--green-light:#e6f4ec;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
     html{scroll-behavior:smooth}
     body{font-family:"Inter",system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f9f5ed 0%,#f3ede3 100%);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
     a{color:var(--green);text-decoration:none}
     a:hover{text-decoration:underline}
-    main{max-width:980px;margin:0 auto;padding:28px 20px 80px}
-    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:18px;letter-spacing:.04em}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:14px;letter-spacing:.04em}
     .crumb a{color:var(--ink-soft)}
-    .hero{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:36px 32px;box-shadow:var(--shadow);margin-bottom:24px;position:relative;overflow:hidden}
-    .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 18%,rgba(29,127,72,.05),transparent 30%);pointer-events:none}
-    .hero-flag{font-size:48px;line-height:1;margin-bottom:14px}
-    .hero h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(36px,6vw,56px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:10px;position:relative;z-index:1}
-    .hero .subtitle{font-size:15px;color:var(--ink-soft);max-width:62ch;line-height:1.6;position:relative;z-index:1}
-    .hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;position:relative;z-index:1}
-    .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid var(--line)}
-    .badge.green{background:#e6f4ec;color:var(--green-dk);border-color:rgba(29,127,72,.2)}
+    .country-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:22px;flex-wrap:wrap}
+    .country-flag{font-size:42px;line-height:1;margin-bottom:8px}
+    .country-head h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(34px,5.2vw,52px);font-weight:800;letter-spacing:-.02em;line-height:1.02}
+    .country-head .subtitle{font-size:14px;color:var(--ink-soft);max-width:64ch;line-height:1.55;margin-top:8px}
+    .head-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+    .badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:7px 13px;border-radius:999px;background:#fff;border:1px solid var(--line)}
+    .badge.green{background:var(--green-light);color:var(--green-dk);border-color:rgba(29,127,72,.22)}
     .badge.yellow{background:#fef9e7;color:#a16207;border-color:rgba(202,138,4,.25)}
     .badge.red{background:#fdecec;color:#b91c1c;border-color:rgba(185,28,28,.25)}
-    .snapshot{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px 26px;box-shadow:var(--shadow);margin-bottom:24px}
-    .snapshot h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;margin-bottom:14px}
-    .snap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
-    .snap-item{font-size:13px}
-    .snap-item strong{display:block;color:var(--ink-soft);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
-    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
-    .data-card h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;padding:20px 26px 8px}
+    .badge .dot{width:8px;height:8px;border-radius:999px;background:currentColor;display:inline-block}
+    .local-time{font-size:12px;color:var(--ink-soft);font-weight:600}
+    .local-time b{color:var(--ink);margin-left:5px;font-weight:800}
+    .main-grid{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+    @media(max-width:900px){.main-grid{grid-template-columns:1fr}}
+    .sidebar{display:flex;flex-direction:column;gap:14px;align-self:start;position:sticky;top:18px}
+    @media(max-width:900px){.sidebar{position:static}}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .hero-img{width:100%;height:200px;object-fit:cover;display:block;background:#eaddc4}
+    .hero-actions{padding:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:8px;font-family:inherit;font-weight:700;font-size:12.5px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;transition:background .14s,border-color .14s}
+    .btn:hover{background:rgba(0,0,0,.04)}
+    .btn.primary{background:var(--green);color:#fff;border-color:transparent}
+    .btn.primary:hover{background:var(--green-dk)}
+    .snapshot-card{padding:16px}
+    .snapshot-title{font-family:"Fraunces",Georgia,serif;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px;letter-spacing:-.01em}
+    .kv{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--line-soft);font-size:12.5px}
+    .kv span{color:var(--ink-soft)}
+    .kv b{color:var(--ink);font-weight:700;text-align:right;max-width:60%}
+    .kv-sub{padding-left:10px;font-size:11.5px;opacity:.85}
+    .kv-note{font-size:11px;color:var(--ink-soft);line-height:1.5;padding:6px 0 8px;font-style:italic;border-bottom:1px solid var(--line-soft)}
+    .sector-block{padding-top:10px;margin-top:6px;border-top:1px solid var(--line-soft)}
+    .sector-head{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+    .sector-list{display:flex;flex-direction:column;gap:5px}
+    .sector-pill{background:rgba(29,127,72,.08);border:1px solid rgba(29,127,72,.2);border-radius:7px;padding:5px 10px;font-size:11.5px;font-weight:700;color:var(--green-dk);line-height:1.4}
+    .persona-card{padding:16px}
+    .persona-name{font-weight:800;font-size:13px;margin-bottom:6px}
+    .persona-name small{font-weight:500;opacity:.6;font-size:11px}
+    .persona-why{font-size:11.5px;color:var(--ink-soft);line-height:1.55;font-style:italic}
+    .right-col{display:flex;flex-direction:column;gap:18px;min-width:0}
+    .rc-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:760px){.rc-wrapper{grid-template-columns:1fr}}
+    .rc-box{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 14px 12px;overflow:hidden}
+    .rc-box-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:6px}
+    .rc-box-head h2{font-family:"Fraunces",Georgia,serif;font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+    .rc-nav{display:flex;gap:4px}
+    .rc-nav-btn{width:24px;height:24px;border-radius:6px;border:1px solid var(--line);background:#fff;font-size:13px;cursor:pointer;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;line-height:1;transition:all .14s}
+    .rc-nav-btn:hover{background:var(--green);color:#fff;border-color:transparent}
+    .rc-nav-btn:disabled{opacity:.35;cursor:not-allowed}
+    .rc-track{overflow:hidden}
+    .rc-row{display:flex;gap:9px;transition:transform .35s ease;will-change:transform}
+    .rc-vcard{flex-shrink:0;width:130px;height:90px;border-radius:10px;overflow:hidden;position:relative;background:#e9dfca;border:1px solid var(--line);transition:transform .15s,box-shadow .15s}
+    .rc-vcard:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10);text-decoration:none}
+    .rc-vimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .rc-vemoji{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;background:linear-gradient(135deg,#ede5d8,#ddd3c4)}
+    .rc-vgrad{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,8,.85) 0%,rgba(20,15,8,.2) 55%,transparent 100%)}
+    .rc-vbody{position:absolute;left:0;right:0;bottom:0;padding:7px 9px;z-index:2}
+    .rc-vtitle{font-family:"Fraunces",Georgia,serif;font-size:10.5px;font-weight:700;color:#fff;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
     .data-table{width:100%;border-collapse:collapse;font-size:13px}
-    .data-table .sec td{background:#f8f4eb;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:10px 26px;color:var(--ink-soft);border-top:1px solid var(--line)}
-    .data-table td{padding:9px 26px;border-bottom:1px solid var(--line);vertical-align:top}
+    .data-table .sec td{background:#f4eedf;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:11px 22px;color:var(--ink-soft);border-top:1px solid var(--line)}
+    .data-table td{padding:9px 22px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+    .data-table tr:last-child td{border-bottom:none}
     .data-table td.lbl{width:42%;color:var(--ink)}
-    .data-table td.val{width:22%;font-weight:700}
+    .data-table td.val{width:25%;font-weight:700}
     .data-table td.hint{font-size:11.5px;color:var(--ink-soft)}
+    .data-table td.edit{width:30px;text-align:right;padding-right:14px}
     .data-table .ico{margin-right:8px}
-    .article{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px;margin-bottom:24px}
-    .article h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:700;margin:24px 0 10px;color:var(--ink)}
-    .article h2:first-child{margin-top:0}
-    .article p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.75}
-    .article p strong{color:var(--ink);font-weight:600}
-    .ttk{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-bottom:24px}
-    .ttk h2{font-family:"Fraunces",Georgia,serif;font-size:20px;font-weight:700;margin-bottom:16px}
-    .ttk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-    .ttk-card{background:#fbf7ee;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
-    .ttk-card .ttk-title{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink)}
-    .ttk-card p{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
-    .ttk-card small{font-weight:500;color:var(--ink-soft)}
-    .related{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px;margin-bottom:18px}
-    .related h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
-    .link-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px 18px}
-    .link-list li{font-size:13.5px;line-height:1.5;padding-left:14px;position:relative}
-    .link-list li::before{content:"›";position:absolute;left:0;color:var(--green)}
-    @media (max-width:640px){
-      main{padding:20px 14px 60px}
-      .hero{padding:26px 22px}
-      .data-table td{padding:9px 16px}
-      .data-table .sec td{padding:10px 16px}
-      .article{padding:24px 22px}
-      .ttk{padding:22px 22px}
-      .related{padding:20px 22px}
+    .edit-btn{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:13px;opacity:.4;transition:opacity .14s;padding:2px 4px}
+    .edit-btn:hover{opacity:1;color:var(--green)}
+    .article-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px}
+    .section-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+    .section-head h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:800;letter-spacing:-.01em;color:var(--ink)}
+    .score-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-light);border:1px solid rgba(29,127,72,.25);color:var(--green-dk);padding:5px 12px;border-radius:999px;font-size:12px;font-weight:700}
+    .article-body p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.78}
+    .article-body p:last-child{margin-bottom:0}
+    .art-tag{display:inline-block;padding:3px 10px;border-radius:6px;font-weight:700;font-size:13px;margin-bottom:6px;line-height:1.5}
+    .map-card{margin:22px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper-2)}
+    .map-header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);gap:8px;flex-wrap:wrap}
+    .map-title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}
+    .map-flag{font-size:18px}
+    .map-styles{display:flex;gap:4px}
+    .map-style-btn{font-size:11px;font-weight:700;padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;color:var(--ink-soft);cursor:pointer;transition:all .14s}
+    .map-style-btn:hover{border-color:var(--green);color:var(--green)}
+    .map-style-btn.active{background:var(--green);color:#fff;border-color:transparent}
+    .map-container{position:relative;height:320px}
+    #wigg-country-map{position:absolute;inset:0}
+    .map-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper-2);color:var(--ink-soft);font-size:13px;z-index:10}
+    .map-loading.hidden{display:none}
+    .things-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px}
+    .wg-badge{display:inline-flex;align-items:center;gap:5px;background:#fef3c7;border:1px solid rgba(202,138,4,.3);color:#92400e;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+    .facts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .fact-card{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden}
+    .fact-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green)}
+    .fact-title{font-weight:800;font-size:13px;margin-bottom:6px;color:var(--ink);padding-left:6px}
+    .fact-text{font-size:12.5px;color:var(--ink-soft);line-height:1.55;padding-left:6px}
+    .cmp-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px}
+    .cmp-section h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
+    .cmp-pills{display:flex;flex-wrap:wrap;gap:8px}
+    .cmp-pill{display:inline-block;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:600;color:var(--ink);transition:all .14s}
+    .cmp-pill:hover{border-color:var(--green);background:var(--green);color:#fff;text-decoration:none}
+    @media(max-width:640px){
+      .wrap{padding:18px 14px 60px}
+      .country-head{flex-direction:column}
+      .head-right{align-items:flex-start}
+      .data-table td{padding:9px 14px}
+      .data-table .sec td{padding:11px 14px}
+      .article-card{padding:24px 22px}
+      .things-section{padding:22px 22px}
+      .cmp-section{padding:20px 22px}
+      .map-container{height:240px}
     }
   </style>
 </head>
@@ -92,268 +154,400 @@
 <div id="siteHeader"></div>
 <script src="/data/header.js"></script>
 
-<main>
+<main class="wrap">
   <nav class="crumb"><a href="/">Accueil</a> › <a href="/globe.html">Pays</a> › Sudan</nav>
 
-  <section class="hero">
-    <div class="hero-flag">🇸🇩</div>
-    <h1>Sudan</h1>
-    <p class="subtitle">Indicative averages (pre-conflict data; 2025 situation dire)</p>
-    <div class="hero-badges">
-      <span class="badge red">WIGG: RED</span>
-      <span class="badge">⭐ Score Expat: 1.0 / 10</span>
+  <div class="country-head">
+    <div>
+      <div class="country-flag">🇸🇩</div>
+      <h1>Sudan</h1>
+      <p class="subtitle">Indicative averages (pre-conflict data; 2025 situation dire)</p>
     </div>
-  </section>
-
-  <section class="snapshot">
-    <h2>Aperçu rapide</h2>
-    <div class="snap-grid">
-      <div class="snap-item"><strong>Capitale</strong>Khartoum (détruite/contestée) — de facto : Port-Soudan</div>
-      <div class="snap-item"><strong>Population</strong>~48M</div>
-      <div class="snap-item"><strong>Langues</strong>Arabe, anglais (officiel)</div>
-      <div class="snap-item"><strong>Conduite</strong>Droite</div>
-      <div class="snap-item"><strong>Monnaie</strong>Livre soudanaise (SDG)</div>
-      <div class="snap-item"><strong>Crypto-friendly</strong>Aucun/Interdit</div>
+    <div class="head-right">
+      <div class="badge red"><span class="dot"></span>WIGG: RED</div>
+      <div class="local-time">Heure locale <b id="localTime" data-tz="Africa/Khartoum">--:--</b></div>
     </div>
-  </section>
+  </div>
 
-  <section class="data-card">
-    <h2>Coût de la vie, salaires et qualité de vie</h2>
-    <table class="data-table">
-    <tbody>
-      <tr class="sec"><td colspan="3">💼 Salaires (net / mois)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧾</span>Salaire minimum</td>
-        <td class="val">~$5</td>
-        <td class="hint">Officiel ≈ 425 SDG/mois → net ≈ 5 $ au taux parallèle (2025; hyperinflation liée au conflit)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📊</span>Salaire moyen</td>
-        <td class="val">$45</td>
-        <td class="hint">Estimé moyen net ≈ 45 $/mois au taux parallèle (conflit perturbe gravement l&#x27;économie formelle)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🩺</span>Salaire médecin (généraliste)</td>
-        <td class="val">$200</td>
-        <td class="hint">public sector; many fled; USD value collapsed</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🏠 Logement et charges (studio référence)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏚️</span>Loyer studio</td>
-        <td class="val">$80</td>
-        <td class="hint">Khartoum pre-war; current situation unknown</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">⚡</span>Électricité</td>
-        <td class="val">$25</td>
-        <td class="hint">infrastructure destroyed; frequent blackouts</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💧</span>Eau</td>
-        <td class="val">$8</td>
-        <td class="hint">infrastructure damaged</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📱</span>Forfait mobile</td>
-        <td class="val">$7</td>
-        <td class="hint">network disrupted by war</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🍽️ Alimentation et boissons (prix indicatifs)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍺</span>Bière (pinte)</td>
-        <td class="val">N/A</td>
-        <td class="hint">alcohol prohibited</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☕</span>Café</td>
-        <td class="val">$0.80</td>
-        <td class="hint">tea more common</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍲</span>Plat principal</td>
-        <td class="val">$4</td>
-        <td class="hint">local meal where available</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">⛽ Transport</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">⛽</span>Essence / litre</td>
-        <td class="val">$0.60 / L</td>
-        <td class="hint">subsidized but shortages</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🧾 Fiscalité (indicatif)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏷️</span>TVA</td>
-        <td class="val">17%</td>
-        <td class="hint">standard VAT</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">👤</span>Impôt sur le revenu</td>
-        <td class="val">0-35%</td>
-        <td class="hint">progressive system; enforcement collapsed</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏪</span>Fiscalité petite entreprise</td>
-        <td class="val">N/A</td>
-        <td class="hint">economy collapsed due to civil war</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📱 Tech (prix indicatifs)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍎</span>iPhone (dernier 256 Go)</td>
-        <td class="val">$1,000</td>
-        <td class="hint">imported; if available</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📲</span>Galaxy S (dernier 256 Go)</td>
-        <td class="val">$700</td>
-        <td class="hint">imported pricing</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🛂 Immigration et installation</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🛂</span>Facilité d&#x27;immigration</td>
-        <td class="val">0 / 10</td>
-        <td class="hint">active war zone; mass exodus</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🌤️ Qualité de vie</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🙂</span>Bonheur</td>
-        <td class="val">2.43 / 10</td>
-        <td class="hint">among lowest globally; civil war</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☀️</span>Jours de soleil / an</td>
-        <td class="val">~330 days / year</td>
-        <td class="hint">desert climate</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏥</span>Santé publique</td>
-        <td class="val">Collapsed</td>
-        <td class="hint">war destroyed healthcare system</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧑‍⚕️</span>Assurance privée / mois</td>
-        <td class="val">N/A</td>
-        <td class="hint">non-functional</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📈 Indices</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🚔</span>Indice criminalité</td>
-        <td class="val">90 / 100</td>
-        <td class="hint">civil war; ethnic violence; atrocities</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💶</span>Pouvoir d&#x27;achat</td>
-        <td class="val">8</td>
-        <td class="hint">hyperinflation destroyed purchasing power</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🕍 Religion</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">✝️</span>Chrétien</td>
-        <td class="val">~5.0%</td>
-        <td class="hint">small minority</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☪️</span>Musulman</td>
-        <td class="val">~93.0%</td>
-        <td class="hint">Sunni Islam majority</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☸️</span>Bouddhiste</td>
-        <td class="val">~0%</td>
-        <td class="hint">negligible</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">✡️</span>Juif</td>
-        <td class="val">~0%</td>
-        <td class="hint">indicative (src: Pew Research / WJC)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🕊️</span>Autre / Aucune</td>
-        <td class="val">~2.0%</td>
-        <td class="hint">traditional beliefs</td>
-      </tr>
-    </tbody>
-    </table>
-  </section>
+  <div class="main-grid">
+    <aside class="sidebar">
+      <div class="card">
+        <img class="hero-img" src="/assets/hero-sudan.jpg" alt="Sudan"
+             onerror="this.onerror=null;this.src='/assets/hero-fallback.jpg'" />
+        <div class="hero-actions">
+          <button class="btn primary" type="button" onclick="openModal('general')">Corriger les données</button>
+          <button class="btn" type="button" id="btnShare">Partager</button>
+          <a class="btn" href="/compare.html?country=sudan">Comparer</a>
+        </div>
+      </div>
 
-  <section class="article"><h2>Aperçu du pays</h2><h2>🧭 Aperçu</h2>
-<p>Le Soudan traverse l'une des pires guerres actives au monde. Le 15 avril 2023, une lutte de pouvoir entre deux généraux — Abdel Fattah al-Burhan (Forces armées soudanaises, SAF) et Mohamed Hamdan Dagalo, connu sous le nom de Hemedti (Forces de soutien rapide, RSF) — a dégénéré en une guerre civile à grande échelle à travers le pays. Khartoum, une ville de 7 millions d'habitants, est devenue un champ de bataille. À la fin de 2023, les RSF contrôlaient la majeure partie du Darfour (où des massacres génocidaires contre le peuple masalit ont été documentés) et une grande partie du centre. Les SAF ont repris l'initiative entre 2024 et 2025 en utilisant des drones iraniens et ont repris Khartoum à la mi-2025. Mais la guerre se poursuit au Darfour, au Kordofan et dans la Gezira. Le coût humain : plus de 400 000 morts estimés, 13 millions de déplacés internes, 4 millions de réfugiés (la plus grande crise de déplacement au monde en 2024). Le PIB s'est contracté de 40 à 48 % depuis 2023. Le Soudan était déjà l'un des pays les plus pauvres et les plus instables du globe avant cette guerre — héritage des 30 ans de dictature islamiste d'Omar al-Bashir, inculpé pour génocide au Darfour (2003–2005, 300 000 morts), et du coup d'État de 2021 qui a interrompu la transition démocratique.</p>
-<h2>👥 Population & ambiance</h2>
-<p>Le Soudan est ethniquement extraordinairement divers — Arabes, Nubiens, Beja, Fur, Nuba, Dinka et des dizaines d'autres groupes. L'islam (~97 % sunnite) est la religion dominante, mais les pratiques culturelles varient énormément entre le nord de la vallée du Nil d'influence arabe et le sud et l'ouest majoritairement africains (Darfour, Kordofan). Avant la guerre de 2023, Khartoum était une véritable ville cosmopolite — universités, cafés, une scène musicale nubienne dynamique, une grande classe moyenne instruite. Ce monde a été détruit. Des millions d'habitants de Khartoum qui ont fui ne peuvent pas revenir dans des foyers qui n'existent plus. Les quelques résidents restants décrivent une ville fantôme se réveillant lentement parmi les ruines, sans électricité, avec une rareté de l'eau et des marchés à peine rouverts.</p>
-<h2>🌦️ Climat & paysages</h2>
-<p>Majoritairement aride et semi-aride. Le Nil (le Nil Blanc et le Nil Bleu se rencontrent à Khartoum) est la ligne de vie du pays. Le nord est le désert nubien — des pyramides antiques émergent du sable. Le centre est une savane sahélienne. Le sud (aujourd'hui un pays séparé — le Soudan du Sud a fait sécession en 2011) était tropical. Les monts Nuba et le volcan Jebel Marra au Darfour offrent des paysages de hautes terres spectaculaires. Avant la guerre, le Soudan possédait certains des sites historiques les plus sous-estimés d'Afrique : les pyramides méroïtiques de Méroé, les temples nubiens de Soleb, les royaumes chrétiens médiévaux d'Old Dongola. Tous désormais inaccessibles.</p>
-<h2>🏠 Logement & installation</h2>
-<p>Il n'existe pratiquement pas de marché du logement civil pour expatriés au sens conventionnel. Avant la guerre, Khartoum abritait une communauté d'expatriés fonctionnelle (quartiers Amarat, Riyad) avec des villas à 600–1 500 $/mois. Ce marché est aujourd'hui en ruines ou occupé. Port-Soudan — capitale de facto et havre sûr sur la mer Rouge — voit les loyers exploser : 2 000–3 000 $/mois pour des appartements qui coûtaient 300 $ avant la guerre. Les opérations de l'ONU et des ONG sont principalement gérées depuis Port-Soudan, Gedaref et depuis les frontières (Tchad, Égypte, Soudan du Sud). Aucun déménagement civil d'expatriés vers le Soudan n'est conseillé ni viable en 2025.</p>
-<h2>💼 Travail & économie</h2>
-<p>Avant la guerre : exploitation aurifère (le Soudan était le 3e producteur d'Afrique), agriculture (gomme arabique — le Soudan produit 75–80 % de l'offre mondiale), un peu de pétrole (la plupart du pétrole est parti avec la sécession du Soudan du Sud en 2011). Aujourd'hui : l'économie formelle s'est effectivement effondrée. Le PIB a chuté de 40–48 %. 5,2 millions d'emplois perdus. L'économie informelle — contrebande, commerce de l'or, marché noir des devises — a explosé. Les opérations humanitaires (PAM, HCR, CICR, MSF) sont l'économie de facto dans les zones accessibles. Le commerce de la gomme arabique se poursuit via la contrebande vers le Tchad et l'Égypte.</p>
-<h2>🛂 Visa & entrée</h2>
-<p>Tous les gouvernements occidentaux déconseillent tout voyage au Soudan et invitent leurs ressortissants à partir. L'aéroport de Port-Soudan maintient une connectivité internationale limitée (Le Caire, Istanbul, Doha, Addis-Abeba). L'entrée pour les travailleurs humanitaires nécessite une coordination avec les autorités des SAF à Port-Soudan. Aucun visa touristique n'est traité en pratique.</p>
-<h2>🏥 Santé</h2>
-<p>Le système de santé s'est effectivement effondré. À Khartoum, plus de 70 % des établissements de santé ont été détruits, pillés ou convertis à un usage militaire. 40 millions de doses de vaccins et des flacons d'insuline ont été perdus lors de la coupure de l'alimentation électrique des chaînes froides. MSF, le CICR et l'OMS opèrent dans les zones accessibles. Le choléra, la rougeole, la dengue et le paludisme sont épidémiques. L'espérance de vie (pré-guerre) : ~67 ans — elle décline rapidement. L'évacuation médicale vers Le Caire ou Nairobi est la seule option pour les cas graves.</p>
-<h2>🚗 Transports & mobilité</h2>
-<p>Les infrastructures de Khartoum — routes, ponts, réseau électrique, système d'eau — sont à plus de 70 % détruites. Port-Soudan est le centre fonctionnel : son aéroport fonctionne, son port gère l'aide. Les déplacements routiers entre Port-Soudan et Khartoum sont possibles mais dangereux (checkpoints, banditisme). Les voyages vers le Darfour, le Kordofan et la Gezira sont extrêmement dangereux ou impossibles. Les SAF contrôlent la plupart des couloirs aériens ; les RSF contrôlent les routes terrestres de l'ouest.</p>
-<h2>🍛 Note sur la nourriture (plat national)</h2>
-<p>Le plat national est le <strong>Ful medames</strong> : fèves mijotées assaisonnées de citron, d'huile d'olive et d'épices — le petit-déjeuner soudanais par excellence, consommé à tous les niveaux économiques. La <strong>Kisra</strong> (galette de sorgho fermenté, semblable à l'injera éthiopienne) accompagne la plupart des repas. L'<strong>Asida</strong> (bouillie épaisse de sorgho) avec de la viande ou une sauce d'arachide est la base rurale. La <strong>Shaiyah</strong> (viande grillée) dans les restaurants au bord du Nil était l'institution sociale de la classe moyenne pré-guerre. La culture du thé soudanais (épicé à la cannelle et au gingembre) est profondément ancrée.</p>
-<h2>🔎 Conclusion</h2>
-<p>Le Soudan est actuellement l'un des endroits les plus dangereux sur Terre. Il n'y a pas de vie civile d'expatriés ici — seulement des missions humanitaires opérant sous des protocoles de sécurité extrêmes. La reprise de Khartoum par les SAF à la mi-2025 a ouvert une phase prudente de reconstruction, mais le Darfour reste une zone de génocide, des millions de personnes sont en situation de famine, et les RSF n'ont pas été vaincus. Le potentiel du Soudan est réel — le Nil, la civilisation nubienne historique, le monopole de la gomme arabique, les réserves aurifères, les terres agricoles — mais il est enfoui sous des décennies de dictature, de guerre civile et désormais de destruction systématique du troisième pays d'Afrique le plus peuplé. Si vous travaillez ici : uniquement via une grande organisation internationale, avec protocoles de sécurité complets, plans d'évacuation et soutien en santé mentale. Il s'agit d'un des postes humanitaires les plus exigeants au monde.</p>
-<p>Score des expatriés — 1.0 / 10</p></section>
+      <div class="card snapshot-card">
+        <div class="snapshot-title">Aperçu rapide</div>
+        <div class="kv"><span>Capitale</span><b>Khartoum (détruite/contestée) — de facto : Port-Soudan</b></div><div class="kv"><span>Population</span><b>~48M</b></div><div class="kv"><span>Langues</span><b>Arabe, anglais (officiel)</b></div><div class="kv"><span>Monnaie</span><b>Livre soudanaise (SDG)</b></div><div class="kv kv-sub"><span>Exchange rate</span><b>1 USD ≈ 2,600 SDG (officiel) / 3,500+ (marché noir)</b></div><div class="kv-note">La monnaie est en chute libre depuis le début de la guerre en 2023. Hyperinflation, effondrement du système bancaire ; le dollar américain et l&#x27;or dominent les transactions dans les zones contestées. La Banque centrale a été déplacée à Port-Soudan.</div><div class="kv"><span>Crypto-friendly</span><b>Aucun/Interdit</b></div><div class="kv-note">La Banque centrale du Soudan a interdit les transactions en crypto. Les infrastructures ont été détruites par la guerre civile. Sans objet dans le contexte actuel.</div><div class="kv"><span>Conduite</span><b>Droite</b></div><div class="sector-block"><div class="sector-head">Secteurs phares</div><div class="sector-list"><div class="sector-pill">Exploitation aurifère (3e producteur d&#x27;Afrique avant la guerre — en grande partie aujourd&#x27;hui informelle)</div><div class="sector-pill">Gomme arabique (75–80 % de l&#x27;approvisionnement mondial — se maintient via la contrebande)</div><div class="sector-pill">Opérations humanitaires (la plus grande crise de déplacements du monde en 2024)</div></div></div>
+      </div>
 
-  <section class="ttk"><h2>À savoir</h2><div class="ttk-grid">
-      <div class="ttk-card">
-        <div class="ttk-title">👤 Omar al-Bashir <small>(Fin du 20e – 21e siècle)</small></div>
-        <p>A dirigé le Soudan pendant 30 ans (1989–2019) après un coup d&#x27;État islamiste. Inculpé par la Cour pénale internationale pour génocide, crimes contre l&#x27;humanité et crimes de guerre au Darfour — le premier chef d&#x27;État en exercice à être inculpé par la CPI. Il aurait causé environ 300 000 morts au Darfour (2003–2005) en utilisant les milices Janjaweed — les prédécesseurs des RSF d&#x27;aujourd&#x27;hui, commandées par son ancien allié Hemedti. Il a été renversé en 2019 par les mêmes généraux qu&#x27;il avait renforcés. Il est décédé en prison en janvier 2025 en attendant une extradition vers la CPI qui n&#x27;a jamais eu lieu.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🔺 Pyramides nubiennes : civilisation oubliée</div>
-        <p>Le Soudan possède plus de pyramides que l&#x27;Égypte — plus de 200, disséminées dans le désert nubien à Méroé, Nuri et El-Kurru. Le royaume méroïtique (royaume de Koush) a régné sur le nord-est de l&#x27;Afrique pendant 1 000 ans, conquit l&#x27;Égypte en 712 av. J.-C. et a bâti une civilisation sophistiquée avec sa propre écriture (méroïtique — encore partiellement déchiffrée). Ces pyramides sont des sites du patrimoine mondial de l&#x27;UNESCO. Elles recevaient moins de 2 000 touristes par an même avant la guerre — parmi les sites archéologiques majeurs les moins visités au monde.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">⚔️ Deux généraux, une catastrophe</div>
-        <p>La cause immédiate de la guerre de 2023 est une lutte de pouvoir entre deux hommes qui avaient été alliés dans chaque coup d&#x27;État et atrocité depuis 2003. Al-Burhan (chef des SAF) et Hemedti (commandant des RSF) ont renversé ensemble la transition démocratique du Soudan en 2021. Ils se sont disputés sur l&#x27;intégration des RSF dans l&#x27;armée régulière — Hemedti a refusé de dissoudre sa force parallèle de 100 000 hommes. Le 15 avril 2023, ils sont entrés en guerre. Tous deux sont accusés de crimes de guerre. Chacun prétend représenter l&#x27;avenir du Soudan. Le pays qu&#x27;ils ont détruit comptait 48 millions d&#x27;habitants.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🌿 Gomme arabique : monopole invisible</div>
-        <p>Le Soudan produit 75–80 % de la gomme arabique mondiale — la résine d&#x27;acacia utilisée dans tout, de Coca-Cola (stabilisant E414) aux enrobages de gélules pharmaceutiques en passant par la colle des timbres-poste. Presque tous les produits alimentaires emballés au monde contiennent de la gomme arabique soudanaise. Pendant la guerre, le commerce continue via la contrebande à travers le Tchad et l&#x27;Égypte car les chaînes d&#x27;approvisionnement mondiales en dépendent et aucune source alternative n&#x27;existe. C&#x27;est l&#x27;une des matières premières les plus déterminantes dont presque personne n&#x27;a entendu parler.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🌊 Civilisation du Nil : la source originelle</div>
-        <p>Le Nil — à la fois Blanc (provenant de l&#x27;Ouganda/Lac Victoria) et Bleu (provenant d&#x27;Éthiopie/Lac Tana) — se rejoignent à Khartoum. La vallée du Nil nord-soudanaise a abrité la culture de Kerma (2500 av. J.-C.), le royaume napate et la civilisation méroïtique — des cultures nubiens qui ont précédé et influencé l&#x27;Égypte pharaonique. Le grand barrage de Merowe (2009) et le barrage désormais contesté du GERD en Éthiopie ont remodelé la politique de l&#x27;eau du Nil. L&#x27;Égypte, le Soudan et l&#x27;Éthiopie sont engagés dans un différend sur les droits de l&#x27;eau qui pourrait perdurer au-delà de la guerre civile.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">☁️ Darfour : un génocide qui se répète</div>
-        <p>Le Darfour — de la taille de la France dans l&#x27;ouest du Soudan — a connu deux génocides en 20 ans. En 2003–2005, les milices Janjaweed de Bashir ont tué 300 000 personnes et déplacé 2 millions d&#x27;habitants, ce que le gouvernement américain a officiellement reconnu comme un génocide. Les mêmes milices, rebaptisées RSF sous Hemedti, sont revenues en 2023 et ont commis des massacres systématiques du peuple masalit à El Geneina et dans tout l&#x27;ouest du Darfour. Le Haut-Commissaire de l&#x27;ONU a qualifié cela de répétition du génocide de 2003. Le monde a regardé à nouveau.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">✊ La Révolution des Sourires</div>
-        <p>En décembre 2018, des citoyens soudanais ont commencé des manifestations contre le prix du pain qui ont évolué en révolution. Les femmes — nombreuses en tobes blanches — étaient au premier plan. En avril 2019, Bashir a été renversé. Les images du sit-in de Khartoum (foule massive, chants, veillées aux bougies) sont devenues des icônes de la résistance pacifique. Un conseil transitoire civilo-militaire a gouverné brièvement. Puis, en octobre 2021, les mêmes généraux qui avaient &#x27;soutenu&#x27; la révolution l&#x27;ont écrasée par un coup d&#x27;État, emprisonnant le premier ministre civil Hamdok. Le printemps démocratique soudanais a duré deux ans — puis deux généraux l&#x27;ont détruit, puis se sont entretués.</p>
-      </div></div></section>
+      
+        <div class="card persona-card">
+          <div class="snapshot-title">Figure du pays</div>
+          <div class="persona-name">Omar al-Bashir <small>(Fin du 20e – 21e siècle)</small></div>
+          <div class="persona-why">A dirigé le Soudan pendant 30 ans (1989–2019) après un coup d&#x27;État islamiste. Inculpé par la Cour pénale internationale pour génocide, crimes contre l&#x27;humanité et crimes de guerre au Darfour — le premier chef d&#x27;État en exercice à être inculpé par la CPI. Il aurait causé environ 300 000 morts au Darfour (2003–2005) en utilisant les milices Janjaweed — les prédécesseurs des RSF d&#x27;aujourd&#x27;hui, commandées par son ancien allié Hemedti. Il a été renversé en 2019 par les mêmes généraux qu&#x27;il avait renforcés. Il est décédé en prison en janvier 2025 en attendant une extradition vers la CPI qui n&#x27;a jamais eu lieu.</div>
+        </div>
+    </aside>
 
-  
-  
-  
+    <div class="right-col">
+      <div class="rc-wrapper">
+        
+        
+      </div>
 
-  <p style="text-align:center;margin-top:30px"><a href="/globe.html" style="font-weight:600">Voir les 160+ pays →</a></p>
+      <div class="data-card">
+        <table class="data-table">
+      <tbody>
+        <tr class="sec"><td colspan="4">💼 Salaires (net / mois)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧾</span>Salaire minimum</td>
+          <td class="val">~$5</td>
+          <td class="hint">Officiel ≈ 425 SDG/mois → net ≈ 5 $ au taux parallèle (2025; hyperinflation liée au conflit)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('min_wage')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📊</span>Salaire moyen</td>
+          <td class="val">$45</td>
+          <td class="hint">Estimé moyen net ≈ 45 $/mois au taux parallèle (conflit perturbe gravement l&#x27;économie formelle)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('avg_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🩺</span>Salaire médecin (généraliste)</td>
+          <td class="val">$200</td>
+          <td class="hint">public sector; many fled; USD value collapsed</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('doctor_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🏠 Logement et charges (studio référence)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏚️</span>Loyer studio</td>
+          <td class="val">$80</td>
+          <td class="hint">Khartoum pre-war; current situation unknown</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('rent_studio')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">⚡</span>Électricité</td>
+          <td class="val">$25</td>
+          <td class="hint">infrastructure destroyed; frequent blackouts</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('electricity')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💧</span>Eau</td>
+          <td class="val">$8</td>
+          <td class="hint">infrastructure damaged</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('water')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📱</span>Forfait mobile</td>
+          <td class="val">$7</td>
+          <td class="hint">network disrupted by war</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('mobile')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🍽️ Alimentation et boissons (prix indicatifs)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍺</span>Bière (pinte)</td>
+          <td class="val">N/A</td>
+          <td class="hint">alcohol prohibited</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('beer')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☕</span>Café</td>
+          <td class="val">$0.80</td>
+          <td class="hint">tea more common</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('coffee')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍲</span>Plat principal</td>
+          <td class="val">$4</td>
+          <td class="hint">local meal where available</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('dish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">⛽ Transport</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">⛽</span>Essence / litre</td>
+          <td class="val">$0.60 / L</td>
+          <td class="hint">subsidized but shortages</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('gas')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🧾 Fiscalité (indicatif)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏷️</span>TVA</td>
+          <td class="val">17%</td>
+          <td class="hint">standard VAT</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('vat')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">👤</span>Impôt sur le revenu</td>
+          <td class="val">0-35%</td>
+          <td class="hint">progressive system; enforcement collapsed</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('income_tax')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏪</span>Fiscalité petite entreprise</td>
+          <td class="val">N/A</td>
+          <td class="hint">economy collapsed due to civil war</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('smallbiz')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📱 Tech (prix indicatifs)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍎</span>iPhone (dernier 256 Go)</td>
+          <td class="val">$1,000</td>
+          <td class="hint">imported; if available</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('iphone')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📲</span>Galaxy S (dernier 256 Go)</td>
+          <td class="val">$700</td>
+          <td class="hint">imported pricing</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('samsung')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🛂 Immigration et installation</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🛂</span>Facilité d&#x27;immigration</td>
+          <td class="val">0 / 10</td>
+          <td class="hint">active war zone; mass exodus</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('immigration')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🌤️ Qualité de vie</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🙂</span>Bonheur</td>
+          <td class="val">2.43 / 10</td>
+          <td class="hint">among lowest globally; civil war</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('happiness')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☀️</span>Jours de soleil / an</td>
+          <td class="val">~330 days / year</td>
+          <td class="hint">desert climate</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('sun')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏥</span>Santé publique</td>
+          <td class="val">Collapsed</td>
+          <td class="hint">war destroyed healthcare system</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('health')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧑‍⚕️</span>Assurance privée / mois</td>
+          <td class="val">N/A</td>
+          <td class="hint">non-functional</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('insurance')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📈 Indices</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🚔</span>Indice criminalité</td>
+          <td class="val">90 / 100</td>
+          <td class="hint">civil war; ethnic violence; atrocities</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('crime')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💶</span>Pouvoir d&#x27;achat</td>
+          <td class="val">8</td>
+          <td class="hint">hyperinflation destroyed purchasing power</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('pp')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🕍 Religion</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">✝️</span>Chrétien</td>
+          <td class="val">~5.0%</td>
+          <td class="hint">small minority</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_christian')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☪️</span>Musulman</td>
+          <td class="val">~93.0%</td>
+          <td class="hint">Sunni Islam majority</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_muslim')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☸️</span>Bouddhiste</td>
+          <td class="val">~0%</td>
+          <td class="hint">negligible</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_buddhist')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">✡️</span>Juif</td>
+          <td class="val">~0%</td>
+          <td class="hint">indicative (src: Pew Research / WJC)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_jewish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🕊️</span>Autre / Aucune</td>
+          <td class="val">~2.0%</td>
+          <td class="hint">traditional beliefs</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_other')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+        </table>
+      </div>
+
+      
+      <div class="article-card">
+        <div class="section-head">
+          <h2>Vivre au Sudan</h2>
+          <span class="score-badge"><span class="score-star">⭐</span> Score Expat: 1.0 / 10</span>
+        </div>
+        <div class="article-body"><p>🧭 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Aperçu</span><br>
+Le Soudan traverse l&#x27;une des pires guerres actives au monde. Le 15 avril 2023, une lutte de pouvoir entre deux généraux — Abdel Fattah al-Burhan (Forces armées soudanaises, SAF) et Mohamed Hamdan Dagalo, connu sous le nom de Hemedti (Forces de soutien rapide, RSF) — a dégénéré en une guerre civile à grande échelle à travers le pays. Khartoum, une ville de 7 millions d&#x27;habitants, est devenue un champ de bataille. À la fin de 2023, les RSF contrôlaient la majeure partie du Darfour (où des massacres génocidaires contre le peuple masalit ont été documentés) et une grande partie du centre. Les SAF ont repris l&#x27;initiative entre 2024 et 2025 en utilisant des drones iraniens et ont repris Khartoum à la mi-2025. Mais la guerre se poursuit au Darfour, au Kordofan et dans la Gezira. Le coût humain : plus de 400 000 morts estimés, 13 millions de déplacés internes, 4 millions de réfugiés (la plus grande crise de déplacement au monde en 2024). Le PIB s&#x27;est contracté de 40 à 48 % depuis 2023. Le Soudan était déjà l&#x27;un des pays les plus pauvres et les plus instables du globe avant cette guerre — héritage des 30 ans de dictature islamiste d&#x27;Omar al-Bashir, inculpé pour génocide au Darfour (2003–2005, 300 000 morts), et du coup d&#x27;État de 2021 qui a interrompu la transition démocratique.</p><p>👥 <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Population &amp; ambiance</span><br>
+Le Soudan est ethniquement extraordinairement divers — Arabes, Nubiens, Beja, Fur, Nuba, Dinka et des dizaines d&#x27;autres groupes. L&#x27;islam (~97 % sunnite) est la religion dominante, mais les pratiques culturelles varient énormément entre le nord de la vallée du Nil d&#x27;influence arabe et le sud et l&#x27;ouest majoritairement africains (Darfour, Kordofan). Avant la guerre de 2023, Khartoum était une véritable ville cosmopolite — universités, cafés, une scène musicale nubienne dynamique, une grande classe moyenne instruite. Ce monde a été détruit. Des millions d&#x27;habitants de Khartoum qui ont fui ne peuvent pas revenir dans des foyers qui n&#x27;existent plus. Les quelques résidents restants décrivent une ville fantôme se réveillant lentement parmi les ruines, sans électricité, avec une rareté de l&#x27;eau et des marchés à peine rouverts.</p><p>🌦️ <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Climat &amp; paysages</span><br>
+Majoritairement aride et semi-aride. Le Nil (le Nil Blanc et le Nil Bleu se rencontrent à Khartoum) est la ligne de vie du pays. Le nord est le désert nubien — des pyramides antiques émergent du sable. Le centre est une savane sahélienne. Le sud (aujourd&#x27;hui un pays séparé — le Soudan du Sud a fait sécession en 2011) était tropical. Les monts Nuba et le volcan Jebel Marra au Darfour offrent des paysages de hautes terres spectaculaires. Avant la guerre, le Soudan possédait certains des sites historiques les plus sous-estimés d&#x27;Afrique : les pyramides méroïtiques de Méroé, les temples nubiens de Soleb, les royaumes chrétiens médiévaux d&#x27;Old Dongola. Tous désormais inaccessibles.</p><p>🏠 <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Logement &amp; installation</span><br>
+Il n&#x27;existe pratiquement pas de marché du logement civil pour expatriés au sens conventionnel. Avant la guerre, Khartoum abritait une communauté d&#x27;expatriés fonctionnelle (quartiers Amarat, Riyad) avec des villas à 600–1 500 $/mois. Ce marché est aujourd&#x27;hui en ruines ou occupé. Port-Soudan — capitale de facto et havre sûr sur la mer Rouge — voit les loyers exploser : 2 000–3 000 $/mois pour des appartements qui coûtaient 300 $ avant la guerre. Les opérations de l&#x27;ONU et des ONG sont principalement gérées depuis Port-Soudan, Gedaref et depuis les frontières (Tchad, Égypte, Soudan du Sud). Aucun déménagement civil d&#x27;expatriés vers le Soudan n&#x27;est conseillé ni viable en 2025.</p><p>💼 <span class="art-tag" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#6d28d9">Travail &amp; économie</span><br>
+Avant la guerre : exploitation aurifère (le Soudan était le 3e producteur d&#x27;Afrique), agriculture (gomme arabique — le Soudan produit 75–80 % de l&#x27;offre mondiale), un peu de pétrole (la plupart du pétrole est parti avec la sécession du Soudan du Sud en 2011). Aujourd&#x27;hui : l&#x27;économie formelle s&#x27;est effectivement effondrée. Le PIB a chuté de 40–48 %. 5,2 millions d&#x27;emplois perdus. L&#x27;économie informelle — contrebande, commerce de l&#x27;or, marché noir des devises — a explosé. Les opérations humanitaires (PAM, HCR, CICR, MSF) sont l&#x27;économie de facto dans les zones accessibles. Le commerce de la gomme arabique se poursuit via la contrebande vers le Tchad et l&#x27;Égypte.</p>
+        <div class="map-card">
+          <div class="map-header">
+            <div class="map-title"><span class="map-flag">🇸🇩</span><span>Sudan — Carte</span></div>
+            <div class="map-styles">
+              <button type="button" class="map-style-btn active" data-style="light">Clair</button>
+              <button type="button" class="map-style-btn" data-style="dark">Sombre</button>
+              <button type="button" class="map-style-btn" data-style="satellite">Satellite</button>
+            </div>
+          </div>
+          <div class="map-container">
+            <div id="wigg-country-map"></div>
+            <div class="map-loading" id="wiggMapLoading">Chargement de la carte…</div>
+          </div>
+        </div><p>🛂 <span class="art-tag" style="background:rgba(236,72,153,.12);border:1px solid rgba(236,72,153,.25);color:#be185d">Visa &amp; entrée</span><br>
+Tous les gouvernements occidentaux déconseillent tout voyage au Soudan et invitent leurs ressortissants à partir. L&#x27;aéroport de Port-Soudan maintient une connectivité internationale limitée (Le Caire, Istanbul, Doha, Addis-Abeba). L&#x27;entrée pour les travailleurs humanitaires nécessite une coordination avec les autorités des SAF à Port-Soudan. Aucun visa touristique n&#x27;est traité en pratique.</p><p>🏥 <span class="art-tag" style="background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.25);color:#0e7490">Santé</span><br>
+Le système de santé s&#x27;est effectivement effondré. À Khartoum, plus de 70 % des établissements de santé ont été détruits, pillés ou convertis à un usage militaire. 40 millions de doses de vaccins et des flacons d&#x27;insuline ont été perdus lors de la coupure de l&#x27;alimentation électrique des chaînes froides. MSF, le CICR et l&#x27;OMS opèrent dans les zones accessibles. Le choléra, la rougeole, la dengue et le paludisme sont épidémiques. L&#x27;espérance de vie (pré-guerre) : ~67 ans — elle décline rapidement. L&#x27;évacuation médicale vers Le Caire ou Nairobi est la seule option pour les cas graves.</p><p>🚗 <span class="art-tag" style="background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#c2410c">Transports &amp; mobilité</span><br>
+Les infrastructures de Khartoum — routes, ponts, réseau électrique, système d&#x27;eau — sont à plus de 70 % détruites. Port-Soudan est le centre fonctionnel : son aéroport fonctionne, son port gère l&#x27;aide. Les déplacements routiers entre Port-Soudan et Khartoum sont possibles mais dangereux (checkpoints, banditisme). Les voyages vers le Darfour, le Kordofan et la Gezira sont extrêmement dangereux ou impossibles. Les SAF contrôlent la plupart des couloirs aériens ; les RSF contrôlent les routes terrestres de l&#x27;ouest.</p><p>🍛 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Note sur la nourriture (plat national)</span><br>
+Le plat national est le <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Ful medames</span><br> : fèves mijotées assaisonnées de citron, d&#x27;huile d&#x27;olive et d&#x27;épices — le petit-déjeuner soudanais par excellence, consommé à tous les niveaux économiques. La <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Kisra</span><br> (galette de sorgho fermenté, semblable à l&#x27;injera éthiopienne) accompagne la plupart des repas. L&#x27;<span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Asida</span><br> (bouillie épaisse de sorgho) avec de la viande ou une sauce d&#x27;arachide est la base rurale. La <span class="art-tag" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#6d28d9">Shaiyah</span><br> (viande grillée) dans les restaurants au bord du Nil était l&#x27;institution sociale de la classe moyenne pré-guerre. La culture du thé soudanais (épicé à la cannelle et au gingembre) est profondément ancrée.</p><p>🔎 <span class="art-tag" style="background:rgba(236,72,153,.12);border:1px solid rgba(236,72,153,.25);color:#be185d">Conclusion</span><br>
+Le Soudan est actuellement l&#x27;un des endroits les plus dangereux sur Terre. Il n&#x27;y a pas de vie civile d&#x27;expatriés ici — seulement des missions humanitaires opérant sous des protocoles de sécurité extrêmes. La reprise de Khartoum par les SAF à la mi-2025 a ouvert une phase prudente de reconstruction, mais le Darfour reste une zone de génocide, des millions de personnes sont en situation de famine, et les RSF n&#x27;ont pas été vaincus. Le potentiel du Soudan est réel — le Nil, la civilisation nubienne historique, le monopole de la gomme arabique, les réserves aurifères, les terres agricoles — mais il est enfoui sous des décennies de dictature, de guerre civile et désormais de destruction systématique du troisième pays d&#x27;Afrique le plus peuplé. Si vous travaillez ici : uniquement via une grande organisation internationale, avec protocoles de sécurité complets, plans d&#x27;évacuation et soutien en santé mentale. Il s&#x27;agit d&#x27;un des postes humanitaires les plus exigeants au monde.</p><p>Score des expatriés — 1.0 / 10</p></div>
+      </div>
+
+      
+      <div class="things-section">
+        <div class="section-head"><h2>À savoir</h2><span class="wg-badge">À lire</span></div>
+        <div class="facts-grid"><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🔺 Pyramides nubiennes : civilisation oubliée</div><div class="fact-text">Le Soudan possède plus de pyramides que l&#x27;Égypte — plus de 200, disséminées dans le désert nubien à Méroé, Nuri et El-Kurru. Le royaume méroïtique (royaume de Koush) a régné sur le nord-est de l&#x27;Afrique pendant 1 000 ans, conquit l&#x27;Égypte en 712 av. J.-C. et a bâti une civilisation sophistiquée avec sa propre écriture (méroïtique — encore partiellement déchiffrée). Ces pyramides sont des sites du patrimoine mondial de l&#x27;UNESCO. Elles recevaient moins de 2 000 touristes par an même avant la guerre — parmi les sites archéologiques majeurs les moins visités au monde.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">⚔️ Deux généraux, une catastrophe</div><div class="fact-text">La cause immédiate de la guerre de 2023 est une lutte de pouvoir entre deux hommes qui avaient été alliés dans chaque coup d&#x27;État et atrocité depuis 2003. Al-Burhan (chef des SAF) et Hemedti (commandant des RSF) ont renversé ensemble la transition démocratique du Soudan en 2021. Ils se sont disputés sur l&#x27;intégration des RSF dans l&#x27;armée régulière — Hemedti a refusé de dissoudre sa force parallèle de 100 000 hommes. Le 15 avril 2023, ils sont entrés en guerre. Tous deux sont accusés de crimes de guerre. Chacun prétend représenter l&#x27;avenir du Soudan. Le pays qu&#x27;ils ont détruit comptait 48 millions d&#x27;habitants.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🌿 Gomme arabique : monopole invisible</div><div class="fact-text">Le Soudan produit 75–80 % de la gomme arabique mondiale — la résine d&#x27;acacia utilisée dans tout, de Coca-Cola (stabilisant E414) aux enrobages de gélules pharmaceutiques en passant par la colle des timbres-poste. Presque tous les produits alimentaires emballés au monde contiennent de la gomme arabique soudanaise. Pendant la guerre, le commerce continue via la contrebande à travers le Tchad et l&#x27;Égypte car les chaînes d&#x27;approvisionnement mondiales en dépendent et aucune source alternative n&#x27;existe. C&#x27;est l&#x27;une des matières premières les plus déterminantes dont presque personne n&#x27;a entendu parler.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🌊 Civilisation du Nil : la source originelle</div><div class="fact-text">Le Nil — à la fois Blanc (provenant de l&#x27;Ouganda/Lac Victoria) et Bleu (provenant d&#x27;Éthiopie/Lac Tana) — se rejoignent à Khartoum. La vallée du Nil nord-soudanaise a abrité la culture de Kerma (2500 av. J.-C.), le royaume napate et la civilisation méroïtique — des cultures nubiens qui ont précédé et influencé l&#x27;Égypte pharaonique. Le grand barrage de Merowe (2009) et le barrage désormais contesté du GERD en Éthiopie ont remodelé la politique de l&#x27;eau du Nil. L&#x27;Égypte, le Soudan et l&#x27;Éthiopie sont engagés dans un différend sur les droits de l&#x27;eau qui pourrait perdurer au-delà de la guerre civile.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">☁️ Darfour : un génocide qui se répète</div><div class="fact-text">Le Darfour — de la taille de la France dans l&#x27;ouest du Soudan — a connu deux génocides en 20 ans. En 2003–2005, les milices Janjaweed de Bashir ont tué 300 000 personnes et déplacé 2 millions d&#x27;habitants, ce que le gouvernement américain a officiellement reconnu comme un génocide. Les mêmes milices, rebaptisées RSF sous Hemedti, sont revenues en 2023 et ont commis des massacres systématiques du peuple masalit à El Geneina et dans tout l&#x27;ouest du Darfour. Le Haut-Commissaire de l&#x27;ONU a qualifié cela de répétition du génocide de 2003. Le monde a regardé à nouveau.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">✊ La Révolution des Sourires</div><div class="fact-text">En décembre 2018, des citoyens soudanais ont commencé des manifestations contre le prix du pain qui ont évolué en révolution. Les femmes — nombreuses en tobes blanches — étaient au premier plan. En avril 2019, Bashir a été renversé. Les images du sit-in de Khartoum (foule massive, chants, veillées aux bougies) sont devenues des icônes de la résistance pacifique. Un conseil transitoire civilo-militaire a gouverné brièvement. Puis, en octobre 2021, les mêmes généraux qui avaient &#x27;soutenu&#x27; la révolution l&#x27;ont écrasée par un coup d&#x27;État, emprisonnant le premier ministre civil Hamdok. Le printemps démocratique soudanais a duré deux ans — puis deux généraux l&#x27;ont détruit, puis se sont entretués.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🍽️ Ful medames / Kisra</div><div class="fact-text">Fèves fava avec citron et huile — le petit-déjeuner national à tous les niveaux de revenu. Galette de sorgho (Kisra) avec viande ou sauce d&#x27;arachide. La culture du thé épicé soudanais est centrale dans la vie sociale.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏳️‍🌈 LGBT+: Illégal / peine de mort possible</div><div class="fact-text">L&#x27;homosexualité est illégale. Les récidivistes peuvent encourir la peine de mort selon le Code pénal ; pour une première infraction : flagellation + emprisonnement. Société profondément conservatrice. Danger absolu et total. Aucune exception.</div></div></div>
+      </div>
+
+      
+    </div>
+  </div>
 </main>
 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
+<script src="/data/share.js"></script>
+<script src="/data/correction-form.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var t = document.getElementById("localTime");
+  if(t && t.dataset.tz){
+    function tick(){
+      try{
+        t.textContent = new Intl.DateTimeFormat("en-GB",{
+          timeZone: t.dataset.tz, hour:"2-digit", minute:"2-digit"
+        }).format(new Date());
+      }catch(e){}
+    }
+    tick(); setInterval(tick, 30000);
+  }
+  document.querySelectorAll(".rc-nav-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var targetId = btn.dataset.target;
+      var dir = parseInt(btn.dataset.dir||"1",10);
+      var row = document.getElementById(targetId);
+      if(!row) return;
+      var box = row.parentElement;
+      var first = row.querySelector(".rc-vcard");
+      if(!first) return;
+      var cardW = first.offsetWidth + 9;
+      var visible = Math.max(1, Math.floor(box.offsetWidth / cardW));
+      var maxOffset = Math.max(0, row.children.length - visible);
+      var current = parseInt(row.dataset.offset||"0", 10);
+      current = Math.min(maxOffset, Math.max(0, current + dir));
+      row.dataset.offset = current;
+      row.style.transform = "translateX(-" + (current * cardW) + "px)";
+      var nav = btn.parentNode;
+      var prev = nav.querySelector('[data-dir="-1"]');
+      var next = nav.querySelector('[data-dir="1"]');
+      if(prev) prev.disabled = (current === 0);
+      if(next) next.disabled = (current >= maxOffset);
+    });
+  });
+  var iso2 = "SD";
+  if(!iso2 || typeof L === "undefined") return;
+  var STYLES = {
+    light:     { url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", attr: "&copy; OSM &copy; CARTO" },
+    dark:      { url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",  attr: "&copy; OSM &copy; CARTO" },
+    satellite: { url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", attr: "&copy; Esri" }
+  };
+  var wMap=null, wLayer=null, wMarker=null;
+  function initMap(lat, lon){
+    var el = document.getElementById("wigg-country-map");
+    if(!el) return;
+    if(wMap){ try{wMap.remove();}catch(e){} }
+    wMap = L.map("wigg-country-map",{zoomControl:true}).setView([lat,lon],5);
+    wLayer = L.tileLayer(STYLES.light.url,{attribution:STYLES.light.attr,maxZoom:18}).addTo(wMap);
+    wMarker = L.marker([lat,lon]).addTo(wMap);
+    var loading = document.getElementById("wiggMapLoading");
+    if(loading) loading.classList.add("hidden");
+  }
+  document.querySelectorAll(".map-style-btn").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(!wMap) return;
+      var s = STYLES[b.dataset.style];
+      if(!s) return;
+      if(wLayer) wMap.removeLayer(wLayer);
+      wLayer = L.tileLayer(s.url,{attribution:s.attr,maxZoom:18}).addTo(wMap);
+      document.querySelectorAll(".map-style-btn").forEach(function(x){x.classList.remove("active");});
+      b.classList.add("active");
+    });
+  });
+  var cacheKey = "wigg_centroid_" + iso2;
+  var cached = null;
+  try { cached = JSON.parse(localStorage.getItem(cacheKey) || "null"); } catch(e){}
+  if(cached && cached.lat != null && cached.lon != null){
+    initMap(cached.lat, cached.lon); return;
+  }
+  fetch("https://nominatim.openstreetmap.org/search?country=" + encodeURIComponent(iso2) + "&format=json&limit=1")
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && d[0]){
+        var coords = { lat: +d[0].lat, lon: +d[0].lon };
+        try { localStorage.setItem(cacheKey, JSON.stringify(coords)); } catch(e){}
+        initMap(coords.lat, coords.lon);
+      } else {
+        var l = document.getElementById("wiggMapLoading");
+        if(l) l.textContent = "Carte indisponible";
+      }
+    })
+    .catch(function(){
+      var l = document.getElementById("wiggMapLoading");
+      if(l) l.textContent = "Carte indisponible";
+    });
+})();
+</script>
+
+<form name="wiggmap-corrections" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="wiggmap-corrections" />
+  <p><label>Don't fill this out: <input name="bot-field" /></label></p>
+  <input name="country" /><input name="field" /><input name="value" /><input name="email" /><textarea name="notes"></textarea>
+</form>
+
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
 </body>
 </html>

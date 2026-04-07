@@ -25,65 +25,127 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#f6f1e8;--paper:#fffdf8;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--green:#1d7f48;--green-dk:#155f36;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
+    :root{--paper:#fffdf8;--paper-2:#fbf7ee;--ink:#171714;--ink-soft:#54554e;--line:rgba(23,23,20,.10);--line-soft:rgba(23,23,20,.06);--green:#1d7f48;--green-dk:#155f36;--green-light:#e6f4ec;--shadow:0 12px 34px rgba(25,20,12,.06);--radius:14px}
     html{scroll-behavior:smooth}
     body{font-family:"Inter",system-ui,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f9f5ed 0%,#f3ede3 100%);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
     a{color:var(--green);text-decoration:none}
     a:hover{text-decoration:underline}
-    main{max-width:980px;margin:0 auto;padding:28px 20px 80px}
-    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:18px;letter-spacing:.04em}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 80px}
+    .crumb{font-size:12px;color:var(--ink-soft);margin-bottom:14px;letter-spacing:.04em}
     .crumb a{color:var(--ink-soft)}
-    .hero{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:36px 32px;box-shadow:var(--shadow);margin-bottom:24px;position:relative;overflow:hidden}
-    .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 88% 18%,rgba(29,127,72,.05),transparent 30%);pointer-events:none}
-    .hero-flag{font-size:48px;line-height:1;margin-bottom:14px}
-    .hero h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(36px,6vw,56px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:10px;position:relative;z-index:1}
-    .hero .subtitle{font-size:15px;color:var(--ink-soft);max-width:62ch;line-height:1.6;position:relative;z-index:1}
-    .hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;position:relative;z-index:1}
-    .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;background:#fff;border:1px solid var(--line)}
-    .badge.green{background:#e6f4ec;color:var(--green-dk);border-color:rgba(29,127,72,.2)}
+    .country-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:22px;flex-wrap:wrap}
+    .country-flag{font-size:42px;line-height:1;margin-bottom:8px}
+    .country-head h1{font-family:"Fraunces",Georgia,serif;font-size:clamp(34px,5.2vw,52px);font-weight:800;letter-spacing:-.02em;line-height:1.02}
+    .country-head .subtitle{font-size:14px;color:var(--ink-soft);max-width:64ch;line-height:1.55;margin-top:8px}
+    .head-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+    .badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;padding:7px 13px;border-radius:999px;background:#fff;border:1px solid var(--line)}
+    .badge.green{background:var(--green-light);color:var(--green-dk);border-color:rgba(29,127,72,.22)}
     .badge.yellow{background:#fef9e7;color:#a16207;border-color:rgba(202,138,4,.25)}
     .badge.red{background:#fdecec;color:#b91c1c;border-color:rgba(185,28,28,.25)}
-    .snapshot{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:22px 26px;box-shadow:var(--shadow);margin-bottom:24px}
-    .snapshot h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;margin-bottom:14px}
-    .snap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
-    .snap-item{font-size:13px}
-    .snap-item strong{display:block;color:var(--ink-soft);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
-    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:24px}
-    .data-card h2{font-family:"Fraunces",Georgia,serif;font-size:18px;font-weight:700;padding:20px 26px 8px}
+    .badge .dot{width:8px;height:8px;border-radius:999px;background:currentColor;display:inline-block}
+    .local-time{font-size:12px;color:var(--ink-soft);font-weight:600}
+    .local-time b{color:var(--ink);margin-left:5px;font-weight:800}
+    .main-grid{display:grid;grid-template-columns:300px 1fr;gap:22px;align-items:start}
+    @media(max-width:900px){.main-grid{grid-template-columns:1fr}}
+    .sidebar{display:flex;flex-direction:column;gap:14px;align-self:start;position:sticky;top:18px}
+    @media(max-width:900px){.sidebar{position:static}}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .hero-img{width:100%;height:200px;object-fit:cover;display:block;background:#eaddc4}
+    .hero-actions{padding:12px;display:flex;gap:8px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 14px;border-radius:8px;font-family:inherit;font-weight:700;font-size:12.5px;border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;transition:background .14s,border-color .14s}
+    .btn:hover{background:rgba(0,0,0,.04)}
+    .btn.primary{background:var(--green);color:#fff;border-color:transparent}
+    .btn.primary:hover{background:var(--green-dk)}
+    .snapshot-card{padding:16px}
+    .snapshot-title{font-family:"Fraunces",Georgia,serif;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px;letter-spacing:-.01em}
+    .kv{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--line-soft);font-size:12.5px}
+    .kv span{color:var(--ink-soft)}
+    .kv b{color:var(--ink);font-weight:700;text-align:right;max-width:60%}
+    .kv-sub{padding-left:10px;font-size:11.5px;opacity:.85}
+    .kv-note{font-size:11px;color:var(--ink-soft);line-height:1.5;padding:6px 0 8px;font-style:italic;border-bottom:1px solid var(--line-soft)}
+    .sector-block{padding-top:10px;margin-top:6px;border-top:1px solid var(--line-soft)}
+    .sector-head{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+    .sector-list{display:flex;flex-direction:column;gap:5px}
+    .sector-pill{background:rgba(29,127,72,.08);border:1px solid rgba(29,127,72,.2);border-radius:7px;padding:5px 10px;font-size:11.5px;font-weight:700;color:var(--green-dk);line-height:1.4}
+    .persona-card{padding:16px}
+    .persona-name{font-weight:800;font-size:13px;margin-bottom:6px}
+    .persona-name small{font-weight:500;opacity:.6;font-size:11px}
+    .persona-why{font-size:11.5px;color:var(--ink-soft);line-height:1.55;font-style:italic}
+    .right-col{display:flex;flex-direction:column;gap:18px;min-width:0}
+    .rc-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:760px){.rc-wrapper{grid-template-columns:1fr}}
+    .rc-box{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 14px 12px;overflow:hidden}
+    .rc-box-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:6px}
+    .rc-box-head h2{font-family:"Fraunces",Georgia,serif;font-size:13.5px;font-weight:700;color:var(--ink);letter-spacing:-.01em}
+    .rc-nav{display:flex;gap:4px}
+    .rc-nav-btn{width:24px;height:24px;border-radius:6px;border:1px solid var(--line);background:#fff;font-size:13px;cursor:pointer;color:var(--ink-soft);display:flex;align-items:center;justify-content:center;line-height:1;transition:all .14s}
+    .rc-nav-btn:hover{background:var(--green);color:#fff;border-color:transparent}
+    .rc-nav-btn:disabled{opacity:.35;cursor:not-allowed}
+    .rc-track{overflow:hidden}
+    .rc-row{display:flex;gap:9px;transition:transform .35s ease;will-change:transform}
+    .rc-vcard{flex-shrink:0;width:130px;height:90px;border-radius:10px;overflow:hidden;position:relative;background:#e9dfca;border:1px solid var(--line);transition:transform .15s,box-shadow .15s}
+    .rc-vcard:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.10);text-decoration:none}
+    .rc-vimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .rc-vemoji{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;background:linear-gradient(135deg,#ede5d8,#ddd3c4)}
+    .rc-vgrad{position:absolute;inset:0;background:linear-gradient(to top,rgba(20,15,8,.85) 0%,rgba(20,15,8,.2) 55%,transparent 100%)}
+    .rc-vbody{position:absolute;left:0;right:0;bottom:0;padding:7px 9px;z-index:2}
+    .rc-vtitle{font-family:"Fraunces",Georgia,serif;font-size:10.5px;font-weight:700;color:#fff;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .data-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
     .data-table{width:100%;border-collapse:collapse;font-size:13px}
-    .data-table .sec td{background:#f8f4eb;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:10px 26px;color:var(--ink-soft);border-top:1px solid var(--line)}
-    .data-table td{padding:9px 26px;border-bottom:1px solid var(--line);vertical-align:top}
+    .data-table .sec td{background:#f4eedf;font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:11px;padding:11px 22px;color:var(--ink-soft);border-top:1px solid var(--line)}
+    .data-table td{padding:9px 22px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+    .data-table tr:last-child td{border-bottom:none}
     .data-table td.lbl{width:42%;color:var(--ink)}
-    .data-table td.val{width:22%;font-weight:700}
+    .data-table td.val{width:25%;font-weight:700}
     .data-table td.hint{font-size:11.5px;color:var(--ink-soft)}
+    .data-table td.edit{width:30px;text-align:right;padding-right:14px}
     .data-table .ico{margin-right:8px}
-    .article{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px;margin-bottom:24px}
-    .article h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:700;margin:24px 0 10px;color:var(--ink)}
-    .article h2:first-child{margin-top:0}
-    .article p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.75}
-    .article p strong{color:var(--ink);font-weight:600}
-    .ttk{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px;margin-bottom:24px}
-    .ttk h2{font-family:"Fraunces",Georgia,serif;font-size:20px;font-weight:700;margin-bottom:16px}
-    .ttk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-    .ttk-card{background:#fbf7ee;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
-    .ttk-card .ttk-title{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink)}
-    .ttk-card p{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
-    .ttk-card small{font-weight:500;color:var(--ink-soft)}
-    .related{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px;margin-bottom:18px}
-    .related h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
-    .link-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:8px 18px}
-    .link-list li{font-size:13.5px;line-height:1.5;padding-left:14px;position:relative}
-    .link-list li::before{content:"›";position:absolute;left:0;color:var(--green)}
-    @media (max-width:640px){
-      main{padding:20px 14px 60px}
-      .hero{padding:26px 22px}
-      .data-table td{padding:9px 16px}
-      .data-table .sec td{padding:10px 16px}
-      .article{padding:24px 22px}
-      .ttk{padding:22px 22px}
-      .related{padding:20px 22px}
+    .edit-btn{background:none;border:none;color:var(--ink-soft);cursor:pointer;font-size:13px;opacity:.4;transition:opacity .14s;padding:2px 4px}
+    .edit-btn:hover{opacity:1;color:var(--green)}
+    .article-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 36px}
+    .section-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+    .section-head h2{font-family:"Fraunces",Georgia,serif;font-size:22px;font-weight:800;letter-spacing:-.01em;color:var(--ink)}
+    .score-badge{display:inline-flex;align-items:center;gap:5px;background:var(--green-light);border:1px solid rgba(29,127,72,.25);color:var(--green-dk);padding:5px 12px;border-radius:999px;font-size:12px;font-weight:700}
+    .article-body p{margin-bottom:14px;color:var(--ink-soft);font-size:15px;line-height:1.78}
+    .article-body p:last-child{margin-bottom:0}
+    .art-tag{display:inline-block;padding:3px 10px;border-radius:6px;font-weight:700;font-size:13px;margin-bottom:6px;line-height:1.5}
+    .map-card{margin:22px 0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--paper-2)}
+    .map-header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#fff;border-bottom:1px solid var(--line);gap:8px;flex-wrap:wrap}
+    .map-title{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}
+    .map-flag{font-size:18px}
+    .map-styles{display:flex;gap:4px}
+    .map-style-btn{font-size:11px;font-weight:700;padding:5px 10px;border-radius:6px;border:1px solid var(--line);background:#fff;color:var(--ink-soft);cursor:pointer;transition:all .14s}
+    .map-style-btn:hover{border-color:var(--green);color:var(--green)}
+    .map-style-btn.active{background:var(--green);color:#fff;border-color:transparent}
+    .map-container{position:relative;height:320px}
+    #wigg-country-map{position:absolute;inset:0}
+    .map-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--paper-2);color:var(--ink-soft);font-size:13px;z-index:10}
+    .map-loading.hidden{display:none}
+    .things-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 30px}
+    .wg-badge{display:inline-flex;align-items:center;gap:5px;background:#fef3c7;border:1px solid rgba(202,138,4,.3);color:#92400e;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+    .facts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    .fact-card{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;position:relative;overflow:hidden}
+    .fact-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green)}
+    .fact-title{font-weight:800;font-size:13px;margin-bottom:6px;color:var(--ink);padding-left:6px}
+    .fact-text{font-size:12.5px;color:var(--ink-soft);line-height:1.55;padding-left:6px}
+    .cmp-section{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 28px}
+    .cmp-section h2{font-family:"Fraunces",Georgia,serif;font-size:17px;font-weight:700;margin-bottom:12px}
+    .cmp-pills{display:flex;flex-wrap:wrap;gap:8px}
+    .cmp-pill{display:inline-block;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;font-size:12.5px;font-weight:600;color:var(--ink);transition:all .14s}
+    .cmp-pill:hover{border-color:var(--green);background:var(--green);color:#fff;text-decoration:none}
+    @media(max-width:640px){
+      .wrap{padding:18px 14px 60px}
+      .country-head{flex-direction:column}
+      .head-right{align-items:flex-start}
+      .data-table td{padding:9px 14px}
+      .data-table .sec td{padding:11px 14px}
+      .article-card{padding:24px 22px}
+      .things-section{padding:22px 22px}
+      .cmp-section{padding:20px 22px}
+      .map-container{height:240px}
     }
   </style>
 </head>
@@ -92,268 +154,410 @@
 <div id="siteHeader"></div>
 <script src="/data/header.js"></script>
 
-<main>
+<main class="wrap">
   <nav class="crumb"><a href="/">Home</a> › <a href="/globe.html">Countries</a> › Saudi Arabia</nav>
 
-  <section class="hero">
-    <div class="hero-flag">🇸🇦</div>
-    <h1>Saudi Arabia</h1>
-    <p class="subtitle">Indicative averages (Riyadh / Jeddah; net / month unless stated)</p>
-    <div class="hero-badges">
-      <span class="badge green">WIGG: GREEN</span>
-      <span class="badge">⭐ Expat Score: 5.5 / 10</span>
+  <div class="country-head">
+    <div>
+      <div class="country-flag">🇸🇦</div>
+      <h1>Saudi Arabia</h1>
+      <p class="subtitle">Indicative averages (Riyadh / Jeddah; net / month unless stated)</p>
     </div>
-  </section>
-
-  <section class="snapshot">
-    <h2>Quick snapshot</h2>
-    <div class="snap-grid">
-      <div class="snap-item"><strong>Capital</strong>Riyadh</div>
-      <div class="snap-item"><strong>Population</strong>~35M</div>
-      <div class="snap-item"><strong>Languages</strong>Arabic, English</div>
-      <div class="snap-item"><strong>Driving side</strong>Right</div>
-      <div class="snap-item"><strong>Currency</strong>Saudi riyal (SAR)</div>
-      <div class="snap-item"><strong>Crypto-friendly</strong>Limited</div>
+    <div class="head-right">
+      <div class="badge green"><span class="dot"></span>WIGG: GREEN</div>
+      <div class="local-time">Local time <b id="localTime" data-tz="Asia/Riyadh">--:--</b></div>
     </div>
-  </section>
+  </div>
 
-  <section class="data-card">
-    <h2>Cost of living, salaries &amp; quality of life</h2>
-    <table class="data-table">
-    <tbody>
-      <tr class="sec"><td colspan="3">💼 Salaries (net / month)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧾</span>Minimum wage</td>
-        <td class="val">$965</td>
-        <td class="hint">Saudi nationals min SAR 4,000 → net ~SAR 3,610 (GOSI 9.75%; 2025; no expat minimum)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📊</span>Average salary</td>
-        <td class="val">$2,880</td>
-        <td class="hint">Avg net ~SAR 10,800/mo (GaStat 2024 — no income tax; oil/construction drives avg)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🩺</span>Doctor (GP) salary</td>
-        <td class="val">$8,500</td>
-        <td class="hint">Public/private avg</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🏠 Housing & utilities (studio reference)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏚️</span>Studio rent</td>
-        <td class="val">$1,275</td>
-        <td class="hint">Outside Riyadh/Jeddah</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">⚡</span>Electricity</td>
-        <td class="val">$70</td>
-        <td class="hint">/ month (subsidized)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💧</span>Water</td>
-        <td class="val">$20</td>
-        <td class="hint">/ month</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📱</span>Mobile plan</td>
-        <td class="val">$40</td>
-        <td class="hint">~50–200GB (STC/Mobily)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🍽️ Food & drink (typical prices)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍺</span>Beer (pint)</td>
-        <td class="val">N/A</td>
-        <td class="hint">Alcohol illegal</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☕</span>Coffee</td>
-        <td class="val">$4.00</td>
-        <td class="hint">Regular coffee (qahwa free)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍲</span>Main dish</td>
-        <td class="val">$14</td>
-        <td class="hint">mid-range</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">⛽ Transport</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">⛽</span>Gasoline / litre</td>
-        <td class="val">$0.65 / L</td>
-        <td class="hint">heavily subsidized</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🧾 Taxes (indicative)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏷️</span>VAT</td>
-        <td class="val">15%</td>
-        <td class="hint">standard rate (2020+)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">👤</span>Income tax</td>
-        <td class="val">0%</td>
-        <td class="hint">No income tax (Zakat 2.5% for Saudis)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏪</span>Small business tax</td>
-        <td class="val">~20%</td>
-        <td class="hint">20% CIT (non-Saudis only)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📱 Tech (indicative prices)</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🍎</span>iPhone (latest 256GB)</td>
-        <td class="val">$1,400</td>
-        <td class="hint">Saudi pricing</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">📲</span>Galaxy S (latest 256GB)</td>
-        <td class="val">$1,100</td>
-        <td class="hint">Saudi pricing</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🛂 Moving & immigration</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🛂</span>Immigration-friendly</td>
-        <td class="val">5 / 10</td>
-        <td class="hint">Sponsorship required; Vision 2030 reforms</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🌤️ Quality of life</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🙂</span>Happiness</td>
-        <td class="val">6.4 / 10</td>
-        <td class="hint">indicative (src: World Happiness Report 2024)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☀️</span>Sunny days / year</td>
-        <td class="val">~330 days / year</td>
-        <td class="hint">indicative (desert climate) (src: Climate data, WMO)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🏥</span>Public healthcare</td>
-        <td class="val">Yes</td>
-        <td class="hint">public for Saudis; private for expats</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🧑‍⚕️</span>Private insurance / mo</td>
-        <td class="val">$100 / month</td>
-        <td class="hint">mandatory for expats</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">📈 Indices</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">🚔</span>Crime Index</td>
-        <td class="val">20 / 100</td>
-        <td class="hint">indicative (very safe) (src: Numbeo Safety Index 2025)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">💶</span>Purchasing Power</td>
-        <td class="val">105</td>
-        <td class="hint">indicative (src: Numbeo PP Index 2025)</td>
-      </tr>
-    </tbody>
-    <tbody>
-      <tr class="sec"><td colspan="3">🕍 Religion snapshot</td></tr>
-      <tr>
-        <td class="lbl"><span class="ico">✝️</span>Christian</td>
-        <td class="val">~4.0%</td>
-        <td class="hint">indicative (expat community)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☪️</span>Muslim</td>
-        <td class="val">~93.9%</td>
-        <td class="hint">indicative (official religion, birthplace of Islam)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">☸️</span>Buddhist</td>
-        <td class="val">~1.0%</td>
-        <td class="hint">indicative (expat)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">✡️</span>Jewish</td>
-        <td class="val">~0%</td>
-        <td class="hint">indicative (src: Pew Research / WJC)</td>
-      </tr>
-      <tr>
-        <td class="lbl"><span class="ico">🕊️</span>Other / None</td>
-        <td class="val">~1.1%</td>
-        <td class="hint">other</td>
-      </tr>
-    </tbody>
-    </table>
-  </section>
+  <div class="main-grid">
+    <aside class="sidebar">
+      <div class="card">
+        <img class="hero-img" src="/assets/hero-saudi-arabia.jpg" alt="Saudi Arabia"
+             onerror="this.onerror=null;this.src='/assets/hero-fallback.jpg'" />
+        <div class="hero-actions">
+          <button class="btn primary" type="button" onclick="openModal('general')">Correct data</button>
+          <button class="btn" type="button" id="btnShare">Share</button>
+          <a class="btn" href="/compare.html?country=saudi-arabia">Compare</a>
+        </div>
+      </div>
 
-  <section class="article"><h2>Country overview</h2><h2>🧭 Overview</h2>
-<p>Saudi Arabia is Gulf kingdom and birthplace of Islam (Mecca, Medina), known for oil wealth (world's largest oil exporter), Wahhabi Islam conservatism, and recent modernization under Crown Prince Mohammed bin Salman (MBS). Riyadh is capital; Jeddah is Red Sea port; Mecca is holiest Islamic city (closed to non-Muslims). The country is absolute monarchy transforming under Vision 2030: tourism, entertainment, women driving (2018), cinemas opened, but also Khashoggi murder (2018), Yemen war, and authoritarianism. Economy is oil-dependent (50% of GDP, 70% of exports) with diversification efforts. For expats, Saudi offers tax-free salaries and modernity, but extreme conservatism, gender segregation (easing), no alcohol, kafala system, and repression create challenges.</p>
-<h2>👥 People & vibe</h2>
-<p>With roughly 35 million people, ~60% are Saudi citizens; ~40% are expats (Indians, Pakistanis, Bangladeshis, Filipinos, Egyptians, Westerners). Arabic is official; English is spoken in business. Islam (Sunni, Wahhabi) is state religion and law. Saudi culture is tribal, conservative, and shaped by oil wealth and religious authority. Saudis live privileged lives (government jobs, subsidies). The vibe is contradictions: religious police (mutaween) power reduced but conservatism persists; women can drive but guardianship continues; MBS modernizes yet imprisons critics. Riyadh is conservative; Jeddah is more liberal; Eastern Province is Shia minority.</p>
-<h2>🌦️ Climate & landscape</h2>
-<p>Expect desert climate: scorching summers (40-50°C, May-Sept are brutal), mild winters (15-25°C). The landscape is vast desert (Rub' al Khali — Empty Quarter is world's largest sand desert), mountains (Asir region), Red Sea coast, and oases. Natural beauty is desert and coast. Water scarcity is absolute — desalination provides all drinking water. Air quality is generally good except dust storms.</p>
-<h2>🏠 Housing & settling in</h2>
-<p>Riyadh, Jeddah, Dhahran (Eastern Province) have expat compounds — walled communities with amenities, relaxed rules (women can dress Western). Expect employer-provided housing. Rents: SAR 40k-100k/year ($10.5k-26.5k) for compounds. Quality is good — modern, AC (essential). Single men and women cannot live together (unmarried). Registration (iqama) is mandatory. Alcohol is completely banned. Gender segregation in public is easing but exists. Life is compound-to-mall-to-work for many expats.</p>
-<h2>💼 Work & economy</h2>
-<p>The economy is oil-dependent (Aramco is world's most profitable company) with diversification to tourism (opening to tourists 2019), entertainment, manufacturing, and services. For foreigners, opportunities exist in oil/gas, construction (megaprojects — NEOM, Red Sea Project), healthcare, education, or finance. Work visas require employer sponsorship (kafala system). Salaries are tax-free and high. Saudization policy reserves jobs for Saudis. English works. Kafala creates dependency and exploitation. Starting a business requires Saudi partner (51%+ local ownership usually).</p>
-<h2>🛂 Visa & entry</h2>
-<p>Tourist visas available since 2019 (e-visa, $80, 90 days) — major opening. For work, employer handles sponsorship (kafala — tied to employer, can't change jobs without permission). The process is employer-controlled. Permanent residence is nearly impossible. Citizenship is only for Muslims and essentially impossible otherwise. Residence is temporary and employment-dependent.</p>
-<h2>🏥 Healthcare</h2>
-<p>Healthcare is excellent and free for citizens. Private hospitals (Saudi German, others) offer world-class care for expats (employer insurance covers). Quality is top-tier. Life expectancy is ~76 years. No expense is spared. Medical tourism attracts GCC nationals. Serious conditions are treated locally. However, MERS-CoV (Middle East Respiratory Syndrome) originated here.</p>
-<h2>🚗 Transport & mobility</h2>
-<p>Riyadh has metro (6 lines, opened 2021). Most people drive. Roads are excellent. Traffic is heavy. Driving culture is aggressive. Women can drive (since 2018 — major reform). Intercity highways connect cities. The country is large — Riyadh to Jeddah is 950km. Domestic flights connect cities. Major airports: Riyadh, Jeddah. Hajj season (pilgrimage) sees millions arrive. No trains of note yet.</p>
-<h2>🍛 Food note (national dish)</h2>
-<p>The national dish is <strong>Kabsa</strong>: spiced rice with meat (chicken, lamb, camel), vegetables, and nuts. Served at celebrations. Alternatively, <strong>Shawarma</strong> or <strong>Mandi</strong> (Yemeni-influenced rice and meat). Saudi cuisine is Arabic Gulf food — rice, meat, dates. International food is available in cities.</p>
-<h2>🔎 Bottom line</h2>
-<p>Saudi Arabia suits high earners seeking tax-free savings (oil/gas, construction, healthcare, education), adventurous types experiencing conservative Islam, and short-term contracts (2-5 years). Pros: tax-free income (save 40-60%), safety, modern infrastructure (improving), Vision 2030 reforms (cinemas, entertainment), megaprojects. Cons: extreme conservatism (no alcohol, gender rules easing but persist, religious police), kafala exploitation, no political freedoms, Khashoggi murder legacy, Yemen war, and summer heat (brutal). Riyadh is conservative; Jeddah is more relaxed. Best for those prioritizing money over freedom, accepting temporary status, and handling restrictions/heat. MBS reforms are real (women driving, entertainment) but so is authoritarianism (critics jailed, Khashoggi killed). If you can handle restrictions for tax-free earnings, Saudi delivers. But it's not free society.</p>
-<p>Expat Score — 5.5 / 10</p></section>
+      <div class="card snapshot-card">
+        <div class="snapshot-title">Quick snapshot</div>
+        <div class="kv"><span>Capital</span><b>Riyadh</b></div><div class="kv"><span>Population</span><b>~35M</b></div><div class="kv"><span>Languages</span><b>Arabic, English</b></div><div class="kv"><span>Currency</span><b>Saudi riyal (SAR)</b></div><div class="kv kv-sub"><span>Exchange rate</span><b>1 USD ≈ 3.75 SAR</b></div><div class="kv-note">Pegged to USD since 1986. Extremely stable. Backed by massive oil wealth.</div><div class="kv"><span>Crypto-friendly</span><b>Limited</b></div><div class="kv-note">No clear regulations. Conservative stance. SAMA (central bank) exploring but retail adoption discouraged.</div><div class="kv"><span>Driving side</span><b>Right</b></div><div class="sector-block"><div class="sector-head">Top sectors</div><div class="sector-list"><div class="sector-pill">Oil &amp; gas (Aramco)</div><div class="sector-pill">Construction (megaprojects)</div><div class="sector-pill">Healthcare &amp; education</div></div></div>
+      </div>
 
-  <section class="ttk"><h2>Things to know</h2><div class="ttk-grid">
-      <div class="ttk-card">
-        <div class="ttk-title">👤 Mohammed bin Salman (MBS) <small>(21st century)</small></div>
-        <p>Crown Prince (since 2017) and de facto ruler. Architect of Vision 2030 modernization — women driving, cinemas, tourism. But also Khashoggi murder (2018, journalist killed in consulate), Yemen war, and authoritarian crackdowns. Divisive figure: reformer or dictator?</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🕌 Islam = state religion + law</div>
-        <p>Saudi Arabia is birthplace of Islam. Mecca and Medina are holiest cities (non-Muslims forbidden). Sharia is law. Five daily prayers shut businesses. Ramadan fasting is mandatory publicly. Religious police (mutaween) power reduced but conservatism persists. Islam defines everything.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">💀 Khashoggi murder (2018)</div>
-        <p>Jamal Khashoggi, journalist and critic, killed in Saudi consulate in Istanbul. Body dismembered. CIA concluded MBS ordered it. International outrage but limited consequences. It exposed Saudi authoritarianism. Critics are silenced, imprisoned, or killed. Dissent is dangerous.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">👩 Women&#x27;s rights = improving slowly</div>
-        <p>2018: women allowed to drive (major reform). 2019: passports without male permission. But guardianship system persists — men control women&#x27;s lives. Public gender segregation easing. Progress is real but from extremely low baseline. Women&#x27;s rights activists remain jailed.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🏗️ NEOM = $500B+ megacity</div>
-        <p>MBS&#x27;s Vision 2030 flagship: NEOM, futuristic city in northwest, including The Line (170km linear city). Budget $500B+. Also Red Sea Project, Qiddiya entertainment city. Ambition is staggering. Realization uncertain. Critics call it vanity projects; supporters see diversification necessity.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🛢️ Aramco = oil empire</div>
-        <p>Saudi Aramco is world&#x27;s most profitable company (2019 IPO valued at $2T). It produces 10M+ barrels/day. Oil wealth funds everything. Vision 2030 aims to reduce dependence but oil remains king. The wealth is staggering but creates rentier state mentality.</p>
-      </div>
-      <div class="ttk-card">
-        <div class="ttk-title">🚫 No alcohol = strictly enforced</div>
-        <p>Alcohol is completely banned (even for non-Muslims). Possession brings flogging, jail, deportation. Home brewing is risky. Compounds can&#x27;t bypass this. Saudi is totally dry. For many expats, this is deal-breaker. There&#x27;s no legal alcohol anywhere.</p>
-      </div></div></section>
+      
+        <div class="card persona-card">
+          <div class="snapshot-title">Icon of the country</div>
+          <div class="persona-name">Mohammed bin Salman (MBS) <small>(21st century)</small></div>
+          <div class="persona-why">Crown Prince (since 2017) and de facto ruler. Architect of Vision 2030 modernization — women driving, cinemas, tourism. But also Khashoggi murder (2018, journalist killed in consulate), Yemen war, and authoritarian crackdowns. Divisive figure: reformer or dictator?</div>
+        </div>
+    </aside>
 
-  
-  <section class="related"><h2>Related chronicles</h2><ul class="link-list"><li><a href="/chronicles/chronicle-2056-best-countries-30-years-en.html">2056: Where Will Life Be Best in 30 Years?</a></li></ul></section>
-  
+    <div class="right-col">
+      <div class="rc-wrapper">
+        
+        <div class="rc-box">
+          <div class="rc-box-head">
+            <h2>Related chronicles</h2>
+            <div class="rc-nav">
+              <button class="rc-nav-btn" data-target="rc-list" data-dir="-1" aria-label="Previous">&#8249;</button>
+              <button class="rc-nav-btn" data-target="rc-list" data-dir="1" aria-label="Next">&#8250;</button>
+            </div>
+          </div>
+          <div class="rc-track"><div id="rc-list" class="rc-row"><a class="rc-vcard" href="/chronicles/chronicle-2056-best-countries-30-years-en.html"><img class="rc-vimg" src="/assets/hero-norway.jpg" alt="2056: Where Will Life Be Best in 30 Years?" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="rc-vemoji" style="display:none">📄</div><div class="rc-vgrad"></div><div class="rc-vbody"><div class="rc-vtitle">2056: Where Will Life Be Best in 30 Years?</div></div></a></div></div>
+        </div>
+        
+      </div>
 
-  <p style="text-align:center;margin-top:30px"><a href="/globe.html" style="font-weight:600">See all 160+ countries →</a></p>
+      <div class="data-card">
+        <table class="data-table">
+      <tbody>
+        <tr class="sec"><td colspan="4">💼 Salaries (net / month)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧾</span>Minimum wage</td>
+          <td class="val">$965</td>
+          <td class="hint">Saudi nationals min SAR 4,000 → net ~SAR 3,610 (GOSI 9.75%; 2025; no expat minimum)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('min_wage')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📊</span>Average salary</td>
+          <td class="val">$2,880</td>
+          <td class="hint">Avg net ~SAR 10,800/mo (GaStat 2024 — no income tax; oil/construction drives avg)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('avg_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🩺</span>Doctor (GP) salary</td>
+          <td class="val">$8,500</td>
+          <td class="hint">Public/private avg</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('doctor_salary')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🏠 Housing & utilities (studio reference)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏚️</span>Studio rent</td>
+          <td class="val">$1,275</td>
+          <td class="hint">Outside Riyadh/Jeddah</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('rent_studio')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">⚡</span>Electricity</td>
+          <td class="val">$70</td>
+          <td class="hint">/ month (subsidized)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('electricity')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💧</span>Water</td>
+          <td class="val">$20</td>
+          <td class="hint">/ month</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('water')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📱</span>Mobile plan</td>
+          <td class="val">$40</td>
+          <td class="hint">~50–200GB (STC/Mobily)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('mobile')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🍽️ Food & drink (typical prices)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍺</span>Beer (pint)</td>
+          <td class="val">N/A</td>
+          <td class="hint">Alcohol illegal</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('beer')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☕</span>Coffee</td>
+          <td class="val">$4.00</td>
+          <td class="hint">Regular coffee (qahwa free)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('coffee')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍲</span>Main dish</td>
+          <td class="val">$14</td>
+          <td class="hint">mid-range</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('dish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">⛽ Transport</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">⛽</span>Gasoline / litre</td>
+          <td class="val">$0.65 / L</td>
+          <td class="hint">heavily subsidized</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('gas')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🧾 Taxes (indicative)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏷️</span>VAT</td>
+          <td class="val">15%</td>
+          <td class="hint">standard rate (2020+)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('vat')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">👤</span>Income tax</td>
+          <td class="val">0%</td>
+          <td class="hint">No income tax (Zakat 2.5% for Saudis)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('income_tax')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏪</span>Small business tax</td>
+          <td class="val">~20%</td>
+          <td class="hint">20% CIT (non-Saudis only)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('smallbiz')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📱 Tech (indicative prices)</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🍎</span>iPhone (latest 256GB)</td>
+          <td class="val">$1,400</td>
+          <td class="hint">Saudi pricing</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('iphone')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">📲</span>Galaxy S (latest 256GB)</td>
+          <td class="val">$1,100</td>
+          <td class="hint">Saudi pricing</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('samsung')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🛂 Moving & immigration</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🛂</span>Immigration-friendly</td>
+          <td class="val">5 / 10</td>
+          <td class="hint">Sponsorship required; Vision 2030 reforms</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('immigration')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🌤️ Quality of life</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🙂</span>Happiness</td>
+          <td class="val">6.4 / 10</td>
+          <td class="hint">indicative (src: World Happiness Report 2024)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('happiness')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☀️</span>Sunny days / year</td>
+          <td class="val">~330 days / year</td>
+          <td class="hint">indicative (desert climate) (src: Climate data, WMO)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('sun')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🏥</span>Public healthcare</td>
+          <td class="val">Yes</td>
+          <td class="hint">public for Saudis; private for expats</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('health')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🧑‍⚕️</span>Private insurance / mo</td>
+          <td class="val">$100 / month</td>
+          <td class="hint">mandatory for expats</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('insurance')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">📈 Indices</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">🚔</span>Crime Index</td>
+          <td class="val">20 / 100</td>
+          <td class="hint">indicative (very safe) (src: Numbeo Safety Index 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('crime')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">💶</span>Purchasing Power</td>
+          <td class="val">105</td>
+          <td class="hint">indicative (src: Numbeo PP Index 2025)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('pp')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr class="sec"><td colspan="4">🕍 Religion snapshot</td></tr>
+        <tr>
+          <td class="lbl"><span class="ico">✝️</span>Christian</td>
+          <td class="val">~4.0%</td>
+          <td class="hint">indicative (expat community)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_christian')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☪️</span>Muslim</td>
+          <td class="val">~93.9%</td>
+          <td class="hint">indicative (official religion, birthplace of Islam)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_muslim')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">☸️</span>Buddhist</td>
+          <td class="val">~1.0%</td>
+          <td class="hint">indicative (expat)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_buddhist')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">✡️</span>Jewish</td>
+          <td class="val">~0%</td>
+          <td class="hint">indicative (src: Pew Research / WJC)</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_jewish')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+        <tr>
+          <td class="lbl"><span class="ico">🕊️</span>Other / None</td>
+          <td class="val">~1.1%</td>
+          <td class="hint">other</td>
+          <td class="edit"><button class="edit-btn" onclick="openModal('religion_other')" title="Suggest correction" aria-label="Suggest correction">✎</button></td>
+        </tr>
+      </tbody>
+        </table>
+      </div>
+
+      
+      <div class="article-card">
+        <div class="section-head">
+          <h2>Living in Saudi Arabia</h2>
+          <span class="score-badge"><span class="score-star">⭐</span> Expat Score: 5.5 / 10</span>
+        </div>
+        <div class="article-body"><p>🧭 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Overview</span><br>
+Saudi Arabia is Gulf kingdom and birthplace of Islam (Mecca, Medina), known for oil wealth (world&#x27;s largest oil exporter), Wahhabi Islam conservatism, and recent modernization under Crown Prince Mohammed bin Salman (MBS). Riyadh is capital; Jeddah is Red Sea port; Mecca is holiest Islamic city (closed to non-Muslims). The country is absolute monarchy transforming under Vision 2030: tourism, entertainment, women driving (2018), cinemas opened, but also Khashoggi murder (2018), Yemen war, and authoritarianism. Economy is oil-dependent (50% of GDP, 70% of exports) with diversification efforts. For expats, Saudi offers tax-free salaries and modernity, but extreme conservatism, gender segregation (easing), no alcohol, kafala system, and repression create challenges.</p><p>👥 <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">People &amp; vibe</span><br>
+With roughly 35 million people, ~60% are Saudi citizens; ~40% are expats (Indians, Pakistanis, Bangladeshis, Filipinos, Egyptians, Westerners). Arabic is official; English is spoken in business. Islam (Sunni, Wahhabi) is state religion and law. Saudi culture is tribal, conservative, and shaped by oil wealth and religious authority. Saudis live privileged lives (government jobs, subsidies). The vibe is contradictions: religious police (mutaween) power reduced but conservatism persists; women can drive but guardianship continues; MBS modernizes yet imprisons critics. Riyadh is conservative; Jeddah is more liberal; Eastern Province is Shia minority.</p><p>🌦️ <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Climate &amp; landscape</span><br>
+Expect desert climate: scorching summers (40-50°C, May-Sept are brutal), mild winters (15-25°C). The landscape is vast desert (Rub&#x27; al Khali — Empty Quarter is world&#x27;s largest sand desert), mountains (Asir region), Red Sea coast, and oases. Natural beauty is desert and coast. Water scarcity is absolute — desalination provides all drinking water. Air quality is generally good except dust storms.</p><p>🏠 <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Housing &amp; settling in</span><br>
+Riyadh, Jeddah, Dhahran (Eastern Province) have expat compounds — walled communities with amenities, relaxed rules (women can dress Western). Expect employer-provided housing. Rents: SAR 40k-100k/year ($10.5k-26.5k) for compounds. Quality is good — modern, AC (essential). Single men and women cannot live together (unmarried). Registration (iqama) is mandatory. Alcohol is completely banned. Gender segregation in public is easing but exists. Life is compound-to-mall-to-work for many expats.</p><p>💼 <span class="art-tag" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#6d28d9">Work &amp; economy</span><br>
+The economy is oil-dependent (Aramco is world&#x27;s most profitable company) with diversification to tourism (opening to tourists 2019), entertainment, manufacturing, and services. For foreigners, opportunities exist in oil/gas, construction (megaprojects — NEOM, Red Sea Project), healthcare, education, or finance. Work visas require employer sponsorship (kafala system). Salaries are tax-free and high. Saudization policy reserves jobs for Saudis. English works. Kafala creates dependency and exploitation. Starting a business requires Saudi partner (51%+ local ownership usually).</p>
+        <div class="map-card">
+          <div class="map-header">
+            <div class="map-title"><span class="map-flag">🇸🇦</span><span>Saudi Arabia — Map</span></div>
+            <div class="map-styles">
+              <button type="button" class="map-style-btn active" data-style="light">Light</button>
+              <button type="button" class="map-style-btn" data-style="dark">Dark</button>
+              <button type="button" class="map-style-btn" data-style="satellite">Satellite</button>
+            </div>
+          </div>
+          <div class="map-container">
+            <div id="wigg-country-map"></div>
+            <div class="map-loading" id="wiggMapLoading">Loading map…</div>
+          </div>
+        </div><p>🛂 <span class="art-tag" style="background:rgba(236,72,153,.12);border:1px solid rgba(236,72,153,.25);color:#be185d">Visa &amp; entry</span><br>
+Tourist visas available since 2019 (e-visa, $80, 90 days) — major opening. For work, employer handles sponsorship (kafala — tied to employer, can&#x27;t change jobs without permission). The process is employer-controlled. Permanent residence is nearly impossible. Citizenship is only for Muslims and essentially impossible otherwise. Residence is temporary and employment-dependent.</p><p>🏥 <span class="art-tag" style="background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.25);color:#0e7490">Healthcare</span><br>
+Healthcare is excellent and free for citizens. Private hospitals (Saudi German, others) offer world-class care for expats (employer insurance covers). Quality is top-tier. Life expectancy is ~76 years. No expense is spared. Medical tourism attracts GCC nationals. Serious conditions are treated locally. However, MERS-CoV (Middle East Respiratory Syndrome) originated here.</p><p>🚗 <span class="art-tag" style="background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:#c2410c">Transport &amp; mobility</span><br>
+Riyadh has metro (6 lines, opened 2021). Most people drive. Roads are excellent. Traffic is heavy. Driving culture is aggressive. Women can drive (since 2018 — major reform). Intercity highways connect cities. The country is large — Riyadh to Jeddah is 950km. Domestic flights connect cities. Major airports: Riyadh, Jeddah. Hajj season (pilgrimage) sees millions arrive. No trains of note yet.</p><p>🍛 <span class="art-tag" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25);color:#15803d">Food note (national dish)</span><br>
+The national dish is <span class="art-tag" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25);color:#1d4ed8">Kabsa</span><br>: spiced rice with meat (chicken, lamb, camel), vegetables, and nuts. Served at celebrations. Alternatively, <span class="art-tag" style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);color:#92400e">Shawarma</span><br> or <span class="art-tag" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:#b91c1c">Mandi</span><br> (Yemeni-influenced rice and meat). Saudi cuisine is Arabic Gulf food — rice, meat, dates. International food is available in cities.</p><p>🔎 <span class="art-tag" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);color:#6d28d9">Bottom line</span><br>
+Saudi Arabia suits high earners seeking tax-free savings (oil/gas, construction, healthcare, education), adventurous types experiencing conservative Islam, and short-term contracts (2-5 years). Pros: tax-free income (save 40-60%), safety, modern infrastructure (improving), Vision 2030 reforms (cinemas, entertainment), megaprojects. Cons: extreme conservatism (no alcohol, gender rules easing but persist, religious police), kafala exploitation, no political freedoms, Khashoggi murder legacy, Yemen war, and summer heat (brutal). Riyadh is conservative; Jeddah is more relaxed. Best for those prioritizing money over freedom, accepting temporary status, and handling restrictions/heat. MBS reforms are real (women driving, entertainment) but so is authoritarianism (critics jailed, Khashoggi killed). If you can handle restrictions for tax-free earnings, Saudi delivers. But it&#x27;s not free society.</p><p>Expat Score — 5.5 / 10</p></div>
+      </div>
+
+      
+      <div class="things-section">
+        <div class="section-head"><h2>Things to know</h2><span class="wg-badge">Must-reads</span></div>
+        <div class="facts-grid"><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🕌 Islam = state religion + law</div><div class="fact-text">Saudi Arabia is birthplace of Islam. Mecca and Medina are holiest cities (non-Muslims forbidden). Sharia is law. Five daily prayers shut businesses. Ramadan fasting is mandatory publicly. Religious police (mutaween) power reduced but conservatism persists. Islam defines everything.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">💀 Khashoggi murder (2018)</div><div class="fact-text">Jamal Khashoggi, journalist and critic, killed in Saudi consulate in Istanbul. Body dismembered. CIA concluded MBS ordered it. International outrage but limited consequences. It exposed Saudi authoritarianism. Critics are silenced, imprisoned, or killed. Dissent is dangerous.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">👩 Women&#x27;s rights = improving slowly</div><div class="fact-text">2018: women allowed to drive (major reform). 2019: passports without male permission. But guardianship system persists — men control women&#x27;s lives. Public gender segregation easing. Progress is real but from extremely low baseline. Women&#x27;s rights activists remain jailed.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏗️ NEOM = $500B+ megacity</div><div class="fact-text">MBS&#x27;s Vision 2030 flagship: NEOM, futuristic city in northwest, including The Line (170km linear city). Budget $500B+. Also Red Sea Project, Qiddiya entertainment city. Ambition is staggering. Realization uncertain. Critics call it vanity projects; supporters see diversification necessity.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🛢️ Aramco = oil empire</div><div class="fact-text">Saudi Aramco is world&#x27;s most profitable company (2019 IPO valued at $2T). It produces 10M+ barrels/day. Oil wealth funds everything. Vision 2030 aims to reduce dependence but oil remains king. The wealth is staggering but creates rentier state mentality.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🚫 No alcohol = strictly enforced</div><div class="fact-text">Alcohol is completely banned (even for non-Muslims). Possession brings flogging, jail, deportation. Home brewing is risky. Compounds can&#x27;t bypass this. Saudi is totally dry. For many expats, this is deal-breaker. There&#x27;s no legal alcohol anywhere.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🍽️ Kabsa / Mandi</div><div class="fact-text">Spiced rice with meat or Yemeni-style rice — Arabic Gulf cuisine. Rice, meat, dates staple. International food available.</div></div><div class="fact-card"><div class="fact-bar"></div><div class="fact-title">🏳️‍🌈 LGBT+: Illegal / death penalty</div><div class="fact-text">Homosexuality is illegal with death penalty possible. Social attitudes are extremely hostile. No protections whatsoever. Extremely dangerous. Among world&#x27;s worst.</div></div></div>
+      </div>
+
+      
+    </div>
+  </div>
 </main>
 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
+<script src="/data/share.js"></script>
+<script src="/data/correction-form.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var t = document.getElementById("localTime");
+  if(t && t.dataset.tz){
+    function tick(){
+      try{
+        t.textContent = new Intl.DateTimeFormat("en-GB",{
+          timeZone: t.dataset.tz, hour:"2-digit", minute:"2-digit"
+        }).format(new Date());
+      }catch(e){}
+    }
+    tick(); setInterval(tick, 30000);
+  }
+  document.querySelectorAll(".rc-nav-btn").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var targetId = btn.dataset.target;
+      var dir = parseInt(btn.dataset.dir||"1",10);
+      var row = document.getElementById(targetId);
+      if(!row) return;
+      var box = row.parentElement;
+      var first = row.querySelector(".rc-vcard");
+      if(!first) return;
+      var cardW = first.offsetWidth + 9;
+      var visible = Math.max(1, Math.floor(box.offsetWidth / cardW));
+      var maxOffset = Math.max(0, row.children.length - visible);
+      var current = parseInt(row.dataset.offset||"0", 10);
+      current = Math.min(maxOffset, Math.max(0, current + dir));
+      row.dataset.offset = current;
+      row.style.transform = "translateX(-" + (current * cardW) + "px)";
+      var nav = btn.parentNode;
+      var prev = nav.querySelector('[data-dir="-1"]');
+      var next = nav.querySelector('[data-dir="1"]');
+      if(prev) prev.disabled = (current === 0);
+      if(next) next.disabled = (current >= maxOffset);
+    });
+  });
+  var iso2 = "SA";
+  if(!iso2 || typeof L === "undefined") return;
+  var STYLES = {
+    light:     { url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", attr: "&copy; OSM &copy; CARTO" },
+    dark:      { url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",  attr: "&copy; OSM &copy; CARTO" },
+    satellite: { url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", attr: "&copy; Esri" }
+  };
+  var wMap=null, wLayer=null, wMarker=null;
+  function initMap(lat, lon){
+    var el = document.getElementById("wigg-country-map");
+    if(!el) return;
+    if(wMap){ try{wMap.remove();}catch(e){} }
+    wMap = L.map("wigg-country-map",{zoomControl:true}).setView([lat,lon],5);
+    wLayer = L.tileLayer(STYLES.light.url,{attribution:STYLES.light.attr,maxZoom:18}).addTo(wMap);
+    wMarker = L.marker([lat,lon]).addTo(wMap);
+    var loading = document.getElementById("wiggMapLoading");
+    if(loading) loading.classList.add("hidden");
+  }
+  document.querySelectorAll(".map-style-btn").forEach(function(b){
+    b.addEventListener("click", function(){
+      if(!wMap) return;
+      var s = STYLES[b.dataset.style];
+      if(!s) return;
+      if(wLayer) wMap.removeLayer(wLayer);
+      wLayer = L.tileLayer(s.url,{attribution:s.attr,maxZoom:18}).addTo(wMap);
+      document.querySelectorAll(".map-style-btn").forEach(function(x){x.classList.remove("active");});
+      b.classList.add("active");
+    });
+  });
+  var cacheKey = "wigg_centroid_" + iso2;
+  var cached = null;
+  try { cached = JSON.parse(localStorage.getItem(cacheKey) || "null"); } catch(e){}
+  if(cached && cached.lat != null && cached.lon != null){
+    initMap(cached.lat, cached.lon); return;
+  }
+  fetch("https://nominatim.openstreetmap.org/search?country=" + encodeURIComponent(iso2) + "&format=json&limit=1")
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && d[0]){
+        var coords = { lat: +d[0].lat, lon: +d[0].lon };
+        try { localStorage.setItem(cacheKey, JSON.stringify(coords)); } catch(e){}
+        initMap(coords.lat, coords.lon);
+      } else {
+        var l = document.getElementById("wiggMapLoading");
+        if(l) l.textContent = "Map unavailable";
+      }
+    })
+    .catch(function(){
+      var l = document.getElementById("wiggMapLoading");
+      if(l) l.textContent = "Map unavailable";
+    });
+})();
+</script>
+
+<form name="wiggmap-corrections" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="wiggmap-corrections" />
+  <p><label>Don't fill this out: <input name="bot-field" /></label></p>
+  <input name="country" /><input name="field" /><input name="value" /><input name="email" /><textarea name="notes"></textarea>
+</form>
+
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
 </body>
 </html>
