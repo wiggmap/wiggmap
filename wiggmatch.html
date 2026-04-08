@@ -46,6 +46,19 @@ body{font-family:var(--sans);color:var(--ink);background:var(--ink);font-size:16
 .hero-stat-lbl{font-size:11px;color:rgba(255,255,255,0.3);letter-spacing:.08em;text-transform:uppercase;margin-top:4px}
 
 /* QUIZ WRAPPER */
+/* TOP BAR — back link + lang switch (replaces site header) */
+.wm-topbar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:rgba(15,17,23,0.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,0.06)}
+.wm-back{display:inline-flex;align-items:center;gap:8px;color:rgba(255,255,255,0.85);text-decoration:none;font-family:var(--sans);font-size:14px;font-weight:700;letter-spacing:-.01em;transition:color .15s}
+.wm-back:hover{color:var(--g)}
+.wm-back svg{width:16px;height:16px;flex-shrink:0}
+.wm-back-dot{width:7px;height:7px;border-radius:50%;background:var(--g);display:inline-block;margin-left:2px;flex-shrink:0}
+.wm-langbar{display:flex;gap:6px}
+.wm-langbtn{border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.04);border-radius:8px;padding:5px 10px;font-size:13px;font-weight:800;cursor:pointer;transition:all .15s;color:rgba(255,255,255,0.5);font-family:var(--sans)}
+.wm-langbtn:hover{border-color:var(--g);color:var(--g)}
+.wm-langbtn.active{border-color:var(--g);background:rgba(22,163,74,0.12);color:var(--g)}
+body{padding-top:54px}
+@media(max-width:480px){.wm-topbar{padding:11px 14px}.wm-back{font-size:13px}.wm-langbtn{padding:4px 8px;font-size:12px}body{padding-top:48px}}
+
 #quiz-section{display:none;background:var(--paper);min-height:100vh;padding:0 0 80px}
 .quiz-topbar{background:var(--ink);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
 .quiz-logo{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--white)}
@@ -182,8 +195,18 @@ body{font-family:var(--sans);color:var(--ink);background:var(--ink);font-size:16
 </head>
 <body>
 
-<div id="siteHeader"></div>
-<script src="/data/header.js"></script>
+<!-- ═══════════ TOP BAR ═══════════ -->
+<div class="wm-topbar">
+  <a class="wm-back" href="/" aria-label="Retour à WiggMap">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    WiggMap<span class="wm-back-dot"></span>
+  </a>
+  <div class="wm-langbar">
+    <button class="wm-langbtn" id="wmLangFR" onclick="wmSetLang('fr')">🇫🇷 FR</button>
+    <button class="wm-langbtn" id="wmLangEN" onclick="wmSetLang('en')">🇬🇧 EN</button>
+    <button class="wm-langbtn" id="wmLangES" onclick="wmSetLang('es')">🇪🇸 ES</button>
+  </div>
+</div>
 
 <!-- ═══════════ HERO ═══════════ -->
 <section class="hero" id="hero-section">
@@ -890,6 +913,19 @@ function computeResults(){
   document.getElementById('quiz-section').style.display = 'none';
   showResults();
 }
+
+// Lang switcher (stocke la préférence + redirige selon la page)
+function wmSetLang(l){
+  localStorage.setItem('wigg_lang', l);
+  document.querySelectorAll('.wm-langbtn').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById('wmLang' + l.toUpperCase());
+  if(btn) btn.classList.add('active');
+}
+(function(){
+  const l = (localStorage.getItem('wigg_lang') || 'fr').toLowerCase();
+  const btn = document.getElementById('wmLang' + l.toUpperCase());
+  if(btn) btn.classList.add('active');
+})();
 
 function unlockCities(){
   const input = document.getElementById('inline-email');
