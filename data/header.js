@@ -188,8 +188,14 @@
         /* Boutons : pleine largeur, bien centrés, hauteur uniforme */
         .wmh-nav-mobile .wmh-btn,
         .wmh-nav-mobile .wmh-dropdown .wmh-btn{
-          width:100%; justify-content:center;
-          padding:10px 8px; font-size:13px; font-weight:700;
+          box-sizing:border-box;
+          width:100%; height:38px;
+          display:inline-flex; align-items:center; justify-content:center;
+          padding:0 8px; margin:0;
+          font-size:13px; font-weight:700; line-height:1;
+          border:1px solid rgba(0,0,0,.10);
+          background:rgba(255,255,255,.80);
+          font-family:inherit;
         }
         /* Panneau de recherche plein écran */
         .wmh-search-panel{ min-width:calc(100vw - 28px); }
