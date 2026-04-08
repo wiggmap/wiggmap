@@ -164,10 +164,11 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
 }
 .pill.match .pill-eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:900;letter-spacing:.01em;margin-bottom:6px;line-height:1}
 .pill.match .pill-eyebrow .pm-dot{width:6px;height:6px;border-radius:50%;background:#fb923c;display:inline-block;animation:matchDot 2s ease-in-out infinite;box-shadow:0 0 8px rgba(251,146,60,.8)}
-.pill.match .pm-wigg{color:#fb923c;text-shadow:0 0 12px rgba(251,146,60,.5)}
-.pill.match .pm-match{color:#a78bfa;text-shadow:0 0 12px rgba(167,139,250,.5)}
+.pill.match .pm-name{display:inline-flex;align-items:baseline;gap:0;letter-spacing:-.01em}
+.pill.match .pm-wigg{color:#fb923c;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000,0 0 12px rgba(251,146,60,.6)}
+.pill.match .pm-match{color:#a78bfa;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000,0 0 12px rgba(167,139,250,.6)}
 @keyframes matchDot{0%,100%{opacity:.5}50%{opacity:1}}
-.pill.match .pill-title{font-family:'Inter',system-ui,sans-serif;font-style:normal;font-size:15px;font-weight:800;color:#fff;line-height:1.22;letter-spacing:-.01em;text-shadow:0 1px 8px rgba(0,0,0,.35);max-width:18ch;white-space:normal}
+.pill.match .pill-title{font-family:'Inter',system-ui,sans-serif;font-style:normal;font-size:15px;font-weight:800;color:#fff;line-height:1.22;letter-spacing:-.01em;text-shadow:-1px -1px 0 rgba(0,0,0,.6),1px -1px 0 rgba(0,0,0,.6),-1px 1px 0 rgba(0,0,0,.6),1px 1px 0 rgba(0,0,0,.6),0 2px 12px rgba(0,0,0,.55);max-width:18ch;white-space:normal}
 .pill.match::after{content:'→';color:#22e07c;font-size:15px}
 
 .pill-icon{font-size:18px;flex-shrink:0;margin-bottom:2px}
@@ -221,6 +222,35 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
   .pill-icon{font-size:15px}
   .cmp-row{font-size:9px}
   .cmp-flags{font-size:11px}
+
+  /* Mobile : WiggMatch = seule case côté droit, rectangle vertical centré */
+  .pill.dark{display:none!important}
+  .pill[href="/globe.html"]{display:none!important}
+  .pill.match{
+    position:fixed!important;
+    right:12px!important;
+    top:50%!important;
+    transform:translateY(-50%)!important;
+    width:96px!important;
+    max-width:96px!important;
+    height:280px!important;
+    padding:18px 14px!important;
+    border-radius:22px!important;
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:center!important;
+    text-align:center!important;
+    gap:14px!important;
+    background:linear-gradient(160deg,rgba(34,197,94,.28) 0%,rgba(22,163,74,.42) 100%)!important;
+    border:1.5px solid rgba(34,197,94,.7)!important;
+    box-shadow:0 0 0 1px rgba(34,197,94,.3),0 8px 32px rgba(34,197,94,.35),0 0 50px rgba(34,197,94,.18)!important;
+    z-index:50;
+  }
+  .pill.match .pill-eyebrow{font-size:15px;margin-bottom:0;flex-direction:column;gap:8px}
+  .pill.match .pm-name{font-size:15px;flex-direction:row;align-items:baseline;line-height:1;white-space:nowrap}
+  .pill.match .pill-title{font-size:13px;line-height:1.22;max-width:none;padding:0 2px}
+  .pill.match::after{content:'→';position:static;transform:none;margin-top:auto;font-size:18px;color:#22e07c;align-self:center}
 }
 </style>
 </head>
@@ -320,7 +350,7 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
     <div class="col">
 
       <a class="pill match" href="/wiggmatch.html">
-        <span class="pill-eyebrow"><span class="pm-dot"></span><span class="pm-wigg">Wigg</span><span class="pm-match">Match</span></span>
+        <span class="pill-eyebrow"><span class="pm-dot"></span><span class="pm-name"><span class="pm-wigg">Wigg</span><span class="pm-match">Match</span></span></span>
         <div class="pill-title" id="lblMatchSub">Trouve la ville faite pour toi</div>
       </a>
 
