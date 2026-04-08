@@ -294,6 +294,14 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
     <!-- DROITE -->
     <div class="col">
 
+      <a class="pill accent" href="/wiggmatch.html">
+        <span class="pill-icon">💚</span>
+        <div class="pill-body">
+          <div class="pill-name" id="lblMatch">WiggMatch</div>
+          <div class="pill-sub" id="lblMatchSub">Quelle ville pour toi ?</div>
+        </div>
+      </a>
+
       <a class="pill dark" href="/ggg/wigggame.html">
         <span class="pill-icon">🎮</span>
         <div class="pill-body">
@@ -333,6 +341,7 @@ var I18N={
       globe:"3D Globe",globeSub:"Spin. Land anywhere.",
       chron:"Chronicles",chronSub:"In-depth articles & analysis",
       game:"WiggGame",gameSub:"Test your knowledge",
+      match:"WiggMatch",matchSub:"Which city is right for you?",
       compare:"Compare",random:"Random",randomSub:"Discover a country",
       about:"What is WiggMap?",aboutSub:"Explore salaries, visas, rent, taxes and quality of life across 160+ countries.",
       tagL1:"What if your life were different<br>somewhere else?",tagL2:"Explore living conditions<br>in over 160 countries."},
@@ -340,6 +349,7 @@ var I18N={
       globe:"Globe 3D",globeSub:"Tournez. Atterrissez n'importe où.",
       chron:"Chroniques",chronSub:"Articles & analyses expat",
       game:"WiggGame",gameSub:"Testez vos connaissances",
+      match:"WiggMatch",matchSub:"Quelle ville pour toi ?",
       compare:"Comparer",random:"Aléatoire",randomSub:"Découvrir un pays",
       about:"Qu'est-ce que WiggMap ?",aboutSub:"Explorez les salaires, visas, loyers, taxes et qualité de vie dans plus de 160 pays.",
       tagL1:"Et si ta vie était différente<br>ailleurs ?",tagL2:"Explore les conditions de vie<br>de plus de 160 pays."},
@@ -347,6 +357,7 @@ var I18N={
       globe:"Globo 3D",globeSub:"Gira. Aterriza en cualquier lugar.",
       chron:"Crónicas",chronSub:"Artículos y análisis",
       game:"WiggGame",gameSub:"Pon a prueba tu conocimiento",
+      match:"WiggMatch",matchSub:"¿Qué ciudad es para ti?",
       compare:"Comparar",random:"Aleatorio",randomSub:"Descubrir un país",
       about:"¿Qué es WiggMap?",aboutSub:"Explora salarios, visados, alquileres, impuestos y calidad de vida en más de 160 países.",
       tagL1:"¿Y si tu vida fuera diferente<br>en otro lugar?",tagL2:"Explora las condiciones de vida<br>en más de 160 países."}
@@ -366,6 +377,8 @@ function getLang(){return(localStorage.getItem('wigg_lang')||'en').toLowerCase()
   if($('lblChronSub'))$('lblChronSub').textContent=t.chronSub;
   if($('lblGame'))$('lblGame').textContent=t.game;
   if($('lblGameSub'))$('lblGameSub').textContent=t.gameSub;
+  if($('lblMatch'))$('lblMatch').textContent=t.match;
+  if($('lblMatchSub'))$('lblMatchSub').textContent=t.matchSub;
   if($('lblCompare'))$('lblCompare').textContent=t.compare;
   if($('lblRandom'))$('lblRandom').textContent=t.random;
   if($('lblRandomSub'))$('lblRandomSub').textContent=t.randomSub;
