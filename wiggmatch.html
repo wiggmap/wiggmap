@@ -139,30 +139,20 @@ body{padding-top:54px}
 .cc-link{display:inline-flex;align-items:center;gap:6px;background:var(--ink);color:var(--white);font-size:13px;font-weight:500;padding:10px 18px;border-radius:30px;text-decoration:none;white-space:nowrap;transition:background .15s}
 .cc-link:hover{background:#1e2430}
 
-/* BLURRED CARDS (rank 1 & 2) — only the % match score stays visible */
-.city-card.blurred{position:relative;overflow:hidden}
-.city-card.blurred .cc-head-left,
-.city-card.blurred .cc-grid,
-.city-card.blurred .cc-tags,
-.city-card.blurred .cc-link{
-  filter:blur(6px);
-  user-select:none;
-}
-.city-card.blurred .cc-link{pointer-events:none}
-.unlock-overlay{
-  position:absolute;
-  bottom:28px;
-  left:50%;
-  transform:translateX(-50%);
-  font-size:12px;
-  color:#16a34a;
-  background:rgba(255,255,255,0.85);
-  padding:6px 14px;
-  border-radius:20px;
-  white-space:nowrap;
-  pointer-events:none;
-  font-weight:500;
-}
+/* MYSTERY CARDS (rank 0 & 1, à débloquer) — % visible, nom totalement masqué */
+.mystery-card{background:var(--white);border:1.5px solid var(--rule);border-radius:16px;padding:24px 28px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:20px;position:relative;overflow:hidden}
+.mystery-card.top1{border-color:var(--g);box-shadow:0 0 0 3px rgba(22,163,74,0.08)}
+.mystery-left{flex:1;min-width:0}
+.mystery-rank{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--g);margin-bottom:8px}
+.mystery-mask{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+.mystery-flag{font-size:30px;filter:blur(7px);user-select:none;line-height:1}
+.mystery-name{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--ink);filter:blur(8px);user-select:none;letter-spacing:.06em}
+.mystery-country{font-size:12px;color:var(--ink3);filter:blur(6px);user-select:none;margin-bottom:4px}
+.mystery-hint{font-size:12px;color:var(--ink3);font-style:italic}
+.mystery-score-wrap{text-align:center;flex-shrink:0}
+.mystery-score{font-family:var(--serif);font-size:46px;font-weight:900;color:var(--g);line-height:1}
+.mystery-score-lbl{font-size:11px;color:var(--ink3);letter-spacing:.08em;text-transform:uppercase;margin-top:2px}
+@media(max-width:480px){.mystery-card{padding:20px 22px;gap:14px}.mystery-name{font-size:20px}.mystery-score{font-size:38px}}
 
 /* INLINE UNLOCK BLOCK (under results) */
 .unlock-block{position:relative;background:var(--white);border:1.5px solid var(--g);border-radius:18px;padding:40px 36px 32px;margin:36px 0 0;text-align:center;box-shadow:0 0 0 6px rgba(22,163,74,0.06)}
@@ -1292,11 +1282,14 @@ function unlockCities(){
     return;
   }
   sendToBrevo(email);
+  // Reveal old-style blurred cards (legacy fallback)
   document.querySelectorAll('.city-card.blurred').forEach(card => {
     card.classList.remove('blurred');
     const overlay = card.querySelector('.unlock-overlay');
     if(overlay) overlay.remove();
   });
+  // Reveal mystery cards (new flow)
+  if (typeof revealMysteryCards === 'function') revealMysteryCards();
   const block = document.getElementById('unlock-block');
   if(block) block.style.display = 'none';
 }
@@ -1338,13 +1331,14 @@ const WM_DYN = {
     cc_link: 'Chronicle complète →',
     cc_match: 'match',
     unlock_badge: '100 % gratuit',
-    unlock_title: 'Découvre <em>tes 2 autres villes</em>',
-    unlock_sub: "Reçois par email le détail complet de ton match : budget mensuel réel, quartiers où chercher, démarches visa, et les 2 villes encore floutées au-dessus.",
+    unlock_title: '<em>2 villes</em> te correspondent encore mieux',
+    unlock_sub: "Tu vois la 3ᵉ ci-dessus. Les 2 autres ont un meilleur match — laisse ton email pour découvrir lesquelles, avec le détail complet : budget réel, quartiers, démarches visa.",
     unlock_b1: 'Top 3 complet', unlock_b2: 'Budget réel', unlock_b3: 'Démarches visa',
     unlock_email_ph: 'ton.email@exemple.com',
-    unlock_btn: 'Recevoir mes résultats',
+    unlock_btn: 'Découvrir les 2 villes',
     unlock_note: 'Zéro spam. Désinscription en un clic.',
     unlock_overlay: '🔒 Débloqué après inscription',
+    mystery_hint: 'Ville masquée — débloque ci-dessous',
     country_map: {Portugal:'Portugal',Espagne:'Espagne',Hongrie:'Hongrie',Pologne:'Pologne','Géorgie':'Géorgie','Thaïlande':'Thaïlande','Indonésie':'Indonésie',Colombie:'Colombie',Argentine:'Argentine',Canada:'Canada','Émirats Arabes Unis':'Émirats Arabes Unis',Malte:'Malte','Brésil':'Brésil','Île Maurice':'Île Maurice','Grèce':'Grèce'},
     safety_map: {Excellent:'Excellent',Bon:'Bon',Moyen:'Moyen'},
     expat_map: {'Très forte':'Très forte',Forte:'Forte','Modérée':'Modérée'}
@@ -1362,13 +1356,14 @@ const WM_DYN = {
     cc_link: 'Full chronicle →',
     cc_match: 'match',
     unlock_badge: '100% free',
-    unlock_title: 'Unlock <em>your 2 other cities</em>',
-    unlock_sub: "Get the full match report by email: real monthly budget, neighbourhoods to target, visa process, and the 2 cities still blurred above.",
+    unlock_title: '<em>2 cities</em> match you even better',
+    unlock_sub: "You see the 3rd one above. The other 2 have a higher match — drop your email to find out which ones, with the full detail: real budget, neighbourhoods, visa process.",
     unlock_b1: 'Full top 3', unlock_b2: 'Real budget', unlock_b3: 'Visa process',
     unlock_email_ph: 'your.email@example.com',
-    unlock_btn: 'Send me my results',
+    unlock_btn: 'Reveal the 2 cities',
     unlock_note: 'Zero spam. Unsubscribe in one click.',
     unlock_overlay: '🔒 Unlocked after sign-up',
+    mystery_hint: 'Hidden city — unlock below',
     country_map: {Portugal:'Portugal',Espagne:'Spain',Hongrie:'Hungary',Pologne:'Poland','Géorgie':'Georgia','Thaïlande':'Thailand','Indonésie':'Indonesia',Colombie:'Colombia',Argentine:'Argentina',Canada:'Canada','Émirats Arabes Unis':'United Arab Emirates',Malte:'Malta','Brésil':'Brazil','Île Maurice':'Mauritius','Grèce':'Greece'},
     safety_map: {Excellent:'Excellent',Bon:'Good',Moyen:'Average'},
     expat_map: {'Très forte':'Very strong',Forte:'Strong','Modérée':'Moderate'}
@@ -1386,13 +1381,14 @@ const WM_DYN = {
     cc_link: 'Crónica completa →',
     cc_match: 'match',
     unlock_badge: '100 % gratis',
-    unlock_title: 'Descubre <em>tus 2 otras ciudades</em>',
-    unlock_sub: "Recibe por email el detalle completo de tu match: presupuesto mensual real, barrios donde buscar, trámites de visado y las 2 ciudades aún borrosas arriba.",
+    unlock_title: '<em>2 ciudades</em> encajan aún mejor contigo',
+    unlock_sub: "Ves la 3ª arriba. Las otras 2 tienen un match más alto — déjanos tu email para descubrir cuáles, con el detalle completo: presupuesto real, barrios, trámites de visado.",
     unlock_b1: 'Top 3 completo', unlock_b2: 'Presupuesto real', unlock_b3: 'Trámites visado',
     unlock_email_ph: 'tu.email@ejemplo.com',
-    unlock_btn: 'Recibir mis resultados',
+    unlock_btn: 'Descubrir las 2 ciudades',
     unlock_note: 'Cero spam. Cancelación en un clic.',
     unlock_overlay: '🔒 Desbloqueado tras registrarse',
+    mystery_hint: 'Ciudad oculta — desbloquea abajo',
     country_map: {Portugal:'Portugal',Espagne:'España',Hongrie:'Hungría',Pologne:'Polonia','Géorgie':'Georgia','Thaïlande':'Tailandia','Indonésie':'Indonesia',Colombie:'Colombia',Argentine:'Argentina',Canada:'Canadá','Émirats Arabes Unis':'Emiratos Árabes Unidos',Malte:'Malta','Brésil':'Brasil','Île Maurice':'Mauricio','Grèce':'Grecia'},
     safety_map: {Excellent:'Excelente',Bon:'Bueno',Moyen:'Medio'},
     expat_map: {'Très forte':'Muy fuerte',Forte:'Fuerte','Modérée':'Moderada'}
@@ -1415,9 +1411,18 @@ function showResults(){
   document.getElementById('result-subtitle').textContent = d.subtitle_tpl(p, b);
 
   const container = document.getElementById('results-cards');
-  // Display order: smallest % first, biggest % last (visual reverse).
-  const displayOrder = topCities.map((c, i) => ({city: c, rank: i})).reverse();
-  container.innerHTML = displayOrder.map(o => buildCard(o.city, o.rank)).join('');
+
+  // Order: rank 2 (3ème, le plus faible match) en clair en haut,
+  // puis rank 1 et rank 0 en mystery cards (% visible, ville masquée)
+  const lowest = topCities[2];
+  const middle = topCities[1];
+  const best   = topCities[0];
+
+  let html = '';
+  if (lowest) html += buildCard(lowest, 2);
+  if (middle) html += buildMysteryCard(middle, 1);
+  if (best)   html += buildMysteryCard(best, 0);
+  container.innerHTML = html;
 
   // Inline unlock block (under the cards)
   const old = document.getElementById('unlock-block');
@@ -1441,6 +1446,54 @@ function showResults(){
   container.insertAdjacentHTML('afterend', unlockHTML);
 
   window.scrollTo(0,0);
+}
+
+// Mystery card : % visible, ville totalement masquée par blur fort
+function buildMysteryCard(city, rank){
+  const d = wmDyn();
+  const pct = Math.min(Math.round((city.score / SCORE_MAX) * 100), 99);
+  const isTop = rank === 0;
+  const cls = 'mystery-card' + (isTop ? ' top1' : '');
+  return `
+  <div class="${cls}" data-mystery-rank="${rank}">
+    <div class="mystery-left">
+      <div class="mystery-rank">${d.medals[rank]}</div>
+      <div class="mystery-mask">
+        <span class="mystery-flag">${city.flag}</span>
+        <span class="mystery-name">??????????</span>
+      </div>
+      <div class="mystery-country">??????????</div>
+      <div class="mystery-hint">🔒 ${d.mystery_hint}</div>
+    </div>
+    <div class="mystery-score-wrap">
+      <div class="mystery-score">${pct}%</div>
+      <div class="mystery-score-lbl">${d.cc_match}</div>
+    </div>
+  </div>`;
+}
+
+// Reveal all mystery cards (called by unlockCities)
+function revealMysteryCards(){
+  const cards = document.querySelectorAll('.mystery-card');
+  cards.forEach(myst => {
+    const rank = parseInt(myst.dataset.mysteryRank || '0', 10);
+    // Find the matching city
+    const city = topCities[rank];
+    if (!city) return;
+    // Replace with full buildCard (no blur)
+    const wrap = document.createElement('div');
+    wrap.innerHTML = buildCard(city, rank);
+    const newCard = wrap.firstElementChild.nextElementSibling || wrap.firstElementChild;
+    // buildCard returns leading whitespace, get the .city-card element
+    const cityCard = wrap.querySelector('.city-card');
+    if (cityCard) {
+      // Remove blurred class so it's fully revealed
+      cityCard.classList.remove('blurred');
+      const overlay = cityCard.querySelector('.unlock-overlay');
+      if (overlay) overlay.remove();
+      myst.replaceWith(cityCard);
+    }
+  });
 }
 
 function buildCard(city, rank){
