@@ -12,8 +12,9 @@ async function goRandomCountry() {
 
     const randomKey = keys[Math.floor(Math.random() * keys.length)];
 
-    window.location.href =
-      "/countries/country.html?country=" + randomKey;
+    const lg = (localStorage.getItem("wigg_lang") || "en").toLowerCase();
+    const ul = ["en","fr","es"].includes(lg) ? lg : "en";
+    window.location.href = "/countries/" + randomKey + "-" + ul + ".html";
 
   } catch (e) {
     console.error("Random country error:", e);

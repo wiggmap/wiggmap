@@ -200,6 +200,13 @@ CITIES_BY_COUNTRY = {
     'portugal':      ['lisbonne','porto','faro','funchal'],
     'greece':        ['athenes','thessalonique','heraklion','la-canee'],
     'indonesia':     ['bali','jakarta','surabaya','yogyakarta'],
+    'united-arab-emirates': ['dubai','abu-dhabi','sharjah','ras-al-khaimah'],
+    'turkey':        ['istanbul','ankara','izmir','antalya'],
+    'argentina':     ['buenos-aires','cordoba','mendoza','bariloche'],
+    'germany':       ['berlin','munich','hambourg','cologne'],
+    'colombia':      ['bogota','medellin','cali','cartagena'],
+    'vietnam':       ['hanoi','ho-chi-minh','da-nang','hoi-an'],
+    'malaysia':      ['kuala-lumpur','george-town','johor-bahru','kota-kinabalu'],
 }
 
 # ──────────────────────────────────────────────────────────────────────
@@ -444,6 +451,13 @@ CITY_IMAGE = {
     'lisbonne': 'lisbonne.png', 'porto': 'porto.png', 'faro': 'faro.png', 'funchal': 'funchal.png',
     'athenes': 'athenes.png', 'thessalonique': 'thessalonique.png', 'heraklion': 'heraklion.png', 'la-canee': 'la-canee.png',
     'bali': 'bali.png', 'jakarta': 'jakarta.png', 'surabaya': 'surabaya.png', 'yogyakarta': 'yogyakarta.png',
+    'dubai': 'dubai.png', 'abu-dhabi': 'abu-dhabi.png', 'sharjah': 'sharjah.png', 'ras-al-khaimah': 'ras-al-khaimah.png',
+    'istanbul': 'istanbul.png', 'ankara': 'ankara.png', 'izmir': 'izmir.png', 'antalya': 'antalya.png',
+    'buenos-aires': 'buenos-aires.png', 'cordoba': 'cordoba.png', 'mendoza': 'mendoza.png', 'bariloche': 'bariloche.png',
+    'berlin': 'berlin.png', 'munich': 'munich.png', 'hambourg': 'hambourg.png', 'cologne': 'cologne.png',
+    'bogota': 'bogota.png', 'medellin': 'medellin.png', 'cali': 'cali.png', 'cartagena': 'cartagena.png',
+    'hanoi': 'hanoi.png', 'ho-chi-minh': 'ho-chi-minh.png', 'da-nang': 'da-nang.png', 'hoi-an': 'hoi-an.png',
+    'kuala-lumpur': 'kuala-lumpur.png', 'george-town': 'george-town.png', 'johor-bahru': 'johor-bahru.png', 'kota-kinabalu': 'kota-kinabalu.png',
 }
 
 # Chronicle id → representative hero image (matches RC_IMAGES from country.html)
@@ -521,6 +535,34 @@ CITY_NAME = {
     'jakarta': {'en':'Jakarta','fr':'Jakarta','es':'Yakarta'},
     'surabaya': {'en':'Surabaya','fr':'Surabaya','es':'Surabaya'},
     'yogyakarta': {'en':'Yogyakarta','fr':'Yogyakarta','es':'Yogyakarta'},
+    'dubai': {'en':'Dubai','fr':'Dubaï','es':'Dubái'},
+    'abu-dhabi': {'en':'Abu Dhabi','fr':'Abou Dabi','es':'Abu Dabi'},
+    'sharjah': {'en':'Sharjah','fr':'Sharjah','es':'Sharjah'},
+    'ras-al-khaimah': {'en':'Ras Al Khaimah','fr':'Ras Al Khaimah','es':'Ras Al Jaima'},
+    'istanbul': {'en':'Istanbul','fr':'Istanbul','es':'Estambul'},
+    'ankara': {'en':'Ankara','fr':'Ankara','es':'Ankara'},
+    'izmir': {'en':'Izmir','fr':'Izmir','es':'Esmirna'},
+    'antalya': {'en':'Antalya','fr':'Antalya','es':'Antalya'},
+    'buenos-aires': {'en':'Buenos Aires','fr':'Buenos Aires','es':'Buenos Aires'},
+    'cordoba': {'en':'Córdoba','fr':'Córdoba','es':'Córdoba'},
+    'mendoza': {'en':'Mendoza','fr':'Mendoza','es':'Mendoza'},
+    'bariloche': {'en':'Bariloche','fr':'Bariloche','es':'Bariloche'},
+    'berlin': {'en':'Berlin','fr':'Berlin','es':'Berlín'},
+    'munich': {'en':'Munich','fr':'Munich','es':'Múnich'},
+    'hambourg': {'en':'Hamburg','fr':'Hambourg','es':'Hamburgo'},
+    'cologne': {'en':'Cologne','fr':'Cologne','es':'Colonia'},
+    'bogota': {'en':'Bogotá','fr':'Bogotá','es':'Bogotá'},
+    'medellin': {'en':'Medellín','fr':'Medellín','es':'Medellín'},
+    'cali': {'en':'Cali','fr':'Cali','es':'Cali'},
+    'cartagena': {'en':'Cartagena','fr':'Carthagène','es':'Cartagena'},
+    'hanoi': {'en':'Hanoi','fr':'Hanoï','es':'Hanói'},
+    'ho-chi-minh': {'en':'Ho Chi Minh City','fr':'Hô Chi Minh-Ville','es':'Ciudad Ho Chi Minh'},
+    'da-nang': {'en':'Da Nang','fr':'Da Nang','es':'Da Nang'},
+    'hoi-an': {'en':'Hoi An','fr':'Hoi An','es':'Hoi An'},
+    'kuala-lumpur': {'en':'Kuala Lumpur','fr':'Kuala Lumpur','es':'Kuala Lumpur'},
+    'george-town': {'en':'George Town','fr':'George Town','es':'George Town'},
+    'johor-bahru': {'en':'Johor Bahru','fr':'Johor Bahru','es':'Johor Bahru'},
+    'kota-kinabalu': {'en':'Kota Kinabalu','fr':'Kota Kinabalu','es':'Kota Kinabalu'},
 }
 
 
