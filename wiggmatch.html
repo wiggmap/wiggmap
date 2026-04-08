@@ -210,18 +210,18 @@ body{padding-top:54px}
 
 <!-- ═══════════ HERO ═══════════ -->
 <section class="hero" id="hero-section">
-  <div class="hero-badge">WiggMatch 2026</div>
-  <h1>Trouve ta<br><span>ville idéale</span></h1>
-  <div class="hero-sub">à l'étranger</div>
-  <p class="hero-desc">8 questions. Ton profil réel. Les villes qui te correspondent vraiment — pas celles qui font rêver tout le monde.</p>
+  <div class="hero-badge" data-i18n="hero_badge">WiggMatch 2026</div>
+  <h1 data-i18n="hero_h1">Trouve ta<br><span>ville idéale</span></h1>
+  <div class="hero-sub" data-i18n="hero_sub">à l'étranger</div>
+  <p class="hero-desc" data-i18n="hero_desc">8 questions. Ton profil réel. Les villes qui te correspondent vraiment — pas celles qui font rêver tout le monde.</p>
   <button class="btn-start" onclick="startQuiz()">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    Commencer le quiz
+    <span data-i18n="btn_start">Commencer le test</span>
   </button>
   <div class="hero-stats">
-    <div class="hero-stat"><div class="hero-stat-val">40+</div><div class="hero-stat-lbl">Villes analysées</div></div>
-    <div class="hero-stat"><div class="hero-stat-val">8</div><div class="hero-stat-lbl">Questions ciblées</div></div>
-    <div class="hero-stat"><div class="hero-stat-val">3 min</div><div class="hero-stat-lbl">Pour ton résultat</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">40+</div><div class="hero-stat-lbl" data-i18n="stat_cities">Villes analysées</div></div>
+    <div class="hero-stat"><div class="hero-stat-val">8</div><div class="hero-stat-lbl" data-i18n="stat_questions">Questions ciblées</div></div>
+    <div class="hero-stat"><div class="hero-stat-val" data-i18n="stat_time_val">3 min</div><div class="hero-stat-lbl" data-i18n="stat_time">Pour ton résultat</div></div>
   </div>
 </section>
 
@@ -239,59 +239,59 @@ body{padding-top:54px}
 
     <!-- Q1 — Budget -->
     <div class="q-step active" id="step-1">
-      <div class="q-num">Question 1 sur 8</div>
-      <div class="q-title">Quel est ton budget mensuel ?</div>
-      <div class="q-sub">Loyer + quotidien. Hors vols et installation.</div>
+      <div class="q-num" data-i18n="q1_num">Question 1 sur 8</div>
+      <div class="q-title" data-i18n="q1_title">Quel est ton budget mensuel ?</div>
+      <div class="q-sub" data-i18n="q1_sub">Loyer + quotidien. Hors vols et installation.</div>
       <div class="options">
         <div class="opt" onclick="selectOpt(this,'budget','low')">
           <span class="opt-icon">💶</span>
-          <span class="opt-label">Moins de 1 200 €</span>
-          <span class="opt-sub">Je vise des destinations très abordables</span>
+          <span class="opt-label" data-i18n="q1_a_l">Moins de 1 200 €</span>
+          <span class="opt-sub" data-i18n="q1_a_s">Je vise des destinations très abordables</span>
         </div>
         <div class="opt" onclick="selectOpt(this,'budget','mid')">
           <span class="opt-icon">💳</span>
-          <span class="opt-label">1 200 – 2 200 €</span>
-          <span class="opt-sub">Budget raisonnable, je veux de la qualité</span>
+          <span class="opt-label" data-i18n="q1_b_l">1 200 – 2 200 €</span>
+          <span class="opt-sub" data-i18n="q1_b_s">Budget raisonnable, je veux de la qualité</span>
         </div>
         <div class="opt" onclick="selectOpt(this,'budget','high')">
           <span class="opt-icon">💼</span>
-          <span class="opt-label">2 200 – 3 500 €</span>
-          <span class="opt-sub">Je peux me permettre des villes chères</span>
+          <span class="opt-label" data-i18n="q1_c_l">2 200 – 3 500 €</span>
+          <span class="opt-sub" data-i18n="q1_c_s">Je peux me permettre des villes chères</span>
         </div>
         <div class="opt" onclick="selectOpt(this,'budget','premium')">
           <span class="opt-icon">🏆</span>
-          <span class="opt-label">Plus de 3 500 €</span>
-          <span class="opt-sub">Le confort est prioritaire sur le prix</span>
+          <span class="opt-label" data-i18n="q1_d_l">Plus de 3 500 €</span>
+          <span class="opt-sub" data-i18n="q1_d_s">Le confort est prioritaire sur le prix</span>
         </div>
       </div>
-      <div class="q-nav"><button class="btn-next" id="next-1" onclick="nextStep(1)">Continuer →</button></div>
+      <div class="q-nav"><button class="btn-next" id="next-1" onclick="nextStep(1)" data-i18n="btn_continue">Continuer →</button></div>
     </div>
 
     <!-- Q2 — Climat -->
     <div class="q-step" id="step-2">
-      <div class="q-num">Question 2 sur 8</div>
-      <div class="q-title">Quel climat te convient vraiment ?</div>
-      <div class="q-sub">La météo a un vrai impact sur le moral. Sois honnête.</div>
+      <div class="q-num" data-i18n="q2_num">Question 2 sur 8</div>
+      <div class="q-title" data-i18n="q2_title">Quel climat te convient vraiment ?</div>
+      <div class="q-sub" data-i18n="q2_sub">La météo a un vrai impact sur le moral. Sois honnête.</div>
       <div class="options">
         <div class="opt" onclick="selectOpt(this,'climate','tropical')">
           <span class="opt-icon">🌴</span>
-          <span class="opt-label">Chaud et humide</span>
-          <span class="opt-sub">Tropiques, 30°C toute l'année, moussons</span>
+          <span class="opt-label" data-i18n="q2_a_l">Chaud et humide</span>
+          <span class="opt-sub" data-i18n="q2_a_s">Tropiques, 30°C toute l'année, moussons</span>
         </div>
         <div class="opt" onclick="selectOpt(this,'climate','sunny')">
           <span class="opt-icon">☀️</span>
-          <span class="opt-label">Chaud et sec</span>
-          <span class="opt-sub">Méditerranée, soleil 280+ jours/an</span>
+          <span class="opt-label" data-i18n="q2_b_l">Chaud et sec</span>
+          <span class="opt-sub" data-i18n="q2_b_s">Méditerranée, soleil 280+ jours/an</span>
         </div>
         <div class="opt" onclick="selectOpt(this,'climate','temperate')">
           <span class="opt-icon">🍂</span>
-          <span class="opt-label">Tempéré / 4 saisons</span>
-          <span class="opt-sub">Pas trop chaud, pas trop froid</span>
+          <span class="opt-label" data-i18n="q2_c_l">Tempéré / 4 saisons</span>
+          <span class="opt-sub" data-i18n="q2_c_s">Pas trop chaud, pas trop froid</span>
         </div>
         <div class="opt" onclick="selectOpt(this,'climate','any')">
           <span class="opt-icon">🌍</span>
-          <span class="opt-label">Ça ne change rien pour moi</span>
-          <span class="opt-sub">D'autres critères comptent plus</span>
+          <span class="opt-label" data-i18n="q2_d_l">Ça ne change rien pour moi</span>
+          <span class="opt-sub" data-i18n="q2_d_s">D'autres critères comptent plus</span>
         </div>
       </div>
       <div class="q-nav"><button class="btn-next" id="next-2" onclick="nextStep(2)">Continuer →</button></div>
@@ -299,29 +299,29 @@ body{padding-top:54px}
 
     <!-- Q3 — Environnement -->
     <div class="q-step" id="step-3">
-      <div class="q-num">Question 3 sur 8</div>
-      <div class="q-title">Dans ton quotidien idéal, tu es plutôt…</div>
-      <div class="q-sub">L'environnement physique de la ville, pas l'ambiance.</div>
+      <div class="q-num" data-i18n="q3_num">Question 3 sur 8</div>
+      <div class="q-title" data-i18n="q3_title">Dans ton quotidien idéal, tu es plutôt…</div>
+      <div class="q-sub" data-i18n="q3_sub">L'environnement physique de la ville, pas l'ambiance.</div>
       <div class="options">
         <div class="opt" onclick="selectOpt(this,'env','mer')">
           <span class="opt-icon">🌊</span>
-          <span class="opt-label">Près de la mer</span>
-          <span class="opt-sub">Plage, côte, vie littorale</span>
+          <span class="opt-label" data-i18n="q3_a_l">Près de la mer</span>
+          <span class="opt-sub" data-i18n="q3_a_s">Plage, côte, vie littorale</span>
         </div>
         <div class="opt" onclick="selectOpt(this,'env','montagne')">
           <span class="opt-icon">⛰️</span>
-          <span class="opt-label">Proche de la montagne</span>
-          <span class="opt-sub">Randonnées, air pur, relief</span>
+          <span class="opt-label" data-i18n="q3_b_l">Proche de la montagne</span>
+          <span class="opt-sub" data-i18n="q3_b_s">Randonnées, air pur, relief</span>
         </div>
         <div class="opt" onclick="selectOpt(this,'env','ville')">
           <span class="opt-icon">🏙️</span>
-          <span class="opt-label">En pleine ville</span>
-          <span class="opt-sub">Je veux l'urbain pur, pas d'échappatoire</span>
+          <span class="opt-label" data-i18n="q3_c_l">En pleine ville</span>
+          <span class="opt-sub" data-i18n="q3_c_s">Je veux l'urbain pur, pas d'échappatoire</span>
         </div>
         <div class="opt" onclick="selectOpt(this,'env','mixte')">
           <span class="opt-icon">🌿</span>
-          <span class="opt-label">Entre ville et nature</span>
-          <span class="opt-sub">Un pied dans les deux</span>
+          <span class="opt-label" data-i18n="q3_d_l">Entre ville et nature</span>
+          <span class="opt-sub" data-i18n="q3_d_s">Un pied dans les deux</span>
         </div>
       </div>
       <div class="q-nav"><button class="btn-next" id="next-3" onclick="nextStep(3)">Continuer →</button></div>
@@ -329,29 +329,29 @@ body{padding-top:54px}
 
     <!-- Q4 — Taille de ville -->
     <div class="q-step" id="step-4">
-      <div class="q-num">Question 4 sur 8</div>
-      <div class="q-title">Quel type de ville te correspond ?</div>
-      <div class="q-sub">La taille change tout : rythme, prix, opportunités, anonymat.</div>
+      <div class="q-num" data-i18n="q4_num">Question 4 sur 8</div>
+      <div class="q-title" data-i18n="q4_title">Quel type de ville te correspond ?</div>
+      <div class="q-sub" data-i18n="q4_sub">La taille change tout : rythme, prix, opportunités, anonymat.</div>
       <div class="options">
         <div class="opt" onclick="selectOpt(this,'size','mega')">
           <span class="opt-icon">🌆</span>
-          <span class="opt-label">Grande métropole</span>
-          <span class="opt-sub">3M+ habitants. Bangkok, São Paulo, Dubai</span>
+          <span class="opt-label" data-i18n="q4_a_l">Grande métropole</span>
+          <span class="opt-sub" data-i18n="q4_a_s">3M+ habitants. Bangkok, São Paulo, Dubai</span>
         </div>
         <div class="opt" onclick="selectOpt(this,'size','grande')">
           <span class="opt-icon">🏙️</span>
-          <span class="opt-label">Grande ville</span>
-          <span class="opt-sub">500k–3M. Barcelone, Budapest, Medellín</span>
+          <span class="opt-label" data-i18n="q4_b_l">Grande ville</span>
+          <span class="opt-sub" data-i18n="q4_b_s">500k–3M. Barcelone, Budapest, Medellín</span>
         </div>
         <div class="opt" onclick="selectOpt(this,'size','moyenne')">
           <span class="opt-icon">🏘️</span>
-          <span class="opt-label">Ville moyenne</span>
-          <span class="opt-sub">150k–500k. Porto, Tenerife, Tbilissi</span>
+          <span class="opt-label" data-i18n="q4_c_l">Ville moyenne</span>
+          <span class="opt-sub" data-i18n="q4_c_s">150k–500k. Porto, Tenerife, Tbilissi</span>
         </div>
         <div class="opt" onclick="selectOpt(this,'size','petite')">
           <span class="opt-icon">🏡</span>
-          <span class="opt-label">Petite destination</span>
-          <span class="opt-sub">Moins de 150k. Chiang Mai, Bali, Ko Samui</span>
+          <span class="opt-label" data-i18n="q4_d_l">Petite destination</span>
+          <span class="opt-sub" data-i18n="q4_d_s">Moins de 150k. Chiang Mai, Bali, Ko Samui</span>
         </div>
       </div>
       <div class="q-nav"><button class="btn-next" id="next-4" onclick="nextStep(4)">Continuer →</button></div>
@@ -359,29 +359,29 @@ body{padding-top:54px}
 
     <!-- Q5 — Profil -->
     <div class="q-step" id="step-5">
-      <div class="q-num">Question 5 sur 8</div>
-      <div class="q-title">Tu pars dans quel contexte ?</div>
-      <div class="q-sub">Ton mode de vie à l'étranger, pas ton rêve — la réalité.</div>
+      <div class="q-num" data-i18n="q5_num">Question 5 sur 8</div>
+      <div class="q-title" data-i18n="q5_title">Tu pars dans quel contexte ?</div>
+      <div class="q-sub" data-i18n="q5_sub">Ton mode de vie à l'étranger, pas ton rêve — la réalité.</div>
       <div class="options">
         <div class="opt" onclick="selectOpt(this,'profile','nomad')">
           <span class="opt-icon">💻</span>
-          <span class="opt-label">Digital nomad</span>
-          <span class="opt-sub">Travail à distance, je cherche liberté et connexion</span>
+          <span class="opt-label" data-i18n="q5_a_l">Digital nomad</span>
+          <span class="opt-sub" data-i18n="q5_a_s">Travail à distance, je cherche liberté et connexion</span>
         </div>
         <div class="opt" onclick="selectOpt(this,'profile','local')">
           <span class="opt-icon">🏢</span>
-          <span class="opt-label">Travail sur place</span>
-          <span class="opt-sub">Mission locale, poste, entrepreneuriat</span>
+          <span class="opt-label" data-i18n="q5_b_l">Travail sur place</span>
+          <span class="opt-sub" data-i18n="q5_b_s">Mission locale, poste, entrepreneuriat</span>
         </div>
         <div class="opt" onclick="selectOpt(this,'profile','retire')">
           <span class="opt-icon">🌅</span>
-          <span class="opt-label">Retraite</span>
-          <span class="opt-sub">Qualité de vie, calme, coût réduit</span>
+          <span class="opt-label" data-i18n="q5_c_l">Retraite</span>
+          <span class="opt-sub" data-i18n="q5_c_s">Qualité de vie, calme, coût réduit</span>
         </div>
         <div class="opt" onclick="selectOpt(this,'profile','backpacker')">
           <span class="opt-icon">🎒</span>
-          <span class="opt-label">Backpacker / aventurier</span>
-          <span class="opt-sub">Je bouge, je teste, le budget compte beaucoup</span>
+          <span class="opt-label" data-i18n="q5_d_l">Backpacker / aventurier</span>
+          <span class="opt-sub" data-i18n="q5_d_s">Je bouge, je teste, le budget compte beaucoup</span>
         </div>
       </div>
       <div class="q-nav"><button class="btn-next" id="next-5" onclick="nextStep(5)">Continuer →</button></div>
@@ -389,29 +389,29 @@ body{padding-top:54px}
 
     <!-- Q6 — Langue (MULTI-SELECT) -->
     <div class="q-step" id="step-6">
-      <div class="q-num">Question 6 sur 8</div>
-      <div class="q-title">Quelles langues peux-tu utiliser au quotidien ?</div>
-      <div class="q-sub">Pour vivre, chercher un logement ou travailler sur place. Choix multiple.</div>
+      <div class="q-num" data-i18n="q6_num">Question 6 sur 8</div>
+      <div class="q-title" data-i18n="q6_title">Quelles langues peux-tu utiliser au quotidien ?</div>
+      <div class="q-sub" data-i18n="q6_sub">Pour vivre, chercher un logement ou travailler sur place. Choix multiple.</div>
       <div class="options">
         <div class="opt" onclick="selectMulti(this,'language','en')">
           <span class="opt-icon">🇬🇧</span>
-          <span class="opt-label">Anglais</span>
-          <span class="opt-sub">Je me débrouille vraiment en anglais</span>
+          <span class="opt-label" data-i18n="q6_a_l">Anglais</span>
+          <span class="opt-sub" data-i18n="q6_a_s">Je me débrouille vraiment en anglais</span>
         </div>
         <div class="opt" onclick="selectMulti(this,'language','fr')">
           <span class="opt-icon">🇫🇷</span>
-          <span class="opt-label">Français</span>
-          <span class="opt-sub">Je cherche une communauté francophone</span>
+          <span class="opt-label" data-i18n="q6_b_l">Français</span>
+          <span class="opt-sub" data-i18n="q6_b_s">Je cherche une communauté francophone</span>
         </div>
         <div class="opt" onclick="selectMulti(this,'language','es')">
           <span class="opt-icon">🇪🇸</span>
-          <span class="opt-label">Espagnol</span>
-          <span class="opt-sub">Je parle ou j'apprends l'espagnol</span>
+          <span class="opt-label" data-i18n="q6_c_l">Espagnol</span>
+          <span class="opt-sub" data-i18n="q6_c_s">Je parle ou j'apprends l'espagnol</span>
         </div>
         <div class="opt" onclick="selectMulti(this,'language','pt')">
           <span class="opt-icon">🇵🇹</span>
-          <span class="opt-label">Portugais</span>
-          <span class="opt-sub">Je parle ou j'apprends le portugais</span>
+          <span class="opt-label" data-i18n="q6_d_l">Portugais</span>
+          <span class="opt-sub" data-i18n="q6_d_s">Je parle ou j'apprends le portugais</span>
         </div>
       </div>
       <div class="q-nav"><button class="btn-next" id="next-6" onclick="nextStep(6)">Continuer →</button></div>
@@ -419,24 +419,24 @@ body{padding-top:54px}
 
     <!-- Q7 — Communauté expat -->
     <div class="q-step" id="step-7">
-      <div class="q-num">Question 7 sur 8</div>
-      <div class="q-title">Une communauté expat établie, ça compte pour toi ?</div>
-      <div class="q-sub">Des gens déjà sur place, des réseaux, des contacts faciles.</div>
+      <div class="q-num" data-i18n="q7_num">Question 7 sur 8</div>
+      <div class="q-title" data-i18n="q7_title">Une communauté expat établie, ça compte pour toi ?</div>
+      <div class="q-sub" data-i18n="q7_sub">Des gens déjà sur place, des réseaux, des contacts faciles.</div>
       <div class="options">
         <div class="opt" onclick="selectOpt(this,'expat','oui')">
           <span class="opt-icon">🤝</span>
-          <span class="opt-label">Oui, c'est important</span>
-          <span class="opt-sub">Je veux trouver facilement des gens comme moi</span>
+          <span class="opt-label" data-i18n="q7_a_l">Oui, c'est important</span>
+          <span class="opt-sub" data-i18n="q7_a_s">Je veux trouver facilement des gens comme moi</span>
         </div>
         <div class="opt" onclick="selectOpt(this,'expat','unpeu')">
           <span class="opt-icon">🙂</span>
-          <span class="opt-label">Un peu</span>
-          <span class="opt-sub">Pas indispensable, mais c'est un plus</span>
+          <span class="opt-label" data-i18n="q7_b_l">Un peu</span>
+          <span class="opt-sub" data-i18n="q7_b_s">Pas indispensable, mais c'est un plus</span>
         </div>
         <div class="opt" onclick="selectOpt(this,'expat','non')">
           <span class="opt-icon">🧭</span>
-          <span class="opt-label">Pas du tout</span>
-          <span class="opt-sub">Je préfère m'intégrer dans la culture locale</span>
+          <span class="opt-label" data-i18n="q7_c_l">Pas du tout</span>
+          <span class="opt-sub" data-i18n="q7_c_s">Je préfère m'intégrer dans la culture locale</span>
         </div>
       </div>
       <div class="q-nav"><button class="btn-next" id="next-7" onclick="nextStep(7)">Continuer →</button></div>
@@ -444,32 +444,32 @@ body{padding-top:54px}
 
     <!-- Q8 — Priorité -->
     <div class="q-step" id="step-8">
-      <div class="q-num">Question 8 sur 8</div>
-      <div class="q-title">Si une ville devait vraiment te convaincre, ce serait pour…</div>
-      <div class="q-sub">Ta vraie priorité — pas la réponse idéale, la réponse honnête.</div>
+      <div class="q-num" data-i18n="q8_num">Question 8 sur 8</div>
+      <div class="q-title" data-i18n="q8_title">Si une ville devait vraiment te convaincre, ce serait pour…</div>
+      <div class="q-sub" data-i18n="q8_sub">Ta vraie priorité — pas la réponse idéale, la réponse honnête.</div>
       <div class="options">
         <div class="opt" onclick="selectOpt(this,'priority','pouvoir_achat')">
           <span class="opt-icon">💰</span>
-          <span class="opt-label">Gros pouvoir d'achat</span>
-          <span class="opt-sub">Mon argent vaut beaucoup plus là-bas</span>
+          <span class="opt-label" data-i18n="q8_a_l">Gros pouvoir d'achat</span>
+          <span class="opt-sub" data-i18n="q8_a_s">Mon argent vaut beaucoup plus là-bas</span>
         </div>
         <div class="opt" onclick="selectOpt(this,'priority','anime')">
           <span class="opt-icon">🎉</span>
-          <span class="opt-label">Ville animée</span>
-          <span class="opt-sub">Restos, sorties, énergie, vie sociale intense</span>
+          <span class="opt-label" data-i18n="q8_b_l">Ville animée</span>
+          <span class="opt-sub" data-i18n="q8_b_s">Restos, sorties, énergie, vie sociale intense</span>
         </div>
         <div class="opt" onclick="selectOpt(this,'priority','opportunites')">
           <span class="opt-icon">🚀</span>
-          <span class="opt-label">Opportunités</span>
-          <span class="opt-sub">Carrière, business, hub économique</span>
+          <span class="opt-label" data-i18n="q8_c_l">Opportunités</span>
+          <span class="opt-sub" data-i18n="q8_c_s">Carrière, business, hub économique</span>
         </div>
         <div class="opt" onclick="selectOpt(this,'priority','securite')">
           <span class="opt-icon">🛡️</span>
-          <span class="opt-label">Sécurité et tranquillité</span>
-          <span class="opt-sub">Je veux vivre serein, sans stress urbain</span>
+          <span class="opt-label" data-i18n="q8_d_l">Sécurité et tranquillité</span>
+          <span class="opt-sub" data-i18n="q8_d_s">Je veux vivre serein, sans stress urbain</span>
         </div>
       </div>
-      <div class="q-nav"><button class="btn-next" id="next-8" onclick="computeResults()">Voir mes résultats →</button></div>
+      <div class="q-nav"><button class="btn-next" id="next-8" onclick="computeResults()" data-i18n="btn_results">Voir mes résultats →</button></div>
     </div>
 
   </div>
@@ -479,17 +479,17 @@ body{padding-top:54px}
 <section id="results-section">
   <div class="results-inner">
     <div class="results-header">
-      <h2>Tes <span id="result-name-display">villes</span> idéales</h2>
-      <p id="result-subtitle">Basé sur ton profil · WiggMatch 2026</p>
+      <h2><span data-i18n="res_title_a">Tes</span> <span id="result-name-display">3 villes</span> <span data-i18n="res_title_b">idéales</span></h2>
+      <p id="result-subtitle" data-i18n="res_subtitle_default">Basé sur ton profil · WiggMatch 2026</p>
     </div>
     <div id="results-cards"></div>
     <div class="results-cta">
-      <h3>Explore plus loin sur WiggMap</h3>
-      <p>Chronicles villes, comparateurs, données pays — tout est gratuit.</p>
+      <h3 data-i18n="cta_h">Explore plus loin sur WiggMap</h3>
+      <p data-i18n="cta_p">Chronicles villes, comparateurs, données pays — tout est gratuit.</p>
       <div class="results-cta-links">
-        <a href="/indexchronicles.html">📖 Toutes les chronicles</a>
-        <a href="/compare">⚖️ Comparer des pays</a>
-        <a href="/globe.html">🌍 Explorer le globe</a>
+        <a href="/indexchronicles.html" data-i18n="cta_l1">📖 Toutes les chronicles</a>
+        <a href="/compare" data-i18n="cta_l2">⚖️ Comparer des pays</a>
+        <a href="/globe.html" data-i18n="cta_l3">🌍 Explorer le globe</a>
       </div>
     </div>
   </div>
@@ -523,8 +523,8 @@ const CITIES = [
     profiles:{nomad:3,local:2,retire:3,backpacker:2},
     match_tags:{pouvoir_achat:3,anime:2,opportunites:2,securite:2},
     chronicle:"/chronicles/villes/chronicle-lisbonne-portugal-fr.html",
-    tags:["Visa D8 nomad","Coût très bas","Surf","Gastronomie"],
-    why:"Capitale la plus accessible d'Europe occidentale. Communauté expat massive."
+    tags:{fr:["Visa D8 nomad","Coût très bas","Surf","Gastronomie"],en:["D8 nomad visa","Very low cost","Surf","Gastronomy"],es:["Visado D8 nómada","Coste muy bajo","Surf","Gastronomía"]},
+    why:{fr:"Capitale la plus accessible d'Europe occidentale. Communauté expat massive.",en:"The most accessible capital in western Europe. Massive expat community.",es:"La capital más accesible de Europa occidental. Enorme comunidad expat."}
   },
   {
     slug:"porto",name:"Porto",country:"Portugal",flag:"🇵🇹",
@@ -535,8 +535,8 @@ const CITIES = [
     profiles:{nomad:3,local:2,retire:3,backpacker:2},
     match_tags:{pouvoir_achat:3,anime:2,opportunites:1,securite:3},
     chronicle:"/chronicles/villes/chronicle-porto-portugal-fr.html",
-    tags:["Sécurité top","Budget ultra-raisonnable","Vins","Vie de quartier"],
-    why:"La plus belle ville d'Europe selon beaucoup d'expats. Sécurité exemplaire."
+    tags:{fr:["Sécurité top","Budget ultra-raisonnable","Vins","Vie de quartier"],en:["Top safety","Ultra-reasonable budget","Wine","Neighbourhood life"],es:["Máxima seguridad","Presupuesto razonable","Vinos","Vida de barrio"]},
+    why:{fr:"La plus belle ville d'Europe selon beaucoup d'expats. Sécurité exemplaire.",en:"The most beautiful European city according to many expats. Exemplary safety.",es:"La ciudad europea más bonita según muchos expats. Seguridad ejemplar."}
   },
   {
     slug:"barcelone",name:"Barcelone",country:"Espagne",flag:"🇪🇸",
@@ -547,8 +547,8 @@ const CITIES = [
     profiles:{nomad:3,local:3,retire:2,backpacker:1},
     match_tags:{pouvoir_achat:1,anime:3,opportunites:3,securite:1},
     chronicle:"/chronicles/villes/chronicle-barcelone-espagne-fr.html",
-    tags:["Plage + ville","Tech hub","Vie nocturne","Visas startup"],
-    why:"L'énergie de New York à coût européen. Hub startup en pleine explosion."
+    tags:{fr:["Plage + ville","Tech hub","Vie nocturne","Visas startup"],en:["Beach + city","Tech hub","Nightlife","Startup visas"],es:["Playa + ciudad","Hub tech","Vida nocturna","Visados startup"]},
+    why:{fr:"L'énergie de New York à coût européen. Hub startup en pleine explosion.",en:"New York energy at European cost. Startup hub in full bloom.",es:"La energía de Nueva York a coste europeo. Hub startup en plena explosión."}
   },
   {
     slug:"valence",name:"Valence",country:"Espagne",flag:"🇪🇸",
@@ -559,8 +559,8 @@ const CITIES = [
     profiles:{nomad:3,local:2,retire:3,backpacker:2},
     match_tags:{pouvoir_achat:2,anime:2,opportunites:2,securite:2},
     chronicle:"/chronicles/villes/chronicle-valence-espagne-fr.html",
-    tags:["Soleil record","Budget modéré","Plage","Qualité de vie"],
-    why:"300+ jours de soleil, loyers 30% moins chers que Barcelone. Le secret bien gardé."
+    tags:{fr:["Soleil record","Budget modéré","Plage","Qualité de vie"],en:["Record sunshine","Moderate budget","Beach","Quality of life"],es:["Sol récord","Presupuesto moderado","Playa","Calidad de vida"]},
+    why:{fr:"300+ jours de soleil, loyers 30% moins chers que Barcelone. Le secret bien gardé.",en:"300+ sunny days, rents 30% cheaper than Barcelona. The well-kept secret.",es:"300+ días de sol, alquileres un 30% más baratos que Barcelona. El secreto guardado."}
   },
   {
     slug:"budapest",name:"Budapest",country:"Hongrie",flag:"🇭🇺",
@@ -571,8 +571,8 @@ const CITIES = [
     profiles:{nomad:3,local:2,retire:2,backpacker:2},
     match_tags:{pouvoir_achat:3,anime:2,opportunites:2,securite:3},
     chronicle:"/countries/hungary-fr.html",
-    tags:["Coût ultra-bas","Architecture","Thermes","Scène tech"],
-    why:"La perle de l'Europe de l'Est. Coût de vie parmi les plus bas d'Europe."
+    tags:{fr:["Coût ultra-bas","Architecture","Thermes","Scène tech"],en:["Ultra-low cost","Architecture","Thermal baths","Tech scene"],es:["Coste ultra-bajo","Arquitectura","Termas","Escena tech"]},
+    why:{fr:"La perle de l'Europe de l'Est. Coût de vie parmi les plus bas d'Europe.",en:"The pearl of Eastern Europe. One of the cheapest costs of living in Europe.",es:"La perla de Europa del Este. Uno de los costes de vida más bajos de Europa."}
   },
   {
     slug:"varsovie",name:"Varsovie",country:"Pologne",flag:"🇵🇱",
@@ -583,8 +583,8 @@ const CITIES = [
     profiles:{nomad:3,local:3,retire:1,backpacker:1},
     match_tags:{pouvoir_achat:2,anime:2,opportunites:3,securite:3},
     chronicle:"/countries/poland-fr.html",
-    tags:["Hub tech","Salaires en hausse","Sécurité","EU + Schengen"],
-    why:"La Silicon Valley de l'Europe de l'Est. Salaires tech compétitifs."
+    tags:{fr:["Hub tech","Salaires en hausse","Sécurité","EU + Schengen"],en:["Tech hub","Rising salaries","Safety","EU + Schengen"],es:["Hub tech","Salarios al alza","Seguridad","UE + Schengen"]},
+    why:{fr:"La Silicon Valley de l'Europe de l'Est. Salaires tech compétitifs.",en:"Eastern Europe's Silicon Valley. Competitive tech salaries.",es:"El Silicon Valley de Europa del Este. Salarios tech competitivos."}
   },
   {
     slug:"tbilissi",name:"Tbilissi",country:"Géorgie",flag:"🇬🇪",
@@ -595,8 +595,8 @@ const CITIES = [
     profiles:{nomad:3,local:1,retire:2,backpacker:3},
     match_tags:{pouvoir_achat:3,anime:2,opportunites:1,securite:2},
     chronicle:"/countries/georgia-fr.html",
-    tags:["Moins de 400€/mois","Sans visa 1 an","Vin naturel","Startup scene"],
-    why:"La destination nomad la plus surprenante. Visa gratuit 1 an, loyers imbattables."
+    tags:{fr:["Moins de 400€/mois","Sans visa 1 an","Vin naturel","Startup scene"],en:["Under €400/mo","1-year visa-free","Natural wine","Startup scene"],es:["Menos de 400 €/mes","1 año sin visado","Vino natural","Escena startup"]},
+    why:{fr:"La destination nomad la plus surprenante. Visa gratuit 1 an, loyers imbattables.",en:"The most surprising nomad destination. Free 1-year visa, unbeatable rents.",es:"El destino nómada más sorprendente. Visado gratis de 1 año, alquileres imbatibles."}
   },
   {
     slug:"bangkok",name:"Bangkok",country:"Thaïlande",flag:"🇹🇭",
@@ -607,8 +607,8 @@ const CITIES = [
     profiles:{nomad:3,local:2,retire:3,backpacker:3},
     match_tags:{pouvoir_achat:3,anime:3,opportunites:2,securite:2},
     chronicle:"/chronicles/villes/chronicle-bangkok-thailand-fr.html",
-    tags:["Coût très bas","Food incroyable","Transports","LTR Visa"],
-    why:"La capitale mondiale du nomadisme. Infrastructure parfaite, prix dérisoires."
+    tags:{fr:["Coût très bas","Food incroyable","Transports","LTR Visa"],en:["Very low cost","Incredible food","Transit","LTR Visa"],es:["Coste muy bajo","Comida increíble","Transporte","Visado LTR"]},
+    why:{fr:"La capitale mondiale du nomadisme. Infrastructure parfaite, prix dérisoires.",en:"The world capital of nomadism. Perfect infrastructure, ridiculously low prices.",es:"La capital mundial del nomadismo. Infraestructura perfecta, precios irrisorios."}
   },
   {
     slug:"chiang-mai",name:"Chiang Mai",country:"Thaïlande",flag:"🇹🇭",
@@ -619,8 +619,8 @@ const CITIES = [
     profiles:{nomad:3,local:1,retire:3,backpacker:3},
     match_tags:{pouvoir_achat:3,anime:1,opportunites:1,securite:3},
     chronicle:"/chronicles/villes/chronicle-chiang-mai-thailand-fr.html",
-    tags:["Budget minimal","Coworking","Nature","Communauté nomad top"],
-    why:"La mecque des digital nomads. Moins de 800€/mois tout compris."
+    tags:{fr:["Budget minimal","Coworking","Nature","Communauté nomad top"],en:["Minimal budget","Coworking","Nature","Top nomad community"],es:["Presupuesto mínimo","Coworking","Naturaleza","Top comunidad nómada"]},
+    why:{fr:"La mecque des digital nomads. Moins de 800€/mois tout compris.",en:"The Mecca of digital nomads. Under €800/month all included.",es:"La meca de los nómadas digitales. Menos de 800 €/mes todo incluido."}
   },
   {
     slug:"bali",name:"Bali — Canggu",country:"Indonésie",flag:"🇮🇩",
@@ -631,8 +631,8 @@ const CITIES = [
     profiles:{nomad:3,local:1,retire:2,backpacker:3},
     match_tags:{pouvoir_achat:2,anime:3,opportunites:1,securite:2},
     chronicle:"/chronicles/villes/chronicle-bali-indonesia-fr.html",
-    tags:["Surf","Yoga","Coworking","Lifestyle unique","Visa nomad"],
-    why:"Le lifestyle le plus instagrammé du monde — et pourtant, ça vaut vraiment le coup."
+    tags:{fr:["Surf","Yoga","Coworking","Lifestyle unique","Visa nomad"],en:["Surf","Yoga","Coworking","Unique lifestyle","Nomad visa"],es:["Surf","Yoga","Coworking","Lifestyle único","Visado nómada"]},
+    why:{fr:"Le lifestyle le plus instagrammé du monde — et pourtant, ça vaut vraiment le coup.",en:"The most Instagrammed lifestyle in the world — and it actually delivers.",es:"El lifestyle más instagrameado del mundo — y de verdad merece la pena."}
   },
   {
     slug:"medellin",name:"Medellín",country:"Colombie",flag:"🇨🇴",
@@ -643,8 +643,8 @@ const CITIES = [
     profiles:{nomad:3,local:2,retire:2,backpacker:3},
     match_tags:{pouvoir_achat:3,anime:3,opportunites:2,securite:1},
     chronicle:"/chronicles/villes/chronicle-medellin-colombie-fr.html",
-    tags:["Printemps éternel","Coût dérisoire","Startup hub","Salsa"],
-    why:"22°C toute l'année, loyers à 450€. La transformation de Medellín est réelle."
+    tags:{fr:["Printemps éternel","Coût dérisoire","Startup hub","Salsa"],en:["Eternal spring","Tiny costs","Startup hub","Salsa"],es:["Primavera eterna","Coste irrisorio","Hub startup","Salsa"]},
+    why:{fr:"22°C toute l'année, loyers à 450€. La transformation de Medellín est réelle.",en:"22°C year-round, rents at €450. Medellín's transformation is real.",es:"22 °C todo el año, alquileres a 450 €. La transformación de Medellín es real."}
   },
   {
     slug:"buenos-aires",name:"Buenos Aires",country:"Argentine",flag:"🇦🇷",
@@ -655,8 +655,8 @@ const CITIES = [
     profiles:{nomad:3,local:2,retire:2,backpacker:3},
     match_tags:{pouvoir_achat:3,anime:3,opportunites:2,securite:1},
     chronicle:"/chronicles/villes/chronicle-buenos-aires-argentine-fr.html",
-    tags:["Ultra-abordable","Culture intense","Tango","Gastronomie"],
-    why:"Paris d'Amérique du Sud. Avec le peso, ton budget se multiplie."
+    tags:{fr:["Ultra-abordable","Culture intense","Tango","Gastronomie"],en:["Ultra-affordable","Intense culture","Tango","Gastronomy"],es:["Ultra-asequible","Cultura intensa","Tango","Gastronomía"]},
+    why:{fr:"Paris d'Amérique du Sud. Avec le peso, ton budget se multiplie.",en:"The Paris of South America. With the peso, your budget multiplies.",es:"El París de Sudamérica. Con el peso, tu presupuesto se multiplica."}
   },
   {
     slug:"montreal",name:"Montréal",country:"Canada",flag:"🇨🇦",
@@ -667,8 +667,8 @@ const CITIES = [
     profiles:{nomad:2,local:3,retire:2,backpacker:1},
     match_tags:{pouvoir_achat:1,anime:2,opportunites:3,securite:2},
     chronicle:"/chronicles/villes/chronicle-montreal-canada-fr.html",
-    tags:["Francophone","Sécurité","Tech / IA","Immigration facile"],
-    why:"La seule grande métropole francophone hors France. Hub IA mondial."
+    tags:{fr:["Francophone","Sécurité","Tech / IA","Immigration facile"],en:["Francophone","Safety","Tech / AI","Easy immigration"],es:["Francófono","Seguridad","Tech / IA","Inmigración fácil"]},
+    why:{fr:"La seule grande métropole francophone hors France. Hub IA mondial.",en:"The only large French-speaking metropolis outside France. Global AI hub.",es:"La única gran metrópoli francófona fuera de Francia. Hub mundial de IA."}
   },
   {
     slug:"dubai",name:"Dubaï",country:"Émirats Arabes Unis",flag:"🇦🇪",
@@ -679,8 +679,8 @@ const CITIES = [
     profiles:{nomad:2,local:3,retire:2,backpacker:0},
     match_tags:{pouvoir_achat:1,anime:3,opportunites:3,securite:3},
     chronicle:"/chronicles/villes/chronicle-dubai-emirats-fr.html",
-    tags:["0% impôt","Sécurité maximale","Business","Expats 85%"],
-    why:"Zéro impôt sur le revenu. La ville pour maximiser son patrimoine."
+    tags:{fr:["0% impôt","Sécurité maximale","Business","Expats 85%"],en:["0% income tax","Maximum safety","Business","85% expats"],es:["0% IRPF","Seguridad máxima","Negocios","85% expats"]},
+    why:{fr:"Zéro impôt sur le revenu. La ville pour maximiser son patrimoine.",en:"Zero income tax. The city to maximise your wealth.",es:"Cero impuesto sobre la renta. La ciudad para maximizar tu patrimonio."}
   },
   {
     slug:"malte",name:"Malte — La Valette",country:"Malte",flag:"🇲🇹",
@@ -691,8 +691,8 @@ const CITIES = [
     profiles:{nomad:3,local:2,retire:3,backpacker:1},
     match_tags:{pouvoir_achat:1,anime:2,opportunites:2,securite:3},
     chronicle:"/countries/malta-fr.html",
-    tags:["EU + anglophone","Soleil","Petit et sûr","Crypto-friendly"],
-    why:"Île EU anglophone, 300 jours de soleil. Souvent oubliée, toujours parfaite."
+    tags:{fr:["EU + anglophone","Soleil","Petit et sûr","Crypto-friendly"],en:["EU + English","Sunshine","Small and safe","Crypto-friendly"],es:["UE + inglés","Sol","Pequeña y segura","Crypto-friendly"]},
+    why:{fr:"Île EU anglophone, 300 jours de soleil. Souvent oubliée, toujours parfaite.",en:"English-speaking EU island, 300 days of sun. Often forgotten, always perfect.",es:"Isla UE anglófona, 300 días de sol. A menudo olvidada, siempre perfecta."}
   },
   {
     slug:"sao-paulo",name:"São Paulo",country:"Brésil",flag:"🇧🇷",
@@ -703,8 +703,8 @@ const CITIES = [
     profiles:{nomad:1,local:3,retire:1,backpacker:1},
     match_tags:{pouvoir_achat:2,anime:3,opportunites:3,securite:1},
     chronicle:"/chronicles/villes/chronicle-sao-paulo-bresil-fr.html",
-    tags:["Hub Latam","Gastronomie mondiale","Finance","Mégapole"],
-    why:"Capital économique de l'Amérique du Sud. Pour les pros ambitieux."
+    tags:{fr:["Hub Latam","Gastronomie mondiale","Finance","Mégapole"],en:["LatAm hub","World gastronomy","Finance","Megacity"],es:["Hub Latam","Gastronomía mundial","Finanzas","Megaciudad"]},
+    why:{fr:"Capital économique de l'Amérique du Sud. Pour les pros ambitieux.",en:"South America's economic capital. For ambitious pros.",es:"Capital económica de Sudamérica. Para profesionales ambiciosos."}
   },
   {
     slug:"tenerife",name:"Tenerife",country:"Espagne",flag:"🇪🇸",
@@ -715,8 +715,8 @@ const CITIES = [
     profiles:{nomad:3,local:1,retire:3,backpacker:2},
     match_tags:{pouvoir_achat:2,anime:2,opportunites:1,securite:3},
     chronicle:"/countries/spain-fr.html",
-    tags:["Soleil record","EU","Mer","Calme","Printemps permanent"],
-    why:"Le meilleur climat d'Europe. Île espagnole, prix portugais."
+    tags:{fr:["Soleil record","EU","Mer","Calme","Printemps permanent"],en:["Record sunshine","EU","Sea","Calm","Permanent spring"],es:["Sol récord","UE","Mar","Calma","Primavera permanente"]},
+    why:{fr:"Le meilleur climat d'Europe. Île espagnole, prix portugais.",en:"Europe's best climate. Spanish island, Portuguese prices.",es:"El mejor clima de Europa. Isla española, precios portugueses."}
   },
   {
     slug:"ko-samui",name:"Ko Samui",country:"Thaïlande",flag:"🇹🇭",
@@ -727,8 +727,8 @@ const CITIES = [
     profiles:{nomad:2,local:1,retire:3,backpacker:3},
     match_tags:{pouvoir_achat:3,anime:1,opportunites:1,securite:2},
     chronicle:"/countries/thailand-fr.html",
-    tags:["Plage","Budget mini","Retraite tropicale","Détox"],
-    why:"La retraite tropicale ultime. Plages de rêve, coût dérisoire."
+    tags:{fr:["Plage","Budget mini","Retraite tropicale","Détox"],en:["Beach","Mini budget","Tropical retirement","Detox"],es:["Playa","Presupuesto mínimo","Jubilación tropical","Detox"]},
+    why:{fr:"La retraite tropicale ultime. Plages de rêve, coût dérisoire.",en:"The ultimate tropical retirement. Dream beaches, ridiculously low costs.",es:"La jubilación tropical definitiva. Playas de ensueño, costes irrisorios."}
   },
   {
     slug:"ile-maurice",name:"Île Maurice",country:"Île Maurice",flag:"🇲🇺",
@@ -739,8 +739,8 @@ const CITIES = [
     profiles:{nomad:2,local:2,retire:3,backpacker:1},
     match_tags:{pouvoir_achat:1,anime:2,opportunites:2,securite:2},
     chronicle:"/chronicles-villes.html",
-    tags:["Francophone","Premium Visa","Fiscalité douce","Luxe accessible"],
-    why:"La seule destination tropicale vraiment francophone. Fiscalité exceptionnelle."
+    tags:{fr:["Francophone","Premium Visa","Fiscalité douce","Luxe accessible"],en:["Francophone","Premium Visa","Soft taxation","Affordable luxury"],es:["Francófono","Premium Visa","Fiscalidad suave","Lujo asequible"]},
+    why:{fr:"La seule destination tropicale vraiment francophone. Fiscalité exceptionnelle.",en:"The only truly French-speaking tropical destination. Exceptional taxation.",es:"El único destino tropical de verdad francófono. Fiscalidad excepcional."}
   },
   {
     slug:"athenes",name:"Athènes",country:"Grèce",flag:"🇬🇷",
@@ -751,8 +751,8 @@ const CITIES = [
     profiles:{nomad:3,local:2,retire:3,backpacker:2},
     match_tags:{pouvoir_achat:2,anime:3,opportunites:2,securite:2},
     chronicle:"/chronicles/villes/chronicle-athenes-grece-fr.html",
-    tags:["Golden Visa","Mer","Histoire","Budget correct","EU"],
-    why:"Europe méditerranéenne à prix raisonnables. Golden Visa accessibles."
+    tags:{fr:["Golden Visa","Mer","Histoire","Budget correct","EU"],en:["Golden Visa","Sea","History","Decent budget","EU"],es:["Golden Visa","Mar","Historia","Presupuesto correcto","UE"]},
+    why:{fr:"Europe méditerranéenne à prix raisonnables. Golden Visa accessibles.",en:"Mediterranean Europe at reasonable prices. Accessible Golden Visas.",es:"Europa mediterránea a precios razonables. Golden Visas accesibles."}
   }
 ];
 
@@ -806,7 +806,10 @@ function nextStep(current){
 function updateProgress(step){
   const pct = ((step - 1) / TOTAL_STEPS) * 100;
   document.getElementById('progress-fill').style.width = pct + '%';
-  document.getElementById('progress-label').textContent = 'Question ' + step + ' / ' + TOTAL_STEPS;
+  const l = (localStorage.getItem('wigg_lang') || 'fr').toLowerCase();
+  const word = l === 'es' ? 'Pregunta' : 'Question';
+  const sep = l === 'fr' ? ' / ' : ' of ';
+  document.getElementById('progress-label').textContent = word + ' ' + step + (l==='es'?' de ':sep) + TOTAL_STEPS;
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -914,17 +917,371 @@ function computeResults(){
   showResults();
 }
 
+
+// ═══════════ I18N (FR / EN / ES) ═══════════
+const WM_I18N = {
+  fr: {
+      'hero_badge': 'WiggMatch 2026',
+      'hero_h1': 'Trouve ta<br><span>ville idéale</span>',
+      'hero_sub': "à l'étranger",
+      'hero_desc': '8 questions. Ton profil réel. Les villes qui te correspondent vraiment — pas celles qui font rêver tout le monde.',
+      'btn_start': 'Commencer le test',
+      'stat_cities': 'Villes analysées',
+      'stat_questions': 'Questions ciblées',
+      'stat_time': 'Pour ton résultat',
+      'stat_time_val': '3 min',
+      'btn_continue': 'Continuer →',
+      'btn_results': 'Voir mes résultats →',
+      'q1_num': 'Question 1 sur 8',
+      'q1_title': 'Quel est ton budget mensuel ?',
+      'q1_sub': 'Loyer + quotidien. Hors vols et installation.',
+      'q1_a_l': 'Moins de 1 200 €',
+      'q1_a_s': 'Je vise des destinations très abordables',
+      'q1_b_l': '1 200 – 2 200 €',
+      'q1_b_s': 'Budget raisonnable, je veux de la qualité',
+      'q1_c_l': '2 200 – 3 500 €',
+      'q1_c_s': 'Je peux me permettre des villes chères',
+      'q1_d_l': 'Plus de 3 500 €',
+      'q1_d_s': 'Le confort est prioritaire sur le prix',
+      'q2_num': 'Question 2 sur 8',
+      'q2_title': 'Quel climat te convient vraiment ?',
+      'q2_sub': 'La météo a un vrai impact sur le moral. Sois honnête.',
+      'q2_a_l': 'Chaud et humide',
+      'q2_a_s': "Tropiques, 30°C toute l'année, moussons",
+      'q2_b_l': 'Chaud et sec',
+      'q2_b_s': 'Méditerranée, soleil 280+ jours/an',
+      'q2_c_l': 'Tempéré / 4 saisons',
+      'q2_c_s': 'Pas trop chaud, pas trop froid',
+      'q2_d_l': 'Ça ne change rien pour moi',
+      'q2_d_s': "D'autres critères comptent plus",
+      'q3_num': 'Question 3 sur 8',
+      'q3_title': 'Dans ton quotidien idéal, tu es plutôt…',
+      'q3_sub': "L'environnement physique de la ville, pas l'ambiance.",
+      'q3_a_l': 'Près de la mer',
+      'q3_a_s': 'Plage, côte, vie littorale',
+      'q3_b_l': 'Proche de la montagne',
+      'q3_b_s': 'Randonnées, air pur, relief',
+      'q3_c_l': 'En pleine ville',
+      'q3_c_s': "Je veux l'urbain pur, pas d'échappatoire",
+      'q3_d_l': 'Entre ville et nature',
+      'q3_d_s': 'Un pied dans les deux',
+      'q4_num': 'Question 4 sur 8',
+      'q4_title': 'Quel type de ville te correspond ?',
+      'q4_sub': 'La taille change tout : rythme, prix, opportunités, anonymat.',
+      'q4_a_l': 'Grande métropole',
+      'q4_a_s': '3M+ habitants. Bangkok, São Paulo, Dubai',
+      'q4_b_l': 'Grande ville',
+      'q4_b_s': '500k–3M. Barcelone, Budapest, Medellín',
+      'q4_c_l': 'Ville moyenne',
+      'q4_c_s': '150k–500k. Porto, Tenerife, Tbilissi',
+      'q4_d_l': 'Petite destination',
+      'q4_d_s': 'Moins de 150k. Chiang Mai, Bali, Ko Samui',
+      'q5_num': 'Question 5 sur 8',
+      'q5_title': 'Tu pars dans quel contexte ?',
+      'q5_sub': "Ton mode de vie à l'étranger, pas ton rêve — la réalité.",
+      'q5_a_l': 'Digital nomad',
+      'q5_a_s': 'Travail à distance, je cherche liberté et connexion',
+      'q5_b_l': 'Travail sur place',
+      'q5_b_s': 'Mission locale, poste, entrepreneuriat',
+      'q5_c_l': 'Retraite',
+      'q5_c_s': 'Qualité de vie, calme, coût réduit',
+      'q5_d_l': 'Backpacker / aventurier',
+      'q5_d_s': 'Je bouge, je teste, le budget compte beaucoup',
+      'q6_num': 'Question 6 sur 8',
+      'q6_title': 'Quelles langues peux-tu utiliser au quotidien ?',
+      'q6_sub': 'Pour vivre, chercher un logement ou travailler sur place. Choix multiple.',
+      'q6_a_l': 'Anglais',
+      'q6_a_s': 'Je me débrouille vraiment en anglais',
+      'q6_b_l': 'Français',
+      'q6_b_s': 'Je cherche une communauté francophone',
+      'q6_c_l': 'Espagnol',
+      'q6_c_s': "Je parle ou j'apprends l'espagnol",
+      'q6_d_l': 'Portugais',
+      'q6_d_s': "Je parle ou j'apprends le portugais",
+      'q7_num': 'Question 7 sur 8',
+      'q7_title': 'Une communauté expat établie, ça compte pour toi ?',
+      'q7_sub': 'Des gens déjà sur place, des réseaux, des contacts faciles.',
+      'q7_a_l': "Oui, c'est important",
+      'q7_a_s': 'Je veux trouver facilement des gens comme moi',
+      'q7_b_l': 'Un peu',
+      'q7_b_s': "Pas indispensable, mais c'est un plus",
+      'q7_c_l': 'Pas du tout',
+      'q7_c_s': "Je préfère m'intégrer dans la culture locale",
+      'q8_num': 'Question 8 sur 8',
+      'q8_title': 'Si une ville devait vraiment te convaincre, ce serait pour…',
+      'q8_sub': 'Ta vraie priorité — pas la réponse idéale, la réponse honnête.',
+      'q8_a_l': "Gros pouvoir d'achat",
+      'q8_a_s': 'Mon argent vaut beaucoup plus là-bas',
+      'q8_b_l': 'Ville animée',
+      'q8_b_s': 'Restos, sorties, énergie, vie sociale intense',
+      'q8_c_l': 'Opportunités',
+      'q8_c_s': 'Carrière, business, hub économique',
+      'q8_d_l': 'Sécurité et tranquillité',
+      'q8_d_s': 'Je veux vivre serein, sans stress urbain',
+      'res_title_a': 'Tes',
+      'res_title_b': 'idéales',
+      'res_default_n': '3 villes',
+      'res_subtitle_default': 'Basé sur ton profil · WiggMatch 2026',
+      'cta_h': 'Explore plus loin sur WiggMap',
+      'cta_p': 'Chronicles villes, comparateurs, données pays — tout est gratuit.',
+      'cta_l1': '📖 Toutes les chronicles',
+      'cta_l2': '⚖️ Comparer des pays',
+      'cta_l3': '🌍 Explorer le globe',
+    },
+  en: {
+      'hero_badge': 'WiggMatch 2026',
+      'hero_h1': 'Find your<br><span>ideal city</span>',
+      'hero_sub': 'abroad',
+      'hero_desc': '8 questions. Your real profile. The cities that really suit you — not the ones everyone dreams about.',
+      'btn_start': 'Start the test',
+      'stat_cities': 'Cities analysed',
+      'stat_questions': 'Targeted questions',
+      'stat_time': 'For your result',
+      'stat_time_val': '3 min',
+      'btn_continue': 'Continue →',
+      'btn_results': 'See my results →',
+      'q1_num': 'Question 1 of 8',
+      'q1_title': 'What is your monthly budget?',
+      'q1_sub': 'Rent + daily. Excluding flights and setup.',
+      'q1_a_l': 'Less than €1,200',
+      'q1_a_s': "I'm aiming for very affordable destinations",
+      'q1_b_l': '€1,200 – €2,200',
+      'q1_b_s': 'Reasonable budget, I want quality',
+      'q1_c_l': '€2,200 – €3,500',
+      'q1_c_s': 'I can afford pricey cities',
+      'q1_d_l': 'More than €3,500',
+      'q1_d_s': 'Comfort comes before price',
+      'q2_num': 'Question 2 of 8',
+      'q2_title': 'What climate really suits you?',
+      'q2_sub': 'Weather has a real impact on morale. Be honest.',
+      'q2_a_l': 'Hot and humid',
+      'q2_a_s': 'Tropics, 30°C year-round, monsoons',
+      'q2_b_l': 'Hot and dry',
+      'q2_b_s': 'Mediterranean, 280+ sunny days/year',
+      'q2_c_l': 'Temperate / 4 seasons',
+      'q2_c_s': 'Not too hot, not too cold',
+      'q2_d_l': "Doesn't matter to me",
+      'q2_d_s': 'Other criteria matter more',
+      'q3_num': 'Question 3 of 8',
+      'q3_title': "In your ideal everyday life, you're more…",
+      'q3_sub': 'The physical environment of the city, not the vibe.',
+      'q3_a_l': 'Near the sea',
+      'q3_a_s': 'Beach, coast, seaside life',
+      'q3_b_l': 'Close to mountains',
+      'q3_b_s': 'Hiking, fresh air, elevation',
+      'q3_c_l': 'In the city centre',
+      'q3_c_s': 'I want pure urban, no escape',
+      'q3_d_l': 'Between city and nature',
+      'q3_d_s': 'One foot in each',
+      'q4_num': 'Question 4 of 8',
+      'q4_title': 'What type of city suits you?',
+      'q4_sub': 'Size changes everything: pace, prices, opportunities, anonymity.',
+      'q4_a_l': 'Mega metropolis',
+      'q4_a_s': '3M+ inhabitants. Bangkok, São Paulo, Dubai',
+      'q4_b_l': 'Big city',
+      'q4_b_s': '500k–3M. Barcelona, Budapest, Medellín',
+      'q4_c_l': 'Mid-sized city',
+      'q4_c_s': '150k–500k. Porto, Tenerife, Tbilisi',
+      'q4_d_l': 'Small destination',
+      'q4_d_s': 'Under 150k. Chiang Mai, Bali, Ko Samui',
+      'q5_num': 'Question 5 of 8',
+      'q5_title': "What's your context?",
+      'q5_sub': 'Your lifestyle abroad, not your dream — the reality.',
+      'q5_a_l': 'Digital nomad',
+      'q5_a_s': 'Remote work, I want freedom and connection',
+      'q5_b_l': 'Local job',
+      'q5_b_s': 'Local assignment, job, entrepreneurship',
+      'q5_c_l': 'Retirement',
+      'q5_c_s': 'Quality of life, calm, lower cost',
+      'q5_d_l': 'Backpacker / adventurer',
+      'q5_d_s': 'I move, I try, budget matters a lot',
+      'q6_num': 'Question 6 of 8',
+      'q6_title': 'Which languages can you use daily?',
+      'q6_sub': 'To live, find housing or work locally. Multiple choice.',
+      'q6_a_l': 'English',
+      'q6_a_s': 'I really get by in English',
+      'q6_b_l': 'French',
+      'q6_b_s': 'I want a French-speaking community',
+      'q6_c_l': 'Spanish',
+      'q6_c_s': 'I speak or am learning Spanish',
+      'q6_d_l': 'Portuguese',
+      'q6_d_s': 'I speak or am learning Portuguese',
+      'q7_num': 'Question 7 of 8',
+      'q7_title': 'Does an established expat community matter to you?',
+      'q7_sub': 'People already there, networks, easy contacts.',
+      'q7_a_l': 'Yes, it matters',
+      'q7_a_s': 'I want to easily find people like me',
+      'q7_b_l': 'A little',
+      'q7_b_s': "Not essential, but it's a plus",
+      'q7_c_l': 'Not at all',
+      'q7_c_s': 'I prefer to blend into the local culture',
+      'q8_num': 'Question 8 of 8',
+      'q8_title': 'If a city really had to win you over, it would be for…',
+      'q8_sub': 'Your real priority — not the ideal answer, the honest one.',
+      'q8_a_l': 'Strong purchasing power',
+      'q8_a_s': 'My money is worth a lot more over there',
+      'q8_b_l': 'Lively city',
+      'q8_b_s': 'Restaurants, nightlife, energy, intense social life',
+      'q8_c_l': 'Opportunities',
+      'q8_c_s': 'Career, business, economic hub',
+      'q8_d_l': 'Safety and peace of mind',
+      'q8_d_s': 'I want to live calm, without urban stress',
+      'res_title_a': 'Your',
+      'res_title_b': 'ideal',
+      'res_default_n': '3 cities',
+      'res_subtitle_default': 'Based on your profile · WiggMatch 2026',
+      'cta_h': 'Explore further on WiggMap',
+      'cta_p': 'City chronicles, comparators, country data — all free.',
+      'cta_l1': '📖 All chronicles',
+      'cta_l2': '⚖️ Compare countries',
+      'cta_l3': '🌍 Explore the globe',
+    },
+  es: {
+      'hero_badge': 'WiggMatch 2026',
+      'hero_h1': 'Encuentra tu<br><span>ciudad ideal</span>',
+      'hero_sub': 'en el extranjero',
+      'hero_desc': '8 preguntas. Tu perfil real. Las ciudades que de verdad te encajan — no las que todos sueñan.',
+      'btn_start': 'Empezar el test',
+      'stat_cities': 'Ciudades analizadas',
+      'stat_questions': 'Preguntas enfocadas',
+      'stat_time': 'Para tu resultado',
+      'stat_time_val': '3 min',
+      'btn_continue': 'Continuar →',
+      'btn_results': 'Ver mis resultados →',
+      'q1_num': 'Pregunta 1 de 8',
+      'q1_title': '¿Cuál es tu presupuesto mensual?',
+      'q1_sub': 'Alquiler + día a día. Sin vuelos ni instalación.',
+      'q1_a_l': 'Menos de 1.200 €',
+      'q1_a_s': 'Busco destinos muy asequibles',
+      'q1_b_l': '1.200 – 2.200 €',
+      'q1_b_s': 'Presupuesto razonable, quiero calidad',
+      'q1_c_l': '2.200 – 3.500 €',
+      'q1_c_s': 'Puedo permitirme ciudades caras',
+      'q1_d_l': 'Más de 3.500 €',
+      'q1_d_s': 'El confort prima sobre el precio',
+      'q2_num': 'Pregunta 2 de 8',
+      'q2_title': '¿Qué clima te conviene de verdad?',
+      'q2_sub': 'El clima impacta de verdad en el ánimo. Sé honesto.',
+      'q2_a_l': 'Cálido y húmedo',
+      'q2_a_s': 'Trópicos, 30°C todo el año, monzones',
+      'q2_b_l': 'Cálido y seco',
+      'q2_b_s': 'Mediterráneo, 280+ días de sol al año',
+      'q2_c_l': 'Templado / 4 estaciones',
+      'q2_c_s': 'Ni muy caliente, ni muy frío',
+      'q2_d_l': 'Me da igual',
+      'q2_d_s': 'Otros criterios importan más',
+      'q3_num': 'Pregunta 3 de 8',
+      'q3_title': 'En tu día a día ideal, eres más…',
+      'q3_sub': 'El entorno físico de la ciudad, no el ambiente.',
+      'q3_a_l': 'Cerca del mar',
+      'q3_a_s': 'Playa, costa, vida litoral',
+      'q3_b_l': 'Cerca de la montaña',
+      'q3_b_s': 'Senderismo, aire puro, relieve',
+      'q3_c_l': 'En plena ciudad',
+      'q3_c_s': 'Quiero lo urbano puro, sin escape',
+      'q3_d_l': 'Entre ciudad y naturaleza',
+      'q3_d_s': 'Un pie en cada lado',
+      'q4_num': 'Pregunta 4 de 8',
+      'q4_title': '¿Qué tipo de ciudad te encaja?',
+      'q4_sub': 'El tamaño lo cambia todo: ritmo, precios, oportunidades, anonimato.',
+      'q4_a_l': 'Gran metrópoli',
+      'q4_a_s': '3M+ habitantes. Bangkok, São Paulo, Dubái',
+      'q4_b_l': 'Ciudad grande',
+      'q4_b_s': '500k–3M. Barcelona, Budapest, Medellín',
+      'q4_c_l': 'Ciudad media',
+      'q4_c_s': '150k–500k. Oporto, Tenerife, Tiflis',
+      'q4_d_l': 'Destino pequeño',
+      'q4_d_s': 'Menos de 150k. Chiang Mai, Bali, Ko Samui',
+      'q5_num': 'Pregunta 5 de 8',
+      'q5_title': '¿En qué contexto te vas?',
+      'q5_sub': 'Tu modo de vida en el extranjero, no tu sueño — la realidad.',
+      'q5_a_l': 'Nómada digital',
+      'q5_a_s': 'Trabajo remoto, busco libertad y conexión',
+      'q5_b_l': 'Trabajo presencial',
+      'q5_b_s': 'Misión local, puesto, emprendimiento',
+      'q5_c_l': 'Jubilación',
+      'q5_c_s': 'Calidad de vida, calma, coste reducido',
+      'q5_d_l': 'Mochilero / aventurero',
+      'q5_d_s': 'Me muevo, pruebo, el presupuesto importa mucho',
+      'q6_num': 'Pregunta 6 de 8',
+      'q6_title': '¿Qué idiomas puedes usar a diario?',
+      'q6_sub': 'Para vivir, buscar piso o trabajar allí. Opción múltiple.',
+      'q6_a_l': 'Inglés',
+      'q6_a_s': 'Me apaño bien en inglés',
+      'q6_b_l': 'Francés',
+      'q6_b_s': 'Busco una comunidad francófona',
+      'q6_c_l': 'Español',
+      'q6_c_s': 'Hablo o estoy aprendiendo español',
+      'q6_d_l': 'Portugués',
+      'q6_d_s': 'Hablo o estoy aprendiendo portugués',
+      'q7_num': 'Pregunta 7 de 8',
+      'q7_title': '¿Te importa una comunidad expat ya establecida?',
+      'q7_sub': 'Gente ya allí, redes, contactos fáciles.',
+      'q7_a_l': 'Sí, me importa',
+      'q7_a_s': 'Quiero encontrar fácilmente gente como yo',
+      'q7_b_l': 'Un poco',
+      'q7_b_s': 'No imprescindible, pero suma',
+      'q7_c_l': 'Para nada',
+      'q7_c_s': 'Prefiero integrarme en la cultura local',
+      'q8_num': 'Pregunta 8 de 8',
+      'q8_title': 'Si una ciudad tuviera que convencerte de verdad, sería por…',
+      'q8_sub': 'Tu prioridad real — no la respuesta ideal, la honesta.',
+      'q8_a_l': 'Gran poder adquisitivo',
+      'q8_a_s': 'Mi dinero vale mucho más allí',
+      'q8_b_l': 'Ciudad animada',
+      'q8_b_s': 'Restaurantes, salidas, energía, vida social intensa',
+      'q8_c_l': 'Oportunidades',
+      'q8_c_s': 'Carrera, negocios, hub económico',
+      'q8_d_l': 'Seguridad y tranquilidad',
+      'q8_d_s': 'Quiero vivir sereno, sin estrés urbano',
+      'res_title_a': 'Tus',
+      'res_title_b': 'ideales',
+      'res_default_n': '3 ciudades',
+      'res_subtitle_default': 'Según tu perfil · WiggMatch 2026',
+      'cta_h': 'Explora más en WiggMap',
+      'cta_p': 'Crónicas ciudad, comparadores, datos de países — todo gratis.',
+      'cta_l1': '📖 Todas las crónicas',
+      'cta_l2': '⚖️ Comparar países',
+      'cta_l3': '🌍 Explorar el globo',
+    }
+};
+function wmTr(){
+  const l = (localStorage.getItem('wigg_lang') || 'fr').toLowerCase();
+  return WM_I18N[l] || WM_I18N.fr;
+}
+function wmApplyI18n(){
+  const t = wmTr();
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.dataset.i18n;
+    if (t[k] != null) el.innerHTML = t[k];
+  });
+  // refresh progress label (if quiz step active)
+  if (typeof updateProgress === 'function') {
+    const m = (document.getElementById('progress-label')?.textContent || '').match(/(\d+)/);
+    if (m) updateProgress(+m[1]);
+  }
+  // re-render results cards if shown (re-applies labels + medals via wmDyn)
+  const cardsEl = document.getElementById('results-cards');
+  if (cardsEl && cardsEl.children.length && typeof topCities !== 'undefined' && topCities.length) {
+    if (typeof showResults === 'function') showResults();
+  }
+}
+
 // Lang switcher (stocke la préférence + redirige selon la page)
 function wmSetLang(l){
   localStorage.setItem('wigg_lang', l);
   document.querySelectorAll('.wm-langbtn').forEach(b => b.classList.remove('active'));
   const btn = document.getElementById('wmLang' + l.toUpperCase());
   if(btn) btn.classList.add('active');
+  document.documentElement.lang = l;
+  wmApplyI18n();
 }
 (function(){
   const l = (localStorage.getItem('wigg_lang') || 'fr').toLowerCase();
   const btn = document.getElementById('wmLang' + l.toUpperCase());
   if(btn) btn.classList.add('active');
+  document.documentElement.lang = l;
+  wmApplyI18n();
 })();
 
 function unlockCities(){
@@ -966,39 +1323,120 @@ async function sendToBrevo(email){
   } catch(e){ console.warn('Brevo error', e); }
 }
 
+// ── Dynamic i18n strings (used by JS, not data-i18n) ──
+const WM_DYN = {
+  fr: {
+    res_default_n: '3 villes',
+    profile_nomad: 'nomade', profile_local: 'professionnel', profile_retire: 'retraite', profile_backpacker: 'backpacker',
+    budget_low: 'serré', budget_mid: 'modéré', budget_high: 'confortable', budget_premium: 'large',
+    subtitle_tpl: (p,b) => `Profil ${p} · Budget ${b} · WiggMatch 2026`,
+    medals: ['🥇 Meilleur match','🥈 Excellent match','🥉 Très bon match'],
+    cc_studio: 'Loyer studio', cc_studio_unit: '€/mois',
+    cc_sun: 'Soleil', cc_sun_unit: 'j/an',
+    cc_expat: 'Communauté',
+    cc_safety: 'Sécurité :',
+    cc_link: 'Chronicle complète →',
+    cc_match: 'match',
+    unlock_badge: '100 % gratuit',
+    unlock_title: 'Découvre <em>tes 2 autres villes</em>',
+    unlock_sub: "Reçois par email le détail complet de ton match : budget mensuel réel, quartiers où chercher, démarches visa, et les 2 villes encore floutées au-dessus.",
+    unlock_b1: 'Top 3 complet', unlock_b2: 'Budget réel', unlock_b3: 'Démarches visa',
+    unlock_email_ph: 'ton.email@exemple.com',
+    unlock_btn: 'Recevoir mes résultats',
+    unlock_note: 'Zéro spam. Désinscription en un clic.',
+    unlock_overlay: '🔒 Débloqué après inscription',
+    country_map: {Portugal:'Portugal',Espagne:'Espagne',Hongrie:'Hongrie',Pologne:'Pologne','Géorgie':'Géorgie','Thaïlande':'Thaïlande','Indonésie':'Indonésie',Colombie:'Colombie',Argentine:'Argentine',Canada:'Canada','Émirats Arabes Unis':'Émirats Arabes Unis',Malte:'Malte','Brésil':'Brésil','Île Maurice':'Île Maurice','Grèce':'Grèce'},
+    safety_map: {Excellent:'Excellent',Bon:'Bon',Moyen:'Moyen'},
+    expat_map: {'Très forte':'Très forte',Forte:'Forte','Modérée':'Modérée'}
+  },
+  en: {
+    res_default_n: '3 cities',
+    profile_nomad: 'nomad', profile_local: 'pro', profile_retire: 'retired', profile_backpacker: 'backpacker',
+    budget_low: 'tight', budget_mid: 'moderate', budget_high: 'comfortable', budget_premium: 'large',
+    subtitle_tpl: (p,b) => `Profile ${p} · Budget ${b} · WiggMatch 2026`,
+    medals: ['🥇 Best match','🥈 Excellent match','🥉 Very good match'],
+    cc_studio: 'Studio rent', cc_studio_unit: '€/mo',
+    cc_sun: 'Sunshine', cc_sun_unit: 'd/yr',
+    cc_expat: 'Community',
+    cc_safety: 'Safety:',
+    cc_link: 'Full chronicle →',
+    cc_match: 'match',
+    unlock_badge: '100% free',
+    unlock_title: 'Unlock <em>your 2 other cities</em>',
+    unlock_sub: "Get the full match report by email: real monthly budget, neighbourhoods to target, visa process, and the 2 cities still blurred above.",
+    unlock_b1: 'Full top 3', unlock_b2: 'Real budget', unlock_b3: 'Visa process',
+    unlock_email_ph: 'your.email@example.com',
+    unlock_btn: 'Send me my results',
+    unlock_note: 'Zero spam. Unsubscribe in one click.',
+    unlock_overlay: '🔒 Unlocked after sign-up',
+    country_map: {Portugal:'Portugal',Espagne:'Spain',Hongrie:'Hungary',Pologne:'Poland','Géorgie':'Georgia','Thaïlande':'Thailand','Indonésie':'Indonesia',Colombie:'Colombia',Argentine:'Argentina',Canada:'Canada','Émirats Arabes Unis':'United Arab Emirates',Malte:'Malta','Brésil':'Brazil','Île Maurice':'Mauritius','Grèce':'Greece'},
+    safety_map: {Excellent:'Excellent',Bon:'Good',Moyen:'Average'},
+    expat_map: {'Très forte':'Very strong',Forte:'Strong','Modérée':'Moderate'}
+  },
+  es: {
+    res_default_n: '3 ciudades',
+    profile_nomad: 'nómada', profile_local: 'profesional', profile_retire: 'jubilación', profile_backpacker: 'mochilero',
+    budget_low: 'ajustado', budget_mid: 'moderado', budget_high: 'cómodo', budget_premium: 'amplio',
+    subtitle_tpl: (p,b) => `Perfil ${p} · Presupuesto ${b} · WiggMatch 2026`,
+    medals: ['🥇 Mejor match','🥈 Excelente match','🥉 Muy buen match'],
+    cc_studio: 'Alquiler estudio', cc_studio_unit: '€/mes',
+    cc_sun: 'Sol', cc_sun_unit: 'd/año',
+    cc_expat: 'Comunidad',
+    cc_safety: 'Seguridad:',
+    cc_link: 'Crónica completa →',
+    cc_match: 'match',
+    unlock_badge: '100 % gratis',
+    unlock_title: 'Descubre <em>tus 2 otras ciudades</em>',
+    unlock_sub: "Recibe por email el detalle completo de tu match: presupuesto mensual real, barrios donde buscar, trámites de visado y las 2 ciudades aún borrosas arriba.",
+    unlock_b1: 'Top 3 completo', unlock_b2: 'Presupuesto real', unlock_b3: 'Trámites visado',
+    unlock_email_ph: 'tu.email@ejemplo.com',
+    unlock_btn: 'Recibir mis resultados',
+    unlock_note: 'Cero spam. Cancelación en un clic.',
+    unlock_overlay: '🔒 Desbloqueado tras registrarse',
+    country_map: {Portugal:'Portugal',Espagne:'España',Hongrie:'Hungría',Pologne:'Polonia','Géorgie':'Georgia','Thaïlande':'Tailandia','Indonésie':'Indonesia',Colombie:'Colombia',Argentine:'Argentina',Canada:'Canadá','Émirats Arabes Unis':'Emiratos Árabes Unidos',Malte:'Malta','Brésil':'Brasil','Île Maurice':'Mauricio','Grèce':'Grecia'},
+    safety_map: {Excellent:'Excelente',Bon:'Bueno',Moyen:'Medio'},
+    expat_map: {'Très forte':'Muy fuerte',Forte:'Fuerte','Modérée':'Moderada'}
+  }
+};
+function wmDyn(){
+  const l = (localStorage.getItem('wigg_lang') || 'fr').toLowerCase();
+  return WM_DYN[l] || WM_DYN.fr;
+}
+
 function showResults(){
   const section = document.getElementById('results-section');
   section.style.display = 'block';
 
-  document.getElementById('result-name-display').textContent = '3 villes';
+  const d = wmDyn();
+  document.getElementById('result-name-display').textContent = d.res_default_n;
 
-  const profileLabels = {nomad:'nomad',local:'professionnel',retire:'retraite',backpacker:'backpacker'};
-  const budgetLabels = {low:'serré',mid:'modéré',high:'confortable',premium:'large'};
-  document.getElementById('result-subtitle').textContent =
-    `Profil ${profileLabels[answers.profile]||''} · Budget ${budgetLabels[answers.budget]||''} · WiggMatch 2026`;
+  const p = d['profile_' + answers.profile] || '';
+  const b = d['budget_' + answers.budget] || '';
+  document.getElementById('result-subtitle').textContent = d.subtitle_tpl(p, b);
 
   const container = document.getElementById('results-cards');
   // Display order: smallest % first, biggest % last (visual reverse).
-  // Rank stays mapped to the real ranking (0 = best match) so medals/blur logic remain correct.
   const displayOrder = topCities.map((c, i) => ({city: c, rank: i})).reverse();
   container.innerHTML = displayOrder.map(o => buildCard(o.city, o.rank)).join('');
 
   // Inline unlock block (under the cards)
+  const old = document.getElementById('unlock-block');
+  if (old) old.remove();
   const unlockHTML = `
     <div id="unlock-block" class="unlock-block">
-      <span class="unlock-badge">100 % gratuit</span>
-      <div class="unlock-title">Découvre <em>tes 2 autres villes</em></div>
-      <div class="unlock-sub">Reçois par email le détail complet de ton match : budget mensuel réel, quartiers où chercher, démarches visa, et les 2 villes encore floutées au-dessus.</div>
+      <span class="unlock-badge">${d.unlock_badge}</span>
+      <div class="unlock-title">${d.unlock_title}</div>
+      <div class="unlock-sub">${d.unlock_sub}</div>
       <div class="unlock-bullets">
-        <span>Top 3 complet</span>
-        <span>Budget réel</span>
-        <span>Démarches visa</span>
+        <span>${d.unlock_b1}</span>
+        <span>${d.unlock_b2}</span>
+        <span>${d.unlock_b3}</span>
       </div>
       <div class="unlock-form">
-        <input type="email" class="unlock-input" id="inline-email" placeholder="ton.email@exemple.com" autocomplete="email"/>
-        <button type="button" class="unlock-btn" onclick="unlockCities()">Recevoir mes résultats</button>
+        <input type="email" class="unlock-input" id="inline-email" placeholder="${d.unlock_email_ph}" autocomplete="email"/>
+        <button type="button" class="unlock-btn" onclick="unlockCities()">${d.unlock_btn}</button>
       </div>
-      <div class="unlock-note">Zéro spam. Désinscription en un clic.</div>
+      <div class="unlock-note">${d.unlock_note}</div>
     </div>`;
   container.insertAdjacentHTML('afterend', unlockHTML);
 
@@ -1006,12 +1444,20 @@ function showResults(){
 }
 
 function buildCard(city, rank){
-  const medals = ['🥇 Meilleur match','🥈 Excellent match','🥉 Très bon match'];
+  const d = wmDyn();
+  const lang = (localStorage.getItem('wigg_lang') || 'fr').toLowerCase();
   const pct = Math.min(Math.round((city.score / SCORE_MAX) * 100), 99);
   const isTop = rank === 0;
   const isBlurred = rank > 0;
 
-  const tags = city.tags.slice(0,4).map(t => `<span class="cc-tag good">${t}</span>`).join('');
+  // Multi-lang fields with FR fallback
+  const cityTags = (city.tags && city.tags[lang]) || (city.tags && city.tags.fr) || [];
+  const cityWhy  = (city.why && city.why[lang]) || (city.why && city.why.fr) || '';
+  const cityCountry = (d.country_map && d.country_map[city.country]) || city.country;
+  const citySafety  = (d.safety_map && d.safety_map[city.safety])  || city.safety;
+  const cityExpat   = (d.expat_map && d.expat_map[city.expat])    || city.expat;
+
+  const tags = cityTags.slice(0,4).map(t => `<span class="cc-tag good">${t}</span>`).join('');
   const safetyColor = city.safety === 'Excellent' ? 'good' : city.safety === 'Bon' ? 'good' : 'warn';
 
   const classes = ['city-card'];
@@ -1022,38 +1468,38 @@ function buildCard(city, rank){
   <div class="${classes.join(' ')}">
     <div class="cc-head">
       <div class="cc-head-left">
-        <div class="cc-rank">${medals[rank]}</div>
+        <div class="cc-rank">${d.medals[rank]}</div>
         <div class="cc-name">${city.flag} ${city.name}</div>
-        <div class="cc-country">${city.country}</div>
-        <div class="cc-match-line">${city.why}</div>
+        <div class="cc-country">${cityCountry}</div>
+        <div class="cc-match-line">${cityWhy}</div>
       </div>
       <div class="cc-score-wrap">
         <div class="cc-score">${pct}%</div>
-        <div class="cc-score-lbl">match</div>
+        <div class="cc-score-lbl">${d.cc_match}</div>
       </div>
     </div>
     <div class="cc-grid">
       <div class="cc-stat">
-        <div class="cc-stat-lbl">Loyer studio</div>
-        <div class="cc-stat-val">~${city.studio}€/mois</div>
+        <div class="cc-stat-lbl">${d.cc_studio}</div>
+        <div class="cc-stat-val">~${city.studio}${d.cc_studio_unit}</div>
       </div>
       <div class="cc-stat">
-        <div class="cc-stat-lbl">Soleil</div>
-        <div class="cc-stat-val">${city.sun_days} j/an</div>
+        <div class="cc-stat-lbl">${d.cc_sun}</div>
+        <div class="cc-stat-val">${city.sun_days} ${d.cc_sun_unit}</div>
       </div>
       <div class="cc-stat">
-        <div class="cc-stat-lbl">Communauté</div>
-        <div class="cc-stat-val">${city.expat}</div>
+        <div class="cc-stat-lbl">${d.cc_expat}</div>
+        <div class="cc-stat-val">${cityExpat}</div>
       </div>
     </div>
     <div class="cc-footer">
       <div class="cc-tags">
         ${tags}
-        <span class="cc-tag ${safetyColor}">Sécurité : ${city.safety}</span>
+        <span class="cc-tag ${safetyColor}">${d.cc_safety} ${citySafety}</span>
       </div>
-      <a href="${city.chronicle}" class="cc-link">Chronicle complète →</a>
+      <a href="${city.chronicle}" class="cc-link">${d.cc_link}</a>
     </div>
-    ${isBlurred ? '<div class="unlock-overlay">🔒 Débloqué après inscription</div>' : ''}
+    ${isBlurred ? `<div class="unlock-overlay">${d.unlock_overlay}</div>` : ''}
   </div>`;
 }
 </script>
