@@ -145,23 +145,8 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
 .pill.accent{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.38)}
 .pill.accent:hover{background:rgba(34,197,94,.18);box-shadow:0 8px 32px rgba(34,197,94,.15),0 0 0 1px rgba(34,197,94,.25)}
 
-/* WiggMatch — pill bien plus visible */
-.pill.match{
-  background:linear-gradient(135deg,rgba(34,197,94,.22) 0%,rgba(22,163,74,.32) 100%);
-  border:1.5px solid rgba(34,197,94,.55);
-  box-shadow:0 0 0 1px rgba(34,197,94,.18),0 0 24px rgba(34,197,94,.28),0 0 48px rgba(34,197,94,.12);
-  animation:matchGlow 2.6s ease-in-out infinite;
-  justify-content:center;
-}
-.pill.match:hover{
-  background:linear-gradient(135deg,rgba(34,197,94,.32) 0%,rgba(22,163,74,.45) 100%);
-  border-color:rgba(34,197,94,.85);
-  box-shadow:0 0 0 1px rgba(34,197,94,.4),0 12px 36px rgba(34,197,94,.4),0 0 60px rgba(34,197,94,.25);
-}
-@keyframes matchGlow{
-  0%,100%{box-shadow:0 0 0 1px rgba(34,197,94,.18),0 0 24px rgba(34,197,94,.28),0 0 48px rgba(34,197,94,.12)}
-  50%{box-shadow:0 0 0 1px rgba(34,197,94,.28),0 0 32px rgba(34,197,94,.42),0 0 64px rgba(34,197,94,.22)}
-}
+/* WiggMatch — même fond que les autres pills */
+.pill.match{justify-content:center}
 .pill.match .pill-eyebrow{display:inline-flex;align-items:center;gap:7px;font-family:var(--font);font-size:14px;font-weight:800;letter-spacing:-.03em;margin-bottom:6px;line-height:1}
 .pill.match .pill-eyebrow .pm-dot{width:6px;height:6px;border-radius:50%;background:#fb923c;display:inline-block;animation:matchDot 2s ease-in-out infinite;box-shadow:0 0 8px rgba(251,146,60,.8)}
 .pill.match .pm-name{display:inline-flex;align-items:baseline;gap:0;font-family:var(--font);letter-spacing:-.03em}
@@ -240,9 +225,6 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
     justify-content:center!important;
     text-align:center!important;
     gap:10px!important;
-    background:linear-gradient(160deg,rgba(34,197,94,.28) 0%,rgba(22,163,74,.42) 100%)!important;
-    border:1.5px solid rgba(34,197,94,.7)!important;
-    box-shadow:0 0 0 1px rgba(34,197,94,.3),0 4px 18px rgba(34,197,94,.35),0 0 28px rgba(34,197,94,.18)!important;
     z-index:50;
   }
   .pill.match .pill-eyebrow{font-size:14px;margin-bottom:0;flex-direction:column;gap:6px}
