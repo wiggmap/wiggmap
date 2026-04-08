@@ -126,12 +126,13 @@ body{font-family:var(--sans);color:var(--ink);background:var(--ink);font-size:16
 .cc-link{display:inline-flex;align-items:center;gap:6px;background:var(--ink);color:var(--white);font-size:13px;font-weight:500;padding:10px 18px;border-radius:30px;text-decoration:none;white-space:nowrap;transition:background .15s}
 .cc-link:hover{background:#1e2430}
 
-/* BLURRED CARDS (rank 1 & 2) */
+/* BLURRED CARDS (rank 1 & 2) — only the % match score stays visible */
 .city-card.blurred{position:relative;overflow:hidden}
+.city-card.blurred .cc-head-left,
 .city-card.blurred .cc-grid,
 .city-card.blurred .cc-tags,
 .city-card.blurred .cc-link{
-  filter:blur(5px);
+  filter:blur(6px);
   user-select:none;
 }
 .city-card.blurred .cc-link{pointer-events:none}
@@ -151,16 +152,24 @@ body{font-family:var(--sans);color:var(--ink);background:var(--ink);font-size:16
 }
 
 /* INLINE UNLOCK BLOCK (under results) */
-.unlock-block{background:var(--ink);border-radius:16px;padding:32px;margin:32px 0 0;text-align:center}
-.unlock-title{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--white);line-height:1.3;margin-bottom:8px}
-.unlock-sub{font-size:14px;color:rgba(255,255,255,0.55);margin-bottom:22px}
-.unlock-form{display:flex;gap:10px;max-width:440px;margin:0 auto;flex-wrap:wrap}
-.unlock-input{flex:1;min-width:200px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:13px 18px;font-size:14px;color:var(--white);font-family:var(--sans);outline:none;transition:border-color .15s}
-.unlock-input::placeholder{color:rgba(255,255,255,0.25)}
-.unlock-input:focus{border-color:var(--g)}
-.unlock-btn{background:var(--g);color:var(--white);border:none;border-radius:10px;padding:13px 24px;font-size:14px;font-weight:600;cursor:pointer;transition:background .15s;font-family:var(--sans);white-space:nowrap}
-.unlock-btn:hover{background:var(--gd)}
-.unlock-note{font-size:11px;color:rgba(255,255,255,0.3);margin-top:14px}
+.unlock-block{position:relative;background:var(--white);border:1.5px solid var(--g);border-radius:18px;padding:40px 36px 32px;margin:36px 0 0;text-align:center;box-shadow:0 0 0 6px rgba(22,163,74,0.06)}
+.unlock-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--g);color:var(--white);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:6px 14px;border-radius:999px;white-space:nowrap}
+.unlock-title{font-family:var(--serif);font-size:clamp(22px,3.4vw,28px);font-weight:800;color:var(--ink);line-height:1.2;letter-spacing:-.01em;margin-bottom:10px}
+.unlock-title em{color:var(--g);font-style:normal}
+.unlock-sub{font-size:14.5px;color:var(--ink2);line-height:1.55;max-width:460px;margin:0 auto 20px}
+.unlock-bullets{display:flex;justify-content:center;gap:14px 22px;flex-wrap:wrap;margin:0 auto 22px;max-width:480px;font-size:12px;color:var(--ink3)}
+.unlock-bullets span{display:inline-flex;align-items:center;gap:5px}
+.unlock-bullets span::before{content:"✓";color:var(--g);font-weight:800}
+.unlock-form{display:flex;gap:8px;max-width:440px;margin:0 auto;flex-wrap:wrap}
+.unlock-input{flex:1;min-width:220px;background:var(--white);border:1.5px solid var(--rule);border-radius:12px;padding:15px 18px;font-size:15px;color:var(--ink);font-family:var(--sans);outline:none;transition:border-color .15s,box-shadow .15s}
+.unlock-input::placeholder{color:var(--ink3)}
+.unlock-input:focus{border-color:var(--g);box-shadow:0 0 0 3px rgba(22,163,74,0.12)}
+.unlock-btn{background:var(--g);color:var(--white);border:none;border-radius:12px;padding:15px 26px;font-size:15px;font-weight:700;cursor:pointer;transition:background .15s,transform .15s;font-family:var(--sans);white-space:nowrap;letter-spacing:.01em}
+.unlock-btn:hover{background:var(--gd);transform:translateY(-1px)}
+.unlock-btn:active{transform:translateY(0)}
+.unlock-note{font-size:11.5px;color:var(--ink3);margin-top:16px;display:flex;align-items:center;justify-content:center;gap:5px}
+.unlock-note::before{content:"🔒";font-size:11px}
+@media(max-width:480px){.unlock-block{padding:32px 22px 26px}.unlock-bullets{font-size:11.5px;gap:10px 16px}}
 
 /* RESULTS CTA */
 .results-cta{background:var(--ink);border-radius:16px;padding:36px;text-align:center;margin-top:40px}
@@ -208,7 +217,7 @@ body{font-family:var(--sans);color:var(--ink);background:var(--ink);font-size:16
     <!-- Q1 — Budget -->
     <div class="q-step active" id="step-1">
       <div class="q-num">Question 1 sur 8</div>
-      <div class="q-title">Quel budget mensuel te semble réaliste pour bien vivre ?</div>
+      <div class="q-title">Quel est ton budget mensuel ?</div>
       <div class="q-sub">Loyer + quotidien. Hors vols et installation.</div>
       <div class="options">
         <div class="opt" onclick="selectOpt(this,'budget','low')">
@@ -538,7 +547,7 @@ const CITIES = [
     lang_scores:{en:2,fr:0,es:0,pt:0},
     profiles:{nomad:3,local:2,retire:2,backpacker:2},
     match_tags:{pouvoir_achat:3,anime:2,opportunites:2,securite:3},
-    chronicle:"/chronicles/villes/chronicle-budapest-hongrie-fr.html",
+    chronicle:"/countries/hungary-fr.html",
     tags:["Coût ultra-bas","Architecture","Thermes","Scène tech"],
     why:"La perle de l'Europe de l'Est. Coût de vie parmi les plus bas d'Europe."
   },
@@ -550,7 +559,7 @@ const CITIES = [
     lang_scores:{en:3,fr:0,es:0,pt:0},
     profiles:{nomad:3,local:3,retire:1,backpacker:1},
     match_tags:{pouvoir_achat:2,anime:2,opportunites:3,securite:3},
-    chronicle:"/chronicles/villes/chronicle-varsovie-pologne-fr.html",
+    chronicle:"/countries/poland-fr.html",
     tags:["Hub tech","Salaires en hausse","Sécurité","EU + Schengen"],
     why:"La Silicon Valley de l'Europe de l'Est. Salaires tech compétitifs."
   },
@@ -562,7 +571,7 @@ const CITIES = [
     lang_scores:{en:1,fr:0,es:0,pt:0},
     profiles:{nomad:3,local:1,retire:2,backpacker:3},
     match_tags:{pouvoir_achat:3,anime:2,opportunites:1,securite:2},
-    chronicle:"/chronicles/villes/chronicle-tbilissi-georgie-fr.html",
+    chronicle:"/countries/georgia-fr.html",
     tags:["Moins de 400€/mois","Sans visa 1 an","Vin naturel","Startup scene"],
     why:"La destination nomad la plus surprenante. Visa gratuit 1 an, loyers imbattables."
   },
@@ -574,7 +583,7 @@ const CITIES = [
     lang_scores:{en:2,fr:0,es:0,pt:0},
     profiles:{nomad:3,local:2,retire:3,backpacker:3},
     match_tags:{pouvoir_achat:3,anime:3,opportunites:2,securite:2},
-    chronicle:"/chronicles/villes/chronicle-bangkok-thailande-fr.html",
+    chronicle:"/chronicles/villes/chronicle-bangkok-thailand-fr.html",
     tags:["Coût très bas","Food incroyable","Transports","LTR Visa"],
     why:"La capitale mondiale du nomadisme. Infrastructure parfaite, prix dérisoires."
   },
@@ -586,7 +595,7 @@ const CITIES = [
     lang_scores:{en:2,fr:0,es:0,pt:0},
     profiles:{nomad:3,local:1,retire:3,backpacker:3},
     match_tags:{pouvoir_achat:3,anime:1,opportunites:1,securite:3},
-    chronicle:"/chronicles/villes/chronicle-chiangmai-thailande-fr.html",
+    chronicle:"/chronicles/villes/chronicle-chiang-mai-thailand-fr.html",
     tags:["Budget minimal","Coworking","Nature","Communauté nomad top"],
     why:"La mecque des digital nomads. Moins de 800€/mois tout compris."
   },
@@ -598,7 +607,7 @@ const CITIES = [
     lang_scores:{en:2,fr:0,es:0,pt:0},
     profiles:{nomad:3,local:1,retire:2,backpacker:3},
     match_tags:{pouvoir_achat:2,anime:3,opportunites:1,securite:2},
-    chronicle:"/chronicles/villes/chronicle-bali-indonesie-fr.html",
+    chronicle:"/chronicles/villes/chronicle-bali-indonesia-fr.html",
     tags:["Surf","Yoga","Coworking","Lifestyle unique","Visa nomad"],
     why:"Le lifestyle le plus instagrammé du monde — et pourtant, ça vaut vraiment le coup."
   },
@@ -646,7 +655,7 @@ const CITIES = [
     lang_scores:{en:3,fr:1,es:0,pt:0},
     profiles:{nomad:2,local:3,retire:2,backpacker:0},
     match_tags:{pouvoir_achat:1,anime:3,opportunites:3,securite:3},
-    chronicle:"/chronicles/villes/chronicle-dubai-eau-fr.html",
+    chronicle:"/chronicles/villes/chronicle-dubai-emirats-fr.html",
     tags:["0% impôt","Sécurité maximale","Business","Expats 85%"],
     why:"Zéro impôt sur le revenu. La ville pour maximiser son patrimoine."
   },
@@ -658,7 +667,7 @@ const CITIES = [
     lang_scores:{en:3,fr:0,es:0,pt:0},
     profiles:{nomad:3,local:2,retire:3,backpacker:1},
     match_tags:{pouvoir_achat:1,anime:2,opportunites:2,securite:3},
-    chronicle:"/chronicles/villes/chronicle-malte-fr.html",
+    chronicle:"/countries/malta-fr.html",
     tags:["EU + anglophone","Soleil","Petit et sûr","Crypto-friendly"],
     why:"Île EU anglophone, 300 jours de soleil. Souvent oubliée, toujours parfaite."
   },
@@ -682,7 +691,7 @@ const CITIES = [
     lang_scores:{en:2,fr:0,es:3,pt:0},
     profiles:{nomad:3,local:1,retire:3,backpacker:2},
     match_tags:{pouvoir_achat:2,anime:2,opportunites:1,securite:3},
-    chronicle:"/chronicles/villes/chronicle-tenerife-espagne-fr.html",
+    chronicle:"/countries/spain-fr.html",
     tags:["Soleil record","EU","Mer","Calme","Printemps permanent"],
     why:"Le meilleur climat d'Europe. Île espagnole, prix portugais."
   },
@@ -694,7 +703,7 @@ const CITIES = [
     lang_scores:{en:2,fr:0,es:0,pt:0},
     profiles:{nomad:2,local:1,retire:3,backpacker:3},
     match_tags:{pouvoir_achat:3,anime:1,opportunites:1,securite:2},
-    chronicle:"/chronicles/villes/chronicle-kosamui-thailande-fr.html",
+    chronicle:"/countries/thailand-fr.html",
     tags:["Plage","Budget mini","Retraite tropicale","Détox"],
     why:"La retraite tropicale ultime. Plages de rêve, coût dérisoire."
   },
@@ -706,7 +715,7 @@ const CITIES = [
     lang_scores:{en:3,fr:3,es:0,pt:0},
     profiles:{nomad:2,local:2,retire:3,backpacker:1},
     match_tags:{pouvoir_achat:1,anime:2,opportunites:2,securite:2},
-    chronicle:"/chronicles/villes/chronicle-ilemaurice-fr.html",
+    chronicle:"/chronicles-villes.html",
     tags:["Francophone","Premium Visa","Fiscalité douce","Luxe accessible"],
     why:"La seule destination tropicale vraiment francophone. Fiscalité exceptionnelle."
   },
@@ -925,7 +934,7 @@ function showResults(){
   const section = document.getElementById('results-section');
   section.style.display = 'block';
 
-  document.getElementById('result-name-display').textContent = topCities[0]?.name || '';
+  document.getElementById('result-name-display').textContent = '3 villes';
 
   const profileLabels = {nomad:'nomad',local:'professionnel',retire:'retraite',backpacker:'backpacker'};
   const budgetLabels = {low:'serré',mid:'modéré',high:'confortable',premium:'large'};
@@ -933,18 +942,27 @@ function showResults(){
     `Profil ${profileLabels[answers.profile]||''} · Budget ${budgetLabels[answers.budget]||''} · WiggMatch 2026`;
 
   const container = document.getElementById('results-cards');
-  container.innerHTML = topCities.map((c,i) => buildCard(c,i)).join('');
+  // Display order: smallest % first, biggest % last (visual reverse).
+  // Rank stays mapped to the real ranking (0 = best match) so medals/blur logic remain correct.
+  const displayOrder = topCities.map((c, i) => ({city: c, rank: i})).reverse();
+  container.innerHTML = displayOrder.map(o => buildCard(o.city, o.rank)).join('');
 
   // Inline unlock block (under the cards)
   const unlockHTML = `
     <div id="unlock-block" class="unlock-block">
-      <div class="unlock-title">Débloquer les 2 autres villes</div>
-      <div class="unlock-sub">+ recevoir ton rapport complet gratuitement</div>
-      <div class="unlock-form">
-        <input type="email" class="unlock-input" id="inline-email" placeholder="ton@email.com" autocomplete="email"/>
-        <button type="button" class="unlock-btn" onclick="unlockCities()">Débloquer →</button>
+      <span class="unlock-badge">100 % gratuit</span>
+      <div class="unlock-title">Découvre <em>tes 2 autres villes</em></div>
+      <div class="unlock-sub">Reçois par email le détail complet de ton match : budget mensuel réel, quartiers où chercher, démarches visa, et les 2 villes encore floutées au-dessus.</div>
+      <div class="unlock-bullets">
+        <span>Top 3 complet</span>
+        <span>Budget réel</span>
+        <span>Démarches visa</span>
       </div>
-      <div class="unlock-note">Pas de spam. Un email, c'est tout.</div>
+      <div class="unlock-form">
+        <input type="email" class="unlock-input" id="inline-email" placeholder="ton.email@exemple.com" autocomplete="email"/>
+        <button type="button" class="unlock-btn" onclick="unlockCities()">Recevoir mes résultats</button>
+      </div>
+      <div class="unlock-note">Zéro spam. Désinscription en un clic.</div>
     </div>`;
   container.insertAdjacentHTML('afterend', unlockHTML);
 

@@ -145,6 +145,29 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
 .pill.accent{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.38)}
 .pill.accent:hover{background:rgba(34,197,94,.18);box-shadow:0 8px 32px rgba(34,197,94,.15),0 0 0 1px rgba(34,197,94,.25)}
 
+/* WiggMatch — pill bien plus visible */
+.pill.match{
+  background:linear-gradient(135deg,rgba(34,197,94,.22) 0%,rgba(22,163,74,.32) 100%);
+  border:1.5px solid rgba(34,197,94,.55);
+  box-shadow:0 0 0 1px rgba(34,197,94,.18),0 0 24px rgba(34,197,94,.28),0 0 48px rgba(34,197,94,.12);
+  animation:matchGlow 2.6s ease-in-out infinite;
+  justify-content:center;
+}
+.pill.match:hover{
+  background:linear-gradient(135deg,rgba(34,197,94,.32) 0%,rgba(22,163,74,.45) 100%);
+  border-color:rgba(34,197,94,.85);
+  box-shadow:0 0 0 1px rgba(34,197,94,.4),0 12px 36px rgba(34,197,94,.4),0 0 60px rgba(34,197,94,.25);
+}
+@keyframes matchGlow{
+  0%,100%{box-shadow:0 0 0 1px rgba(34,197,94,.18),0 0 24px rgba(34,197,94,.28),0 0 48px rgba(34,197,94,.12)}
+  50%{box-shadow:0 0 0 1px rgba(34,197,94,.28),0 0 32px rgba(34,197,94,.42),0 0 64px rgba(34,197,94,.22)}
+}
+.pill.match .pill-eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#22e07c;margin-bottom:4px}
+.pill.match .pill-eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:#22e07c;display:inline-block;animation:matchDot 2s ease-in-out infinite;box-shadow:0 0 8px rgba(34,224,124,.7)}
+@keyframes matchDot{0%,100%{opacity:.5}50%{opacity:1}}
+.pill.match .pill-title{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;font-weight:700;color:#fff;line-height:1.18;letter-spacing:.005em;text-shadow:0 1px 8px rgba(0,0,0,.35);max-width:14ch;white-space:normal}
+.pill.match::after{content:'→';color:#22e07c;font-size:15px}
+
 .pill-icon{font-size:18px;flex-shrink:0;margin-bottom:2px}
 .pill::after{content:'→';position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:13px;color:rgba(255,255,255,.15);transition:all .25s;font-weight:600}
 .pill:hover::after{color:rgba(255,255,255,.7);right:14px}
@@ -294,12 +317,9 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);-webkit-font-smoot
     <!-- DROITE -->
     <div class="col">
 
-      <a class="pill accent" href="/wiggmatch.html">
-        <span class="pill-icon">💚</span>
-        <div class="pill-body">
-          <div class="pill-name" id="lblMatch">WiggMatch</div>
-          <div class="pill-sub" id="lblMatchSub">Quelle ville pour toi ?</div>
-        </div>
+      <a class="pill match" href="/wiggmatch.html">
+        <span class="pill-eyebrow" id="lblMatch">WiggMatch</span>
+        <div class="pill-title" id="lblMatchSub">Trouve la ville faite pour toi</div>
       </a>
 
       <a class="pill dark" href="/ggg/wigggame.html">
@@ -341,7 +361,7 @@ var I18N={
       globe:"3D Globe",globeSub:"Spin. Land anywhere.",
       chron:"Chronicles",chronSub:"In-depth articles & analysis",
       game:"WiggGame",gameSub:"Test your knowledge",
-      match:"WiggMatch",matchSub:"Which city is right for you?",
+      match:"WiggMatch",matchSub:"Find the city made for you",
       compare:"Compare",random:"Random",randomSub:"Discover a country",
       about:"What is WiggMap?",aboutSub:"Explore salaries, visas, rent, taxes and quality of life across 160+ countries.",
       tagL1:"What if your life were different<br>somewhere else?",tagL2:"Explore living conditions<br>in over 160 countries."},
@@ -349,7 +369,7 @@ var I18N={
       globe:"Globe 3D",globeSub:"Tournez. Atterrissez n'importe où.",
       chron:"Chroniques",chronSub:"Articles & analyses expat",
       game:"WiggGame",gameSub:"Testez vos connaissances",
-      match:"WiggMatch",matchSub:"Quelle ville pour toi ?",
+      match:"WiggMatch",matchSub:"Trouve la ville faite pour toi",
       compare:"Comparer",random:"Aléatoire",randomSub:"Découvrir un pays",
       about:"Qu'est-ce que WiggMap ?",aboutSub:"Explorez les salaires, visas, loyers, taxes et qualité de vie dans plus de 160 pays.",
       tagL1:"Et si ta vie était différente<br>ailleurs ?",tagL2:"Explore les conditions de vie<br>de plus de 160 pays."},
@@ -357,7 +377,7 @@ var I18N={
       globe:"Globo 3D",globeSub:"Gira. Aterriza en cualquier lugar.",
       chron:"Crónicas",chronSub:"Artículos y análisis",
       game:"WiggGame",gameSub:"Pon a prueba tu conocimiento",
-      match:"WiggMatch",matchSub:"¿Qué ciudad es para ti?",
+      match:"WiggMatch",matchSub:"Encuentra tu ciudad ideal",
       compare:"Comparar",random:"Aleatorio",randomSub:"Descubrir un país",
       about:"¿Qué es WiggMap?",aboutSub:"Explora salarios, visados, alquileres, impuestos y calidad de vida en más de 160 países.",
       tagL1:"¿Y si tu vida fuera diferente<br>en otro lugar?",tagL2:"Explora las condiciones de vida<br>en más de 160 países."}
