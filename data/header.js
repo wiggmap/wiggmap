@@ -221,7 +221,7 @@
     <a class="wmh-drop-item" href="${prefix}compare.html?c=thailand,indonesia,portugal">${svgCompare} ${ni.compare}</a>
     <a class="wmh-drop-item" href="${globeLink}" target="_blank" rel="noopener noreferrer">${svgGlobe} ${ni.globe}</a>
     <a class="wmh-drop-item" href="${prefix}wiggmatch.html">${svgMatch} ${ni.match}</a>
-    <a class="wmh-drop-item" href="${prefix}ggg/wigggame.html">${svgGame} WiggGame</a>
+    <a class="wmh-drop-item" href="${prefix}ggg/wigggame.html">${svgGame} Quiz</a>
   `;
 
   const searchDropHTML = (id, inputId, resultsId, icon) => `

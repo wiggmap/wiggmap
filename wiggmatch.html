@@ -185,6 +185,18 @@ body{padding-top:54px}
 </head>
 <body>
 
+<!-- ═══════════ NETLIFY FORM (hidden — détecté au build) ═══════════ -->
+<form name="wiggmatch-leads" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="wiggmatch-leads" />
+  <p><label>Don't fill this out: <input name="bot-field" /></label></p>
+  <input type="email" name="email" />
+  <input type="text"  name="ville1" />
+  <input type="text"  name="ville2" />
+  <input type="text"  name="ville3" />
+  <input type="text"  name="profil" />
+  <input type="text"  name="budget" />
+</form>
+
 <!-- ═══════════ TOP BAR ═══════════ -->
 <div class="wm-topbar">
   <a class="wm-back" href="/" aria-label="Retour à WiggMap">
@@ -1294,26 +1306,27 @@ function unlockCities(){
   if(block) block.style.display = 'none';
 }
 
-async function sendToBrevo(email){
+async function sendToBrevo(email) {
   try {
-    // TODO : remplacer BREVO_API_KEY et LIST_ID
-    // await fetch('https://api.brevo.com/v3/contacts', {
-    //   method:'POST',
-    //   headers:{'api-key':'BREVO_API_KEY','Content-Type':'application/json'},
-    //   body: JSON.stringify({
-    //     email,
-    //     listIds:[YOUR_LIST_ID],
-    //     attributes:{
-    //       CITY1:topCities[0]?.name,
-    //       CITY2:topCities[1]?.name,
-    //       CITY3:topCities[2]?.name,
-    //       PROFILE:answers.profile,
-    //       BUDGET:answers.budget
-    //     }
-    //   })
-    // });
-    console.log('Email:', email, '| Top villes:', topCities.map(c=>c.name), '| Réponses:', answers);
-  } catch(e){ console.warn('Brevo error', e); }
+    const body = new URLSearchParams({
+      'form-name': 'wiggmatch-leads',
+      'bot-field': '',
+      email: email,
+      ville1: topCities[0]?.name || '',
+      ville2: topCities[1]?.name || '',
+      ville3: topCities[2]?.name || '',
+      profil: answers.profile || '',
+      budget: answers.budget || ''
+    });
+    await fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: body.toString()
+    });
+    console.log('Lead Netlify envoyé :', email);
+  } catch(e) {
+    console.warn('Netlify Forms error', e);
+  }
 }
 
 // ── Dynamic i18n strings (used by JS, not data-i18n) ──
