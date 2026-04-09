@@ -122,10 +122,14 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;padding:12px 16px;background:rgba(26,84,48,0.04);border:1px solid rgba(26,84,48,0.12);border-radius:10px;margin:28px 0 12px;font-size:12px}
-.aff-bar a{display:inline-flex;align-items:center;gap:4px;color:#1a5430;font-weight:600;text-decoration:none;padding:4px 10px;background:rgba(26,84,48,0.06);border-radius:6px;transition:background .15s;white-space:nowrap;font-size:11.5px}
-.aff-bar a:hover{background:rgba(26,84,48,0.14)}
-.aff-note{font-size:10px;color:#999;font-style:italic;margin-left:auto}
+  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
+.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
+.aff-strip-list{display:flex;flex-direction:column;gap:10px}
+.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
+.aff-strip-item:hover{color:#fff}
+.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
+.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
+.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
 </style>
 </head>
 <body>
@@ -160,6 +164,29 @@ details[open] summary::after{transform:rotate(45deg)}
 
 <p class="lead">Son las 11 de la noche de un jueves en Calle Ocho — la 8ª Calle de Little Havana. Un dominó golpea una mesa de plástico en un café abierto a la acera. La radio emite salsa desde un transistor colocado en el mostrador, sepultado por las conversaciones. Dos viejos en guayabera debaten algo — en español, como todo el mundo aquí — que sus gestos vuelven universal incluso para quien no entiende la lengua. Un grupo de jóvenes en ropa de salida pasa por la acera, móviles en alto, camino de Brickell. Veinticinco minutos más lejos, ese mismo tipo de gente entra en un bar de azotea con vistas a la bahía de Biscayne y cócteles a $22. Miami es la única ciudad estadounidense donde estos dos mundos — la ciudad latina popular y el Miami de las revistas — coexisten en la misma noche, a pocos kilómetros el uno del otro, sin que ninguno pretenda ser el Miami "de verdad".</p>
 
+
+    <div class="aff-strip">
+      <div class="aff-strip-title">Prepara tu mudanza</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span>
+          <span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
+        </a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">💸 Transferencias — Wise</span>
+          <span class="aff-strip-desc">Tipo de cambio real, sin comisiones ocultas</span>
+        </a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">📱 eSIM — Airalo</span>
+          <span class="aff-strip-desc">SIM local activable antes de aterrizar</span>
+        </a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
+          <span class="aff-strip-desc">Acceso seguro a tus cuentas desde el extranjero</span>
+        </a>
+      </div>
+      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+    </div>
 <h2>Miami, <span class="g">la puerta de las Américas</span></h2>
 
 <p>Miami es una ciudad de contradicciones productivas. Con 470.000 habitantes dentro de los límites municipales y 6,2 millones en el Gran Miami, es la mayor ciudad de Florida y el decimotercer mercado metropolitano de los Estados Unidos. Pero estas cifras no dicen lo esencial: Miami es la única gran ciudad estadounidense donde el inglés no es el idioma dominante de la vida cotidiana. Aproximadamente el <strong>70% de la población es hispana</strong>, y las comunidades cubano-americana, colombiana, venezolana y brasileña forman la verdadera columna vertebral cultural de la ciudad.</p>
@@ -262,14 +289,6 @@ details[open] summary::after{transform:rotate(45deg)}
       <li>Burbuja social fácil — integración local requiere esfuerzo</li>
     </ul></div>
   </div>
-
-    <div class="aff-bar">
-      <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank">🛡 Seguro expat</a>
-      <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank">💸 Transferencias</a>
-      <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank">📱 eSIM</a>
-      <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank">🔒 VPN</a>
-      <span class="aff-note">enlaces de afiliado</span>
-    </div>
 </div>
 
 <h2>Preguntas frecuentes</h2>

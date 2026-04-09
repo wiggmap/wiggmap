@@ -136,10 +136,14 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;padding:12px 16px;background:rgba(26,84,48,0.04);border:1px solid rgba(26,84,48,0.12);border-radius:10px;margin:28px 0 12px;font-size:12px}
-.aff-bar a{display:inline-flex;align-items:center;gap:4px;color:#1a5430;font-weight:600;text-decoration:none;padding:4px 10px;background:rgba(26,84,48,0.06);border-radius:6px;transition:background .15s;white-space:nowrap;font-size:11.5px}
-.aff-bar a:hover{background:rgba(26,84,48,0.14)}
-.aff-note{font-size:10px;color:#999;font-style:italic;margin-left:auto}
+  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
+.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
+.aff-strip-list{display:flex;flex-direction:column;gap:10px}
+.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
+.aff-strip-item:hover{color:#fff}
+.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
+.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
+.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
 </style>
 </head>
 <body>
@@ -193,6 +197,29 @@ details[open] summary::after{transform:rotate(45deg)}
       Salvador no se parece a ninguna otra ciudad de Brasil. Ni a la industriosa São Paulo, ni a la espectacular Río, ni a la cómoda Floripa. Salvador es la capital espiritual de África en Brasil — la ciudad donde la memoria de la esclavitud se transformó, a lo largo de tres siglos, en la cultura más rica y más viva del continente americano. El candomblé, la capoeira, el caruru, los orixás, el acarajé, el Carnaval de los blocos afro, el Pelourinho de colores vivos — todo nació aquí, en esta ciudad construida sobre una bahía que sería la más hermosa del mundo si sus habitantes no estuvieran tan ocupados inventando formas de vivir que después conquistaron el planeta. Salvador es difícil, desigual, exigente — e inolvidable.
     </p>
 
+
+    <div class="aff-strip">
+      <div class="aff-strip-title">Prepara tu mudanza</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span>
+          <span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
+        </a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">💸 Transferencias — Wise</span>
+          <span class="aff-strip-desc">Tipo de cambio real, sin comisiones ocultas</span>
+        </a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">📱 eSIM — Airalo</span>
+          <span class="aff-strip-desc">SIM local activable antes de aterrizar</span>
+        </a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
+          <span class="aff-strip-desc">Acceso seguro a tus cuentas desde el extranjero</span>
+        </a>
+      </div>
+      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+    </div>
     <h2>La capital <span class="g">afrobrasileña</span> del mundo</h2>
 
     <p>Salvador fue la primera capital de Brasil — de 1549 a 1763 — y el primer puerto de llegada de esclavos africanos al continente americano. Entre los siglos XVI y XIX, más de 1,5 millones de africanos llegaron a Bahía en condiciones inhumanas, principalmente procedentes del golfo de Guinea (pueblos yoruba, fon, ewe, malê). Esta colonización forzada moldeó la identidad de Salvador de una manera que ninguna otra ciudad de América ha reproducido con tal intensidad: hoy más del 80% de la población de Salvador se declara negra o mestiza, convirtiéndola en la ciudad más africana fuera de África. No es una metáfora turística — es una realidad demográfica, lingüística, religiosa y cultural profunda.</p>
@@ -338,14 +365,6 @@ details[open] summary::after{transform:rotate(45deg)}
           </ul>
         </div>
       </div>
-
-    <div class="aff-bar">
-      <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank">🛡 Seguro expat</a>
-      <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank">💸 Transferencias</a>
-      <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank">📱 eSIM</a>
-      <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank">🔒 VPN</a>
-      <span class="aff-note">enlaces de afiliado</span>
-    </div>
     </div>
 
     <h2>Preguntas frecuentes</h2>

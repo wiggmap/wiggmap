@@ -97,10 +97,14 @@ summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-sh
 .links-grid{display:flex;flex-wrap:wrap;gap:8px}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;padding:12px 16px;background:rgba(26,84,48,0.04);border:1px solid rgba(26,84,48,0.12);border-radius:10px;margin:28px 0 12px;font-size:12px}
-.aff-bar a{display:inline-flex;align-items:center;gap:4px;color:#1a5430;font-weight:600;text-decoration:none;padding:4px 10px;background:rgba(26,84,48,0.06);border-radius:6px;transition:background .15s;white-space:nowrap;font-size:11.5px}
-.aff-bar a:hover{background:rgba(26,84,48,0.14)}
-.aff-note{font-size:10px;color:#999;font-style:italic;margin-left:auto}
+  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
+.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
+.aff-strip-list{display:flex;flex-direction:column;gap:10px}
+.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
+.aff-strip-item:hover{color:#fff}
+.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
+.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
+.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
 </style>
 </head>
 <body>
@@ -146,6 +150,29 @@ summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-sh
 Córdoba s'appelle elle-même <em>La Docta</em> — la savante. Le surnom vient de l'Universidad Nacional de Córdoba, fondée en 1613 par les jésuites, la plus ancienne d'Argentine et l'une des premières d'Amérique du Sud. Quatre siècles plus tard, la ville abrite cinq grandes universités et 200 000 étudiants dans une population de 1,5 million — un ratio qui transforme radicalement le caractère d'une ville. Córdoba est jeune, intellectuellement vivante, culturellement autonome par rapport à Buenos Aires, moins chère que la capitale sur pratiquement tous les indicateurs, et dotée d'une vie nocturne que les Argentins eux-mêmes considèrent comme la plus intense du pays. Elle a aussi les Sierras — le premier chaînon des Andes à 30 kilomètres du centre, avec ses villages de montagne, ses cascades et ses treks. Et elle a l'accent — le <em>cordobés</em>, cette intonation chantante et montante qui rend les habitants de Córdoba immédiatement reconnaissables dans tout l'hispanophone et qui est, selon une certaine tradition, la plus belle façon de parler l'espagnol.
 </p>
 
+
+    <div class="aff-strip">
+      <div class="aff-strip-title">Préparer ton installation</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span>
+          <span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
+        </a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">💸 Transferts — Wise</span>
+          <span class="aff-strip-desc">Taux de change réel, sans frais cachés</span>
+        </a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">📱 eSIM — Airalo</span>
+          <span class="aff-strip-desc">Carte SIM locale activable avant d'atterrir</span>
+        </a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
+          <span class="aff-strip-desc">Accès sécurisé à tes comptes depuis l'étranger</span>
+        </a>
+      </div>
+      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+    </div>
 <h2>Córdoba en <span class="g">2026</span> — l'Argentine authentique à prix d'ami</h2>
 
 <p>Córdoba est la capitale de la province de Córdoba et la deuxième plus grande ville d'Argentine après Buenos Aires — 1,5 million d'habitants dans la ville, 1,7 million dans l'agglomération. Elle se trouve au centre géographique du pays, à 700 km au nord-ouest de Buenos Aires, au pied des Sierras de Córdoba. Sa position de carrefour logistique du centre du pays (autoroute, voie ferrée, aéroport international) lui a valu d'accueillir dès le XXe siècle une industrie automobile significative — les usines Fiat, Renault et Volkswagen ont historiquement eu des opérations à Córdoba, et la culture technique et industrielle a marqué la ville autant que l'université.</p>
@@ -251,14 +278,6 @@ Córdoba s'appelle elle-même <em>La Docta</em> — la savante. Le surnom vient 
       <li>Castillan rioplatense indispensable</li>
     </ul></div>
   </div>
-
-    <div class="aff-bar">
-      <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank">🛡 Assurance expat</a>
-      <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank">💸 Transferts</a>
-      <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank">📱 eSIM</a>
-      <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank">🔒 VPN</a>
-      <span class="aff-note">liens partenaires</span>
-    </div>
 </div>
 
 <h2>Questions fréquentes</h2>

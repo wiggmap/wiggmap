@@ -38,10 +38,14 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 .faq{margin:36px 0}details{border:1px solid var(--rule);border-radius:var(--r);margin-bottom:8px;overflow:hidden}details[open]{border-color:var(--g)}summary{font-family:var(--sans);font-size:14px;font-weight:500;padding:16px 20px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;color:var(--ink);gap:12px;user-select:none}summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-shrink:0}details[open] summary::after{transform:rotate(45deg)}.faq-body{padding:4px 20px 18px;font-family:var(--sans);font-size:13.5px;color:var(--ink3);line-height:1.65}
 .links-block{border:1px solid var(--rule);border-radius:12px;padding:24px;margin:40px 0;background:var(--white)}.links-ttl{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:14px}.links-grid{display:flex;flex-wrap:wrap;gap:8px}.links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;padding:12px 16px;background:rgba(26,84,48,0.04);border:1px solid rgba(26,84,48,0.12);border-radius:10px;margin:28px 0 12px;font-size:12px}
-.aff-bar a{display:inline-flex;align-items:center;gap:4px;color:#1a5430;font-weight:600;text-decoration:none;padding:4px 10px;background:rgba(26,84,48,0.06);border-radius:6px;transition:background .15s;white-space:nowrap;font-size:11.5px}
-.aff-bar a:hover{background:rgba(26,84,48,0.14)}
-.aff-note{font-size:10px;color:#999;font-style:italic;margin-left:auto}
+  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
+.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
+.aff-strip-list{display:flex;flex-direction:column;gap:10px}
+.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
+.aff-strip-item:hover{color:#fff}
+.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
+.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
+.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
 </style>
 </head>
 <body>
@@ -65,6 +69,29 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 
 <p class="lead">In 1538, conquistador Gonzalo Jiménez de Quesada founded a city on an Andean plateau at 2,600 metres altitude — the site inhabited by the Muisca people, whose legend of the <em>El Dorado</em> (the Golden King) had triggered decades of Spanish expeditions into the continent's interior. That founding paradox is the heart of Bogotá: a city built on the search for a mythical treasure, which ended up becoming a treasure itself — with 55,000 pre-Columbian gold pieces in its museum, one of Latin America's most advanced gastronomic scenes, 120 kilometres of car-free roads every Sunday, and an altitude that compels every new visitor to slow down during acclimatisation.</p>
 
+
+    <div class="aff-strip">
+      <div class="aff-strip-title">Prepare your move</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span>
+          <span class="aff-strip-desc">Global health cover from $45/mo</span>
+        </a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">💸 Transfers — Wise</span>
+          <span class="aff-strip-desc">Real exchange rate, no hidden fees</span>
+        </a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">📱 eSIM — Airalo</span>
+          <span class="aff-strip-desc">Local SIM card ready before you land</span>
+        </a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
+          <span class="aff-strip-desc">Secure access to your accounts from abroad</span>
+        </a>
+      </div>
+      <div class="aff-strip-note">partner links — at no extra cost to you</div>
+    </div>
 <h2>Bogotá in <span class="g">2026</span> — Latin America's intellectual and cultural capital</h2>
 <p>Bogotá is Colombia's capital and largest city — 8 million inhabitants in the city, 11 million in the metropolitan region. At 2,600 metres altitude, it is the world's third highest capital after Sucre and La Paz (Bolivia) and Quito (Ecuador). This altitude is simultaneously its most defining characteristic and its greatest paradox: it gives the city a perpetually cool climate (7–18°C, jacket always required in the tropics), which radically distinguishes it from Medellín and makes it a capital with a more European than Caribbean character.</p>
 <p>For an expat in 2026, Bogotá is Colombia's most complex — and richest — proposition. More expensive than Medellín ($50–100 more on comparable rents), less pleasant climatically, more congested — but unmatched for access to culture, institutions, embassies, multinationals and an intellectual and artistic life without equivalent on the continent. Bogotá is often described as "Latin America's London" — cool, serious, grey part of the time, but with a cultural depth that fully justifies the investment.</p>
@@ -133,14 +160,6 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
       <li>Sprawling city — significant distances</li>
     </ul></div>
   </div>
-
-    <div class="aff-bar">
-      <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank">🛡 Expat insurance</a>
-      <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank">💸 Transfers</a>
-      <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank">📱 eSIM</a>
-      <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank">🔒 VPN</a>
-      <span class="aff-note">partner links</span>
-    </div>
 </div>
 
 <h2>Frequently asked questions</h2>

@@ -41,10 +41,14 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 .faq{margin:36px 0}details{border:1px solid var(--rule);border-radius:var(--r);margin-bottom:8px;overflow:hidden}details[open]{border-color:var(--g)}summary{font-family:var(--sans);font-size:14px;font-weight:500;padding:16px 20px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;color:var(--ink);gap:12px;user-select:none}summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-shrink:0}details[open] summary::after{transform:rotate(45deg)}.faq-body{padding:4px 20px 18px;font-family:var(--sans);font-size:13.5px;color:var(--ink3);line-height:1.65}
 .links-block{border:1px solid var(--rule);border-radius:12px;padding:24px;margin:40px 0;background:var(--white)}.links-ttl{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:14px}.links-grid{display:flex;flex-wrap:wrap;gap:8px}.links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;padding:12px 16px;background:rgba(26,84,48,0.04);border:1px solid rgba(26,84,48,0.12);border-radius:10px;margin:28px 0 12px;font-size:12px}
-.aff-bar a{display:inline-flex;align-items:center;gap:4px;color:#1a5430;font-weight:600;text-decoration:none;padding:4px 10px;background:rgba(26,84,48,0.06);border-radius:6px;transition:background .15s;white-space:nowrap;font-size:11.5px}
-.aff-bar a:hover{background:rgba(26,84,48,0.14)}
-.aff-note{font-size:10px;color:#999;font-style:italic;margin-left:auto}
+  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
+.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
+.aff-strip-list{display:flex;flex-direction:column;gap:10px}
+.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
+.aff-strip-item:hover{color:#fff}
+.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
+.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
+.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
 </style>
 </head>
 <body>
@@ -71,6 +75,29 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 
 <p class="lead">Que una ciudad latinoamericana tenga más psicoanalistas per cápita que Nueva York, más que Viena, más que Israel, ya dice mucho. Pero Buenos Aires no para ahí. Es también la ciudad con más librerías por habitante de América del Sur. Su tradición teatral independiente — el <em>teatro off</em> en salas de veinte butacas instaladas en casas viejas de Almagro o Villa Crespo — produce temporadas que envergüenzan a muchas capitales europeas. Y sus parillas de barrio sirven carne de ganado criado en campo abierto en la Pampa que los mejores asadores del mundo reconocen como una categoría aparte. Todo esto en una ciudad con arquitectura haussmanniana en Recoleta, calles adoquinadas en San Telmo y cafés que llevan abiertos desde 1858, disponible para quien gana en dólares o euros a un precio que haría llorar de envidia a cualquier habitante de Madrid o Barcelona.</p>
 
+
+    <div class="aff-strip">
+      <div class="aff-strip-title">Prepara tu mudanza</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span>
+          <span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
+        </a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">💸 Transferencias — Wise</span>
+          <span class="aff-strip-desc">Tipo de cambio real, sin comisiones ocultas</span>
+        </a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">📱 eSIM — Airalo</span>
+          <span class="aff-strip-desc">SIM local activable antes de aterrizar</span>
+        </a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
+          <span class="aff-strip-desc">Acceso seguro a tus cuentas desde el extranjero</span>
+        </a>
+      </div>
+      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+    </div>
 <h2>Buenos Aires en <span class="g">2026</span> — la capital de clase mundial al precio de ciudad secundaria</h2>
 
 <p>Buenos Aires es la capital federal de Argentina y la mayor ciudad de América del Sur después de São Paulo — 3 millones de habitantes en la ciudad autónoma, 15 millones en el Gran Buenos Aires. Se asienta a 34°S sobre el Río de la Plata, tan ancho que desde la costanera parece un mar interior. Fundada definitivamente en 1580 (el primer intento en 1536 fue desmantelado por la resistencia indígena), creció como el principal puerto de la América española del sur y recibió entre 1880 y 1930 la mayor oleada de inmigración europea de la historia del continente: italianos, españoles, judíos askenazíes, vascos, galeses. Construyeron la ciudad a imagen de las que habían dejado atrás, con los mismos bulevares anchos, los mismos edificios con molduras y los mismos cafés de mármol. El resultado es la ciudad más europea del hemisferio occidental y el lugar más argentino del planeta al mismo tiempo.</p>
@@ -152,14 +179,6 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
       <li>Complejidad financiera para banca y facturación</li>
     </ul></div>
   </div>
-
-    <div class="aff-bar">
-      <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank">🛡 Seguro expat</a>
-      <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank">💸 Transferencias</a>
-      <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank">📱 eSIM</a>
-      <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank">🔒 VPN</a>
-      <span class="aff-note">enlaces de afiliado</span>
-    </div>
 </div>
 
 <h2>Preguntas frecuentes</h2>

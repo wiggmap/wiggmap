@@ -127,10 +127,14 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;padding:12px 16px;background:rgba(26,84,48,0.04);border:1px solid rgba(26,84,48,0.12);border-radius:10px;margin:28px 0 12px;font-size:12px}
-.aff-bar a{display:inline-flex;align-items:center;gap:4px;color:#1a5430;font-weight:600;text-decoration:none;padding:4px 10px;background:rgba(26,84,48,0.06);border-radius:6px;transition:background .15s;white-space:nowrap;font-size:11.5px}
-.aff-bar a:hover{background:rgba(26,84,48,0.14)}
-.aff-note{font-size:10px;color:#999;font-style:italic;margin-left:auto}
+  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
+.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
+.aff-strip-list{display:flex;flex-direction:column;gap:10px}
+.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
+.aff-strip-item:hover{color:#fff}
+.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
+.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
+.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
 </style>
 </head>
 <body>
@@ -168,6 +172,29 @@ details[open] summary::after{transform:rotate(45deg)}
     Some cities create categories. Chiang Mai is one of them. Long before the terms "digital nomad" or "remote work" entered the vocabulary of global HR departments, Thailand's northern capital had already invented the lifestyle that goes with them: pool apartment for $300, fibre WiFi café for $1.50 a latte, coworking at $3 a day, and an international community so dense you can spend an entire week without speaking to anyone with an office job. This is both its greatest strength and, for a decade now, its most documented tension. Chiang Mai hasn't changed — what changed is that everyone found out about it.
   </p>
 
+
+    <div class="aff-strip">
+      <div class="aff-strip-title">Prepare your move</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span>
+          <span class="aff-strip-desc">Global health cover from $45/mo</span>
+        </a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">💸 Transfers — Wise</span>
+          <span class="aff-strip-desc">Real exchange rate, no hidden fees</span>
+        </a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">📱 eSIM — Airalo</span>
+          <span class="aff-strip-desc">Local SIM card ready before you land</span>
+        </a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
+          <span class="aff-strip-desc">Secure access to your accounts from abroad</span>
+        </a>
+      </div>
+      <div class="aff-strip-note">partner links — at no extra cost to you</div>
+    </div>
   <h2>The Rose of the North, <span class="g">and its thorns</span></h2>
 
   <p>Chiang Mai was founded in 1296 as the capital of the Lanna Kingdom — "the kingdom of a million rice fields" — and long constituted a culturally distinct world from Bangkok, with its own architecture, its own cuisine, its own dialect, and its own Buddhist cosmology. The remnants of this history are everywhere: the <strong>square moat</strong> of the Old City, the partially restored city walls, and above all the <strong>300 temples</strong> scattered across the city and its surroundings, some over seven centuries old. <strong>Doi Suthep</strong>, the mountain temple that has watched over the city since 1383 and can be spotted from anywhere in Chiang Mai on a clear day, is the emblem of this particular relationship the city has with its past — always present, never museified.</p>
@@ -330,15 +357,6 @@ details[open] summary::after{transform:rotate(45deg)}
       <a href="/chronicles/digital-nomads-2026-en.html">🌍 Digital nomad destinations</a>
     </div>
   </div>
-
-    <div class="aff-bar">
-      <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank">🛡 Expat insurance</a>
-      <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank">💸 Transfers</a>
-      <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank">📱 eSIM</a>
-      <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank">🔒 VPN</a>
-      <span class="aff-note">partner links</span>
-    </div>
-
   <p class="disc">WiggMap — Indicative data: acrosseveryborder.com, ExpatsThai, iamkohchang.com, nomads.com, IQAir Chiang Mai. Values as of March 2026. This content is for informational purposes only and does not constitute financial or real estate advice.</p>
 
 </article>

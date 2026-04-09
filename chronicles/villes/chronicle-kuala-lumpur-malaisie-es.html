@@ -40,10 +40,14 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 .faq{margin:36px 0}details{border:1px solid var(--rule);border-radius:var(--r);margin-bottom:8px;overflow:hidden}details[open]{border-color:var(--g)}summary{font-family:var(--sans);font-size:14px;font-weight:500;padding:16px 20px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;color:var(--ink);gap:12px;user-select:none}summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-shrink:0}details[open] summary::after{transform:rotate(45deg)}.faq-body{padding:4px 20px 18px;font-family:var(--sans);font-size:13.5px;color:var(--ink3);line-height:1.65}
 .links-block{border:1px solid var(--rule);border-radius:12px;padding:24px;margin:40px 0;background:var(--white)}.links-ttl{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:14px}.links-grid{display:flex;flex-wrap:wrap;gap:8px}.links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;padding:12px 16px;background:rgba(26,84,48,0.04);border:1px solid rgba(26,84,48,0.12);border-radius:10px;margin:28px 0 12px;font-size:12px}
-.aff-bar a{display:inline-flex;align-items:center;gap:4px;color:#1a5430;font-weight:600;text-decoration:none;padding:4px 10px;background:rgba(26,84,48,0.06);border-radius:6px;transition:background .15s;white-space:nowrap;font-size:11.5px}
-.aff-bar a:hover{background:rgba(26,84,48,0.14)}
-.aff-note{font-size:10px;color:#999;font-style:italic;margin-left:auto}
+  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
+.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
+.aff-strip-list{display:flex;flex-direction:column;gap:10px}
+.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
+.aff-strip-item:hover{color:#fff}
+.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
+.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
+.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
 </style>
 </head>
 <body>
@@ -79,6 +83,29 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 
 <p class="lead">El 28 de febrero de 1999, las Torres Petronas se convirtieron en los edificios más altos del mundo — con 452 metros, destronaron a la Willis Tower de Chicago, que había ostentado el récord desde 1973. Para Kuala Lumpur, fue una declaración de intenciones planetaria: una capital del Sudeste Asiático con menos de 150 años de existencia acababa de clavar sus dos agujas de acero y cristal en el horizonte mundial. Lo que sorprende en 2026 es que esta ciudad cumple su promesa. KL es moderna, funcional, anglófona, extraordinariamente diversa — malayos, chinos, indios, occidentales, árabes conviven en el mismo metro, en los mismos centros comerciales climatizados, en los mismos hawker centres donde en la misma noche se puede comer nasi lemak, char kway teow y roti canai. Y todo ello por un tercio del precio de Singapur.</p>
 
+
+    <div class="aff-strip">
+      <div class="aff-strip-title">Prepara tu mudanza</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span>
+          <span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
+        </a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">💸 Transferencias — Wise</span>
+          <span class="aff-strip-desc">Tipo de cambio real, sin comisiones ocultas</span>
+        </a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">📱 eSIM — Airalo</span>
+          <span class="aff-strip-desc">SIM local activable antes de aterrizar</span>
+        </a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
+          <span class="aff-strip-desc">Acceso seguro a tus cuentas desde el extranjero</span>
+        </a>
+      </div>
+      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+    </div>
 <h2>KL en <span class="g">2026</span> — la metrópolis más infravalorada del Sudeste Asiático</h2>
 <p>Kuala Lumpur es la capital y ciudad más grande de Malasia — 2 millones de habitantes en la ciudad propiamente dicha, 8 millones en la aglomeración del Valle de Klang. Fundada en 1857 en la confluencia de los ríos Klang y Gombak por prospectores de estaño, se ha convertido en menos de 170 años en una de las metrópolis más conectadas de Asia. Su aeropuerto KLIA es uno de los mejores de Asia, clasificado regularmente entre los diez mejores del mundo. La ciudad funciona en inglés — idioma oficial de facto en los negocios, la educación privada y la vida expatriada — lo que la convierte en una de las pocas grandes metrópolis asiáticas totalmente accesibles sin aprendizaje previo del idioma local.</p>
 <p>Para un expatriado o nómada digital en 2026, KL es la ecuación más eficiente del Sudeste Asiático: calidad de vida de Singapur, precios de ciudad secundaria, inglés en todas partes, sanidad privada de clase mundial, internet rápido, gastronomía extraordinaria. La principal contrapartida es la dependencia del coche en los barrios residenciales fuera del centro, la contaminación atmosférica estacional (niebla tóxica de Indonesia) y una burocracia malaya que puede desanimar los proyectos empresariales.</p>
@@ -151,14 +178,6 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
       <li>Vida nocturna limitada vs Bangkok (leyes del alcohol)</li>
     </ul></div>
   </div>
-
-    <div class="aff-bar">
-      <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank">🛡 Seguro expat</a>
-      <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank">💸 Transferencias</a>
-      <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank">📱 eSIM</a>
-      <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank">🔒 VPN</a>
-      <span class="aff-note">enlaces de afiliado</span>
-    </div>
 </div>
 
 <h2>Preguntas frecuentes</h2>

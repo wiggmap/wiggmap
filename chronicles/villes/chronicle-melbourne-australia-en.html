@@ -282,10 +282,14 @@ details[open] summary::after{transform:rotate(45deg)}
 .anecdote-label{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--gd);margin-bottom:10px}
 .anecdote h3{margin:0 0 10px;font-size:15px;font-weight:700;color:var(--ink);font-family:var(--serif)}
 .anecdote p{font-size:14px}
-  .aff-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;padding:12px 16px;background:rgba(26,84,48,0.04);border:1px solid rgba(26,84,48,0.12);border-radius:10px;margin:28px 0 12px;font-size:12px}
-.aff-bar a{display:inline-flex;align-items:center;gap:4px;color:#1a5430;font-weight:600;text-decoration:none;padding:4px 10px;background:rgba(26,84,48,0.06);border-radius:6px;transition:background .15s;white-space:nowrap;font-size:11.5px}
-.aff-bar a:hover{background:rgba(26,84,48,0.14)}
-.aff-note{font-size:10px;color:#999;font-style:italic;margin-left:auto}
+  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
+.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
+.aff-strip-list{display:flex;flex-direction:column;gap:10px}
+.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
+.aff-strip-item:hover{color:#fff}
+.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
+.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
+.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
 </style>
 </head>
 <body>
@@ -341,6 +345,29 @@ details[open] summary::after{transform:rotate(45deg)}
 
     <p class="lead">It was nine in the morning and the queue stretched ten metres out the door. No sign, no visible name from the street — just a fifty-metre cobblestone laneway wedged between two CBD buildings, plastered floor-to-ceiling in street art, and a wooden counter behind which a barista was running his grinder with the focused precision of a Swiss watchmaker. After twenty minutes of waiting, the flat white was worth every second. That is Melbourne: excellence hidden in the gaps, visible only to those who know where to look.</p>
 
+
+    <div class="aff-strip">
+      <div class="aff-strip-title">Prepare your move</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span>
+          <span class="aff-strip-desc">Global health cover from $45/mo</span>
+        </a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">💸 Transfers — Wise</span>
+          <span class="aff-strip-desc">Real exchange rate, no hidden fees</span>
+        </a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">📱 eSIM — Airalo</span>
+          <span class="aff-strip-desc">Local SIM card ready before you land</span>
+        </a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
+          <span class="aff-strip-desc">Secure access to your accounts from abroad</span>
+        </a>
+      </div>
+      <div class="aff-strip-note">partner links — at no extra cost to you</div>
+    </div>
     <h2>Melbourne, the Australian <span class="g">art of living</span></h2>
 
     <p>Melbourne — 5.3 million people, State of Victoria, Port Phillip Bay — is Australia's second-largest city. But tell a Melburnian that, and you risk a long, passionate argument. The city has an ancient and delicious rivalry with Sydney: Sydney has the Harbour and the reliable sunshine, Melbourne has the culture, the food, the sport and the coffee. Both camps have solid arguments. What an expat needs to understand is this: Melbourne offers something most world-class cities have quietly lost — a dense, diverse and creative urban scene, still legible at human scale in its neighbourhoods, and a quality of life that doesn't rest on a single asset but on an accumulation of cultural layers built across generations.</p>
@@ -574,14 +601,6 @@ details[open] summary::after{transform:rotate(45deg)}
           </ul>
         </div>
       </div>
-
-    <div class="aff-bar">
-      <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank">🛡 Expat insurance</a>
-      <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank">💸 Transfers</a>
-      <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank">📱 eSIM</a>
-      <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank">🔒 VPN</a>
-      <span class="aff-note">partner links</span>
-    </div>
     </div>
 
     <!-- FAQ -->
