@@ -10,6 +10,10 @@
   <title>WiggMatch — Trouve ta ville idéale à l'étranger · WiggMap</title>
   <meta name="description" content="8 questions, 3 minutes. Découvre quelle ville dans le monde correspond vraiment à ton profil expat."/>
   <link rel="canonical" href="https://wiggmap.com/wiggmatch.html"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="WiggMatch — Trouve ta ville idéale à l'étranger · WiggMap"/>
+  <meta property="og:description" content="8 questions, 3 minutes. Découvre quelle ville dans le monde correspond vraiment à ton profil expat."/>
+  <meta property="og:url" content="https://wiggmap.com/wiggmatch.html"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
@@ -138,6 +142,8 @@ body{padding-top:54px}
 .cc-tag.warn{background:#fef9c3;color:#854d0e}
 .cc-link{display:inline-flex;align-items:center;gap:6px;background:var(--ink);color:var(--white);font-size:13px;font-weight:500;padding:10px 18px;border-radius:30px;text-decoration:none;white-space:nowrap;transition:background .15s}
 .cc-link:hover{background:#1e2430}
+.cc-link.cc-coming{background:rgba(0,0,0,0.06);color:var(--ink3);cursor:default;border:1px dashed var(--rule);font-style:italic}
+.cc-link.cc-coming:hover{background:rgba(0,0,0,0.06)}
 
 /* MYSTERY CARDS (rank 0 & 1, à débloquer) — % visible, nom totalement masqué */
 .mystery-card{background:var(--white);border:1.5px solid var(--rule);border-radius:16px;padding:24px 28px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:20px;position:relative;overflow:hidden}
@@ -518,8 +524,8 @@ body{padding-top:54px}
 const CITIES = [
   {
     slug:"lisbonne",name:"Lisbonne",country:"Portugal",flag:"🇵🇹",
-    studio:570,cost_index:52,sun_days:290,safety:"Bon",
-    expat:"Forte",population:"550k",internet:"500+ Mbps",
+    studio:1100,cost_index:65,sun_days:290,safety:"Bon",
+    expat:"Très forte",population:"545k / 2,8M",internet:"230 Mbps",
     climate:"sunny",env:"mer",size:"grande",
     lang_scores:{en:2,fr:1,es:1,pt:3},
     profiles:{nomad:3,local:2,retire:3,backpacker:2},
@@ -530,8 +536,8 @@ const CITIES = [
   },
   {
     slug:"porto",name:"Porto",country:"Portugal",flag:"🇵🇹",
-    studio:520,cost_index:48,sun_days:270,safety:"Excellent",
-    expat:"Forte",population:"310k",internet:"300+ Mbps",
+    studio:850,cost_index:58,sun_days:250,safety:"Excellent",
+    expat:"Forte",population:"240k / 1,7M",internet:"200 Mbps",
     climate:"sunny",env:"mer",size:"moyenne",
     lang_scores:{en:1,fr:1,es:1,pt:3},
     profiles:{nomad:3,local:2,retire:3,backpacker:2},
@@ -542,8 +548,8 @@ const CITIES = [
   },
   {
     slug:"barcelone",name:"Barcelone",country:"Espagne",flag:"🇪🇸",
-    studio:1100,cost_index:72,sun_days:300,safety:"Moyen",
-    expat:"Très forte",population:"1.6M",internet:"600+ Mbps",
+    studio:1530,cost_index:80,sun_days:265,safety:"Moyen",
+    expat:"Très forte",population:"~1,7 M",internet:"600 Mbps",
     climate:"sunny",env:"mer",size:"grande",
     lang_scores:{en:2,fr:1,es:3,pt:1},
     profiles:{nomad:3,local:3,retire:2,backpacker:1},
@@ -554,8 +560,8 @@ const CITIES = [
   },
   {
     slug:"valence",name:"Valence",country:"Espagne",flag:"🇪🇸",
-    studio:750,cost_index:60,sun_days:320,safety:"Bon",
-    expat:"Forte",population:"800k",internet:"500+ Mbps",
+    studio:950,cost_index:68,sun_days:300,safety:"Bon",
+    expat:"Forte",population:"~800 000",internet:"500 Mbps",
     climate:"sunny",env:"mer",size:"grande",
     lang_scores:{en:1,fr:1,es:3,pt:1},
     profiles:{nomad:3,local:2,retire:3,backpacker:2},
@@ -602,8 +608,8 @@ const CITIES = [
   },
   {
     slug:"bangkok",name:"Bangkok",country:"Thaïlande",flag:"🇹🇭",
-    studio:500,cost_index:38,sun_days:280,safety:"Bon",
-    expat:"Très forte",population:"10.5M",internet:"300+ Mbps",
+    studio:520,cost_index:48,sun_days:260,safety:"Bon",
+    expat:"Très forte",population:"~11M",internet:"250 Mbps",
     climate:"tropical",env:"ville",size:"mega",
     lang_scores:{en:2,fr:0,es:0,pt:0},
     profiles:{nomad:3,local:2,retire:3,backpacker:3},
@@ -614,8 +620,8 @@ const CITIES = [
   },
   {
     slug:"chiang-mai",name:"Chiang Mai",country:"Thaïlande",flag:"🇹🇭",
-    studio:350,cost_index:28,sun_days:265,safety:"Excellent",
-    expat:"Très forte",population:"130k",internet:"500+ Mbps",
+    studio:340,cost_index:38,sun_days:280,safety:"Excellent",
+    expat:"Très forte",population:"~1,6M",internet:"250 Mbps",
     climate:"tropical",env:"montagne",size:"petite",
     lang_scores:{en:2,fr:0,es:0,pt:0},
     profiles:{nomad:3,local:1,retire:3,backpacker:3},
@@ -626,8 +632,8 @@ const CITIES = [
   },
   {
     slug:"bali",name:"Bali — Canggu",country:"Indonésie",flag:"🇮🇩",
-    studio:600,cost_index:35,sun_days:300,safety:"Bon",
-    expat:"Très forte",population:"70k",internet:"100+ Mbps",
+    studio:350,cost_index:32,sun_days:280,safety:"Bon",
+    expat:"Très forte",population:"900k / 4.3M",internet:"50 Mbps",
     climate:"tropical",env:"mer",size:"petite",
     lang_scores:{en:2,fr:0,es:0,pt:0},
     profiles:{nomad:3,local:1,retire:2,backpacker:3},
@@ -638,8 +644,8 @@ const CITIES = [
   },
   {
     slug:"medellin",name:"Medellín",country:"Colombie",flag:"🇨🇴",
-    studio:450,cost_index:36,sun_days:300,safety:"Moyen",
-    expat:"Forte",population:"2.5M",internet:"200+ Mbps",
+    studio:500,cost_index:35,sun_days:300,safety:"Moyen",
+    expat:"Très forte",population:"2,6M",internet:"180 Mbps",
     climate:"tropical",env:"montagne",size:"grande",
     lang_scores:{en:1,fr:0,es:3,pt:0},
     profiles:{nomad:3,local:2,retire:2,backpacker:3},
@@ -650,8 +656,8 @@ const CITIES = [
   },
   {
     slug:"buenos-aires",name:"Buenos Aires",country:"Argentine",flag:"🇦🇷",
-    studio:400,cost_index:30,sun_days:250,safety:"Moyen",
-    expat:"Forte",population:"3.1M",internet:"100+ Mbps",
+    studio:500,cost_index:38,sun_days:2900,safety:"Moyen",
+    expat:"Très forte",population:"15M (métro)",internet:"150 Mbps",
     climate:"temperate",env:"ville",size:"mega",
     lang_scores:{en:1,fr:1,es:3,pt:1},
     profiles:{nomad:3,local:2,retire:2,backpacker:3},
@@ -662,8 +668,8 @@ const CITIES = [
   },
   {
     slug:"montreal",name:"Montréal",country:"Canada",flag:"🇨🇦",
-    studio:1100,cost_index:70,sun_days:200,safety:"Bon",
-    expat:"Très forte",population:"2M",internet:"500+ Mbps",
+    studio:1450,cost_index:95,sun_days:2050,safety:"Bon",
+    expat:"Forte",population:"~4,2 M",internet:"200 Mbps",
     climate:"temperate",env:"ville",size:"grande",
     lang_scores:{en:3,fr:3,es:0,pt:0},
     profiles:{nomad:2,local:3,retire:2,backpacker:1},
@@ -674,8 +680,8 @@ const CITIES = [
   },
   {
     slug:"dubai",name:"Dubaï",country:"Émirats Arabes Unis",flag:"🇦🇪",
-    studio:1500,cost_index:80,sun_days:340,safety:"Excellent",
-    expat:"Très forte",population:"3.4M",internet:"500+ Mbps",
+    studio:1700,cost_index:82,sun_days:320,safety:"Excellent",
+    expat:"Très forte",population:"~3,5M / 11M",internet:"500 Mbps",
     climate:"sunny",env:"mer",size:"mega",
     lang_scores:{en:3,fr:1,es:0,pt:0},
     profiles:{nomad:2,local:3,retire:2,backpacker:0},
@@ -699,7 +705,7 @@ const CITIES = [
   {
     slug:"sao-paulo",name:"São Paulo",country:"Brésil",flag:"🇧🇷",
     studio:550,cost_index:46,sun_days:220,safety:"Moyen",
-    expat:"Forte",population:"12.3M",internet:"200+ Mbps",
+    expat:"Forte",population:"~12.3M",internet:"200+ Mbps",
     climate:"temperate",env:"ville",size:"mega",
     lang_scores:{en:1,fr:0,es:1,pt:3},
     profiles:{nomad:1,local:3,retire:1,backpacker:1},
@@ -746,8 +752,8 @@ const CITIES = [
   },
   {
     slug:"athenes",name:"Athènes",country:"Grèce",flag:"🇬🇷",
-    studio:650,cost_index:52,sun_days:300,safety:"Bon",
-    expat:"Forte",population:"3.1M",internet:"200+ Mbps",
+    studio:700,cost_index:72,sun_days:300,safety:"Bon",
+    expat:"Forte",population:"665k / 3.8M",internet:"240 Mbps",
     climate:"sunny",env:"mer",size:"mega",
     lang_scores:{en:2,fr:0,es:0,pt:0},
     profiles:{nomad:3,local:2,retire:3,backpacker:2},
@@ -755,6 +761,762 @@ const CITIES = [
     chronicle:"/chronicles/villes/chronicle-athenes-grece-fr.html",
     tags:{fr:["Golden Visa","Mer","Histoire","Budget correct","EU"],en:["Golden Visa","Sea","History","Decent budget","EU"],es:["Golden Visa","Mar","Historia","Presupuesto correcto","UE"]},
     why:{fr:"Europe méditerranéenne à prix raisonnables. Golden Visa accessibles.",en:"Mediterranean Europe at reasonable prices. Accessible Golden Visas.",es:"Europa mediterránea a precios razonables. Golden Visas accesibles."}
+  },
+  {
+    slug:"paris",name:"Paris",country:"France",flag:"🇫🇷",
+    studio:1300,cost_index:100,sun_days:175,safety:"Moyen",
+    expat:"Très forte",population:"~2 100 000",internet:"500 Mbps",
+    climate:"temperate",env:"ville",size:"mega",
+    lang_scores:{en:3,fr:3,es:1,pt:0},
+    profiles:{nomad:2,local:3,retire:1,backpacker:0},
+    match_tags:{pouvoir_achat:0,anime:3,opportunites:3,securite:2},
+    chronicle:"/chronicles/villes/chronicle-paris-france-fr.html",
+    tags:{fr:["Gastronomie","Culture","Mode","Transport mondial"],en:["Gastronomy","Culture","Fashion","World transport hub"],es:["Gastronomía","Cultura","Moda","Hub de transporte mundial"]},
+    why:{fr:"La ville lumière. Chère, intense, incomparable culturellement.",en:"The City of Light. Expensive, intense, culturally incomparable.",es:"La Ciudad de la Luz. Cara, intensa, culturalmente incomparable."}
+  },
+  {
+    slug:"lyon",name:"Lyon",country:"France",flag:"🇫🇷",
+    studio:580,cost_index:80,sun_days:170,safety:"Bon",
+    expat:"Forte",population:"~540 000",internet:"500 Mbps",
+    climate:"temperate",env:"ville",size:"grande",
+    lang_scores:{en:2,fr:3,es:0,pt:0},
+    profiles:{nomad:2,local:3,retire:2,backpacker:1},
+    match_tags:{pouvoir_achat:1,anime:2,opportunites:2,securite:2},
+    chronicle:"/chronicles/villes/chronicle-lyon-france-fr.html",
+    tags:{fr:["Gastronomie","Tech","Qualité de vie","Moins cher que Paris"],en:["Gastronomy","Tech","Quality of life","Cheaper than Paris"],es:["Gastronomía","Tech","Calidad de vida","Más barato que París"]},
+    why:{fr:"Capitale française de la gastronomie. Tech en plein essor, 2h de la mer et de la montagne.",en:"France's gastronomic capital. Booming tech scene, 2h from sea and mountains.",es:"Capital gastronómica de Francia. Escena tech en auge, a 2h del mar y la montaña."}
+  },
+  {
+    slug:"marseille",name:"Marseille",country:"France",flag:"🇫🇷",
+    studio:680,cost_index:72,sun_days:300,safety:"Moyen",
+    expat:"Forte",population:"~870 000",internet:"400 Mbps",
+    climate:"sunny",env:"mer",size:"grande",
+    lang_scores:{en:1,fr:3,es:0,pt:0},
+    profiles:{nomad:2,local:2,retire:2,backpacker:2},
+    match_tags:{pouvoir_achat:2,anime:2,opportunites:1,securite:1},
+    chronicle:"/chronicles/villes/chronicle-marseille-france-fr.html",
+    tags:{fr:["Mer","Soleil","Calanques","Multiculturel"],en:["Sea","Sun","Calanques","Multicultural"],es:["Mar","Sol","Calanques","Multicultural"]},
+    why:{fr:"Brute, solaire, authentique. La grande ville française la plus méditerranéenne.",en:"Raw, sunny, authentic. France's most Mediterranean big city.",es:"Cruda, soleada, auténtica. La gran ciudad francesa más mediterránea."}
+  },
+  {
+    slug:"nice",name:"Nice",country:"France",flag:"🇫🇷",
+    studio:700,cost_index:85,sun_days:300,safety:"Moyen",
+    expat:"Forte",population:"~350 000",internet:"500 Mbps",
+    climate:"sunny",env:"mer",size:"moyenne",
+    lang_scores:{en:2,fr:3,es:0,pt:0},
+    profiles:{nomad:3,local:2,retire:3,backpacker:1},
+    match_tags:{pouvoir_achat:1,anime:2,opportunites:1,securite:3},
+    chronicle:"/chronicles/villes/chronicle-nice-france-fr.html",
+    tags:{fr:["Côte d'Azur","Retraite","Soleil","Aéroport international"],en:["French Riviera","Retirement","Sunshine","International airport"],es:["Costa Azul","Jubilación","Sol","Aeropuerto internacional"]},
+    why:{fr:"La Côte d'Azur accessible. Soleil garanti, aéroport connecté à toute l'Europe.",en:"Affordable French Riviera. Guaranteed sun, airport connected to all of Europe.",es:"La Costa Azul accesible. Sol garantizado, aeropuerto conectado a toda Europa."}
+  },
+  {
+    slug:"phuket",name:"Phuket",country:"Thaïlande",flag:"🇹🇭",
+    studio:380,cost_index:58,sun_days:250,safety:"Bon",
+    expat:"Très forte",population:"~600 000",internet:"175 Mbps",
+    climate:"tropical",env:"mer",size:"moyenne",
+    lang_scores:{en:2,fr:0,es:0,pt:0},
+    profiles:{nomad:2,local:1,retire:3,backpacker:2},
+    match_tags:{pouvoir_achat:2,anime:2,opportunites:1,securite:2},
+    chronicle:"/chronicles/villes/chronicle-phuket-thailand-fr.html",
+    tags:{fr:["Plage","Aéroport","Retraite","Tourisme"],en:["Beach","Airport","Retirement","Tourism"],es:["Playa","Aeropuerto","Jubilación","Turismo"]},
+    why:{fr:"L'île la plus développée de Thaïlande. Plages, infrastructure, aéroport international.",en:"Thailand's most developed island. Beaches, infrastructure, international airport.",es:"La isla más desarrollada de Tailandia. Playas, infraestructura, aeropuerto internacional."}
+  },
+  {
+    slug:"hua-hin",name:"Hua Hin",country:"Thaïlande",flag:"🇹🇭",
+    studio:300,cost_index:42,sun_days:280,safety:"Excellent",
+    expat:"Forte",population:"~120 000",internet:"175 Mbps",
+    climate:"tropical",env:"mer",size:"petite",
+    lang_scores:{en:1,fr:0,es:0,pt:0},
+    profiles:{nomad:2,local:1,retire:3,backpacker:1},
+    match_tags:{pouvoir_achat:2,anime:1,opportunites:1,securite:3},
+    chronicle:"/chronicles/villes/chronicle-hua-hin-thailand-fr.html",
+    tags:{fr:["Calme","Retraite royale","Golf","Plage"],en:["Calm","Royal retreat","Golf","Beach"],es:["Calma","Retiro real","Golf","Playa"]},
+    why:{fr:"La station balnéaire de la famille royale. Calme, propre, abordable.",en:"The royal family's beach resort. Calm, clean, affordable.",es:"El balneario de la familia real. Tranquilo, limpio, asequible."}
+  },
+  {
+    slug:"madrid",name:"Madrid",country:"Espagne",flag:"🇪🇸",
+    studio:1310,cost_index:72,sun_days:300,safety:"Bon",
+    expat:"Très forte",population:"~3,4 M",internet:"500 Mbps",
+    climate:"sunny",env:"ville",size:"mega",
+    lang_scores:{en:2,fr:1,es:3,pt:1},
+    profiles:{nomad:2,local:3,retire:1,backpacker:0},
+    match_tags:{pouvoir_achat:1,anime:3,opportunites:3,securite:2},
+    chronicle:"/chronicles/villes/chronicle-madrid-espagne-fr.html",
+    tags:{fr:["Capitale","Vie nocturne","Musées","Hub aérien"],en:["Capital","Nightlife","Museums","Air hub"],es:["Capital","Vida nocturna","Museos","Hub aéreo"]},
+    why:{fr:"Capitale vibrante. Vie nocturne légendaire, connexions mondiales, culture intense.",en:"Vibrant capital. Legendary nightlife, global connections, intense culture.",es:"Capital vibrante. Vida nocturna legendaria, conexiones mundiales, cultura intensa."}
+  },
+  {
+    slug:"malaga",name:"Malaga",country:"Espagne",flag:"🇪🇸",
+    studio:950,cost_index:65,sun_days:320,safety:"Bon",
+    expat:"Très forte",population:"~600 000",internet:"500 Mbps",
+    climate:"sunny",env:"mer",size:"grande",
+    lang_scores:{en:2,fr:1,es:3,pt:0},
+    profiles:{nomad:3,local:2,retire:3,backpacker:2},
+    match_tags:{pouvoir_achat:2,anime:2,opportunites:1,securite:2},
+    chronicle:"/chronicles/villes/chronicle-malaga-espagne-fr.html",
+    tags:{fr:["Soleil","Plage","Nomad hub","Budget EU"],en:["Sunshine","Beach","Nomad hub","EU budget"],es:["Sol","Playa","Hub nómada","Presupuesto UE"]},
+    why:{fr:"Le nouveau hub nomade de la Méditerranée. Soleil, plage, prix raisonnables, EU.",en:"The Mediterranean's new nomad hub. Sun, beach, reasonable prices, EU.",es:"El nuevo hub nómada del Mediterráneo. Sol, playa, precios razonables, UE."}
+  },
+  {
+    slug:"sydney",name:"Sydney",country:"Australie",flag:"🇦🇺",
+    studio:1800,cost_index:88,sun_days:240,safety:"Excellent",
+    expat:"Très forte",population:"5.3M",internet:"500+ Mbps",
+    climate:"temperate",env:"mer",size:"mega",
+    lang_scores:{en:3,fr:0,es:0,pt:0},
+    profiles:{nomad:1,local:3,retire:2,backpacker:0},
+    match_tags:{pouvoir_achat:0,anime:3,opportunites:3,securite:3},
+    chronicle:"/chronicles/villes/chronicle-sydney-australia-fr.html",
+    tags:{fr:["Harbour","Finance","Lifestyle","Salaires élevés"],en:["Harbour","Finance","Lifestyle","High salaries"],es:["Puerto","Finanzas","Estilo de vida","Salarios altos"]},
+    why:{fr:"La plus belle baie du monde. Salaires très élevés, coût proportionnel.",en:"The world's most beautiful harbour. Very high salaries, proportional cost.",es:"La bahía más bonita del mundo. Salarios muy altos, coste proporcional."}
+  },
+  {
+    slug:"melbourne",name:"Melbourne",country:"Australie",flag:"🇦🇺",
+    studio:1450,cost_index:108,sun_days:250,safety:"Bon",
+    expat:"Forte",population:"~5,3 M",internet:"150 Mbps",
+    climate:"temperate",env:"mer",size:"mega",
+    lang_scores:{en:3,fr:0,es:0,pt:0},
+    profiles:{nomad:2,local:3,retire:2,backpacker:0},
+    match_tags:{pouvoir_achat:0,anime:3,opportunites:3,securite:3},
+    chronicle:"/chronicles/villes/chronicle-melbourne-australia-fr.html",
+    tags:{fr:["Culture","Café","Street art","Sport"],en:["Culture","Coffee","Street art","Sport"],es:["Cultura","Café","Arte urbano","Deporte"]},
+    why:{fr:"La capitale culturelle de l'Australie. Café, art, sport — mais le temps est capricieux.",en:"Australia's cultural capital. Coffee, art, sport — but the weather is fickle.",es:"La capital cultural de Australia. Café, arte, deporte — pero el tiempo es caprichoso."}
+  },
+  {
+    slug:"cairns",name:"Cairns",country:"Australie",flag:"🇦🇺",
+    studio:1370,cost_index:88,sun_days:300,safety:"Moyen",
+    expat:"Forte",population:"~180 000",internet:"110 Mbps",
+    climate:"tropical",env:"mer",size:"petite",
+    lang_scores:{en:3,fr:0,es:0,pt:0},
+    profiles:{nomad:2,local:1,retire:3,backpacker:3},
+    match_tags:{pouvoir_achat:1,anime:1,opportunites:0,securite:3},
+    chronicle:"/chronicles/villes/chronicle-cairns-australia-fr.html",
+    tags:{fr:["Grande Barrière","Tropical","Nature","Backpacker"],en:["Great Barrier Reef","Tropical","Nature","Backpacker"],es:["Gran Barrera","Tropical","Naturaleza","Mochilero"]},
+    why:{fr:"Porte d'entrée de la Grande Barrière de Corail. Petit, tropical, paradis nature.",en:"Gateway to the Great Barrier Reef. Small, tropical, nature paradise.",es:"Puerta de la Gran Barrera de Coral. Pequeño, tropical, paraíso natural."}
+  },
+  {
+    slug:"perth",name:"Perth",country:"Australie",flag:"🇦🇺",
+    studio:1580,cost_index:104,sun_days:300,safety:"Bon",
+    expat:"Forte",population:"~2,3 M",internet:"150 Mbps",
+    climate:"sunny",env:"mer",size:"grande",
+    lang_scores:{en:3,fr:0,es:0,pt:0},
+    profiles:{nomad:2,local:2,retire:3,backpacker:1},
+    match_tags:{pouvoir_achat:1,anime:2,opportunites:2,securite:3},
+    chronicle:"/chronicles/villes/chronicle-perth-australia-fr.html",
+    tags:{fr:["Isolée","Mines","Plages","Qualité de vie"],en:["Isolated","Mining","Beaches","Quality of life"],es:["Aislada","Minería","Playas","Calidad de vida"]},
+    why:{fr:"La grande ville la plus isolée au monde. Salaires miniers, plages sublimes.",en:"The most isolated major city in the world. Mining salaries, sublime beaches.",es:"La gran ciudad más aislada del mundo. Salarios mineros, playas sublimes."}
+  },
+  {
+    slug:"vancouver",name:"Vancouver",country:"Canada",flag:"🇨🇦",
+    studio:1800,cost_index:122,sun_days:1938,safety:"Bon",
+    expat:"Très forte",population:"~2,7 M",internet:"250 Mbps",
+    climate:"temperate",env:"mer",size:"grande",
+    lang_scores:{en:3,fr:1,es:0,pt:0},
+    profiles:{nomad:2,local:3,retire:2,backpacker:1},
+    match_tags:{pouvoir_achat:0,anime:2,opportunites:3,securite:3},
+    chronicle:"/chronicles/villes/chronicle-vancouver-canada-fr.html",
+    tags:{fr:["Montagne + mer","Tech","Nature","Multiculturel"],en:["Mountains + sea","Tech","Nature","Multicultural"],es:["Montaña + mar","Tech","Naturaleza","Multicultural"]},
+    why:{fr:"Océan + montagne dans la même journée. Hub tech, qualité de vie exceptionnelle mais chère.",en:"Ocean + mountains in the same day. Tech hub, exceptional quality of life but expensive.",es:"Océano + montaña en el mismo día. Hub tech, calidad de vida excepcional pero cara."}
+  },
+  {
+    slug:"toronto",name:"Toronto",country:"Canada",flag:"🇨🇦",
+    studio:1930,cost_index:118,sun_days:2066,safety:"Bon",
+    expat:"Forte",population:"~6,3 M",internet:"200 Mbps",
+    climate:"temperate",env:"ville",size:"mega",
+    lang_scores:{en:3,fr:1,es:0,pt:0},
+    profiles:{nomad:2,local:3,retire:1,backpacker:0},
+    match_tags:{pouvoir_achat:0,anime:3,opportunites:3,securite:2},
+    chronicle:"/chronicles/villes/chronicle-toronto-canada-fr.html",
+    tags:{fr:["Finance","Multiculturel","Tech","Hub nord-américain"],en:["Finance","Multicultural","Tech","North American hub"],es:["Finanzas","Multicultural","Tech","Hub norteamericano"]},
+    why:{fr:"La métropole la plus diverse du monde. Finance, tech, mais hivers rudes.",en:"The world's most diverse metropolis. Finance, tech, but harsh winters.",es:"La metrópoli más diversa del mundo. Finanzas, tech, pero inviernos duros."}
+  },
+  {
+    slug:"calgary",name:"Calgary",country:"Canada",flag:"🇨🇦",
+    studio:1120,cost_index:92,sun_days:333,safety:"Excellent",
+    expat:"Forte",population:"~1,4 M",internet:"200 Mbps",
+    climate:"temperate",env:"montagne",size:"grande",
+    lang_scores:{en:3,fr:0,es:0,pt:0},
+    profiles:{nomad:2,local:3,retire:2,backpacker:1},
+    match_tags:{pouvoir_achat:1,anime:1,opportunites:2,securite:3},
+    chronicle:"/chronicles/villes/chronicle-calgary-canada-fr.html",
+    tags:{fr:["Rocheuses","Pétrole","Pas de taxe provinciale","Nature"],en:["Rockies","Oil","No provincial tax","Nature"],es:["Rocosas","Petróleo","Sin impuesto provincial","Naturaleza"]},
+    why:{fr:"Porte des Rocheuses. Salaires pétrole, pas de taxe de vente provinciale, nature à 1h.",en:"Gateway to the Rockies. Oil salaries, no provincial sales tax, nature 1h away.",es:"Puerta de las Rocosas. Salarios petroleros, sin impuesto provincial, naturaleza a 1h."}
+  },
+  {
+    slug:"rio",name:"Rio de Janeiro",country:"Brésil",flag:"🇧🇷",
+    studio:520,cost_index:44,sun_days:300,safety:"Moyen",
+    expat:"Forte",population:"~6.7M",internet:"200+ Mbps",
+    climate:"tropical",env:"mer",size:"mega",
+    lang_scores:{en:1,fr:0,es:1,pt:3},
+    profiles:{nomad:1,local:2,retire:1,backpacker:2},
+    match_tags:{pouvoir_achat:2,anime:3,opportunites:1,securite:1},
+    chronicle:"/chronicles/villes/chronicle-rio-bresil-fr.html",
+    tags:{fr:["Plage","Carnaval","Paysage iconique","Samba"],en:["Beach","Carnival","Iconic landscape","Samba"],es:["Playa","Carnaval","Paisaje icónico","Samba"]},
+    why:{fr:"Copacabana, Christ Rédempteur, Pain de Sucre. La ville la plus photogénique du monde.",en:"Copacabana, Christ the Redeemer, Sugarloaf. The world's most photogenic city.",es:"Copacabana, Cristo Redentor, Pan de Azúcar. La ciudad más fotogénica del mundo."}
+  },
+  {
+    slug:"florianopolis",name:"Florianópolis",country:"Brésil",flag:"🇧🇷",
+    studio:473,cost_index:40,sun_days:280,safety:"Bon",
+    expat:"Très forte",population:"~530k",internet:"200+ Mbps",
+    climate:"temperate",env:"mer",size:"moyenne",
+    lang_scores:{en:1,fr:0,es:1,pt:3},
+    profiles:{nomad:3,local:1,retire:2,backpacker:2},
+    match_tags:{pouvoir_achat:2,anime:2,opportunites:1,securite:2},
+    chronicle:"/chronicles/villes/chronicle-florianopolis-bresil-fr.html",
+    tags:{fr:["Startup hub","Surf","Nomad","Qualité de vie"],en:["Startup hub","Surf","Nomad","Quality of life"],es:["Hub startup","Surf","Nómada","Calidad de vida"]},
+    why:{fr:"Le petit Silicon Valley brésilien sur une île paradisiaque. Surf, startups, lifestyle.",en:"Brazil's little Silicon Valley on a paradise island. Surf, startups, lifestyle.",es:"El pequeño Silicon Valley brasileño en una isla paradisíaca. Surf, startups, lifestyle."}
+  },
+  {
+    slug:"salvador",name:"Salvador de Bahia",country:"Brésil",flag:"🇧🇷",
+    studio:345,cost_index:36,sun_days:300,safety:"Moyen",
+    expat:"Forte",population:"2.9M",internet:"200+ Mbps",
+    climate:"tropical",env:"mer",size:"grande",
+    lang_scores:{en:1,fr:0,es:0,pt:3},
+    profiles:{nomad:1,local:2,retire:2,backpacker:3},
+    match_tags:{pouvoir_achat:3,anime:2,opportunites:1,securite:1},
+    chronicle:"/chronicles/villes/chronicle-salvador-bresil-fr.html",
+    tags:{fr:["Afro-brésilien","Musique","Budget très bas","Histoire"],en:["Afro-Brazilian","Music","Very low budget","History"],es:["Afrobrasileño","Música","Presupuesto muy bajo","Historia"]},
+    why:{fr:"Le cœur afro-brésilien. Culture intense, budget minimal, énergie inégalée.",en:"The Afro-Brazilian heart. Intense culture, minimal budget, unmatched energy.",es:"El corazón afrobrasileño. Cultura intensa, presupuesto mínimo, energía inigualable."}
+  },
+  {
+    slug:"tokyo",name:"Tokyo",country:"Japon",flag:"🇯🇵",
+    studio:667,cost_index:72,sun_days:200,safety:"Excellent",
+    expat:"Forte",population:"14M",internet:"1000 Mbps",
+    climate:"temperate",env:"ville",size:"mega",
+    lang_scores:{en:2,fr:0,es:0,pt:0},
+    profiles:{nomad:2,local:3,retire:1,backpacker:1},
+    match_tags:{pouvoir_achat:0,anime:3,opportunites:3,securite:3},
+    chronicle:"/chronicles/villes/chronicle-tokyo-japan-fr.html",
+    tags:{fr:["Mégapole","Tech","Sécurité","Transport parfait"],en:["Megacity","Tech","Safety","Perfect transit"],es:["Megaciudad","Tech","Seguridad","Transporte perfecto"]},
+    why:{fr:"La mégapole la plus organisée du monde. Sécurité absolue, efficacité légendaire.",en:"The world's most organised megacity. Absolute safety, legendary efficiency.",es:"La megaciudad más organizada del mundo. Seguridad absoluta, eficiencia legendaria."}
+  },
+  {
+    slug:"osaka",name:"Osaka",country:"Japon",flag:"🇯🇵",
+    studio:433,cost_index:58,sun_days:220,safety:"Excellent",
+    expat:"Forte",population:"2.7M",internet:"1000 Mbps",
+    climate:"temperate",env:"ville",size:"grande",
+    lang_scores:{en:1,fr:0,es:0,pt:0},
+    profiles:{nomad:2,local:2,retire:2,backpacker:2},
+    match_tags:{pouvoir_achat:1,anime:3,opportunites:2,securite:3},
+    chronicle:"/chronicles/villes/chronicle-osaka-japan-fr.html",
+    tags:{fr:["Street food","Humour","Moins cher que Tokyo","Kansai"],en:["Street food","Humour","Cheaper than Tokyo","Kansai"],es:["Comida callejera","Humor","Más barato que Tokyo","Kansai"]},
+    why:{fr:"La cuisine la plus célèbre du Japon. Plus décontractée et moins chère que Tokyo.",en:"Japan's most famous food city. More relaxed and cheaper than Tokyo.",es:"La comida más famosa de Japón. Más relajada y más barata que Tokio."}
+  },
+  {
+    slug:"fukuoka",name:"Fukuoka",country:"Japon",flag:"🇯🇵",
+    studio:367,cost_index:52,sun_days:220,safety:"Excellent",
+    expat:"Forte",population:"1.6M",internet:"1000 Mbps",
+    climate:"temperate",env:"mer",size:"grande",
+    lang_scores:{en:1,fr:0,es:0,pt:0},
+    profiles:{nomad:3,local:2,retire:2,backpacker:2},
+    match_tags:{pouvoir_achat:2,anime:2,opportunites:2,securite:3},
+    chronicle:"/chronicles/villes/chronicle-fukuoka-japan-fr.html",
+    tags:{fr:["Startup","Ramen","Compact","Asie proche"],en:["Startup","Ramen","Compact","Close to Asia"],es:["Startup","Ramen","Compacta","Cerca de Asia"]},
+    why:{fr:"Hub startup du Japon. Compact, ramen, proche de Séoul et Shanghai.",en:"Japan's startup hub. Compact, ramen, close to Seoul and Shanghai.",es:"Hub startup de Japón. Compacta, ramen, cerca de Seúl y Shanghái."}
+  },
+  {
+    slug:"kyoto",name:"Kyoto",country:"Japon",flag:"🇯🇵",
+    studio:433,cost_index:58,sun_days:200,safety:"Excellent",
+    expat:"Forte",population:"1.46M",internet:"1000 Mbps",
+    climate:"temperate",env:"montagne",size:"grande",
+    lang_scores:{en:1,fr:0,es:0,pt:0},
+    profiles:{nomad:2,local:1,retire:3,backpacker:2},
+    match_tags:{pouvoir_achat:1,anime:1,opportunites:1,securite:3},
+    chronicle:"/chronicles/villes/chronicle-kyoto-japan-fr.html",
+    tags:{fr:["Temples","Tradition","Calme","Zen"],en:["Temples","Tradition","Calm","Zen"],es:["Templos","Tradición","Calma","Zen"]},
+    why:{fr:"L'ancienne capitale impériale. 2 000 temples, zen absolu, tourisme intense.",en:"The former imperial capital. 2,000 temples, absolute zen, intense tourism.",es:"La antigua capital imperial. 2.000 templos, zen absoluto, turismo intenso."}
+  },
+  {
+    slug:"mexico-city",name:"Mexico",country:"Mexique",flag:"🇲🇽",
+    studio:950,cost_index:52,sun_days:228,safety:"Moyen",
+    expat:"Très forte",population:"9.2M / 22M",internet:"300 Mbps",
+    climate:"temperate",env:"ville",size:"mega",
+    lang_scores:{en:1,fr:0,es:3,pt:0},
+    profiles:{nomad:3,local:3,retire:1,backpacker:1},
+    match_tags:{pouvoir_achat:2,anime:3,opportunites:3,securite:1},
+    chronicle:"/chronicles/villes/chronicle-mexico-city-mexico-fr.html",
+    tags:{fr:["Mégapole","Gastronomie","Culture","Nomad hub"],en:["Megacity","Gastronomy","Culture","Nomad hub"],es:["Megaciudad","Gastronomía","Cultura","Hub nómada"]},
+    why:{fr:"La plus grande mégapole hispanophone. Gastronomie mondiale, coût bas, culture immense.",en:"The largest Spanish-speaking megacity. World-class food, low cost, immense culture.",es:"La mayor megaciudad hispanohablante. Gastronomía mundial, coste bajo, cultura inmensa."}
+  },
+  {
+    slug:"guadalajara",name:"Guadalajara",country:"Mexique",flag:"🇲🇽",
+    studio:600,cost_index:42,sun_days:260,safety:"Bon",
+    expat:"Forte",population:"1.5M / 5.3M",internet:"200 Mbps",
+    climate:"sunny",env:"ville",size:"mega",
+    lang_scores:{en:1,fr:0,es:3,pt:0},
+    profiles:{nomad:3,local:2,retire:1,backpacker:1},
+    match_tags:{pouvoir_achat:2,anime:2,opportunites:2,securite:2},
+    chronicle:"/chronicles/villes/chronicle-guadalajara-mexico-fr.html",
+    tags:{fr:["Tech hub","Tequila","Mariachi","Silicon Valley mexicain"],en:["Tech hub","Tequila","Mariachi","Mexican Silicon Valley"],es:["Hub tech","Tequila","Mariachi","Silicon Valley mexicano"]},
+    why:{fr:"Silicon Valley du Mexique. Tech, tequila, mariachi — le meilleur des deux mondes.",en:"Mexico's Silicon Valley. Tech, tequila, mariachi — the best of both worlds.",es:"El Silicon Valley de México. Tech, tequila, mariachi — lo mejor de ambos mundos."}
+  },
+  {
+    slug:"monterrey",name:"Monterrey",country:"Mexique",flag:"🇲🇽",
+    studio:780,cost_index:48,sun_days:230,safety:"Moyen",
+    expat:"Forte",population:"1.2M / 5.4M",internet:"300 Mbps",
+    climate:"sunny",env:"montagne",size:"mega",
+    lang_scores:{en:1,fr:0,es:3,pt:0},
+    profiles:{nomad:2,local:3,retire:1,backpacker:0},
+    match_tags:{pouvoir_achat:1,anime:2,opportunites:3,securite:2},
+    chronicle:"/chronicles/villes/chronicle-monterrey-mexico-fr.html",
+    tags:{fr:["Industrie","Business","Montagne","Nord du Mexique"],en:["Industry","Business","Mountains","Northern Mexico"],es:["Industria","Negocios","Montaña","Norte de México"]},
+    why:{fr:"Le powerhouse industriel du Mexique. Business, montagnes, climat sec.",en:"Mexico's industrial powerhouse. Business, mountains, dry climate.",es:"La potencia industrial de México. Negocios, montañas, clima seco."}
+  },
+  {
+    slug:"cancun",name:"Cancún",country:"Mexique",flag:"🇲🇽",
+    studio:600,cost_index:45,sun_days:285,safety:"Bon",
+    expat:"Forte",population:"~900k",internet:"200 Mbps",
+    climate:"tropical",env:"mer",size:"grande",
+    lang_scores:{en:2,fr:0,es:3,pt:0},
+    profiles:{nomad:2,local:1,retire:3,backpacker:2},
+    match_tags:{pouvoir_achat:2,anime:2,opportunites:1,securite:2},
+    chronicle:"/chronicles/villes/chronicle-cancun-mexico-fr.html",
+    tags:{fr:["Caraïbes","Tourisme","Plage","Zone hôtelière"],en:["Caribbean","Tourism","Beach","Hotel zone"],es:["Caribe","Turismo","Playa","Zona hotelera"]},
+    why:{fr:"Les Caraïbes mexicaines. Plages turquoises, infrastructure touristique, vie nocturne.",en:"The Mexican Caribbean. Turquoise beaches, tourist infrastructure, nightlife.",es:"El Caribe mexicano. Playas turquesas, infraestructura turística, vida nocturna."}
+  },
+  {
+    slug:"new-york",name:"New York",country:"États-Unis",flag:"🇺🇸",
+    studio:3000,cost_index:148,sun_days:224,safety:"Moyen",
+    expat:"Très forte",population:"8.3M",internet:"1 Gbps",
+    climate:"temperate",env:"ville",size:"mega",
+    lang_scores:{en:3,fr:1,es:2,pt:0},
+    profiles:{nomad:1,local:3,retire:0,backpacker:0},
+    match_tags:{pouvoir_achat:0,anime:3,opportunites:3,securite:2},
+    chronicle:"/chronicles/villes/chronicle-new-york-usa-fr.html",
+    tags:{fr:["Finance","Culture","Ville monde","Gratte-ciel"],en:["Finance","Culture","World city","Skyscrapers"],es:["Finanzas","Cultura","Ciudad mundo","Rascacielos"]},
+    why:{fr:"La capitale du monde. Si tu peux y réussir, tu peux réussir n'importe où.",en:"The capital of the world. If you can make it here, you can make it anywhere.",es:"La capital del mundo. Si puedes triunfar aquí, puedes triunfar en cualquier lugar."}
+  },
+  {
+    slug:"los-angeles",name:"Los Angeles",country:"États-Unis",flag:"🇺🇸",
+    studio:2300,cost_index:130,sun_days:284,safety:"Moyen",
+    expat:"Très forte",population:"4M / 18M",internet:"1 Gbps",
+    climate:"sunny",env:"mer",size:"mega",
+    lang_scores:{en:3,fr:0,es:2,pt:0},
+    profiles:{nomad:1,local:2,retire:0,backpacker:0},
+    match_tags:{pouvoir_achat:0,anime:3,opportunites:3,securite:1},
+    chronicle:"/chronicles/villes/chronicle-los-angeles-usa-fr.html",
+    tags:{fr:["Entertainment","Soleil","Voiture obligatoire","Tech"],en:["Entertainment","Sunshine","Car mandatory","Tech"],es:["Entretenimiento","Sol","Coche obligatorio","Tech"]},
+    why:{fr:"La capitale du divertissement. Hollywood, soleil, mais voiture indispensable.",en:"The entertainment capital. Hollywood, sunshine, but car essential.",es:"La capital del entretenimiento. Hollywood, sol, pero coche imprescindible."}
+  },
+  {
+    slug:"miami",name:"Miami",country:"États-Unis",flag:"🇺🇸",
+    studio:2300,cost_index:112,sun_days:248,safety:"Moyen",
+    expat:"Très forte",population:"470k / 6.2M",internet:"1 Gbps",
+    climate:"tropical",env:"mer",size:"grande",
+    lang_scores:{en:3,fr:1,es:3,pt:1},
+    profiles:{nomad:1,local:2,retire:0,backpacker:0},
+    match_tags:{pouvoir_achat:0,anime:3,opportunites:3,securite:2},
+    chronicle:"/chronicles/villes/chronicle-miami-usa-fr.html",
+    tags:{fr:["Latin hub","Plage","Finance","Crypto"],en:["Latin hub","Beach","Finance","Crypto"],es:["Hub latino","Playa","Finanzas","Crypto"]},
+    why:{fr:"La porte des Amériques. Bilingue anglais-espagnol, plage, finance, crypto.",en:"Gateway to the Americas. Bilingual English-Spanish, beach, finance, crypto.",es:"La puerta de las Américas. Bilingüe inglés-español, playa, finanzas, crypto."}
+  },
+  {
+    slug:"austin",name:"Austin",country:"États-Unis",flag:"🇺🇸",
+    studio:1600,cost_index:88,sun_days:228,safety:"Bon",
+    expat:"Très forte",population:"978k / 2.3M",internet:"1 Gbps",
+    climate:"sunny",env:"ville",size:"grande",
+    lang_scores:{en:3,fr:0,es:1,pt:0},
+    profiles:{nomad:2,local:2,retire:0,backpacker:1},
+    match_tags:{pouvoir_achat:1,anime:3,opportunites:3,securite:2},
+    chronicle:"/chronicles/villes/chronicle-austin-usa-fr.html",
+    tags:{fr:["Tech hub","Musique","BBQ","Pas d'impôt État"],en:["Tech hub","Music","BBQ","No state income tax"],es:["Hub tech","Música","BBQ","Sin IRPF estatal"]},
+    why:{fr:"Le hub tech texan. Musique live, BBQ, zéro impôt sur le revenu de l'État.",en:"The Texan tech hub. Live music, BBQ, zero state income tax.",es:"El hub tech texano. Música en vivo, BBQ, cero impuesto estatal sobre la renta."}
+  },
+  {
+    slug:"faro",name:"Faro",country:"Portugal",flag:"🇵🇹",
+    studio:850,cost_index:52,sun_days:300,safety:"Excellent",
+    expat:"Forte",population:"65k / 120k",internet:"190 Mbps",
+    climate:"sunny",env:"mer",size:"petite",
+    lang_scores:{en:2,fr:1,es:1,pt:3},
+    profiles:{nomad:3,local:1,retire:3,backpacker:2},
+    match_tags:{pouvoir_achat:3,anime:1,opportunites:1,securite:3},
+    chronicle:"/chronicles/villes/chronicle-faro-portugal-fr.html",
+    tags:{fr:["Algarve","Soleil","Retraite","Budget bas"],en:["Algarve","Sunshine","Retirement","Low budget"],es:["Algarve","Sol","Jubilación","Presupuesto bajo"]},
+    why:{fr:"Capitale de l'Algarve. Soleil record, coût bas, paradis des retraités.",en:"Algarve capital. Record sunshine, low cost, retirees' paradise.",es:"Capital del Algarve. Sol récord, coste bajo, paraíso de jubilados."}
+  },
+  {
+    slug:"funchal",name:"Funchal",country:"Portugal",flag:"🇵🇹",
+    studio:950,cost_index:54,sun_days:18,safety:"Excellent",
+    expat:"Forte",population:"111k / 290k",internet:"180 Mbps",
+    climate:"temperate",env:"mer",size:"petite",
+    lang_scores:{en:2,fr:1,es:0,pt:3},
+    profiles:{nomad:3,local:1,retire:3,backpacker:2},
+    match_tags:{pouvoir_achat:2,anime:1,opportunites:1,securite:3},
+    chronicle:"/chronicles/villes/chronicle-funchal-portugal-fr.html",
+    tags:{fr:["Madère","Subtropical","Nomad","Randonnée"],en:["Madeira","Subtropical","Nomad","Hiking"],es:["Madeira","Subtropical","Nómada","Senderismo"]},
+    why:{fr:"L'île de l'éternel printemps. Madère offre nature, calme et fiscalité douce.",en:"The island of eternal spring. Madeira offers nature, calm and gentle taxation.",es:"La isla de la eterna primavera. Madeira ofrece naturaleza, calma y fiscalidad suave."}
+  },
+  {
+    slug:"thessalonique",name:"Thessalonique",country:"Grèce",flag:"🇬🇷",
+    studio:450,cost_index:65,sun_days:250,safety:"Bon",
+    expat:"Forte",population:"325k / 1M",internet:"180 Mbps",
+    climate:"sunny",env:"mer",size:"grande",
+    lang_scores:{en:2,fr:0,es:0,pt:0},
+    profiles:{nomad:3,local:2,retire:2,backpacker:2},
+    match_tags:{pouvoir_achat:2,anime:2,opportunites:1,securite:2},
+    chronicle:"/chronicles/villes/chronicle-thessalonique-grece-fr.html",
+    tags:{fr:["Étudiante","Gastro","Moins touristique","EU"],en:["Student city","Gastro","Less touristy","EU"],es:["Ciudad estudiantil","Gastro","Menos turística","UE"]},
+    why:{fr:"La deuxième ville grecque. Plus authentique et moins chère qu'Athènes.",en:"Greece's second city. More authentic and cheaper than Athens.",es:"La segunda ciudad griega. Más auténtica y más barata que Atenas."}
+  },
+  {
+    slug:"heraklion",name:"Héraklion",country:"Grèce",flag:"🇬🇷",
+    studio:500,cost_index:62,sun_days:300,safety:"Bon",
+    expat:"Forte",population:"140k / 200k",internet:"160 Mbps",
+    climate:"sunny",env:"mer",size:"moyenne",
+    lang_scores:{en:1,fr:0,es:0,pt:0},
+    profiles:{nomad:3,local:1,retire:3,backpacker:2},
+    match_tags:{pouvoir_achat:2,anime:1,opportunites:1,securite:2},
+    chronicle:"/chronicles/villes/chronicle-heraklion-grece-fr.html",
+    tags:{fr:["Crète","Plage","Archéologie","Cuisine crétoise"],en:["Crete","Beach","Archaeology","Cretan cuisine"],es:["Creta","Playa","Arqueología","Cocina cretense"]},
+    why:{fr:"Capitale de la Crète. Histoire millénaire, plages somptueuses, cuisine méditerranéenne.",en:"Capital of Crete. Millennial history, gorgeous beaches, Mediterranean cuisine.",es:"Capital de Creta. Historia milenaria, playas espléndidas, cocina mediterránea."}
+  },
+  {
+    slug:"la-canee",name:"La Canée",country:"Grèce",flag:"🇬🇷",
+    studio:600,cost_index:67,sun_days:300,safety:"Excellent",
+    expat:"Forte",population:"55k / 150k",internet:"150 Mbps",
+    climate:"sunny",env:"mer",size:"petite",
+    lang_scores:{en:1,fr:0,es:0,pt:0},
+    profiles:{nomad:3,local:1,retire:3,backpacker:2},
+    match_tags:{pouvoir_achat:3,anime:1,opportunites:1,securite:3},
+    chronicle:"/chronicles/villes/chronicle-la-canee-grece-fr.html",
+    tags:{fr:["Port vénitien","Calme","Crète ouest","Budget bas"],en:["Venetian port","Calm","Western Crete","Low budget"],es:["Puerto veneciano","Calma","Creta occidental","Presupuesto bajo"]},
+    why:{fr:"Le joyau de la Crète occidentale. Port vénitien, calme absolu, coût très bas.",en:"The jewel of western Crete. Venetian port, absolute calm, very low cost.",es:"La joya de Creta occidental. Puerto veneciano, calma absoluta, coste muy bajo."}
+  },
+  {
+    slug:"jakarta",name:"Jakarta",country:"Indonésie",flag:"🇮🇩",
+    studio:400,cost_index:38,sun_days:250,safety:"Moyen",
+    expat:"Forte",population:"10.6M / 34M",internet:"110 Mbps",
+    climate:"tropical",env:"ville",size:"mega",
+    lang_scores:{en:1,fr:0,es:0,pt:0},
+    profiles:{nomad:1,local:3,retire:1,backpacker:1},
+    match_tags:{pouvoir_achat:3,anime:2,opportunites:2,securite:1},
+    chronicle:"/chronicles/villes/chronicle-jakarta-indonesia-fr.html",
+    tags:{fr:["Mégapole","Business","Chaotique","Budget bas"],en:["Megacity","Business","Chaotic","Low budget"],es:["Megaciudad","Negocios","Caótica","Presupuesto bajo"]},
+    why:{fr:"La mégapole chaotique d'Asie du Sud-Est. Business, culture, embouteillages.",en:"Southeast Asia's chaotic megacity. Business, culture, traffic jams.",es:"La megaciudad caótica del Sudeste Asiático. Negocios, cultura, atascos."}
+  },
+  {
+    slug:"surabaya",name:"Surabaya",country:"Indonésie",flag:"🇮🇩",
+    studio:250,cost_index:42,sun_days:260,safety:"Bon",
+    expat:"Forte",population:"3M / 10M",internet:"90 Mbps",
+    climate:"tropical",env:"mer",size:"grande",
+    lang_scores:{en:1,fr:0,es:0,pt:0},
+    profiles:{nomad:2,local:2,retire:1,backpacker:2},
+    match_tags:{pouvoir_achat:3,anime:1,opportunites:1,securite:2},
+    chronicle:"/chronicles/villes/chronicle-surabaya-indonesia-fr.html",
+    tags:{fr:["Deuxième ville","Port","Budget ultra-bas","Authentique"],en:["Second city","Port","Ultra-low budget","Authentic"],es:["Segunda ciudad","Puerto","Presupuesto ultra-bajo","Auténtica"]},
+    why:{fr:"Deuxième ville d'Indonésie. Authentique, ultra-abordable, méconnue des touristes.",en:"Indonesia's second city. Authentic, ultra-affordable, unknown to tourists.",es:"La segunda ciudad de Indonesia. Auténtica, ultra-asequible, desconocida por los turistas."}
+  },
+  {
+    slug:"yogyakarta",name:"Yogyakarta",country:"Indonésie",flag:"🇮🇩",
+    studio:150,cost_index:25,sun_days:250,safety:"Bon",
+    expat:"Forte",population:"400k / 4M",internet:"60 Mbps",
+    climate:"tropical",env:"montagne",size:"moyenne",
+    lang_scores:{en:1,fr:0,es:0,pt:0},
+    profiles:{nomad:3,local:1,retire:2,backpacker:3},
+    match_tags:{pouvoir_achat:3,anime:1,opportunites:0,securite:2},
+    chronicle:"/chronicles/villes/chronicle-yogyakarta-indonesia-fr.html",
+    tags:{fr:["Temples","Culture javanaise","Budget minimal","Borobudur"],en:["Temples","Javanese culture","Minimal budget","Borobudur"],es:["Templos","Cultura javanesa","Presupuesto mínimo","Borobudur"]},
+    why:{fr:"Capitale culturelle de Java. Borobudur, batik, budget minimal.",en:"Java's cultural capital. Borobudur, batik, minimal budget.",es:"Capital cultural de Java. Borobudur, batik, presupuesto mínimo."}
+  },
+  {
+    slug:"abu-dhabi",name:"Abu Dhabi",country:"Émirats Arabes Unis",flag:"🇦🇪",
+    studio:1500,cost_index:78,sun_days:320,safety:"Excellent",
+    expat:"Forte",population:"~1,5M / 3,8M",internet:"480 Mbps",
+    climate:"sunny",env:"mer",size:"grande",
+    lang_scores:{en:3,fr:1,es:0,pt:0},
+    profiles:{nomad:2,local:3,retire:2,backpacker:0},
+    match_tags:{pouvoir_achat:1,anime:2,opportunites:3,securite:3},
+    chronicle:"/chronicles/villes/chronicle-abu-dhabi-emirats-fr.html",
+    tags:{fr:["Pétrole","Culture","Sécurité","0% impôt"],en:["Oil","Culture","Safety","0% tax"],es:["Petróleo","Cultura","Seguridad","0% impuesto"]},
+    why:{fr:"La capitale des Émirats. Plus calme que Dubaï, même fiscalité zéro.",en:"The UAE capital. Calmer than Dubai, same zero taxation.",es:"La capital de los Emiratos. Más tranquila que Dubái, misma fiscalidad cero."}
+  },
+  {
+    slug:"sharjah",name:"Sharjah",country:"Émirats Arabes Unis",flag:"🇦🇪",
+    studio:700,cost_index:55,sun_days:320,safety:"Excellent",
+    expat:"Forte",population:"~800k / 1,5M",internet:"200 Mbps",
+    climate:"sunny",env:"mer",size:"grande",
+    lang_scores:{en:2,fr:0,es:0,pt:0},
+    profiles:{nomad:2,local:2,retire:2,backpacker:0},
+    match_tags:{pouvoir_achat:2,anime:1,opportunites:2,securite:3},
+    chronicle:"/chronicles/villes/chronicle-sharjah-emirats-fr.html",
+    tags:{fr:["Culturel","Moins cher que Dubaï","Conservateur","Musées"],en:["Cultural","Cheaper than Dubai","Conservative","Museums"],es:["Cultural","Más barato que Dubái","Conservador","Museos"]},
+    why:{fr:"L'émirat culturel. 40% moins cher que Dubaï, plus conservateur.",en:"The cultural emirate. 40% cheaper than Dubai, more conservative.",es:"El emirato cultural. 40% más barato que Dubái, más conservador."}
+  },
+  {
+    slug:"ras-al-khaimah",name:"Ras Al Khaimah",country:"Émirats Arabes Unis",flag:"🇦🇪",
+    studio:600,cost_index:42,sun_days:320,safety:"Excellent",
+    expat:"Forte",population:"~350k",internet:"180 Mbps",
+    climate:"sunny",env:"mer",size:"moyenne",
+    lang_scores:{en:2,fr:0,es:0,pt:0},
+    profiles:{nomad:2,local:1,retire:3,backpacker:0},
+    match_tags:{pouvoir_achat:2,anime:1,opportunites:2,securite:3},
+    chronicle:"/chronicles/villes/chronicle-ras-al-khaimah-emirats-fr.html",
+    tags:{fr:["Nature","Aventure","Montagne","Budget EAU"],en:["Nature","Adventure","Mountains","UAE budget"],es:["Naturaleza","Aventura","Montaña","Presupuesto EAU"]},
+    why:{fr:"L'émirat nature. Montagnes, désert, plages — le côté aventure des Émirats.",en:"The nature emirate. Mountains, desert, beaches — the adventure side of the UAE.",es:"El emirato naturaleza. Montañas, desierto, playas — el lado aventurero de los Emiratos."}
+  },
+  {
+    slug:"istanbul",name:"Istanbul",country:"Turquie",flag:"🇹🇷",
+    studio:450,cost_index:48,sun_days:240,safety:"Bon",
+    expat:"Très forte",population:"~15M",internet:"220 Mbps",
+    climate:"temperate",env:"mer",size:"mega",
+    lang_scores:{en:2,fr:0,es:0,pt:0},
+    profiles:{nomad:2,local:3,retire:1,backpacker:1},
+    match_tags:{pouvoir_achat:3,anime:3,opportunites:2,securite:2},
+    chronicle:"/chronicles/villes/chronicle-istanbul-turquie-fr.html",
+    tags:{fr:["Deux continents","Histoire","Gastronomie","Bosphore"],en:["Two continents","History","Gastronomy","Bosphorus"],es:["Dos continentes","Historia","Gastronomía","Bósforo"]},
+    why:{fr:"La seule ville à cheval sur deux continents. Histoire, gastronomie, coût bas.",en:"The only city straddling two continents. History, gastronomy, low cost.",es:"La única ciudad a caballo entre dos continentes. Historia, gastronomía, coste bajo."}
+  },
+  {
+    slug:"ankara",name:"Ankara",country:"Turquie",flag:"🇹🇷",
+    studio:350,cost_index:40,sun_days:220,safety:"Bon",
+    expat:"Forte",population:"5,7M",internet:"190 Mbps",
+    climate:"temperate",env:"ville",size:"mega",
+    lang_scores:{en:1,fr:0,es:0,pt:0},
+    profiles:{nomad:2,local:2,retire:1,backpacker:1},
+    match_tags:{pouvoir_achat:3,anime:1,opportunites:2,securite:2},
+    chronicle:"/chronicles/villes/chronicle-ankara-turquie-fr.html",
+    tags:{fr:["Capitale","Universités","Budget très bas","Continental"],en:["Capital","Universities","Very low budget","Continental"],es:["Capital","Universidades","Presupuesto muy bajo","Continental"]},
+    why:{fr:"La capitale turque méconnue. Universités, budget minimal, hiver continental.",en:"Turkey's overlooked capital. Universities, minimal budget, continental winter.",es:"La capital turca desconocida. Universidades, presupuesto mínimo, invierno continental."}
+  },
+  {
+    slug:"izmir",name:"Izmir",country:"Turquie",flag:"🇹🇷",
+    studio:380,cost_index:43,sun_days:300,safety:"Bon",
+    expat:"Forte",population:"3,3M",internet:"200 Mbps",
+    climate:"sunny",env:"mer",size:"mega",
+    lang_scores:{en:1,fr:0,es:0,pt:0},
+    profiles:{nomad:2,local:2,retire:2,backpacker:2},
+    match_tags:{pouvoir_achat:3,anime:2,opportunites:1,securite:2},
+    chronicle:"/chronicles/villes/chronicle-izmir-turquie-fr.html",
+    tags:{fr:["Méditerranéenne","Libérale","Moins touristique","Budget bas"],en:["Mediterranean","Liberal","Less touristy","Low budget"],es:["Mediterránea","Liberal","Menos turística","Presupuesto bajo"]},
+    why:{fr:"La ville la plus libérale de Turquie. Méditerranéenne, ouverte, abordable.",en:"Turkey's most liberal city. Mediterranean, open, affordable.",es:"La ciudad más liberal de Turquía. Mediterránea, abierta, asequible."}
+  },
+  {
+    slug:"antalya",name:"Antalya",country:"Turquie",flag:"🇹🇷",
+    studio:350,cost_index:38,sun_days:300,safety:"Bon",
+    expat:"Très forte",population:"2,6M",internet:"180 Mbps",
+    climate:"sunny",env:"mer",size:"grande",
+    lang_scores:{en:2,fr:0,es:0,pt:0},
+    profiles:{nomad:3,local:1,retire:3,backpacker:2},
+    match_tags:{pouvoir_achat:2,anime:2,opportunites:1,securite:2},
+    chronicle:"/chronicles/villes/chronicle-antalya-turquie-fr.html",
+    tags:{fr:["Riviera turque","Soleil","Plage","Retraite"],en:["Turkish Riviera","Sunshine","Beach","Retirement"],es:["Riviera turca","Sol","Playa","Jubilación"]},
+    why:{fr:"La Riviera turque. 300 jours de soleil, plages, coût de vie très bas.",en:"The Turkish Riviera. 300 sunny days, beaches, very low cost of living.",es:"La Riviera turca. 300 días de sol, playas, coste de vida muy bajo."}
+  },
+  {
+    slug:"cordoba",name:"Córdoba",country:"Argentine",flag:"🇦🇷",
+    studio:320,cost_index:31,sun_days:2800,safety:"Bon",
+    expat:"Forte",population:"1,7M (métro)",internet:"130 Mbps",
+    climate:"temperate",env:"ville",size:"grande",
+    lang_scores:{en:1,fr:0,es:3,pt:0},
+    profiles:{nomad:3,local:2,retire:2,backpacker:2},
+    match_tags:{pouvoir_achat:3,anime:2,opportunites:1,securite:2},
+    chronicle:"/chronicles/villes/chronicle-cordoba-argentine-fr.html",
+    tags:{fr:["Étudiante","Sierras","Vie nocturne","Budget minimal"],en:["Student city","Sierras","Nightlife","Minimal budget"],es:["Ciudad estudiantil","Sierras","Vida nocturna","Presupuesto mínimo"]},
+    why:{fr:"La meilleure vie nocturne d'Argentine. Étudiante, bon marché, Sierras à 30 min.",en:"Argentina's best nightlife. Student-driven, cheap, Sierras 30 min away.",es:"La mejor vida nocturna de Argentina. Estudiantil, barata, Sierras a 30 min."}
+  },
+  {
+    slug:"mendoza",name:"Mendoza",country:"Argentine",flag:"🇦🇷",
+    studio:350,cost_index:33,sun_days:330,safety:"Bon",
+    expat:"Forte",population:"1,1M (métro)",internet:"120 Mbps",
+    climate:"sunny",env:"montagne",size:"grande",
+    lang_scores:{en:1,fr:0,es:3,pt:0},
+    profiles:{nomad:2,local:1,retire:3,backpacker:2},
+    match_tags:{pouvoir_achat:3,anime:1,opportunites:1,securite:2},
+    chronicle:"/chronicles/villes/chronicle-mendoza-argentine-fr.html",
+    tags:{fr:["Vin","Andes","Soleil","Outdoor"],en:["Wine","Andes","Sunshine","Outdoor"],es:["Vino","Andes","Sol","Outdoor"]},
+    why:{fr:"Capitale mondiale du Malbec. Andes, soleil, aventure, coût dérisoire.",en:"World capital of Malbec. Andes, sunshine, adventure, ridiculously low cost.",es:"Capital mundial del Malbec. Andes, sol, aventura, coste irrisorio."}
+  },
+  {
+    slug:"bariloche",name:"Bariloche",country:"Argentine",flag:"🇦🇷",
+    studio:420,cost_index:36,sun_days:200,safety:"Excellent",
+    expat:"Forte",population:"130k",internet:"100 Mbps",
+    climate:"temperate",env:"montagne",size:"petite",
+    lang_scores:{en:1,fr:0,es:2,pt:0},
+    profiles:{nomad:2,local:1,retire:3,backpacker:2},
+    match_tags:{pouvoir_achat:2,anime:1,opportunites:1,securite:3},
+    chronicle:"/chronicles/villes/chronicle-bariloche-argentine-fr.html",
+    tags:{fr:["Patagonie","Ski","Lacs","Suisse argentine"],en:["Patagonia","Skiing","Lakes","Argentine Switzerland"],es:["Patagonia","Esquí","Lagos","Suiza argentina"]},
+    why:{fr:"La Suisse de l'Argentine. Lacs, montagnes, chocolat, ski — l'autre hémisphère.",en:"Argentina's Switzerland. Lakes, mountains, chocolate, skiing — the other hemisphere.",es:"La Suiza de Argentina. Lagos, montañas, chocolate, esquí — el otro hemisferio."}
+  },
+  {
+    slug:"berlin",name:"Berlin",country:"Allemagne",flag:"🇩🇪",
+    studio:1100,cost_index:85,sun_days:160,safety:"Bon",
+    expat:"Très forte",population:"3,7M",internet:"200 Mbps",
+    climate:"temperate",env:"ville",size:"mega",
+    lang_scores:{en:3,fr:1,es:1,pt:0},
+    profiles:{nomad:3,local:3,retire:1,backpacker:1},
+    match_tags:{pouvoir_achat:1,anime:3,opportunites:3,securite:2},
+    chronicle:"/chronicles/villes/chronicle-berlin-allemagne-fr.html",
+    tags:{fr:["Startup","Vie nocturne","Multiculturel","Budget EU"],en:["Startup","Nightlife","Multicultural","EU budget"],es:["Startup","Vida nocturna","Multicultural","Presupuesto UE"]},
+    why:{fr:"La capitale la plus cool d'Europe. Startups, clubs, culture — et encore abordable.",en:"Europe's coolest capital. Startups, clubs, culture — and still affordable.",es:"La capital más cool de Europa. Startups, clubs, cultura — y aún asequible."}
+  },
+  {
+    slug:"munich",name:"Munich",country:"Allemagne",flag:"🇩🇪",
+    studio:1600,cost_index:105,sun_days:200,safety:"Excellent",
+    expat:"Forte",population:"1,5M",internet:"250 Mbps",
+    climate:"temperate",env:"montagne",size:"grande",
+    lang_scores:{en:3,fr:0,es:0,pt:0},
+    profiles:{nomad:2,local:3,retire:1,backpacker:0},
+    match_tags:{pouvoir_achat:0,anime:2,opportunites:3,securite:3},
+    chronicle:"/chronicles/villes/chronicle-munich-allemagne-fr.html",
+    tags:{fr:["Tech","Alpes","Bière","Salaires élevés"],en:["Tech","Alps","Beer","High salaries"],es:["Tech","Alpes","Cerveza","Salarios altos"]},
+    why:{fr:"BMW, Oktoberfest, Alpes à 1h. La ville la plus riche d'Allemagne.",en:"BMW, Oktoberfest, Alps 1h away. Germany's richest city.",es:"BMW, Oktoberfest, Alpes a 1h. La ciudad más rica de Alemania."}
+  },
+  {
+    slug:"hambourg",name:"Hambourg",country:"Allemagne",flag:"🇩🇪",
+    studio:1200,cost_index:90,sun_days:160,safety:"Excellent",
+    expat:"Forte",population:"1,9M",internet:"280 Mbps",
+    climate:"temperate",env:"mer",size:"grande",
+    lang_scores:{en:3,fr:0,es:0,pt:0},
+    profiles:{nomad:2,local:2,retire:1,backpacker:0},
+    match_tags:{pouvoir_achat:1,anime:2,opportunites:2,securite:3},
+    chronicle:"/chronicles/villes/chronicle-hambourg-allemagne-fr.html",
+    tags:{fr:["Port","Média","HafenCity","Elbe"],en:["Port","Media","HafenCity","Elbe"],es:["Puerto","Medios","HafenCity","Elba"]},
+    why:{fr:"Le plus grand port d'Europe. Elbe, médias, HafenCity futuriste.",en:"Europe's biggest port. Elbe, media, futuristic HafenCity.",es:"El mayor puerto de Europa. Elba, medios, HafenCity futurista."}
+  },
+  {
+    slug:"cologne",name:"Cologne",country:"Allemagne",flag:"🇩🇪",
+    studio:1000,cost_index:80,sun_days:165,safety:"Bon",
+    expat:"Forte",population:"1,1M",internet:"260 Mbps",
+    climate:"temperate",env:"ville",size:"grande",
+    lang_scores:{en:3,fr:0,es:0,pt:0},
+    profiles:{nomad:2,local:2,retire:1,backpacker:1},
+    match_tags:{pouvoir_achat:1,anime:2,opportunites:2,securite:2},
+    chronicle:"/chronicles/villes/chronicle-cologne-allemagne-fr.html",
+    tags:{fr:["Cathédrale","Carnaval","Convivial","Rhénanie"],en:["Cathedral","Carnival","Convivial","Rhineland"],es:["Catedral","Carnaval","Convivial","Renania"]},
+    why:{fr:"Ville la plus conviviale d'Allemagne. Cathédrale, carnaval, bière Kölsch.",en:"Germany's friendliest city. Cathedral, carnival, Kölsch beer.",es:"La ciudad más acogedora de Alemania. Catedral, carnaval, cerveza Kölsch."}
+  },
+  {
+    slug:"bogota",name:"Bogotá",country:"Colombie",flag:"🇨🇴",
+    studio:600,cost_index:40,sun_days:180,safety:"Moyen",
+    expat:"Forte",population:"8M",internet:"200 Mbps",
+    climate:"temperate",env:"montagne",size:"mega",
+    lang_scores:{en:1,fr:0,es:3,pt:0},
+    profiles:{nomad:3,local:3,retire:1,backpacker:1},
+    match_tags:{pouvoir_achat:2,anime:2,opportunites:3,securite:1},
+    chronicle:"/chronicles/villes/chronicle-bogota-colombie-fr.html",
+    tags:{fr:["Capitale","Culture","Altitude 2600m","Ciclovía"],en:["Capital","Culture","Altitude 2600m","Ciclovía"],es:["Capital","Cultura","Altitud 2600m","Ciclovía"]},
+    why:{fr:"Capitale andine à 2 600m. Culture intense, ciclovía, gastronomie — mais altitude et pluie.",en:"Andean capital at 2,600m. Intense culture, ciclovía, gastronomy — but altitude and rain.",es:"Capital andina a 2.600m. Cultura intensa, ciclovía, gastronomía — pero altitud y lluvia."}
+  },
+  {
+    slug:"cali",name:"Cali",country:"Colombie",flag:"🇨🇴",
+    studio:400,cost_index:32,sun_days:290,safety:"Moyen",
+    expat:"Forte",population:"2,2M",internet:"120 Mbps",
+    climate:"tropical",env:"ville",size:"grande",
+    lang_scores:{en:1,fr:0,es:3,pt:0},
+    profiles:{nomad:2,local:2,retire:1,backpacker:2},
+    match_tags:{pouvoir_achat:3,anime:3,opportunites:1,securite:1},
+    chronicle:"/chronicles/villes/chronicle-cali-colombie-fr.html",
+    tags:{fr:["Salsa","Chaleur","Budget mini","Feria de Cali"],en:["Salsa","Heat","Mini budget","Feria de Cali"],es:["Salsa","Calor","Presupuesto mini","Feria de Cali"]},
+    why:{fr:"La capitale mondiale de la salsa. 30°C, budget mini, énergie maximale.",en:"The world capital of salsa. 30°C, mini budget, maximum energy.",es:"La capital mundial de la salsa. 30°C, presupuesto mini, energía máxima."}
+  },
+  {
+    slug:"cartagena",name:"Cartagena",country:"Colombie",flag:"🇨🇴",
+    studio:650,cost_index:38,sun_days:32,safety:"Moyen",
+    expat:"Forte",population:"1,3M",internet:"120 Mbps",
+    climate:"tropical",env:"mer",size:"grande",
+    lang_scores:{en:1,fr:0,es:3,pt:0},
+    profiles:{nomad:2,local:1,retire:3,backpacker:2},
+    match_tags:{pouvoir_achat:2,anime:2,opportunites:1,securite:2},
+    chronicle:"/chronicles/villes/chronicle-cartagena-colombie-fr.html",
+    tags:{fr:["García Márquez","Caraïbes","UNESCO","Tourisme"],en:["García Márquez","Caribbean","UNESCO","Tourism"],es:["García Márquez","Caribe","UNESCO","Turismo"]},
+    why:{fr:"Le joyau des Caraïbes colombiennes. Ville fortifiée UNESCO, plages, García Márquez.",en:"The jewel of the Colombian Caribbean. UNESCO walled city, beaches, García Márquez.",es:"La joya del Caribe colombiano. Ciudad amurallada UNESCO, playas, García Márquez."}
+  },
+  {
+    slug:"hanoi",name:"Hanoï",country:"Vietnam",flag:"🇻🇳",
+    studio:550,cost_index:28,sun_days:180,safety:"Bon",
+    expat:"Forte",population:"~8M",internet:"180 Mbps",
+    climate:"temperate",env:"ville",size:"mega",
+    lang_scores:{en:1,fr:1,es:0,pt:0},
+    profiles:{nomad:3,local:2,retire:1,backpacker:2},
+    match_tags:{pouvoir_achat:3,anime:2,opportunites:1,securite:2},
+    chronicle:"/chronicles/villes/chronicle-hanoi-vietnam-fr.html",
+    tags:{fr:["4 saisons","Tradition","Bún chả","Budget bas"],en:["4 seasons","Tradition","Bún chả","Low budget"],es:["4 estaciones","Tradición","Bún chả","Presupuesto bajo"]},
+    why:{fr:"L'âme du Vietnam. 4 saisons, bún chả, lacs, culture millénaire.",en:"The soul of Vietnam. 4 seasons, bún chả, lakes, millennial culture.",es:"El alma de Vietnam. 4 estaciones, bún chả, lagos, cultura milenaria."}
+  },
+  {
+    slug:"ho-chi-minh",name:"Ho Chi Minh Ville",country:"Vietnam",flag:"🇻🇳",
+    studio:600,cost_index:32,sun_days:280,safety:"Bon",
+    expat:"Très forte",population:"9-13M",internet:"150 Mbps",
+    climate:"tropical",env:"ville",size:"mega",
+    lang_scores:{en:2,fr:0,es:0,pt:0},
+    profiles:{nomad:3,local:3,retire:1,backpacker:2},
+    match_tags:{pouvoir_achat:2,anime:3,opportunites:2,securite:1},
+    chronicle:"/chronicles/villes/chronicle-ho-chi-minh-vietnam-fr.html",
+    tags:{fr:["Mégapole","Business","Motorbikes","Nomad hub"],en:["Megacity","Business","Motorbikes","Nomad hub"],es:["Megaciudad","Negocios","Motos","Hub nómada"]},
+    why:{fr:"La locomotive économique du Vietnam. Chaotique, vibrante, ultra-abordable.",en:"Vietnam's economic engine. Chaotic, vibrant, ultra-affordable.",es:"El motor económico de Vietnam. Caótica, vibrante, ultra-asequible."}
+  },
+  {
+    slug:"da-nang",name:"Da Nang",country:"Vietnam",flag:"🇻🇳",
+    studio:450,cost_index:24,sun_days:260,safety:"Bon",
+    expat:"Forte",population:"1,2M",internet:"200 Mbps",
+    climate:"tropical",env:"mer",size:"grande",
+    lang_scores:{en:1,fr:0,es:0,pt:0},
+    profiles:{nomad:3,local:1,retire:2,backpacker:2},
+    match_tags:{pouvoir_achat:3,anime:1,opportunites:0,securite:2},
+    chronicle:"/chronicles/villes/chronicle-da-nang-vietnam-fr.html",
+    tags:{fr:["Plage","Nomad","Budget mini","Pont Dragon"],en:["Beach","Nomad","Mini budget","Dragon Bridge"],es:["Playa","Nómada","Presupuesto mini","Puente Dragón"]},
+    why:{fr:"La plage à 10 min du centre. Budget minimal, nomad-friendly, pont-dragon.",en:"Beach 10 min from downtown. Minimal budget, nomad-friendly, dragon bridge.",es:"La playa a 10 min del centro. Presupuesto mínimo, nomad-friendly, puente dragón."}
+  },
+  {
+    slug:"hoi-an",name:"Hội An",country:"Vietnam",flag:"🇻🇳",
+    studio:500,cost_index:28,sun_days:260,safety:"Excellent",
+    expat:"Forte",population:"150k",internet:"120 Mbps",
+    climate:"tropical",env:"mer",size:"petite",
+    lang_scores:{en:1,fr:0,es:0,pt:0},
+    profiles:{nomad:3,local:1,retire:3,backpacker:3},
+    match_tags:{pouvoir_achat:3,anime:1,opportunites:0,securite:3},
+    chronicle:"/chronicles/villes/chronicle-hoi-an-vietnam-fr.html",
+    tags:{fr:["Lanternes","UNESCO","Tailleur","Vélo"],en:["Lanterns","UNESCO","Tailor shops","Bicycle"],es:["Faroles","UNESCO","Sastre","Bicicleta"]},
+    why:{fr:"La ville aux lanternes. UNESCO, vélo, tailors, plage — magie pure.",en:"The lantern city. UNESCO, bicycle, tailor shops, beach — pure magic.",es:"La ciudad de los faroles. UNESCO, bicicleta, sastrería, playa — magia pura."}
+  },
+  {
+    slug:"kuala-lumpur",name:"Kuala Lumpur",country:"Malaisie",flag:"🇲🇾",
+    studio:500,cost_index:36,sun_days:260,safety:"Bon",
+    expat:"Très forte",population:"8M (métro)",internet:"350 Mbps",
+    climate:"tropical",env:"ville",size:"mega",
+    lang_scores:{en:3,fr:0,es:0,pt:0},
+    profiles:{nomad:3,local:3,retire:1,backpacker:1},
+    match_tags:{pouvoir_achat:2,anime:2,opportunites:2,securite:2},
+    chronicle:"/chronicles/villes/chronicle-kuala-lumpur-malaisie-fr.html",
+    tags:{fr:["Petronas","Anglophone","Budget Asie","MM2H visa"],en:["Petronas","English-speaking","Asia budget","MM2H visa"],es:["Petronas","Anglófono","Presupuesto Asia","Visado MM2H"]},
+    why:{fr:"Singapour à prix malaisien. Anglophone, hôpitaux privés, tours Petronas.",en:"Singapore at Malaysian prices. English-speaking, private hospitals, Petronas Towers.",es:"Singapur a precio malasio. Anglófono, hospitales privados, Torres Petronas."}
+  },
+  {
+    slug:"george-town",name:"George Town",country:"Malaisie",flag:"🇲🇾",
+    studio:350,cost_index:32,sun_days:260,safety:"Bon",
+    expat:"Forte",population:"1,8M (métro)",internet:"200 Mbps",
+    climate:"tropical",env:"mer",size:"grande",
+    lang_scores:{en:2,fr:0,es:0,pt:0},
+    profiles:{nomad:3,local:1,retire:3,backpacker:2},
+    match_tags:{pouvoir_achat:2,anime:1,opportunites:1,securite:2},
+    chronicle:"/chronicles/villes/chronicle-george-town-malaisie-fr.html",
+    tags:{fr:["Street art","Food","Penang","UNESCO"],en:["Street art","Food","Penang","UNESCO"],es:["Arte urbano","Comida","Penang","UNESCO"]},
+    why:{fr:"Capitale culinaire de la Malaisie. Street art, UNESCO, nourriture incroyable.",en:"Malaysia's culinary capital. Street art, UNESCO, incredible food.",es:"Capital culinaria de Malasia. Arte urbano, UNESCO, comida increíble."}
+  },
+  {
+    slug:"johor-bahru",name:"Johor Bahru",country:"Malaisie",flag:"🇲🇾",
+    studio:280,cost_index:28,sun_days:260,safety:"Moyen",
+    expat:"Forte",population:"1,8M (métro)",internet:"200 Mbps",
+    climate:"tropical",env:"ville",size:"grande",
+    lang_scores:{en:2,fr:0,es:0,pt:0},
+    profiles:{nomad:2,local:2,retire:1,backpacker:1},
+    match_tags:{pouvoir_achat:2,anime:1,opportunites:2,securite:2},
+    chronicle:"/chronicles/villes/chronicle-johor-bahru-malaisie-fr.html",
+    tags:{fr:["Singapour voisin","Budget","Iskandar","Pendulaire"],en:["Singapore next door","Budget","Iskandar","Commuter"],es:["Singapur al lado","Presupuesto","Iskandar","Pendular"]},
+    why:{fr:"Vivre à prix malaisien, travailler à Singapour. Le hack ultime d'Asie du Sud-Est.",en:"Live at Malaysian prices, work in Singapore. The ultimate Southeast Asian hack.",es:"Vivir a precio malasio, trabajar en Singapur. El hack definitivo del Sudeste Asiático."}
+  },
+  {
+    slug:"kota-kinabalu",name:"Kota Kinabalu",country:"Malaisie",flag:"🇲🇾",
+    studio:350,cost_index:30,sun_days:260,safety:"Bon",
+    expat:"Forte",population:"900k (métro)",internet:"180 Mbps",
+    climate:"tropical",env:"mer",size:"moyenne",
+    lang_scores:{en:2,fr:0,es:0,pt:0},
+    profiles:{nomad:2,local:1,retire:3,backpacker:2},
+    match_tags:{pouvoir_achat:3,anime:1,opportunites:1,securite:3},
+    chronicle:"/chronicles/villes/chronicle-kota-kinabalu-malaisie-fr.html",
+    tags:{fr:["Bornéo","Mont Kinabalu","Nature","Plongée"],en:["Borneo","Mount Kinabalu","Nature","Diving"],es:["Borneo","Monte Kinabalu","Naturaleza","Buceo"]},
+    why:{fr:"Porte de Bornéo. Mont Kinabalu, plongée, forêt tropicale — aventure totale.",en:"Gateway to Borneo. Mount Kinabalu, diving, rainforest — total adventure.",es:"Puerta de Borneo. Monte Kinabalu, buceo, selva tropical — aventura total."}
   }
 ];
 
@@ -1341,7 +2103,8 @@ const WM_DYN = {
     cc_sun: 'Soleil', cc_sun_unit: 'j/an',
     cc_expat: 'Communauté',
     cc_safety: 'Sécurité :',
-    cc_link: 'Chronicle complète →',
+    cc_link: 'Chronique complète →',
+    cc_coming: 'Chronique bientôt disponible',
     cc_match: 'match',
     unlock_badge: '100 % gratuit',
     unlock_title: '<em>2 villes</em> te correspondent encore mieux',
@@ -1367,6 +2130,7 @@ const WM_DYN = {
     cc_expat: 'Community',
     cc_safety: 'Safety:',
     cc_link: 'Full chronicle →',
+    cc_coming: 'Chronicle coming soon',
     cc_match: 'match',
     unlock_badge: '100% free',
     unlock_title: '<em>2 cities</em> match you even better',
@@ -1392,6 +2156,7 @@ const WM_DYN = {
     cc_expat: 'Comunidad',
     cc_safety: 'Seguridad:',
     cc_link: 'Crónica completa →',
+    cc_coming: 'Crónica próximamente',
     cc_match: 'match',
     unlock_badge: '100 % gratis',
     unlock_title: '<em>2 ciudades</em> encajan aún mejor contigo',
@@ -1563,7 +2328,9 @@ function buildCard(city, rank){
         ${tags}
         <span class="cc-tag ${safetyColor}">${d.cc_safety} ${citySafety}</span>
       </div>
-      <a href="${city.chronicle}" class="cc-link">${d.cc_link}</a>
+      ${city.chronicle.includes('/chronicles/villes/chronicle-')
+        ? `<a href="${city.chronicle}" class="cc-link">${d.cc_link}</a>`
+        : `<span class="cc-link cc-coming">${d.cc_coming}</span>`}
     </div>
     ${isBlurred ? `<div class="unlock-overlay">${d.unlock_overlay}</div>` : ''}
   </div>`;
