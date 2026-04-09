@@ -124,7 +124,16 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  </style>
+  .wigg-ressources{background:#f5f0e4;border:1px solid #c8c0a8;border-radius:12px;padding:1.25rem 1.5rem;margin:2rem 0}
+.wigg-ressources-title{font-size:15px;color:#1a5430;margin-bottom:1rem}
+.wigg-ressources-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:1rem}
+@media(max-width:600px){.wigg-ressources-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.wigg-res-card{background:#ece6d2;border:1px solid #c8c0a8;border-radius:8px;padding:10px;display:flex;flex-direction:column;gap:3px;text-decoration:none}
+.res-cat{font-size:10px;color:#7a6e5f;text-transform:uppercase;letter-spacing:0.06em}
+.res-name{font-size:13px;font-weight:bold;color:#1a5430}
+.res-desc{font-size:11px;color:#5a5046;line-height:1.4}
+.res-note{font-size:11px;color:#7a6e5f;font-style:italic;border-top:1px solid #c8c0a8;padding-top:0.75rem;margin-top:0.75rem}
+</style>
 </head>
 <body>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -342,6 +351,27 @@ details[open] summary::after{transform:rotate(45deg)}
 <script type="application/json" id="city-data">
 {"city_slug":"kyoto","city_name":"Kyoto","country_slug":"japan","country_name":"Japon","lang":"fr","updated":"2026-03","data":{"salary_local":{"value":"~$1,767/mois","hint":"Préfecture Kyoto 2025 · brut ~¥360k · net ~¥265k"},"studio":{"value":"~$433/mois","hint":"SUUMO 2025 · 1K ¥60-70k · Nakagyō/Shimogyo"},"utilities_monthly":{"value":"~$100","hint":"élec + gaz + eau + internet fibre ¥4,500"},"cost_index":{"value":"58","hint":"base 100 = Paris · plus accessible qu'Osaka"},"price_sqm":{"value":"~$5,500/m²","hint":"SUUMO 2025 · centre Kyoto achat"},"meal_mid":{"value":"~$7","hint":"restaurant local · ¥900-1,200"},"coffee":{"value":"~$4.67","hint":"salon de thé matcha Gion · ¥600-800"},"local_beer":{"value":"~$3.33","hint":"izakaya local · ¥450-550"},"transport_pass":{"value":"~$40-67/mois","hint":"bus + métro · forfait journée ¥700"},"internet_mbps":{"value":"1000 Mbps","hint":"fibre NURO · ¥4,500/mois"},"airport_access":{"value":"Correct","hint":"KIX 40 min + ITM Itami via navette"},"healthcare":{"value":"Excellent","hint":"système public + privé · niveau Tokyo"},"safety":{"value":"Exceptionnel","hint":"top 5 mondial · criminalité quasi nulle"},"pollution":{"value":"Faible","hint":"très bonne qualité de l'air · collines protectrices"},"sun_days":{"value":"~200/an","hint":"étés chauds · hivers doux · neige rare"},"english_level":{"value":"Faible","hint":"faible · zones touristiques mieux"},"expat_scene":{"value":"Petite","hint":"artistes, académiques, créatifs · communauté qualitative"},"population":{"value":"1.46M","hint":"ville · agglomération 2,8M"}}}
 </script>
+
+<div class="orn"><span>· · ✦ · ·</span></div>
+<div class="wigg-ressources">
+  <p class="wigg-ressources-title">S'installer à Kyoto — ressources utiles</p>
+  <div class="wigg-ressources-grid">
+    <a href="https://safetywing.com/?referenceID=26499930&utm_source=26499930&utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="wigg-res-card">
+      <span class="res-cat">Assurance</span><span class="res-name">SafetyWing</span><span class="res-desc">Couverture santé expat dès 45$/mois</span>
+    </a>
+    <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="wigg-res-card">
+      <span class="res-cat">Transferts</span><span class="res-name">Wise</span><span class="res-desc">Taux réel, sans frais cachés</span>
+    </a>
+    <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="wigg-res-card">
+      <span class="res-cat">Carte SIM</span><span class="res-name">Airalo</span><span class="res-desc">eSIM dès l'avion, 15+ opérateurs</span>
+    </a>
+    <a href="https://go.nordvpn.net/aff_c?offer_id=15&aff_id=144301&url_id=902" rel="noopener sponsored" target="_blank" class="wigg-res-card">
+      <span class="res-cat">VPN</span><span class="res-name">NordVPN</span><span class="res-desc">Accès sécurisé depuis l'étranger</span>
+    </a>
+  </div>
+  <div class="stay22-widget" data-s22-lmaid="69d7b51e0be4f6cad50fba14"></div>
+  <p class="res-note">Liens partenaires — WiggMap touche une commission si vous réservez, sans surcoût pour vous.</p>
+</div>
 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>

@@ -121,7 +121,16 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  </style>
+  .wigg-ressources{background:#f5f0e4;border:1px solid #c8c0a8;border-radius:12px;padding:1.25rem 1.5rem;margin:2rem 0}
+.wigg-ressources-title{font-size:15px;color:#1a5430;margin-bottom:1rem}
+.wigg-ressources-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:1rem}
+@media(max-width:600px){.wigg-ressources-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.wigg-res-card{background:#ece6d2;border:1px solid #c8c0a8;border-radius:8px;padding:10px;display:flex;flex-direction:column;gap:3px;text-decoration:none}
+.res-cat{font-size:10px;color:#7a6e5f;text-transform:uppercase;letter-spacing:0.06em}
+.res-name{font-size:13px;font-weight:bold;color:#1a5430}
+.res-desc{font-size:11px;color:#5a5046;line-height:1.4}
+.res-note{font-size:11px;color:#7a6e5f;font-style:italic;border-top:1px solid #c8c0a8;padding-top:0.75rem;margin-top:0.75rem}
+</style>
 </head>
 <body>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -334,6 +343,27 @@ details[open] summary::after{transform:rotate(45deg)}
 </div>
 
 <script type="application/json" id="city-data">{"city_slug":"mexico-city","city_name":"Mexico City","country_slug":"mexico","country_name":"Mexico","lang":"en","updated":"2026-03","data":{"salary_local":{"value":"~$950/mo","hint":"INEGI 2025 · middle class CDMX · ~17.7 MXN/$"},"studio":{"value":"~$950/mo","hint":"Inmuebles24 Oct. 2025 · 1BR Roma Norte/Condesa"},"utilities_monthly":{"value":"~$70","hint":"electricity + water + 200Mbps fibre internet"},"cost_index":{"value":"52","hint":"base 100 = Paris · WiggMap reference"},"price_sqm":{"value":"~$2,200/m²","hint":"Inmuebles24 2025 · Roma Norte purchase median"},"meal_mid":{"value":"~$5","hint":"full set lunch at neighbourhood fonda"},"coffee":{"value":"~$3","hint":"specialty café Roma Norte"},"local_beer":{"value":"~$3","hint":"Corona 50cl pint local bar"},"transport_pass":{"value":"~$25/mo","hint":"MetroBús + Metro pass · Uber alt $4/trip"},"internet_mbps":{"value":"~300 Mbps","hint":"Totalplay / Izzi fibre · Ookla 2025"},"airport_access":{"value":"Excellent","hint":"AICM + NAICM · Latin America major hub"},"healthcare":{"value":"Good","hint":"private excellent · ~$50–80/consultation"},"safety":{"value":"Medium","hint":"varies by colonia · standard precautions apply"},"pollution":{"value":"Medium","hint":"IQAir 2025 · variable · poor in winter"},"sun_days":{"value":"~228/yr","hint":"altitude 2,240m · dry season Oct–Apr"},"english_level":{"value":"Medium","hint":"good Roma/Condesa/Polanco · medium elsewhere"},"expat_scene":{"value":"Very strong","hint":"massive nomad community since 2020"},"population":{"value":"9.2M / 22M","hint":"city · metro · largest W. Hemisphere city"}}}</script>
+
+<div class="orn"><span>· · ✦ · ·</span></div>
+<div class="wigg-ressources">
+  <p class="wigg-ressources-title">Moving to Mexico City — useful resources</p>
+  <div class="wigg-ressources-grid">
+    <a href="https://safetywing.com/?referenceID=26499930&utm_source=26499930&utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="wigg-res-card">
+      <span class="res-cat">Insurance</span><span class="res-name">SafetyWing</span><span class="res-desc">Expat health cover from $45/mo</span>
+    </a>
+    <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="wigg-res-card">
+      <span class="res-cat">Transfers</span><span class="res-name">Wise</span><span class="res-desc">Real exchange rate, no hidden fees</span>
+    </a>
+    <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="wigg-res-card">
+      <span class="res-cat">SIM card</span><span class="res-name">Airalo</span><span class="res-desc">eSIM from the plane, 15+ carriers</span>
+    </a>
+    <a href="https://go.nordvpn.net/aff_c?offer_id=15&aff_id=144301&url_id=902" rel="noopener sponsored" target="_blank" class="wigg-res-card">
+      <span class="res-cat">VPN</span><span class="res-name">NordVPN</span><span class="res-desc">Secure access from abroad</span>
+    </a>
+  </div>
+  <div class="stay22-widget" data-s22-lmaid="69d7b51e0be4f6cad50fba14"></div>
+  <p class="res-note">Partner links — WiggMap earns a commission if you sign up, at no extra cost to you.</p>
+</div>
 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
