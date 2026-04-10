@@ -321,7 +321,6 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--ink);background:var(--
 
         var payload = {
           id: session.user.id,
-          email: session.user.email,
           username: username,
           avatar_url: avatarDataUrl || (session.user.user_metadata || {}).avatar_url || null,
           country_origin: selectedCountryOrigin,
@@ -351,6 +350,91 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--ink);background:var(--
 
   // ── Boot ──
   loadSB(function() {
+    // Check session first — redirect if not logged in
+    sb.auth.getSession().then(function(res) {
+      var session = res.data.session;
+      if (!session) {
+        // Maybe just confirmed email — wait for auth state change briefly
+        var timeout = setTimeout(function() {
+          document.querySelector('.ob-wrap').innerHTML =
+            '<div style="text-align:center;padding:60px 20px">' +
+            '<h2 style="font-family:Fraunces,serif;margin-bottom:12px">Connexion requise</h2>' +
+            '<p style="color:#8a7f6a;margin-bottom:20px">Connecte-toi d\'abord pour créer ton profil.</p>' +
+            '<a href="/" style="padding:10px 24px;background:#1a5430;color:#fff;border-radius:2px;text-decoration:none;font-weight:600">Retour à l\'accueil</a></div>';
+        }, 2000);
+
+        sb.auth.onAuthStateChange(function(event, s) {
+          if (s && s.user) {
+            clearTimeout(timeout);
+            initOnboarding(s);
+          }
+        });
+        return;
+      }
+
+      // Check if onboarding already done — redirect to account
+      sb.from('profiles').select('onboarding_done').eq('id', session.user.id).single().then(function(pRes) {
+        if (pRes.data && pRes.data.onboarding_done) {
+          var params = new URLSearchParams(window.location.search);
+          var from = params.get('from');
+          if (from === '/mon-compte.html') {
+            // Editing profile — allow re-entry, prefill existing data
+            initOnboarding(session);
+            prefillExistingProfile(session.user.id);
+          } else {
+            window.location.href = from || '/mon-compte.html';
+          }
+          return;
+        }
+        initOnboarding(session);
+      });
+    });
+  });
+
+  function prefillExistingProfile(userId) {
+    sb.from('profiles').select('*').eq('id', userId).single().then(function(res) {
+      if (!res.data) return;
+      var p = res.data;
+      if (p.username) document.getElementById('obUsername').value = p.username;
+      if (p.country_origin) {
+        document.getElementById('obCountryOrigin').value = p.country_origin;
+        selectedCountryOrigin = p.country_origin;
+      }
+      if (p.life_status) {
+        selectedLifeStatus = p.life_status;
+        document.querySelectorAll('#obLifeStatus .ob-pill').forEach(function(pill) {
+          if (pill.dataset.val === p.life_status) pill.classList.add('selected');
+        });
+      }
+      if (p.country_current) {
+        document.getElementById('obCountryCurrent').value = p.country_current;
+        selectedCountryCurrent = p.country_current;
+      }
+      if (p.country_target) {
+        document.getElementById('obCountryTarget').value = p.country_target;
+        selectedCountryTarget = p.country_target;
+      }
+      if (p.sector) {
+        selectedSector = p.sector;
+        document.querySelectorAll('#obSector .ob-pill').forEach(function(pill) {
+          if (pill.dataset.val === p.sector) pill.classList.add('selected');
+        });
+      }
+      if (p.languages && p.languages.length) {
+        selectedLanguages.length = 0;
+        p.languages.forEach(function(l) { selectedLanguages.push(l); });
+        document.querySelectorAll('#obLanguages .ob-pill-multi').forEach(function(pill) {
+          if (p.languages.indexOf(pill.dataset.val) !== -1) pill.classList.add('selected');
+        });
+      }
+      if (p.avatar_url) {
+        document.getElementById('obAvatarPreview').innerHTML = '<img src="' + p.avatar_url + '" alt="">';
+        avatarDataUrl = p.avatar_url;
+      }
+    });
+  }
+
+  function initOnboarding(session) {
     loadCountries(function() {
       setupCountryInput('obCountryOrigin', 'obCountryOriginList', function(slug){ selectedCountryOrigin = slug; });
       setupCountryInput('obCountryCurrent', 'obCountryCurrentList', function(slug){ selectedCountryCurrent = slug; });
@@ -360,13 +444,9 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--ink);background:var(--
       setupMultiPills('obLanguages', selectedLanguages);
       setupAvatar();
       setupSubmit();
-
-      // Prefill from session
-      sb.auth.getSession().then(function(res) {
-        prefillFromSession(res.data.session);
-      });
+      prefillFromSession(session);
     });
-  });
+  }
 })();
 </script>
 </body>

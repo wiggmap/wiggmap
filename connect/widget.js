@@ -324,9 +324,17 @@
         errEl.textContent = res.error.message;
         return;
       }
-      // Redirect to onboarding
-      localStorage.setItem('wigg_pending_signup', email);
-      window.location.href = '/onboarding.html?from=' + encodeURIComponent(window.location.href);
+      // Check if email confirmation is required
+      if (res.data.user && res.data.user.identities && res.data.user.identities.length === 0) {
+        errEl.textContent = LANG === 'fr' ? 'Un email de confirmation a été envoyé — vérifie ta boîte mail.' : 'Confirmation email sent — check your inbox.';
+        return;
+      }
+      // If session exists (no email confirm), redirect to onboarding
+      if (res.data.session) {
+        window.location.href = '/onboarding.html?from=' + encodeURIComponent(window.location.href);
+      } else {
+        errEl.textContent = LANG === 'fr' ? 'Vérifie ta boîte mail pour confirmer ton compte.' : 'Check your inbox to confirm your account.';
+      }
     });
   }
 
@@ -509,15 +517,25 @@
     });
   }
 
-  /* ── Upsert profile ── */
+  /* ── Upsert profile (only if not exists — don't overwrite onboarding data) ── */
   function upsertProfile(user) {
     var meta = user.user_metadata || {};
-    sb.from('profiles').upsert({
-      id: user.id,
-      email: user.email,
-      username: meta.full_name || meta.name || user.email.split('@')[0],
-      avatar_url: meta.avatar_url || meta.picture || ''
-    }, { onConflict: 'id' }).then(function () {});
+    var uid = user.id;
+    // Check if profile already exists
+    sb.from('profiles').select('id').eq('id', uid).then(function (res) {
+      if (res.data && res.data.length > 0) return; // profile exists, don't overwrite
+      // First login — create minimal profile
+      sb.from('profiles').insert({
+        id: uid,
+        username: meta.full_name || meta.name || user.email.split('@')[0],
+        avatar_url: meta.avatar_url || meta.picture || '',
+        onboarding_done: false
+      }).then(function (r) {
+        if (r.error && r.error.code !== '23505') { // ignore duplicate key
+          console.error('[wcc] profile insert error', r.error);
+        }
+      });
+    });
   }
 
   /* ── Set user from session ── */
