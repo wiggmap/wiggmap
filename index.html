@@ -456,40 +456,138 @@ function getLang(){return(localStorage.getItem('wigg_lang')||'en').toLowerCase()
 <script>
 (function(){
   var CDATA=null,_lang=getLang();
+  var _ul=['en','fr','es'].indexOf(_lang)>=0?_lang:'en';
   var _cf=_lang==='fr'?'data/countries.fr.json':_lang==='es'?'data/countries.es.json':'data/countries.json';
   async function loadDB(){if(CDATA)return;var r=await fetch(_cf);if(!r.ok)return;CDATA=await r.json()}
   function norm(s){return(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+
+  // Search extras: cities, chronicles, tools (same index as header.js)
+  var IDX_EXTRAS=[
+    {n:"Abu Dhabi",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-abu-dhabi-emirats-{L}.html"},
+    {n:"Ankara",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-ankara-turquie-{L}.html"},
+    {n:"Antalya",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-antalya-turquie-{L}.html"},
+    {n:"Athens",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-athenes-grece-{L}.html"},
+    {n:"Austin",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-austin-usa-{L}.html"},
+    {n:"Bali",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-bali-indonesia-{L}.html"},
+    {n:"Bangkok",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-bangkok-thailand-{L}.html"},
+    {n:"Barcelona",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-barcelone-espagne-{L}.html"},
+    {n:"Bariloche",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-bariloche-argentine-{L}.html"},
+    {n:"Berlin",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-berlin-allemagne-{L}.html"},
+    {n:"Bogotá",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-bogota-colombie-{L}.html"},
+    {n:"Buenos Aires",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-buenos-aires-argentine-{L}.html"},
+    {n:"Cairns",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-cairns-australia-{L}.html"},
+    {n:"Calgary",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-calgary-canada-{L}.html"},
+    {n:"Cali",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-cali-colombie-{L}.html"},
+    {n:"Cancún",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-cancun-mexico-{L}.html"},
+    {n:"Cartagena",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-cartagena-colombie-{L}.html"},
+    {n:"Chiang Mai",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-chiang-mai-thailand-{L}.html"},
+    {n:"Cologne",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-cologne-allemagne-{L}.html"},
+    {n:"Córdoba",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-cordoba-argentine-{L}.html"},
+    {n:"Da Nang",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-da-nang-vietnam-{L}.html"},
+    {n:"Dubai",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-dubai-emirats-{L}.html"},
+    {n:"Faro",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-faro-portugal-{L}.html"},
+    {n:"Florianópolis",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-florianopolis-bresil-{L}.html"},
+    {n:"Fukuoka",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-fukuoka-japan-{L}.html"},
+    {n:"Funchal",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-funchal-portugal-{L}.html"},
+    {n:"George Town",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-george-town-malaisie-{L}.html"},
+    {n:"Guadalajara",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-guadalajara-mexico-{L}.html"},
+    {n:"Hamburg",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-hambourg-allemagne-{L}.html"},
+    {n:"Hanoi",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-hanoi-vietnam-{L}.html"},
+    {n:"Heraklion",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-heraklion-grece-{L}.html"},
+    {n:"Ho Chi Minh City",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-ho-chi-minh-vietnam-{L}.html"},
+    {n:"Hội An",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-hoi-an-vietnam-{L}.html"},
+    {n:"Hua Hin",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-hua-hin-thailand-{L}.html"},
+    {n:"Istanbul",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-istanbul-turquie-{L}.html"},
+    {n:"Izmir",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-izmir-turquie-{L}.html"},
+    {n:"Jakarta",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-jakarta-indonesia-{L}.html"},
+    {n:"Johor Bahru",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-johor-bahru-malaisie-{L}.html"},
+    {n:"Kota Kinabalu",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-kota-kinabalu-malaisie-{L}.html"},
+    {n:"Kuala Lumpur",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-kuala-lumpur-malaisie-{L}.html"},
+    {n:"Kyoto",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-kyoto-japan-{L}.html"},
+    {n:"Chania",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-la-canee-grece-{L}.html"},
+    {n:"Lisbon",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-lisbonne-portugal-{L}.html"},
+    {n:"Los Angeles",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-los-angeles-usa-{L}.html"},
+    {n:"Lyon",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-lyon-france-{L}.html"},
+    {n:"Madrid",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-madrid-espagne-{L}.html"},
+    {n:"Málaga",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-malaga-espagne-{L}.html"},
+    {n:"Marseille",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-marseille-france-{L}.html"},
+    {n:"Medellín",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-medellin-colombie-{L}.html"},
+    {n:"Melbourne",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-melbourne-australia-{L}.html"},
+    {n:"Mendoza",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-mendoza-argentine-{L}.html"},
+    {n:"Mexico City",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-mexico-city-mexico-{L}.html"},
+    {n:"Miami",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-miami-usa-{L}.html"},
+    {n:"Monterrey",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-monterrey-mexico-{L}.html"},
+    {n:"Montreal",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-montreal-canada-{L}.html"},
+    {n:"Munich",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-munich-allemagne-{L}.html"},
+    {n:"New York",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-new-york-usa-{L}.html"},
+    {n:"Nice",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-nice-france-{L}.html"},
+    {n:"Osaka",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-osaka-japan-{L}.html"},
+    {n:"Paris",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-paris-france-{L}.html"},
+    {n:"Perth",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-perth-australia-{L}.html"},
+    {n:"Phuket",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-phuket-thailand-{L}.html"},
+    {n:"Porto",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-porto-portugal-{L}.html"},
+    {n:"Ras Al Khaimah",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-ras-al-khaimah-emirats-{L}.html"},
+    {n:"Rio de Janeiro",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-rio-bresil-{L}.html"},
+    {n:"Salvador de Bahia",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-salvador-bresil-{L}.html"},
+    {n:"São Paulo",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-sao-paulo-bresil-{L}.html"},
+    {n:"Sharjah",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-sharjah-emirats-{L}.html"},
+    {n:"Surabaya",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-surabaya-indonesia-{L}.html"},
+    {n:"Sydney",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-sydney-australia-{L}.html"},
+    {n:"Thessaloniki",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-thessalonique-grece-{L}.html"},
+    {n:"Tokyo",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-tokyo-japan-{L}.html"},
+    {n:"Toronto",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-toronto-canada-{L}.html"},
+    {n:"Valencia",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-valence-espagne-{L}.html"},
+    {n:"Vancouver",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-vancouver-canada-{L}.html"},
+    {n:"Yogyakarta",i:"🏙️",t:"ville",u:"/chronicles/villes/chronicle-yogyakarta-indonesia-{L}.html"},
+    {n:"WiggMatch",i:"💚",t:"tool",u:"/wiggmatch.html"},
+    {n:"Quiz",i:"🎮",t:"tool",u:"/ggg/wigggame.html"},
+    {n:"Compare",i:"⚖️",t:"tool",u:"/compare.html"},
+    {n:"Globe",i:"🌍",t:"tool",u:"/globe.html"}
+  ];
+
   function search(q,max){
-    if(!CDATA||!q)return[];var out=[],keys=Object.keys(CDATA);
-    for(var i=0;i<keys.length&&out.length<max;i++){var k=keys[i],c=CDATA[k],name=c.name||k;if(norm(name).indexOf(q)===0)out.push({slug:k,name:name,flag:c.flag||''})}
-    if(out.length<max){for(var i=0;i<keys.length&&out.length<max;i++){var k=keys[i],c=CDATA[k],name=c.name||k;if(norm(name).indexOf(q)>0&&!out.find(function(x){return x.slug===k}))out.push({slug:k,name:name,flag:c.flag||''})}}
+    if(!q)return[];
+    var out=[];
+    // Countries
+    if(CDATA){var keys=Object.keys(CDATA);
+      for(var i=0;i<keys.length&&out.length<max;i++){var k=keys[i],c=CDATA[k],name=c.name||k;
+        if(norm(name).indexOf(q)===0)out.push({name:name,icon:(c.flag||''),url:'/countries/'+encodeURIComponent(k)+'-'+_ul+'.html',type:''})}
+      for(var i=0;i<keys.length&&out.length<max;i++){var k=keys[i],c=CDATA[k],name=c.name||k;
+        if(norm(name).indexOf(q)>0&&!out.find(function(x){return x.name===name}))out.push({name:name,icon:(c.flag||''),url:'/countries/'+encodeURIComponent(k)+'-'+_ul+'.html',type:''})}
+    }
+    // Extras: cities, chronicles, tools
+    for(var j=0;j<IDX_EXTRAS.length&&out.length<max;j++){var ex=IDX_EXTRAS[j];
+      if(norm(ex.n).indexOf(q)>=0&&!out.find(function(x){return x.name===ex.n}))
+        out.push({name:ex.n,icon:ex.i,url:ex.u.replace('{L}',_ul),type:ex.t==='ville'?'ville':ex.t==='tool'?'':'article'})}
     return out;
   }
-  function go(slug){var lg=(localStorage.getItem('wigg_lang')||'en').toLowerCase();var ul=['en','fr','es'].indexOf(lg)>=0?lg:'en';window.location.href='/countries/'+encodeURIComponent(slug)+'-'+ul+'.html'}
+  function goUrl(url){window.location.href=url}
   var inp=document.getElementById('searchInput'),sug=document.getElementById('searchSug'),form=document.getElementById('searchForm');
   var list=[],ai=-1,debT;
   function renderSug(items){
     list=items;ai=-1;
     if(!items.length){sug.style.display='none';sug.innerHTML='';return}
-    sug.innerHTML=items.map(function(it,i){return '<div style="padding:10px 16px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:8px;color:#fff;transition:background .1s" onmouseover="this.style.background=\'rgba(255,255,255,.1)\'" onmouseout="this.style.background=\'none\'" data-i="'+i+'"><span style="font-size:16px">'+it.flag+'</span>'+it.name+'</div>'}).join('');
+    sug.innerHTML=items.map(function(it,i){
+      var tag=it.type?'<span style="font-size:9px;color:rgba(255,255,255,.35);margin-left:6px;text-transform:uppercase;letter-spacing:.06em">'+it.type+'</span>':'';
+      return '<div style="padding:10px 16px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:8px;color:#fff;transition:background .1s" onmouseover="this.style.background=\'rgba(255,255,255,.1)\'" onmouseout="this.style.background=\'none\'" data-i="'+i+'"><span style="font-size:16px">'+it.icon+'</span>'+it.name+tag+'</div>'
+    }).join('');
     sug.style.display='block';
-    // Position sug under search
     var sw=document.querySelector('.search-wrap');
     if(sw){sug.style.position='absolute';sug.style.top=sw.offsetTop+sw.offsetHeight+6+'px';sug.style.left=sw.offsetLeft+'px';sug.style.width=sw.offsetWidth+'px'}
   }
   if(inp){
-    inp.addEventListener('input',function(){clearTimeout(debT);debT=setTimeout(async function(){await loadDB();renderSug(search(norm(inp.value),8))},80)});
+    inp.addEventListener('input',function(){clearTimeout(debT);debT=setTimeout(async function(){await loadDB();renderSug(search(norm(inp.value),10))},80)});
     inp.addEventListener('keydown',function(e){
       if(sug.style.display!=='block')return;var max=list.length-1;
       if(e.key==='ArrowDown'){e.preventDefault();ai=ai<max?ai+1:0}
       if(e.key==='ArrowUp'){e.preventDefault();ai=ai>0?ai-1:max}
-      if(e.key==='Enter'&&ai>=0&&list[ai]){e.preventDefault();go(list[ai].slug)}
+      if(e.key==='Enter'&&ai>=0&&list[ai]){e.preventDefault();goUrl(list[ai].url)}
       if(e.key==='Escape')sug.style.display='none';
     });
   }
-  if(sug)sug.addEventListener('click',function(e){var it=e.target.closest('[data-i]');if(it){var i=Number(it.dataset.i);if(list[i])go(list[i].slug)}});
+  if(sug)sug.addEventListener('click',function(e){var it=e.target.closest('[data-i]');if(it){var i=Number(it.dataset.i);if(list[i])goUrl(list[i].url)}});
   document.addEventListener('click',function(e){if(!e.target.closest('.search-wrap')&&!e.target.closest('.hero-sug'))sug.style.display='none'});
-  if(form)form.addEventListener('submit',async function(e){e.preventDefault();await loadDB();var q=norm(inp.value);if(!q)return;if(ai>=0&&list[ai])return go(list[ai].slug);var res=search(q,1);if(res.length)go(res[0].slug);else alert(window.__NO_MATCH||'No match.')});
+  if(form)form.addEventListener('submit',async function(e){e.preventDefault();await loadDB();var q=norm(inp.value);if(!q)return;if(ai>=0&&list[ai])return goUrl(list[ai].url);var res=search(q,1);if(res.length)goUrl(res[0].url);else alert(window.__NO_MATCH||'No match.')});
 
   // Random
   var rndBtn=document.getElementById('btnRandom');
