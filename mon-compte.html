@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mon compte — WiggMap</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="icon" href="/assets/favicon.ico">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#1d7f48">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--green:#1a5430;--green-light:#d4e8d0;--ink:#171714;--ink-soft:#54554e;--bg:#f5f0e8;--paper:#fffdf8;--line:rgba(23,23,20,.10);--border:#c8bfaa;--muted:#8a7f6a;--ghost:#b0a898}
+    body{font-family:'Inter',system-ui,sans-serif;color:var(--ink);background:var(--bg);min-height:100vh}
+    main{max-width:680px;margin:0 auto;padding:40px 24px 80px}
+    .loading{text-align:center;padding:80px 0;color:var(--muted);font-size:14px}
+
+    /* Profile header */
+    .profile-head{text-align:center;margin-bottom:40px}
+    .profile-avatar{width:72px;height:72px;border-radius:50%;background:var(--green);color:#f5f0e8;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;margin:0 auto 16px;overflow:hidden;border:3px solid #fff;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+    .profile-avatar img{width:100%;height:100%;object-fit:cover}
+    .profile-name{font-family:'Fraunces',Georgia,serif;font-size:28px;font-weight:800;color:var(--ink);margin-bottom:4px}
+    .profile-email{font-size:13px;color:var(--ghost);margin-bottom:6px}
+    .profile-since{font-size:12px;color:var(--muted)}
+
+    /* Sections */
+    .section-title{font-family:'Fraunces',Georgia,serif;font-size:18px;font-weight:700;color:var(--ink);margin:36px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+
+    /* Saved cities */
+    .cities-grid{display:flex;flex-wrap:wrap;gap:8px}
+    .city-pill{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:var(--paper);border:1px solid var(--border);border-radius:2px;font-size:13px;font-weight:600;color:var(--ink);text-decoration:none;transition:border-color .15s}
+    .city-pill:hover{border-color:var(--green);color:var(--green)}
+    .empty-msg{font-size:14px;color:var(--ghost);font-style:italic}
+
+    /* Posts */
+    .post-item{background:var(--paper);border:1px solid var(--line);border-radius:2px;padding:14px 18px;margin-bottom:10px}
+    .post-item-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}
+    .post-city{font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.06em}
+    .post-date{font-size:11px;color:var(--ghost)}
+    .post-type-badge{display:inline-block;font-size:9px;font-weight:700;padding:2px 6px;border-radius:2px;text-transform:uppercase;letter-spacing:.04em}
+    .post-type-badge.temoignage{background:#d4e8d0;color:#1a5430}
+    .post-type-badge.flash{background:#ead9b0;color:#7a4f10}
+    .post-type-badge.question{background:#e8d0d4;color:#7a1a2e}
+    .post-content{font-family:'Fraunces',Georgia,serif;font-size:14px;line-height:1.6;color:var(--ink-soft)}
+
+    /* Logout */
+    .logout-wrap{text-align:center;margin-top:48px;padding-top:24px;border-top:1px solid var(--line)}
+    .logout-btn{padding:10px 28px;border:1px solid var(--border);border-radius:2px;background:var(--paper);font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;transition:all .15s}
+    .logout-btn:hover{border-color:#dc2626;color:#dc2626}
+
+    @media(max-width:500px){
+      main{padding:28px 16px 60px}
+      .profile-name{font-size:24px}
+    }
+  </style>
+</head>
+<body>
+<div id="siteHeader"></div>
+<script src="/data/header.js"></script>
+
+<main>
+  <div id="loading" class="loading">Chargement…</div>
+  <div id="content" style="display:none">
+
+    <div class="profile-head">
+      <div class="profile-avatar" id="avatar"></div>
+      <div class="profile-name" id="userName"></div>
+      <div class="profile-email" id="userEmail"></div>
+      <div class="profile-since" id="userSince"></div>
+    </div>
+
+    <h2 class="section-title">Mes villes sauvegardées</h2>
+    <div class="cities-grid" id="savedCities"></div>
+
+    <h2 class="section-title">Mes contributions</h2>
+    <div id="userPosts"></div>
+
+    <div class="logout-wrap">
+      <button class="logout-btn" id="logoutBtn">Se déconnecter</button>
+    </div>
+  </div>
+</main>
+
+<div id="siteFooter"></div>
+<script src="/data/footer.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+(async function(){
+  // ── REMPLACE CES 2 LIGNES ──
+  const SUPABASE_URL  = 'https://tkctreoftezvbfejhbto.supabase.co';
+  const SUPABASE_KEY  = 'sb_publishable_lAKWBnp2nbfgb2w5Uj55aQ_aD6fBWUb';
+
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  const { data: { session } } = await sb.auth.getSession();
+
+  if (!session) {
+    window.location.href = '/';
+    return;
+  }
+
+  const user = session.user;
+  const lang = (localStorage.getItem('wigg_lang') || 'fr').toLowerCase();
+  const ul = ['en','fr','es'].includes(lang) ? lang : 'fr';
+
+  // ── Profile ──
+  const name = user.user_metadata?.full_name || user.email?.split('@')[0] || 'User';
+  const avatarUrl = user.user_metadata?.avatar_url || '';
+  const initials = name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+  const createdAt = new Date(user.created_at).toLocaleDateString(lang === 'fr' ? 'fr-FR' : lang === 'es' ? 'es-ES' : 'en-US', { year:'numeric', month:'long' });
+
+  document.getElementById('avatar').innerHTML = avatarUrl
+    ? '<img src="' + avatarUrl + '" alt="">'
+    : initials;
+  document.getElementById('userName').textContent = name;
+  document.getElementById('userEmail').textContent = user.email;
+  document.getElementById('userSince').textContent = 'Membre depuis ' + createdAt;
+
+  // ── Saved cities ──
+  const { data: savedCities } = await sb
+    .from('saved_cities')
+    .select('city_slug, created_at')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false });
+
+  const citiesEl = document.getElementById('savedCities');
+  if (savedCities && savedCities.length) {
+    citiesEl.innerHTML = savedCities.map(c => {
+      const name = c.city_slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+      const url = '/chronicles/villes/chronicle-' + c.city_slug + '-' + ul + '.html';
+      return '<a class="city-pill" href="' + url + '">' + name + '</a>';
+    }).join('');
+  } else {
+    // Fallback: check localStorage
+    let local = [];
+    try { local = JSON.parse(localStorage.getItem('wigg_saved_cities') || '[]'); } catch(e){}
+    if (local.length) {
+      citiesEl.innerHTML = local.map(slug => {
+        const name = slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        return '<a class="city-pill" href="/chronicles/villes/chronicle-' + slug + '-' + ul + '.html">' + name + '</a>';
+      }).join('');
+    } else {
+      citiesEl.innerHTML = '<p class="empty-msg">Aucune ville sauvegardée pour le moment.</p>';
+    }
+  }
+
+  // ── Posts ──
+  const { data: posts } = await sb
+    .from('posts')
+    .select('city_slug, post_type, content, created_at')
+    .eq('author_id', user.id)
+    .order('created_at', { ascending: false });
+
+  const postsEl = document.getElementById('userPosts');
+  if (posts && posts.length) {
+    postsEl.innerHTML = posts.map(p => {
+      const city = p.city_slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+      const date = new Date(p.created_at).toLocaleDateString(lang === 'fr' ? 'fr-FR' : lang === 'es' ? 'es-ES' : 'en-US');
+      const type = p.post_type || 'post';
+      return '<div class="post-item">' +
+        '<div class="post-item-head">' +
+          '<span class="post-city">' + city + '</span>' +
+          '<span class="post-type-badge ' + type + '">' + type + '</span>' +
+        '</div>' +
+        '<div class="post-content">' + (p.content || '').substring(0, 200) + '</div>' +
+        '<div class="post-date">' + date + '</div>' +
+      '</div>';
+    }).join('');
+  } else {
+    postsEl.innerHTML = '<p class="empty-msg">Aucune contribution pour le moment.</p>';
+  }
+
+  // ── Show content ──
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('content').style.display = 'block';
+
+  // ── Logout ──
+  document.getElementById('logoutBtn').addEventListener('click', async () => {
+    await sb.auth.signOut();
+    window.location.href = '/';
+  });
+})();
+</script>
+</body>
+</html>
