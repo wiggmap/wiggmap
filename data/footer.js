@@ -152,40 +152,6 @@
   };
 })();
 
-// ── Back to chronicles menu link (only on chronicle pages) ──
-(function() {
-  var path = window.location.pathname;
-  if (!path.includes('/chronicles/')) return;
-  // Don't show on the chronicle index pages themselves
-  if (/\/chronicles-[a-z]+\.html$/i.test(path) || /\/indexchronicles\.html$/i.test(path)) return;
-
-  var lang = (localStorage.getItem('wigg_lang') || 'en').toLowerCase();
-  if (['en','fr','es'].indexOf(lang) === -1) lang = 'en';
-  var labels = {
-    en: '\u2190 Back to chronicles',
-    fr: '\u2190 Retour aux chroniques',
-    es: '\u2190 Volver a las cr\u00f3nicas'
-  };
-
-  function inject() {
-    if (document.getElementById('wmBackLink')) return;
-    var bandeau = document.querySelector('.bandeau');
-    if (!bandeau) return;
-
-    var wrap = document.createElement('div');
-    wrap.id = 'wmBackLink';
-    wrap.style.cssText = 'max-width:900px;margin:0 auto;padding:18px 28px 0';
-    wrap.innerHTML = '<a href="/indexchronicles.html" style="display:inline-flex;align-items:center;gap:6px;font-family:Inter,system-ui,sans-serif;font-size:13px;font-weight:600;color:#1a5430;text-decoration:none;transition:opacity .15s" onmouseover="this.style.opacity=0.7" onmouseout="this.style.opacity=1">' + labels[lang] + '</a>';
-    bandeau.parentNode.insertBefore(wrap, bandeau.nextSibling);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', inject);
-  } else {
-    inject();
-  }
-})();
-
 // ── PWA back-button viewport fix ──
 window.addEventListener('pageshow', function(e) {
   if (e.persisted) window.scrollTo(0, 0);
