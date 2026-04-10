@@ -193,7 +193,7 @@
       av.alt = '';
       av.onerror = function(){ this.style.display='none'; };
       row.appendChild(av);
-      row.appendChild(el('span', 'wcc-user-name', currentUser.display_name || currentUser.email));
+      row.appendChild(el('span', 'wcc-user-name', currentUser.username || currentUser.email));
       var out = el('button', 'wcc-logout-btn', t.logout);
       out.onclick = doLogout;
       row.appendChild(out);
@@ -393,7 +393,7 @@
     postsEl.innerHTML = '<div class="wcc-loading">\u2026</div>';
     console.log('[wcc] loading posts for slug:', SLUG);
     sb.from('posts')
-      .select('*, profiles(display_name, avatar_url)')
+      .select('*, profiles(username, avatar_url)')
       .eq('slug', SLUG)
       .order('useful_count', { ascending: false })
       .order('created_at', { ascending: false })
@@ -435,7 +435,7 @@
     av.src = profile.avatar_url || '';
     av.alt = '';
     head.appendChild(av);
-    head.appendChild(el('span', 'wcc-post-author', profile.display_name || 'Anon'));
+    head.appendChild(el('span', 'wcc-post-author', profile.username || 'Anon'));
     var badge = el('span', 'wcc-post-type', t[post.type] || post.type);
     badge.dataset.type = post.type;
     head.appendChild(badge);
@@ -515,7 +515,7 @@
     sb.from('profiles').upsert({
       id: user.id,
       email: user.email,
-      display_name: meta.full_name || meta.name || user.email.split('@')[0],
+      username: meta.full_name || meta.name || user.email.split('@')[0],
       avatar_url: meta.avatar_url || meta.picture || ''
     }, { onConflict: 'id' }).then(function () {});
   }
@@ -528,10 +528,10 @@
       currentUser = {
         id: u.id,
         email: u.email,
-        display_name: meta.full_name || meta.name || u.email.split('@')[0],
+        username: meta.full_name || meta.name || u.email.split('@')[0],
         avatar_url: meta.avatar_url || meta.picture || ''
       };
-      console.log('[wcc] user set:', currentUser.display_name, currentUser.id);
+      console.log('[wcc] user set:', currentUser.username, currentUser.id);
       upsertProfile(u);
     } else {
       currentUser = null;
