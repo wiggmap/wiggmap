@@ -92,21 +92,10 @@
 
     /* ══ HERO ══ */
     .hero { width: min(1120px, 94vw); margin: 22px auto 0; border-radius: 26px; overflow: hidden; background: linear-gradient(135deg, #0a1628 0%, #102040 50%, #0a2218 100%); border: 1px solid rgba(255,255,255,.08); box-shadow: 0 10px 40px rgba(0,0,0,.22); }
-    .hero-grid { display: grid; grid-template-columns: 1.2fr .8fr; align-items: stretch; min-height: 340px; }
-    .hero-copy { padding: 38px 38px 34px; display: flex; flex-direction: column; justify-content: center; }
-    .kicker { display: flex; align-items: center; gap: 10px; font-family: 'Poppins', sans-serif; letter-spacing: .22em; text-transform: uppercase; font-size: 11px; color: rgba(255,255,255,.52); margin-bottom: 12px; }
-    .kicker .dot { width: 7px; height: 7px; border-radius: 999px; background: var(--green); box-shadow: 0 0 0 4px rgba(34,197,94,.2); }
-    .series-badge { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #059669, #10b981); color: #fff; font-family: 'Poppins', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 7px 14px; border-radius: 999px; margin-bottom: 16px; box-shadow: 0 4px 14px rgba(5,150,105,.4); width: fit-content; }
-    .hero h1 { font-family: 'Fraunces', serif; font-weight: 700; font-size: clamp(26px, 3.4vw, 44px); line-height: 1.07; margin: 0 0 14px; letter-spacing: -.01em; color: #ffffff; }
-    .hero p.hero-desc { font-family: 'Poppins', sans-serif; font-size: 15px; line-height: 1.68; color: rgba(255,255,255,.70); margin: 0 0 20px; max-width: 60ch; }
-    .hero-badges { display: flex; flex-wrap: wrap; gap: 8px; }
-    .hero .badge { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 11px; color: rgba(255,255,255,.68); border: 1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.07); padding: 6px 12px; border-radius: 999px; }
-    .hero-art { display: flex; align-items: center; justify-content: center; padding: 28px 20px; background: rgba(0,0,0,.15); }
     .checklist-preview { display: flex; flex-direction: column; gap: 9px; width: 100%; }
     .cp-item { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); border-radius: 8px; padding: 10px 14px; display: flex; align-items: center; gap: 10px; }
     .cp-icon { font-size: 1.1rem; flex-shrink: 0; }
     .cp-label { font-family: 'Poppins', sans-serif; font-size: .72rem; font-weight: 600; color: rgba(255,255,255,.82); }
-    @media (max-width: 880px) { .hero-grid { grid-template-columns: 1fr; } .hero-copy { padding: 28px 22px 20px; } .hero-art { padding: 0 22px 24px; } }
 
     /* ══ LAYOUT ══ */
     .article-body { max-width: 860px; margin: 0 auto; padding: 52px 24px 80px; }
@@ -258,18 +247,15 @@
     .sb-link { flex-shrink: 0; font-family: 'Poppins', sans-serif; font-size: .75rem; font-weight: 600; padding: 8px 18px; border-radius: 999px; text-decoration: none; white-space: nowrap; color: rgba(255,255,255,.5); background: transparent; border: 1px solid rgba(255,255,255,.1); transition: all .2s; }
     .sb-link:hover { color: rgba(255,255,255,.85); background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.18); }
     .sb-active { color: #fff !important; background: rgba(34,197,94,.18) !important; border-color: rgba(34,197,94,.5) !important; }
-  /* HERO — city-chronicle style */
 .hero{position:relative;min-height:380px;display:flex;align-items:flex-end;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat}
-.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%)}
 .hero-inner{position:relative;z-index:1;width:100%;max-width:900px;margin:0 auto;padding:0 28px 40px}
-.hero-eyebrow{display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--g);margin-bottom:14px}
-.hero-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--g)}
-.hero-title{font-family:var(--serif);font-size:clamp(32px,5.5vw,56px);font-weight:900;line-height:1.05;color:#fff;letter-spacing:-0.02em;margin-bottom:12px;max-width:20ch}
-.hero-sub{font-family:var(--sans);font-size:15px;color:rgba(255,255,255,0.55);max-width:54ch;line-height:1.65}
+.hero-eyebrow{display:flex;align-items:center;gap:8px;font-family:var(--serif);font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.hero-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--accent)}
+.hero-title{font-family:var(--display);font-size:clamp(32px,5.5vw,56px);font-weight:900;line-height:1.05;color:#fff;letter-spacing:-0.02em;margin-bottom:12px;max-width:20ch}
+.hero-sub{font-family:var(--serif);font-size:15px;color:rgba(255,255,255,0.55);max-width:54ch;line-height:1.65}
 @media(max-width:720px){.hero{min-height:300px}.hero-inner{padding:0 16px 28px}.hero-title{font-size:clamp(26px,7vw,40px)}.hero-sub{font-size:13px}}
 .bandeau{background:var(--ink);border-top:1px solid rgba(255,255,255,0.06);padding:14px 0}
-.bandeau-inner{max-width:900px;margin:0 auto;padding:0 28px;display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:12px;color:rgba(255,255,255,0.35);flex-wrap:wrap}
+.bandeau-inner{max-width:900px;margin:0 auto;padding:0 28px;display:flex;align-items:center;gap:8px;font-family:var(--serif);font-size:12px;color:rgba(255,255,255,0.35);flex-wrap:wrap}
 .bandeau-inner strong{color:rgba(255,255,255,0.55);font-weight:500}
 .bandeau-inner span.dot{opacity:0.25}
 .hero-mosaic{position:absolute;inset:0;display:grid;gap:2px;overflow:hidden}
@@ -298,6 +284,7 @@
 .aff-social{font-size:10px;color:#b0a898}
 .aff-footer{margin-top:8px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
 @media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:12px 14px}}
+/* HERO — mosaic style */
 </style>
 </head>
 <body>
@@ -893,7 +880,5 @@
     navigator.serviceWorker.register('../sw.js').catch(function(){});
   }
 </script>
-<link rel="stylesheet" href="/connect/widget.css">
-<script src="/connect/widget.js"></script>
 </body>
 </html>

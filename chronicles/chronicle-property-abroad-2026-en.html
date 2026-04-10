@@ -44,16 +44,9 @@
     *{box-sizing:border-box;margin:0;padding:0;}
     body{font-family:var(--serif);color:var(--text);background:var(--bg);line-height:1.8;}
 
-    .hero{background:linear-gradient(160deg,#050d1a 0%,#0d1f3c 50%,#0a1a10 100%);padding:60px 24px 52px;position:relative;overflow:hidden;}
     .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 800px 500px at 80% 40%,rgba(34,197,94,.06),transparent 60%),radial-gradient(ellipse 600px 400px at 15% 70%,rgba(99,102,241,.04),transparent 60%);}
-    .hero-inner{max-width:860px;margin:0 auto;position:relative;z-index:1;}
-    .kicker{display:inline-flex;align-items:center;gap:8px;font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:14px;}
-    .kicker .dot{width:6px;height:6px;border-radius:50%;background:var(--green);}
-    .hero h1{font-family:var(--display);font-weight:700;font-size:clamp(26px,4vw,50px);line-height:1.06;color:#fff;margin:0 0 18px;}
-    .hero h1 em{color:rgba(255,200,80,.9);font-style:normal;}
     .hero-desc{font-family:var(--sans);font-size:.92rem;color:rgba(255,255,255,.6);margin-bottom:22px;line-height:1.65;max-width:640px;}
     .badges{display:flex;flex-wrap:wrap;gap:8px;}
-    .badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--sans);font-size:11px;font-weight:600;padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.11);color:rgba(255,255,255,.65);}
 
     .content{max-width:860px;margin:0 auto;padding:48px 24px 80px;}
 
@@ -142,18 +135,15 @@
     .link-card:hover{border-color:var(--green);color:var(--green-dark);}
 
     .sources{margin-top:44px;padding-top:20px;border-top:1px solid var(--border);font-family:var(--sans);font-size:11px;color:var(--muted);line-height:1.65;}
-  /* HERO — city-chronicle style */
 .hero{position:relative;min-height:380px;display:flex;align-items:flex-end;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat}
-.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%)}
 .hero-inner{position:relative;z-index:1;width:100%;max-width:900px;margin:0 auto;padding:0 28px 40px}
-.hero-eyebrow{display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--g);margin-bottom:14px}
-.hero-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--g)}
-.hero-title{font-family:var(--serif);font-size:clamp(32px,5.5vw,56px);font-weight:900;line-height:1.05;color:#fff;letter-spacing:-0.02em;margin-bottom:12px;max-width:20ch}
-.hero-sub{font-family:var(--sans);font-size:15px;color:rgba(255,255,255,0.55);max-width:54ch;line-height:1.65}
+.hero-eyebrow{display:flex;align-items:center;gap:8px;font-family:var(--serif);font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.hero-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--accent)}
+.hero-title{font-family:var(--display);font-size:clamp(32px,5.5vw,56px);font-weight:900;line-height:1.05;color:#fff;letter-spacing:-0.02em;margin-bottom:12px;max-width:20ch}
+.hero-sub{font-family:var(--serif);font-size:15px;color:rgba(255,255,255,0.55);max-width:54ch;line-height:1.65}
 @media(max-width:720px){.hero{min-height:300px}.hero-inner{padding:0 16px 28px}.hero-title{font-size:clamp(26px,7vw,40px)}.hero-sub{font-size:13px}}
 .bandeau{background:var(--ink);border-top:1px solid rgba(255,255,255,0.06);padding:14px 0}
-.bandeau-inner{max-width:900px;margin:0 auto;padding:0 28px;display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:12px;color:rgba(255,255,255,0.35);flex-wrap:wrap}
+.bandeau-inner{max-width:900px;margin:0 auto;padding:0 28px;display:flex;align-items:center;gap:8px;font-family:var(--serif);font-size:12px;color:rgba(255,255,255,0.35);flex-wrap:wrap}
 .bandeau-inner strong{color:rgba(255,255,255,0.55);font-weight:500}
 .bandeau-inner span.dot{opacity:0.25}
 .hero-mosaic{position:absolute;inset:0;display:grid;gap:2px;overflow:hidden}
@@ -182,6 +172,7 @@
 .aff-social{font-size:10px;color:#b0a898}
 .aff-footer{margin-top:8px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
 @media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:12px 14px}}
+/* HERO — mosaic style */
 </style>
 </head>
 <body>
@@ -900,7 +891,5 @@
 <script src="../data/header.js"></script>
 <script src="../data/footer.js"></script>
 <script src="../sw.js"></script>
-<link rel="stylesheet" href="/connect/widget.css">
-<script src="/connect/widget.js"></script>
 </body>
 </html>
