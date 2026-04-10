@@ -280,8 +280,6 @@
       options: { redirectTo: window.location.href }
     });
   }
-    });
-  }
 
   async function migrateLocalStorage(userId) {
     const saved = getSaved();
