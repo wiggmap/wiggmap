@@ -236,39 +236,52 @@
     .sb-link { flex-shrink: 0; font-family: 'Poppins', sans-serif; font-size: .75rem; font-weight: 600; padding: 8px 18px; border-radius: 999px; text-decoration: none; white-space: nowrap; color: rgba(255,255,255,.5); background: transparent; border: 1px solid rgba(255,255,255,.1); transition: all .2s; }
     .sb-link:hover { color: rgba(255,255,255,.85); background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.18); }
     .sb-active { color: #fff !important; background: rgba(34,197,94,.18) !important; border-color: rgba(34,197,94,.5) !important; }
-  </style>
+  /* HERO — city-chronicle style */
+.hero{position:relative;min-height:380px;display:flex;align-items:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%)}
+.hero-inner{position:relative;z-index:1;width:100%;max-width:900px;margin:0 auto;padding:0 28px 40px}
+.hero-eyebrow{display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--g);margin-bottom:14px}
+.hero-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--g)}
+.hero-title{font-family:var(--serif);font-size:clamp(32px,5.5vw,56px);font-weight:900;line-height:1.05;color:#fff;letter-spacing:-0.02em;margin-bottom:12px;max-width:20ch}
+.hero-sub{font-family:var(--sans);font-size:15px;color:rgba(255,255,255,0.55);max-width:54ch;line-height:1.65}
+@media(max-width:720px){.hero{min-height:300px}.hero-inner{padding:0 16px 28px}.hero-title{font-size:clamp(26px,7vw,40px)}.hero-sub{font-size:13px}}
+.bandeau{background:var(--ink);border-top:1px solid rgba(255,255,255,0.06);padding:14px 0}
+.bandeau-inner{max-width:900px;margin:0 auto;padding:0 28px;display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:12px;color:rgba(255,255,255,0.35);flex-wrap:wrap}
+.bandeau-inner strong{color:rgba(255,255,255,0.55);font-weight:500}
+.bandeau-inner span.dot{opacity:0.25}
+.aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
+.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
+.aff-strip-list{display:flex;flex-direction:column;gap:10px}
+.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
+.aff-strip-item:hover{color:#fff}
+.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
+.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
+.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+</style>
 </head>
 <body>
 
 <div id="siteHeader"></div>
 <script src="../data/header.js"></script>
 
-<div class="hero">
-  <div class="hero-grid">
-    <div class="hero-copy">
-      <div class="kicker"><span class="dot"></span> Chronicle · Étudier à l'étranger 2026</div>
-      <div class="series-badge">✦ Partie 3 / 4 · Amériques, Maghreb &amp; Golfe</div>
-      <h1>Étudier en 2026 hors des sentiers balisés — Buenos Aires, Montréal, Tbilisi, Maroc, Dubaï</h1>
-      <p class="hero-desc">L'université gratuite à Buenos Aires. La médecine abordable à Tbilisi. Le français au Maroc à 3h de vol d'Europe. Les outsiders qui changent une trajectoire — et que presque personne ne montre.</p>
-      <div class="hero-badges">
-        <span class="badge">● 6 destinations</span>
-        <span class="badge">🆓 UBA = gratuite</span>
-        <span class="badge">🩺 Médecine en anglais</span>
-        <span class="badge">⏱ ~18 min de lecture</span>
-        <span class="badge">✓ Mis à jour mars 2026</span>
-      </div>
-    </div>
-    <div class="hero-art">
-      <div class="dest-mosaic">
-        <a href="#buenos-aires" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇦🇷</span><span class="city">Buenos Aires</span></a>
-        <a href="#montreal" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇨🇦</span><span class="city">Montréal</span></a>
-        <a href="#monterrey" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇲🇽</span><span class="city">Monterrey</span></a>
-        <a href="#tbilisi" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇬🇪</span><span class="city">Tbilisi</span></a>
-        <a href="#maroc" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇲🇦</span><span class="city">Maroc</span></a>
-        <a href="#dubai" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇦🇪</span><span class="city">Dubaï</span></a>
-      </div>
-    </div>
+<section class="hero">
+  <div class="hero-bg" style="background-image:url('/assets/hero-canada.jpg')"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Chronique · WiggMap</div>
+    <h1 class="hero-title">Étudier en 2026 hors des sentiers balisés — Buenos Aires, Montréal, Tbilisi, Maroc, Dubaï</h1>
+    <p class="hero-sub">UBA gratuite pour tous, Montréal francophone, Monterrey, Tbilisi médecine EN, Maroc en français, Dubaï — 6 destinations hors Erasmus pour étudier en 2026. Budge</p>
   </div>
+</section>
+<div class="bandeau">
+  <div class="bandeau-inner">
+    <strong>Par Wigg</strong>
+    <span class="dot">·</span>
+    <span>2026</span>
+    <span class="dot">·</span>
+    <span>WiggMap</span>
+  </div>
+</div>
 </div>
 
 <nav class="serie-bar"><div class="sb-wrap"><a href="/chronicles/chronicle-etudier-europe-erasmus-2026-fr.html" class="sb-link">1 · Europe</a><a href="/chronicles/chronicle-etudier-asie-pacifique-2026-fr.html" class="sb-link">2 · Asie-Pacifique</a><a href="/chronicles/chronicle-etudier-ameriques-afrique-2026-fr.html" class="sb-link sb-active">3 · Amériques & Afrique</a><a href="/chronicles/chronicle-etudier-etranger-guide-pratique-2026-fr.html" class="sb-link">4 · Guide pratique</a></div></nav>
@@ -303,6 +316,25 @@
   </nav>
 
   <p class="lead">Il y a des destinations qui n'entrent pas dans les cases habituelles. Pas Erasmus — elles sont trop loin. Pas "les grandes universités asiatiques" — elles ne sont pas dans les classements grand public. Mais ce sont souvent celles qui changent le plus une trajectoire. L'Université de Buenos Aires est entièrement gratuite pour les étrangers — un fait que la plupart des conseillers d'orientation ignorent, quel que soit le pays. La Géorgie forme des médecins en anglais pour moins de 7 000 USD par an avec des diplômes reconnus dans l'UE. Montréal offre à un étudiant francophone ce que Toronto ne peut pas : une vraie double identité culturelle, des frais réduits et un marché du travail continental immédiatement accessible.</p>
+
+    <div class="aff-strip">
+      <div class="aff-strip-title">Préparer ton expatriation</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
+        </a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">💸 Transferts — Wise</span><span class="aff-strip-desc">Taux de change réel, sans frais cachés</span>
+        </a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span>
+        </a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span>
+        </a>
+      </div>
+      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+    </div>
 
   <p>Cette troisième partie couvre les destinations qui sont absentes des brochures standard — non pas parce qu'elles ne méritent pas d'y figurer, mais parce que les circuits d'information universitaires traditionnels ne les ont pas encore intégrées. Pour certaines d'entre elles, c'est une opportunité directe : moins de concurrence sur les dossiers, des universités qui cherchent activement des étudiants européens, et une expérience réellement différente de celle que tout le monde vit en même temps.</p>
 

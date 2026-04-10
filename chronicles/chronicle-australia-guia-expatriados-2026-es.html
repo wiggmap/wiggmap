@@ -141,29 +141,51 @@
     details p{margin:12px 0 0;font-size:17px;line-height:1.82;color:rgba(15,31,24,.78);}
     @media(max-width:860px){.hero-grid{grid-template-columns:1fr;}.hero-copy{padding:28px 22px 18px;}.region-grid,.pros-cons,.visa-cards,.profile-grid{grid-template-columns:1fr;}.toc ol{column-count:1;}}
     @media(max-width:560px){.dbox-grid{grid-template-columns:1fr;}.dbox-cell{border-right:none;}.table-wrap table{min-width:520px;}article p{font-size:17px;}.stat-row{flex-direction:column;}}
-  </style>
+  /* HERO — city-chronicle style */
+.hero{position:relative;min-height:380px;display:flex;align-items:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%)}
+.hero-inner{position:relative;z-index:1;width:100%;max-width:900px;margin:0 auto;padding:0 28px 40px}
+.hero-eyebrow{display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--g);margin-bottom:14px}
+.hero-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--g)}
+.hero-title{font-family:var(--serif);font-size:clamp(32px,5.5vw,56px);font-weight:900;line-height:1.05;color:#fff;letter-spacing:-0.02em;margin-bottom:12px;max-width:20ch}
+.hero-sub{font-family:var(--sans);font-size:15px;color:rgba(255,255,255,0.55);max-width:54ch;line-height:1.65}
+@media(max-width:720px){.hero{min-height:300px}.hero-inner{padding:0 16px 28px}.hero-title{font-size:clamp(26px,7vw,40px)}.hero-sub{font-size:13px}}
+.bandeau{background:var(--ink);border-top:1px solid rgba(255,255,255,0.06);padding:14px 0}
+.bandeau-inner{max-width:900px;margin:0 auto;padding:0 28px;display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:12px;color:rgba(255,255,255,0.35);flex-wrap:wrap}
+.bandeau-inner strong{color:rgba(255,255,255,0.55);font-weight:500}
+.bandeau-inner span.dot{opacity:0.25}
+.aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
+.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
+.aff-strip-list{display:flex;flex-direction:column;gap:10px}
+.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
+.aff-strip-item:hover{color:#fff}
+.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
+.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
+.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+</style>
 </head>
 <body>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div id="siteHeader"></div>
 
 <section class="hero">
-  <div class="hero-grid">
-    <div class="hero-copy">
-      <div class="kicker"><span class="dot"></span>Crónica · Análisis &amp; Reportaje de Campo</div>
-      <div class="country-badge">🇦🇺 Australia — Guía Expatriados 2026</div>
-      <h1>Las Crónicas Wigg</h1>
-      <p>Australia paga bien, ofrece una calidad de vida excepcional — y hay que ganársela. Aquí está la versión completa, sin filtros: visas, salarios reales, regiones, trampas y oportunidades.</p>
-      <div class="hero-badges">
-        <span class="badge">Visa Skills in Demand</span>
-        <span class="badge">Salarios 2026</span>
-        <span class="badge">Sídney vs Perth</span>
-        <span class="badge">WHV &amp; RP</span>
-      </div>
-    </div>
-    <div class="hero-art"><img src="../assets/chronicles.png" alt="Las Crónicas Wigg — Australie"></div>
+  <div class="hero-bg" style="background-image:url('/assets/hero-australia.jpg')"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Crónica · WiggMap</div>
+    <h1 class="hero-title">Las Crónicas Wigg</h1>
+    <p class="hero-sub">Guía completa expatriación Australia 2026: nuevas visas Skills in Demand, salarios reales, costo de vida en Sídney, Melbourne, Brisbane y Perth, oportunidades p</p>
   </div>
 </section>
+<div class="bandeau">
+  <div class="bandeau-inner">
+    <strong>Par Wigg</strong>
+    <span class="dot">·</span>
+    <span>2026</span>
+    <span class="dot">·</span>
+    <span>WiggMap</span>
+  </div>
+</div>
 
 <main class="wrap">
 <section class="paper">
@@ -202,6 +224,25 @@
     <p class="lead">
       Veinticinco millones de personas en un continente del tamaño de Europa. Costas interminables, desiertos de color ocre, selvas tropicales y ciudades ultramodernas. Australia es una de las pocas naciones del mundo que ha logrado combinar crecimiento económico sostenido, inmigración masiva y un nivel de vida entre los más altos del planeta — manteniéndose deliberadamente difícil de acceder. Esta paradoja está en el centro de esta guía: Australia te quiere, pero te elige.
     </p>
+
+    <div class="aff-strip">
+      <div class="aff-strip-title">Prepara tu mudanza</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span><span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
+        </a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">💸 Transferencias — Wise</span><span class="aff-strip-desc">Tipo de cambio real, sin comisiones ocultas</span>
+        </a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM desde el avión, 15+ operadores</span>
+        </a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Acceso seguro desde el extranjero</span>
+        </a>
+      </div>
+      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+    </div>
 
     <p>
       En 2026, Australia atraviesa una fase de importante transformación migratoria. El gobierno Albanese, reelegido en mayo de 2025, aceleró la reforma del sistema de visas iniciada con el informe Nixon de 2023. La visa Skills in Demand (SID), lanzada el 7 de diciembre de 2024, marca el cambio más significativo para los trabajadores cualificados en una década. Al mismo tiempo, los topes migratorios se revisaron tras los récords históricos de 2022-2023, los plazos de tramitación se han alargado en varias categorías, y la crisis de la vivienda en las grandes ciudades sigue pesando sobre el atractivo real del país para los recién llegados.

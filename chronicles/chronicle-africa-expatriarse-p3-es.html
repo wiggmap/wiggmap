@@ -124,7 +124,29 @@
     .link-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:14px}
     .link-card{display:block;padding:12px 16px;background:#fff;border:1px solid rgba(0,0,0,.09);border-radius:10px;text-decoration:none;color:var(--ink);font-size:13px;font-family:var(--sans);font-weight:500;transition:all .15s}
     .link-card:hover{border-color:var(--green);color:var(--green-dark)}
-  </style>
+  /* HERO — city-chronicle style */
+.hero{position:relative;min-height:380px;display:flex;align-items:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%)}
+.hero-inner{position:relative;z-index:1;width:100%;max-width:900px;margin:0 auto;padding:0 28px 40px}
+.hero-eyebrow{display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--g);margin-bottom:14px}
+.hero-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--g)}
+.hero-title{font-family:var(--serif);font-size:clamp(32px,5.5vw,56px);font-weight:900;line-height:1.05;color:#fff;letter-spacing:-0.02em;margin-bottom:12px;max-width:20ch}
+.hero-sub{font-family:var(--sans);font-size:15px;color:rgba(255,255,255,0.55);max-width:54ch;line-height:1.65}
+@media(max-width:720px){.hero{min-height:300px}.hero-inner{padding:0 16px 28px}.hero-title{font-size:clamp(26px,7vw,40px)}.hero-sub{font-size:13px}}
+.bandeau{background:var(--ink);border-top:1px solid rgba(255,255,255,0.06);padding:14px 0}
+.bandeau-inner{max-width:900px;margin:0 auto;padding:0 28px;display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:12px;color:rgba(255,255,255,0.35);flex-wrap:wrap}
+.bandeau-inner strong{color:rgba(255,255,255,0.55);font-weight:500}
+.bandeau-inner span.dot{opacity:0.25}
+.aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
+.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
+.aff-strip-list{display:flex;flex-direction:column;gap:10px}
+.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
+.aff-strip-item:hover{color:#fff}
+.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
+.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
+.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+</style>
 </head>
 <body>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -132,26 +154,22 @@
 <script src="../data/header.js"></script>
 
 <section class="hero">
-  <div class="hero-grid">
-    <div class="hero-copy">
-      <div class="kicker"><span class="dot"></span>Chronicle · Analysis &amp; Insight</div>
-      <div class="series-badge">🌍 Serie · Vivir en África &nbsp;·&nbsp; Parte 3 / 4</div>
-      <h1>África del Este y <em>del Sur</em>:<br>la África que más te sorprenderá</h1>
-      <p class="hero-deck">Kenia, Ruanda, Tanzania, Madagascar, Sudáfrica, Namibia, Botsuana. Safaris, lagunas, ciudades ultramodernas y fiscalidad crypto — el África subsahariana sin los tópicos.</p>
-      <div class="hero-badges">
-
-      <span class="badge">⏱ ~24 min de lectura</span>
-      <span class="badge">🗺️ 8 países analizados</span>
-      <span class="badge green-b">✓ Actualizado marzo 2026</span>
-      <span class="badge">Análisis WiggMap</span>
-    
-      </div>
-    </div>
-    <div class="hero-art">
-      <img src="/assets/hero-kenya.jpg" alt="Africa">
-    </div>
+  <div class="hero-bg" style="background-image:url('/assets/hero-kenya.jpg')"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Crónica · WiggMap</div>
+    <h1 class="hero-title">África del Este y  del Sur : la África que más te sorprenderá</h1>
+    <p class="hero-sub">Kenia, Ruanda, Tanzania, Zanzíbar, Namibia, Sudáfrica, Botsuana, Madagascar: calidad de vida real, costes en dólares, visados, crypto y verdad sobre el terreno.</p>
   </div>
 </section>
+<div class="bandeau">
+  <div class="bandeau-inner">
+    <strong>Par Wigg</strong>
+    <span class="dot">·</span>
+    <span>2026</span>
+    <span class="dot">·</span>
+    <span>WiggMap</span>
+  </div>
+</div>
 <div class="series-strip">
   <div class="series-strip-inner">
     <span class="series-strip-label">Serie: África 2026</span>
@@ -188,6 +206,25 @@
   <article>
 
     <p class="lead">La primera vez que aterrizas en Nairobi de noche, te golpea lo mismo: las luces. Luces por todas partes, una ciudad que desborda su perímetro hacia el horizonte, con esa misma energía concentrada de todas las capitales emergentes que saben que se están convirtiendo en algo. Luego, a la mañana siguiente, a cuarenta minutos en coche, el Parque Nacional de Nairobi — el único parque nacional del mundo dentro de los límites de una capital — con jirafas caminando en silueta frente a los rascacielos. El África Oriental es así: juega en dos líneas temporales simultáneamente, la ultramoderna y la ancestral, y lo hace mejor que ningún otro lugar del mundo.</p>
+
+    <div class="aff-strip">
+      <div class="aff-strip-title">Prepara tu mudanza</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span><span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
+        </a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">💸 Transferencias — Wise</span><span class="aff-strip-desc">Tipo de cambio real, sin comisiones ocultas</span>
+        </a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM desde el avión, 15+ operadores</span>
+        </a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Acceso seguro desde el extranjero</span>
+        </a>
+      </div>
+      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+    </div>
 
     <p>Esta parte cubre destinos que no tienen nada que ver entre sí — una Ruanda que recuerda a Singapur en versión africana, un Zanzíbar que huele a vainilla y especias, una Namibia casi vacía bajo un cielo estrellado sin contaminación lumínica, una Sudáfrica con sus dolorosas contradicciones. Lo que tienen en común: todos ofrecen algo excepcional para el expatriado que sabe por qué va.</p>
 

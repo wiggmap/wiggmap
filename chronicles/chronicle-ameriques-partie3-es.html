@@ -128,29 +128,51 @@
     .series-strip-link{font-size:13px;font-weight:500;color:#059669;text-decoration:none;padding:5px 14px;border-radius:999px;background:rgba(255,255,255,.75);border:1px solid rgba(5,150,105,.22);transition:background .15s,border-color .15s;}
     .series-strip-link:hover{background:#fff;border-color:#059669;}
     @media(max-width:600px){.series-strip-inner{gap:10px;}.series-strip-label{border-right:none;padding-right:0;}}
-  </style>
+  /* HERO — city-chronicle style */
+.hero{position:relative;min-height:380px;display:flex;align-items:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%)}
+.hero-inner{position:relative;z-index:1;width:100%;max-width:900px;margin:0 auto;padding:0 28px 40px}
+.hero-eyebrow{display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--g);margin-bottom:14px}
+.hero-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--g)}
+.hero-title{font-family:var(--serif);font-size:clamp(32px,5.5vw,56px);font-weight:900;line-height:1.05;color:#fff;letter-spacing:-0.02em;margin-bottom:12px;max-width:20ch}
+.hero-sub{font-family:var(--sans);font-size:15px;color:rgba(255,255,255,0.55);max-width:54ch;line-height:1.65}
+@media(max-width:720px){.hero{min-height:300px}.hero-inner{padding:0 16px 28px}.hero-title{font-size:clamp(26px,7vw,40px)}.hero-sub{font-size:13px}}
+.bandeau{background:var(--ink);border-top:1px solid rgba(255,255,255,0.06);padding:14px 0}
+.bandeau-inner{max-width:900px;margin:0 auto;padding:0 28px;display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:12px;color:rgba(255,255,255,0.35);flex-wrap:wrap}
+.bandeau-inner strong{color:rgba(255,255,255,0.55);font-weight:500}
+.bandeau-inner span.dot{opacity:0.25}
+.aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
+.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
+.aff-strip-list{display:flex;flex-direction:column;gap:10px}
+.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
+.aff-strip-item:hover{color:#fff}
+.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
+.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
+.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+</style>
 </head>
 <body>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div id="siteHeader"></div>
 
 <section class="hero">
-  <div class="hero-grid">
-    <div class="hero-copy">
-      <div class="kicker"><span class="dot"></span>Crónica · Análisis &amp; Datos</div>
-      <div class="series-badge">🏝 Serie Américas — Parte 3/3</div>
-      <h1>Las Crónicas Wigg</h1>
-      <p>La sección editorial de WiggMap: análisis en profundidad, escritura vívida y datos concretos para comparar países, estimar el coste de vida y elegir tu base de expatriado con criterio.</p>
-      <div class="hero-badges">
-        <span class="badge">Offshore HNW 2026</span>
-        <span class="badge">Territorios Dependientes</span>
-        <span class="badge">Estructuras IVB</span>
-        <span class="badge">Residencia Ultradiscreta</span>
-      </div>
-    </div>
-    <div class="hero-art"><img src="../assets/chronicles.png" alt="Las Crónicas Wigg"></div>
+  <div class="hero-bg" style="background-image:url('/assets/hero-bahamas.jpg')"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Crónica · WiggMap</div>
+    <h1 class="hero-title">Las Crónicas Wigg</h1>
+    <p class="hero-sub">Serie Américas · Parte 3 — Anguila, Islas Vírgenes Británicas, Sint Maarten: microterritorios offshore para traders de cripto y perfiles ultra-HNW — fiscalidad </p>
   </div>
 </section>
+<div class="bandeau">
+  <div class="bandeau-inner">
+    <strong>Par Wigg</strong>
+    <span class="dot">·</span>
+    <span>2026</span>
+    <span class="dot">·</span>
+    <span>WiggMap</span>
+  </div>
+</div>
 <div class="series-strip">
   <div class="series-strip-inner">
     <span class="series-strip-label">Serie: Américas 2026</span>
@@ -187,6 +209,25 @@
     <p class="lead">
       Hay una razón por la que algunas de las personas más ricas del mundo han elegido vivir en Anguila, registrar sus holdings en las IVB o domiciliar sus family offices en Sint Maarten: estos territorios combinan la seguridad jurídica de los sistemas británico y neerlandés con una fiscalidad al 0% y una escala suficientemente pequeña para garantizar una discreción que las grandes jurisdicciones offshore ya no pueden ofrecer. En 2026, tras los Pandora Papers, los Panama Papers y la creciente presión de los registros europeos de beneficiarios, estos tres microterritorios han sabido adaptarse sin perder su identidad — permaneciendo lo que son: espacios de planificación patrimonial seria para perfiles que cuentan con los medios necesarios para utilizarlos correctamente.
     </p>
+
+    <div class="aff-strip">
+      <div class="aff-strip-title">Prepara tu mudanza</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span><span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
+        </a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">💸 Transferencias — Wise</span><span class="aff-strip-desc">Tipo de cambio real, sin comisiones ocultas</span>
+        </a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM desde el avión, 15+ operadores</span>
+        </a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Acceso seguro desde el extranjero</span>
+        </a>
+      </div>
+      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+    </div>
 
     <p>
       La advertencia inicial es importante: estos destinos no son para todo el mundo. Anguila es probablemente el destino residencial más caro del Caribe. Las IVB no cuentan con visa de nómada ni programa estructurado para simples residentes. Sint Maarten es más un hub comercial que un destino de residencia exclusivo. Si buscas la visa de nómada a $50/mes o el segundo pasaporte a $200.000, las Partes 1 y 2 de esta serie son tu referencia. Aquí hablamos de un ticket de entrada diferente — y de una profundidad de uso diferente.

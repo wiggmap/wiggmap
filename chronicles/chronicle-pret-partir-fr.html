@@ -596,7 +596,29 @@
       .dimension-header { flex-direction: column; align-items: flex-start; gap: 8px; }
       .test-final { padding: 28px 20px; }
     }
-  </style>
+  /* HERO — city-chronicle style */
+.hero{position:relative;min-height:380px;display:flex;align-items:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%)}
+.hero-inner{position:relative;z-index:1;width:100%;max-width:900px;margin:0 auto;padding:0 28px 40px}
+.hero-eyebrow{display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--g);margin-bottom:14px}
+.hero-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--g)}
+.hero-title{font-family:var(--serif);font-size:clamp(32px,5.5vw,56px);font-weight:900;line-height:1.05;color:#fff;letter-spacing:-0.02em;margin-bottom:12px;max-width:20ch}
+.hero-sub{font-family:var(--sans);font-size:15px;color:rgba(255,255,255,0.55);max-width:54ch;line-height:1.65}
+@media(max-width:720px){.hero{min-height:300px}.hero-inner{padding:0 16px 28px}.hero-title{font-size:clamp(26px,7vw,40px)}.hero-sub{font-size:13px}}
+.bandeau{background:var(--ink);border-top:1px solid rgba(255,255,255,0.06);padding:14px 0}
+.bandeau-inner{max-width:900px;margin:0 auto;padding:0 28px;display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:12px;color:rgba(255,255,255,0.35);flex-wrap:wrap}
+.bandeau-inner strong{color:rgba(255,255,255,0.55);font-weight:500}
+.bandeau-inner span.dot{opacity:0.25}
+.aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
+.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
+.aff-strip-list{display:flex;flex-direction:column;gap:10px}
+.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
+.aff-strip-item:hover{color:#fff}
+.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
+.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
+.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+</style>
 </head>
 
 <body>
@@ -606,81 +628,23 @@
 <script src="../data/header.js"></script>
 
 <!-- HERO -->
-<div class="hero">
-  <div class="kicker">Chronicle · Insight & Analysis</div>
-  <h1>Suis-je <em>vraiment</em> prêt à partir à l'étranger ?</h1>
-  <p class="deck">La question que tout le monde se pose — et à laquelle presque personne ne sait vraiment répondre avant d'atterrir.</p>
-  <div class="hero-profiles">
-    <span class="profile-tag">🎒 Voyage longue durée</span>
-    <span class="profile-tag">✈️ PVT / Working Holiday</span>
-    <span class="profile-tag">💻 Nomade digital</span>
-    <span class="profile-tag">🌍 Expatriation</span>
-    <span class="profile-tag">⏱ 10 min de lecture</span>
-    <span class="profile-tag">🗓 Mis à jour avril 2026</span>
+<section class="hero">
+  <div class="hero-bg" style="background-image:url('/assets/hero-indonesia.jpg')"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Chronique · WiggMap</div>
+    <h1 class="hero-title">Suis-je  vraiment  prêt à partir à l&#x27;étranger ?</h1>
+    <p class="hero-sub">Voyage longue durée, PVT, nomade digital, expatriation — la question est toujours la même. Voici les 4 dimensions de préparation que personne ne vous explique a</p>
+  </div>
+</section>
+<div class="bandeau">
+  <div class="bandeau-inner">
+    <strong>Par Wigg</strong>
+    <span class="dot">·</span>
+    <span>2026</span>
+    <span class="dot">·</span>
+    <span>WiggMap</span>
   </div>
 </div>
-
-<div class="container">
-<article>
-
-  <nav class="toc">
-    <div class="toc-title">Dans cet article</div>
-    <ol>
-      <li><a href="#profils">Quel type de départ ?</a></li>
-      <li><a href="#financier">Êtes-vous prêt financièrement ?</a></li>
-      <li><a href="#medical">Êtes-vous couvert médicalement ?</a></li>
-      <li><a href="#numerique">Êtes-vous autonome numériquement ?</a></li>
-      <li><a href="#administratif">Avez-vous réglé l'administratif ?</a></li>
-      <li><a href="#test">Le test final — 6 questions</a></li>
-    </ol>
-  </nav>
-
-  <p class="lead">Il y a une chose curieuse avec le départ à l'étranger : presque tout le monde se sent à la fois prêt et pas prêt en même temps. Prêt dans sa tête — le projet est là, la destination est choisie, les billets sont commandés ou presque. Pas prêt dans les détails — ces zones grises qu'on reporte parce qu'elles sont moins excitantes que de chercher des photos de Lisbonne ou de Bangkok à 23h.</p>
-
-  <p>Ce n'est pas un guide de plus sur "comment préparer son expatriation". Il en existe des dizaines, tous structurés de la même façon, tous aussi oubliables. C'est un miroir. Quatre questions directes sur quatre dimensions que la plupart des gens sous-estiment — et qui déterminent, plus que le choix de la destination ou le montant du budget, si le premier mois se passe bien ou mal.</p>
-
-  <div class="quote">
-    <p>« Être prêt à partir, ce n'est pas avoir tout prévu. C'est avoir réglé les choses qu'on ne peut pas improviser une fois là-bas. »</p>
-  </div>
-
-  <div class="orn">· · ✦ · ·</div>
-
-  <!-- PROFILS -->
-  <h2 id="profils">D'abord : quel type de départ est le vôtre ?</h2>
-
-  <p>La question "suis-je prêt ?" n'a pas la même réponse selon que vous partez trois mois en Asie du Sud-Est avec un sac à dos ou que vous signez un contrat de travail à Barcelone. La préparation n'est pas la même. Les risques non plus. Et les outils dont vous avez besoin — encore moins.</p>
-
-  <div class="profil-grid">
-    <div class="profil-card">
-      <div class="profil-label">Profil 1</div>
-      <div class="profil-title">🎒 Voyage longue durée</div>
-      <p class="profil-desc">3 à 12 mois, budget défini, retour prévu. Backpacker, tour du monde, PVT qui démarre. Vous êtes partant depuis longtemps dans votre tête. La logistique, moins.</p>
-    </div>
-    <div class="profil-card">
-      <div class="profil-label">Profil 2</div>
-      <div class="profil-title">💻 Nomade digital</div>
-      <p class="profil-desc">Revenus en ligne, déplacements permanents ou semi-permanents. Pas de date de retour fixe. Vous vivez dans un flou entre "en voyage" et "installé" — et fiscalement, ce flou a un prix.</p>
-    </div>
-    <div class="profil-card">
-      <div class="profil-label">Profil 3</div>
-      <div class="profil-title">🌍 Expat installé</div>
-      <p class="profil-desc">Installation durable, contrat local, visa de résidence, famille parfois. La logistique est lourde — et contrairement aux deux autres profils, les erreurs ici ne se rattrapent pas facilement.</p>
-    </div>
-  </div>
-
-  <p>Les quatre dimensions ci-dessous s'appliquent aux trois profils. Ce qui change, c'est l'intensité. Là où le voyageur peut encore improviser et s'en sortir, le nomade digital doit anticiper, et l'expat installé n'a tout simplement pas le droit à l'erreur — parce que corriger une erreur administrative ou médicale depuis l'étranger coûte dix fois plus cher qu'une heure de préparation avant le départ.</p>
-
-  <div class="orn">· · ✦ · ·</div>
-
-  <!-- DIMENSION 1 — FINANCIER -->
-  <div class="dimension" id="financier">
-    <div class="dimension-header">
-      <div class="dimension-num">01</div>
-      <div>
-        <div class="dimension-title">Êtes-vous prêt financièrement ?</div>
-        <div class="dimension-sub">Banque · Change · Frais invisibles</div>
-      </div>
-    </div>
     <div class="dimension-body">
       <p>La préparation financière du départ, c'est rarement un problème de budget. C'est un problème d'outils. Et si vous ne savez pas ce que votre banque actuelle prélève sur chaque paiement en devise étrangère, vous n'êtes pas prêt financièrement — même si votre compte est plein.</p>
       <p>Un paiement en devise étrangère avec une banque classique coûte entre 1,5 et 3% de commission, souvent silencieusement. Sur un mois de vie à l'étranger avec des charges normales, ça représente entre 30 et 80€ selon le pays. Sur un an, plusieurs centaines. Ce n'est pas une catastrophe — c'est de l'argent perdu sans même s'en rendre compte, transaction après transaction.</p>

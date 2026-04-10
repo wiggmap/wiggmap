@@ -162,31 +162,51 @@
       .dbox-cell{border-right:none;}
       article p{font-size:17px;line-height:1.84;}
     }
-  </style>
+  /* HERO — city-chronicle style */
+.hero{position:relative;min-height:380px;display:flex;align-items:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%)}
+.hero-inner{position:relative;z-index:1;width:100%;max-width:900px;margin:0 auto;padding:0 28px 40px}
+.hero-eyebrow{display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--g);margin-bottom:14px}
+.hero-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--g)}
+.hero-title{font-family:var(--serif);font-size:clamp(32px,5.5vw,56px);font-weight:900;line-height:1.05;color:#fff;letter-spacing:-0.02em;margin-bottom:12px;max-width:20ch}
+.hero-sub{font-family:var(--sans);font-size:15px;color:rgba(255,255,255,0.55);max-width:54ch;line-height:1.65}
+@media(max-width:720px){.hero{min-height:300px}.hero-inner{padding:0 16px 28px}.hero-title{font-size:clamp(26px,7vw,40px)}.hero-sub{font-size:13px}}
+.bandeau{background:var(--ink);border-top:1px solid rgba(255,255,255,0.06);padding:14px 0}
+.bandeau-inner{max-width:900px;margin:0 auto;padding:0 28px;display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:12px;color:rgba(255,255,255,0.35);flex-wrap:wrap}
+.bandeau-inner strong{color:rgba(255,255,255,0.55);font-weight:500}
+.bandeau-inner span.dot{opacity:0.25}
+.aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
+.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
+.aff-strip-list{display:flex;flex-direction:column;gap:10px}
+.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
+.aff-strip-item:hover{color:#fff}
+.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
+.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
+.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+</style>
 </head>
 <body>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div id="siteHeader"></div>
 
 <section class="hero">
-  <div class="hero-grid">
-    <div class="hero-copy">
-      <div class="kicker"><span class="dot"></span>Chronicle · Prospective &amp; Geopolitics</div>
-      <div class="hero-tag">🔭 30-Year Horizon — 2026 Edition</div>
-      <h1>2056:<br><em>where will life</em><br>be best?</h1>
-      <p>AI, wars, democracy, longevity, demographics — an honest look at the forces reshaping the map of good living. No dystopia. No wishful thinking. A compass for the decisions that actually matter.</p>
-      <div class="hero-badges">
-        <span class="badge">Best countries 2055</span>
-        <span class="badge">Geopolitics &amp; conflict</span>
-        <span class="badge">Artificial intelligence</span>
-        <span class="badge">Democracy</span>
-        <span class="badge">Longevity</span>
-        <span class="badge">Demographics</span>
-      </div>
-    </div>
-    <div class="hero-art"><img src="../assets/chronicles.png" alt="The Wigg Chronicles" style="width:100%;max-height:380px;object-fit:contain;border-radius:18px;border:1px solid rgba(255,255,255,.10);box-shadow:0 12px 28px rgba(0,0,0,.30);background:rgba(255,255,255,.06);padding:10px;"></div>
+  <div class="hero-bg" style="background-image:url('/assets/hero-norway.jpg')"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Chronicle · WiggMap</div>
+    <h1 class="hero-title">2056:  where will life  be best?</h1>
+    <p class="hero-sub">Which are the best countries to live in 30 years? AI, wars, democracy, longevity, demographics — an honest prospective guide on the countries that will offer th</p>
   </div>
 </section>
+<div class="bandeau">
+  <div class="bandeau-inner">
+    <strong>Par Wigg</strong>
+    <span class="dot">·</span>
+    <span>2026</span>
+    <span class="dot">·</span>
+    <span>WiggMap</span>
+  </div>
+</div>
 
 <main class="wrap">
 <section class="paper">
@@ -226,6 +246,25 @@
     <p class="lead">
       Picture a family. Two young children, a flat somewhere in a Western city, lives that are coming together nicely. Nothing exceptional — just ordinary people who watch the news in the evening and sometimes feel something hard to name: a vague unease about the world their children are going to inherit. Not panic. Just a question that keeps coming back: <em>are we really in the right place for the next thirty years?</em>
     </p>
+
+    <div class="aff-strip">
+      <div class="aff-strip-title">Prepare your move</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span><span class="aff-strip-desc">Global health cover from $45/mo</span>
+        </a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">💸 Transfers — Wise</span><span class="aff-strip-desc">Real exchange rate, no hidden fees</span>
+        </a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM from the plane, 15+ carriers</span>
+        </a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Secure access from abroad</span>
+        </a>
+      </div>
+      <div class="aff-strip-note">partner links — at no extra cost to you</div>
+    </div>
 
     <p>
       That question is one we hear often at WiggMap. It takes different forms — "where should I move before I turn 40", "which country should I buy property in", "where will my kids go to university" — but it always comes back to the same core: <em>what are the best countries to live in in 30 years?</em> Not for a holiday. Not for a two-year assignment. For real life.

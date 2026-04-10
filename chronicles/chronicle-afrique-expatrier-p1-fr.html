@@ -143,7 +143,29 @@
     .link-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:14px}
     .link-card{display:block;padding:12px 16px;background:#fff;border:1px solid rgba(0,0,0,.09);border-radius:10px;text-decoration:none;color:var(--ink);font-size:13px;font-family:var(--sans);font-weight:500;transition:all .15s}
     .link-card:hover{border-color:var(--green);color:var(--green-dark)}
-  </style>
+  /* HERO — city-chronicle style */
+.hero{position:relative;min-height:380px;display:flex;align-items:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%)}
+.hero-inner{position:relative;z-index:1;width:100%;max-width:900px;margin:0 auto;padding:0 28px 40px}
+.hero-eyebrow{display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--g);margin-bottom:14px}
+.hero-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--g)}
+.hero-title{font-family:var(--serif);font-size:clamp(32px,5.5vw,56px);font-weight:900;line-height:1.05;color:#fff;letter-spacing:-0.02em;margin-bottom:12px;max-width:20ch}
+.hero-sub{font-family:var(--sans);font-size:15px;color:rgba(255,255,255,0.55);max-width:54ch;line-height:1.65}
+@media(max-width:720px){.hero{min-height:300px}.hero-inner{padding:0 16px 28px}.hero-title{font-size:clamp(26px,7vw,40px)}.hero-sub{font-size:13px}}
+.bandeau{background:var(--ink);border-top:1px solid rgba(255,255,255,0.06);padding:14px 0}
+.bandeau-inner{max-width:900px;margin:0 auto;padding:0 28px;display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:12px;color:rgba(255,255,255,0.35);flex-wrap:wrap}
+.bandeau-inner strong{color:rgba(255,255,255,0.55);font-weight:500}
+.bandeau-inner span.dot{opacity:0.25}
+.aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
+.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
+.aff-strip-list{display:flex;flex-direction:column;gap:10px}
+.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
+.aff-strip-item:hover{color:#fff}
+.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
+.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
+.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+</style>
 </head>
 <body>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -151,26 +173,22 @@
 <script src="../data/header.js"></script>
 
 <section class="hero">
-  <div class="hero-grid">
-    <div class="hero-copy">
-      <div class="kicker"><span class="dot"></span>Chronicle · Analysis &amp; Insight</div>
-      <div class="series-badge">🌍 Série · S'expatrier en Afrique &nbsp;·&nbsp; Partie 1 / 4</div>
-      <h1>S'expatrier en <em>Afrique</em> en 2026 :<br>tout ce qu'on ne vous dit pas</h1>
-      <p class="hero-deck">18 pays. 4 profils. Zéro filtre. La carte de sécurité, les vrais budgets en dollars, la fiscalité crypto et les visas — avant de vous lancer dans les parties suivantes.</p>
-      <div class="hero-badges">
-
-      <span class="badge">⏱ ~15 min de lecture</span>
-      <span class="badge">🗺️ 18 pays couverts</span>
-      <span class="badge green-b">✓ Mis à jour Mars 2026</span>
-      <span class="badge">Analyse WiggMap</span>
-    
-      </div>
-    </div>
-    <div class="hero-art">
-      <img src="/assets/hero-morocco.jpg" alt="Africa">
-    </div>
+  <div class="hero-bg" style="background-image:url('/assets/hero-morocco.jpg')"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Chronique · WiggMap</div>
+    <h1 class="hero-title">S&#x27;expatrier en  Afrique  en 2026 : tout ce qu&#x27;on ne vous dit pas</h1>
+    <p class="hero-sub">Sécurité, visas, coût de la vie en dollars, fiscalité crypto : tout ce que personne ne dit sur l&#x27;expatriation en Afrique. 18 pays analysés sans filtre. Partie 1</p>
   </div>
 </section>
+<div class="bandeau">
+  <div class="bandeau-inner">
+    <strong>Par Wigg</strong>
+    <span class="dot">·</span>
+    <span>2026</span>
+    <span class="dot">·</span>
+    <span>WiggMap</span>
+  </div>
+</div>
 <div class="series-strip">
   <div class="series-strip-inner">
     <span class="series-strip-label">Série : Afrique 2026</span>
@@ -206,6 +224,25 @@
   <article>
 
     <p class="lead">Sophie a 41 ans. Elle est graphiste freelance, elle travaille pour des clients à Lyon et à Bruxelles, et depuis trois ans elle vit à Kigali, au Rwanda. Son appartement avec terrasse et vue sur les collines lui coûte $520 par mois. Sa connexion fibre est plus rapide que celle qu'elle avait dans son studio du 3e arrondissement de Lyon. Elle prend son café rwandais — cultivé à deux heures de route, torréfié localement, parmi les meilleurs du monde — à $2,50 sur la terrasse du Question Coffee. Ses clients n'ont pas l'air de savoir ou de s'en préoccuper. Et elle, elle ne comprend toujours pas pourquoi ses amis restés en France se plaignent des loyers.</p>
+
+    <div class="aff-strip">
+      <div class="aff-strip-title">Préparer ton expatriation</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
+        </a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">💸 Transferts — Wise</span><span class="aff-strip-desc">Taux de change réel, sans frais cachés</span>
+        </a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span>
+        </a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span>
+        </a>
+      </div>
+      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+    </div>
 
     <p>Sophie n'est pas un cas isolé, ni une aventurière atypique. Elle fait partie d'une vague discrète mais documentée : des dizaines de milliers d'Européens, d'Américains, d'Asiatiques qui ont choisi de vivre en Afrique — pas en mission humanitaire, pas en détachement d'entreprise avec voiture de fonction. En résidents libres, attirés par des budgets divisés par deux ou trois, des fiscalités légères, un rythme de vie qui a du sens, et parfois par quelque chose de plus difficile à nommer : le fait d'être quelque part qui bouge encore, qui n'a pas tout figé.</p>
 

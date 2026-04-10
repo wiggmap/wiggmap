@@ -253,7 +253,29 @@
     .sb-link { flex-shrink: 0; font-family: 'Poppins', sans-serif; font-size: .75rem; font-weight: 600; padding: 8px 18px; border-radius: 999px; text-decoration: none; white-space: nowrap; color: rgba(255,255,255,.5); background: transparent; border: 1px solid rgba(255,255,255,.1); transition: all .2s; }
     .sb-link:hover { color: rgba(255,255,255,.85); background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.18); }
     .sb-active { color: #fff !important; background: rgba(34,197,94,.18) !important; border-color: rgba(34,197,94,.5) !important; }
-  </style>
+  /* HERO — city-chronicle style */
+.hero{position:relative;min-height:380px;display:flex;align-items:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%)}
+.hero-inner{position:relative;z-index:1;width:100%;max-width:900px;margin:0 auto;padding:0 28px 40px}
+.hero-eyebrow{display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--g);margin-bottom:14px}
+.hero-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--g)}
+.hero-title{font-family:var(--serif);font-size:clamp(32px,5.5vw,56px);font-weight:900;line-height:1.05;color:#fff;letter-spacing:-0.02em;margin-bottom:12px;max-width:20ch}
+.hero-sub{font-family:var(--sans);font-size:15px;color:rgba(255,255,255,0.55);max-width:54ch;line-height:1.65}
+@media(max-width:720px){.hero{min-height:300px}.hero-inner{padding:0 16px 28px}.hero-title{font-size:clamp(26px,7vw,40px)}.hero-sub{font-size:13px}}
+.bandeau{background:var(--ink);border-top:1px solid rgba(255,255,255,0.06);padding:14px 0}
+.bandeau-inner{max-width:900px;margin:0 auto;padding:0 28px;display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:12px;color:rgba(255,255,255,0.35);flex-wrap:wrap}
+.bandeau-inner strong{color:rgba(255,255,255,0.55);font-weight:500}
+.bandeau-inner span.dot{opacity:0.25}
+.aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
+.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
+.aff-strip-list{display:flex;flex-direction:column;gap:10px}
+.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
+.aff-strip-item:hover{color:#fff}
+.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
+.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
+.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+</style>
 </head>
 <body>
 
@@ -261,34 +283,23 @@
 <script src="../data/header.js"></script>
 
 <!-- ══════ HERO ══════ -->
-<div class="hero">
-  <div class="hero-grid">
-    <div class="hero-copy">
-      <div class="kicker"><span class="dot"></span> Chronicle · Étudier à l'étranger 2026</div>
-      <div class="series-badge">✦ Partie 1 / 4 · Europe &amp; Erasmus</div>
-      <h1>Partir étudier en Europe en 2026 — 8 destinations Erasmus triées sur le volet</h1>
-      <p class="hero-desc">Prague, Cracovie, Valence, Tallinn, Riga, Ljubljana, Budapest, Chypre : budget réel, frais de scolarité, bourse Erasmus et ce que les guides officiels oublient de dire.</p>
-      <div class="hero-badges">
-        <span class="badge">● 8 destinations</span>
-        <span class="badge">💶 Budgets 2026</span>
-        <span class="badge">🌍 Erasmus +</span>
-        <span class="badge">⏱ ~20 min de lecture</span>
-        <span class="badge">✓ Mis à jour mars 2026</span>
-      </div>
-    </div>
-    <div class="hero-art">
-      <div class="dest-mosaic">
-        <a href="#prague" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇨🇿</span><span class="city">Prague</span></a>
-        <a href="#cracovie" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇵🇱</span><span class="city">Cracovie</span></a>
-        <a href="#valence" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇪🇸</span><span class="city">Valence</span></a>
-        <a href="#tallinn" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇪🇪</span><span class="city">Tallinn</span></a>
-        <a href="#riga" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇱🇻</span><span class="city">Riga</span></a>
-        <a href="#ljubljana" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇸🇮</span><span class="city">Ljubljana</span></a>
-        <a href="#budapest" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇭🇺</span><span class="city">Budapest</span></a>
-        <a href="#chypre" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇨🇾</span><span class="city">Chypre</span></a>
-      </div>
-    </div>
+<section class="hero">
+  <div class="hero-bg" style="background-image:url('/assets/hero-czech-republic.jpg')"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Chronique · WiggMap</div>
+    <h1 class="hero-title">Partir étudier en Europe en 2026 — 8 destinations Erasmus triées sur le volet</h1>
+    <p class="hero-sub">Prague, Cracovie, Valence, Tallinn, Riga, Ljubljana, Budapest, Chypre — 8 destinations Erasmus triées sur le volet. Budget réel, frais de scolarité, bourse Eras</p>
   </div>
+</section>
+<div class="bandeau">
+  <div class="bandeau-inner">
+    <strong>Par Wigg</strong>
+    <span class="dot">·</span>
+    <span>2026</span>
+    <span class="dot">·</span>
+    <span>WiggMap</span>
+  </div>
+</div>
 </div>
 
 <nav class="serie-bar"><div class="sb-wrap"><a href="/chronicles/chronicle-etudier-europe-erasmus-2026-fr.html" class="sb-link sb-active">1 · Europe</a><a href="/chronicles/chronicle-etudier-asie-pacifique-2026-fr.html" class="sb-link">2 · Asie-Pacifique</a><a href="/chronicles/chronicle-etudier-ameriques-afrique-2026-fr.html" class="sb-link">3 · Amériques & Afrique</a><a href="/chronicles/chronicle-etudier-etranger-guide-pratique-2026-fr.html" class="sb-link">4 · Guide pratique</a></div></nav>
@@ -328,6 +339,25 @@
 
   <!-- INTRO -->
   <p class="lead">Il y a une carte que les services Erasmus des universités ne montrent jamais vraiment. Celle des villes où une bourse de 500€ par mois couvre le loyer entier. Où les facultés ont six siècles d'existence et des bibliothèques qui sentent le vieux parchemin. Où les étudiants étrangers ne se retrouvent pas dans des bulles anglophon-touristiques mais dans de vraies villes — avec de vraies terrasses, de vraies nuits, une vraie vie. Cette chronicle couvre huit d'entre elles, choisies pour ce qu'elles sont en 2026, pas pour ce qu'elles représentaient il y a dix ans.</p>
+
+    <div class="aff-strip">
+      <div class="aff-strip-title">Préparer ton expatriation</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
+        </a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">💸 Transferts — Wise</span><span class="aff-strip-desc">Taux de change réel, sans frais cachés</span>
+        </a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span>
+        </a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span>
+        </a>
+      </div>
+      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+    </div>
 
   <p>Le programme Erasmus+ a fêté ses 35 ans avec plus de 12 millions d'anciens participants. C'est massif. Mais la distribution des destinations reste concentrée sur une poignée de capitales connues — Madrid, Barcelone, Rome, Amsterdam — alors que les meilleures affaires en termes de qualité de vie, d'offre universitaire et de budget se trouvent souvent ailleurs. À Prague, la Charles University a formé des juristes, des médecins et des philosophes depuis 1348. À Ljubljana, on vit mieux que dans la plupart des capitales d'Europe de l'Ouest pour 30% moins cher. À Tallinn, on étudie la tech en anglais dans une ville qui a inventé Skype. Aucun de ces faits n'est un secret. Ils sont juste systématiquement sous-représentés dans les brochures.</p>
 

@@ -255,7 +255,29 @@
     .sb-link { flex-shrink: 0; font-family: 'Poppins', sans-serif; font-size: .75rem; font-weight: 600; padding: 8px 18px; border-radius: 999px; text-decoration: none; white-space: nowrap; color: rgba(255,255,255,.5); background: transparent; border: 1px solid rgba(255,255,255,.1); transition: all .2s; }
     .sb-link:hover { color: rgba(255,255,255,.85); background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.18); }
     .sb-active { color: #fff !important; background: rgba(34,197,94,.18) !important; border-color: rgba(34,197,94,.5) !important; }
-  </style>
+  /* HERO — city-chronicle style */
+.hero{position:relative;min-height:380px;display:flex;align-items:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%)}
+.hero-inner{position:relative;z-index:1;width:100%;max-width:900px;margin:0 auto;padding:0 28px 40px}
+.hero-eyebrow{display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--g);margin-bottom:14px}
+.hero-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--g)}
+.hero-title{font-family:var(--serif);font-size:clamp(32px,5.5vw,56px);font-weight:900;line-height:1.05;color:#fff;letter-spacing:-0.02em;margin-bottom:12px;max-width:20ch}
+.hero-sub{font-family:var(--sans);font-size:15px;color:rgba(255,255,255,0.55);max-width:54ch;line-height:1.65}
+@media(max-width:720px){.hero{min-height:300px}.hero-inner{padding:0 16px 28px}.hero-title{font-size:clamp(26px,7vw,40px)}.hero-sub{font-size:13px}}
+.bandeau{background:var(--ink);border-top:1px solid rgba(255,255,255,0.06);padding:14px 0}
+.bandeau-inner{max-width:900px;margin:0 auto;padding:0 28px;display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:12px;color:rgba(255,255,255,0.35);flex-wrap:wrap}
+.bandeau-inner strong{color:rgba(255,255,255,0.55);font-weight:500}
+.bandeau-inner span.dot{opacity:0.25}
+.aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
+.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
+.aff-strip-list{display:flex;flex-direction:column;gap:10px}
+.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
+.aff-strip-item:hover{color:#fff}
+.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
+.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
+.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+</style>
 </head>
 <body>
 
@@ -263,32 +285,23 @@
 <script src="../data/header.js"></script>
 
 <!-- ══════ HERO ══════ -->
-<div class="hero">
-  <div class="hero-grid">
-    <div class="hero-copy">
-      <div class="kicker"><span class="dot"></span> Chronicle · Studying Abroad 2026</div>
-      <div class="series-badge">✦ Part 2 / 4 · Asia &amp; Pacific</div>
-      <h1>Studying in Asia in 2026 — 6 destinations that change a trajectory</h1>
-      <p class="hero-desc">Taiwan, South Korea, Malaysia, Japan, Thailand, Singapore: top-100 world universities, generous national scholarships, budgets often lower than Western Europe. What nobody tells you.</p>
-      <div class="hero-badges">
-        <span class="badge">● 6 destinations</span>
-        <span class="badge">🎓 National scholarships</span>
-        <span class="badge">💵 2026 budgets</span>
-        <span class="badge">⏱ ~18 min read</span>
-        <span class="badge">✓ Updated March 2026</span>
-      </div>
-    </div>
-    <div class="hero-art">
-      <div class="dest-mosaic">
-        <a href="#taiwan" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇹🇼</span><span class="city">Taiwan</span></a>
-        <a href="#coree" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇰🇷</span><span class="city">South Korea</span></a>
-        <a href="#malaisie" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇲🇾</span><span class="city">Malaysia</span></a>
-        <a href="#japon" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇯🇵</span><span class="city">Japan</span></a>
-        <a href="#thailande" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇹🇭</span><span class="city">Thailand</span></a>
-        <a href="#singapour" class="dest-tile" style="text-decoration:none;color:inherit;"><span class="flag">🇸🇬</span><span class="city">Singapore</span></a>
-      </div>
-    </div>
+<section class="hero">
+  <div class="hero-bg" style="background-image:url('/assets/hero-japan.jpg')"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Chronicle · WiggMap</div>
+    <h1 class="hero-title">Studying in Asia in 2026 — 6 destinations that change a trajectory</h1>
+    <p class="hero-sub">Taiwan, South Korea, Malaysia, Japan, Thailand, Singapore — 6 Asia-Pacific destinations to study abroad in 2026. Real budgets, government scholarships, tuition </p>
   </div>
+</section>
+<div class="bandeau">
+  <div class="bandeau-inner">
+    <strong>Par Wigg</strong>
+    <span class="dot">·</span>
+    <span>2026</span>
+    <span class="dot">·</span>
+    <span>WiggMap</span>
+  </div>
+</div>
 </div>
 
 <nav class="serie-bar"><div class="sb-wrap"><a href="/chronicles/chronicle-study-abroad-europe-erasmus-2026-en.html" class="sb-link">1 · Europe</a><a href="/chronicles/chronicle-study-abroad-asia-pacific-2026-en.html" class="sb-link sb-active">2 · Asia-Pacific</a><a href="/chronicles/chronicle-study-abroad-americas-africa-2026-en.html" class="sb-link">3 · Americas & Africa</a><a href="/chronicles/chronicle-study-abroad-practical-guide-2026-en.html" class="sb-link">4 · Practical Guide</a></div></nav>
@@ -325,6 +338,25 @@
 
   <!-- INTRO -->
   <p class="lead">Studying in Asia is still perceived, in many countries, as an adventure for bold spirits or niche disciplines. That's a category error. NUS Singapore is ranked #8 worldwide by QS. KAIST South Korea is in the top 50 for science and engineering. National Taiwan University is in the global top 70 — ahead of most European universities. These institutions are not exotic. They are competitive — and for certain profiles, they are a better choice than a European engineering or business school.</p>
+
+    <div class="aff-strip">
+      <div class="aff-strip-title">Prepare your move</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span><span class="aff-strip-desc">Global health cover from $45/mo</span>
+        </a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">💸 Transfers — Wise</span><span class="aff-strip-desc">Real exchange rate, no hidden fees</span>
+        </a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM from the plane, 15+ carriers</span>
+        </a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Secure access from abroad</span>
+        </a>
+      </div>
+      <div class="aff-strip-note">partner links — at no extra cost to you</div>
+    </div>
 
   <p>What changes radically from Part 1 of this series is the visa and funding logic. Erasmus+ doesn't cover Asia — but almost all these countries have their own government scholarship programmes for international students, often more generous than the European scheme. Japan's MEXT, Korea's KGSP, Taiwan's Ministry of Education scholarship: these are full-ride programmes — tuition covered, monthly allowance, return flight included for some. The selectivity is real. But for a strong application, the calculation is worth making.</p>
 

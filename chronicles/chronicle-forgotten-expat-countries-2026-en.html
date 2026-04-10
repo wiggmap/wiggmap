@@ -194,7 +194,29 @@
     .link-grid a:hover { border-color: var(--green); color: var(--green-dark); text-decoration: none; }
     @media (max-width: 560px) { .link-grid { grid-template-columns: 1fr; } }
     .sources { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); font-family: 'Poppins', sans-serif; font-size: .7rem; color: var(--muted); line-height: 1.8; }
-  </style>
+  /* HERO — city-chronicle style */
+.hero{position:relative;min-height:380px;display:flex;align-items:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%)}
+.hero-inner{position:relative;z-index:1;width:100%;max-width:900px;margin:0 auto;padding:0 28px 40px}
+.hero-eyebrow{display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--g);margin-bottom:14px}
+.hero-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--g)}
+.hero-title{font-family:var(--serif);font-size:clamp(32px,5.5vw,56px);font-weight:900;line-height:1.05;color:#fff;letter-spacing:-0.02em;margin-bottom:12px;max-width:20ch}
+.hero-sub{font-family:var(--sans);font-size:15px;color:rgba(255,255,255,0.55);max-width:54ch;line-height:1.65}
+@media(max-width:720px){.hero{min-height:300px}.hero-inner{padding:0 16px 28px}.hero-title{font-size:clamp(26px,7vw,40px)}.hero-sub{font-size:13px}}
+.bandeau{background:var(--ink);border-top:1px solid rgba(255,255,255,0.06);padding:14px 0}
+.bandeau-inner{max-width:900px;margin:0 auto;padding:0 28px;display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:12px;color:rgba(255,255,255,0.35);flex-wrap:wrap}
+.bandeau-inner strong{color:rgba(255,255,255,0.55);font-weight:500}
+.bandeau-inner span.dot{opacity:0.25}
+.aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
+.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
+.aff-strip-list{display:flex;flex-direction:column;gap:10px}
+.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
+.aff-strip-item:hover{color:#fff}
+.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
+.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
+.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+</style>
 </head>
 <body>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -203,21 +225,22 @@
 <script src="../data/header.js"></script>
 
 <section class="hero">
-  <div class="hero-grid">
-    <div class="hero-copy">
-      <div class="kicker"><span class="dot"></span>Chronicle · Discovery &amp; Expat Living · 2026</div>
-      <h1>The Wigg Chronicles</h1>
-      <p class="hero-desc">Not Portugal. Not Bali. Six under-the-radar destinations with real quality of life, solid legal frameworks — and nobody in the queue ahead of you.</p>
-      <div class="hero-badges">
-        <span class="badge">⏱ ~20 min read</span>
-      <span class="badge">🗓 March 2026</span>
-      <span class="badge">🌍 6 countries analysed</span>
-      <span class="badge">👤 4 profiles per destination</span>
-      </div>
-    </div>
-    <div class="hero-art"><img src="../assets/chronicles.png" alt="Wigg Chronicles"></div>
+  <div class="hero-bg" style="background-image:url('/assets/hero-montenegro.jpg')"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Chronicle · WiggMap</div>
+    <h1 class="hero-title">The Wigg Chronicles</h1>
+    <p class="hero-sub">Mauritius, Montenegro, Cyprus, Taiwan, Uruguay, Oman: 6 under-the-radar destinations with real quality of life, solid visas and defensible costs. The WiggMap 20</p>
   </div>
 </section>
+<div class="bandeau">
+  <div class="bandeau-inner">
+    <strong>Par Wigg</strong>
+    <span class="dot">·</span>
+    <span>2026</span>
+    <span class="dot">·</span>
+    <span>WiggMap</span>
+  </div>
+</div>
 
 <div class="article-body">
 
@@ -238,6 +261,25 @@
 
   <section id="introduction">
     <p class="lead">There's a list that has been circulating online since 2018 without changing by so much as a comma. Portugal. Bali. Thailand. Georgia. Dubai. It has become the shared vocabulary of connected expat life — useful, honest, well-documented, and read by so many people that these destinations are now inhabited by a particular type of resident: the one who read the same articles as you and moved there at the same time. That's not a criticism. It's an observation. And it conceals something more interesting: while everyone was rushing to the same addresses, six countries — solid, documented, defensible on almost every criterion — stayed in the blind spot.</p>
+
+    <div class="aff-strip">
+      <div class="aff-strip-title">Prepare your move</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span><span class="aff-strip-desc">Global health cover from $45/mo</span>
+        </a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">💸 Transfers — Wise</span><span class="aff-strip-desc">Real exchange rate, no hidden fees</span>
+        </a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM from the plane, 15+ carriers</span>
+        </a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Secure access from abroad</span>
+        </a>
+      </div>
+      <div class="aff-strip-note">partner links — at no extra cost to you</div>
+    </div>
 
     <p>What follows is not a list of "exotic" destinations or difficult-to-translate life experiments. It's a rigorous selection: quality of life measured, taxation documented, visas verified, real cost of living, and — because it matters — a happiness index that holds its own against the usual favourites. Mauritius. Montenegro. Cyprus. Taiwan. Uruguay. Oman. Six countries that don't have Thailand's Instagram profile, but that have something rarer: substance.</p>
   </section>

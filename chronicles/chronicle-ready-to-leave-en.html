@@ -596,7 +596,29 @@
       .dimension-header { flex-direction: column; align-items: flex-start; gap: 8px; }
       .test-final { padding: 28px 20px; }
     }
-  </style>
+  /* HERO — city-chronicle style */
+.hero{position:relative;min-height:380px;display:flex;align-items:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%)}
+.hero-inner{position:relative;z-index:1;width:100%;max-width:900px;margin:0 auto;padding:0 28px 40px}
+.hero-eyebrow{display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--g);margin-bottom:14px}
+.hero-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--g)}
+.hero-title{font-family:var(--serif);font-size:clamp(32px,5.5vw,56px);font-weight:900;line-height:1.05;color:#fff;letter-spacing:-0.02em;margin-bottom:12px;max-width:20ch}
+.hero-sub{font-family:var(--sans);font-size:15px;color:rgba(255,255,255,0.55);max-width:54ch;line-height:1.65}
+@media(max-width:720px){.hero{min-height:300px}.hero-inner{padding:0 16px 28px}.hero-title{font-size:clamp(26px,7vw,40px)}.hero-sub{font-size:13px}}
+.bandeau{background:var(--ink);border-top:1px solid rgba(255,255,255,0.06);padding:14px 0}
+.bandeau-inner{max-width:900px;margin:0 auto;padding:0 28px;display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:12px;color:rgba(255,255,255,0.35);flex-wrap:wrap}
+.bandeau-inner strong{color:rgba(255,255,255,0.55);font-weight:500}
+.bandeau-inner span.dot{opacity:0.25}
+.aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
+.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
+.aff-strip-list{display:flex;flex-direction:column;gap:10px}
+.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
+.aff-strip-item:hover{color:#fff}
+.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
+.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
+.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+</style>
 </head>
 
 <body>
@@ -606,81 +628,23 @@
 <script src="../data/header.js"></script>
 
 <!-- HERO -->
-<div class="hero">
-  <div class="kicker">Chronicle · Insight & Analysis</div>
-  <h1>Am I <em>really</em> ready to move abroad?</h1>
-  <p class="deck">The question everyone asks themselves — and almost nobody can truly answer before they land.</p>
-  <div class="hero-profiles">
-    <span class="profile-tag">🎒 Long-term travel</span>
-    <span class="profile-tag">✈️ Working Holiday / WHV</span>
-    <span class="profile-tag">💻 Digital nomad</span>
-    <span class="profile-tag">🌍 Expatriation</span>
-    <span class="profile-tag">⏱ 10 min read</span>
-    <span class="profile-tag">🗓 Updated April 2026</span>
+<section class="hero">
+  <div class="hero-bg" style="background-image:url('/assets/hero-indonesia.jpg')"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Chronicle · WiggMap</div>
+    <h1 class="hero-title">Am I  really  ready to move abroad?</h1>
+    <p class="hero-sub">Long-term travel, working holiday, digital nomad, expatriation — the question is always the same. The 4 dimensions of preparation nobody explains before you lea</p>
+  </div>
+</section>
+<div class="bandeau">
+  <div class="bandeau-inner">
+    <strong>Par Wigg</strong>
+    <span class="dot">·</span>
+    <span>2026</span>
+    <span class="dot">·</span>
+    <span>WiggMap</span>
   </div>
 </div>
-
-<div class="container">
-<article>
-
-  <nav class="toc">
-    <div class="toc-title">In this article</div>
-    <ol>
-      <li><a href="#profils">What type of departure?</a></li>
-      <li><a href="#financier">Are you financially ready?</a></li>
-      <li><a href="#medical">Are you medically covered?</a></li>
-      <li><a href="#numerique">Are you digitally self-sufficient?</a></li>
-      <li><a href="#administratif">Have you handled the admin?</a></li>
-      <li><a href="#test">The final test — 6 questions</a></li>
-    </ol>
-  </nav>
-
-  <p class="lead">There's something curious about moving abroad: almost everyone feels both ready and not ready at the same time. Ready in their head — the plan is there, the destination chosen, the tickets booked or almost. Not ready in the details — those grey areas you keep pushing aside because they're less exciting than browsing photos of Lisbon or Bangkok at midnight.</p>
-
-  <p>This isn't yet another guide on "how to prepare your move abroad". There are dozens of those, all structured the same way, all equally forgettable. This is a mirror. Four direct questions across four dimensions most people underestimate — and which determine, more than the choice of destination or the size of the budget, whether the first month goes smoothly or not.</p>
-
-  <div class="quote">
-    <p>"Being ready to leave isn't about having planned everything. It's about having sorted the things you cannot improvise once you're there."</p>
-  </div>
-
-  <div class="orn">· · ✦ · ·</div>
-
-  <!-- PROFILS -->
-  <h2 id="profils">First: what kind of departure is yours?</h2>
-
-  <p>The question "am I ready?" doesn't have the same answer depending on whether you're heading to Southeast Asia for three months with a backpack or signing an employment contract in Barcelona. The preparation isn't the same. Neither are the risks. And the tools you need — even less so.</p>
-
-  <div class="profil-grid">
-    <div class="profil-card">
-      <div class="profil-label">Profile 1</div>
-      <div class="profil-title">🎒 Long-term travel</div>
-      <p class="profil-desc">3 to 12 months, defined budget, return planned. Backpacker, round-the-world, working holiday starting. You've been mentally ready for a while. The logistics, less so.</p>
-    </div>
-    <div class="profil-card">
-      <div class="profil-label">Profile 2</div>
-      <div class="profil-title">💻 Digital nomad</div>
-      <p class="profil-desc">Online income, permanent or semi-permanent travel. No fixed return date. You live in a blur between "travelling" and "settled" — and fiscally, that blur has a cost.</p>
-    </div>
-    <div class="profil-card">
-      <div class="profil-label">Profile 3</div>
-      <div class="profil-title">🌍 Settled expat</div>
-      <p class="profil-desc">Long-term relocation, local contract, residency visa, family sometimes. The logistics are heavy — and unlike the other two profiles, mistakes here don't get corrected easily.</p>
-    </div>
-  </div>
-
-  <p>The four dimensions below apply to all three profiles. What changes is the intensity. Where the traveller can still improvise and get by, the digital nomad must plan ahead, and the settled expat simply cannot afford mistakes — because fixing an administrative or medical error from abroad costs ten times more than an hour of preparation before departure.</p>
-
-  <div class="orn">· · ✦ · ·</div>
-
-  <!-- DIMENSION 1 — FINANCIER -->
-  <div class="dimension" id="financier">
-    <div class="dimension-header">
-      <div class="dimension-num">01</div>
-      <div>
-        <div class="dimension-title">Are you financially ready?</div>
-        <div class="dimension-sub">Banking · Exchange rates · Hidden fees</div>
-      </div>
-    </div>
     <div class="dimension-body">
       <p>Financial preparation for departure is rarely a budget problem. It's a tools problem. And if you don't know what your current bank charges on every foreign currency payment, you're not financially ready — even if your account is full.</p>
       <p>A foreign currency payment with a standard bank typically costs 1.5 to 3% in fees, often silently. Over a month abroad with normal expenses, that's €30 to €80 depending on the country. Over a year, several hundred. It's not a disaster — it's money lost without even noticing, transaction by transaction.</p>

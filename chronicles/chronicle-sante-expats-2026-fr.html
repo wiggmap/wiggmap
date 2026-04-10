@@ -130,7 +130,29 @@
 
     footer { text-align: center; padding: 32px 24px; font-family: 'Poppins', sans-serif; font-size: .76rem; color: var(--muted); border-top: 1px solid var(--border); margin-top: 32px; }
     @media (max-width: 600px) { .article-wrap { padding: 40px 18px 60px; } .conclusion { padding: 28px 20px; } }
-  </style>
+  /* HERO — city-chronicle style */
+.hero{position:relative;min-height:380px;display:flex;align-items:flex-end;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%)}
+.hero-inner{position:relative;z-index:1;width:100%;max-width:900px;margin:0 auto;padding:0 28px 40px}
+.hero-eyebrow{display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--g);margin-bottom:14px}
+.hero-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--g)}
+.hero-title{font-family:var(--serif);font-size:clamp(32px,5.5vw,56px);font-weight:900;line-height:1.05;color:#fff;letter-spacing:-0.02em;margin-bottom:12px;max-width:20ch}
+.hero-sub{font-family:var(--sans);font-size:15px;color:rgba(255,255,255,0.55);max-width:54ch;line-height:1.65}
+@media(max-width:720px){.hero{min-height:300px}.hero-inner{padding:0 16px 28px}.hero-title{font-size:clamp(26px,7vw,40px)}.hero-sub{font-size:13px}}
+.bandeau{background:var(--ink);border-top:1px solid rgba(255,255,255,0.06);padding:14px 0}
+.bandeau-inner{max-width:900px;margin:0 auto;padding:0 28px;display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:12px;color:rgba(255,255,255,0.35);flex-wrap:wrap}
+.bandeau-inner strong{color:rgba(255,255,255,0.55);font-weight:500}
+.bandeau-inner span.dot{opacity:0.25}
+.aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
+.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
+.aff-strip-list{display:flex;flex-direction:column;gap:10px}
+.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
+.aff-strip-item:hover{color:#fff}
+.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
+.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
+.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+</style>
 </head>
 <body>
 
@@ -138,23 +160,22 @@
 <div id="siteHeader"></div>
 
 <section class="hero">
-  <div class="hero-grid">
-    <div class="hero-copy">
-      <div class="kicker"><span class="dot"></span>Chronique · Analyse &amp; Décryptage</div>
-      <div class="series-badge">🏥 Santé &amp; Expatriation 2026</div>
-      <h1>Les Wigg Chroniques</h1>
-      <p class="hero-desc">Classés du meilleur au moins bon pour un résident étranger. Taïwan, Corée du Sud, Japon, Allemagne, France... avec les vraies conditions d'accès, les cotisations réelles et ce que la complémentaire couvre en plus.</p>
-      <div class="hero-badges">
-        <span class="badge">25 pays classés</span>
-        <span class="badge">Accès résidents étrangers</span>
-        <span class="badge">Cotisations réelles</span>
-        <span class="badge">Complémentaire conseillée</span>
-        <span class="badge">⏱ ~35 min de lecture</span>
-      </div>
-    </div>
-    <div class="hero-art"><img src="../assets/chronicles.png" alt="Wigg Chronicles"></div>
+  <div class="hero-bg" style="background-image:url('/assets/hero-france.jpg')"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Chronique · WiggMap</div>
+    <h1 class="hero-title">Les Wigg Chroniques</h1>
+    <p class="hero-sub">Taïwan, Corée du Sud, Japon, Allemagne, France, Espagne... Les 25 pays classés du meilleur au moins bon pour les résidents étrangers en 2026. Conditions d&#x27;accès</p>
   </div>
 </section>
+<div class="bandeau">
+  <div class="bandeau-inner">
+    <strong>Par Wigg</strong>
+    <span class="dot">·</span>
+    <span>2026</span>
+    <span class="dot">·</span>
+    <span>WiggMap</span>
+  </div>
+</div>
 
 <main class="article-wrap">
 
@@ -759,6 +780,26 @@
 <footer>
   WiggMap — Les informations sur les systèmes de santé présentées dans cet article sont indicatives et basées sur les données en vigueur début 2026. Les conditions d'accès, cotisations et niveaux de couverture évoluent régulièrement. Consultez toujours les organismes officiels compétents avant toute décision. Sources : OMS, OCDE Health Statistics 2025, NHIS Korea, NHI Taiwan, CAJA Costa Rica, Medicare Australia, KELA Finland.
 </footer>
+
+
+    <div class="aff-strip">
+      <div class="aff-strip-title">Préparer ton expatriation</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
+        </a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">💸 Transferts — Wise</span><span class="aff-strip-desc">Taux de change réel, sans frais cachés</span>
+        </a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span>
+        </a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
+          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span>
+        </a>
+      </div>
+      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+    </div>
 
 <div id="siteFooter"></div>
 <script src="../data/header.js"></script>
