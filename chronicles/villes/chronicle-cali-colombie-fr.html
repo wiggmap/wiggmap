@@ -98,14 +98,27 @@ summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-sh
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -143,68 +156,62 @@ Cali ne se présente pas — elle se danse. Depuis les années 1950, les barrios
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton installation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span>
-          <span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span>
-          <span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Carte SIM locale activable avant d'atterrir</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Accès sécurisé à tes comptes depuis l'étranger</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Préparer ton installation</p>
+    <p class="aff-title">Les outils <em>vraiment utiles</em> pour partir</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Dès 45$/mois</span>
       </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Assurance santé mondiale conçue pour les nomades. S'active depuis n'importe où.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Voir l'offre →</a>
+        <span class="aff-social">+1M nomades</span>
+      </div>
     </div>
-<h2>Cali en <span class="g">2026</span> — l'alternative méconnue, la plus abordable de Colombie</h2>
-
-<p>Santiago de Cali est la troisième ville de Colombie — 2,2 millions d'habitants dans la ville, 3,5 millions dans la région métropolitaine — capitale du département de Valle del Cauca, dans la vallée du fleuve Cauca entre la cordillère centrale et occidentale des Andes. Elle bénéficie d'un <strong>climat chaud et ensoleillé</strong> (22-28°C toute l'année, plus chaud que Medellín, sans l'humidité de Cartagena), d'une position stratégique entre les deux chaînes andines et le Pacifique colombien, et d'une économie diversifiée — la canne à sucre du Valle del Cauca (qui produit la quasi-totalité du sucre colombien), l'industrie pharmaceutique, et un secteur de services en croissance.</p>
-
-<p>Pour un expatrié ou un digital nomad en 2026, Cali est la ville colombienne la plus sous-estimée du guide. Moins médiatisée que Medellín, moins institutionnelle que Bogotá, moins pittoresque que Cartagena — mais moins chère que toutes les trois, avec un <strong>cost_index de 32</strong> (le plus bas de la Colombie dans ce guide), un climat plus chaud et plus ensoleillé que Medellín, une vie culturelle centrée sur la danse et la musique qui crée une atmosphère de joie permanente difficile à trouver ailleurs, et une communauté expat naissante qui n'a pas encore les inconvénients du tourisme de masse.</p>
-
-<div class="note ok">
-  <div class="note-ttl">✓ La ville colombienne la moins chère — cost_index 32</div>
-  <p>Un studio meublé de qualité à Cali se loue $80-120 de moins qu'à Medellín. Les restaurants locaux, le transport et les loisirs sont proportionnellement moins chers. Pour les budgets serrés ou les profils qui veulent maximiser leur durée de séjour en Colombie, Cali offre le meilleur rapport qualité-vie de la Colombie.</p>
-</div>
-
-<h2>La ville — identité <span class="g">&amp;</span> âme</h2>
-
-<p>Cali est une ville à deux vitesses — et c'est précisément ce qui la rend fascinante. D'un côté, les quartiers résidentiels du nord et du centre-nord (Granada, El Peñón, San Antonio, Ciudad Jardín) offrent une vie de quartier agréable, des restaurants de qualité, des cafés et une végétation tropicale abondante. De l'autre, la culture de la salsa imprègne chaque dimension de la vie sociale : les <strong>salsotecas</strong> — ces bars de danse propres à Cali qui mélangent musique live ou vinyles de salsa colombienne avec une piste de danse où tout le monde participe — sont présentes dans chaque barrio. On ne va pas à une salsoteca pour observer : on y danse. Et les Caleños dansent depuis l'enfance avec une fluidité naturelle qui laisse les touristes bouche bée.</p>
-
-<p>Le quartier de <strong>San Antonio</strong> est le plus charmant de la ville — un barrio colonial sur une colline au centre de Cali, avec une église du XVIIIe siècle, des ruelles pavées, des maisons colorées et une vue sur toute la ville. C'est le quartier des artistes, des boutiques de créateurs et des cafés arty — un mélange de Montmartre et de Getsemaní, à des prix beaucoup plus bas. <strong>Granada</strong>, au nord-ouest, est le quartier gastronomique et de la vie nocturne premium — restaurants de toutes les cuisines du monde, bars à cocktails, clubs de salsa haut de gamme. Et le <strong>Barrio Centenario</strong> est le quartier résidentiel calme et ombragé, très apprécié des expats à long terme pour son rapport qualité-vie.</p>
-
-<div class="pq">
-  <p>À Cali, la salsa n'est pas un spectacle pour touristes — c'est la façon dont les habitants traversent la semaine. Un vendredi soir dans une salsoteca de barrio, un enfant de 9 ans qui guide une grand-mère de 70 ans sur la piste : voilà ce que "culture vivante" veut vraiment dire.</p>
-</div>
-
-<h2>Quartiers — <span class="g">où s'installer ?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">Granada</div>
-    <div class="q-desc">Le quartier gastronomique et de vie nocturne. Restaurants, bars, cafés, clubs de salsa. Loyers : $400-900. Le plus animé de Cali. Bien pour les nouveaux arrivants qui veulent explorer rapidement la vie sociale. Moins de 20 min à pied de San Antonio.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Taux réel</span>
+      </div>
+      <p class="aff-name">Wise — Compte sans frontières</p>
+      <p class="aff-desc">Carte + virements en 40+ devises. Zéro commission cachée.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Ouvrir un compte →</a>
+        <span class="aff-social">16M+ clients</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Avant d'atterrir</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mondiale</p>
+      <p class="aff-desc">Carte SIM locale activable depuis ton canapé. 200+ pays couverts.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Choisir son eSIM →</a>
+        <span class="aff-social">10M+ utilisateurs</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Indispensable</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Accès sécurisé à tes comptes depuis l'étranger. Contourne les restrictions locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Sécuriser ma connexion →</a>
+        <span class="aff-social">Top 1 VPN mondial</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">San Antonio</div>
-    <div class="q-desc">Le quartier colonial bohème sur la colline. Architecture, artistes, cafés, vue panoramique. Loyers : $380-750. Le plus beau quartier de Cali. La recommandation WiggMap pour les créatifs et les long-termers qui veulent charme et authenticité.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Ciudad Jardín / El Peñón</div>
-    <div class="q-desc">Quartiers résidentiels premium du nord. Sécurisés, verdoyants, familles. Loyers : $500-1,100. Pour les familles et profils premium. Plus calmes que Granada, plus chers, mais excellent rapport confort/sécurité. Proche des centres commerciaux.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Barrio Centenario</div>
-    <div class="q-desc">Quartier résidentiel calme et ombragé, central. Vie de quartier authentique, marchés locaux, prix bas. Loyers : $300-600. Le meilleur rapport qualité-prix de Cali. Pour les expats long terme à budget optimisé qui veulent la vraie vie caleña.</div>
-  </div>
+  <p class="aff-footer">liens partenaires — sans surcoût pour toi</p>
 </div>
 
 <h2>Vie quotidienne <span class="g">&amp;</span> logement</h2>
@@ -384,5 +391,7 @@ Cali ne se présente pas — elle se danse. Depuis les années 1950, les barrios
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

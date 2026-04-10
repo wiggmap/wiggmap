@@ -125,14 +125,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -170,68 +183,62 @@ The theatre at Aspendos was built in 155 AD by the architect Zenon, funded by tw
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepare your move</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span>
-          <span class="aff-strip-desc">Global health cover from $45/mo</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Your borderless account</span>
-          <span class="aff-strip-desc">Card + transfers in 40+ currencies at the real rate</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Local SIM card ready before you land</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Secure access to your accounts from abroad</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepare your move</p>
+    <p class="aff-title">The tools <em>you actually need</em> to relocate</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">From $45/mo</span>
       </div>
-      <div class="aff-strip-note">partner links — at no extra cost to you</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Global health insurance built for nomads. Activate from anywhere.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">See the offer →</a>
+        <span class="aff-social">+1M nomads</span>
+      </div>
     </div>
-<h2>Antalya in <span class="g">2026</span> — far more than a holiday destination</h2>
-
-<p>Antalya is the city travellers know for its airport — the gateway to Turkey's beaches for millions of European tourists every summer. What they don't realise is that tens of thousands of those visitors never went home. Antalya is Turkey's top retirement destination, with one of the densest established expat communities in the entire Eastern Mediterranean: Russians, Germans, British, Dutch, Scandinavians, Ukrainians. These residents have their own neighbourhoods, associations, restaurants and English- or German-speaking doctors. For a new arrival, integration into this international community is among the fastest in the Turkish world.</p>
-
-<p>But Antalya is also a city of 2.6 million with its own urban fabric, universities, commercial port and admirably preserved old town (<strong>Kaleiçi</strong>) — a maze of Ottoman alleyways around a Roman harbour carved into the cliffs, with <strong>Hadrian's Gate</strong> (130 AD) as its centrepiece. It's a city that built its wealth on tourism but wasn't reduced to it — and for an expat seeking the best of both worlds (comfort, sun, sea, low prices), it's often the answer.</p>
-
-<div class="note ok">
-  <div class="note-ttl">✓ One of the Eastern Mediterranean's most established expat communities</div>
-  <p>Antalya is home to tens of thousands of permanent foreign residents. The Russian, German, British and Dutch communities have their own associations, schools, doctors and businesses. Integration into these networks is one of the fastest in Turkey — a major advantage for new arrivals.</p>
-</div>
-
-<h2>The city — identity <span class="g">&amp;</span> soul</h2>
-
-<p>Antalya opens onto the Mediterranean like a natural amphitheatre — the city is built on limestone cliffs that drop directly into turquoise water, with the snow-capped Taurus as a backdrop visible from any terrace. This natural setting is arguably the most spectacular of any city in this guide. The <strong>Kaleiçi</strong> neighbourhood (the walled old town) is a jewel of Ottoman architecture preserved almost intact — half-timbered wooden houses, cobbled alleys, small squares with palms and fountains, boutique hotels in restored mansions. It's the city's historical soul, twenty minutes' walk from the main beaches.</p>
-
-<p><strong>Konyaaltı</strong> beach, at the foot of the cliffs west of the city centre, is one of the most accessible urban beaches in the Mediterranean — 7 km of white pebbles and turquoise water, reachable by tram from the centre. <strong>Lara</strong> beach to the east is sandier and lined with large resort hotels. And east of the city, the coast extends towards <strong>Alanya</strong> (130 km), <strong>Side</strong> (75 km) and <strong>Kemer</strong> (45 km) — dozens of kilometres of Mediterranean coastline accessible from Antalya.</p>
-
-<div class="pq">
-  <p>Antalya doesn't need to sell itself. It has the sun, the sea, the ancient sites and the lowest prices in the Mediterranean. What sells itself is hard to ruin.</p>
-</div>
-
-<h2>Neighbourhoods — <span class="g">where to live?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">Kaleiçi / Old Town</div>
-    <div class="q-desc">The historic walled city. Ottoman alleyways, Roman harbour, Hadrian's Gate, boutique hotels. Very touristy in summer but authentic off-season. Rents: $350–600. Ideal for retirees and history enthusiasts. Noisy July–August.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Real rate</span>
+      </div>
+      <p class="aff-name">Wise — Borderless account</p>
+      <p class="aff-desc">Card + transfers in 40+ currencies. Zero hidden fees.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Open an account →</a>
+        <span class="aff-social">16M+ customers</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Before you land</span>
+      </div>
+      <p class="aff-name">Airalo — Global eSIM</p>
+      <p class="aff-desc">Local SIM card you activate from your couch. 200+ countries covered.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Pick your eSIM →</a>
+        <span class="aff-social">10M+ users</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Essential</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Secure access to your accounts from abroad. Bypass local restrictions.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Secure my connection →</a>
+        <span class="aff-social">#1 VPN worldwide</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">Konyaaltı / Hurma</div>
-    <div class="q-desc">The most popular expat residential neighbourhood. Beach on foot, restaurants, cafés, neighbourhood life. Rents: $280–500. Best value for families and active retirees. Tram to the centre. Well-established Russian and European community.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Lara / Güzeloba</div>
-    <div class="q-desc">Upmarket residential area to the east. Sandy beach, gated complexes with pools, quality restaurants. Rents: $350–650. Popular with affluent families and retirees who prefer comfort. Car recommended.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Kepez / Varsak</div>
-    <div class="q-desc">Popular, more affordable inland neighbourhoods. Less sea view but considerably cheaper. Rents: $200–360. For tight budgets or profiles who don't need daily sea access. Well served by buses.</div>
-  </div>
+  <p class="aff-footer">partner links — at no extra cost to you</p>
 </div>
 
 <h2>Daily life <span class="g">&amp;</span> housing</h2>
@@ -414,5 +421,7 @@ The theatre at Aspendos was built in 155 AD by the architect Zenon, funded by tw
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

@@ -40,14 +40,27 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 .faq{margin:36px 0}details{border:1px solid var(--rule);border-radius:var(--r);margin-bottom:8px;overflow:hidden}details[open]{border-color:var(--g)}summary{font-family:var(--sans);font-size:14px;font-weight:500;padding:16px 20px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;color:var(--ink);gap:12px;user-select:none}summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-shrink:0}details[open] summary::after{transform:rotate(45deg)}.faq-body{padding:4px 20px 18px;font-family:var(--sans);font-size:13.5px;color:var(--ink3);line-height:1.65}
 .links-block{border:1px solid var(--rule);border-radius:12px;padding:24px;margin:40px 0;background:var(--white)}.links-ttl{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:14px}.links-grid{display:flex;flex-wrap:wrap;gap:8px}.links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -75,55 +88,62 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 <p class="lead">Hay una conversación que se repite sin fin en los foros de expatriados en Argentina: ¿Buenos Aires o Córdoba? Los que eligen Buenos Aires citan la cultura, las conexiones internacionales, el peso de la capital. Los que eligen Córdoba suelen dejar de dar explicaciones al rato y simplemente dicen: vení a ver. Lo que quieren decir es esto: una ciudad de un millón y medio de habitantes construida alrededor de cinco universidades y 200.000 estudiantes, donde un piso amueblado en un barrio animado cuesta $320 al mes, donde las sierras empiezan a 30 kilómetros del centro, donde el acento es el más musical de todo el castellano argentino, y donde la vida nocturna es considerada por los propios argentinos la mejor del país. Córdoba se llama a sí misma <em>La Docta</em>. Es también, con bastante margen, la ciudad más disfrutable de Argentina para vivir en el día a día.</p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepara tu mudanza</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span>
-          <span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Tu cuenta sin fronteras</span>
-          <span class="aff-strip-desc">Tarjeta + transferencias en 40+ divisas al tipo real</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">SIM local activable antes de aterrizar</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Acceso seguro a tus cuentas desde el extranjero</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepara tu mudanza</p>
+    <p class="aff-title">Las herramientas <em>realmente útiles</em> para emigrar</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Desde 45$/mes</span>
       </div>
-      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Seguro de salud mundial pensado para nómadas. Se activa desde cualquier lugar.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Ver la oferta →</a>
+        <span class="aff-social">+1M nómadas</span>
+      </div>
     </div>
-<h2>Córdoba en <span class="g">2026</span> — la ciudad más habitable de Argentina al precio más accesible</h2>
-
-<p>Córdoba es la capital de la provincia homónima y la segunda ciudad de Argentina después de Buenos Aires — 1,5 millones de habitantes en la ciudad, 1,7 millones en el área metropolitana. Se encuentra en el centro geográfico del país, a 700 km al noroeste de Buenos Aires, al pie de las Sierras de Córdoba. La Universidad Nacional de Córdoba — fundada por los jesuitas en 1613, la más antigua de Argentina y una de las primeras de América del Sur — estableció el carácter intelectual de la ciudad desde el principio. Cuatro siglos después, las cinco universidades que ha acumulado matriculan conjuntamente a un estudiante por cada siete habitantes y medio. Ese ratio cambia radicalmente cómo se siente una ciudad por dentro.</p>
-
-<p>Para un expatriado en 2026, Córdoba ocupa un lugar muy particular: la elección que tiene más sentido cuanto más se conoce Argentina. Tiene todo lo que tiene Buenos Aires en términos de cultura argentina — la carne, el psicoanálisis, el tango, el asado, el ritmo nocturno tardío — a un coste un 20-30% menor, en una ciudad notablemente menos estresante, con una cordillera a la puerta que los porteños tienen que coger un avión para alcanzar. La contrapartida es un menor número de conexiones de vuelo internacionales, un mercado laboral corporativo más delgado y, siendo honestos, una ciudad que no tiene la densidad cultural de una capital de 15 millones de personas. Para la mayoría de los que trabajan en remoto y eligen dónde vivir en lugar de dónde encontrar trabajo, la balanza se inclina sistemáticamente hacia Córdoba.</p>
-
-<div class="note ok">
-  <div class="note-ttl">✓ Un 20-30% más barata que Buenos Aires en todo</div>
-  <p>Un estudio amueblado de calidad en Córdoba: $300-450/mes, frente a $450-700 en BA. Un bife de chorizo en un buen restaurante: $7-9 frente a $10-14 en BA. Una cerveza en un bar: $2-2,50 frente a $3-4 en BA. La diferencia es consistente y tiene un impacto significativo en el presupuesto mensual.</p>
-</div>
-
-<h2>La ciudad — identidad <span class="g">&amp;</span> carácter</h2>
-
-<p>El centro histórico de Córdoba se organiza alrededor de la <strong>Plaza San Martín</strong> y la <strong>Manzana Jesuítica</strong> — una manzana de edificios jesuitas del siglo XVII declarados Patrimonio Mundial de la UNESCO en el año 2000, que incluyen la catedral, el Colegio Montserrat y el edificio central de la Universidad Nacional. Es uno de los conjuntos barroco-coloniales mejor conservados de América del Sur, y lo que lo hace especial es que sigue funcionando a pleno rendimiento: la universidad opera aquí todos los días, los estudiantes cruzan sus patios desde hace cuatro siglos. La imagen de los muros de piedra centenaria y los alumnos con mochilas y auriculares es perfectamente cordobesa — docta y relajada a la vez, tomando la historia como algo dado.</p>
-
-<p><strong>Nueva Córdoba</strong>, el barrio universitario y nocturno a diez minutos a pie del centro histórico, es donde viven la mayoría de los estudiantes y los expatriados — una cuadrícula densa de edificios modernos, cientos de restaurantes y bares, librerías, cines y coworkings, en un barrio que funciona a plena potencia desde el final de la tarde hasta la madrugada siguiente. <strong>Güemes</strong>, justo al sur, se ha convertido en la última década en el barrio creativo y gastronómico de Córdoba — talleres artesanales, galerías, café de especialidad, restaurantes gastronómicos, alojamiento boutique — algo entre el Palermo Soho porteño y una versión más tranquila y selectiva de ese concepto. El <strong>Cerro de las Rosas</strong>, en las alturas al noroeste, es la zona residencial premium: casas con jardín, senderos para correr a lo largo del canal, una calle de restaurantes con nivel garantizado.</p>
-
-<p>La gastronomía en Córdoba es gastronomía argentina con un ligero descuento y un acento local. El <strong>sándwich de miga</strong> — pan de molde ultrafino sin corteza con jamón, queso fundido y ensalada, servido en los bares desde los años cincuenta — es el bocado más característicamente cordobés, sin equivalente real en ninguna otra parte del país. Los <strong>bodegones</strong> — restaurantes de barrio con manteles de plástico, vino de la casa en jarras y porciones que presuponen que llevas tres días sin comer — son aquí una institución de la misma manera que las trattorias lo son en Nápoles: un espacio social tanto como un lugar para comer. Y la carne es el mismo producto fundamental que en el resto de Argentina — vacuno de pasto pampeano, brasas de quebracho — trabajado aquí con el mismo rigor, solo que a un precio que hace que tres comidas semanales en la parrilla sean un ítem completamente normal del presupuesto.</p>
-
-<div class="pq"><p>Nueva Córdoba un jueves por la noche: las terrazas de Achával Rodríguez desbordan. Los estudiantes de la UNC terminaron los teóricos a las siete. La pizzería de la esquina está llena hasta medianoche. A la una de la madrugada el bar de enfrente empieza a calentarse. Es jueves — el viernes será peor.</p></div>
-
-<h2>Barrios — <span class="g">¿dónde instalarse?</span></h2>
-<div class="quartiers">
-  <div class="q-card"><div class="q-name">Nueva Córdoba</div><div class="q-desc">El núcleo estudiantil y nocturno. Denso, animado, céntrico, a diez minutos del centro histórico. Alquileres: $280-550. La elección natural para nómadas y expatriados jóvenes que quieren la energía de la ciudad al alcance de la mano. Ruidoso algunas noches, pero el ambiente es incomparable.</div></div>
-  <div class="q-card"><div class="q-name">Güemes</div><div class="q-desc">El barrio creativo y gastronómico. Talleres artesanales, galerías, café de especialidad, buenos restaurantes. Alquileres: $320-600. Para creativos y residentes a largo plazo que quieren un ambiente un poco más tranquilo sin perder el pulso de la ciudad. Más selectivo y menos estudiantil que Nueva Córdoba.</div></div>
-  <div class="q-card"><div class="q-name">Cerro de las Rosas</div><div class="q-desc">Residencial premium. Casas con jardín, sendero junto al canal, restaurantes de nivel. Alquileres: $450-900. Para familias y perfiles que quieren espacio y tranquilidad en Córdoba. Más dependiente del coche que las otras opciones.</div></div>
-  <div class="q-card"><div class="q-name">General Paz / Alta Córdoba</div><div class="q-desc">Barrios residenciales consolidados, asequibles y auténticos. Vida de barrio local, mercados, panaderías tradicionales. Alquileres: $240-440. Para presupuestos ajustados y perfiles que quieren la vida cotidiana argentina real sin saturación turística.</div></div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Tipo real</span>
+      </div>
+      <p class="aff-name">Wise — Cuenta sin fronteras</p>
+      <p class="aff-desc">Tarjeta + transferencias en 40+ divisas. Cero comisiones ocultas.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Abrir una cuenta →</a>
+        <span class="aff-social">16M+ clientes</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Antes de aterrizar</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mundial</p>
+      <p class="aff-desc">SIM local que activas desde tu sofá. 200+ países cubiertos.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Elegir mi eSIM →</a>
+        <span class="aff-social">10M+ usuarios</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Imprescindible</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Acceso seguro a tus cuentas desde el extranjero. Salta las restricciones locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Asegurar mi conexión →</a>
+        <span class="aff-social">Top 1 VPN mundial</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">enlaces de afiliado — sin coste adicional para ti</p>
 </div>
 
 <h2>Vida cotidiana <span class="g">&amp;</span> alojamiento</h2>
@@ -257,5 +277,7 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 <div class="orn"><span>· · ✦ · ·</span></div>
 <div id="siteFooter"></div><script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

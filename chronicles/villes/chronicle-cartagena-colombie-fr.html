@@ -95,14 +95,27 @@ summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-sh
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -140,68 +153,62 @@ En 1586, le corsaire anglais Francis Drake attaqua Cartagena de Indias avec 23 n
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton installation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span>
-          <span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span>
-          <span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Carte SIM locale activable avant d'atterrir</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Accès sécurisé à tes comptes depuis l'étranger</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Préparer ton installation</p>
+    <p class="aff-title">Les outils <em>vraiment utiles</em> pour partir</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Dès 45$/mois</span>
       </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Assurance santé mondiale conçue pour les nomades. S'active depuis n'importe où.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Voir l'offre →</a>
+        <span class="aff-social">+1M nomades</span>
+      </div>
     </div>
-<h2>Cartagena en <span class="g">2026</span> — la beauté caraïbe qui demande un prix</h2>
-
-<p>Cartagena de Indias est la capitale du département de Bolívar — 1,3 million d'habitants — et la ville coloniale la plus photographiée d'Amérique latine. Fondée en 1533, elle fut le premier grand port d'exportation de l'or de Nouvelle-Grenade vers l'Espagne, et l'un des principaux points d'entrée du commerce transatlantique des esclaves africains. Cette double histoire — richesse coloniale et douleur de l'esclavage — imprègne chaque ruelle de la ciudad amurallada et chaque mur peint de Getsemaní.</p>
-
-<p>Pour un expatrié en 2026, Cartagena propose quelque chose qu'aucune autre ville colombienne ne peut offrir : la combinaison d'une beauté architecturale coloniale classée UNESCO, d'un cadre marin caribéen (mer turquoise, îles à 45 minutes en bateau), d'une chaleur permanente de 28-34°C et d'un coût de vie encore inférieur aux grandes capitales mondiales. La contrepartie est réelle : la ville vit largement du tourisme, ce qui génère une pression de prix sur certains services, une saisonnalité marquée, et une présence touristique qui peut empiéter sur la qualité de vie en haute saison.</p>
-
-<div class="note ok">
-  <div class="note-ttl">✓ La seule grande ville côtière et caraïbe de Colombie</div>
-  <p>Cartagena est la seule grande métropole colombienne sur la mer des Caraïbes. Pour les expatriés qui veulent combiner la Colombie avec une vie balnéaire tropicale permanente — mer turquoise, plages, îles, sports nautiques — il n'y a pas d'alternative dans le pays.</p>
-</div>
-
-<h2>La ville — identité <span class="g">&amp;</span> âme</h2>
-
-<p>Cartagena est une ville à couches. La <strong>Ciudad Amurallada</strong> (Ville Fortifiée) — le cœur historique entouré des 11 km de murailles du XVIe-XVIIe siècle — est l'une des grandes réussites architecturales de l'Amérique coloniale. Ses rues étroites, ses maisons aux façades colorées avec des balcons débordants de fleurs, ses places et ses cathédrales constituent un ensemble d'une cohérence visuelle exceptionnelle. La nuit, éclairée de lampes à gaz et animée par les restaurants en terrasse et les musiciens de rue, la Ciudad Amurallada se transforme en quelque chose qui ressemble exactement à ce que García Márquez décrit dans ses romans.</p>
-
-<p><strong>Getsemaní</strong>, le quartier adjacent à l'est de la Ville Fortifiée, est le contre-point parfait. Anciennement quartier des esclaves libres et des artisans de couleur, longtemps délaissé, il est en train de vivre une renaissance artistique et culturelle qui en fait le quartier le plus authentique et le plus créatif de Cartagena. Ses murs sont couverts de murales géantes aux couleurs intenses qui racontent l'histoire des Africains déportés en Colombie — une scène de street art parmi les plus belles d'Amérique latine. Les tarifs y restent plus abordables qu'à l'intérieur des murailles.</p>
-
-<div class="pq">
-  <p>Cartagena au crépuscule, depuis le sommet des murailles face à la mer des Caraïbes, avec le dôme de la Cathédrale Santa Catalina dans le dos — c'est un des moments les plus beaux qu'un continent peut offrir. Il faut y être pour comprendre pourquoi García Márquez n'a jamais pu tout à fait s'en éloigner.</p>
-</div>
-
-<h2>Quartiers — <span class="g">où s'installer ?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">Getsemaní</div>
-    <div class="q-desc">Le quartier le plus authentique et créatif. Street art, cafés locaux, prix plus bas qu'à l'intérieur des murailles, vie de quartier réelle. Loyers : $500-1,000. La recommandation WiggMap pour les expats qui veulent vivre Cartagena sans la bulle touristique. À 5 min à pied de la Ciudad Amurallada.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Taux réel</span>
+      </div>
+      <p class="aff-name">Wise — Compte sans frontières</p>
+      <p class="aff-desc">Carte + virements en 40+ devises. Zéro commission cachée.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Ouvrir un compte →</a>
+        <span class="aff-social">16M+ clients</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Avant d'atterrir</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mondiale</p>
+      <p class="aff-desc">Carte SIM locale activable depuis ton canapé. 200+ pays couverts.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Choisir son eSIM →</a>
+        <span class="aff-social">10M+ utilisateurs</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Indispensable</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Accès sécurisé à tes comptes depuis l'étranger. Contourne les restrictions locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Sécuriser ma connexion →</a>
+        <span class="aff-social">Top 1 VPN mondial</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">Bocagrande</div>
-    <div class="q-desc">Le quartier résidentiel moderne sur la péninsule. Plage accessible, supermarchés, restaurants, immeubles modernes. Loyers : $550-1,200. Pour les expats qui veulent confort moderne et accès à la mer. Plus calme que la Ciudad Amurallada. La vie quotidienne la plus pratique.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Ciudad Amurallada</div>
-    <div class="q-desc">Vivre dans le cœur historique. Architecture coloniale exceptionnelle, restaurants gastronomiques, animation permanente. Loyers : $700-2,000+. Pour les profils qui acceptent le bruit et la foule en haute saison pour la beauté absolue. Expérience unique mais exigeante au quotidien.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Manga / El Laguito</div>
-    <div class="q-desc">Îles résidentielles plus calmes entre la ciudad et Bocagrande. Villas, familles, ambiance locale. Loyers : $450-900. Pour les familles et profils qui veulent calme, espace et accès facile à la ville. Moins animé mais plus agréable au quotidien avec des enfants.</div>
-  </div>
+  <p class="aff-footer">liens partenaires — sans surcoût pour toi</p>
 </div>
 
 <h2>Vie quotidienne <span class="g">&amp;</span> logement</h2>
@@ -385,5 +392,7 @@ En 1586, le corsaire anglais Francis Drake attaqua Cartagena de Indias avec 23 n
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

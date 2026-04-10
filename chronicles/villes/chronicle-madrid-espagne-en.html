@@ -259,14 +259,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -321,126 +334,63 @@ details[open] summary::after{transform:rotate(45deg)}
     </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepare your move</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span>
-          <span class="aff-strip-desc">Global health cover from $45/mo</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Your borderless account</span>
-          <span class="aff-strip-desc">Card + transfers in 40+ currencies at the real rate</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Local SIM card ready before you land</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Secure access to your accounts from abroad</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepare your move</p>
+    <p class="aff-title">The tools <em>you actually need</em> to relocate</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">From $45/mo</span>
       </div>
-      <div class="aff-strip-note">partner links — at no extra cost to you</div>
-    </div>
-    <h2>The soul of Madrid — <span class="g">a city that invented itself as a capital</span></h2>
-
-    <p>It's two in the morning on a Thursday and the terrace is full. Not just tourists — or rather, not only tourists. Madrile&ntilde;os of every generation, families with children who should have been in bed hours ago, abuelas finishing their glass of manzanilla with the same unhurried calm they'd bring to midday. Madrid has no conflicted relationship with the night. It has absorbed it into its identity with the same ease it absorbs everything else.</p>
-
-    <p>Madrid — 3.4 million people in the city, 7 million in the Community of Madrid, capital of Spain since 1561 — is the second-largest metropolitan area in the European Union after Paris. It sits on the Castilian plateau at 667 metres above sea level — the highest capital in Western Europe — which gives it a particularly luminous sky, dry and hot summers, winters colder than you might expect from the south, and around 2,769 hours of sunshine per year.</p>
-
-    <p>For a European expat, Madrid presents an equation that few continental capitals can match: high quality of life at a cost significantly lower than Paris, London, Amsterdam or Zurich. Housing costs less than half of Paris. Restaurants are a daily option on a middle-class income. Public transport is dense, reliable and cheap. And the city offers a cultural concentration — museums, gastronomy, nightlife, architecture — that rivals any capital on the continent.</p>
-
-    <div class="pq">
-      <p>I left Paris for Madrid thinking I was making a sacrifice. Six months later I was asking myself why I'd waited so long. Same salary, apartment twice the size, and I can afford a restaurant every night.</p>
-    </div>
-
-    <p>Madrid lacks the historical legitimacy of Lisbon, the baroque charm of Seville or the fiercely claimed cultural identity of Barcelona. It became the capital by royal decree from Philip II in 1561 — because it was at the geographical centre of the Iberian Peninsula, not because it was Spain's most beautiful city. Since then, it has compensated for that artificial legitimacy with a vitality that belongs to it alone. Madrid is the city that decided to be greater than its own history, and succeeded.</p>
-
-    <p>The result is a paradoxical place: modern in its relationship with time and pleasure, yet deeply attached to its rituals — the <em>tertulia</em> in historic caf&eacute;s, the Sunday morning <em>paseo</em> in the Retiro, the <em>cocido madrile&ntilde;o</em> on Thursdays, the August <em>verbena</em> in the working-class districts. It is simultaneously the most Latin city in Europe and a startup capital whose tech ecosystem exploded after 2020. It absorbs people with disarming ease — whatever the nationality, Madrid quickly finds somewhere to slot you in.</p>
-
-    <p>The urban infrastructure is first-rate. Madrid's metro (302 km, 302 stations, 13 lines) is one of Europe's most extensive and runs until 1:30am on weekdays (2am at weekends). The Cercan&iacute;as commuter rail network completes the picture. All of it for around &euro;55 a month with the Abono Zona A pass. By comparison, a Paris Navigo pass costs &euro;86.40 and London's underground stops much earlier.</p>
-
-    <div class="note warn">
-      <div class="note-ttl">🌡️ Madrid summers — extreme heat in July and August</div>
-      <p>Madrid suffers increasingly brutal summers under the effects of climate change. Heatwaves reaching 40–42°C are now routine in July and August. The city's outdoor public spaces — parks, terraces, markets — have no climate control, and older apartments can become genuinely uncomfortable. Air conditioning has become near-essential. Local strategy: go out early morning and after 8pm, escape to the coast or the mountains (Sierra de Guadarrama, one hour away) in August if possible. Madrid's golden months: May–June and September–October, with ideal temperatures and terraces at their best.</p>
-    </div>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <h2>Housing — <span class="g">Spain's tightest rental market</span></h2>
-
-    <p>Madrid is the Spanish city where housing pressure is most intense — and 2025 figures confirm it. The rent for an 80m² apartment rose 6.4% in one year, reaching approximately &euro;1,788 per month in July 2025 according to Fotocasa. For a one-bedroom apartment, the realistic range in 2026 is &euro;1,100–1,400 per month depending on the neighbourhood — roughly $1,200–1,525 USD. That is significantly more expensive than Barcelona or Valencia, but still well below Paris (&euro;1,800–2,500 for a studio/one-bedroom) or London.</p>
-
-    <p>The most accessible neighbourhoods with solid city-centre connections: <strong>Carabanchel</strong> and <strong>Vallecas</strong> (working-class, well served by metro, around &euro;900–1,100/mo), <strong>Usera</strong> (Madrid's Chinatown, diverse, very affordable, &euro;800–1,000), <strong>Arganzuela</strong> (canal-side, residential neighbourhood on the rise, &euro;1,100–1,300), <strong>Vic&aacute;lvaro</strong> and <strong>Hortaleza</strong> (eastern periphery, quieter, &euro;900–1,100). The most expensive: <strong>Salamanca</strong>, <strong>Chamart&iacute;n</strong>, <strong>Chamber&iacute;</strong> — the wealthy northern and eastern districts, where one-bedroom rents reach &euro;1,500–2,200 or more.</p>
-
-    <p>Buying remains relatively accessible by European capital standards. The price per m² within the M30 ring road sits around &euro;3,850 — half the cost of Paris (&euro;9,000–10,000/m²) or London. For an expat with a deposit and a long-term horizon, property purchase in Madrid can be a genuinely interesting proposition.</p>
-
-    <div class="note info">
-      <div class="note-ttl">🏥 Healthcare — the Spanish SNS for expats</div>
-      <p>Spain's National Health System (<em>Sistema Nacional de Salud</em>) is universal and free for all legal residents. Two steps are required to access it: obtaining the NIE (<em>N&uacute;mero de Identificaci&oacute;n de Extranjero</em>) and then the <em>tarjeta sanitaria individual</em> (health card), issued at your local health centre (<em>centro de salud</em>) on presentation of your NIE and proof of address. Primary and hospital care is then free. Waiting times for specialists can be long in the public system — a supplementary private health insurance policy (Sanitas, Adeslas, Asisa) costs approximately &euro;50–80/month and dramatically speeds up specialist consultations.</p>
-    </div>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <h2>Working <span class="g">from Madrid</span></h2>
-
-    <p>Madrid is Spain's economic capital — and by a significant margin. It concentrates the headquarters of the country's largest companies (Inditex, Santander, BBVA, Repsol, Telef&oacute;nica, Iberdrola), regional offices for a large share of multinationals operating in Spain, and a startup ecosystem that exploded after 2018. The city has been chosen as the European headquarters by Amazon, Google, Microsoft, Vodafone and dozens of others for Latin American market access (shared language, compatible time zone), cost of living and tax incentives.</p>
-
-    <p>The <strong>Beckham Regime</strong> — formally the <em>Ley Impatriados</em>, Article 93 of the LIRPF — is one of the most powerful arguments for qualified expats. People relocating to Spain for work can, under conditions, benefit from a flat income tax rate of 24% on Spanish earnings up to &euro;600,000 for six years — instead of the progressive standard rates (which can exceed 47%). The regime was originally applied to David Beckham during his time at Real Madrid, hence its international nickname. It is a significant tax break for profiles earning well above the average.</p>
-
-    <p>The coworking network is dense and high quality: <strong>Spaces</strong> and <strong>WeWork</strong> (multiple addresses), <strong>Utopicus</strong> (Spanish operator, well established), <strong>La Maquinista</strong> (Chamber&iacute;), <strong>Impact Hub Madrid</strong> (Lavapi&eacute;s — one of Europe's best startup hubs). Fibre is ubiquitous (Spain ranks #1 in Europe for fibre coverage), very fast (500 Mbps standard, 1 Gbps available) and cheap (around &euro;40/month). The digital equation is unbeatable.</p>
-
-    <div class="note">
-      <div class="note-ttl">🛂 NIE and Digital Nomad Visa — the two main pathways</div>
-      <p>For EU nationals: free movement, immediate installation, just the NIE to apply for (Oficina de Extranjeros). For non-EU: several options. The Spanish <strong>Digital Nomad Visa</strong> (created in 2023) allows non-EU remote workers to live in Spain for up to one year (renewable), with access to the Beckham Regime. Requirements: proven remote work contract or freelance status, minimum income of approximately &euro;2,334/month. The application is filed at the Spanish Consulate in the country of origin. The <strong>Entrepreneur Visa</strong> (<em>Visa Emprendedor</em>) is available for founders seeking to establish an innovative company in Spain.</p>
-    </div>
-
-    <div class="note">
-      <div class="note-ttl">💱 Exchange rate note</div>
-      <p>All prices are in US dollars. Reference rate: 1&euro; ≈ 1.09 USD (March 2026). Euro amounts are shown in parentheses for direct reference.</p>
-    </div>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <h2>Health <span class="g">&amp;</span> Safety</h2>
-
-    <p>Spain's healthcare system is regularly ranked among the world's finest. Hospital La Paz, Hospital Gregorio Mara&ntilde;&oacute;n and Hospital Cl&iacute;nico San Carlos are internationally recognised university hospitals. Spanish medicine has particular strengths in cardiology, transplantation and oncology. The network of neighbourhood health centres (<em>centros de salud</em>) is dense and accessible — this is where GP consultations take place, free with the health card. A&amp;E (<em>urgencias</em>) at major public hospitals is known for being fast and effective for serious cases.</p>
-
-    <p>Madrid is a very safe city by international standards. Violent crime is low. The neighbourhoods most popular with expats (Malasa&ntilde;a, Chueca, Lavapi&eacute;s, Chamber&iacute;, Arg&uuml;elles, La Latina) are safe day and night. The main alert concerns pickpockets (<em>carteristas</em>), particularly active on the Gran V&iacute;a, Puerta del Sol, in tourist metro stations and on certain bus routes. Standard vigilance with personal belongings in those areas — nothing that warrants any deeper concern.</p>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <h2>Neighbourhoods <span class="g">&amp;</span> Identities — Madrid's many faces</h2>
-
-    <p>Madrid is a city of strongly characterised barrios. Each neighbourhood functions as an urban village with its own shops, bars and habits. Understanding these microterritories is understanding the city itself.</p>
-
-    <div class="quartiers">
-      <div class="q-card">
-        <div class="q-name">Malasa&ntilde;a</div>
-        <div class="q-desc">The quintessential bohemian neighbourhood. Vinyl bars, alternative caf&eacute;s, creative restaurants, vintage boutiques. The epicentre of La Movida in the 1980s — still the city's alternative heart.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Chueca</div>
-        <div class="q-desc">Historic and highly inclusive LGBT+ neighbourhood. Bars, trendy restaurants, design shops. Festive and cosmopolitan atmosphere — one of Madrid's most vibrant.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Lavapi&eacute;s</div>
-        <div class="q-desc">Madrid's most multicultural neighbourhood. Restaurants from around the world, bookshops, alternative galleries, neighbourhood terraces. International creative generation.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">La Latina</div>
-        <div class="q-desc">The historic heart of Madrid. Medieval streets, tapas bars, the Cava Baja (tapas street) and El Rastro (Sunday flea market). Concentrated Madrile&ntilde;o authenticity.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Chamber&iacute;</div>
-        <div class="q-desc">Bourgeois, residential, very alive. Mercado de Vallehermoso, historic caf&eacute;s, well-established restaurants. Highly popular with expat professionals and families.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Retiro</div>
-        <div class="q-desc">Around the Retiro Park (125 ha). Calm, prestigious, very green. Direct access to the three great museums. Upscale apartments, mixed population of embassies/families/intellectuals.</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Global health insurance built for nomads. Activate from anywhere.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">See the offer →</a>
+        <span class="aff-social">+1M nomads</span>
       </div>
     </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Real rate</span>
+      </div>
+      <p class="aff-name">Wise — Borderless account</p>
+      <p class="aff-desc">Card + transfers in 40+ currencies. Zero hidden fees.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Open an account →</a>
+        <span class="aff-social">16M+ customers</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Before you land</span>
+      </div>
+      <p class="aff-name">Airalo — Global eSIM</p>
+      <p class="aff-desc">Local SIM card you activate from your couch. 200+ countries covered.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Pick your eSIM →</a>
+        <span class="aff-social">10M+ users</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Essential</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Secure access to your accounts from abroad. Bypass local restrictions.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Secure my connection →</a>
+        <span class="aff-social">#1 VPN worldwide</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">partner links — at no extra cost to you</p>
+</div>
 
     <div class="orn"><span>· · ✦ · ·</span></div>
 
@@ -678,5 +628,7 @@ details[open] summary::after{transform:rotate(45deg)}
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

@@ -136,14 +136,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -198,62 +211,63 @@ details[open] summary::after{transform:rotate(45deg)}
     </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepare your move</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span>
-          <span class="aff-strip-desc">Global health cover from $45/mo</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Your borderless account</span>
-          <span class="aff-strip-desc">Card + transfers in 40+ currencies at the real rate</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Local SIM card ready before you land</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Secure access to your accounts from abroad</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepare your move</p>
+    <p class="aff-title">The tools <em>you actually need</em> to relocate</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">From $45/mo</span>
       </div>
-      <div class="aff-strip-note">partner links — at no extra cost to you</div>
-    </div>
-    <h2>Tokyo, the <span class="g">impossible city</span></h2>
-
-    <p>Tokyo is the world's largest urban agglomeration, with 37 million people in the broader metropolitan area. The city of Tokyo itself — the 23 <em>ku</em> (wards) plus the western municipalities — holds 14 million people across 2,194 km². It is simultaneously the political, economic, cultural and media capital of Japan — a concentration of functions that has no equivalent in any other developed democracy. And yet Tokyo does not overwhelm. It does not resemble what one imagines a megacity to be. It is clean, quiet, ordered, precise. It works.</p>
-
-    <p>This functioning is not accidental. It is the result of a culture that has elevated to a way of life the notions of <em>kaizen</em> (continuous improvement), <em>monozukuri</em> (making things with care and conviction) and a form of public space respect that turns every daily interaction — on the metro, at the konbini, at a restaurant, in a queue — into an implicit social protocol of remarkable precision. Tokyo was destroyed twice in the 20th century — by the Great Kanto Earthquake of 1923 (140,000 deaths, 300,000 buildings destroyed) and by the firebombing raids of 1945 (over 80,000 dead in the single night of 9 March alone). It rebuilt itself twice in less than a century. One interpretation of that resilience is that a city which starts from zero twice learns to take nothing for granted — and to build everything with particular care.</p>
-
-    <p>Geographically, Tokyo is organised around the loop of the <strong>JR Yamanote Line</strong> — the circular railway that connects the major stations (Shinjuku, Shibuya, Ikebukuro, Tokyo, Ueno, Shinagawa) in a 60-minute complete circuit. Inside this loop lie the most expensive and densest neighbourhoods. Outside it, more affordable residential areas spread west (Suginami, Setagaya) and north (Nerima, Itabashi). The golden rule of Tokyo housing: every additional minute's walk from the nearest station reduces rent in a non-linear way.</p>
-
-    <div class="quartiers">
-      <div class="q-card">
-        <div class="q-name">Shinjuku</div>
-        <div class="q-desc">The world's busiest intersection. Transport hub, Kabukicho nightlife, Golden Gai micro-bars, Golden Square. Everything is here. 1K rent ~¥80,000–100,000.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Shibuya / Ebisu / Daikanyama</div>
-        <div class="q-desc">The trendy triangle. Shibuya Crossing, creative gastronomy, concept stores, tech startups. The most expensive on the Yamanote loop. For expat or corporate budgets. 1K ~¥95,000+.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Nakano / Koenji / Shimokitazawa</div>
-        <div class="q-desc">Alternative Tokyo. Vinyl record shops, underground theatre, anime cafés, subcultures. Much more affordable (~¥65,000–80,000) and 10–15 min from Shinjuku.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Meguro / Setagaya</div>
-        <div class="q-desc">Upscale residential with parks and rivers. Very popular with expat families. Good schools, quiet atmosphere. High rents but incomparable neighbourhood life.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Asakusa / Ueno</div>
-        <div class="q-desc">Traditional Tokyo. Senso-ji Temple, crafts, markets, museums. Cheaper than the central-west. Ideal for those seeking authenticity without paying Minato prices.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Minato / Azabu-Juban</div>
-        <div class="q-desc">The diplomatic and premium expat quarter. Embassies, Western supermarkets, international schools. Tokyo's highest rents. 1K ~¥136,000+.</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Global health insurance built for nomads. Activate from anywhere.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">See the offer →</a>
+        <span class="aff-social">+1M nomads</span>
       </div>
     </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Real rate</span>
+      </div>
+      <p class="aff-name">Wise — Borderless account</p>
+      <p class="aff-desc">Card + transfers in 40+ currencies. Zero hidden fees.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Open an account →</a>
+        <span class="aff-social">16M+ customers</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Before you land</span>
+      </div>
+      <p class="aff-name">Airalo — Global eSIM</p>
+      <p class="aff-desc">Local SIM card you activate from your couch. 200+ countries covered.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Pick your eSIM →</a>
+        <span class="aff-social">10M+ users</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Essential</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Secure access to your accounts from abroad. Bypass local restrictions.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Secure my connection →</a>
+        <span class="aff-social">#1 VPN worldwide</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">partner links — at no extra cost to you</p>
+</div>
 
     <div class="orn"><span>· · ✦ · ·</span></div>
 
@@ -550,5 +564,7 @@ details[open] summary::after{transform:rotate(45deg)}
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

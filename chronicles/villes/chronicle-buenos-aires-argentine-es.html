@@ -41,14 +41,27 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 .faq{margin:36px 0}details{border:1px solid var(--rule);border-radius:var(--r);margin-bottom:8px;overflow:hidden}details[open]{border-color:var(--g)}summary{font-family:var(--sans);font-size:14px;font-weight:500;padding:16px 20px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;color:var(--ink);gap:12px;user-select:none}summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-shrink:0}details[open] summary::after{transform:rotate(45deg)}.faq-body{padding:4px 20px 18px;font-family:var(--sans);font-size:13.5px;color:var(--ink3);line-height:1.65}
 .links-block{border:1px solid var(--rule);border-radius:12px;padding:24px;margin:40px 0;background:var(--white)}.links-ttl{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:14px}.links-grid{display:flex;flex-wrap:wrap;gap:8px}.links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -76,55 +89,62 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 <p class="lead">Que una ciudad latinoamericana tenga más psicoanalistas per cápita que Nueva York, más que Viena, más que Israel, ya dice mucho. Pero Buenos Aires no para ahí. Es también la ciudad con más librerías por habitante de América del Sur. Su tradición teatral independiente — el <em>teatro off</em> en salas de veinte butacas instaladas en casas viejas de Almagro o Villa Crespo — produce temporadas que envergüenzan a muchas capitales europeas. Y sus parillas de barrio sirven carne de ganado criado en campo abierto en la Pampa que los mejores asadores del mundo reconocen como una categoría aparte. Todo esto en una ciudad con arquitectura haussmanniana en Recoleta, calles adoquinadas en San Telmo y cafés que llevan abiertos desde 1858, disponible para quien gana en dólares o euros a un precio que haría llorar de envidia a cualquier habitante de Madrid o Barcelona.</p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepara tu mudanza</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span>
-          <span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Tu cuenta sin fronteras</span>
-          <span class="aff-strip-desc">Tarjeta + transferencias en 40+ divisas al tipo real</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">SIM local activable antes de aterrizar</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Acceso seguro a tus cuentas desde el extranjero</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepara tu mudanza</p>
+    <p class="aff-title">Las herramientas <em>realmente útiles</em> para emigrar</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Desde 45$/mes</span>
       </div>
-      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Seguro de salud mundial pensado para nómadas. Se activa desde cualquier lugar.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Ver la oferta →</a>
+        <span class="aff-social">+1M nómadas</span>
+      </div>
     </div>
-<h2>Buenos Aires en <span class="g">2026</span> — la capital de clase mundial al precio de ciudad secundaria</h2>
-
-<p>Buenos Aires es la capital federal de Argentina y la mayor ciudad de América del Sur después de São Paulo — 3 millones de habitantes en la ciudad autónoma, 15 millones en el Gran Buenos Aires. Se asienta a 34°S sobre el Río de la Plata, tan ancho que desde la costanera parece un mar interior. Fundada definitivamente en 1580 (el primer intento en 1536 fue desmantelado por la resistencia indígena), creció como el principal puerto de la América española del sur y recibió entre 1880 y 1930 la mayor oleada de inmigración europea de la historia del continente: italianos, españoles, judíos askenazíes, vascos, galeses. Construyeron la ciudad a imagen de las que habían dejado atrás, con los mismos bulevares anchos, los mismos edificios con molduras y los mismos cafés de mármol. El resultado es la ciudad más europea del hemisferio occidental y el lugar más argentino del planeta al mismo tiempo.</p>
-
-<p>Para un expatriado en 2026, Buenos Aires plantea una propuesta singular. Por un lado: una capital con sustancia cultural y arquitectónica de primera división mundial — teatro, ópera, museos, universidades, gastronomía construida alrededor de uno de los mejores productos proteicos del planeta. Por otro: la inestabilidad económica crónica de Argentina — inflación histórica, crisis monetarias recurrentes, devaluación del peso — que para alguien con ingresos en divisas fuertes significa que está viviendo todo eso a una fracción de lo que costaría en Lisboa, Berlín o Ciudad de México. El intercambio requiere aceptar cierta complejidad monetaria y una vigilancia sobre la seguridad personal que la mayoría de las ciudades europeas no exigen. La mayoría de los expatriados que superan los seis meses deciden que el trato les favorece con creces.</p>
-
-<div class="note warn">
-  <div class="note-ttl">⚠️ Contexto económico — leer antes de presupuestar</div>
-  <p>Argentina en 2026 está en plena reforma bajo el presidente Milei (elegido en 2023). La inflación anual ha bajado del 211% (2023) a aproximadamente el 60% (2025-2026) — sigue siendo alta, pero marca un cambio real de tendencia. El peso se ha estabilizado parcialmente. Para los expatriados: calcular el presupuesto en dólares y convertir en el momento del gasto en lugar de planificar en pesos. Mantener los ahorros en divisa fuerte.</p>
-</div>
-
-<h2>La ciudad — identidad <span class="g">&amp;</span> carácter</h2>
-
-<p>Buenos Aires toma la cultura en serio de maneras que pueden resultar sorprendentes para quien viene del mundo anglosajón. Los porteños leen — la ciudad tiene más librerías per cápita que casi cualquier otro lugar de América del Sur y están llenas de gente. Van al teatro — Buenos Aires tiene más butacas de teatro que Londres y una tradición de <em>teatro independiente</em> (producción en espacios pequeños convertidos en salas, con dramaturgos y directores propios) que genera trabajo genuinamente exigente a precios accesibles para todos. Debaten sobre literatura, filosofía y política con la misma intensidad que otras ciudades debaten sobre fútbol. Y van al psicoanalista — Buenos Aires tiene unos 45.000, más que ningún país del mundo en números absolutos. El barrio de Palermo, en las calles alrededor de Scalabrini Ortiz, tiene tal densidad de placas de consultorio en los portales de los edificios que los propios porteños lo llaman <em>Villa Freud</em>. Ir al analista una o dos veces por semana es una actividad de clase media normal aquí, tan natural como ir al gimnasio.</p>
-
-<p>El <strong>tango</strong> merece una explicación específica para los recién llegados. El tango que se ve en los espectáculos turísticos de San Telmo es una representación. El tango en las milongas — los salones de baile que llevan funcionando desde los años cuarenta — es una conversación entre dos personas, improvisada, técnicamente exigente, y conducida mediante un sistema de códigos no verbales que requieren meses para dominarse. El <em>cabeceo</em> — un leve asentimiento para invitar a bailar, aceptado o rechazado solo con la mirada — hace posible que una milonga dure cuatro horas sin que se produzca prácticamente ningún intercambio verbal. Entrar de verdad en este mundo requiere el mismo compromiso que aprender una lengua. La comunidad de bailarines serios es cálida, internacional y muy específica — una de las subculturas más interesantes de la ciudad para los expatriados con paciencia para adentrarse en ella correctamente.</p>
-
-<p>La gastronomía funciona sobre tres pilares. Primero, la <strong>parrilla</strong>: carne bovina argentina, criada a pasto en la Pampa sin corrales de engorde, hormonas ni antibióticos sistemáticos, cocinada sobre brasas de quebracho por un <em>parrillero</em> que considera esto un oficio — no un trabajo. Los cortes son distintos a los que espera la mayoría de los visitantes (el asado de tira, el vacío, la entraña) y el perfil de sabor de la carne de pasto argentina no tiene equivalente real en Europa del Norte ni en América del Norte. Segundo, las <strong>empanadas</strong>: empanadillas rellenas de carne, pollo, verdura o queso que son uno de los grandes alimentos portátiles y están disponibles en todas partes a precios irrisorios. Tercero, la <strong>cultura del café</strong>: bares de mesa con servicio donde un solo cortado da derecho a quedarse horas sin que nadie te mire mal. El Tortoni, abierto desde 1858, es el más famoso; decenas de equivalentes menos turísticos funcionan en Palermo, Recoleta y Villa Crespo.</p>
-
-<div class="pq"><p>Buenos Aires a medianoche: el restaurante empieza a llenarse. La pizzería de al lado tiene cola en la calle. A las 2 de la madrugada los bares de Palermo están llenos. El público del teatro independiente acaba de salir a la acera. Una ciudad que no empieza hasta las 23h — y que nunca ha pedido perdón por ello.</p></div>
-
-<h2>Barrios — <span class="g">¿dónde instalarse?</span></h2>
-<div class="quartiers">
-  <div class="q-card"><div class="q-name">Palermo (Soho / Hollywood)</div><div class="q-desc">El barrio expat y nómada por excelencia. El más denso en cafeterías, restaurantes, bares, coworkings, parques y librerías. Alquileres: $450-900. El más seguro de noche, la comunidad internacional más densa, la mejor infraestructura para nómadas. Soho para la vida de calle y las compras; Hollywood para la gastronomía y la vida nocturna.</div></div>
-  <div class="q-card"><div class="q-name">Recoleta</div><div class="q-desc">El BA haussmanniano. Museo de Bellas Artes, Cementerio de la Recoleta, cafés centenarios, embajadas. Alquileres: $500-1.100. Para perfiles que quieren el nivel europeo y la proximidad a las instituciones culturales. Menos animado de noche pero extraordinario arquitectónicamente.</div></div>
-  <div class="q-card"><div class="q-name">San Telmo</div><div class="q-desc">Colonial y bohemio. Adoquines, anticuarios, tango, mercado dominical de la Plaza Dorrego. Alquileres: $400-750. Para creativos que buscan ambiente. Gentrificación irregular — algunos bloques son preciosos, otros todavía muy rudos. Conviene recorrerlo antes de comprometerse con un piso.</div></div>
-  <div class="q-card"><div class="q-name">Belgrano / Villa Crespo</div><div class="q-desc">Residencial y consolidado. Belgrano: tranquilo, burgués, buenas escuelas, grandes comunidades judía y asiática. Villa Crespo: en plena transformación, talleres de artistas, gastronomía emergente. Alquileres: $380-700. Para familias y residentes a largo plazo que quieren el BA local.</div></div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Tipo real</span>
+      </div>
+      <p class="aff-name">Wise — Cuenta sin fronteras</p>
+      <p class="aff-desc">Tarjeta + transferencias en 40+ divisas. Cero comisiones ocultas.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Abrir una cuenta →</a>
+        <span class="aff-social">16M+ clientes</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Antes de aterrizar</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mundial</p>
+      <p class="aff-desc">SIM local que activas desde tu sofá. 200+ países cubiertos.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Elegir mi eSIM →</a>
+        <span class="aff-social">10M+ usuarios</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Imprescindible</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Acceso seguro a tus cuentas desde el extranjero. Salta las restricciones locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Asegurar mi conexión →</a>
+        <span class="aff-social">Top 1 VPN mundial</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">enlaces de afiliado — sin coste adicional para ti</p>
 </div>
 
 <h2>Vida cotidiana <span class="g">&amp;</span> alojamiento</h2>
@@ -259,5 +279,7 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 <div class="orn"><span>· · ✦ · ·</span></div>
 <div id="siteFooter"></div><script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

@@ -1,0 +1,321 @@
+/* ═══════════════════════════════════════════════════
+   WiggMap Connect Widget — Chronicle Cities
+   Prefix: .wcc-  (WiggMap Connect Chronicle)
+   ═══════════════════════════════════════════════════ */
+
+/* Palette */
+:root {
+  --wcc-cream-bg: #faf8f3;
+  --wcc-cream-card: #f0ece0;
+  --wcc-green: #1a5430;
+  --wcc-green-light: #d4e8d0;
+  --wcc-border: #c8bfaa;
+  --wcc-border-light: #e0d8cc;
+  --wcc-text-dark: #1a1208;
+  --wcc-text-body: #2a2215;
+  --wcc-text-muted: #8a7f6a;
+  --wcc-text-ghost: #b0a898;
+}
+
+/* Container */
+.wcc-widget {
+  max-width: 900px;
+  margin: 48px auto 0;
+  padding: 0 28px 48px;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--wcc-text-body);
+  line-height: 1.6;
+}
+
+/* Header row */
+.wcc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+.wcc-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(24px, 3.5vw, 34px);
+  font-weight: 700;
+  color: var(--wcc-text-dark);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+/* Save button */
+.wcc-save-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: 1px solid var(--wcc-border);
+  border-radius: 2px;
+  background: #fff;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--wcc-text-dark);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.wcc-save-btn:hover {
+  border-color: var(--wcc-green);
+  color: var(--wcc-green);
+}
+.wcc-save-btn.saved {
+  background: var(--wcc-green);
+  color: #f5f0e8;
+  border-color: var(--wcc-green);
+}
+
+/* Section separator */
+.wcc-sep {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 28px 0 18px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--wcc-text-muted);
+}
+.wcc-sep::before,
+.wcc-sep::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--wcc-border-light);
+}
+
+/* Post card */
+.wcc-post {
+  background: #fff;
+  border: 1px solid var(--wcc-border-light);
+  border-radius: 2px;
+  padding: 18px 20px;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+/* Pinned post */
+.wcc-post.pinned {
+  background: var(--wcc-cream-card);
+  border-color: var(--wcc-border);
+  border-left: 3px solid var(--wcc-green);
+}
+
+/* Validated badge */
+.wcc-validated {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--wcc-green);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Type tag */
+.wcc-type-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+.wcc-type-tag.temoignage { background: #d4e8d0; color: #1a5430; }
+.wcc-type-tag.flash       { background: #ead9b0; color: #7a4f10; }
+.wcc-type-tag.question     { background: #e8d0d4; color: #7a1a2e; }
+
+/* Post meta */
+.wcc-post-author {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--wcc-text-dark);
+  margin-bottom: 2px;
+}
+.wcc-post-route {
+  font-size: 11px;
+  color: var(--wcc-text-muted);
+  margin-bottom: 10px;
+}
+
+/* Post text */
+.wcc-post-text {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--wcc-text-body);
+  margin-bottom: 14px;
+}
+
+/* Vote button */
+.wcc-useful-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.wcc-useful-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border: 1px solid var(--wcc-border-light);
+  border-radius: 2px;
+  background: #fff;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--wcc-text-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.wcc-useful-btn:hover {
+  border-color: var(--wcc-green);
+  color: var(--wcc-green);
+}
+.wcc-useful-btn.voted {
+  background: var(--wcc-cream-card);
+  border-color: var(--wcc-green);
+  color: var(--wcc-green);
+}
+
+/* Progress bar */
+.wcc-progress {
+  flex: 1;
+  height: 4px;
+  background: var(--wcc-border-light);
+  border-radius: 2px;
+  overflow: hidden;
+  max-width: 120px;
+}
+.wcc-progress-fill {
+  height: 100%;
+  background: var(--wcc-green);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.wcc-useful-count {
+  font-size: 11px;
+  color: var(--wcc-text-ghost);
+  white-space: nowrap;
+}
+
+/* Login banner */
+.wcc-login-banner {
+  background: var(--wcc-cream-card);
+  border: 1px solid var(--wcc-border);
+  border-radius: 2px;
+  padding: 16px 20px;
+  margin: 24px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.wcc-login-text {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 15px;
+  font-style: italic;
+  color: var(--wcc-text-dark);
+}
+.wcc-login-link {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--wcc-green);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.wcc-login-link:hover {
+  text-decoration: underline;
+}
+
+/* Compose area */
+.wcc-compose {
+  margin-top: 8px;
+}
+.wcc-textarea {
+  width: 100%;
+  min-height: 90px;
+  padding: 14px 16px;
+  border: 1px solid var(--wcc-border-light);
+  border-radius: 2px;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 14px;
+  color: var(--wcc-text-body);
+  background: #fff;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.wcc-textarea::placeholder {
+  color: var(--wcc-text-ghost);
+  font-style: italic;
+}
+.wcc-textarea:focus {
+  border-color: var(--wcc-green);
+}
+
+/* Type pills */
+.wcc-type-pills {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0;
+}
+.wcc-type-pill {
+  padding: 5px 12px;
+  border: 1px solid var(--wcc-border-light);
+  border-radius: 2px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: #fff;
+  color: var(--wcc-text-muted);
+}
+.wcc-type-pill.active.temoignage { background: #d4e8d0; color: #1a5430; border-color: #1a5430; }
+.wcc-type-pill.active.flash       { background: #ead9b0; color: #7a4f10; border-color: #7a4f10; }
+.wcc-type-pill.active.question     { background: #e8d0d4; color: #7a1a2e; border-color: #7a1a2e; }
+
+/* Publish button */
+.wcc-publish-btn {
+  padding: 10px 22px;
+  border: none;
+  border-radius: 2px;
+  background: var(--wcc-green);
+  color: #f5f0e8;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.wcc-publish-btn:hover {
+  background: #143f24;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .wcc-widget { padding: 0 16px 36px; margin-top: 32px; }
+  .wcc-header { flex-direction: column; gap: 10px; }
+  .wcc-title { font-size: 22px; }
+  .wcc-post { padding: 14px 16px; }
+  .wcc-login-banner { flex-direction: column; align-items: flex-start; }
+}

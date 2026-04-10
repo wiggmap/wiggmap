@@ -125,14 +125,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -170,68 +183,62 @@ El 9 de noviembre de 1989, a las 19h04, el portavoz del gobierno de Alemania Ori
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepara tu mudanza</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span>
-          <span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Tu cuenta sin fronteras</span>
-          <span class="aff-strip-desc">Tarjeta + transferencias en 40+ divisas al tipo real</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">SIM local activable antes de aterrizar</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Acceso seguro a tus cuentas desde el extranjero</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepara tu mudanza</p>
+    <p class="aff-title">Las herramientas <em>realmente útiles</em> para emigrar</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Desde 45$/mes</span>
       </div>
-      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Seguro de salud mundial pensado para nómadas. Se activa desde cualquier lugar.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Ver la oferta →</a>
+        <span class="aff-social">+1M nómadas</span>
+      </div>
     </div>
-<h2>Berlín en <span class="g">2026</span> — la capital que se niega a ser seria</h2>
-
-<p>Berlín es la ciudad más grande de Alemania y su capital — pero no se parece a ninguna otra capital de Europa Occidental. Donde París es elegante y Londres es financiera, Berlín es creativa, caótica, deliberadamente no conformista. La ciudad fue destruida en un 70% durante la guerra, dividida durante 28 años, reunificada en 1990 con barrios enteros abandonados — y es precisamente esa historia la que creó los espacios (físicos y mentales) que la convirtieron en la capital mundial de la música techno, uno de los primeros hubs startup de Europa y la ciudad donde cientos de miles de expatriados europeos e internacionales han elegido instalarse.</p>
-
-<p>Para un expatriado en 2026, Berlín sigue siendo la capital más accesible financieramente de Europa Occidental — considerablemente más barata que París, Ámsterdam o Zúrich en alojamiento. Pero atención: la imagen de "Berlín barata" de los años 2010 está ampliamente superada. Los alquileres se han casi duplicado desde 2015 en los barrios más solicitados. La presión inmobiliaria es real. Y la fiscalidad alemana — con tipos impositivos sobre la renta que pueden superar el 45% para las rentas altas — es un parámetro importante para todo profesional que se instale aquí.</p>
-
-<div class="note warn">
-  <div class="note-ttl">⚠️ Fiscalidad alemana — muy diferente de los EAU</div>
-  <p>Alemania tiene una de las fiscalidades más elevadas de Europa Occidental. El impuesto sobre la renta comienza en ~14% y puede alcanzar el 45% + recargo de solidaridad para las rentas altas. El seguro médico obligatorio (GKV) supone ~7,3% del salario. Un cálculo presupuestario serio al estimar el ingreso neto es imprescindible antes de mudarse.</p>
-</div>
-
-<h2>La ciudad — identidad <span class="g">&amp;</span> alma</h2>
-
-<p>Berlín es una ciudad de barrios radicalmente diferentes que coexisten sin intentar unificarse. <strong>Mitte</strong> (el centro histórico) concentra las grandes instituciones — Museumsinsel, Brandenburger Tor, Reichstag, Unter den Linden — con una atmósfera turística e institucional. <strong>Prenzlauer Berg</strong>, antiguo barrio del Este que se ha aburguesado, acoge a familias con hijos en magníficos edificios Gründerzeit restaurados. <strong>Kreuzberg</strong> y <strong>Neukölln</strong>, los barrios más multiculturales, mezclan comunidades turcas, árabes, hipsters y artistas en una energía particular. <strong>Friedrichshain</strong> es el barrio joven y techno. Y <strong>Charlottenburg</strong> (lado Oeste) ofrece una atmósfera más burguesa y tranquila.</p>
-
-<p>Lo que hace única a Berlín es la cantidad de espacios públicos y semipúblicos que permiten una vida cultural a coste casi nulo. Los parques son inmensos y gratuitos (Tiergarten, Tempelhof, Tempelhofer Feld). Los museos nacionales aceptan el Pase de Museos de Berlín por $30/mes. Los conciertos y actuaciones en galerías y jardines son frecuentemente gratuitos. Una vida cultural intensa en Berlín puede no costar prácticamente nada — lo que constituye una anomalía en la Europa actual.</p>
-
-<div class="pq">
-  <p>Berlín es la única ciudad de Europa donde puedes gastar $50 en un fin de semana y sentir que has vivido más que en una semana en París o Londres. Ese es su verdadero superpoder.</p>
-</div>
-
-<h2>Barrios — <span class="g">¿dónde instalarse?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">Prenzlauer Berg</div>
-    <div class="q-desc">El barrio familiar premium. Edificios Gründerzeit, cafés, mercados, parques, excelentes colegios. Alquileres: $1.100-1.800 (estudio/1 hab.). Muy apreciado por las familias expat y los jóvenes profesionales. Tranquilo pero animado. Metro U2/U8 bien conectado.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Tipo real</span>
+      </div>
+      <p class="aff-name">Wise — Cuenta sin fronteras</p>
+      <p class="aff-desc">Tarjeta + transferencias en 40+ divisas. Cero comisiones ocultas.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Abrir una cuenta →</a>
+        <span class="aff-social">16M+ clientes</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Antes de aterrizar</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mundial</p>
+      <p class="aff-desc">SIM local que activas desde tu sofá. 200+ países cubiertos.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Elegir mi eSIM →</a>
+        <span class="aff-social">10M+ usuarios</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Imprescindible</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Acceso seguro a tus cuentas desde el extranjero. Salta las restricciones locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Asegurar mi conexión →</a>
+        <span class="aff-social">Top 1 VPN mundial</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">Mitte / Hackescher Markt</div>
-    <div class="q-desc">El centro histórico y turístico. Museos, restaurantes, startups tech. Alquileres elevados ($1.300-2.200). Para perfiles que quieren estar en el corazón de todo — embajadas, grandes empresas, clientes internacionales. Menos auténtico pero muy práctico.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Kreuzberg / Neukölln</div>
-    <div class="q-desc">Los barrios más creativos y multiculturales. Bares, galerías, música en directo, escena techno, mercados. Alquileres más accesibles ($900-1.500). Para artistas, nómadas y perfiles que quieren la energía de Berlín al máximo. Más ruidoso y menos confortable.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Charlottenburg / Wilmersdorf</div>
-    <div class="q-desc">El Berlín burgués y tranquilo del Oeste. Grandes avenidas, apartamentos espaciosos, restaurantes gastronómicos. Alquileres medios-altos ($1.100-2.000). Para familias acomodadas o perfiles que quieren confort y tranquilidad sin renunciar a la ciudad.</div>
-  </div>
+  <p class="aff-footer">enlaces de afiliado — sin coste adicional para ti</p>
 </div>
 
 <h2>Vida cotidiana <span class="g">&amp;</span> alojamiento</h2>
@@ -416,5 +423,7 @@ El 9 de noviembre de 1989, a las 19h04, el portavoz del gobierno de Alemania Ori
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

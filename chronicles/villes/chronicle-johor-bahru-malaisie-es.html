@@ -38,14 +38,27 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 .faq{margin:36px 0}details{border:1px solid var(--rule);border-radius:var(--r);margin-bottom:8px;overflow:hidden}details[open]{border-color:var(--g)}summary{font-family:var(--sans);font-size:14px;font-weight:500;padding:16px 20px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;color:var(--ink);gap:12px;user-select:none}summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-shrink:0}details[open] summary::after{transform:rotate(45deg)}.faq-body{padding:4px 20px 18px;font-family:var(--sans);font-size:13.5px;color:var(--ink3);line-height:1.65}
 .links-block{border:1px solid var(--rule);border-radius:12px;padding:24px;margin:40px 0;background:var(--white)}.links-ttl{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:14px}.links-grid{display:flex;flex-wrap:wrap;gap:8px}.links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -82,46 +95,62 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 <p class="lead">Unas 350.000 personas cruzan el Causeway cada día. El puente de 1.056 metros que une Johor Bahru con Singapur sobre el estrecho de Johor es el paso fronterizo terrestre más transitado del mundo. La mayoría del tráfico son trabajadores que cobran en dólares singapurenses y vuelven cada tarde a un apartamento que cuesta aproximadamente seis veces menos que cualquier equivalente al otro lado del agua. La aritmética de este arreglo no tiene mucho misterio. Un estudio amueblado en JB: $280 al mes. Un estudio comparable en Singapur: $1.800-2.500. Ahorro anual: $18.000-27.000. Para una pareja, la diferencia crece hasta $30.000-50.000. En cinco años, estamos hablando de la entrada de una vivienda. Johor Bahru no es una ciudad que te venda romanticismo. Te vende una cifra, y la cifra es convincente.</p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepara tu mudanza</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span>
-          <span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Tu cuenta sin fronteras</span>
-          <span class="aff-strip-desc">Tarjeta + transferencias en 40+ divisas al tipo real</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">SIM local activable antes de aterrizar</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Acceso seguro a tus cuentas desde el extranjero</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepara tu mudanza</p>
+    <p class="aff-title">Las herramientas <em>realmente útiles</em> para emigrar</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Desde 45$/mes</span>
       </div>
-      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Seguro de salud mundial pensado para nómadas. Se activa desde cualquier lugar.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Ver la oferta →</a>
+        <span class="aff-social">+1M nómadas</span>
+      </div>
     </div>
-<h2>JB en <span class="g">2026</span> — el arbitraje singapurense y la ciudad que construye su propia identidad</h2>
-<p>Johor Bahru es la capital del estado de Johor, en el extremo sur de la península malaya. Con un millón de habitantes en la ciudad y 1,8 millones en el área metropolitana, es la segunda conurbación más grande de Malasia después de KL. Se conecta con Singapur por dos pasos: el <strong>Causeway</strong> al noreste — el principal, con carretera y ferrocarril — y el <strong>Second Link</strong> al oeste, menos congestionado y usado principalmente para evitar las colas matutinas del Causeway. Estas conexiones definen la economía de la ciudad y su identidad a partes iguales.</p>
-<p>Para los expatriados en 2026, JB plantea una propuesta radicalmente distinta a la de cualquier otra ciudad de esta guía. No es un destino cultural. No es un hub creativo. No tiene la gastronomía de Penang ni la infraestructura de KL. Lo que tiene es proximidad a una de las ciudades más ricas del mundo y un coste de vida que la recorta en un factor de seis. Eso es, para el perfil adecuado, un argumento que simplemente cierra la conversación.</p>
-
-<div class="note ok"><div class="note-ttl">✓ El arbitraje de precios más radical de la región</div><p>Estudio en JB: ~$280/mes. Equivalente en Singapur: ~$1.800-2.500/mes. Ahorro anual para una persona: $18.000-27.000. Para una pareja: $30.000-50.000. El Causeway fuera de hora punta: 20-40 minutos puerta a puerta. La aritmética es difícil de rebatir.</p></div>
-
-<h2>La ciudad — identidad <span class="g">&amp;</span> carácter</h2>
-<p>JB no tiene arquitectura colonial ni un horizonte de rascacielos que impresione. Es una ciudad malaya en el sentido ordinario del término — shophouses a lo largo de las arterias principales, grandes centros comerciales modernos (City Square, Paradigm, AEON), barrios residenciales de terrace houses y bungalows, hawker centres y puestos mamak en cada cruce. Lo que la diferencia es la energía propia de una ciudad fronteriza: malayos locales, singapurenses cruzando a hacer la compra o cargar combustible, trabajadores extranjeros, personas en tránsito diario, emprendedores logísticos, inversores inmobiliarios — una densidad de intercambio comercial que no existe en ningún otro lugar de Malasia.</p>
-<p>El <strong>paseo marítimo de Danga Bay</strong> es el intento más logrado de dotar a JB de una imagen premium — paseos, condominios frente al mar, restaurantes con vistas al estrecho hacia las luces de Singapur. El distrito planificado de <strong>Medini</strong>, en Iskandar Puteri, es el escaparate del nuevo JB premium — ordenado, moderno, con el parque Legoland Malaysia, Pinewood Studios Asia y hoteles internacionales. Todavía no es una ciudad que invite a quedarse por sí misma, pero el armazón de algo más interesante está tomando forma.</p>
-
-<div class="pq"><p>JB al atardecer desde un condominio de Danga Bay: el skyline de Singapur se ilumina al otro lado del agua, a un kilómetro. Dos ciudades, dos economías, un ratio de precios de seis a uno — separadas por un puente que se puede cruzar a pie.</p></div>
-
-<h2>Barrios — <span class="g">¿dónde instalarse?</span></h2>
-<div class="quartiers">
-  <div class="q-card"><div class="q-name">Medini / Iskandar Puteri</div><div class="q-desc">El nuevo JB premium. Condominios modernos, urbanismo planificado, Legoland cerca, tranquilo. Alquileres: $350-700. El mejor estándar residencial de JB. A 30-40 min del Causeway — algo lejos para los que van a diario a Singapur, pero ideal para familias y teletrabajadores híbridos.</div></div>
-  <div class="q-card"><div class="q-name">Danga Bay / Permas Jaya</div><div class="q-desc">Franja residencial frente al mar. Condominios con vistas al estrecho, restaurantes, acceso razonable al Causeway. Alquileres: $280-600. Buen equilibrio calidad-proximidad para los trabajadores en Singapur. Las luces de Singapur visibles desde los pisos altos.</div></div>
-  <div class="q-card"><div class="q-name">Centro de JB / CIQ</div><div class="q-desc">El más cercano al Causeway. Accesible a pie al checkpoint. Denso, ruidoso, muy barato. Alquileres: $180-380. Para los que van a diario a Singapur y optimizan el tiempo de trayecto por encima de todo lo demás. Sin encanto particular, pero maximalemente práctico.</div></div>
-  <div class="q-card"><div class="q-name">Tebrau / Johor Jaya</div><div class="q-desc">Suburbio residencial consolidado. Centros comerciales, vida de barrio local auténtica, precios bajos. Alquileres: $200-450. Para familias y residentes a largo plazo que quieren el JB residencial de verdad. Coche imprescindible. La opción más genuinamente malaya de esta lista.</div></div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Tipo real</span>
+      </div>
+      <p class="aff-name">Wise — Cuenta sin fronteras</p>
+      <p class="aff-desc">Tarjeta + transferencias en 40+ divisas. Cero comisiones ocultas.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Abrir una cuenta →</a>
+        <span class="aff-social">16M+ clientes</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Antes de aterrizar</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mundial</p>
+      <p class="aff-desc">SIM local que activas desde tu sofá. 200+ países cubiertos.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Elegir mi eSIM →</a>
+        <span class="aff-social">10M+ usuarios</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Imprescindible</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Acceso seguro a tus cuentas desde el extranjero. Salta las restricciones locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Asegurar mi conexión →</a>
+        <span class="aff-social">Top 1 VPN mundial</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">enlaces de afiliado — sin coste adicional para ti</p>
 </div>
 
 <h2>Vida cotidiana <span class="g">&amp;</span> alojamiento</h2>
@@ -243,5 +272,7 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 <div class="orn"><span>· · ✦ · ·</span></div>
 <div id="siteFooter"></div><script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

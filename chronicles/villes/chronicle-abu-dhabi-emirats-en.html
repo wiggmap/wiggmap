@@ -125,14 +125,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -170,68 +183,62 @@ Abu Dhabi is perhaps the only city in the world where you can attend the Formula
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepare your move</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span>
-          <span class="aff-strip-desc">Global health cover from $45/mo</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Your borderless account</span>
-          <span class="aff-strip-desc">Card + transfers in 40+ currencies at the real rate</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Local SIM card ready before you land</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Secure access to your accounts from abroad</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepare your move</p>
+    <p class="aff-title">The tools <em>you actually need</em> to relocate</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">From $45/mo</span>
       </div>
-      <div class="aff-strip-note">partner links — at no extra cost to you</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Global health insurance built for nomads. Activate from anywhere.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">See the offer →</a>
+        <span class="aff-social">+1M nomads</span>
+      </div>
     </div>
-<h2>Abu Dhabi in <span class="g">2026</span> — the capital unjustly eclipsed by Dubai's shadow</h2>
-
-<p>Abu Dhabi is the federal capital of the United Arab Emirates — the seat of government, federal institutions, embassies and the presidency. It controls approximately 90% of the UAE's oil reserves and is home to <strong>ADIA</strong> (Abu Dhabi Investment Authority), one of the world's largest sovereign wealth funds at approximately $800 billion in assets. The wealth that funds Dubai, the UAE, and the giant cultural projects transforming the Arabian Peninsula originates here.</p>
-
-<p>For an expat, Abu Dhabi offers something slightly different from Dubai: a more institutional city, more deeply rooted in Emirati identity (around 25% Nationals versus fewer than 10% in Dubai), calmer, less touristy — but with a cultural offering that is in the process of surpassing anything the region has seen. The <strong>Louvre Abu Dhabi</strong> (2017), the <strong>Guggenheim Abu Dhabi</strong> (under construction on Saadiyat Island), the <strong>Natural History Museum Abu Dhabi</strong>, the <strong>Zayed National Museum</strong> — Saadiyat Island's cultural programme is one of the most ambitious on earth for the coming years.</p>
-
-<div class="note ok">
-  <div class="note-ttl">✓ The real oil wealth is here, not in Dubai</div>
-  <p>Abu Dhabi holds ~90% of the UAE's hydrocarbon reserves. ADNOC (Abu Dhabi National Oil Company) is one of the world's five largest oil companies. Salaries in the oil sector and in Abu Dhabi government institutions are generally higher than their Dubai equivalents.</p>
-</div>
-
-<h2>The city — identity <span class="g">&amp;</span> soul</h2>
-
-<p>Abu Dhabi is built on an island (and several adjacent natural and artificial islands) in the Persian Gulf — giving it a surprisingly maritime geography for a desert city. The <strong>Corniche</strong>, the 8 km coastal boulevard running along the city centre, is one of the Gulf's finest urban promenades: palms, free public beaches, parks, fountains, and the city skyline as backdrop. It's considerably less spectacular than Dubai's waterfront but far more authentically connected to local life — Emirati families, Filipino workers playing volleyball, evening runners.</p>
-
-<p>The <strong>Sheikh Zayed Grand Mosque</strong> is one of the world's largest mosques — and arguably the most beautiful built in the 20th century. It holds 40,000 worshippers, its 82 white marble domes, Persian carpets and 24 marble columns inlaid with floral mosaics of semi-precious stones make it a monument of universal beauty. It is open to non-Muslims — a visit is essential upon arriving in the city and remains one of the finest architectural moments an expat can experience in the UAE.</p>
-
-<div class="pq">
-  <p>Abu Dhabi doesn't try to be Dubai. It's slower, more spread out, more institutional. And it has something Dubai doesn't have yet: museums worth travelling to from anywhere in the world.</p>
-</div>
-
-<h2>Neighbourhoods — <span class="g">where to live?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">Al Reem Island</div>
-    <div class="q-desc">The reference modern expat neighbourhood. Recent buildings, waterfront, restaurants, cafés, supermarkets. Well connected to the centre. Rents: $1,400–2,200 for a studio. The dominant choice for young professionals and couples. Dynamic and international.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Real rate</span>
+      </div>
+      <p class="aff-name">Wise — Borderless account</p>
+      <p class="aff-desc">Card + transfers in 40+ currencies. Zero hidden fees.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Open an account →</a>
+        <span class="aff-social">16M+ customers</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Before you land</span>
+      </div>
+      <p class="aff-name">Airalo — Global eSIM</p>
+      <p class="aff-desc">Local SIM card you activate from your couch. 200+ countries covered.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Pick your eSIM →</a>
+        <span class="aff-social">10M+ users</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Essential</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Secure access to your accounts from abroad. Bypass local restrictions.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Secure my connection →</a>
+        <span class="aff-social">#1 VPN worldwide</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">Khalidiyah / Al Markaziyah</div>
-    <div class="q-desc">The historic city heart near the Corniche. Mixed residential (expats + Emiratis), local restaurants, cafés, shops. Rents: $1,200–1,900. More authentic and less shiny than the artificial islands. Real city centre atmosphere.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Saadiyat Island</div>
-    <div class="q-desc">The cultural and premium residential island. Louvre Abu Dhabi, luxury hotels, high-end villas and apartments, white sand beach. Rents: $2,000–4,000+. For affluent families and senior executives. Calm, green, exceptional.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Yas Island / Al Raha</div>
-    <div class="q-desc">The entertainment island and Al Raha Beach neighbourhood. Ferrari World, Warner Bros World, beaches, family apartments. Rents: $1,300–2,100. Well suited to families with children. Regular shuttle to the centre. More distant but excellent living environment.</div>
-  </div>
+  <p class="aff-footer">partner links — at no extra cost to you</p>
 </div>
 
 <h2>Daily life <span class="g">&amp;</span> housing</h2>
@@ -418,5 +425,7 @@ Abu Dhabi is perhaps the only city in the world where you can attend the Formula
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

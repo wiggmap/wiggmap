@@ -41,14 +41,27 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 .faq{margin:36px 0}details{border:1px solid var(--rule);border-radius:var(--r);margin-bottom:8px;overflow:hidden}details[open]{border-color:var(--g)}summary{font-family:var(--sans);font-size:14px;font-weight:500;padding:16px 20px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;color:var(--ink);gap:12px;user-select:none}summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-shrink:0}details[open] summary::after{transform:rotate(45deg)}.faq-body{padding:4px 20px 18px;font-family:var(--sans);font-size:13.5px;color:var(--ink3);line-height:1.65}
 .links-block{border:1px solid var(--rule);border-radius:12px;padding:24px;margin:40px 0;background:var(--white)}.links-ttl{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:14px}.links-grid{display:flex;flex-wrap:wrap;gap:8px}.links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -76,55 +89,62 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 <p class="lead">Hay ciudades que le deben su fama a la historia, a la arquitectura o a la cultura. Mendoza se la debe al suelo. Exactamente: a 1.050 metros de altitud, a los pies de los Andes, sobre un terreno árido regado por deshielos y acequias, la ciudad capital de la mayor región vitivinícola de América Latina ha construido en las últimas tres décadas una reputación como ninguna otra: la del mejor Malbec del planeta. No es marketing. Es geología, altimetría y cuatro siglos de vides que encontraron en este rincón del mundo andino el terroir que necesitaban. Y el resultado, para quien vive aquí, es tan concreto como cotidiano: el mejor vino tinto de Argentina, que en cualquier tienda del mundo cuesta $30 o $40, se encuentra a $8 en el supermercado de la esquina. Añade 330 días de sol al año, los Andes a 60 kilómetros con el Aconcagua asomando en el horizonte, y una ciudad ordenada, verde y tranquila que cuesta un 20% menos que Buenos Aires — y empieza a entender por qué la gente llega por una semana y se queda dos años.</p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepara tu mudanza</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span>
-          <span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Tu cuenta sin fronteras</span>
-          <span class="aff-strip-desc">Tarjeta + transferencias en 40+ divisas al tipo real</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">SIM local activable antes de aterrizar</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Acceso seguro a tus cuentas desde el extranjero</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepara tu mudanza</p>
+    <p class="aff-title">Las herramientas <em>realmente útiles</em> para emigrar</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Desde 45$/mes</span>
       </div>
-      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Seguro de salud mundial pensado para nómadas. Se activa desde cualquier lugar.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Ver la oferta →</a>
+        <span class="aff-social">+1M nómadas</span>
+      </div>
     </div>
-<h2>Mendoza en <span class="g">2026</span> — vino, montaña y buena vida bajo los Andes</h2>
-
-<p>Mendoza es la capital de la provincia homónima en el oeste de Argentina, a 1.050 metros sobre el nivel del mar, al pie de los Andes. Con 120.000 habitantes en la ciudad y 1,1 millones en el Gran Mendoza, es la capital vitivinícola indiscutida del país y una de las más importantes del mundo. A 60 km al oeste se alza el Aconcagua — 6.962 metros, el pico más alto de América y el más alto fuera de Asia. A 400 km al norte, Salta y sus viñedos de altura. Al sur, empieza la Patagonia. Mendoza está en el centro geográfico de la Argentina que importa para el vino, la montaña y la aventura al aire libre.</p>
-
-<p>Para un expatriado en 2026, Mendoza no compite con Buenos Aires en densidad cultural ni con Córdoba en energía estudiantil. Compite en algo diferente: en calidad de vida entendida como la suma de lo que se disfruta fuera del trabajo. Trescientos treinta días de sol. Vino extraordinario al precio que lo produce quien lo elabora. Nieve accesible en invierno. Trekking en los Andes en primavera y otoño. Y una ciudad suficientemente grande para tener de todo pero suficientemente pequeña para no agotarse. Es la ciudad argentina para quien prioriza el vivir sobre el llegar.</p>
-
-<div class="note ok">
-  <div class="note-ttl">✓ El mejor vino del mundo al precio de origen</div>
-  <p>Un Malbec de Denominación de Origen Luján de Cuyo de productor serio cuesta $5-12 en el supermercado de Mendoza. La misma botella vale $20-40 en Buenos Aires y $40-80 en Europa. Los grandes vinos de guarda (Zuccardi Valle de Uco, Catena Zapata) siguen siendo accesibles a $15-35 en una vinoteca local. Vivir en Mendoza es beber al precio del productor.</p>
-</div>
-
-<h2>La ciudad — identidad <span class="g">&amp;</span> carácter</h2>
-
-<p>La Mendoza que existe hoy se construyó después de un terremoto. En 1861, un sismo devastador borró la ciudad colonial original y mató a más de la mitad de su población. La reconstrucción se encargó a urbanistas que habían aprendido la lección: se ensancharon las calles, se cavaron acequias (canales de riego a cielo abierto) a lo largo de las aceras para alimentar miles de plátanos, y se integraron plazas en la cuadrícula urbana a intervalos regulares como zonas de refugio ante futuros temblores. El resultado es una ciudad de habitabilidad poco común — amplia, verde, sombreada por plátanos centenarios, con una plaza en cada esquina, una atmósfera que recuerda más a una ciudad del sur de Francia o del norte de Italia que a cualquier otra capital latinoamericana.</p>
-
-<p>El <strong>Parque General San Martín</strong> es el pulmón verde de la ciudad — 307 hectáreas diseñadas por Charles Thays, el paisajista francés que también diseñó los grandes parques de Buenos Aires y Córdoba, con lago artificial, anfiteatro, avenidas de robles y cipreses, y una colina panorámica desde la que se ve el Aconcagua en los días despejados. Los mendocinos lo frecuentan los fines de semana para correr, andar en bici, hacer asados familiares y asistir a conciertos de verano. Es el lugar que mejor refleja el ritmo de vida de la ciudad: activo, al aire libre, sin ostentación.</p>
-
-<p>La cultura vitivinícola de Mendoza no es solo una propuesta turística — es el tejido social de la ciudad. Las bodegas de los alrededores organizan degustaciones, vendimias (en marzo), conciertos entre las vides y almuerzos bajo los parrones. La <strong>Fiesta Nacional de la Vendimia</strong>, que se celebra cada año en marzo, es el festival popular más grande de Argentina después del Carnaval — una semana de desfiles de carrozas iluminadas, festividades en cada municipio vitivinícola y una ceremonia de cierre con la elección de la Reina Nacional de la Vendimia ante 25.000 personas. Para los expatriados que viven en Mendoza, nada de esto parece turístico. Es simplemente lo que pasa aquí en otoño.</p>
-
-<div class="pq"><p>Mendoza en abril: la vendimia ha terminado, las hojas de las vides viran al rojo y al dorado. A las seis de la tarde el cielo se pone rosa sobre los Andes. Un Malbec del Valle de Uco se abre en la terraza. Esto no es turismo. Es un domingo.</p></div>
-
-<h2>Barrios — <span class="g">¿dónde instalarse?</span></h2>
-<div class="quartiers">
-  <div class="q-card"><div class="q-name">Ciudad (centro)</div><div class="q-desc">Núcleo histórico y comercial. Todo a pie — restaurantes, bares, el mercado central, el Parque San Martín. Alquileres: $320-650. Para nómadas y expatriados que quieren la Argentina urbana sin necesidad de coche. Animado por las tardes, tranquilo entre semana.</div></div>
-  <div class="q-card"><div class="q-name">Chacras de Coria</div><div class="q-desc">El elegante pueblo viñatero a 12 km al sur. Fincas, restaurantes gastronómicos, ambiente bohemio e internacional. Alquileres: $450-900. Para quienes quieren vivir en un paisaje de viñedos. Coche imprescindible, pero la calidad de vida es incomparable.</div></div>
-  <div class="q-card"><div class="q-name">Godoy Cruz</div><div class="q-desc">Municipio adyacente al sur de Mendoza, residencial y práctico. Muchos expatriados a largo plazo viven aquí. Alquileres: $280-520. Para familias y perfiles que quieren más espacio a menor coste. Buena conexión con el centro.</div></div>
-  <div class="q-card"><div class="q-name">Luján de Cuyo</div><div class="q-desc">Departamento vitivinícola a 25 km al sur. Viñedos, bodegas, fincas en alquiler. Alquileres: $350-800 (muy variable según el tipo de propiedad). Para los verdaderos amantes del vino que quieren vivir en el corazón del Malbec. Coche absolutamente necesario.</div></div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Tipo real</span>
+      </div>
+      <p class="aff-name">Wise — Cuenta sin fronteras</p>
+      <p class="aff-desc">Tarjeta + transferencias en 40+ divisas. Cero comisiones ocultas.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Abrir una cuenta →</a>
+        <span class="aff-social">16M+ clientes</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Antes de aterrizar</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mundial</p>
+      <p class="aff-desc">SIM local que activas desde tu sofá. 200+ países cubiertos.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Elegir mi eSIM →</a>
+        <span class="aff-social">10M+ usuarios</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Imprescindible</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Acceso seguro a tus cuentas desde el extranjero. Salta las restricciones locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Asegurar mi conexión →</a>
+        <span class="aff-social">Top 1 VPN mundial</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">enlaces de afiliado — sin coste adicional para ti</p>
 </div>
 
 <h2>Vida cotidiana <span class="g">&amp;</span> alojamiento</h2>
@@ -260,5 +280,7 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 <div class="orn"><span>· · ✦ · ·</span></div>
 <div id="siteFooter"></div><script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

@@ -125,14 +125,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -170,68 +183,62 @@ Abu Dhabi est peut-être la seule ville au monde où vous pouvez assister au Gra
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton installation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span>
-          <span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span>
-          <span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Carte SIM locale activable avant d'atterrir</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Accès sécurisé à tes comptes depuis l'étranger</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Préparer ton installation</p>
+    <p class="aff-title">Les outils <em>vraiment utiles</em> pour partir</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Dès 45$/mois</span>
       </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Assurance santé mondiale conçue pour les nomades. S'active depuis n'importe où.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Voir l'offre →</a>
+        <span class="aff-social">+1M nomades</span>
+      </div>
     </div>
-<h2>Abu Dhabi en <span class="g">2026</span> — la capitale que l'ombre de Dubaï efface injustement</h2>
-
-<p>Abu Dhabi est la capitale fédérale des Émirats arabes unis — le siège du gouvernement, des institutions fédérales, des ambassades et de la présidence. Elle contrôle environ 90% des réserves pétrolières des EAU et abrite le fonds souverain <strong>ADIA</strong> (Abu Dhabi Investment Authority), l'un des plus grands fonds d'investissement au monde avec environ $800 milliards d'actifs. C'est d'Abu Dhabi que vient la richesse qui finance Dubaï, les EAU, et les projets culturels géants qui transforment la péninsule arabique.</p>
-
-<p>Pour un expatrié, Abu Dhabi offre quelque chose de légèrement différent de Dubaï : une ville plus institutionnelle, plus ancrée dans l'identité émiratie (environ 25% de Nationaux contre moins de 10% à Dubaï), plus calme, moins touristique — mais avec une offre culturelle qui est en train de dépasser tout ce que la région a connu. Le <strong>Louvre Abu Dhabi</strong> (2017), le <strong>Guggenheim Abu Dhabi</strong> (en construction sur l'île de Saadiyat), le <strong>Natural History Museum Abu Dhabi</strong>, la <strong>Zayed National Museum</strong> — le programme culturel de Saadiyat Island est l'un des plus ambitieux de la planète pour les prochaines années.</p>
-
-<div class="note ok">
-  <div class="note-ttl">✓ La richesse pétrolière réelle est ici, pas à Dubaï</div>
-  <p>Abu Dhabi possède ~90% des réserves d'hydrocarbures des EAU. ADNOC (Abu Dhabi National Oil Company) est l'une des cinq plus grandes compagnies pétrolières mondiales. Les salaires dans le secteur pétrolier et dans les institutions gouvernementales abu-dhabiennes sont généralement plus élevés que leurs équivalents dubaïotes.</p>
-</div>
-
-<h2>La ville — identité <span class="g">&amp;</span> âme</h2>
-
-<p>Abu Dhabi est construite sur une île (et plusieurs îles artificielles et naturelles adjacentes) dans le Golfe Persique — ce qui lui confère une géographie étonnamment maritime pour une ville du désert. La <strong>Corniche</strong>, le boulevard côtier de 8 km qui longe le centre-ville, est l'une des plus belles promenades urbaines du Golfe : palmiers, plages publiques gratuites, parcs, fontaines, et la skyline de la ville en arrière-plan. Elle est nettement moins spectaculaire que le front de mer de Dubaï mais beaucoup plus authentiquement liée à la vie locale — des familles émiraties, des travailleurs philippins qui jouent au volleyball, des coureurs du soir.</p>
-
-<p>La <strong>Mosquée Sheikh Zayed</strong> est l'une des plus grandes mosquées du monde — et probablement la plus belle construite au XXe siècle. Sa capacité est de 40 000 fidèles, ses 82 dômes en marbre blanc, ses tapis persans et ses 24 colonnes de marbre ornées de mosaïques florales de pierres semi-précieuses en font un monument de beauté universelle. Elle est ouverte aux non-musulmans — une visite s'impose dès l'arrivée dans la ville et reste l'un des plus beaux moments architecturaux qu'un expatrié puisse vivre aux EAU.</p>
-
-<div class="pq">
-  <p>Abu Dhabi n'essaie pas d'être Dubaï. Elle est plus lente, plus espacée, plus institutionnelle. Et elle a quelque chose que Dubaï n'a pas encore : des musées qui valent le voyage depuis n'importe quelle ville du monde.</p>
-</div>
-
-<h2>Quartiers — <span class="g">où s'installer ?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">Al Reem Island</div>
-    <div class="q-desc">Le quartier expat moderne de référence. Immeubles récents, bord de mer, restaurants, cafés, supermarchés. Bien connecté au centre. Loyers : $1,400-2,200 studio. Le choix dominant des jeunes professionnels et des couples. Dynamique et international.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Taux réel</span>
+      </div>
+      <p class="aff-name">Wise — Compte sans frontières</p>
+      <p class="aff-desc">Carte + virements en 40+ devises. Zéro commission cachée.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Ouvrir un compte →</a>
+        <span class="aff-social">16M+ clients</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Avant d'atterrir</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mondiale</p>
+      <p class="aff-desc">Carte SIM locale activable depuis ton canapé. 200+ pays couverts.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Choisir son eSIM →</a>
+        <span class="aff-social">10M+ utilisateurs</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Indispensable</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Accès sécurisé à tes comptes depuis l'étranger. Contourne les restrictions locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Sécuriser ma connexion →</a>
+        <span class="aff-social">Top 1 VPN mondial</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">Khalidiyah / Al Markaziyah</div>
-    <div class="q-desc">Le cœur de la ville historique proche de la Corniche. Résidentiel mixte (expatriés + Émiratis), restaurants locaux, cafés, commerces. Loyers : $1,200-1,900. Plus authentique et moins clinquant que les îles artificielles. Ambiance de centre-ville.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Saadiyat Island</div>
-    <div class="q-desc">L'île culturelle et résidentielle premium. Louvre Abu Dhabi, hôtels de luxe, villas et appartements haut de gamme, plage de sable blanc. Loyers : $2,000-4,000+. Pour les familles aisées et les cadres dirigeants. Calme, verdoyant, exceptionnel.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Yas Island / Al Raha</div>
-    <div class="q-desc">L'île des loisirs et le quartier Al Raha Beach. Ferrari World, Warner Bros World, plages, appartements familiaux. Loyers : $1,300-2,100. Bien adapté aux familles avec enfants. Navette régulière vers le centre. Plus éloigné mais excellent cadre de vie.</div>
-  </div>
+  <p class="aff-footer">liens partenaires — sans surcoût pour toi</p>
 </div>
 
 <h2>Vie quotidienne <span class="g">&amp;</span> logement</h2>
@@ -418,5 +425,7 @@ Abu Dhabi est peut-être la seule ville au monde où vous pouvez assister au Gra
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

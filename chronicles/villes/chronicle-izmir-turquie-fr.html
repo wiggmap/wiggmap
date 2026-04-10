@@ -125,14 +125,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -170,68 +183,62 @@ Le matin à Izmir commence par une <em>boyoz</em> et un verre de thé face à la
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton installation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span>
-          <span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span>
-          <span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Carte SIM locale activable avant d'atterrir</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Accès sécurisé à tes comptes depuis l'étranger</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Préparer ton installation</p>
+    <p class="aff-title">Les outils <em>vraiment utiles</em> pour partir</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Dès 45$/mois</span>
       </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Assurance santé mondiale conçue pour les nomades. S'active depuis n'importe où.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Voir l'offre →</a>
+        <span class="aff-social">+1M nomades</span>
+      </div>
     </div>
-<h2>Izmir en <span class="g">2026</span> — la ville la plus libre de Turquie</h2>
-
-<p>Izmir est la troisième ville de Turquie — 3,3 millions d'habitants dans l'agglomération — et de loin la plus libérale. C'est un fait documenté et revendiqué : Izmir vote systématiquement pour les partis laïques, kémalistes et progressistes avec des scores qui dépassent souvent 70% lors des élections municipales et législatives. Cette identité politique n'est pas anodine pour un expatrié — elle se traduit dans la vie quotidienne. À Izmir, moins de femmes portent le voile qu'à Istanbul ou Ankara, les terrasses restent ouvertes pendant le Ramadan, les couples s'embrassent dans les parcs sans regard hostile, et le dimanche matin au Kordon ressemble à une promenade méditerranéenne ordinaire.</p>
-
-<p>Izmir est aussi une ville portuaire millénaire qui a été successivement grecque (Smyrne), romaine, byzantine, ottomane et turque — et qui porte cette multiplicité de façon plus détendue qu'Istanbul. Son bazar historique (<strong>Kemeraltı</strong>) est l'un des plus anciens et des plus authentiques du pays. Sa promenade maritime (<strong>Kordon</strong>) est l'une des plus belles de Méditerranée orientale. Et sa proximité avec les sites archéologiques les plus importants de l'ouest de l'Anatolie — <strong>Éphèse</strong>, Pergame, Milet, Priene — en fait une base de découverte sans équivalent.</p>
-
-<div class="note ok">
-  <div class="note-ttl">✓ Hub portuaire et économique régional</div>
-  <p>Izmir abrite le troisième port de Turquie et l'une des plus importantes foires commerciales internationales (Foire internationale d'Izmir, depuis 1923). La ville est un hub de l'industrie textile, agroalimentaire et chimique de l'ouest anatolien. L'Université d'Ege (Aegean University) et l'Université Dokuz Eylül assurent une présence académique significative.</p>
-</div>
-
-<h2>La ville — identité <span class="g">&amp;</span> âme</h2>
-
-<p>Izmir s'étire le long du golfe Ismir (anciennement golfe de Smyrne) sur une quarantaine de kilomètres, encadrée par les collines de l'Anatolie égéenne. Sa géographie est celle d'une ville côtière ouverte — rien de la densité oppressante d'Istanbul, rien de la sécheresse d'Ankara. Le <strong>Kordon</strong>, le front de mer d'Alsancak, est le salon extérieur de la ville : une promenade de palmiers où les Izmirlus courent, roulent à vélo, boivent leur café du matin et regardent les ferries traverser la baie. C'est l'un des rares fronts de mer urbains de Méditerranée orientale où on ne se bat pas pour trouver une terrasse avec vue.</p>
-
-<p>Le quartier d'<strong>Alsancak</strong> concentre la vie de nuit, les restaurants, les galeries d'art et les bars les plus animés de la ville. Le bazar de <strong>Kemeraltı</strong>, qui s'étend sur plusieurs kilomètres de ruelles couvertes, mêle les épices, les herbes, les bijoux, les cuirs et les cafés traditionnels dans une architecture ottomane remarquablement bien préservée. Et le quartier de <strong>Karşıyaka</strong>, sur la rive nord du golfe (accessible en 20 minutes de ferry), est l'alternative résidentielle côtière la plus appréciée des Izmirlus qui veulent fuir l'agitation d'Alsancak sans quitter la mer.</p>
-
-<div class="pq">
-  <p>Izmir, c'est la Turquie qui respire. La mer le matin, le bazar l'après-midi, les bars le soir, Éphèse le week-end. Et des gens qui font tout ça comme si c'était normal — parce que pour eux, ça l'est.</p>
-</div>
-
-<h2>Quartiers — <span class="g">où s'installer ?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">Alsancak / Kordon</div>
-    <div class="q-desc">Le cœur expat et artistique. Restaurants, bars, galeries, promenade maritime, vie nocturne dense. Le quartier le plus cosmopolite d'Izmir. Loyers : $380-650. Bruyant le soir mais incomparable pour la vie de quartier. Le meilleur rapport immersion/confort.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Taux réel</span>
+      </div>
+      <p class="aff-name">Wise — Compte sans frontières</p>
+      <p class="aff-desc">Carte + virements en 40+ devises. Zéro commission cachée.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Ouvrir un compte →</a>
+        <span class="aff-social">16M+ clients</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Avant d'atterrir</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mondiale</p>
+      <p class="aff-desc">Carte SIM locale activable depuis ton canapé. 200+ pays couverts.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Choisir son eSIM →</a>
+        <span class="aff-social">10M+ utilisateurs</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Indispensable</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Accès sécurisé à tes comptes depuis l'étranger. Contourne les restrictions locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Sécuriser ma connexion →</a>
+        <span class="aff-social">Top 1 VPN mondial</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">Bornova</div>
-    <div class="q-desc">Le quartier universitaire à l'est. Étudiants, cafés, librairies, campus de l'Université d'Ege. Plus calme et moins cher qu'Alsancak. Loyers : $280-450. Idéal pour les chercheurs, les étudiants expats et les nomads qui cherchent le calme avec une vie de quartier active.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Karşıyaka</div>
-    <div class="q-desc">La rive nord, à 20 min de ferry. Quartier résidentiel calme et verdoyant au bord de l'eau. Promenade maritime, restaurants de poisson, vie locale authentique. Loyers : $300-520. Parfait pour les familles et les long-termers. Le côté "village dans la ville".</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Bayraklı / Narlıdere</div>
-    <div class="q-desc">Quartiers modernes en développement, avec des immeubles récents. Bayraklı héberge le nouveau centre d'affaires d'Izmir (tours de verre, sièges d'entreprises). Loyers compétitifs ($320-500). Pour les profils d'affaires ou les familles qui cherchent du neuf.</div>
-  </div>
+  <p class="aff-footer">liens partenaires — sans surcoût pour toi</p>
 </div>
 
 <h2>Vie quotidienne <span class="g">&amp;</span> logement</h2>
@@ -414,5 +421,7 @@ Le matin à Izmir commence par une <em>boyoz</em> et un verre de thé face à la
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

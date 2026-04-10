@@ -38,14 +38,27 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 .faq{margin:36px 0}details{border:1px solid var(--rule);border-radius:var(--r);margin-bottom:8px;overflow:hidden}details[open]{border-color:var(--g)}summary{font-family:var(--sans);font-size:14px;font-weight:500;padding:16px 20px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;color:var(--ink);gap:12px;user-select:none}summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-shrink:0}details[open] summary::after{transform:rotate(45deg)}.faq-body{padding:4px 20px 18px;font-family:var(--sans);font-size:13.5px;color:var(--ink3);line-height:1.65}
 .links-block{border:1px solid var(--rule);border-radius:12px;padding:24px;margin:40px 0;background:var(--white)}.links-ttl{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:14px}.links-grid{display:flex;flex-wrap:wrap;gap:8px}.links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -70,46 +83,62 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 <p class="lead">Cali doesn't introduce itself — it dances. Since the 1950s, the working-class barrios of Aguablanca and Barrio Obrero developed a salsa style so distinct, so codified, so physically demanding that dancers from around the world make the pilgrimage to Santiago de Cali to understand its footwork secrets. Caleña salsa — with its ultra-fast crossed steps, ankle movements and footwork sequences that have no equivalent in other Latin styles — wasn't born in dance academies: it was born in the salsotecas, those bar-dancehalls where Colombian music has played for 70 years without interruption, where an 8-year-old dances with the same ease as a 60-year-old. Welcome to Cali, the world's salsa capital — and Colombia's cheapest city for quality living.</p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepare your move</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span>
-          <span class="aff-strip-desc">Global health cover from $45/mo</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Your borderless account</span>
-          <span class="aff-strip-desc">Card + transfers in 40+ currencies at the real rate</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Local SIM card ready before you land</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Secure access to your accounts from abroad</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepare your move</p>
+    <p class="aff-title">The tools <em>you actually need</em> to relocate</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">From $45/mo</span>
       </div>
-      <div class="aff-strip-note">partner links — at no extra cost to you</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Global health insurance built for nomads. Activate from anywhere.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">See the offer →</a>
+        <span class="aff-social">+1M nomads</span>
+      </div>
     </div>
-<h2>Cali in <span class="g">2026</span> — the overlooked alternative, Colombia's most affordable</h2>
-<p>Santiago de Cali is Colombia's third city — 2.2 million inhabitants in the city, 3.5 million in the metropolitan area — capital of Valle del Cauca department, in the Cauca River valley between the central and western Andes. It enjoys a <strong>warm, sunny climate</strong> (22–28°C year-round, warmer than Medellín, without Cartagena's humidity), a strategic position between the two Andean ranges and the Colombian Pacific, and a diversified economy — Valle del Cauca's sugarcane (producing virtually all of Colombia's sugar), pharmaceuticals, and a growing services sector.</p>
-<p>For an expat or digital nomad in 2026, Cali is the most underrated Colombian city in this guide. Less media-covered than Medellín, less institutional than Bogotá, less picturesque than Cartagena — but cheaper than all three, with a <strong>cost_index of 32</strong> (the lowest in Colombia in this guide), a warmer and sunnier climate than Medellín, a cultural life centred on dance and music that creates an atmosphere of permanent joy difficult to find elsewhere, and a nascent expat community without the drawbacks of mass tourism.</p>
-
-<div class="note ok"><div class="note-ttl">✓ Colombia's cheapest city — cost_index 32</div><p>A quality furnished studio in Cali rents $80–120 less than in Medellín. Local restaurants, transport and leisure are proportionally cheaper. For tight budgets or profiles wanting to maximise their time in Colombia, Cali offers the country's best quality-of-life ratio.</p></div>
-
-<h2>The city — identity <span class="g">&amp;</span> soul</h2>
-<p>Cali runs at two speeds — and that's precisely what makes it fascinating. On one side, the residential neighbourhoods of north and central-north Cali (Granada, El Peñón, San Antonio, Ciudad Jardín) offer pleasant neighbourhood life, quality restaurants, cafés and abundant tropical greenery. On the other, salsa culture permeates every dimension of social life: the <strong>salsotecas</strong> — those Cali-specific dance bars blending live music or Colombian salsa vinyl with a dance floor where everyone joins in — exist in every barrio. You don't go to a salsoteca to watch: you dance. And Caleños have danced since childhood with a natural fluidity that leaves tourists speechless.</p>
-<p>The <strong>San Antonio</strong> neighbourhood is the city's most charming — a colonial barrio on a hill in central Cali, with an 18th-century church, cobbled lanes, coloured houses and a view of the entire city. It's the artists' neighbourhood, the designer boutiques, the arty cafés — a blend of Montmartre and Getsemaní at much lower prices. <strong>Granada</strong>, to the northwest, is the premium gastronomic and nightlife neighbourhood — world-cuisine restaurants, cocktail bars, high-end salsa clubs. And <strong>Barrio Centenario</strong> is the calm, tree-lined residential area, greatly appreciated by long-term expats for its quality-of-life ratio.</p>
-
-<div class="pq"><p>In Cali, salsa isn't a tourist spectacle — it's how residents get through the week. A Friday evening in a neighbourhood salsoteca, a 9-year-old guiding a 70-year-old grandmother on the dance floor: that's what "living culture" actually means.</p></div>
-
-<h2>Neighbourhoods — <span class="g">where to live?</span></h2>
-<div class="quartiers">
-  <div class="q-card"><div class="q-name">Granada</div><div class="q-desc">The gastronomic and nightlife neighbourhood. Restaurants, bars, cafés, salsa clubs. Rents: $400–900. The most animated in Cali. Good for new arrivals wanting to explore social life quickly. Under 20 min walk from San Antonio.</div></div>
-  <div class="q-card"><div class="q-name">San Antonio</div><div class="q-desc">The bohemian colonial neighbourhood on the hill. Architecture, artists, cafés, panoramic views. Rents: $380–750. Cali's most beautiful neighbourhood. WiggMap's recommendation for creatives and long-termers wanting charm and authenticity.</div></div>
-  <div class="q-card"><div class="q-name">Ciudad Jardín / El Peñón</div><div class="q-desc">Premium residential areas to the north. Secure, green, families. Rents: $500–1,100. For families and premium profiles. Calmer than Granada, more expensive, but excellent comfort/security ratio. Close to shopping centres.</div></div>
-  <div class="q-card"><div class="q-name">Barrio Centenario</div><div class="q-desc">Calm, tree-lined central residential area. Authentic neighbourhood life, local markets, low prices. Rents: $300–600. Cali's best value. For long-term expats on optimised budgets who want genuine Caleño life.</div></div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Real rate</span>
+      </div>
+      <p class="aff-name">Wise — Borderless account</p>
+      <p class="aff-desc">Card + transfers in 40+ currencies. Zero hidden fees.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Open an account →</a>
+        <span class="aff-social">16M+ customers</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Before you land</span>
+      </div>
+      <p class="aff-name">Airalo — Global eSIM</p>
+      <p class="aff-desc">Local SIM card you activate from your couch. 200+ countries covered.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Pick your eSIM →</a>
+        <span class="aff-social">10M+ users</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Essential</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Secure access to your accounts from abroad. Bypass local restrictions.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Secure my connection →</a>
+        <span class="aff-social">#1 VPN worldwide</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">partner links — at no extra cost to you</p>
 </div>
 
 <h2>Daily life <span class="g">&amp;</span> housing</h2>
@@ -229,5 +258,7 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 <div class="orn"><span>· · ✦ · ·</span></div>
 <div id="siteFooter"></div><script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

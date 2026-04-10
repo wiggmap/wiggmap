@@ -125,14 +125,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -170,68 +183,62 @@ Au centre de Yogyakarta, derrière les murs ocre d'un palais construit au XVIIIe
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton installation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span>
-          <span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span>
-          <span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Carte SIM locale activable avant d'atterrir</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Accès sécurisé à tes comptes depuis l'étranger</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Préparer ton installation</p>
+    <p class="aff-title">Les outils <em>vraiment utiles</em> pour partir</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Dès 45$/mois</span>
       </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Assurance santé mondiale conçue pour les nomades. S'active depuis n'importe où.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Voir l'offre →</a>
+        <span class="aff-social">+1M nomades</span>
+      </div>
     </div>
-<h2>Yogyakarta en <span class="g">2026</span> — le secret le mieux gardé d'Asie</h2>
-
-<p>Yogyakarta — que les locaux appellent simplement <strong>Jogja</strong> — est la ville d'Indonésie que les expatriés découvrent par hasard et ne quittent plus. La capitale culturelle de Java abrite le plus grand complexe universitaire du pays, une tradition artistique — batik, wayang kulit (théâtre d'ombres), argent ciselé, poterie — qui remonte à plusieurs siècles, deux des sites archéologiques les plus importants d'Asie du Sud-Est (Borobudur et Prambanan) accessibles en moins d'une heure, et un coût de vie si bas qu'il remet en question l'idée même de ce que peut être un budget "modeste".</p>
-
-<p>Ce n'est pas Bali. Il n'y a pas de plage, pas de beach clubs, pas de communauté nomad installée. Ce n'est pas Jakarta. Il n'y a pas de tours de verre, pas d'écosystème startup international, pas d'embouteillages apocalyptiques. Jogja est quelque chose de rare : une grande ville qui fonctionne à l'échelle humaine, où la vie culturelle est dense et authentique, où l'artisanat local est toujours vivant, et où un expatrié curieux peut vivre très bien pour moins de $700 par mois.</p>
-
-<div class="note ok">
-  <div class="note-ttl">✓ Statut unique</div>
-  <p>Yogyakarta est la seule province indonésienne à avoir conservé un statut de région spéciale (Daerah Istimewa). Le Sultan y est gouverneur de droit. Ce statut politique particulier lui a conféré une relative autonomie et une stabilité institutionnelle rare en Indonésie.</p>
-</div>
-
-<h2>La ville — identité <span class="g">&amp;</span> âme</h2>
-
-<p>Jogja s'articule autour de deux axes qui structurent toute la vie de la ville. Du nord au sud : le <strong>Kraton</strong> (palais royal), au cœur historique, et le volcan <strong>Merapi</strong> qui domine l'horizon au nord — toujours actif, vénéré, menaçant. D'est en ouest : <strong>Malioboro</strong>, la grande artère commerçante bordée de warungs, de marchands de batik et de vendeurs de gudeg (la spécialité locale, un ragoût de jacquier vert), qui converge vers la gare de Tugu, chef-d'œuvre colonial néerlandais.</p>
-
-<p>La ville est peuplée d'artistes. Les ateliers de batik sont partout — du batik industriel de Malioboro au batik d'artiste de Prawirotaman, le quartier des galeries. Les sculpteurs de Kotagede travaillent l'argent depuis le XVIe siècle. Les maîtres du wayang kulit fabriquent encore leurs marionnettes de cuir à la main, comme leurs ancêtres javanais. Et l'Université Gadjah Mada — l'une des premières d'Indonésie — amène chaque année des dizaines de milliers d'étudiants qui maintiennent une vie intellectuelle et nocturne bien plus active que sa taille ne le laisserait supposer.</p>
-
-<div class="pq">
-  <p>Yogyakarta est la ville où tu viens pour trois jours et tu restes trois mois. Pas parce que c'est confortable — parce que c'est vivant d'une façon que tu n'avais pas anticipée.</p>
-</div>
-
-<h2>Quartiers — <span class="g">où s'installer ?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">Prawirotaman</div>
-    <div class="q-desc">Le quartier "expat chic" de Jogja. Galeries d'art, cafés design, guesthouses de charme, restaurants végétariens. Calme, verdoyant, idéal pour les créatifs. Loyers : $150-300/mois pour un studio ou une chambre dans une villa.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Taux réel</span>
+      </div>
+      <p class="aff-name">Wise — Compte sans frontières</p>
+      <p class="aff-desc">Carte + virements en 40+ devises. Zéro commission cachée.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Ouvrir un compte →</a>
+        <span class="aff-social">16M+ clients</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Avant d'atterrir</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mondiale</p>
+      <p class="aff-desc">Carte SIM locale activable depuis ton canapé. 200+ pays couverts.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Choisir son eSIM →</a>
+        <span class="aff-social">10M+ utilisateurs</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Indispensable</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Accès sécurisé à tes comptes depuis l'étranger. Contourne les restrictions locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Sécuriser ma connexion →</a>
+        <span class="aff-social">Top 1 VPN mondial</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">Malioboro / Kraton</div>
-    <div class="q-desc">Le cœur historique. Plus animé, plus dense, plus touristique. Accès immédiat aux sites, aux warungs authentiques, à la vie de rue. Loyers bas ($80-180). Idéal pour les courts séjours et les amateurs de vie urbaine intense.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Sleman (nord)</div>
-    <div class="q-desc">Zone universitaire au nord. Cafés étudiants, coworkings abordables, vie nocturne modérée. La zone la moins chère et la plus locale — parfaite pour les étudiants de langue, les chercheurs et les long-termers à petit budget.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Kotagede</div>
-    <div class="q-desc">Ancienne capitale du sultanat de Mataram. Rues pavées, ateliers d'argenterie, mosquée historique, maisons coloniales. Pour les passionnés d'histoire et d'artisanat. Très local, peu touristique, loyers quasi imbattables.</div>
-  </div>
+  <p class="aff-footer">liens partenaires — sans surcoût pour toi</p>
 </div>
 
 <h2>Vie quotidienne <span class="g">&amp;</span> logement</h2>
@@ -437,5 +444,7 @@ Au centre de Yogyakarta, derrière les murs ocre d'un palais construit au XVIIIe
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

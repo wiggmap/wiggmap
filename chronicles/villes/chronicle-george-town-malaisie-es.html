@@ -41,14 +41,27 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 .faq{margin:36px 0}details{border:1px solid var(--rule);border-radius:var(--r);margin-bottom:8px;overflow:hidden}details[open]{border-color:var(--g)}summary{font-family:var(--sans);font-size:14px;font-weight:500;padding:16px 20px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;color:var(--ink);gap:12px;user-select:none}summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-shrink:0}details[open] summary::after{transform:rotate(45deg)}.faq-body{padding:4px 20px 18px;font-family:var(--sans);font-size:13.5px;color:var(--ink3);line-height:1.65}
 .links-block{border:1px solid var(--rule);border-radius:12px;padding:24px;margin:40px 0;background:var(--white)}.links-ttl{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:14px}.links-grid{display:flex;flex-wrap:wrap;gap:8px}.links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -85,50 +98,62 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 <p class="lead">En 2012, el artista lituano Ernest Zacharevic atornilló una bicicleta real a la pared de una shophouse de Armenian Street, soldó dos niños de metal montándola, y pintó el resto de la escena a su alrededor. El mural — <em>Children on a Bicycle</em> — se volvió viral antes de que la palabra existiera de verdad, dio la vuelta al mundo en Instagram cuando Instagram aún era nuevo, y puso a George Town en el mapa global como destino de arte urbano. Lo interesante es que Penang no necesitaba esa publicidad. Su centro histórico llevaba siendo Patrimonio Mundial de la UNESCO desde 2008. Su gastronomía ya atraía peregrinos desde hacía décadas, antes de que el turismo gastronómico fuera una categoría. Sus shophouses Peranakan, con sus azulejos portugueses y sus contraventanas de madera tallada, eran uno de los silenciosos milagros arquitectónicos del Sudeste Asiático. Zacharevic simplemente hizo imposible seguir ignorándolo.</p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepara tu mudanza</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span>
-          <span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Tu cuenta sin fronteras</span>
-          <span class="aff-strip-desc">Tarjeta + transferencias en 40+ divisas al tipo real</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">SIM local activable antes de aterrizar</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Acceso seguro a tus cuentas desde el extranjero</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepara tu mudanza</p>
+    <p class="aff-title">Las herramientas <em>realmente útiles</em> para emigrar</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Desde 45$/mes</span>
       </div>
-      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Seguro de salud mundial pensado para nómadas. Se activa desde cualquier lugar.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Ver la oferta →</a>
+        <span class="aff-social">+1M nómadas</span>
+      </div>
     </div>
-<h2>George Town en <span class="g">2026</span> — la capital cultural de Malasia</h2>
-
-<p>George Town ocupa el extremo noreste de la isla de Penang, unos 330 km al norte de Kuala Lumpur. La ciudad propiamente dicha ronda los 700.000 habitantes; la conurbación de Penang se acerca a los 1,8 millones. Francis Light, de la Compañía Británica de las Indias Orientales, estableció aquí un puesto comercial en 1786, y la infraestructura colonial que construyó — la cuadrícula de calles mercantiles, la mezcla de comunidades china, india y malaya, el profundo puerto natural — modeló el carácter de la ciudad durante los dos siglos siguientes. En 2008, la UNESCO declaró George Town y Malaca Patrimonio Mundial como ejemplos excepcionales de ciudades portuarias multiculturales del estrecho de Malaca.</p>
-
-<p>Para los expatriados en 2026, George Town ocupa un nicho muy concreto: es el tipo de lugar al que la gente llega por un mes y en el que se queda un año. El coste de vida es menor que en KL. La comida es, en general, mejor que en cualquier otro lugar del Sudeste Asiático. La escala es humana — se puede recorrer a pie casi todo el casco antiguo, ir en bici a la playa, llegar a conocer el barrio. La ciudad tiene fama de convertir a los visitantes en residentes a largo plazo de una manera que ninguna campaña de marketing podría fabricar. Lo hace sola, en silencio, a base de acumular detalles cotidianos de calidad.</p>
-
-<div class="note"><div class="note-ttl">✓ La ciudad más celebrada gastronómicamente del Sudeste Asiático</div><p>Lonely Planet, CNN Travel y el New York Times han situado a Penang en lo más alto de sus rankings de destinos gastronómicos. El asam laksa aparece con regularidad en las listas de mejores platos del mundo. Los hawker centres abren las 24 horas, los platos cuestan entre 1,50 y 4 dólares, y la calidad en lo alto de la escala compite de verdad con comidas de restaurante que en otros lugares costarían diez veces más.</p></div>
-
-<h2>La ciudad — identidad <span class="g">&amp;</span> alma</h2>
-
-<p>Recorrer el núcleo UNESCO es moverse a través de una historia del comercio comprimida en unos pocos kilómetros. Las <strong>shophouses Peranakan</strong> — esas casas de comercio estrechas y profundas construidas para minimizar la fachada a la calle (que tributaba) — bordean los callejones en tonos de amarillo, azul y terracota. Sus fachadas, decoradas con azulejos de estilo portugués, celosías de madera y elaborados estucos, logran ser chinas, malayas y coloniales europeas a la vez. Nada de esto parece conservado para turistas. La gente vive en estos edificios. La ropa tiende de las ventanas superiores. Los gatos duermen en los soportales de los cinco pies.</p>
-
-<p>Los templos de los clanes <strong>kongsi</strong> son algo distinto. Estas asociaciones de grupo dialectal chino — básicamente sociedades de ayuda mutua organizadas por apellido — construyeron sus templos y salones de reunión como declaraciones de permanencia y orgullo cívico. El <strong>Khoo Kongsi</strong>, en Cannon Square, es el más espectacular: un conjunto de edificios de ornado estilo imperial chino del sur, con tejados erizado de dragones de cerámica, que aparentemente excedió tanto lo considerado apropiado para una asociación de clan que el techo original se derrumbó al terminarse — interpretado mayoritariamente como un mensaje divino para que bajaran el tono. La versión reconstruida sigue siendo extraordinaria.</p>
-
-<div class="pq"><p>George Town a las seis de la mañana: el kopitiam de la esquina lleva preparando su kopi-o desde 1953, el wok del char kway teow ya humea, un monje con túnica azafrán pasa frente a la entrada de un templo taoísta. Ningún otro lugar se parece exactamente a esto.</p></div>
-
-<h2>Barrios — <span class="g">¿dónde instalarse?</span></h2>
-<div class="quartiers">
-  <div class="q-card"><div class="q-name">Núcleo UNESCO (Armenian St / Love Lane)</div><div class="q-desc">Inmersión completa: shophouses, arte urbano, café de especialidad, el ritmo del casco antiguo. Alquileres: $400-900 en unidades renovadas. La elección correcta si quieres la experiencia auténtica de George Town y puedes con algo de ruido. Las mañanas y las tardes son mágicas; las tardes del fin de semana, menos.</div></div>
-  <div class="q-card"><div class="q-name">Pulau Tikus</div><div class="q-desc">La elección de la mayoría de los expatriados a largo plazo. Residencial, transitable a pie, mercado local, buenas cafeterías, sin grupos de tour. Alquileres: $300-650. A diez minutos del casco antiguo en bici. La recomendación constante de WiggMap — mejor valor y más tranquilo que el núcleo UNESCO sin perder nada del ambiente.</div></div>
-  <div class="q-card"><div class="q-name">Gurney / Gurney Drive</div><div class="q-desc">Frente marítimo moderno. El hawker centre de Gurney Drive es una de las mejores instituciones de Penang. Condominios, centros comerciales, buena conectividad. Alquileres: $400-900. Elección sensata si quieres comodidades modernas y vistas al mar. Menos encanto que el casco antiguo, pero muy práctico.</div></div>
-  <div class="q-card"><div class="q-name">Batu Ferringhi</div><div class="q-desc">La playa, a 25 km del centro. Ritmo más lento, hoteles resort, restaurantes frente al mar. Alquileres: $350-800. Funciona bien si la playa importa más que el patrimonio. Menos conectado con la vida urbana, pero genuinamente agradable como base costera a largo plazo.</div></div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Tipo real</span>
+      </div>
+      <p class="aff-name">Wise — Cuenta sin fronteras</p>
+      <p class="aff-desc">Tarjeta + transferencias en 40+ divisas. Cero comisiones ocultas.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Abrir una cuenta →</a>
+        <span class="aff-social">16M+ clientes</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Antes de aterrizar</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mundial</p>
+      <p class="aff-desc">SIM local que activas desde tu sofá. 200+ países cubiertos.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Elegir mi eSIM →</a>
+        <span class="aff-social">10M+ usuarios</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Imprescindible</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Acceso seguro a tus cuentas desde el extranjero. Salta las restricciones locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Asegurar mi conexión →</a>
+        <span class="aff-social">Top 1 VPN mundial</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">enlaces de afiliado — sin coste adicional para ti</p>
 </div>
 
 <h2>Vida cotidiana <span class="g">&amp;</span> alojamiento</h2>
@@ -250,5 +275,7 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 <div class="orn"><span>· · ✦ · ·</span></div>
 <div id="siteFooter"></div><script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

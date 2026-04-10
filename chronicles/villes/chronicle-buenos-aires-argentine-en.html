@@ -41,14 +41,27 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 .faq{margin:36px 0}details{border:1px solid var(--rule);border-radius:var(--r);margin-bottom:8px;overflow:hidden}details[open]{border-color:var(--g)}summary{font-family:var(--sans);font-size:14px;font-weight:500;padding:16px 20px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;color:var(--ink);gap:12px;user-select:none}summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-shrink:0}details[open] summary::after{transform:rotate(45deg)}.faq-body{padding:4px 20px 18px;font-family:var(--sans);font-size:13.5px;color:var(--ink3);line-height:1.65}
 .links-block{border:1px solid var(--rule);border-radius:12px;padding:24px;margin:40px 0;background:var(--white)}.links-ttl{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:14px}.links-grid{display:flex;flex-wrap:wrap;gap:8px}.links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -77,56 +90,62 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 <p class="lead">There are cities that feel like a whole country compressed into a few square kilometres. Buenos Aires is one of them. Walk from the cobblestones of San Telmo through the Haussmann-wide avenues of Recoleta, past the bookshops and psychoanalysts' offices of Palermo, into the converted warehouses of Puerto Madero, and you've crossed several European cities without leaving one. The place was built by Italian, Spanish, Jewish and Basque immigrants who arrived in their millions between 1880 and 1930 and simply reproduced the architecture of the cities they'd left — plus the beef. What they created is the most European city in the Western Hemisphere and the most Argentine place on earth simultaneously, a contradiction it has never tried to resolve and probably never will. For expats arriving with dollars or euros in 2026, it is also one of the genuinely great bargains of the modern world: a world-class capital at a fraction of what comparable cities cost.</p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepare your move</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span>
-          <span class="aff-strip-desc">Global health cover from $45/mo</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Your borderless account</span>
-          <span class="aff-strip-desc">Card + transfers in 40+ currencies at the real rate</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Local SIM card ready before you land</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Secure access to your accounts from abroad</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepare your move</p>
+    <p class="aff-title">The tools <em>you actually need</em> to relocate</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">From $45/mo</span>
       </div>
-      <div class="aff-strip-note">partner links — at no extra cost to you</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Global health insurance built for nomads. Activate from anywhere.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">See the offer →</a>
+        <span class="aff-social">+1M nomads</span>
+      </div>
     </div>
-<h2>Buenos Aires in <span class="g">2026</span> — a world-class city at dramatically accessible prices</h2>
-
-<p>Buenos Aires is Argentina's federal capital and the largest city in South America outside São Paulo — 3 million people in the city proper, 15 million in the greater metropolitan area. It sits at 34°S on the Río de la Plata, a river so wide it looks like an inland sea from the city waterfront. Founded in 1580 on its second attempt (the first settlement was wiped out by indigenous resistance in 1536), it grew rapidly as the main port for Spanish South America's agricultural exports — particularly the cattle and grain of the Pampas — and received the massive wave of European immigration that transformed its demographics and architecture in the late 19th and early 20th century.</p>
-
-<p>For expats in 2026, Buenos Aires occupies a very particular position. It has the cultural and architectural substance of a European capital — world-class theatre, opera, museums, universities, a literary tradition, a food culture built around one of the world's great protein sources. At the same time, Argentina's chronic economic instability means that people with income in hard currencies are living in this city for a fraction of what equivalent quality of life would cost in London, Paris or Barcelona. The trade-off is accepting a degree of monetary complexity and a vigilance about personal security that most Western European cities don't require. Most expats who stay longer than six months decide the trade-off is very much in their favour.</p>
-
-<div class="note warn">
-  <div class="note-ttl">⚠️ Economic context — read before budgeting</div>
-  <p>Argentina in 2026 is mid-reform under President Milei (elected 2023). Annual inflation has fallen from 211% in 2023 to ~60% in 2025-2026 — still high, but a real directional shift. The peso has partially stabilised. For expats: calculate your budget in USD and convert at time of spending rather than planning in pesos. Keep savings in hard currency.</p>
-</div>
-
-<h2>The city — identity <span class="g">&amp;</span> character</h2>
-
-<p>Buenos Aires is a city that takes culture seriously in ways that can feel startling coming from the anglophone world. Porteños read — the city has more bookshops per capita than almost anywhere on earth, and they are full of people. They go to the theatre — Buenos Aires has more theatre seats than London and a tradition of <em>teatro independiente</em> (independent theatre, often in converted houses or warehouses) that produces genuinely challenging work at prices that make it accessible to everyone. They argue about literature, philosophy and politics the way other cities argue about football. And they go to their psychoanalyst — Buenos Aires has roughly 45,000 of them, more than any country per capita, operating from offices that line whole streets in Palermo in a district locals call <em>Villa Freud</em>. Going to analysis once or twice a week is a normal middle-class activity here, as natural as going to the gym.</p>
-
-<p><strong>Tango</strong> deserves a specific explanation for newcomers. The tango you will see in the tourist shows of San Telmo is a performance. The tango in the milongas — the dance halls that have been running since the 1940s — is a conversation between two people, improvised, technically demanding, and conducted through a system of non-verbal codes that take months to learn. The <em>cabeceo</em> — a slight nod to invite someone to dance, accepted or declined by eye contact alone — means that a milonga can run for four hours with almost no verbal exchange taking place. Getting genuinely good at tango in Buenos Aires requires the same commitment as learning a language. The community of serious dancers is warm, international and highly specific — one of the most interesting subcultures in the city for expats with the patience to enter it properly.</p>
-
-<p>The food runs on three things. First, the <strong>parrilla</strong>: Argentine beef, raised on grass in the Pampas without feedlots, hormones or systematic antibiotics, cooked over quebracho hardwood coals by a <em>parrillero</em> who considers this a craft — not a job. The cuts are different from what most visitors expect (the <em>asado</em> rib plate, the <em>vacío</em> flank, the <em>entraña</em> skirt steak) and the flavour profile of grass-fed Argentine beef has no real equivalent in Northern Europe or North America. Second, <strong>empanadas</strong>: hand-folded pastry pockets with regional fillings (beef, chicken, corn, spinach and cheese) that are one of the great portable foods and available everywhere for almost nothing. Third, the <strong>café culture</strong>: old-school table-service cafés where a single espresso entitles you to sit for hours and nobody will hurry you out. El Tortoni, open since 1858, is the most famous; dozens of less-touristy equivalents operate in Palermo, Recoleta and Villa Crespo.</p>
-
-<div class="pq"><p>Buenos Aires at midnight: the restaurant starts to fill. The pizzeria next door has a queue in the street. At 2 AM the Palermo bars are full. The independent theatre crowd just spilled out onto the pavement. A city that doesn't begin until 11 PM — and has never apologised for it.</p></div>
-
-<h2>Neighbourhoods — <span class="g">where to live?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card"><div class="q-name">Palermo (Soho / Hollywood)</div><div class="q-desc">The default expat neighbourhood. Densest in cafés, restaurants, bars, coworkings, parks, bookshops. Rents: $450–900. Safest at night, most international community, best infrastructure for nomads. Soho for street life and shopping; Hollywood for gastronomy and nightlife.</div></div>
-  <div class="q-card"><div class="q-name">Recoleta</div><div class="q-desc">Haussmann BA. Fine arts museum, Recoleta cemetery, century-old cafés, embassies. Rents: $500–1,100. For profiles wanting European standing and proximity to cultural institutions. Less lively at night but architecturally extraordinary.</div></div>
-  <div class="q-card"><div class="q-name">San Telmo</div><div class="q-desc">Colonial and bohemian. Cobblestones, antique dealers, tango, Sunday Plaza Dorrego market. Rents: $400–750. For creatives wanting atmosphere. Gentrifying unevenly — some blocks are beautiful, others still rough. Best explored before committing to a flat.</div></div>
-  <div class="q-card"><div class="q-name">Belgrano / Villa Crespo</div><div class="q-desc">Residential and established. Belgrano: calm, bourgeois, good schools, large Jewish and Chinese communities. Villa Crespo: rapidly gentrifying, artist studios, emerging food scene. Rents: $380–700. For families and long-termers who want local Buenos Aires.</div></div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Real rate</span>
+      </div>
+      <p class="aff-name">Wise — Borderless account</p>
+      <p class="aff-desc">Card + transfers in 40+ currencies. Zero hidden fees.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Open an account →</a>
+        <span class="aff-social">16M+ customers</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Before you land</span>
+      </div>
+      <p class="aff-name">Airalo — Global eSIM</p>
+      <p class="aff-desc">Local SIM card you activate from your couch. 200+ countries covered.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Pick your eSIM →</a>
+        <span class="aff-social">10M+ users</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Essential</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Secure access to your accounts from abroad. Bypass local restrictions.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Secure my connection →</a>
+        <span class="aff-social">#1 VPN worldwide</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">partner links — at no extra cost to you</p>
 </div>
 
 <h2>Daily life <span class="g">&amp;</span> housing</h2>
@@ -271,5 +290,7 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 <div class="orn"><span>· · ✦ · ·</span></div>
 <div id="siteFooter"></div><script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

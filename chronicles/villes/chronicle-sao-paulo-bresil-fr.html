@@ -136,14 +136,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -198,62 +211,63 @@ details[open] summary::after{transform:rotate(45deg)}
     </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton installation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span>
-          <span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span>
-          <span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Carte SIM locale activable avant d'atterrir</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Accès sécurisé à tes comptes depuis l'étranger</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Préparer ton installation</p>
+    <p class="aff-title">Les outils <em>vraiment utiles</em> pour partir</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Dès 45$/mois</span>
       </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
-    </div>
-    <h2>Une mégapole qui <span class="g">ne ressemble à rien d'autre</span></h2>
-
-    <p>São Paulo n'a pas de carte postale. Pas de Christ Rédempteur, pas de plages de sable blanc, pas de skyline qui donnerait envie de tout quitter pour venir vivre ici. Sa beauté — et elle en a — est plus difficile à percevoir : elle est dans la diversité absolue de ses quartiers, dans l'énergie de ses rues à 23h un mardi soir, dans un repas de sushi rue Aclimação qui rivalise avec Tokyo, dans un bar à vinho natural à Vila Madalena bondé de trentenaires brillants qui parlent tech, art et politique simultanément.</p>
-
-    <p>Fondée le 25 janvier 1554 par des missionnaires jésuites à l'occasion de la fête de la conversion de Saint Paul — d'où son nom — la ville n'était qu'un modeste poste de mission à 700 mètres d'altitude sur le plateau de Piratininga. Elle a mis trois siècles à décoller. C'est le <em>boom</em> du café à la fin du XIXe siècle qui a tout changé : les <em>barões do café</em> (barons du café) ont investi leurs fortunes dans l'industrialisation, attirant des vagues d'immigrants italiens, espagnols, japonais, libanais, syriens, allemands, polonais. En moins de cinquante ans, São Paulo est passée de 30 000 à plus d'un million d'habitants. Aujourd'hui l'agglomération dépasse 22 millions — la plus grande ville de l'hémisphère sud, la sixième du monde.</p>
-
-    <p>L'Avenida Paulista est l'épine dorsale symbolique de la ville : 2,8 km de banques, hôtels, musées, centres culturels et bureaux qui concentrent une densité économique sans équivalent en Amérique latine. Le dimanche, elle se transforme en promenade piétonne — familles, skateurs, vendeurs ambulants, musiciens de rue — dans un changement de rythme typiquement paulistano. Le <strong>MASP</strong> (Museu de Arte de São Paulo), suspendu au-dessus du vide sur ses piliers rouges iconiques conçus par Lina Bo Bardi, est à la fois l'un des plus importants musées d'art du continent et l'une des images les plus reconnaissables de la ville.</p>
-
-    <div class="quartiers">
-      <div class="q-card">
-        <div class="q-name">Jardins (Jardim Paulista / América)</div>
-        <div class="q-desc">Le quartier le plus cher et le plus sûr. Ambassades, boutiques de luxe, restaurants étoilés. Expats corporate et familles aisées.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Pinheiros / Vila Madalena</div>
-        <div class="q-desc">Le quartier bohème et créatif de référence. Bars, galeries, restaurants branchés, jeunes expats et professionnels. Le plus vivant.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Itaim Bibi</div>
-        <div class="q-desc">Le quartier financier. Tours, restaurants d'affaires, sécurisé. Idéal pour les expats corporate travaillant dans la finance ou la tech.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Vila Mariana</div>
-        <div class="q-desc">Quartier résidentiel calme, bien desservi par le métro. Familles, plus abordable que Jardins, qualité de vie quotidienne.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Liberdade</div>
-        <div class="q-desc">Le quartier japonais. La plus grande communauté nikkei hors du Japon. Restaurants, temples, marchés, culture unique.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Moema</div>
-        <div class="q-desc">Résidentiel haut de gamme, près du Parque Ibirapuera. Familles expatriées, calme, bonnes écoles internationales à proximité.</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Assurance santé mondiale conçue pour les nomades. S'active depuis n'importe où.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Voir l'offre →</a>
+        <span class="aff-social">+1M nomades</span>
       </div>
     </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Taux réel</span>
+      </div>
+      <p class="aff-name">Wise — Compte sans frontières</p>
+      <p class="aff-desc">Carte + virements en 40+ devises. Zéro commission cachée.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Ouvrir un compte →</a>
+        <span class="aff-social">16M+ clients</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Avant d'atterrir</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mondiale</p>
+      <p class="aff-desc">Carte SIM locale activable depuis ton canapé. 200+ pays couverts.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Choisir son eSIM →</a>
+        <span class="aff-social">10M+ utilisateurs</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Indispensable</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Accès sécurisé à tes comptes depuis l'étranger. Contourne les restrictions locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Sécuriser ma connexion →</a>
+        <span class="aff-social">Top 1 VPN mondial</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">liens partenaires — sans surcoût pour toi</p>
+</div>
 
     <div class="orn"><span>· · ✦ · ·</span></div>
 
@@ -563,5 +577,7 @@ details[open] summary::after{transform:rotate(45deg)}
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

@@ -98,14 +98,27 @@ summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-sh
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -143,68 +156,62 @@ Au XVIe siècle, Hội An était l'un des ports marchands les plus importants d'
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton installation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span>
-          <span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span>
-          <span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Carte SIM locale activable avant d'atterrir</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Accès sécurisé à tes comptes depuis l'étranger</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Préparer ton installation</p>
+    <p class="aff-title">Les outils <em>vraiment utiles</em> pour partir</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Dès 45$/mois</span>
       </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Assurance santé mondiale conçue pour les nomades. S'active depuis n'importe où.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Voir l'offre →</a>
+        <span class="aff-social">+1M nomades</span>
+      </div>
     </div>
-<h2>Hội An en <span class="g">2026</span> — la plus belle ville du Viêt Nam, avec ses conditions</h2>
-
-<p>Hội An (anciennement appelée Faifo par les Portugais) est une ville de 150 000 habitants dans la province de Quảng Nam, à 30 km au sud de Da Nang. Son <strong>Phố Cổ</strong> (Vieux Quartier) est l'un des exemples les mieux conservés d'un port marchand d'Asie du Sud-Est. Contrairement à la plupart des villes historiques d'Asie, Hội An n'a jamais été détruite par la guerre, les tremblements de terre ou les incendies à grande échelle — et sa taille humaine (les véhicules motorisés sont bannis du centre la nuit) lui a évité le réaménagement massif qui a défiguré d'autres centres historiques.</p>
-
-<p>Pour un expatrié en 2026, Hội An est une ville qui demande un certain engagement. Elle est plus chère que Da Nang (qui n'est qu'à 30 km), son internet est moins fiable, son aéroport est plus éloigné, et la pression touristique peut être étouffante en haute saison. Mais elle offre quelque chose qu'aucune autre ville du Viêt Nam ne peut donner : une beauté architecturale cohérente et habitée, une atmosphère de plénitude en dehors des heures de pointe, et une qualité de vie côtière — la plage An Bàng est à 5 km, la plage Cua Dai à 4 km — qui rivalise avec n'importe quelle destination d'Asie du Sud-Est.</p>
-
-<div class="note warn">
-  <div class="note-ttl">⚠️ Tourisme de masse — gérer sa relation avec la ville</div>
-  <p>Hội An reçoit plus de 2 millions de visiteurs par an dans une ville de 150 000 habitants. La stratégie des résidents expats : matins avant 8h30 et soirées après 17h30 pour le quartier historique. Les quartiers résidentiels à 10-20 min à vélo sont entièrement préservés de la pression touristique.</p>
-</div>
-
-<h2>La ville — identité <span class="g">&amp;</span> âme</h2>
-
-<p>Le <strong>Phố Cổ</strong> de Hội An est un labyrinthe de 28 rues classées dans lequel chaque bâtiment raconte une couche de l'histoire commerciale de l'Asie. Les <strong>maisons-tubes</strong> — ces maisons de commerce chinoises étroites et longues, conçues pour minimiser la façade sur rue (taxée) tout en maximisant l'espace intérieur — sont les éléments architecturaux les plus caractéristiques. La <strong>Maison de Phùng Hưng</strong> (XVIIIe siècle), la <strong>Maison de Tấn Ký</strong> (XVIIe siècle, la mieux préservée) et les nombreuses <strong>assemblées communautaires chinoises</strong> (Hội Quán) — dont celle de Phúc Kiến avec ses jardins intérieurs extraordinaires — forment un corpus architectural sans équivalent en Asie du Sud-Est.</p>
-
-<p>La <strong>Pleine Lune de Hội An</strong> — le 14e jour de chaque mois lunaire — est l'expérience la plus mémorable de la ville. L'électricité est coupée dans le quartier historique. Des milliers de lanternes en soie suspendues aux balcons, posées sur la rivière dans des barques et fixées aux arbres créent une lumière dorée qui transforme les ruelles en quelque chose qui n'existe nulle part ailleurs dans le monde. Des musiciens jouent de la musique traditionnelle dans les cours intérieures. Les touristes disparaissent dans la magie collective — et même les plus cyniques capitulent.</p>
-
-<div class="pq">
-  <p>Hội An à 6h du matin, quand la brume de rivière couvre encore les ruelles et que les vendeurs installent leurs étals de bánh mì sur les pavés humides, est l'un des moments les plus beaux d'Asie. Il faut se lever tôt pour les attraper.</p>
-</div>
-
-<h2>Quartiers — <span class="g">où s'installer ?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">Cẩm Châu / Cẩm Nam</div>
-    <div class="q-desc">Les quartiers résidentiels calmes sur les îles et presqu'îles proches. Rizières, canaux, villages de potiers, silence. Loyers : $350-700. Accessibles à vélo depuis le centre (5-15 min). Le vrai choix des long-termers qui veulent vivre authentiquement sans le chaos touristique du Phố Cổ.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Taux réel</span>
+      </div>
+      <p class="aff-name">Wise — Compte sans frontières</p>
+      <p class="aff-desc">Carte + virements en 40+ devises. Zéro commission cachée.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Ouvrir un compte →</a>
+        <span class="aff-social">16M+ clients</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Avant d'atterrir</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mondiale</p>
+      <p class="aff-desc">Carte SIM locale activable depuis ton canapé. 200+ pays couverts.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Choisir son eSIM →</a>
+        <span class="aff-social">10M+ utilisateurs</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Indispensable</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Accès sécurisé à tes comptes depuis l'étranger. Contourne les restrictions locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Sécuriser ma connexion →</a>
+        <span class="aff-social">Top 1 VPN mondial</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">An Bàng Beach</div>
-    <div class="q-desc">Village de pêcheurs devenu destination beach cool. Plage calme, restaurants au bord de l'eau, ambiance détendue. Loyers : $400-900. Moins touristique que Cua Dai. Très apprécié des expats qui veulent la vie de plage sans la foule. À 5 km du quartier historique.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Phố Cổ (Vieux Quartier)</div>
-    <div class="q-desc">Vivre dans le cœur historique. Immersion totale, architecture extraordinaire, vie de quartier unique. Loyers : $500-1,500. Bruyant en journée (touristes), sublime le matin et le soir. Pour les expats qui acceptent les compromis pour la beauté.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Cam Thanh (village)</div>
-    <div class="q-desc">Village de cocotiers à 4 km du centre. Forêt de palmiers nipa, bateaux ronds en bambou, rizières. Loyers : $300-600. La vie rurale viêtnamienne à quelques coups de pédale du quartier historique. Pour les profils qui veulent la nature et l'authenticité maximale.</div>
-  </div>
+  <p class="aff-footer">liens partenaires — sans surcoût pour toi</p>
 </div>
 
 <h2>Vie quotidienne <span class="g">&amp;</span> logement</h2>
@@ -386,5 +393,7 @@ Au XVIe siècle, Hội An était l'un des ports marchands les plus importants d'
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

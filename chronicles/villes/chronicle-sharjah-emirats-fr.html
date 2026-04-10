@@ -127,14 +127,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -172,68 +185,62 @@ Pendant que Dubaï construisait le plus haut bâtiment du monde, Sharjah constru
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton installation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span>
-          <span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span>
-          <span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Carte SIM locale activable avant d'atterrir</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Accès sécurisé à tes comptes depuis l'étranger</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Préparer ton installation</p>
+    <p class="aff-title">Les outils <em>vraiment utiles</em> pour partir</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Dès 45$/mois</span>
       </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Assurance santé mondiale conçue pour les nomades. S'active depuis n'importe où.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Voir l'offre →</a>
+        <span class="aff-social">+1M nomades</span>
+      </div>
     </div>
-<h2>Sharjah en <span class="g">2026</span> — l'émirat de la culture et du budget</h2>
-
-<p>Sharjah est le troisième émirat des EAU par la superficie et la population — environ 1,5 million d'habitants, dont une forte majorité d'Asiatiques du Sud (Indiens, Pakistanais, Bangladais) et d'Arabes. C'est aussi l'émirat le plus conservateur de la fédération : l'alcool y est totalement interdit, le code vestimentaire plus strict qu'à Dubaï, et certains comportements acceptés dans les autres émirats peuvent y être sanctionnés. Pour certains expatriés, ces règles sont rédhibitoires. Pour d'autres — familles religieuses, professeurs, chercheurs, travailleurs migrants à budget serré qui n'ont que faire des bars — Sharjah est idéale.</p>
-
-<p>La position géographique de Sharjah est sa grande carte : elle borde Dubaï au nord-est. La plupart des quartiers résidentiels de Sharjah sont à 20-30 km des principaux centres d'emploi de Dubaï — soit, hors trafic, 20-30 minutes de route. Avec des loyers 40-50% inférieurs à Dubaï, des dizaines de milliers de travailleurs dubaïotes habitent à Sharjah et font la navette chaque jour. La contrepartie : les embouteillages aux heures de pointe sur les routes E11 et E311 peuvent transformer ce trajet en une heure ou plus.</p>
-
-<div class="note bad">
-  <div class="note-ttl">✗ Alcool totalement interdit — point non négociable</div>
-  <p>Sharjah est le seul émirat des EAU où l'alcool est entièrement prohibé — pas de bars, pas de restaurants sous licence, pas de vente dans les hôtels, aucun permis personnel possible. Même les non-musulmans ne peuvent pas consommer d'alcool sur le territoire de Sharjah. C'est le critère de sélection le plus important pour choisir ou non Sharjah.</p>
-</div>
-
-<h2>La ville — identité <span class="g">&amp;</span> âme</h2>
-
-<p>Sharjah est architecturalement et culturellement la ville des EAU la plus ancrée dans l'identité arabe et islamique. Son <strong>Heritage Area</strong> (quartier du patrimoine) est un ensemble de maisons à vent restaurées, de souks traditionnels et de places en pisé reconstitué — l'une des tentatives les plus sérieuses des EAU de reconstituer ce à quoi ressemblait la vie dans le Golfe avant le pétrole. Le <strong>Musée de la Civilisation islamique</strong>, logé dans une ancienne mosquée, abrite l'une des collections d'art et d'artisanat islamiques les plus importantes du monde en dehors de l'Iran et de Turquie. Le <strong>Musée des Beaux-Arts de Sharjah</strong> est l'un des rares musées d'art contemporain du monde arabe qui expose à la fois des artistes émiratis et des artistes internationaux en conversation égale.</p>
-
-<p>Le bord de mer de <strong>Khalid Lagoon</strong> et le quartier d'<strong>Al Majaz</strong> constituent le centre de loisirs et de promenade de la ville — des parcs bien entretenus, des restaurants familiaux, une atmosphère plus calme et plus familiale que le front de mer de Dubaï. La <strong>Foire internationale du livre de Sharjah</strong> (SIBF), tenue chaque novembre, est la plus grande foire du livre du monde arabe et l'une des plus grandes d'Asie — 50 000 titres, 600 éditeurs, 1,5 million de visiteurs. Pour qui aime les livres, c'est une des raisons de vivre à Sharjah.</p>
-
-<div class="pq">
-  <p>Sharjah est l'émirat qui a compris que la richesse pétrolière peut acheter des gratte-ciels ou des musées, mais pas les deux à la fois. Il a choisi les musées. C'est un choix qui se respecte.</p>
-</div>
-
-<h2>Quartiers — <span class="g">où s'installer ?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">Al Nahda</div>
-    <div class="q-desc">Le quartier résidentiel le plus populaire chez les travailleurs-navetteurs de Dubaï. Immeubles modernes, prix bas, accès direct à l'E311. Loyers : $550-900. Très dense, cosmopolite, communauté sud-asiatique importante. Le meilleur rapport prix/accès Dubaï.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Taux réel</span>
+      </div>
+      <p class="aff-name">Wise — Compte sans frontières</p>
+      <p class="aff-desc">Carte + virements en 40+ devises. Zéro commission cachée.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Ouvrir un compte →</a>
+        <span class="aff-social">16M+ clients</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Avant d'atterrir</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mondiale</p>
+      <p class="aff-desc">Carte SIM locale activable depuis ton canapé. 200+ pays couverts.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Choisir son eSIM →</a>
+        <span class="aff-social">10M+ utilisateurs</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Indispensable</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Accès sécurisé à tes comptes depuis l'étranger. Contourne les restrictions locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Sécuriser ma connexion →</a>
+        <span class="aff-social">Top 1 VPN mondial</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">Al Majaz / Khalid Lagoon</div>
-    <div class="q-desc">La zone résidentielle premium de Sharjah. Bord de lagon, parcs, restaurants. Plus calme et plus agréable qu'Al Nahda. Loyers : $700-1,200. Idéal pour les familles et les professionnels qui veulent le meilleur de Sharjah. Proche des musées et de l'Heritage Area.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Muwaileh / University City</div>
-    <div class="q-desc">Quartier universitaire au sud-ouest. Campus de l'Université de Sharjah et d'autres établissements. Calme, résidentiel, loyers très bas ($450-750). Parfait pour les enseignants et chercheurs. Plus éloigné du centre mais bien connecté.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Al Qasba / Heritage Area</div>
-    <div class="q-desc">Le cœur culturel et patrimonial. Musées, souks traditionnels, restaurants familiaux le long du canal. Loyers variables ($600-1,000). Pour les expatriés qui veulent s'immerger dans la culture locale et avoir les musées à portée de marche quotidienne.</div>
-  </div>
+  <p class="aff-footer">liens partenaires — sans surcoût pour toi</p>
 </div>
 
 <h2>Vie quotidienne <span class="g">&amp;</span> logement</h2>
@@ -418,5 +425,7 @@ Pendant que Dubaï construisait le plus haut bâtiment du monde, Sharjah constru
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

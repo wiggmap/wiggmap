@@ -274,14 +274,27 @@ details[open] summary::after{transform:rotate(45deg)}
 
 /* ── DISC ───────────────────────────────────── */
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -340,89 +353,63 @@ details[open] summary::after{transform:rotate(45deg)}
     </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepare your move</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span>
-          <span class="aff-strip-desc">Global health cover from $45/mo</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Your borderless account</span>
-          <span class="aff-strip-desc">Card + transfers in 40+ currencies at the real rate</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Local SIM card ready before you land</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Secure access to your accounts from abroad</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepare your move</p>
+    <p class="aff-title">The tools <em>you actually need</em> to relocate</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">From $45/mo</span>
       </div>
-      <div class="aff-strip-note">partner links — at no extra cost to you</div>
-    </div>
-    <h2>A <span class="g">singular</span> city</h2>
-
-    <p>Barcelona — capital of Catalonia, Spain's second-largest city, leading Mediterranean metropolis — is also one of the most densely touristed cities in the world: more than 26 million visitors per year for 1.7 million residents. That is simultaneously its strength and its most acute structural problem. Tourism has generated wealth, but it has also transformed entire neighbourhoods (La Barceloneta, the Barri Gòtic, El Born) into backdrops for visitors rather than living spaces for residents. The tension between the Barcelona of its inhabitants and the Barcelona of its tourists is one of the city's most visible social fractures.</p>
-
-    <p>For an expat looking to settle, Barcelona offers a combination few cities in the world can match: Mediterranean quality of life, an exceptional cultural and creative scene, a booming tech sector, and immediate access to nature. The flip side: a housing market in crisis, a complex dual-language cultural identity, and a rising cost of living that is steadily eroding the traditional advantage over Northern European capitals.</p>
-
-    <div class="pq">
-      <p>"I've lived in Berlin, London and Amsterdam. Barcelona is the only city where I found myself wondering why I'd waited. The sea, the sun, the food, the neighbourhood life — and a tech scene that holds its own against any of them."</p>
-    </div>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <h2>Catalan <span class="g">identity</span> — what every expat needs to understand</h2>
-
-    <p>Barcelona is not simply a Spanish city that happens to be in Catalonia. It is a regional capital with its own language (Catalan, co-official alongside Castilian Spanish), a distinct cultural identity claimed for centuries, and a political context — the Catalan independence question — that profoundly marked the decade from 2010 to 2020 and continues to colour public life. For an expat, arriving with a basic understanding of this reality matters: not treating Barcelona as just another "Spanish" city is the key to respectful, smooth integration.</p>
-
-    <p>In practice, daily life for an expat is largely bilingual or even trilingual. Catalan is the language of regional administration, public schools, many businesses and official signage. Castilian is universally understood and spoken. English is widely used in the tech sector and in neighbourhoods with high expat concentrations (Eixample, Gràcia, Poblenou). You do not need to speak Catalan to live in Barcelona — but making the effort to learn a few words is always warmly received.</p>
-
-    <p>The political question is more sensitive. The independence movement peaked with the unrecognised 2017 referendum and its judicial aftermath. The situation has calmed since, but tensions persist between independence supporters and unionists. For an expat, the golden rule is simple: listen, try to understand the complexity, and avoid staking out a public position in either direction in your first weeks. Catalans have deeply personal views on the subject and appreciate people who take it seriously.</p>
-
-    <div class="note warn">
-      <div class="note-ttl">🏠 Housing crisis — the worst in Spain</div>
-      <p>Barcelona is living through the country's most acute rental crisis. Rents surged 8.9% in a single year in 2025. Catalonia's rent regulation law (capping rents in high-pressure zones) has paradoxically reduced supply: many landlords have pulled properties from the long-term market and shifted them to tourist or temporary rentals (11-month contracts). The result: standard rental contracts fell 21% year-on-year in Barcelona in 2025 (Generalitat de Catalunya / Incasòl). For a one-bedroom apartment, budget between €1,300 and €1,700 per month depending on neighbourhood — and expect strong competition for every listing.</p>
-    </div>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <h2>Housing — finding your <span class="g">apartment</span></h2>
-
-    <p>Barcelona is divided into ten districts with very different personalities. The areas most commonly chosen by expats are the <strong>Eixample</strong> (the great 19th-century grid, dense, central, expensive but functional — €1,500–2,000/mo for a one-bed), <strong>Gràcia</strong> (the village-within-a-city par excellence, animated squares, independent cafés, young international crowd — €1,200–1,600), <strong>Poblenou</strong> (the former industrial district turned 22@ tech hub — modern apartments, many nomads, 10 minutes from the beach — €1,100–1,500), <strong>Sant Martí / Diagonal Mar</strong> (near the sea, quieter, families — €1,200–1,600), and <strong>Gràcia Alta / Sant Gervasi</strong> for higher budgets (€1,600–2,500).</p>
-
-    <p>The cheapest neighbourhoods with good connections: <strong>Nou Barris</strong> (north, very working-class, less well served — €900–1,200), <strong>Sant Andreu</strong> (residential, authentic, €1,000–1,300), <strong>Horta-Guinardó</strong> (hillside, quiet, €1,000–1,200). Avoid the <strong>Barri Gòtic</strong> and <strong>La Barceloneta</strong> as places to live: prices are very high, tourist noise is constant and daily quality of life is degraded by mass tourism pressure.</p>
-
-    <p>Practical tip: Idealista, Fotocasa and Habitaclia are the main platforms. Prepare a complete application file before you start looking — employment contract or proof of income, NIE, last three bank statements. Landlords receive many applications and choose quickly. Facebook groups "Pisos en alquiler en Barcelona" and "Expats in Barcelona" are also useful for finding flatshares or direct landlord listings.</p>
-
-    <div class="quartiers">
-      <div class="q-card">
-        <div class="q-name">Gràcia</div>
-        <div class="q-desc">The village within the city. Animated squares, independent cafés, bookshops, international bohemian atmosphere. Highly popular with creative expats and families.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Poblenou / 22@</div>
-        <div class="q-desc">The old Catalan Manchester, now a tech hub. Converted industrial buildings, startups, artists' studios, laptop cafés. 10 minutes from the beach.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Eixample</div>
-        <div class="q-desc">Cerdà's rational grid. The Sagrada Família, Casa Batlló, La Pedrera. Light-filled apartments with balconies. Very central, dense, expensive.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Sarrià – Sant Gervasi</div>
-        <div class="q-desc">The residential heights — calmer and greener. Wealthy families, international schools, shaded terraces.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Barceloneta</div>
-        <div class="q-desc">The beach and seafood neighbourhood. Ideal to visit, difficult to live in day-to-day because of mass tourism.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">El Born / Sant Pere</div>
-        <div class="q-desc">The gentrified medieval quarter. Cocktail bars, creative restaurants, galleries, Parc de la Ciutadella nearby.</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Global health insurance built for nomads. Activate from anywhere.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">See the offer →</a>
+        <span class="aff-social">+1M nomads</span>
       </div>
     </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Real rate</span>
+      </div>
+      <p class="aff-name">Wise — Borderless account</p>
+      <p class="aff-desc">Card + transfers in 40+ currencies. Zero hidden fees.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Open an account →</a>
+        <span class="aff-social">16M+ customers</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Before you land</span>
+      </div>
+      <p class="aff-name">Airalo — Global eSIM</p>
+      <p class="aff-desc">Local SIM card you activate from your couch. 200+ countries covered.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Pick your eSIM →</a>
+        <span class="aff-social">10M+ users</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Essential</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Secure access to your accounts from abroad. Bypass local restrictions.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Secure my connection →</a>
+        <span class="aff-social">#1 VPN worldwide</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">partner links — at no extra cost to you</p>
+</div>
 
     <div class="note info">
       <div class="note-ttl">🌐 The 22@ District — the Mediterranean Silicon Valley</div>
@@ -694,5 +681,7 @@ details[open] summary::after{transform:rotate(45deg)}
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

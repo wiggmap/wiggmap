@@ -98,14 +98,27 @@ summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-sh
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -152,68 +165,62 @@ En 2012, l'artiste lituanien Ernest Zacharevic suspendit deux enfants en métal 
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton installation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span>
-          <span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span>
-          <span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Carte SIM locale activable avant d'atterrir</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Accès sécurisé à tes comptes depuis l'étranger</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Préparer ton installation</p>
+    <p class="aff-title">Les outils <em>vraiment utiles</em> pour partir</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Dès 45$/mois</span>
       </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Assurance santé mondiale conçue pour les nomades. S'active depuis n'importe où.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Voir l'offre →</a>
+        <span class="aff-social">+1M nomades</span>
+      </div>
     </div>
-<h2>George Town en <span class="g">2026</span> — la capitale culturelle de la Malaisie</h2>
-
-<p>George Town est la capitale de l'État de Penang, sur l'île de Penang (Pulau Pinang) au nord-ouest de la péninsule malaisienne — 700 000 habitants dans la ville, 1,8 million dans l'agglomération du Grand Penang. Fondée en 1786 par Francis Light comme comptoir commercial de la Compagnie britannique des Indes orientales, elle fut l'une des premières possessions britanniques en Asie du Sud-Est. Son centre historique — 259 hectares de maisons de commerce chinoises, temples hindous, mosquées, shophouses colorées et bâtiments coloniaux — est classé au patrimoine mondial de l'UNESCO depuis 2008 conjointement avec Malacca.</p>
-
-<p>Pour un expatrié en 2026, George Town est la ville malaisienne qui convertit le plus facilement les visiteurs en résidents. Sa qualité de vie à l'échelle humaine, sa richesse culturelle et gastronomique, son coût de vie encore plus bas que KL et sa communauté internationale créative et choisie en font la destination de prédilection des nomads, des artistes, des retraités actifs et des profils qui veulent une Malaisie authentique sans la mégapole. Penang a une expression locale : <em>"Once you eat here, you can never leave."</em> C'est vrai sur les deux plans.</p>
-
-<div class="note">
-  <div class="note-ttl">✓ La meilleure gastronomie d'Asie du Sud-Est</div>
-  <p>Penang est classée parmi les meilleures destinations culinaires du monde par Lonely Planet, CNN Travel et le New York Times. L'asam laksa de Penang est régulièrement citée parmi les dix meilleurs plats du monde. Une économie entière est construite autour des hawker centres — 24h/24, $1-3 le plat, qualité irréprochable.</p>
-</div>
-
-<h2>La ville — identité <span class="g">&amp;</span> âme</h2>
-
-<p>George Town est une ville à plusieurs visages superposés avec une cohérence étrange. Le cœur historique UNESCO concentre les <strong>shophouses Peranakan</strong> — ces maisons de commerce à façades étroites ornées de carreaux de faïence portugais, de stucs fleuris et de portes sculptées qui mélangent les influences chinoises, malaises, indiennes et européennes en une esthétique que rien d'autre dans le monde ne reproduit exactement. La <strong>rue Armenian</strong> (Lebuh Armenian) et ses adjacentes sont le centre du street art — des dizaines de murales de Zacharevic et d'autres artistes, certaines en métal réel fixé aux façades, d'autres peintes directement sur les murs centenaires, chacune commentant l'histoire ou la vie quotidienne de Penang avec une intelligence qui dépasse largement le graffiti.</p>
-
-<p>Les <strong>clans chinois</strong> de George Town — les <em>kongsi</em> — sont une institution unique en dehors de la Chine. Ces associations de clan qui réunissaient les immigrants chinois de même nom de famille ont construit à Penang des complexes comprenant temples, salles de réunion, théâtres et logements à partir du XIXe siècle. Le <strong>Khoo Kongsi</strong>, sur Cannon Square, est l'un des plus beaux — un ensemble de bâtiments de style impérial chinois avec des sculptures de dragons et de phénix qui auraient fait tiquer l'Empire, si Penang n'avait pas été si loin de Pékin. Ces kongsi fonctionnent encore aujourd'hui comme associations culturelles et organisent les festivals les plus importants de la vie chinoise de Penang.</p>
-
-<div class="pq">
-  <p>George Town à 6h du matin : le kopitiam du coin sert son kopi-o depuis 1953, le char kway teow grille déjà, les bonzes en robe safran passent devant les temples taoïstes. Aucune autre ville de la planète ne ressemble exactement à ça.</p>
-</div>
-
-<h2>Quartiers — <span class="g">où s'installer ?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">Cœur UNESCO (Armenian St / Love Lane)</div>
-    <div class="q-desc">L'immersion totale : shophouses Peranakan, street art, cafés de spécialité, restaurants, animation. Loyers : $400-900 (shophouses rénovées). Pour les créatifs et les expats qui veulent la pleine expérience George Town. Bruyant certains soirs, sublime le reste du temps.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Taux réel</span>
+      </div>
+      <p class="aff-name">Wise — Compte sans frontières</p>
+      <p class="aff-desc">Carte + virements en 40+ devises. Zéro commission cachée.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Ouvrir un compte →</a>
+        <span class="aff-social">16M+ clients</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Avant d'atterrir</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mondiale</p>
+      <p class="aff-desc">Carte SIM locale activable depuis ton canapé. 200+ pays couverts.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Choisir son eSIM →</a>
+        <span class="aff-social">10M+ utilisateurs</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Indispensable</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Accès sécurisé à tes comptes depuis l'étranger. Contourne les restrictions locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Sécuriser ma connexion →</a>
+        <span class="aff-social">Top 1 VPN mondial</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">Pulau Tikus</div>
-    <div class="q-desc">Le quartier résidentiel calme à 10 min du centre. Marché local animé, temples bouddhistes, cafés branchés, vie de quartier authentique. Loyers : $300-650. La recommandation WiggMap pour les long-termers. Meilleur rapport qualité-vie de George Town.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Gurney / Gurney Drive</div>
-    <div class="q-desc">Le front de mer résidentiel et commercial. Hawker centre de Gurney Drive (institution de Penang), condos modernes, centres commerciaux. Loyers : $400-900. Pour les profils qui veulent modernité et accès à la mer. Moins de charme colonial mais très pratique.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Batu Ferringhi</div>
-    <div class="q-desc">La plage de Penang, à 25 min du centre. Hôtels resort, plages, restaurants de bord de mer, rythme vacation. Loyers : $350-800. Pour les profils qui prioritisent la plage et le calme sur le patrimoine. Moins bien connecté mais qualité de vie côtière incomparable.</div>
-  </div>
+  <p class="aff-footer">liens partenaires — sans surcoût pour toi</p>
 </div>
 
 <h2>Vie quotidienne <span class="g">&amp;</span> logement</h2>
@@ -395,5 +402,7 @@ En 2012, l'artiste lituanien Ernest Zacharevic suspendit deux enfants en métal 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

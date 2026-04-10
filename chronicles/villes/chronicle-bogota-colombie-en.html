@@ -38,14 +38,27 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 .faq{margin:36px 0}details{border:1px solid var(--rule);border-radius:var(--r);margin-bottom:8px;overflow:hidden}details[open]{border-color:var(--g)}summary{font-family:var(--sans);font-size:14px;font-weight:500;padding:16px 20px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;color:var(--ink);gap:12px;user-select:none}summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-shrink:0}details[open] summary::after{transform:rotate(45deg)}.faq-body{padding:4px 20px 18px;font-family:var(--sans);font-size:13.5px;color:var(--ink3);line-height:1.65}
 .links-block{border:1px solid var(--rule);border-radius:12px;padding:24px;margin:40px 0;background:var(--white)}.links-ttl{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:14px}.links-grid{display:flex;flex-wrap:wrap;gap:8px}.links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -70,45 +83,62 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 <p class="lead">In 1538, conquistador Gonzalo Jiménez de Quesada founded a city on an Andean plateau at 2,600 metres altitude — the site inhabited by the Muisca people, whose legend of the <em>El Dorado</em> (the Golden King) had triggered decades of Spanish expeditions into the continent's interior. That founding paradox is the heart of Bogotá: a city built on the search for a mythical treasure, which ended up becoming a treasure itself — with 55,000 pre-Columbian gold pieces in its museum, one of Latin America's most advanced gastronomic scenes, 120 kilometres of car-free roads every Sunday, and an altitude that compels every new visitor to slow down during acclimatisation.</p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepare your move</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span>
-          <span class="aff-strip-desc">Global health cover from $45/mo</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Your borderless account</span>
-          <span class="aff-strip-desc">Card + transfers in 40+ currencies at the real rate</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Local SIM card ready before you land</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Secure access to your accounts from abroad</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepare your move</p>
+    <p class="aff-title">The tools <em>you actually need</em> to relocate</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">From $45/mo</span>
       </div>
-      <div class="aff-strip-note">partner links — at no extra cost to you</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Global health insurance built for nomads. Activate from anywhere.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">See the offer →</a>
+        <span class="aff-social">+1M nomads</span>
+      </div>
     </div>
-<h2>Bogotá in <span class="g">2026</span> — Latin America's intellectual and cultural capital</h2>
-<p>Bogotá is Colombia's capital and largest city — 8 million inhabitants in the city, 11 million in the metropolitan region. At 2,600 metres altitude, it is the world's third highest capital after Sucre and La Paz (Bolivia) and Quito (Ecuador). This altitude is simultaneously its most defining characteristic and its greatest paradox: it gives the city a perpetually cool climate (7–18°C, jacket always required in the tropics), which radically distinguishes it from Medellín and makes it a capital with a more European than Caribbean character.</p>
-<p>For an expat in 2026, Bogotá is Colombia's most complex — and richest — proposition. More expensive than Medellín ($50–100 more on comparable rents), less pleasant climatically, more congested — but unmatched for access to culture, institutions, embassies, multinationals and an intellectual and artistic life without equivalent on the continent. Bogotá is often described as "Latin America's London" — cool, serious, grey part of the time, but with a cultural depth that fully justifies the investment.</p>
-
-<div class="note warn"><div class="note-ttl">⚠️ Altitude — the first 2–5 days can surprise</div><p>At 2,600 metres, altitude sickness (soroche) may appear: headaches, fatigue, shortness of breath. Most people acclimatise in 2–5 days. Avoid alcohol and intense exercise in the first 48 hours, hydrate abundantly. People with heart conditions should consult a doctor beforehand.</p></div>
-
-<h2>The city — identity <span class="g">&amp;</span> soul</h2>
-<p><strong>La Candelaria</strong> is Bogotá's historic heart — a 16th-century colonial neighbourhood with cobbled lanes, coloured facades, museums at every corner and a density of cultural life unmatched in Colombia. Here you find the <strong>Museo del Oro</strong> (55,000 pre-Columbian gold and emerald pieces — the world's largest such collection), the <strong>Plaza de Bolívar</strong>, the <strong>Biblioteca Luis Ángel Arango</strong> (the most visited library in Latin America), and dozens of galleries, theatres and universities. To the north, <strong>Chapinero</strong> is the heart of modern and international Bogotá — specialty coffee shops, gastronomic restaurants, startups, NGO offices. <strong>Usaquén</strong>, further north, is the neighbourhood most favoured by expats — Sunday artisan market, high-end restaurants, galleries, heated terraces (essential at 2,600m in the tropics). And the <strong>Zona Rosa</strong>, with its shopping centres, restaurants and nightlife, is Bogotá's equivalent of Medellín's El Poblado.</p>
-
-<div class="pq"><p>Bogotá is the city where a café conversation can start with García Márquez and end two hours later on mining policy and coffee prices in New York. Nowhere else in Latin America is a capital so intellectually intense.</p></div>
-
-<h2>Neighbourhoods — <span class="g">where to live?</span></h2>
-<div class="quartiers">
-  <div class="q-card"><div class="q-name">Chapinero / Chapinero Alto</div><div class="q-desc">The quintessential expat and bohemian neighbourhood. Coffee shops, gastronomic restaurants, nightlife, startups. Rents: $550–1,200. Remarkable diversity (very visible and tolerant LGBTQ+ community). 20 min from La Candelaria. WiggMap's recommendation for active long-termers.</div></div>
-  <div class="q-card"><div class="q-name">Usaquén</div><div class="q-desc">Premium residential neighbourhood to the north. Renovated colonial architecture, gastronomic restaurants, Sunday market, secure setting. Rents: $700–1,600. For families and comfortable-income profiles. Calmer than Chapinero, more residential.</div></div>
-  <div class="q-card"><div class="q-name">Zona Rosa / El Retiro</div><div class="q-desc">Commercial and entertainment centre. Restaurants, luxury hotels, nearby embassies, lively nightlife. Rents: $700–1,400. For profiles wanting maximum activity and convenience. Very touristy but well served.</div></div>
-  <div class="q-card"><div class="q-name">Teusaquillo / La Soledad</div><div class="q-desc">More affordable central residential areas with Art Deco architecture. Local markets, authentic neighbourhood life. Rents: $400–800. For long-term expats on moderate budgets wanting real neighbourhood life. Ideally located between La Candelaria and the north.</div></div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Real rate</span>
+      </div>
+      <p class="aff-name">Wise — Borderless account</p>
+      <p class="aff-desc">Card + transfers in 40+ currencies. Zero hidden fees.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Open an account →</a>
+        <span class="aff-social">16M+ customers</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Before you land</span>
+      </div>
+      <p class="aff-name">Airalo — Global eSIM</p>
+      <p class="aff-desc">Local SIM card you activate from your couch. 200+ countries covered.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Pick your eSIM →</a>
+        <span class="aff-social">10M+ users</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Essential</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Secure access to your accounts from abroad. Bypass local restrictions.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Secure my connection →</a>
+        <span class="aff-social">#1 VPN worldwide</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">partner links — at no extra cost to you</p>
 </div>
 
 <h2>Daily life <span class="g">&amp;</span> housing</h2>
@@ -228,5 +258,7 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 <div class="orn"><span>· · ✦ · ·</span></div>
 <div id="siteFooter"></div><script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

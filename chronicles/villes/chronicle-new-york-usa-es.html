@@ -125,14 +125,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -170,43 +183,62 @@ details[open] summary::after{transform:rotate(45deg)}
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepara tu mudanza</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span>
-          <span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Tu cuenta sin fronteras</span>
-          <span class="aff-strip-desc">Tarjeta + transferencias en 40+ divisas al tipo real</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">SIM local activable antes de aterrizar</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Acceso seguro a tus cuentas desde el extranjero</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepara tu mudanza</p>
+    <p class="aff-title">Las herramientas <em>realmente útiles</em> para emigrar</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Desde 45$/mes</span>
       </div>
-      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Seguro de salud mundial pensado para nómadas. Se activa desde cualquier lugar.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Ver la oferta →</a>
+        <span class="aff-social">+1M nómadas</span>
+      </div>
     </div>
-<h2>Nueva York, <span class="g">la ciudad imposible</span> que sigue existiendo</h2>
-
-<p>Nueva York es la mayor ciudad de los Estados Unidos (8,3 millones de habitantes en los 5 boroughs, 20 millones en el área metropolitana) y la capital económica y cultural del país — pese a Washington para la política, Los Ángeles para el entretenimiento y San Francisco para la tecnología. Concentra los bancos más grandes del mundo, los mercados financieros más activos, las instituciones culturales más ricas, los medios de comunicación más influyentes. Acoge también <strong>800 idiomas diferentes</strong> — según el Departamento de Educación de la ciudad, ninguna otra aglomeración humana en el planeta cuenta tantos. Esta cifra explica Nueva York mejor que cualquier otra estadística: no es una ciudad estadounidense. Es un país en sí misma.</p>
-
-<p>Los 5 boroughs no son intercambiables. <strong>Manhattan</strong> es el núcleo financiero, mediático y cultural — denso, vertical, extraordinariamente caro, y mucho menos representativo de la vida real neoyorquina de lo que se imagina desde fuera. <strong>Brooklyn</strong> se ha convertido en veinte años en el epicentro de la cultura creativa estadounidense — desde artistas y emprendedores hasta familias inmigrantes de Haití, Bangladesh o Ecuador que no han abandonado sus barrios en tres generaciones. <strong>Queens</strong> es el condado más diverso del mundo por número de nacionalidades representadas. <strong>El Bronx</strong>, cuna del hip-hop, tiene una energía y una historia que la mayoría de los recién llegados ignoran. <strong>Staten Island</strong>, accesible solo en ferry o en coche, es una pausa semisuburbana que muchos neoyorquinos nunca han visitado.</p>
-
-<p>Para un expat, la primera decisión — y la más importante — no es "Nueva York o en otro lugar". Es "qué borough, qué barrio". Vivir en Manhattan y vivir en Astoria (Queens) son dos experiencias completamente distintas de la misma ciudad.</p>
-
-<div class="quartiers">
-  <div class="q-card"><div class="q-name">Brooklyn — Williamsburg / Bushwick</div><div class="q-desc">El corazón creativo. Bares, galerías, estudios de artistas, restaurantes veganos, música independiente. 1BR ~$2.600-3.400. Cerca de Manhattan (línea L). La opción preferida de los jóvenes expats.</div></div>
-  <div class="q-card"><div class="q-name">Brooklyn — Park Slope / Carroll Gardens</div><div class="q-desc">Familias, brownstones, Prospect Park, mercados de agricultores. Más tranquilo que Williamsburg. 1BR ~$2.800-3.600. El Brooklyn "adulto" para expats con hijos.</div></div>
-  <div class="q-card"><div class="q-name">Manhattan — Upper West Side / Harlem</div><div class="q-desc">La solución de compromiso en Manhattan. Central Park a pie, tejido de barrio real. Harlem aún relativamente asequible: 1BR ~$2.200-2.900. Cultura y energía auténticas.</div></div>
-  <div class="q-card"><div class="q-name">Queens — Astoria / Long Island City</div><div class="q-desc">La mejor relación calidad/precio de NYC. LIC a 15 min de Midtown, Astoria con comunidad griega y escena gastronómica diversa. 1BR ~$1.900-2.600. Muy popular entre la comunidad latinoamericana.</div></div>
-  <div class="q-card"><div class="q-name">Manhattan — Lower East Side / Chelsea</div><div class="q-desc">Para quienes quieren Manhattan sin pagar precios de Midtown. Cultura, vida nocturna, galerías. 1BR ~$3.200-4.500. Los precios reflejan la densidad de lo que sucede a pie de calle.</div></div>
-  <div class="q-card"><div class="q-name">El Bronx — Riverdale / Fordham</div><div class="q-desc">El borough más asequible con metro a Manhattan. 1BR ~$1.500-2.200. Auténticamente neoyorquino, con una fuerte presencia latinoamericana. Para quienes optimizan el presupuesto sin sacrificar la esencia de la ciudad.</div></div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Tipo real</span>
+      </div>
+      <p class="aff-name">Wise — Cuenta sin fronteras</p>
+      <p class="aff-desc">Tarjeta + transferencias en 40+ divisas. Cero comisiones ocultas.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Abrir una cuenta →</a>
+        <span class="aff-social">16M+ clientes</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Antes de aterrizar</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mundial</p>
+      <p class="aff-desc">SIM local que activas desde tu sofá. 200+ países cubiertos.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Elegir mi eSIM →</a>
+        <span class="aff-social">10M+ usuarios</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Imprescindible</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Acceso seguro a tus cuentas desde el extranjero. Salta las restricciones locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Asegurar mi conexión →</a>
+        <span class="aff-social">Top 1 VPN mundial</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">enlaces de afiliado — sin coste adicional para ti</p>
 </div>
 
 <div class="orn"><span>· · ✦ · ·</span></div>
@@ -381,5 +413,7 @@ details[open] summary::after{transform:rotate(45deg)}
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

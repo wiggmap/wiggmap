@@ -125,14 +125,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -168,43 +181,62 @@ details[open] summary::after{transform:rotate(45deg)}
 <p class="lead">Il est dix heures du soir dans le Bairro Alto. Les rues pavées en calcaire blanc sont trop étroites pour les voitures mais juste assez larges pour deux colonnes humaines qui se croisent sans ralentir. La musique sort de partout — d'un bar à vins dont la porte est ouverte sur la nuit, d'une fenêtre au deuxième étage, d'un café où quelqu'un joue de la guitare portugaise sans que personne n'ait rien demandé. Ce n'est pas du fado au sens touristique du terme — c'est juste de la musique dans une ville où la musique est une affaire ordinaire. À soixante mètres de là, le Tage brille sous les lumières du Ponte 25 de Abril. Lisbonne a ce talent rare : être intensément elle-même à toute heure, sans effort apparent.</p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton installation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span>
-          <span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span>
-          <span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Carte SIM locale activable avant d'atterrir</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Accès sécurisé à tes comptes depuis l'étranger</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Préparer ton installation</p>
+    <p class="aff-title">Les outils <em>vraiment utiles</em> pour partir</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Dès 45$/mois</span>
       </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Assurance santé mondiale conçue pour les nomades. S'active depuis n'importe où.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Voir l'offre →</a>
+        <span class="aff-social">+1M nomades</span>
+      </div>
     </div>
-<h2>La ville des <span class="g">sept collines</span></h2>
-
-<p>Lisbonne est la plus ancienne capitale d'Europe occidentale — plus ancienne que Madrid, Paris ou Londres selon la tradition phénicienne que revendique la ville. Avec ses 545 000 habitants dans les limites municipales et 2,8 millions dans l'aire métropolitaine, elle reste à une échelle que peu de capitales européennes peuvent encore prétendre : celle de l'être humain qui marche. À Lisbonne, on monte, on descend, on prend le tram 28 pas parce que c'est touristique mais parce que c'est le moyen le plus naturel de traverser l'Alfama. La géographie de la ville — ses sept collines, ses miradouros qui ouvrent sur le Tage — n'est pas un agrément paysager. C'est l'architecture de la vie quotidienne.</p>
-
-<p>La ville a été reconstruite de zéro après le tremblement de terre du 1er novembre 1755 — l'un des séismes les plus dévastateurs de l'histoire européenne, suivi d'un tsunami et d'incendies qui ont rasé 85 % de la ville en une journée. Le Marquis de Pombal a supervisé la reconstruction en quelques décennies selon un plan urbain rationnel et innovant : la <strong>Baixa Pombalina</strong>, damier parfait entre le Rossio et le Tage, est le premier quartier antisismique de l'histoire de l'architecture. Ce désastre a fait de Lisbonne ce qu'elle est : une ville reconstruite selon une vision cohérente, pas accumulée au hasard des siècles.</p>
-
-<p>Ce qui frappe l'arrivant, c'est la lumière. Pas seulement le soleil — même si Lisbonne enregistre environ <strong>290 jours de ciel clair par an</strong>, ce qui en fait l'une des capitales les plus ensoleillées d'Europe — mais la qualité particulière de la lumière en fin d'après-midi sur les azulejos. Ces carreaux de faïence bleue et blanche qui couvrent les façades des immeubles, les intérieurs des palais et les murs des stations de métro sont la mémoire matérielle de la ville : chaque panneau raconte une scène historique, biblique ou quotidienne. Le Musée national de l'Azulejo conserve une peinture panoramique de Lisbonne sur 23 mètres de carreaux — le seul document visuel de la ville d'avant le tremblement de 1755.</p>
-
-<div class="quartiers">
-  <div class="q-card"><div class="q-name">Alfama</div><div class="q-desc">Le quartier médiéval sur la colline, seul rescapé du tremblement de 1755. Ruelles impossibles, fado live le soir, vue sur le Tage. Très touristique en journée, authentique la nuit. 1BR ~$1 200–1 600. Pour qui veut l'âme de Lisbonne sans compromis.</div></div>
-  <div class="q-card"><div class="q-name">Príncipe Real</div><div class="q-desc">Le quartier chic par excellence. Galeries design, librairies, restaurants gastronomiques, marché dominical ombragé. 1BR ~$1 300–1 800. Le choix des créatifs et des expats aisés qui veulent du caractère architectural.</div></div>
-  <div class="q-card"><div class="q-name">Mouraria</div><div class="q-desc">Quartier historique mauresque en gentrification douce. Diversité culturelle, restaurants du monde, ambiance bohème. 1BR ~$900–1 200. Le meilleur rapport qualité/prix en centre historique accessible.</div></div>
-  <div class="q-card"><div class="q-name">Bairro Alto</div><div class="q-desc">La vie nocturne de Lisbonne par excellence. Silencieux le jour, débordant de bars la nuit. Rues pavées, façades magnifiquement défraîchies. 1BR ~$1 000–1 400. Idéal pour les noctambules.</div></div>
-  <div class="q-card"><div class="q-name">Belém</div><div class="q-desc">Quartier historique au bord du Tage. Tour de Belém, Mosteiro dos Jerónimos, Musée du Design. Plus résidentiel et calme. 1BR ~$950–1 300. Parfait pour les familles ou les retraités qui veulent patrimoine et tranquillité.</div></div>
-  <div class="q-card"><div class="q-name">Parque das Nações</div><div class="q-desc">Le quartier moderne né de l'Expo 1998. Architecture contemporaine, front du Tage, calme relatif. 1BR ~$1 100–1 500. Le choix des professionnels et des familles avec de jeunes enfants.</div></div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Taux réel</span>
+      </div>
+      <p class="aff-name">Wise — Compte sans frontières</p>
+      <p class="aff-desc">Carte + virements en 40+ devises. Zéro commission cachée.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Ouvrir un compte →</a>
+        <span class="aff-social">16M+ clients</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Avant d'atterrir</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mondiale</p>
+      <p class="aff-desc">Carte SIM locale activable depuis ton canapé. 200+ pays couverts.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Choisir son eSIM →</a>
+        <span class="aff-social">10M+ utilisateurs</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Indispensable</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Accès sécurisé à tes comptes depuis l'étranger. Contourne les restrictions locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Sécuriser ma connexion →</a>
+        <span class="aff-social">Top 1 VPN mondial</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">liens partenaires — sans surcoût pour toi</p>
 </div>
 
 <div class="orn"><span>· · ✦ · ·</span></div>
@@ -422,5 +454,7 @@ details[open] summary::after{transform:rotate(45deg)}
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

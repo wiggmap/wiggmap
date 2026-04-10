@@ -98,14 +98,27 @@ summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-sh
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -152,68 +165,62 @@ Le 28 février 1999, les tours Petronas devinrent les bâtiments les plus hauts 
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton installation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span>
-          <span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span>
-          <span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Carte SIM locale activable avant d'atterrir</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Accès sécurisé à tes comptes depuis l'étranger</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Préparer ton installation</p>
+    <p class="aff-title">Les outils <em>vraiment utiles</em> pour partir</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Dès 45$/mois</span>
       </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Assurance santé mondiale conçue pour les nomades. S'active depuis n'importe où.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Voir l'offre →</a>
+        <span class="aff-social">+1M nomades</span>
+      </div>
     </div>
-<h2>KL en <span class="g">2026</span> — la métropole la plus sous-estimée d'Asie du Sud-Est</h2>
-
-<p>Kuala Lumpur est la capitale et la plus grande ville de Malaisie — 2 millions d'habitants dans la ville proprement dite, 8 millions dans l'agglomération Klang Valley. Fondée en 1857 à la confluence des rivières Klang et Gombak par des prospecteurs d'étain, elle est devenue en moins de 170 ans l'une des métropoles les plus connectées d'Asie. Son aéroport KLIA est l'un des meilleurs d'Asie, classé régulièrement parmi les dix meilleurs aéroports du monde. La ville se pilote en anglais — langue officielle de fait dans les affaires, l'éducation privée et la vie expat — ce qui en fait l'une des rares grandes métropoles asiatiques totalement accessibles sans apprentissage préalable de la langue locale.</p>
-
-<p>Pour un expatrié ou un digital nomad en 2026, KL est l'équation la plus efficace d'Asie du Sud-Est : qualité de vie de Singapour, prix d'une ville secondaire, anglais partout, santé privée de classe mondiale, internet rapide, nourriture extraordinaire. La contrepartie principale est la dépendance à la voiture dans les quartiers résidentiels hors centre, la pollution atmosphérique saisonnière (haze d'Indonésie), et une bureaucratie malaisienne qui peut décourager les projets entrepreneuriaux.</p>
-
-<div class="note ok">
-  <div class="note-ttl">✓ DE Rantau — le visa nomade digital de Malaisie</div>
-  <p>La Malaisie dispose depuis 2022 d'un visa nomade digital officiel — le <strong>DE Rantau</strong> — accessible pour les travailleurs à distance avec revenus hors Malaisie ($24,000/an minimum). Durée initiale de 12 mois, renouvelable. L'un des visas nomads les plus accessibles et les mieux structurés d'Asie du Sud-Est.</p>
-</div>
-
-<h2>La ville — identité <span class="g">&amp;</span> âme</h2>
-
-<p>KL est fondamentalement une ville de contrastes qui fonctionnent. Les <strong>tours Petronas</strong> dominent un skyline spectaculaire de verre et d'acier, mais à 15 minutes à pied se trouve <strong>Chow Kit</strong>, le marché humide le plus animé de la ville, où les vendeurs de durians criaient déjà leurs prix bien avant que les premiers gratte-ciels ne sortent de terre. Le quartier de <strong>Brickfields</strong> (Little India) est un feu d'artifice permanent de couleurs, de saris et de musique tamoule. <strong>Chinatown</strong> (Petaling Street) déroule ses étals et ses drapeaux rouges à quelques centaines de mètres de la mosquée nationale. Cette coexistence n'est pas un artifice touristique — c'est la réalité quotidienne de 8 millions de personnes qui partagent le même métro en portant des tenues radicalement différentes.</p>
-
-<p>La <strong>culture mamak</strong> est l'institution sociale la plus représentative de KL — et l'une des plus sous-estimées par les voyageurs. Les <strong>mamak stalls</strong> sont des restaurants de rue tenus par des Malaisiens d'origine indienne tamoule, ouverts 24h/24 et 7j/7, qui servent thé à la menthe (<em>teh tarik</em>), roti canai (pain feuilleté croustillant au curry), mee goreng et riz au curry pour $1.50-3 par plat. Ils sont les véritables places publiques de KL — à 3h du matin comme à 7h du matin, les Malaisiens de toutes origines y boivent leur thé en lisant la presse ou en regardant le foot. C'est là que se prend le vrai pouls de la ville.</p>
-
-<div class="pq">
-  <p>KL à 2h du matin dans un mamak de Bangsar — teh tarik tiède, roti canai, le ventilateur qui tourne, un match de la Premier League sur l'écran au fond, trois générations à la même table. C'est ça, la vraie vie de cette ville.</p>
-</div>
-
-<h2>Quartiers — <span class="g">où s'installer ?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">Mont Kiara</div>
-    <div class="q-desc">Le quartier expat par excellence. Condos sécurisés, international schools, restaurants du monde entier, communauté expat dense. Loyers : $600-1,500. Plus cher que les autres quartiers mais la concentration expat et l'infrastructure internationale est inégalée à KL. Voiture recommandée.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Taux réel</span>
+      </div>
+      <p class="aff-name">Wise — Compte sans frontières</p>
+      <p class="aff-desc">Carte + virements en 40+ devises. Zéro commission cachée.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Ouvrir un compte →</a>
+        <span class="aff-social">16M+ clients</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Avant d'atterrir</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mondiale</p>
+      <p class="aff-desc">Carte SIM locale activable depuis ton canapé. 200+ pays couverts.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Choisir son eSIM →</a>
+        <span class="aff-social">10M+ utilisateurs</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Indispensable</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Accès sécurisé à tes comptes depuis l'étranger. Contourne les restrictions locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Sécuriser ma connexion →</a>
+        <span class="aff-social">Top 1 VPN mondial</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">Bangsar</div>
-    <div class="q-desc">Le quartier cool et branché. Cafés de spécialité, restaurants gastronomiques, vie nocturne locale, mélange expat-local. Loyers : $500-1,100. Le meilleur équilibre entre qualité de vie, vie de quartier et accès au centre. La recommandation WiggMap pour les nomads.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">KLCC / Bukit Bintang</div>
-    <div class="q-desc">Le centre-ville premium. Tours Petronas, centres commerciaux de luxe, restaurants gastronomiques, vie nocturne. Loyers : $700-2,000+. Très bien connecté en LRT. Pour les profils qui veulent l'épicentre urbain sans voiture. Moins de quartier de vie, plus de métropole.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Petaling Jaya (PJ)</div>
-    <div class="q-desc">La banlieue moderne et abordable. Appartements spacieux, centres commerciaux, accès Damansara. Loyers : $350-750. Pour les familles et profils qui veulent espace et budget optimisé. Bien connecté en MRT. Moins cosmopolite mais très pratique au quotidien.</div>
-  </div>
+  <p class="aff-footer">liens partenaires — sans surcoût pour toi</p>
 </div>
 
 <h2>Vie quotidienne <span class="g">&amp;</span> logement</h2>
@@ -397,5 +404,7 @@ Le 28 février 1999, les tours Petronas devinrent les bâtiments les plus hauts 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

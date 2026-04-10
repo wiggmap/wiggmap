@@ -41,14 +41,27 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 .faq{margin:36px 0}details{border:1px solid var(--rule);border-radius:var(--r);margin-bottom:8px;overflow:hidden}details[open]{border-color:var(--g)}summary{font-family:var(--sans);font-size:14px;font-weight:500;padding:16px 20px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;color:var(--ink);gap:12px;user-select:none}summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-shrink:0}details[open] summary::after{transform:rotate(45deg)}.faq-body{padding:4px 20px 18px;font-family:var(--sans);font-size:13.5px;color:var(--ink3);line-height:1.65}
 .links-block{border:1px solid var(--rule);border-radius:12px;padding:24px;margin:40px 0;background:var(--white)}.links-ttl{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:14px}.links-grid{display:flex;flex-wrap:wrap;gap:8px}.links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -85,46 +98,62 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 <p class="lead">On 28 February 1999, the Petronas Towers became the tallest buildings in the world — at 452 metres, they dethroned the Willis Tower in Chicago, which had held the record since 1973. For Kuala Lumpur, it was a planetary statement of intent: a Southeast Asian capital less than 150 years old had just planted its twin steel and glass needles into the global skyline. What strikes you in 2026 is that this city delivers on that promise. KL is modern, functional, English-speaking, extraordinarily diverse — Malays, Chinese, Indians, Westerners, Arabs all coexist on the same metro, in the same air-conditioned shopping malls, in the same hawker centres where you can eat nasi lemak, char kway teow and roti canai all in the same evening. And all of this for a third of the price of Singapore.</p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepare your move</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span>
-          <span class="aff-strip-desc">Global health cover from $45/mo</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Your borderless account</span>
-          <span class="aff-strip-desc">Card + transfers in 40+ currencies at the real rate</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Local SIM card ready before you land</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Secure access to your accounts from abroad</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepare your move</p>
+    <p class="aff-title">The tools <em>you actually need</em> to relocate</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">From $45/mo</span>
       </div>
-      <div class="aff-strip-note">partner links — at no extra cost to you</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Global health insurance built for nomads. Activate from anywhere.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">See the offer →</a>
+        <span class="aff-social">+1M nomads</span>
+      </div>
     </div>
-<h2>KL in <span class="g">2026</span> — Southeast Asia's most underrated metropolis</h2>
-<p>Kuala Lumpur is Malaysia's capital and largest city — 2 million inhabitants in the city proper, 8 million in the Klang Valley agglomeration. Founded in 1857 at the confluence of the Klang and Gombak rivers by tin prospectors, it has become in under 170 years one of Asia's most connected metropolises. Its KLIA airport is one of Asia's best, regularly ranked among the world's top ten. The city runs on English — the de facto official language in business, private education and expat life — making it one of the rare major Asian metropolises fully accessible without learning the local language first.</p>
-<p>For an expat or digital nomad in 2026, KL is Southeast Asia's most efficient equation: Singapore quality of life, secondary-city prices, English everywhere, world-class private healthcare, fast internet, extraordinary food. The main trade-offs are car dependency in residential neighbourhoods outside the centre, seasonal air pollution (Indonesian haze), and a Malaysian bureaucracy that can discourage entrepreneurial projects.</p>
-
-<div class="note ok"><div class="note-ttl">✓ DE Rantau — Malaysia's digital nomad visa</div><p>Malaysia has had an official digital nomad visa since 2022 — the <strong>DE Rantau</strong> — accessible for remote workers with income from outside Malaysia (minimum $24,000/year). Initial duration of 12 months, renewable. One of the most accessible and well-structured nomad visas in Southeast Asia.</p></div>
-
-<h2>The city — identity <span class="g">&amp;</span> soul</h2>
-<p>KL is fundamentally a city of contrasts that work. The <strong>Petronas Towers</strong> dominate a spectacular glass and steel skyline, but 15 minutes' walk away is <strong>Chow Kit</strong>, the city's liveliest wet market, where durian vendors were shouting their prices long before the first skyscrapers broke ground. The <strong>Brickfields</strong> neighbourhood (Little India) is a permanent firework of colours, saris and Tamil music. <strong>Chinatown</strong> (Petaling Street) unfurls its stalls and red banners a few hundred metres from the National Mosque. This coexistence is not a tourist artifice — it is the daily reality of 8 million people sharing the same metro wearing radically different clothing.</p>
-<p>The <strong>mamak culture</strong> is KL's most representative social institution — and one of the most underestimated by travellers. <strong>Mamak stalls</strong> are street restaurants run by Tamil Indian-Malaysians, open 24 hours a day, 7 days a week, serving mint tea (<em>teh tarik</em>), roti canai (crispy layered bread with curry), mee goreng and curry rice for $1.50–3 per dish. They are KL's true public squares — at 3 AM as much as 7 AM, Malaysians of all backgrounds drink their tea there reading the news or watching football. It is where you take the real pulse of the city.</p>
-
-<div class="pq"><p>KL at 2 AM in a Bangsar mamak — warm teh tarik, roti canai, the fan turning overhead, a Premier League match on the screen at the back, three generations at the same table. That's the real life of this city.</p></div>
-
-<h2>Neighbourhoods — <span class="g">where to live?</span></h2>
-<div class="quartiers">
-  <div class="q-card"><div class="q-name">Mont Kiara</div><div class="q-desc">The quintessential expat neighbourhood. Gated condos, international schools, world-cuisine restaurants, dense expat community. Rents: $600–1,500. More expensive than other areas but the expat concentration and international infrastructure is unmatched in KL. Car recommended.</div></div>
-  <div class="q-card"><div class="q-name">Bangsar</div><div class="q-desc">The cool, hip neighbourhood. Specialty cafés, gastronomic restaurants, local nightlife, expat-local mix. Rents: $500–1,100. The best balance between quality of life, neighbourhood feel and city access. WiggMap's recommendation for nomads.</div></div>
-  <div class="q-card"><div class="q-name">KLCC / Bukit Bintang</div><div class="q-desc">Premium city centre. Petronas Towers, luxury malls, fine dining, nightlife. Rents: $700–2,000+. Well connected by LRT. For profiles wanting the urban epicentre without a car. Less neighbourhood feel, more metropolis.</div></div>
-  <div class="q-card"><div class="q-name">Petaling Jaya (PJ)</div><div class="q-desc">Modern, affordable suburb. Spacious apartments, shopping centres, Damansara access. Rents: $350–750. For families and budget-conscious profiles wanting space. Well connected by MRT. Less cosmopolitan but very practical daily.</div></div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Real rate</span>
+      </div>
+      <p class="aff-name">Wise — Borderless account</p>
+      <p class="aff-desc">Card + transfers in 40+ currencies. Zero hidden fees.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Open an account →</a>
+        <span class="aff-social">16M+ customers</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Before you land</span>
+      </div>
+      <p class="aff-name">Airalo — Global eSIM</p>
+      <p class="aff-desc">Local SIM card you activate from your couch. 200+ countries covered.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Pick your eSIM →</a>
+        <span class="aff-social">10M+ users</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Essential</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Secure access to your accounts from abroad. Bypass local restrictions.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Secure my connection →</a>
+        <span class="aff-social">#1 VPN worldwide</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">partner links — at no extra cost to you</p>
 </div>
 
 <h2>Daily life <span class="g">&amp;</span> housing</h2>
@@ -247,5 +276,7 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 <div class="orn"><span>· · ✦ · ·</span></div>
 <div id="siteFooter"></div><script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

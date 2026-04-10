@@ -136,14 +136,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -198,62 +211,63 @@ details[open] summary::after{transform:rotate(45deg)}
     </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton installation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span>
-          <span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span>
-          <span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Carte SIM locale activable avant d'atterrir</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Accès sécurisé à tes comptes depuis l'étranger</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Préparer ton installation</p>
+    <p class="aff-title">Les outils <em>vraiment utiles</em> pour partir</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Dès 45$/mois</span>
       </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
-    </div>
-    <h2>La <span class="g">Cidade Maravilhosa</span></h2>
-
-    <p>Rio de Janeiro — "Rivière de Janvier" en portugais, un nom donné par erreur par les explorateurs portugais qui prirent la Baía de Guanabara pour l'embouchure d'un fleuve en janvier 1502 — a été capitale du Brésil pendant 197 ans, de 1763 à 1960. C'est là que la famille royale portugaise s'est réfugiée en 1808 fuyant Napoléon, faisant de Rio la première et unique capitale de l'Empire portugais hors d'Europe. C'est là que le Brésil a proclamé son indépendance en 1822. C'est là que se sont forgées, dans les morros (collines) et les <em>subúrbios</em>, les formes musicales qui ont ensuite envahi le monde entier : le samba, la bossa nova, le funk carioca.</p>
-
-    <p>La géographie de Rio est son premier chef-d'œuvre. La ville est construite entre la mer et les montagnes, dans une succession de baies, lagunes et plages encadrées par des massifs granitiques couverts de forêt atlantique. Le <strong>Parque Nacional da Tijuca</strong> — la plus grande forêt urbaine du monde, 3 200 hectares au cœur même de la ville — est une improbabilité absolue : on peut randonnée pendant des heures dans une forêt tropicale dense sans jamais quitter les limites d'une ville de 6,7 millions d'habitants. Le Christ Rédempteur (1931, 30 mètres de hauteur, les bras ouverts à 28 mètres d'envergure) domine l'ensemble depuis le Morro do Corcovado à 710 mètres d'altitude. C'est l'une des sept nouvelles merveilles du monde, et l'un des sites les plus visités de l'hémisphère sud.</p>
-
-    <p>Rio n'est cependant plus la capitale économique du Brésil — São Paulo a pris ce rôle dans les années 1960. Rio reste la deuxième économie du pays, avec une base dans le pétrole et le gaz (Petrobras y a son siège), les services financiers, le tourisme et la culture. La ville a accueilli la Coupe du Monde 2014 et les Jeux Olympiques 2016 — deux événements qui ont laissé des infrastructures, des controverses sur leur coût social, et un sentiment mêlé chez les Cariocas (les habitants de Rio) sur ce que ces Jeux ont réellement apporté à la ville.</p>
-
-    <div class="quartiers">
-      <div class="q-card">
-        <div class="q-name">Ipanema / Leblon</div>
-        <div class="q-desc">Les quartiers les plus chers et les plus chics. Plages premium, restaurants étoilés, boutiques de luxe. Réservé aux très hauts budgets (R$5.950-9.250 pour 1 chambre).</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Botafogo / Flamengo</div>
-        <div class="q-desc">Le meilleur rapport qualité-vie pour un expat. Quartiers sûrs, animés, vue sur le Pain de Sucre, bien desservis par le métro. R$2.800-3.500 pour 1 chambre.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Santa Teresa</div>
-        <div class="q-desc">Le quartier bohème perché sur la colline. Artistes, galeries, bars alternatifs, architecture coloniale. Ambiance unique, moins touristique qu'Ipanema.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Copacabana</div>
-        <div class="q-desc">La plage iconique. Très touristique mais avec une vraie vie de quartier. Options diverses de logement. Moins cher qu'Ipanema, plus animé que Botafogo.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Barra da Tijuca</div>
-        <div class="q-desc">Le nouveau quartier moderne à l'ouest. Centres commerciaux, condomínios sécurisés, moins de personnalité mais plus abordable. Familles expat avec voiture.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Jardim Botânico / Lagoa</div>
-        <div class="q-desc">Entre Ipanema et Botafogo. Calme, résidentiel, proche de la nature et du Jardim Botânico. Bon compromis qualité-vie / prix pour les familles.</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Assurance santé mondiale conçue pour les nomades. S'active depuis n'importe où.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Voir l'offre →</a>
+        <span class="aff-social">+1M nomades</span>
       </div>
     </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Taux réel</span>
+      </div>
+      <p class="aff-name">Wise — Compte sans frontières</p>
+      <p class="aff-desc">Carte + virements en 40+ devises. Zéro commission cachée.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Ouvrir un compte →</a>
+        <span class="aff-social">16M+ clients</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Avant d'atterrir</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mondiale</p>
+      <p class="aff-desc">Carte SIM locale activable depuis ton canapé. 200+ pays couverts.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Choisir son eSIM →</a>
+        <span class="aff-social">10M+ utilisateurs</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Indispensable</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Accès sécurisé à tes comptes depuis l'étranger. Contourne les restrictions locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Sécuriser ma connexion →</a>
+        <span class="aff-social">Top 1 VPN mondial</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">liens partenaires — sans surcoût pour toi</p>
+</div>
 
     <div class="orn"><span>· · ✦ · ·</span></div>
 
@@ -557,5 +571,7 @@ details[open] summary::after{transform:rotate(45deg)}
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

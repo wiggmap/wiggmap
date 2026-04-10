@@ -97,14 +97,27 @@ summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-sh
 .links-grid{display:flex;flex-wrap:wrap;gap:8px}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -151,71 +164,62 @@ Le Malbec est un cépage français — originaire du Cahors, dans le sud-ouest d
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton installation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span>
-          <span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span>
-          <span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Carte SIM locale activable avant d'atterrir</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Accès sécurisé à tes comptes depuis l'étranger</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Préparer ton installation</p>
+    <p class="aff-title">Les outils <em>vraiment utiles</em> pour partir</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Dès 45$/mois</span>
       </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Assurance santé mondiale conçue pour les nomades. S'active depuis n'importe où.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Voir l'offre →</a>
+        <span class="aff-social">+1M nomades</span>
+      </div>
     </div>
-<h2>Mendoza en <span class="g">2026</span> — vin, montagne et dolce vita sous les Andes</h2>
-
-<p>Mendoza est la capitale de la province éponyme dans l'ouest de l'Argentine, à 1 050 mètres d'altitude, au pied des Andes. Avec 120 000 habitants dans la ville et 1,1 million dans le Grand Mendoza, c'est une ville moyenne à l'échelle argentine, mais elle est de loin la capitale viticole du pays et l'une des capitales du vin les plus importantes du monde. À 60 km à l'ouest se dresse l'Aconcagua — 6 962 mètres, le sommet le plus haut des Amériques et le plus haut hors d'Asie. À 350 km au nord se trouve San Juan, autre province viticole. À 400 km au sud, la Patagonie commence.</p>
-
-<p>Pour un expatrié en 2026, Mendoza représente une proposition simple et séduisante : une ville argentine fonctionnelle et agréable à vivre, moins chère que Buenos Aires, dans un environnement naturel exceptionnel, avec un accès quotidien au meilleur vin du monde à des prix qui relèvent du privilège absolu. Ce n'est pas la ville pour les profils qui cherchent l'effervescence culturelle de BA ou la vie universitaire de Córdoba — c'est la ville pour ceux qui veulent vivre bien, boire bien, sortir dans la nature le week-end, et travailler dans une atmosphère sereine sous un ciel qui l'est presque toujours.</p>
-
-<div class="note ok">
-  <div class="note-ttl">✓ Le vin le plus abordable au monde pour sa qualité</div>
-  <p>Un Malbec d'appellation Luján de Cuyo de producteur sérieux se trouve en supermarché à Mendoza pour $5-12 la bouteille. La même bouteille coûterait $20-40 à Buenos Aires et $40-80 en Europe. Les grands vins de garde (Zuccardi Valle de Uco, Catena Zapata) restent accessibles à $15-35 en cave locale. Vivre à Mendoza, c'est boire au prix de la source.</p>
-</div>
-
-<h2>La ville — identité <span class="g">&amp;</span> âme</h2>
-
-<p>Mendoza est une ville reconstruite. Un tremblement de terre dévastateur en 1861 rasa la ville coloniale d'origine et tua plus de la moitié de sa population. La reconstruction fut confiée à des urbanistes qui avaient retenu la leçon : les rues furent élargies, des acequia (canaux d'irrigation à ciel ouvert) furent creusées le long des trottoirs pour alimenter des milliers de platanes, et des places furent intégrées à intervalles réguliers dans le tissu urbain pour servir de zones de réfuge lors des prochaines secousses. Le résultat est une ville d'une remarquable habitabilité : large, verte, ombragée par des platanes séculaires, avec des places à chaque coin, une atmosphère méditerranéenne — Mendoza ressemble parfois à une ville du sud de la France ou du nord de l'Italie qui aurait été transplantée au pied des Andes.</p>
-
-<p>Le <strong>Parque General San Martín</strong> est le poumon vert de la ville — un parc de 307 hectares conçu par Charles Thays (le même paysagiste français qui dessina les parcs de Buenos Aires et de Córdoba) avec un lac artificiel, un amphithéâtre, des allées de chênes et de cyprès, et une colline panoramique depuis laquelle, par temps clair, l'Aconcagua est visible. Les Mendocinos s'y retrouvent le week-end pour le footing, le vélo, les asados familiaux et les concerts d'été. C'est l'endroit qui définit le mieux le rythme de vie de la ville — actif, en plein air, sans ostentation.</p>
-
-<p>La culture œnotouristique de Mendoza n'est pas uniquement touristique — elle est aussi le tissu social de la ville. Les <strong>bodegas</strong> des alentours organisent des dégustations, des vendanges (en mars), des concerts dans les vignes et des dîners sous les pergolas de Malbec. La <strong>Fiesta Nacional de la Vendimia</strong>, chaque année en mars, est le plus grand festival populaire de l'Argentine après le Carnaval de Gualeguaychú — un défilé de chars élaborés, une élection de reine symbolique, des milliers de visiteurs du pays entier. Pour les expats qui vivent à Mendoza, cette relation avec la vigne et le vin n'est pas un accessoire de touriste — c'est une partie du quotidien.</p>
-
-<div class="pq">
-  <p>Mendoza en avril : les vendanges sont finies, les feuilles des vignes virent au rouge et à l'or. À 18h, le ciel est rose sur les Andes. Un Malbec de l'Uco s'ouvre sur la terrasse. Ce n'est pas du tourisme — c'est un dimanche.
-  </p>
-</div>
-
-<h2>Quartiers — <span class="g">où s'installer ?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">Ciudad (centre-ville)</div>
-    <div class="q-desc">Le cœur historique et commercial. Accès à pied à tout, restaurants, bars, mercado central, Parque San Martín. Loyers : $320-650. Pour les nomads et expats qui veulent l'Argentine urbaine accessible sans voiture. Animation le soir, tranquille en semaine.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Taux réel</span>
+      </div>
+      <p class="aff-name">Wise — Compte sans frontières</p>
+      <p class="aff-desc">Carte + virements en 40+ devises. Zéro commission cachée.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Ouvrir un compte →</a>
+        <span class="aff-social">16M+ clients</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Avant d'atterrir</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mondiale</p>
+      <p class="aff-desc">Carte SIM locale activable depuis ton canapé. 200+ pays couverts.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Choisir son eSIM →</a>
+        <span class="aff-social">10M+ utilisateurs</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Indispensable</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Accès sécurisé à tes comptes depuis l'étranger. Contourne les restrictions locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Sécuriser ma connexion →</a>
+        <span class="aff-social">Top 1 VPN mondial</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">Chacras de Coria</div>
-    <div class="q-desc">Le village vigneron chic à 12 km au sud. Fincas (propriétés rurales), restaurants gastronomiques, atmosphère bohème et internationale. Loyers : $450-900. Pour les profils qui veulent vivre dans un décor de vignoble. Voiture indispensable mais qualité de vie incomparable.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Godoy Cruz</div>
-    <div class="q-desc">Municipe adjacent au sud de Mendoza, résidentiel et pratique. Beaucoup d'expats longue durée y habitent. Loyers : $280-520. Pour les familles et profils qui veulent un peu plus d'espace à moindre coût. Bonne connexion avec le centre.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Luján de Cuyo</div>
-    <div class="q-desc">Département viticole à 25 km au sud. Vignobles, bodegas, fincas à la location. Loyers : $350-800 (très variable selon le type de propriété). Pour les vrais amoureux du vin qui veulent vivre au milieu des vignes. Voiture absolument nécessaire.</div>
-  </div>
+  <p class="aff-footer">liens partenaires — sans surcoût pour toi</p>
 </div>
 
 <h2>Vie quotidienne <span class="g">&amp;</span> logement</h2>
@@ -397,5 +401,7 @@ Le Malbec est un cépage français — originaire du Cahors, dans le sud-ouest d
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

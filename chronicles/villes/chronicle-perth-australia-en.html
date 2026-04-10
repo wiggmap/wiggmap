@@ -261,14 +261,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -327,202 +340,63 @@ details[open] summary::after{transform:rotate(45deg)}
     </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepare your move</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span>
-          <span class="aff-strip-desc">Global health cover from $45/mo</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Your borderless account</span>
-          <span class="aff-strip-desc">Card + transfers in 40+ currencies at the real rate</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Local SIM card ready before you land</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Secure access to your accounts from abroad</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepare your move</p>
+    <p class="aff-title">The tools <em>you actually need</em> to relocate</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">From $45/mo</span>
       </div>
-      <div class="aff-strip-note">partner links — at no extra cost to you</div>
-    </div>
-    <!-- THE CITY -->
-    <h2>The soul of Perth — sunshine, space and <span class="g">quiet self-assurance</span></h2>
-
-    <p>Perth — 2.3 million people, Western Australia, the west coast — is officially the world's most isolated major city, according to geographers. The next large city, Adelaide, is 2,700 km to the east. Sydney is further away than Singapore. This geographical reality, which might seem like a handicap, is in fact central to what makes Perth unique: the city has developed a deeply local culture and identity, independent of the east coast, and a relationship with natural space that has no equivalent in any Australian metropolis.</p>
-
-    <p>For expats, Perth represents a different kind of choice from other Australian capitals. It's a city where the quality-of-life-to-cost-of-salary ratio is among the best in Australia, where access to beaches and nature is immediate and daily, and where a mining industry of global scale pumps exceptional salaries throughout the regional economy. But it's also a city that looks nothing like Sydney or Melbourne — and that's precisely why the people who choose it deliberately tend to love it.</p>
-
-    <p>Perth breathes. In the literal sense: its neighbourhoods are airy, its streets lined with eucalyptus and jacaranda, its parks constant and generous. <strong>Kings Park</strong> — 400 hectares of natural bush five minutes' walk from the CBD, with panoramic views of the Swan River and the city skyline — is one of the largest urban parks in the world. It's free, accessible by bicycle from the centre, and visited every morning by hundreds of Perthians running, meditating, and walking their dogs in the early dew.</p>
-
-    <p>Perth's CBD has undergone a dramatic transformation since 2015. The <em>Elizabeth Quay</em> development (the new waterfront precinct with restaurants, hotels and a pedestrian bridge over the Swan) and <em>Yagan Square</em> (a boldly designed central plaza) have given the city a genuinely contemporary centre without erasing the relaxed atmosphere that defines Perth. The city makes no effort to seem as frenetic as Sydney or Melbourne — it knows its real value lies elsewhere.</p>
-
-    <p>The neighbourhoods to know: <strong>Fremantle</strong> (15 km south, Perth's bohemian soul — historic port, markets, seafood restaurants, craft breweries, lively arts community), <strong>Leederville</strong> and <strong>Mount Lawley</strong> (specialty cafes, bars, restaurants, dense street life — where Perth's thirty-somethings live), <strong>Subiaco</strong> (leafy, bourgeois, close to the beaches, popular with families and healthcare professionals), <strong>Cottesloe</strong> (the beach neighbourhood par excellence — Victorian cottages, surfers, Sunday mornings in the sun), and <strong>North Perth</strong> (more affordable, alternative, gentrifying).</p>
-
-    <div class="pq">
-      <p>Perth doesn't try to be another city. It knows exactly what it is. And once you understand that, you start to really see it.</p>
-    </div>
-
-    <div class="note info">
-      <div class="note-ttl">🌞 Extreme summer heat — preparing for January</div>
-      <p>Perth's summer (December-February) can be genuinely fierce: stretches of 40°C+ over multiple consecutive days are normal, not exceptional. <em>Perth holds the Australian record for the most consecutive days above 40°C.</em> Air conditioning is not a luxury — it's survival infrastructure. Budget for significantly higher electricity bills in summer. In return, evenings along the foreshore often remain pleasant thanks to the Fremantle Doctor — the cool sea breeze that rolls in from the Indian Ocean each afternoon.</p>
-    </div>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <!-- HOUSING -->
-    <h2>Housing — the 2024-2025 <span class="g">property boom</span></h2>
-
-    <p>Perth's property market had two exceptional years. The median for units (apartments, villas, townhouses) reached AUD $590,000 at the end of 2025, after a +18% annual rise according to REIWA. Rents followed: the median unit rent hit AUD $680 per week at the end of 2025, a +4.6% increase on the year — significantly more moderate than the +14% recorded in 2024. For a studio or one-bedroom apartment in inner Perth, expect AUD $600-650 per week, roughly $1,500-1,650 USD per month.</p>
-
-    <p>The good news: vacancy rates climbed back to around 2% across 2025 (REIWA), offering renters a little more choice. The market remains tight in suburbs close to the CBD, but outer areas offer considerably better value. Most affordable zones within reasonable distance of the centre: <strong>Victoria Park</strong> and <strong>Maylands</strong> (direct train connection, AUD $520-570/wk), <strong>Cannington</strong> and <strong>Beckenham</strong> (more residential, AUD $460-500/wk). The most expensive: <strong>Cottesloe</strong>, <strong>Claremont</strong>, <strong>Dalkeith</strong> — Perth's riverside premium strip, where river-view villas exceed AUD $900/wk.</p>
-
-    <div class="note warn">
-      <div class="note-ttl">🔥 The property boom is not over</div>
-      <p>REIWA projects continued price growth into 2026 (+10% forecast for houses, +15-20% for units). Perth is expected to join the club of Australian cities with a $1M median house price in 2026. For renters, the good news is that rent growth is slowing — but "slowing" doesn't mean "falling." Homeownership remains out of reach for many on median salaries.</p>
-    </div>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <!-- WORKING -->
-    <h2>Working <span class="g">from Perth</span></h2>
-
-    <p>Perth's economic structure is radically different from other Australian capitals. Two sectors dominate and pull salaries upward: the mining industry and METS (Mining Equipment, Technology and Services). Western Australia is the world's leading producer of iron ore, gold, nickel, lithium and liquefied natural gas. BHP, Rio Tinto, Woodside, Fortescue Metals, Newmont — their Australian headquarters are in Perth. Engineers, geologists, specialist technicians, and all the professional services that orbit the sector (finance, legal, logistics) earn salaries 20-40% above their national equivalents.</p>
-
-    <p>For digital nomads and remote workers not connected to mining, Perth is viable but offers less density than Melbourne or Sydney. The coworking network exists but lacks the depth of the east coast: <strong>SpaceCubed</strong> (CBD, startup-friendly), <strong>Studio Nine</strong> (Northbridge), <strong>The Hive</strong> (Fremantle) are the most established. The startup scene is growing, particularly around clean technology (cleantech) tied to the mining sector's energy transition, and agtech.</p>
-
-    <p>Perth's geographic advantage is genuine for certain businesses: the AWST time zone (UTC+8) aligns the city directly with Singapore (no time difference), Jakarta (+1h), Hong Kong and Shanghai (+0h). For entrepreneurs with activity across Southeast Asia, it's a position that Sydney and Melbourne simply cannot offer.</p>
-
-    <div class="note">
-      <div class="note-ttl">🛂 Working legally in Australia</div>
-      <p>Same pathways as elsewhere: Working Holiday Visa (up to age 35), Skilled Worker Visa, business sponsorship. Perth and WA have specific regional programmes for certain shortage occupations, particularly in mining and agriculture. Fly-in fly-out workers in remote areas can access accelerated residency pathways.</p>
-    </div>
-
-    <div class="note">
-      <div class="note-ttl">💱 Exchange rate note</div>
-      <p>All prices are in US dollars. Reference rate: 1 AUD ≈ 0.63 USD (March 2026). Salaries and rents are set in AUD — the conversion is provided as an indication only.</p>
-    </div>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <!-- HEALTH & SAFETY -->
-    <h2>Health <span class="g">&amp;</span> Safety</h2>
-
-    <p>Perth has a solid healthcare system. <em>Royal Perth Hospital</em> (city centre, emergency and specialist care) and <em>Fiona Stanley Hospital</em> (opened 2014, ultra-modern, south of the CBD) are the two public anchors. Private hospitals are plentiful and accessible under health insurance. Expats covered by Medicare or a local private health policy enjoy good access to care. Perth lacks some of the ultra-specialist capabilities available in Melbourne or Sydney — for complex cases, patients may be referred to the east coast.</p>
-
-    <p>Safety is one of Perth's quiet strengths. Statistically it's one of the safest Australian cities — violent crime is low, residential suburbs are calm, and even the CBD at night is noticeably quieter than Sydney or Melbourne. The main risks for expats are nature-related: snake bites in semi-urban grassed areas (the dugite and tiger snake are native to WA), and jellyfish at certain beaches north of the city in season.</p>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <!-- BEACHES & OUTDOOR -->
-    <h2>Beaches, outdoor life <span class="g">&amp;</span> Rottnest Island</h2>
-
-    <p>If Perth needs to justify itself with a single argument, this is it: nowhere else on Earth does a city this size offer such immediate access to beaches of this quality. Not an hour's drive away, not with two bus connections — twenty minutes from the CBD by train, you can be on white-sand beach facing the Indian Ocean, with real waves, clean turquoise water, and an uninterrupted view to the horizon. On a Tuesday morning. In winter.</p>
-
-    <p>Rottnest Island — 19 km offshore from Fremantle, 30 minutes by ferry — is often described as Perth's personal paradise. The island is car-free, populated by quokkas (the small, round-faced marsupials whose facial structure gives them a permanent smile, now famous across social media worldwide), and has beaches that would not look out of place in the Maldives. It is so beautiful that a rumour has circulated among Perthians for decades: the east coast doesn't need to know about it.</p>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <!-- FOOD & CULTURE -->
-    <h2>Food, culture <span class="g">&amp;</span> nightlife</h2>
-
-    <p>Perth long suffered from an unfair reputation as a city without a cultural scene. That reputation is now firmly historical. The city has undergone a significant gastronomic and cultural renaissance since 2015. <strong>Northbridge</strong> — directly adjacent to the CBD — is the main restaurant and bar hub, with a dense concentration of Asian cuisine (Vietnamese, Korean, Chinese, Lao) inherited from decades of immigration. <strong>Fremantle</strong> offers a more bohemian, festival-like atmosphere, anchored by its legendary craft breweries (<em>Little Creatures</em>, founded in 2000, is one of the pioneers of Australian craft beer). <strong>Leederville</strong> concentrates specialty cafes, organic restaurants and natural wine bars.</p>
-
-    <p>Culturally, the <strong>Perth Cultural Centre</strong> brings together the Art Gallery of Western Australia, the Western Australian Museum and the State Library. The <strong>Perth Concert Hall</strong> and the <strong>His Majesty's Theatre</strong> (heritage-listed opera house, 1904) deliver consistently strong programming. <strong>Fringe World Festival</strong> (January-February) is one of the world's largest fringe festivals — street arts, cabaret, contemporary circus — and transforms the city for a full month. <strong>AFL</strong> is also a Perth passion: the West Coast Eagles and Fremantle Dockers pack <em>Optus Stadium</em> (60,000 seats, opened 2018, consistently rated among the world's finest stadiums) for every major game.</p>
-
-    <p>Perth's access to Asia is one of the city's most underrated advantages. <strong>Bali is 3.5 hours away</strong>. <strong>Singapore is 5 hours</strong>. For expats who enjoy short-haul travel, Perth is an unrivalled base for exploring Southeast Asia — with direct flights to Denpasar, Singapore, Kuala Lumpur, Jakarta and Tokyo at often very competitive prices.</p>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <!-- ANECDOTES -->
-    <h2>Anecdotes <span class="g">&amp;</span> History</h2>
-
-    <p><strong>The city that turned its lights on for an astronaut.</strong> On 20 February 1962, John Glenn completed America's first orbital spaceflight aboard <em>Friendship 7</em>. Passing over Western Australia at three in the morning, he spotted bright lights glowing in the absolute darkness of the Outback below. It was Perth. The city's residents — then fewer than 400,000 people — had switched on every exterior light they possessed, left their house lights burning, and pointed searchlights at the sky to greet the astronaut passing overhead.</p>
-
-    <p>Glenn was so moved that he spoke about it for decades. When he flew to space again in 1998, at the age of 77, aboard the Space Shuttle Discovery, he passed over Perth once more — and the city lit up again in his honour. The city "that lights up for astronauts" has since become one of the most endearing stories in the history of space exploration. And a way of understanding Perth itself: in a region this vast and this empty, light carries a particular kind of meaning.</p>
-
-    <p><strong>The quokka: the world's happiest marsupial.</strong> The quokka (<em>Setonix brachyurus</em>) is a small marsupial, roughly the size of a domestic cat, endemic to Western Australia, whose facial structure — upturned corners of the mouth, round bright eyes — gives it the permanent appearance of smiling. Social media declared it "the world's happiest animal," and Rottnest Island hosts one of the largest wild populations on Earth.</p>
-
-    <p>What official history tends to pass over quietly: the island owes its name to the quokkas themselves. When Dutch explorer Willem de Vlamingh landed on the island in 1696, he saw quokkas and mistook them for "large rats." He named the island <em>Rottnest</em> — "rat's nest" in Dutch. It is therefore through a zoological misunderstanding that one of Australia's most beautiful destinations received its name. The quokkas, apparently, bear no grudge.</p>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <!-- PROFILES -->
-    <h2>Who is Perth <span class="g">for</span>?</h2>
-
-    <div class="profiles">
-      <div class="prof">
-        <div class="prof-top">
-          <div class="prof-title">💻 Digital Nomad</div>
-          <div class="prof-score">⚠️</div>
-        </div>
-        <p>Decent NBN, limited coworking vs east coast. Ideal Asia time zone. Isolated from global tech networks.</p>
-      </div>
-      <div class="prof">
-        <div class="prof-top">
-          <div class="prof-title">👨‍👩‍👧 Family</div>
-          <div class="prof-score">✅</div>
-        </div>
-        <p>Outstanding quality of life, green spaces, safety, beaches, good schools, healthy pace.</p>
-      </div>
-      <div class="prof">
-        <div class="prof-top">
-          <div class="prof-title">🌅 Retiree</div>
-          <div class="prof-score">✅</div>
-        </div>
-        <p>Guaranteed sunshine, safety, outdoor lifestyle, established retiree expat community (UK, SA).</p>
-      </div>
-      <div class="prof">
-        <div class="prof-top">
-          <div class="prof-title">⛏️ Mining / Engineer</div>
-          <div class="prof-score">✅</div>
-        </div>
-        <p>Premium salaries, exceptional opportunities, global industry network, rapid career progression.</p>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Global health insurance built for nomads. Activate from anywhere.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">See the offer →</a>
+        <span class="aff-social">+1M nomads</span>
       </div>
     </div>
-
-    <div class="note warn">
-      <div class="note-ttl">🚗 A car is near-essential in Perth</div>
-      <p>The Transperth network (trains, buses, ferry) covers the main corridors but remains insufficient for many daily journeys beyond the CBD and suburbs directly on a train line. Perth was built for the car — its suburbs fan out over dozens of kilometres in every direction. For an active expat, going car-free is possible if you live and work in the inner city, but becomes challenging the moment you move beyond the main train corridors.</p>
-    </div>
-
-    <!-- VERDICT -->
-    <div class="verdict">
-      <div class="verdict-tag">WiggMap Verdict</div>
-      <h2>Perth: the Australian choice for quality of life</h2>
-      <p>Perth is the Australian choice for those who have understood that quality of life is not measured in cultural density or economic velocity. It's a generous, sun-drenched, safe city that offers an exceptional outdoor lifestyle and the highest salaries in Australia — particularly for profiles tied to the mining industry and its orbit. For families, retirees and specialist professionals, the calculation is frequently very favourable.</p>
-      <p>Pure digital nomads, tech entrepreneurs, and those who need deep corporate networks or a dense cultural programme will find Melbourne and Sydney better suited to their needs. <strong>Perth's isolation is real</strong> — and those who don't anticipate it may find the city oppressive after several months. Those who do — and who genuinely understand what the city offers — typically find it hard to leave.</p>
-      <div class="verdict-cols">
-        <div class="verdict-col pros">
-          <h4>✓ Strengths</h4>
-          <ul>
-            <li>~300 days of sunshine — Australia's sunniest capital</li>
-            <li>World-class beaches 20 minutes from the CBD</li>
-            <li>Australia's highest average salaries (WA #1)</li>
-            <li>Among Australia's safest cities</li>
-            <li>Direct flights to Asia (Bali 3.5h, Singapore 5h)</li>
-            <li>Exceptional quality of life for families and retirees</li>
-            <li>Rottnest Island — unique access 30 min away</li>
-            <li>Margaret River 3 hrs south — wine, surf, nature</li>
-          </ul>
-        </div>
-        <div class="verdict-col cons">
-          <h4>✗ Limitations</h4>
-          <ul>
-            <li>Geographic isolation (Sydney = 4-hour flight)</li>
-            <li>Car near-essential beyond inner suburbs</li>
-            <li>Summer heatwaves — 40°C+ for weeks</li>
-            <li>Limited tech and startup job market</li>
-            <li>Property boom: prices rising sharply</li>
-            <li>High electricity bills (A/C compulsory in summer)</li>
-            <li>Thinner cultural scene than Sydney or Melbourne</li>
-          </ul>
-        </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Real rate</span>
+      </div>
+      <p class="aff-name">Wise — Borderless account</p>
+      <p class="aff-desc">Card + transfers in 40+ currencies. Zero hidden fees.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Open an account →</a>
+        <span class="aff-social">16M+ customers</span>
       </div>
     </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Before you land</span>
+      </div>
+      <p class="aff-name">Airalo — Global eSIM</p>
+      <p class="aff-desc">Local SIM card you activate from your couch. 200+ countries covered.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Pick your eSIM →</a>
+        <span class="aff-social">10M+ users</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Essential</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Secure access to your accounts from abroad. Bypass local restrictions.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Secure my connection →</a>
+        <span class="aff-social">#1 VPN worldwide</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">partner links — at no extra cost to you</p>
+</div>
 
     <!-- FAQ -->
     <h2>Frequently asked questions</h2>
@@ -704,5 +578,7 @@ details[open] summary::after{transform:rotate(45deg)}
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

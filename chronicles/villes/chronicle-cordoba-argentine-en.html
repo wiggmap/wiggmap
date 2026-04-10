@@ -41,14 +41,27 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 .faq{margin:36px 0}details{border:1px solid var(--rule);border-radius:var(--r);margin-bottom:8px;overflow:hidden}details[open]{border-color:var(--g)}summary{font-family:var(--sans);font-size:14px;font-weight:500;padding:16px 20px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;color:var(--ink);gap:12px;user-select:none}summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-shrink:0}details[open] summary::after{transform:rotate(45deg)}.faq-body{padding:4px 20px 18px;font-family:var(--sans);font-size:13.5px;color:var(--ink3);line-height:1.65}
 .links-block{border:1px solid var(--rule);border-radius:12px;padding:24px;margin:40px 0;background:var(--white)}.links-ttl{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:14px}.links-grid{display:flex;flex-wrap:wrap;gap:8px}.links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -76,56 +89,62 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 <p class="lead">Argentina has a conversation that repeats itself endlessly in the expat forums: Buenos Aires or Córdoba? The people who choose Buenos Aires cite the culture, the international connections, the prestige of the capital. The people who choose Córdoba tend to stop explaining after a while and just say: come see. What they mean is this — a city of 1.5 million people built around five universities and 200,000 students, where a furnished apartment in a lively neighbourhood costs $320 a month, where the mountains start 30 kilometres from the city centre, where the accent is the most musical in all of Argentine Spanish, and where the nightlife is widely considered by Argentines themselves to be better than Buenos Aires. Córdoba calls itself <em>La Docta</em> — the learned one. It is also, by most measures, the most enjoyable city in Argentina to live in.</p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepare your move</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span>
-          <span class="aff-strip-desc">Global health cover from $45/mo</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Your borderless account</span>
-          <span class="aff-strip-desc">Card + transfers in 40+ currencies at the real rate</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Local SIM card ready before you land</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Secure access to your accounts from abroad</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepare your move</p>
+    <p class="aff-title">The tools <em>you actually need</em> to relocate</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">From $45/mo</span>
       </div>
-      <div class="aff-strip-note">partner links — at no extra cost to you</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Global health insurance built for nomads. Activate from anywhere.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">See the offer →</a>
+        <span class="aff-social">+1M nomads</span>
+      </div>
     </div>
-<h2>Córdoba in <span class="g">2026</span> — Argentina's most liveable city at its most accessible price</h2>
-
-<p>Córdoba is the capital of Córdoba province and Argentina's second city after Buenos Aires — 1.5 million people in the city, 1.7 million in the metropolitan area. It sits at the geographical centre of the country, 700 km northwest of Buenos Aires, at the foot of the Sierras de Córdoba mountain range. The Universidad Nacional de Córdoba — founded by Jesuits in 1613, the oldest university in Argentina and one of the first in South America — established the city's intellectual character from the start. Four centuries later, the five universities it has acquired collectively enrol one student for every seven and a half permanent residents. That ratio changes everything about how a city feels.</p>
-
-<p>For expats in 2026, Córdoba sits in a very particular position: the choice that makes more sense the more you know Argentina. It has everything Buenos Aires has in terms of Argentine culture — the beef, the psychoanalysis, the tango, the asado, the late-night rhythm — at 20-30% lower cost, in a city that is measurably less stressful, with a mountain range on its doorstep that Buenos Aires residents have to fly to reach. The trade-off is fewer international flight connections, a thinner corporate job market, and — if you're honest about it — a city that doesn't have the cultural density of a 15-million-person capital. For most people working remotely and choosing where to live rather than where to find a job, the trade-off consistently favours Córdoba.</p>
-
-<div class="note ok">
-  <div class="note-ttl">✓ 20–30% cheaper than Buenos Aires across the board</div>
-  <p>A quality furnished studio in Córdoba: $300–450/month, versus $450–700 in BA. A bife de chorizo in a good restaurant: $7–9 versus $10–14 in BA. A beer at a bar: $2–2.50 versus $3–4 in BA. The gap is consistent and adds up to a meaningful difference in monthly expenditure.</p>
-</div>
-
-<h2>The city — identity <span class="g">&amp;</span> character</h2>
-
-<p>The historic centre of Córdoba organises itself around the <strong>Plaza San Martín</strong> and the <strong>Manzana Jesuítica</strong> — a UNESCO-listed block of 17th-century Jesuit buildings comprising the cathedral, the Montserrat college and the main building of the National University. It is one of the best-preserved Baroque-colonial ensembles in South America, and what makes it unusual is that it is still in full use: the university operates here every day, students have been crossing its courtyards for four centuries. The image of ancient stone walls and students with backpacks and earphones is perfectly cordobés — learned and relaxed at the same time, taking the history for granted.</p>
-
-<p><strong>Nueva Córdoba</strong>, the university and nightlife district a ten-minute walk from the historic centre, is where most students and expats live — a dense grid of modern apartment buildings, hundreds of restaurants and bars, bookshops, cinemas and coworkings, in a neighbourhood that operates at full volume from late afternoon until the following morning. <strong>Güemes</strong>, just south, has developed over the past decade into Córdoba's equivalent of a creative district — artisan workshops, gallery spaces, specialty coffee, gastronomic restaurants, boutique accommodation — something between Palermo Soho and a quieter, more selective version of that. <strong>Cerro de las Rosas</strong>, on the hills to the northwest, is the premium residential area: houses with gardens, jogging paths along the canal, restaurant strip with reliable quality.</p>
-
-<p>The food in Córdoba is Argentine food at a slight discount and with a local accent. The <strong>sándwich de miga</strong> — ultra-thin crustless white bread with ham, melted cheese and salad, served at bars since the 1950s — is the most distinctively cordobés snack, with no real equivalent elsewhere in the country. The <strong>bodegones</strong> — neighbourhood restaurants with plastic tablecloths, house wine in pitchers and portions that assume you haven't eaten in three days — are an institution here in the way trattorias are in Naples: a social space as much as a place to eat. And the beef is the same fundamental product as everywhere else in Argentina — grass-fed Pampas cattle, quebracho coal or wood — done here with the same seriousness, just at a price that makes three parrilla meals a week a completely normal budget item.</p>
-
-<div class="pq"><p>Nueva Córdoba on a Thursday evening: the terraces on Achával Rodríguez are full. The UNC students finished their seminars at seven. The corner pizzeria is packed until midnight. By 1 AM the bar opposite is warming up. It's Thursday — Friday will be worse.</p></div>
-
-<h2>Neighbourhoods — <span class="g">where to live?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card"><div class="q-name">Nueva Córdoba</div><div class="q-desc">The student and nightlife core. Dense, lively, central, ten minutes from the historic centre. Rents: $280–550. The natural choice for nomads and young expats who want the city's energy close at hand. Noisy some nights, but the atmosphere is unmatched.</div></div>
-  <div class="q-card"><div class="q-name">Güemes</div><div class="q-desc">The creative and gastronomic district. Artisan workshops, galleries, specialty coffee, good restaurants. Rents: $320–600. For creatives and long-termers who want a slightly quieter atmosphere without losing touch with the city's pulse. More selective and less student-heavy than Nueva Córdoba.</div></div>
-  <div class="q-card"><div class="q-name">Cerro de las Rosas</div><div class="q-desc">Premium residential. Houses with gardens, canal jogging path, restaurants of standing. Rents: $450–900. For families and profiles wanting space and calm in Córdoba. More car-dependent than the other options.</div></div>
-  <div class="q-card"><div class="q-name">General Paz / Alta Córdoba</div><div class="q-desc">Established local residential neighbourhoods, affordable and authentic. Local markets, traditional bakeries, real neighbourhood life. Rents: $240–440. For tight budgets and profiles who want genuine Argentine daily life without tourist saturation.</div></div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Real rate</span>
+      </div>
+      <p class="aff-name">Wise — Borderless account</p>
+      <p class="aff-desc">Card + transfers in 40+ currencies. Zero hidden fees.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Open an account →</a>
+        <span class="aff-social">16M+ customers</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Before you land</span>
+      </div>
+      <p class="aff-name">Airalo — Global eSIM</p>
+      <p class="aff-desc">Local SIM card you activate from your couch. 200+ countries covered.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Pick your eSIM →</a>
+        <span class="aff-social">10M+ users</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Essential</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Secure access to your accounts from abroad. Bypass local restrictions.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Secure my connection →</a>
+        <span class="aff-social">#1 VPN worldwide</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">partner links — at no extra cost to you</p>
 </div>
 
 <h2>Daily life <span class="g">&amp;</span> housing</h2>
@@ -268,5 +287,7 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 <div class="orn"><span>· · ✦ · ·</span></div>
 <div id="siteFooter"></div><script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

@@ -125,14 +125,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -168,43 +181,62 @@ details[open] summary::after{transform:rotate(45deg)}
 <p class="lead">El avión desciende hacia Faro por el sur, sobre la Ría Formosa — y desde la ventanilla, a cien metros de altitud, se ve algo inesperado: flamencos. No en un zoo, no en un documental — en la laguna natural que separa el continente del océano, entre las islas barrera de arena blanca y las salinas que nadie construyó. No es así como la mayoría de las guías presentan la capital del Algarve. Faro se describe como un hub aeroportuario, una ciudad de paso, el punto de partida hacia Albufeira o Lagos. Es un error de categoría. Faro es una ciudad de pleno derecho — la más antigua del Algarve, con sus murallas medievales, sus naranjos en plena calle y una calidad de vida silenciosa que los expatriados que la han descubierto defienden con la devoción de quienes han encontrado algo antes de que todo el mundo lo encuentre.</p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepara tu mudanza</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span>
-          <span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Tu cuenta sin fronteras</span>
-          <span class="aff-strip-desc">Tarjeta + transferencias en 40+ divisas al tipo real</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">SIM local activable antes de aterrizar</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Acceso seguro a tus cuentas desde el extranjero</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepara tu mudanza</p>
+    <p class="aff-title">Las herramientas <em>realmente útiles</em> para emigrar</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Desde 45$/mes</span>
       </div>
-      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Seguro de salud mundial pensado para nómadas. Se activa desde cualquier lugar.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Ver la oferta →</a>
+        <span class="aff-social">+1M nómadas</span>
+      </div>
     </div>
-<h2>La ciudad <span class="g">detrás del aeropuerto</span></h2>
-
-<p>Faro es la capital administrativa de la región del Algarve y la ciudad más importante del sur de Portugal, con 65.000 habitantes dentro de los límites municipales y unos 120.000 en el área urbana ampliada. Es pequeña — aproximadamente un cuarto del tamaño de Oporto — y eso es precisamente lo que la hace habitable. Se cruza el centro de Faro a pie en veinte minutos. Se conoce al panadero por su nombre en dos semanas. Y sin embargo, se dispone de todas las infraestructuras de una capital regional: hospital universitario, universidad, red de transporte, servicios administrativos, comunidad internacional establecida.</p>
-
-<p>La historia de Faro se remonta más atrás que la de la mayoría de las ciudades europeas. Los romanos la llamaban <strong>Ossonoba</strong> — un activo puerto comercial en la costa sur desde el siglo II a. C. Los moros la mantuvieron durante cinco siglos con el nombre de <em>Shantaniyya</em> antes de que los caballeros de la Orden de Santiago recuperaran la ciudad en 1249, durante la Reconquista. El propio nombre «Faro» podría derivar del término faro (<em>faro</em> en portugués) — un antiguo faro romano que habría guiado a los barcos hacia la Ría. La <strong>Cidade Velha</strong>, el casco histórico amurallado, es el corazón histórico: catedral gótico-barroca, palacio episcopal, calles empedradas en improbable calma a diez minutos del aeropuerto más concurrido de Portugal.</p>
-
-<p>La <strong>Ría Formosa</strong> es la verdadera joya de Faro. Este parque natural de 18.000 hectáreas es un sistema de lagunas, islas barrera, salinas y playas salvajes que bordea la costa del Algarve durante 60 kilómetros. Es uno de los enclaves ornitológicos más importantes de Europa — flamencos, espátulas, charranes de Dougall, limícolas en migración — y una de las mejores aguas de mariscos de la Península Ibérica. Desde el puerto de Faro, un bote taxi llega a la <strong>Ilha Deserta</strong> (playa salvaje sin instalaciones, increíblemente preservada) o a la <strong>Ilha do Farol</strong> (con restaurante y faro histórico) en veinte minutos. Fuera de la temporada alta (julio-agosto), estas playas están casi desiertas incluso con 28 grados.</p>
-
-<div class="quartiers">
-  <div class="q-card"><div class="q-name">Cidade Velha</div><div class="q-desc">El casco histórico amurallado, corazón medieval de Faro. Catedral, palacio episcopal, naranjos en las calles, cafés tranquilos. Pocos apartamentos disponibles — los escasos pisos intramuros son muy cotizados. 1H ~$900–1.200.</div></div>
-  <div class="q-card"><div class="q-name">Centro / Baixa</div><div class="q-desc">El centro comercial y residencial en torno al Jardim Manuel Bivar. Calles peatonales, restaurantes, mercado municipal. Denso pero agradable. 1H ~$800–1.050. La opción más práctica para el día a día.</div></div>
-  <div class="q-card"><div class="q-name">Montenegro</div><div class="q-desc">Barrio residencial tranquilo al noroeste, cerca de la universidad y el hospital. Casas y pequeños edificios. Muy apreciado por familias y jubilados. 1H ~$650–850.</div></div>
-  <div class="q-card"><div class="q-name">Faro Beach (Praia de Faro)</div><div class="q-desc">La isla barrera unida al continente por un puente. Playas en ambos lados (laguna y océano). Muy estacional en verano, tranquilo y residencial el resto del año. 1H ~$750–1.000.</div></div>
-  <div class="q-card"><div class="q-name">Gambelas</div><div class="q-desc">Zona residencial cerca del aeropuerto y la universidad. Villas con jardín, ambiente tranquilo. 1H ~$600–800. Buena relación calidad-precio para familias con coche.</div></div>
-  <div class="q-card"><div class="q-name">Olhão (cerca)</div><div class="q-desc">Ciudad de pescadores a 10 min en tren, en suave gentrificación. Arquitectura cúbica morisca única, excepcional mercado de pescado. 1H ~$700–950. La alternativa expat auténtica a Faro.</div></div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Tipo real</span>
+      </div>
+      <p class="aff-name">Wise — Cuenta sin fronteras</p>
+      <p class="aff-desc">Tarjeta + transferencias en 40+ divisas. Cero comisiones ocultas.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Abrir una cuenta →</a>
+        <span class="aff-social">16M+ clientes</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Antes de aterrizar</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mundial</p>
+      <p class="aff-desc">SIM local que activas desde tu sofá. 200+ países cubiertos.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Elegir mi eSIM →</a>
+        <span class="aff-social">10M+ usuarios</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Imprescindible</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Acceso seguro a tus cuentas desde el extranjero. Salta las restricciones locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Asegurar mi conexión →</a>
+        <span class="aff-social">Top 1 VPN mundial</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">enlaces de afiliado — sin coste adicional para ti</p>
 </div>
 
 <div class="orn"><span>· · ✦ · ·</span></div>
@@ -422,5 +454,7 @@ details[open] summary::after{transform:rotate(45deg)}
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

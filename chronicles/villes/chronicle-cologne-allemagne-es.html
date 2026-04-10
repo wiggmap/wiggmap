@@ -125,14 +125,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -170,68 +183,62 @@ En 1248, el arzobispo Konrad von Hochstaden colocó la primera piedra de una cat
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepara tu mudanza</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span>
-          <span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Tu cuenta sin fronteras</span>
-          <span class="aff-strip-desc">Tarjeta + transferencias en 40+ divisas al tipo real</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">SIM local activable antes de aterrizar</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Acceso seguro a tus cuentas desde el extranjero</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepara tu mudanza</p>
+    <p class="aff-title">Las herramientas <em>realmente útiles</em> para emigrar</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Desde 45$/mes</span>
       </div>
-      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Seguro de salud mundial pensado para nómadas. Se activa desde cualquier lugar.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Ver la oferta →</a>
+        <span class="aff-social">+1M nómadas</span>
+      </div>
     </div>
-<h2>Colonia en <span class="g">2026</span> — la ciudad renana que lo hace todo sin tomarse demasiado en serio</h2>
-
-<p>Colonia es la cuarta ciudad de Alemania — 1,1 millón de habitantes, a orillas del Rin, equidistante de Bruselas, Ámsterdam y París. Junto con Düsseldorf (40 km), Dortmund y Essen forma la <strong>Región Metropolitana del Rin-Ruhr</strong> — la mayor conurbación de Alemania y una de las más importantes de Europa, con 10 millones de personas en un radio de 80 km. Esta posición geográfica central es una de las principales ventajas de Colonia para un expatriado: toda Europa noroccidental es accesible en tren en menos de 4 horas.</p>
-
-<p>Para un expatriado en 2026, Colonia ofrece quizá la mejor relación calidad-precio de las grandes ciudades alemanas. Más barata que Berlín en vivienda, más accesible culturalmente que Múnich, más humana que Hamburgo — y con un salario mediano comparable al de Berlín en los sectores clave (medios, publicidad, tech). La ciudad es conocida por su apertura de miras, su tolerancia y su atmósfera renana relajada — el <em>Kölsch Klüngel</em> (la red informal de coloneses que se ayudan mutuamente) es una institución social tan real como la catedral.</p>
-
-<div class="note ok">
-  <div class="note-ttl">✓ La mejor relación coste/salario de Alemania para los creativos</div>
-  <p>Colonia es más barata que Berlín en vivienda ofreciendo salarios comparables en medios, publicidad y tech. Para los perfiles creativos y los jóvenes profesionales de las industrias culturales, esta es la ecuación más favorable de toda Alemania en 2026.</p>
-</div>
-
-<h2>La ciudad — identidad <span class="g">&amp;</span> alma</h2>
-
-<p>Colonia es una ciudad de contradicciones asumidas. Alberga la catedral gótica más visitada de Alemania (6 millones de visitantes al año) — y el mayor carnaval de Europa continental (1 millón de personas en las calles el Rosenmontag). Es la sede del <strong>RTL Group</strong> (la mayor empresa de medios privados de Europa), el <strong>WDR</strong> (la mayor cadena regional ARD) y decenas de agencias de publicidad mundiales — al tiempo que acoge el <strong>Museum Ludwig</strong>, una de las colecciones de arte pop más importantes del mundo (Warhol, Lichtenstein, Picasso). Es la misma ciudad que inventó el <strong>Agua de Colonia</strong> en 1709 (el perfumista italiano Giovanni Maria Farina) y que hoy produce el <strong>Kölsch</strong> — la única cerveza del mundo con una denominación de origen regional protegida, servida exclusivamente en pequeños vasos cilíndricos de 20cl llamados Stangen.</p>
-
-<p><strong>Ehrenfeld</strong> se ha convertido en el barrio más dinámico de Colonia — un antiguo barrio industrial y obrero reconvertido en hub creativo con galerías, bares, estudios musicales, espacios de coworking y una escena de clubs que empieza a rivalizar seriamente con Berlín. La <strong>Südstadt</strong>, con sus hermosas casas decimonónicas y sus terrazas de café, es el barrio más apreciado por las familias y los profesionales consolidados. Y el <strong>Deutz</strong>, en la orilla derecha del Rin frente a la catedral, es la zona de desarrollo económico más activa — con modernos edificios de oficinas y proyectos de rehabilitación en curso.</p>
-
-<div class="pq">
-  <p>Colonia es el lugar adonde los alemanes del norte vienen un fin de semana para entender por qué a la gente del sur de Alemania le gusta tanto la vida. Tres vasos de Kölsch después, lo entienden.</p>
-</div>
-
-<h2>Barrios — <span class="g">¿dónde instalarse?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">Ehrenfeld</div>
-    <div class="q-desc">El barrio creativo en pleno auge. Galerías, cafés, estudios, clubs, arte urbano. Alquileres: $900-1.500. La elección de los creativos, perfiles de medios y jóvenes activos internacionales. En constante transformación, el más "berlinés" de los barrios de Colonia. Muy bien comunicado por U-Bahn.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Tipo real</span>
+      </div>
+      <p class="aff-name">Wise — Cuenta sin fronteras</p>
+      <p class="aff-desc">Tarjeta + transferencias en 40+ divisas. Cero comisiones ocultas.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Abrir una cuenta →</a>
+        <span class="aff-social">16M+ clientes</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Antes de aterrizar</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mundial</p>
+      <p class="aff-desc">SIM local que activas desde tu sofá. 200+ países cubiertos.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Elegir mi eSIM →</a>
+        <span class="aff-social">10M+ usuarios</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Imprescindible</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Acceso seguro a tus cuentas desde el extranjero. Salta las restricciones locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Asegurar mi conexión →</a>
+        <span class="aff-social">Top 1 VPN mundial</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">Nippes / Agnesviertel</div>
-    <div class="q-desc">Barrios residenciales tranquilos y auténticos del norte. Mercados, restaurantes de barrio, familias. Alquileres: $850-1.350. Menos turísticos, más locales. Muy populares entre las jóvenes familias y los expatriados que quieren la auténtica atmósfera de Colonia.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Südstadt / Innenstadt</div>
-    <div class="q-desc">La Colonia burguesa y cultural. Hermosas casas, catedral a pie, Museum Ludwig, restaurantes premium. Alquileres: $1.000-1.700. Para perfiles que quieren lo mejor de Colonia en términos de ubicación y calidad residencial. Muy solicitado.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Lindenthal</div>
-    <div class="q-desc">Barrio residencial acomodado al oeste. Universidad de Colonia, parques, barrio familiar tranquilo. Alquileres: $950-1.550. Para familias y perfiles académicos. Más tranquilo que Ehrenfeld, más accesible que la Südstadt. Excelentes conexiones S-Bahn.</div>
-  </div>
+  <p class="aff-footer">enlaces de afiliado — sin coste adicional para ti</p>
 </div>
 
 <h2>Vida cotidiana <span class="g">&amp;</span> alojamiento</h2>
@@ -414,5 +421,7 @@ En 1248, el arzobispo Konrad von Hochstaden colocó la primera piedra de una cat
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

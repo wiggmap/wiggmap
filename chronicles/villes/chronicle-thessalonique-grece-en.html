@@ -125,14 +125,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -170,68 +183,62 @@ At six in the morning, the first bougatsadika are opening their shutters on Thes
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepare your move</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span>
-          <span class="aff-strip-desc">Global health cover from $45/mo</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Your borderless account</span>
-          <span class="aff-strip-desc">Card + transfers in 40+ currencies at the real rate</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Local SIM card ready before you land</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Secure access to your accounts from abroad</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepare your move</p>
+    <p class="aff-title">The tools <em>you actually need</em> to relocate</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">From $45/mo</span>
       </div>
-      <div class="aff-strip-note">partner links — at no extra cost to you</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Global health insurance built for nomads. Activate from anywhere.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">See the offer →</a>
+        <span class="aff-social">+1M nomads</span>
+      </div>
     </div>
-<h2>Thessaloniki in <span class="g">2026</span> — the city expats still underestimate</h2>
-
-<p>Thessaloniki is Greece's second city and, by the account of most who live there, its most liveable. The comparison with Athens comes up constantly in expat conversations: Athens is more international, better connected, more economically dynamic. Thessaloniki is more human-scale, more authentic, cheaper, better fed and — in many people's view — more beautiful. It doesn't have the Acropolis. It has something better: an exceptional waterfront, a preserved upper city (Ano Poli) dating from Ottoman times with its colourfully corbelled houses, fifteen Byzantine basilicas listed as UNESCO World Heritage Sites, and a food scene that Greeks themselves unanimously recognise as the finest in the country.</p>
-
-<p>The city is also a major university town — Aristotle University is Greece's largest and one of Southern Europe's biggest. That gives Thessaloniki a youthful energy, a dense cultural life, and rents that remain 20–30% below Athens despite recent increases. For an expat seeking authentic Greece rather than tourist Greece, Thessaloniki is the obvious answer.</p>
-
-<div class="note ok">
-  <div class="note-ttl">✓ Gateway to the Balkans</div>
-  <p>Thessaloniki is 300 km from Sofia (Bulgaria), 250 km from Skopje (North Macedonia) and 310 km from Tirana (Albania). For businesses active in the Balkans, it's the natural logistical, commercial and cultural hub for the entire region. Thessaloniki's port is Greece's second busiest.</p>
-</div>
-
-<h2>The city — identity <span class="g">&amp;</span> soul</h2>
-
-<p>Thessaloniki is a city of layers. Walk through the Ano Poli (upper city) neighbourhood and you traverse a labyrinth of Ottoman cobblestone alleys, painted wooden houses overhanging the lower city, fountains and converted mosques. Descend toward the waterfront and you walk a five-kilometre promenade along the Thermaic Gulf, with the White Tower (the city's symbol, a former Ottoman watchtower) as your landmark. In the streets between, Roman ruins (the Arch of Galerius, the Palace of Galerius, the Hippodrome) emerge among 1960s apartment blocks — Thessaloniki is a city where ancient and modern coexist without artifice.</p>
-
-<p>The <strong>Ladadika</strong> neighbourhood — literally "the oil sellers' quarter" — is the city's former commercial warehouse district, now transformed into a bar and restaurant area that never sleeps. <strong>Navarinou Square</strong> and its surroundings concentrate the city's best tables. And the covered markets (Modiano, Kapani), remnants of the Ottoman era, remain places of everyday life where families and Michelin-starred chefs alike do their shopping.</p>
-
-<div class="pq">
-  <p>In Thessaloniki, you don't choose between history and life. They happen on the same street, often at the same table. That's what makes this city irreplaceable.</p>
-</div>
-
-<h2>Neighbourhoods — <span class="g">where to live?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">Ano Poli</div>
-    <div class="q-desc">The Ottoman upper city. Cobbled alleys, colourful wooden houses, exceptional views over the gulf. Bohemian and artistic atmosphere. Still very affordable rents ($380–550). A few minutes' walk from the centre — but uphill. Ideal for creatives and history enthusiasts.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Real rate</span>
+      </div>
+      <p class="aff-name">Wise — Borderless account</p>
+      <p class="aff-desc">Card + transfers in 40+ currencies. Zero hidden fees.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Open an account →</a>
+        <span class="aff-social">16M+ customers</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Before you land</span>
+      </div>
+      <p class="aff-name">Airalo — Global eSIM</p>
+      <p class="aff-desc">Local SIM card you activate from your couch. 200+ countries covered.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Pick your eSIM →</a>
+        <span class="aff-social">10M+ users</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Essential</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Secure access to your accounts from abroad. Bypass local restrictions.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Secure my connection →</a>
+        <span class="aff-social">#1 VPN worldwide</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">Ladadika / Centre</div>
-    <div class="q-desc">The living heart of the city. Bars, restaurants, Old Town and waterfront within walking distance. The most animated area, sometimes noisy at weekends. Rents: $450–700. For singles and couples without children who want everything on foot.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Kalamaria</div>
-    <div class="q-desc">Calm coastal residential suburb to the east. Quiet, green, by the sea. Very popular with families and retirees. Good quality of life, less nightlife. Rents: $500–800 for a family apartment. Frequent buses to the centre.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Panorama / Pilea</div>
-    <div class="q-desc">Residential neighbourhoods on the eastern hills, with spectacular views over the gulf and Mount Olympus. More expensive ($600–1,000) but exceptional quality of life. Very popular with families and affluent profiles. Less well served by public transport.</div>
-  </div>
+  <p class="aff-footer">partner links — at no extra cost to you</p>
 </div>
 
 <h2>Daily life <span class="g">&amp;</span> housing</h2>
@@ -425,5 +432,7 @@ At six in the morning, the first bougatsadika are opening their shutters on Thes
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

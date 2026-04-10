@@ -38,14 +38,27 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 .faq{margin:36px 0}details{border:1px solid var(--rule);border-radius:var(--r);margin-bottom:8px;overflow:hidden}details[open]{border-color:var(--g)}summary{font-family:var(--sans);font-size:14px;font-weight:500;padding:16px 20px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;color:var(--ink);gap:12px;user-select:none}summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-shrink:0}details[open] summary::after{transform:rotate(45deg)}.faq-body{padding:4px 20px 18px;font-family:var(--sans);font-size:13.5px;color:var(--ink3);line-height:1.65}
 .links-block{border:1px solid var(--rule);border-radius:12px;padding:24px;margin:40px 0;background:var(--white)}.links-ttl{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:14px}.links-grid{display:flex;flex-wrap:wrap;gap:8px}.links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -70,46 +83,62 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 <p class="lead">Cali no se presenta — se baila. Desde los años 1950, los barrios populares de Aguablanca y el Barrio Obrero desarrollaron un estilo de salsa tan distinto, tan codificado, tan físicamente exigente que bailarines de todo el mundo hacen el viaje a Santiago de Cali para descubrir sus secretos de pies. La salsa caleña — con sus pasos cruzados ultraveloces, sus movimientos de tobillos y sus secuencias de footwork que no tienen equivalente en otros estilos latinos — no nació en academias de baile: nació en las salsotecas, esos bares-pistas donde se toca música colombiana desde hace 70 años sin interrupción, y donde un niño de 8 años baila con la misma soltura que un adulto de 60. Bienvenido a Cali, la capital mundial de la salsa — y la ciudad colombiana más barata para vivir bien.</p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepara tu mudanza</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span>
-          <span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Tu cuenta sin fronteras</span>
-          <span class="aff-strip-desc">Tarjeta + transferencias en 40+ divisas al tipo real</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">SIM local activable antes de aterrizar</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Acceso seguro a tus cuentas desde el extranjero</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepara tu mudanza</p>
+    <p class="aff-title">Las herramientas <em>realmente útiles</em> para emigrar</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Desde 45$/mes</span>
       </div>
-      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Seguro de salud mundial pensado para nómadas. Se activa desde cualquier lugar.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Ver la oferta →</a>
+        <span class="aff-social">+1M nómadas</span>
+      </div>
     </div>
-<h2>Cali en <span class="g">2026</span> — la alternativa desconocida, la más asequible de Colombia</h2>
-<p>Santiago de Cali es la tercera ciudad de Colombia — 2,2 millones de habitantes en la ciudad, 3,5 millones en el área metropolitana — capital del departamento de Valle del Cauca, en el valle del río Cauca entre la cordillera central y occidental de los Andes. Disfruta de un <strong>clima cálido y soleado</strong> (22-28°C todo el año, más cálido que Medellín, sin la humedad de Cartagena), una posición estratégica entre las dos cadenas andinas y el Pacífico colombiano, y una economía diversificada — la caña de azúcar del Valle del Cauca (que produce casi toda el azúcar colombiana), la industria farmacéutica y un sector de servicios en crecimiento.</p>
-<p>Para un expatriado o nómada digital en 2026, Cali es la ciudad colombiana más infravalorada de esta guía. Menos mediática que Medellín, menos institucional que Bogotá, menos pintoresca que Cartagena — pero más barata que las tres, con un <strong>cost_index de 32</strong> (el más bajo de Colombia en esta guía), un clima más cálido y soleado que Medellín, una vida cultural centrada en la danza y la música que crea una atmósfera de alegría permanente difícil de encontrar en otro lugar, y una comunidad expat incipiente que todavía no tiene los inconvenientes del turismo masivo.</p>
-
-<div class="note ok"><div class="note-ttl">✓ La ciudad colombiana más barata — cost_index 32</div><p>Un estudio amueblado de calidad en Cali se alquila $80-120 menos que en Medellín. Los restaurantes locales, el transporte y el ocio son proporcionalmente más baratos. Para los presupuestos ajustados o los perfiles que quieren maximizar su estancia en Colombia, Cali ofrece la mejor relación calidad-vida del país.</p></div>
-
-<h2>La ciudad — identidad <span class="g">&amp;</span> alma</h2>
-<p>Cali funciona a dos velocidades — y eso es precisamente lo que la hace fascinante. Por un lado, los barrios residenciales del norte y centro-norte (Granada, El Peñón, San Antonio, Ciudad Jardín) ofrecen una vida de barrio agradable, restaurantes de calidad, cafeterías y vegetación tropical abundante. Por otro, la cultura de la salsa impregna cada dimensión de la vida social: las <strong>salsotecas</strong> — esos bares de baile exclusivos de Cali que mezclan música en directo o vinilos de salsa colombiana con una pista donde todo el mundo participa — están presentes en cada barrio. No se va a una salsoteca a mirar: se baila. Y los caleños bailan desde la infancia con una soltura natural que deja boquiabiertos a los turistas.</p>
-<p>El barrio de <strong>San Antonio</strong> es el más encantador de la ciudad — un barrio colonial en una colina en el centro de Cali, con una iglesia del siglo XVIII, callejuelas empedradas, casas de colores y vistas panorámicas sobre toda la ciudad. Es el barrio de los artistas, las tiendas de diseño y los cafés con encanto — una mezcla de Montmartre y Getsemaní a precios mucho más bajos. <strong>Granada</strong>, al noroeste, es el barrio gastronómico y de vida nocturna premium — restaurantes de todas las cocinas del mundo, bares de cócteles, clubs de salsa de alto nivel. Y el <strong>Barrio Centenario</strong> es el barrio residencial tranquilo y arbolado, muy apreciado por los expatriados a largo plazo por su relación calidad-vida.</p>
-
-<div class="pq"><p>En Cali, la salsa no es un espectáculo para turistas — es la forma en que los habitantes atraviesan la semana. Un viernes por la noche en una salsoteca de barrio, un niño de 9 años guiando a una abuela de 70 años en la pista: así es lo que "cultura viva" realmente significa.</p></div>
-
-<h2>Barrios — <span class="g">¿dónde instalarse?</span></h2>
-<div class="quartiers">
-  <div class="q-card"><div class="q-name">Granada</div><div class="q-desc">El barrio gastronómico y de vida nocturna. Restaurantes, bares, cafeterías, clubs de salsa. Alquileres: $400-900. El más animado de Cali. Bueno para los recién llegados que quieren explorar la vida social rápidamente. A menos de 20 min a pie de San Antonio.</div></div>
-  <div class="q-card"><div class="q-name">San Antonio</div><div class="q-desc">El barrio colonial bohemio en la colina. Arquitectura, artistas, cafeterías, vistas panorámicas. Alquileres: $380-750. El barrio más bonito de Cali. La recomendación WiggMap para los creativos y los residentes a largo plazo que quieren encanto y autenticidad.</div></div>
-  <div class="q-card"><div class="q-name">Ciudad Jardín / El Peñón</div><div class="q-desc">Barrios residenciales premium al norte. Seguros, verdes, familias. Alquileres: $500-1.100. Para familias y perfiles premium. Más tranquilos que Granada, más caros, pero excelente relación comodidad/seguridad. Cerca de los centros comerciales.</div></div>
-  <div class="q-card"><div class="q-name">Barrio Centenario</div><div class="q-desc">Barrio residencial tranquilo y arbolado, central. Vida de barrio auténtica, mercados locales, precios bajos. Alquileres: $300-600. La mejor relación calidad-precio de Cali. Para expatriados a largo plazo con presupuesto optimizado que quieren la vida caleña auténtica.</div></div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Tipo real</span>
+      </div>
+      <p class="aff-name">Wise — Cuenta sin fronteras</p>
+      <p class="aff-desc">Tarjeta + transferencias en 40+ divisas. Cero comisiones ocultas.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Abrir una cuenta →</a>
+        <span class="aff-social">16M+ clientes</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Antes de aterrizar</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mundial</p>
+      <p class="aff-desc">SIM local que activas desde tu sofá. 200+ países cubiertos.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Elegir mi eSIM →</a>
+        <span class="aff-social">10M+ usuarios</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Imprescindible</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Acceso seguro a tus cuentas desde el extranjero. Salta las restricciones locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Asegurar mi conexión →</a>
+        <span class="aff-social">Top 1 VPN mundial</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">enlaces de afiliado — sin coste adicional para ti</p>
 </div>
 
 <h2>Vida cotidiana <span class="g">&amp;</span> alojamiento</h2>
@@ -229,5 +258,7 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 <div class="orn"><span>· · ✦ · ·</span></div>
 <div id="siteFooter"></div><script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

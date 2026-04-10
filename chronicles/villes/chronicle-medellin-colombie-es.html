@@ -92,14 +92,27 @@ summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-sh
 .links-grid{display:flex;flex-wrap:wrap;gap:8px}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -124,46 +137,62 @@ summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-sh
 <p class="lead">Pablo Escobar murió el 2 de diciembre de 1993. Ese día, Medellín era la ciudad más asesina del mundo — 381 homicidios por 100.000 habitantes, una cifra que supera toda comprensión. Treinta años después, esa misma ciudad fue designada "Ciudad más innovadora del mundo" por el Wall Street Journal y Citigroup (2013), construyó el primer metrocable urbano de América Latina para conectar sus barrios populares en ladera, y se convirtió en el destino de nómadas digitales más citado del continente. Esta transformación no es una metáfora — es la historia real de una ciudad que decidió no dejarse definir por su pasado. Y lo logró.</p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepara tu mudanza</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span>
-          <span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Tu cuenta sin fronteras</span>
-          <span class="aff-strip-desc">Tarjeta + transferencias en 40+ divisas al tipo real</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">SIM local activable antes de aterrizar</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Acceso seguro a tus cuentas desde el extranjero</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepara tu mudanza</p>
+    <p class="aff-title">Las herramientas <em>realmente útiles</em> para emigrar</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Desde 45$/mes</span>
       </div>
-      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Seguro de salud mundial pensado para nómadas. Se activa desde cualquier lugar.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Ver la oferta →</a>
+        <span class="aff-social">+1M nómadas</span>
+      </div>
     </div>
-<h2>Medellín en <span class="g">2026</span> — la mejor relación calidad-vida / coste de América Latina</h2>
-<p>Medellín es la segunda ciudad de Colombia — 2,6 millones de habitantes en la ciudad, 4 millones en el área metropolitana — enclavada a 1.495 metros de altitud en el Valle de Aburrá, enmarcada por las laderas verdes de la cordillera de los Andes. Esta altitud es la clave de todo: le otorga un clima que los colombianos llevan llamando desde siempre la <em>Ciudad de la Eterna Primavera</em>. 22-26°C todo el año, noches frescas a 16-18°C, sin el calor sofocante del trópico ni el frío de altitudes mayores. Es una de las pocas grandes metrópolis del mundo en las que no se necesita ni aire acondicionado ni calefacción.</p>
-<p>Para un expatriado o nómada digital en 2026, la ecuación de Medellín es sencilla y brutalmente favorable: coste de vida entre los más bajos de América Latina para los ingresos extranjeros, infraestructura urbana (metro, cable, parques, bibliotecas, coworkings) muy desarrollada para la región, comunidad expat de las más activas del continente, gastronomía y vida nocturna de alta calidad, y un clima que hace la ciudad habitable en camiseta 365 días al año. El resultado: Medellín lleva 5 años siendo el primer o segundo destino de nómadas de América Latina.</p>
-
-<div class="note ok"><div class="note-ttl">✓ El mejor clima de toda América Latina</div><p>A 1.495 metros de altitud bajo los trópicos: ni el calor húmedo de la costa, ni el frío de la alta cordillera, ni la canícula del Caribe. 22-26°C todo el año — una primavera permanente que los madrileños, londinenses y montréalais a menudo no pueden creer antes de aterrizar.</p></div>
-
-<h2>La ciudad — identidad <span class="g">&amp;</span> alma</h2>
-<p>Medellín se transformó invirtiendo masivamente en sus barrios más desfavorecidos — las comunas en ladera, aferradas a los empinados flancos del valle, que antaño eran los más violentos. El <strong>Metrocable</strong> (inaugurado en 2004) conectó la Comuna de Santo Domingo Savio, otrora una de las más peligrosas del mundo, a la red de metro en pocos minutos. Después llegaron una biblioteca española diseñada por Giancarlo Mazzanti, parques, escaleras mecánicas al aire libre (las únicas del mundo que conectan un barrio residencial con una ciudad), centros comunitarios que transformaron estas comunas en ejemplos de urbanismo social citados en universidades de todo el mundo. La <strong>Comuna 13</strong> (El 13) — antes el barrio más peligroso de Colombia — se ha convertido en el símbolo de esta transformación: sus paredes cubiertas de murales gigantes cuentan la historia de la resistencia y el renacimiento, y las visitas atraen decenas de miles de personas cada mes.</p>
-<p>La vida cultural y gastronómica de Medellín ha experimentado una explosión paralela. El barrio de <strong>El Poblado</strong> — con sus callejuelas cubiertas de buganvillas, restaurantes gastronómicos, bares de cócteles y cafeterías de especialidad — es el corazón visible de la escena expat. Pero es <strong>Laureles</strong>, el barrio residencial más local al oeste, el que la mayoría de los residentes a largo plazo terminan prefiriendo: menos turístico, más barato, más auténticamente paisa (como se llama a los habitantes de la región de Antioquia), con sus propios restaurantes, mercados de barrio y parques.</p>
-
-<div class="pq"><p>Medellín es la ciudad donde entendí que la transformación urbana más notable del siglo XXI no ocurrió en Singapur ni en Dubái — sucedió en un valle de los Andes colombianos, en un barrio llamado Comuna 13.</p></div>
-
-<h2>Barrios — <span class="g">¿dónde instalarse?</span></h2>
-<div class="quartiers">
-  <div class="q-card"><div class="q-name">El Poblado</div><div class="q-desc">El barrio expat histórico. Restaurantes gastronómicos, bares, coffee shops, coworkings, vida nocturna. Alquileres: $500-1.500. Muy seguro, muy internacional, muy animado. Ideal para los recién llegados. Puede parecer una burbuja con el tiempo — los residentes a largo plazo migran a menudo a Laureles.</div></div>
-  <div class="q-card"><div class="q-name">Laureles / Estadio</div><div class="q-desc">La elección de los expatriados a largo plazo. Más local, más tranquilo, menos turístico, más barato. Cafés de barrio, mercados, parques, vida paisa auténtica. Alquileres: $400-900. Excelente relación calidad/precio. A 15 min de El Poblado en Uber ($2). La recomendación WiggMap para estancias de +3 meses.</div></div>
-  <div class="q-card"><div class="q-name">Envigado</div><div class="q-desc">Municipio adyacente, más residencial y familiar. Más barato, más tranquilo, excelente relación calidad/precio. Alquileres: $350-750. Muy apreciado por las familias expat y los perfiles que quieren acceso a Medellín sin el ruido de El Poblado. Bien comunicado por metro.</div></div>
-  <div class="q-card"><div class="q-name">El Centro / Belén</div><div class="q-desc">Centro histórico y barrios populares. Menos recomendados como base expat principal pero ofrecen inmersión total en la vida colombiana auténtica. Alquileres muy bajos: $200-450. Para perfiles de presupuesto mínimo o exploradores urbanos experimentados.</div></div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Tipo real</span>
+      </div>
+      <p class="aff-name">Wise — Cuenta sin fronteras</p>
+      <p class="aff-desc">Tarjeta + transferencias en 40+ divisas. Cero comisiones ocultas.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Abrir una cuenta →</a>
+        <span class="aff-social">16M+ clientes</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Antes de aterrizar</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mundial</p>
+      <p class="aff-desc">SIM local que activas desde tu sofá. 200+ países cubiertos.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Elegir mi eSIM →</a>
+        <span class="aff-social">10M+ usuarios</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Imprescindible</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Acceso seguro a tus cuentas desde el extranjero. Salta las restricciones locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Asegurar mi conexión →</a>
+        <span class="aff-social">Top 1 VPN mundial</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">enlaces de afiliado — sin coste adicional para ti</p>
 </div>
 
 <h2>Vida cotidiana <span class="g">&amp;</span> alojamiento</h2>
@@ -283,5 +312,7 @@ summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-sh
 <div class="orn"><span>· · ✦ · ·</span></div>
 <div id="siteFooter"></div><script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

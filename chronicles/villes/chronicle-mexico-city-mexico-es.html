@@ -121,14 +121,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -164,46 +177,62 @@ details[open] summary::after{transform:rotate(45deg)}
 <p class="lead">Son las 20h de un martes en un café de la Colonia Roma Norte. Las mesas desbordan a la banqueta. A la izquierda, dos desarrolladores hablan de una startup fintech. Enfrente, una mesa de mexicanos discuten algo que sus gestos vuelven urgente. Una pareja extranjera pide en español aproximado, riéndose de sus errores. Un hombre solo con MacBook — americano, probablemente — lleva dos horas trabajando, el café a medio tomar. La calle huele a maíz asado desde el tlacoyo de un vendedor ambulante en la esquina. Pasa un camión recolector de basura con un estruendo de fierros. Luego el silencio relativo vuelve, y las conversaciones recomienzan. La Ciudad de México es, en este momento preciso, exactamente lo que siempre ha sido: una ciudad que pertenece a todos y a nadie en particular — construida sobre las ruinas de otra civilización, ella misma construida sobre un lago, y que desde entonces no ha dejado de reinventarse.</p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepara tu mudanza</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span>
-          <span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Tu cuenta sin fronteras</span>
-          <span class="aff-strip-desc">Tarjeta + transferencias en 40+ divisas al tipo real</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">SIM local activable antes de aterrizar</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Acceso seguro a tus cuentas desde el extranjero</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepara tu mudanza</p>
+    <p class="aff-title">Las herramientas <em>realmente útiles</em> para emigrar</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Desde 45$/mes</span>
       </div>
-      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Seguro de salud mundial pensado para nómadas. Se activa desde cualquier lugar.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Ver la oferta →</a>
+        <span class="aff-social">+1M nómadas</span>
+      </div>
     </div>
-<h2>La ciudad que <span class="g">se hunde</span> y avanza</h2>
-
-<p>La Ciudad de México — CDMX — es la capital y la mayor ciudad de México, y la más poblada de todo el hemisferio occidental (22 millones de habitantes en la zona metropolitana, 9,2 millones dentro de los límites de la ciudad). Es una megalópolis construida a 2.240 metros de altitud sobre el fondo desecado del antiguo lago de Texcoco — lo que los aztecas llamaban Tenochtitlan, capital del Imperio mexica fundada en 1325. Este detalle geológico no es anecdótico: la ciudad se hunde entre 5 y 10 centímetros al año en el barro del antiguo fondo lacustre, comprimida por la extracción masiva de aguas subterráneas que abastece a sus 22 millones de habitantes. Algunos barrios ya han perdido varios metros respecto a su nivel original. Las banquetas se inclinan. Los edificios se ladean ligeramente. Roma Norte y Condesa — los dos barrios más buscados por los expats — están construidos precisamente sobre el antiguo fondo del lago de Texcoco. Los sismos de 1985 y de 2017 afectaron estas zonas de forma desproporcionada por esta razón exacta: los sedimentos lacustres amplían las ondas sísmicas.</p>
-
-<p>Esta ciudad que se hunde está sin embargo en plena expansión económica, cultural y demográfica. Desde 2020, la Ciudad de México se ha convertido en uno de los destinos de "slow travel" y nomadismo digital más populares del mundo — clasificada regularmente entre las ciudades más buscadas en Nomad List y Remote Year. Decenas de miles de extranjeros — principalmente estadounidenses, pero también europeos y latinoamericanos — han establecido una base temporal o permanente en las colonias de moda. La gentrificación de Roma Norte y Condesa está documentada, medida y contestada: las rentas subieron un 40-60% entre 2020 y 2025 en estas zonas, en parte por efecto de esta migración de expats con ingresos en dólares o euros.</p>
-
-<div class="note">
-  <div class="note-ttl">🌮 Ciudad de México para latinoamericanos — una perspectiva diferente</div>
-  <p>Para un latinoamericano que viene de Colombia, Argentina, Chile, Perú o Centroamérica, la Ciudad de México presenta una dinámica distinta a la de los visitantes europeos o estadounidenses. El idioma no es una barrera. La cultura no es radicalmente distinta. Los precios son similares a los de Bogotá o Buenos Aires en términos de poder adquisitivo local — aunque los expats que cobran en dólares o euros tienen un ventaja real. Los latinoamericanos también se benefician de los 180 días de visa turista. La comunidad latinoamericana en CDMX es numerosa y está bien organizada: colombianos, argentinos, venezolanos, chilenos, brasileños. La ciudad puede ser un trampolín natural para quien quiere establecerse en el mercado norteamericano sin la complejidad visa de los Estados Unidos.</p>
-</div>
-
-<div class="quartiers">
-  <div class="q-card"><div class="q-name">Roma Norte / Condesa</div><div class="q-desc">El corazón de la vida nómada y expat. Cafés, restaurantes gastronómicos, arquitectura Art Nouveau y porfiriana. 1BR: 15.000-22.000 MXN (~$850-1.240). El más caro pero el más práctico a pie. Nota: la gentrificación es un tema político sensible aquí.</div></div>
-  <div class="q-card"><div class="q-name">Polanco</div><div class="q-desc">El barrio residencial premium. Embajadas, boutiques de lujo, restaurantes de alta cocina. 1BR: 25.000-45.000 MXN (~$1.410-2.540). Para expats con paquete corporativo. Muy seguro, muy caro, menos "CDMX auténtica".</div></div>
-  <div class="q-card"><div class="q-name">Coyoacán</div><div class="q-desc">El barrio de Frida Kahlo y Diego Rivera. Ambiente de pueblo en la megalópolis, mercados, jardines. 1BR: 10.000-16.000 MXN (~$565-905). Popular entre universitarios y creativos. Más alejado del centro.</div></div>
-  <div class="q-card"><div class="q-name">Narvarte / Del Valle</div><div class="q-desc">La elección de los residentes serios. Residencial denso, muy bien comunicado, menos turístico que Roma. 1BR: 12.000-18.000 MXN (~$680-1.020). Excelente relación calidad/precio para estancias largas.</div></div>
-  <div class="q-card"><div class="q-name">Santa Fe</div><div class="q-desc">El barrio de negocios moderno. Torres de cristal, sedes de multinacionales, centros comerciales. 1BR: 20.000-35.000 MXN (~$1.130-1.980). Para ejecutivos en empresas internacionales. Poca vida de barrio.</div></div>
-  <div class="q-card"><div class="q-name">Centro Histórico</div><div class="q-desc">El hipercentro histórico. El Zócalo, Tlatelolco, los murales. 1BR: 8.000-15.000 MXN (~$450-850). El más asequible, menos expat, más auténticamente mexicano.</div></div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Tipo real</span>
+      </div>
+      <p class="aff-name">Wise — Cuenta sin fronteras</p>
+      <p class="aff-desc">Tarjeta + transferencias en 40+ divisas. Cero comisiones ocultas.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Abrir una cuenta →</a>
+        <span class="aff-social">16M+ clientes</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Antes de aterrizar</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mundial</p>
+      <p class="aff-desc">SIM local que activas desde tu sofá. 200+ países cubiertos.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Elegir mi eSIM →</a>
+        <span class="aff-social">10M+ usuarios</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Imprescindible</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Acceso seguro a tus cuentas desde el extranjero. Salta las restricciones locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Asegurar mi conexión →</a>
+        <span class="aff-social">Top 1 VPN mundial</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">enlaces de afiliado — sin coste adicional para ti</p>
 </div>
 
 <div class="orn"><span>· · ✦ · ·</span></div>
@@ -370,5 +399,7 @@ details[open] summary::after{transform:rotate(45deg)}
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

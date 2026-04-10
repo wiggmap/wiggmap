@@ -125,14 +125,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -170,68 +183,62 @@ En 1975, los últimos helicópteros estadounidenses despegaban del tejado de la 
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepara tu mudanza</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span>
-          <span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Tu cuenta sin fronteras</span>
-          <span class="aff-strip-desc">Tarjeta + transferencias en 40+ divisas al tipo real</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">SIM local activable antes de aterrizar</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Acceso seguro a tus cuentas desde el extranjero</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepara tu mudanza</p>
+    <p class="aff-title">Las herramientas <em>realmente útiles</em> para emigrar</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Desde 45$/mes</span>
       </div>
-      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Seguro de salud mundial pensado para nómadas. Se activa desde cualquier lugar.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Ver la oferta →</a>
+        <span class="aff-social">+1M nómadas</span>
+      </div>
     </div>
-<h2>Ciudad Ho Chi Minh en <span class="g">2026</span> — Saigón no ha muerto, está ganando</h2>
-
-<p>Ciudad Ho Chi Minh (HCMC) — que la mayoría de los residentes y expatriados siguen llamando <strong>Saigón</strong> — es la ciudad más grande de Vietnam y su motor económico. Con un crecimiento del PIB sistemáticamente superior al 6% desde 2015, una población de 9 a 13 millones según los límites administrativos, y una inversión extranjera directa que ha explotado desde la adhesión de Vietnam a la OMC en 2007, HCMC se ha convertido en una de las ciudades más dinámicas del Sudeste Asiático — y una de las más atractivas financieramente para los expatriados de todo el mundo.</p>
-
-<p>Para un expatriado en 2026, la ecuación es simple y brutalmente favorable: salarios de la economía global (para perfiles tech, dirección y finanzas), un coste de vida entre los más bajos de Asia — alquiler estudio $400-800, comida completa en un excelente restaurante local $3-8, cerveza fría $1,5-3 — y una energía urbana sin equivalente en la región. La ciudad nunca duerme del todo, cambia constantemente, y ofrece a los perfiles ambiciosos una combinación de calidad de vida y poder adquisitivo que sencillamente no existe en Europa ni en Estados Unidos.</p>
-
-<div class="note warn">
-  <div class="note-ttl">⚠️ Visados — la restricción principal que hay que planificar bien</div>
-  <p>Vietnam no tiene todavía un visado nómada oficial. El e-visa de 90 días es renovable pero requiere una salida del territorio. El visado de negocios de 1 año es la solución preferida por la mayoría de los expatriados a largo plazo — requiere el apoyo de una empresa local. Planificarlo seriamente antes de instalarse.</p>
-</div>
-
-<h2>La ciudad — identidad <span class="g">&amp;</span> alma</h2>
-
-<p>HCMC es una contradicción perpetua y deliciosa: una capital comunista con el distrito financiero más capitalizado del país, templos budistas encajados entre torres de cristal y callejones de phở humeante que desbordan al amanecer. Es una ciudad construida sobre una paradoja — y que ha hecho de ello su identidad. El <strong>Distrito 1</strong> (Quận 1) es el centro histórico y comercial: la calle Đồng Khởi (la antigua rue Catinat de la época colonial francesa), el Ayuntamiento neorrococó, el mercado Bến Thành, la catedral de Notre-Dame. El <strong>Distrito 3</strong>, adyacente, es más residencial y bohemio — cafés independientes, galerías, panaderías francesas que han sobrevivido. Y el <strong>Distrito 2</strong>, concretamente el barrio de <strong>Thảo Điền</strong>, es el corazón de la comunidad expat — con restaurantes internacionales, colegios internacionales, coffee shops y villas con piscina a orillas del río Saigón.</p>
-
-<p>La gastronomía de Saigón es en sí misma un argumento para instalarse aquí. El <strong>bánh mì</strong> (baguette vietnamita rellena de cerdo, paté y cilantro) — heredado directamente de la presencia colonial francesa — está clasificado regularmente entre los mejores sándwiches del mundo y cuesta $1,5-2. El <strong>phở</strong> (sopa de fideos de arroz con ternera) servido a las 6 de la mañana en los puestos callejeros es la experiencia culinaria más honesta del país — $2-3. El <strong>bún bò Huế</strong>, el <strong>cơm tấm</strong> (arroz roto a la plancha), las <strong>bánh xèo</strong> (crepes crujientes): la escena de comida callejera de HCMC está considerada por muchos gastrónomos como la más densa y de mayor calidad del mundo en relación a su precio.</p>
-
-<div class="pq">
-  <p>Saigón es la única ciudad donde puedes gastar $5 en la mejor comida del día, y $50 en una cena gastronómica con estrella en una azotea — y ambas valen hasta el último centavo.</p>
-</div>
-
-<h2>Barrios — <span class="g">¿dónde instalarse?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">Thảo Điền (Distrito 2)</div>
-    <div class="q-desc">El barrio expat premium. Villas, colegios internacionales, restaurantes mundiales, coffee shops, orilla del río. Alquileres: $600-2.000 (estudio a villa). La elección de las familias y los perfiles de ingresos cómodos. Más tranquilo y verde que el Distrito 1.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Tipo real</span>
+      </div>
+      <p class="aff-name">Wise — Cuenta sin fronteras</p>
+      <p class="aff-desc">Tarjeta + transferencias en 40+ divisas. Cero comisiones ocultas.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Abrir una cuenta →</a>
+        <span class="aff-social">16M+ clientes</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Antes de aterrizar</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mundial</p>
+      <p class="aff-desc">SIM local que activas desde tu sofá. 200+ países cubiertos.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Elegir mi eSIM →</a>
+        <span class="aff-social">10M+ usuarios</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Imprescindible</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Acceso seguro a tus cuentas desde el extranjero. Salta las restricciones locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Asegurar mi conexión →</a>
+        <span class="aff-social">Top 1 VPN mundial</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">Distrito 3 / Phú Nhuận</div>
-    <div class="q-desc">Barrios residenciales y culturales auténticos. Cafés locales, comida callejera, menos turístico. Alquileres: $400-900 (estudio/1 hab.). Para expatriados que quieren sumergirse de verdad en la vida vietnamita estando a 10 minutos del centro.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Distrito 1 (Quận 1)</div>
-    <div class="q-desc">Centro histórico y comercial. Hoteles, bares, restaurantes, vida nocturna. Alquileres: $500-1.200. Más ruidoso pero en el corazón de la acción. Ideal para los recién llegados que exploran antes de instalarse en un barrio más residencial.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Bình Thạnh / Distrito 7</div>
-    <div class="q-desc">Zonas modernas en desarrollo. Distrito 7 (Phú Mỹ Hưng) = enclave ultramoderno con centro comercial, hospitales internacionales y gran comunidad coreana. Alquileres muy asequibles ($350-700). Para perfiles de presupuesto ajustado o familias coreanas/japonesas.</div>
-  </div>
+  <p class="aff-footer">enlaces de afiliado — sin coste adicional para ti</p>
 </div>
 
 <h2>Vida cotidiana <span class="g">&amp;</span> alojamiento</h2>
@@ -413,5 +420,7 @@ En 1975, los últimos helicópteros estadounidenses despegaban del tejado de la 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

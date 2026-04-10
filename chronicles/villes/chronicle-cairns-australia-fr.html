@@ -274,14 +274,27 @@ details[open] summary::after{transform:rotate(45deg)}
 
 /* ── DISC ───────────────────────────────────── */
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -340,72 +353,63 @@ details[open] summary::after{transform:rotate(45deg)}
     </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton installation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span>
-          <span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span>
-          <span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Carte SIM locale activable avant d'atterrir</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Accès sécurisé à tes comptes depuis l'étranger</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Préparer ton installation</p>
+    <p class="aff-title">Les outils <em>vraiment utiles</em> pour partir</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Dès 45$/mois</span>
       </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
-    </div>
-    <p>Ce n'est pas une ville comme les autres. Cairns — 180 000 habitants, nord-est du Queensland, 16ème parallèle sud — est techniquement une ville régionale australienne. Mais son environnement naturel immédiat est celui d'une destination de rêve : la Grande Barrière de Corail à 30 minutes en bateau, la forêt tropicale de Daintree à une heure et demie de route (la plus ancienne forêt tropicale de la planète, 180 millions d'années), les chutes de Millaa Millaa sur le plateau Atherton, et les plages sauvages de Cape Tribulation où le récif rencontre la forêt. Peu de villes au monde offrent un tel accès à une telle diversité naturelle.</p>
-
-    <p>Pour les expatriés, Cairns pose une question centrale : est-on prêt à échanger la dynamique économique d'une grande métropole contre quelque chose de profondément différent — une vie plus lente, plus naturelle, plus australienne dans son essence ? Pour certains profils, c'est le meilleur choix possible. Pour d'autres, l'isolement et le marché de l'emploi limité peuvent peser. Ce guide ne vous cache rien.</p>
-
-    <div class="pq">
-      <p>"Cairns, c'est l'endroit où des gens sont venus pour deux semaines et sont restés vingt ans. Généralement, ils ne regrettent pas."</p>
-    </div>
-
-    <h2>Cairns en <span class="g">chiffres</span> — snapshot 2026</h2>
-
-    <div class="note">
-      <div class="note-ttl">💱 Taux de change indicatif</div>
-      <p>Tous les prix sont en dollars américains. Taux de référence : 1 AUD ≈ 0,63 USD (mars 2026). Les salaires et loyers sont établis en AUD — la conversion est donnée à titre indicatif.</p>
-    </div>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <!-- LA VILLE -->
-    <h2>L'âme de <span class="g">Cairns</span> — tropiques australiens, pur et dur</h2>
-
-    <p>Cairns n'essaie pas de ressembler à Sydney. Ce serait une erreur. La ville a son propre rythme — plus lent, plus détendu, baigné dans une chaleur humide qui ramollit les postures et affûte l'appétit pour l'essentiel. L'esplanade longe le bord de mer sur 2,5 kilomètres de promenades, de jardins, de terrasses et d'une immense piscine publique d'eau de mer — parce que la plage elle-même est dangereuse à cause des méduses-boîtes en saison (de novembre à mai, les <em>Chironex fleckeri</em> peuvent être mortelles en quelques minutes). Ce détail en dit long sur la nature ici : majestueuse et sans compromis.</p>
-
-    <p>Le centre-ville est compact et à l'échelle humaine. Les quartiers qui comptent pour un expat : <strong>Cairns City</strong> (CBD, animation, le plus cher), <strong>Edge Hill</strong> (verdoyant, ombragé, jardins botaniques, très prisé des familles), <strong>Palm Cove</strong> (30 km au nord, plages sublime, ambiance resort permanente), et <strong>Redlynch / Kanimbla</strong> (calme, vert, à deux pas du Barron Gorge National Park). Pour les budgets serrés, <strong>Manunda</strong> et <strong>Manoora</strong> offrent des loyers inférieurs de 20 à 30% avec un accès correct au CBD.</p>
-
-    <p>L'architecture mélange le Queensland colonial typique — les <em>Queenslanders</em>, ces maisons en bois surélevées à vérandas ajourées, conçues pour laisser circuler l'air — et des immeubles modernes face à la marina. La végétation s'infiltre partout : bougainvilliers sur les murs, cocotiers qui penchent sur les rues, frangipaniers devant les cafés. L'Asie du Sud-Est n'est pas loin dans l'atmosphère.</p>
-
-    <div class="quartiers">
-      <div class="q-card">
-        <div class="q-name">Cairns City (CBD)</div>
-        <div class="q-desc">Animation, restaurants, le plus cher. Accès Esplanade et marina.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Edge Hill</div>
-        <div class="q-desc">Verdoyant, ombragé, jardins botaniques. Très prisé des familles.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Palm Cove</div>
-        <div class="q-desc">30 km au nord. Plages sublimes, ambiance resort permanente.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Redlynch / Kanimbla</div>
-        <div class="q-desc">Calme, vert, proche du Barron Gorge National Park.</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Assurance santé mondiale conçue pour les nomades. S'active depuis n'importe où.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Voir l'offre →</a>
+        <span class="aff-social">+1M nomades</span>
       </div>
     </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Taux réel</span>
+      </div>
+      <p class="aff-name">Wise — Compte sans frontières</p>
+      <p class="aff-desc">Carte + virements en 40+ devises. Zéro commission cachée.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Ouvrir un compte →</a>
+        <span class="aff-social">16M+ clients</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Avant d'atterrir</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mondiale</p>
+      <p class="aff-desc">Carte SIM locale activable depuis ton canapé. 200+ pays couverts.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Choisir son eSIM →</a>
+        <span class="aff-social">10M+ utilisateurs</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Indispensable</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Accès sécurisé à tes comptes depuis l'étranger. Contourne les restrictions locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Sécuriser ma connexion →</a>
+        <span class="aff-social">Top 1 VPN mondial</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">liens partenaires — sans surcoût pour toi</p>
+</div>
 
     <div class="orn"><span>· · ✦ · ·</span></div>
 
@@ -710,5 +714,7 @@ details[open] summary::after{transform:rotate(45deg)}
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

@@ -125,14 +125,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -170,68 +183,62 @@ En 1189, l'Empereur Frédéric Barberousse accordait aux marchands de Hambourg l
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton installation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span>
-          <span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span>
-          <span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Carte SIM locale activable avant d'atterrir</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Accès sécurisé à tes comptes depuis l'étranger</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Préparer ton installation</p>
+    <p class="aff-title">Les outils <em>vraiment utiles</em> pour partir</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Dès 45$/mois</span>
       </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Assurance santé mondiale conçue pour les nomades. S'active depuis n'importe où.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Voir l'offre →</a>
+        <span class="aff-social">+1M nomades</span>
+      </div>
     </div>
-<h2>Hambourg en <span class="g">2026</span> — la ville qui a toujours su où elle allait</h2>
-
-<p>Hambourg est une ville-État — l'un des trois Länder allemands avec Berlin et Brême à avoir le statut de ville-État fédérale. Elle est donc simultanément une grande ville et un gouvernement régional, avec son propre parlement (la Bürgerschaft) et son propre Sénat. Cette spécificité juridique et fiscale lui confère une autonomie et une capacité d'initiative que la plupart des grandes villes allemandes n'ont pas. Et dans la pratique quotidienne, elle se traduit par une ville qui fonctionne bien, qui investit dans ses infrastructures et dont la gestion est généralement considérée comme l'une des plus efficaces d'Allemagne.</p>
-
-<p>Pour un expatrié, Hambourg offre un équilibre que Berlin et Munich ne proposent pas : plus internationale et maritime que Munich, plus professionnelle et organisée que Berlin, moins chère que les deux dans les quartiers équivalents. La ville est le premier pôle de commerce extérieur d'Allemagne — son port traite des milliards de marchandises chaque année, et des centaines d'entreprises de trading, de logistique, de chimie et d'aéronautique y ont leur siège ou leur base régionale. L'anglais est nettement mieux couvert qu'à Munich dans la vie quotidienne — conséquence directe de 500 ans de commerce international.</p>
-
-<div class="note ok">
-  <div class="note-ttl">✓ La ville la plus internationale du Nord de l'Allemagne</div>
-  <p>Hambourg est la 2e ville la plus internationale d'Allemagne après Berlin. Son histoire commerciale et portuaire de 800 ans a créé une culture d'ouverture et d'accueil peu commune dans le pays. L'anglais est courant dans de nombreux contextes de vie quotidienne — beaucoup plus qu'à Munich ou Francfort.</p>
-</div>
-
-<h2>La ville — identité <span class="g">&amp;</span> âme</h2>
-
-<p>Hambourg est une ville d'eau — pas d'une mer ou d'un lac, mais d'un réseau de 2 500 ponts qui enjambent canaux, bras de l'Alster et bras de l'Elbe. Elle a plus de ponts que Venise, Amsterdam et Londres réunis. Ce réseau hydrographique donne à chaque quartier une relation différente avec l'eau — les yachts de l'<strong>Außenalster</strong>, les péniches de l'<strong>Alsterkanal</strong>, les cargos géants de l'<strong>Elbe</strong>, les bateaux-maisons du <strong>Eilbekkanal</strong>. La promenade en kayak ou en pédalos sur l'Alster en été est une activité aussi hambourgeoise que la visite du port.</p>
-
-<p>La <strong>HafenCity</strong> — le plus grand projet de rénovation urbaine d'Europe, construit sur d'anciens entrepôts portuaires à 10 minutes du centre-ville — est à la fois le nouveau quartier résidentiel le plus cher de Hambourg et l'adresse de l'<strong>Elbphilharmonie</strong>. Cette salle de concert construite au sommet d'un ancien entrepôt de cacao (2017, Herzog & de Meuron, 789 millions d'euros) est devenue le symbole architectural de la ville — et l'une des meilleures salles de concert au monde acoustiquement. Sa plaza panoramique (8e étage) est accessible gratuitement et offre une des plus belles vues de toute l'Allemagne.</p>
-
-<div class="pq">
-  <p>Hambourg est la seule ville allemande qui, quand elle regarde par la fenêtre, voit des cargos de 400 mètres passer à la hauteur des toits. Ça change la façon de penser au monde.</p>
-</div>
-
-<h2>Quartiers — <span class="g">où s'installer ?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">Altona / Ottensen</div>
-    <div class="q-desc">Le quartier mixte et vivant le plus apprécié des expatriés. Restaurants, cafés, marché du samedi (Altona Fischmarkt), accès Elbe. Loyers : $1,100-1,800. Multiculturel, détendu, très bon réseau S-Bahn. Le choix de la plupart des expatriés jeunes-actifs.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Taux réel</span>
+      </div>
+      <p class="aff-name">Wise — Compte sans frontières</p>
+      <p class="aff-desc">Carte + virements en 40+ devises. Zéro commission cachée.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Ouvrir un compte →</a>
+        <span class="aff-social">16M+ clients</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Avant d'atterrir</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mondiale</p>
+      <p class="aff-desc">Carte SIM locale activable depuis ton canapé. 200+ pays couverts.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Choisir son eSIM →</a>
+        <span class="aff-social">10M+ utilisateurs</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Indispensable</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Accès sécurisé à tes comptes depuis l'étranger. Contourne les restrictions locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Sécuriser ma connexion →</a>
+        <span class="aff-social">Top 1 VPN mondial</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">Eimsbüttel / Eppendorf</div>
-    <div class="q-desc">Les quartiers familiaux premium du nord. Magnifiques immeubles Gründerzeit, parcs, écoles. Loyers : $1,200-2,000. Ambiance résidentielle calme, très appréciée des familles et des professionnels établis. Moins international qu'Altona mais plus paisible.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">HafenCity</div>
-    <div class="q-desc">Le nouveau quartier premium en bord d'Elbe. Architecture contemporaine, Elbphilharmonie, restaurants haut de gamme. Loyers très élevés ($1,600-2,800). Pour les profils à revenus élevés qui veulent le plus moderne. Encore en développement.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Blankenese / Rahlstedt</div>
-    <div class="q-desc">Banlieue résidentielle aisée à l'ouest (Blankenese) ou quartiers populaires abordables (Barmbek, Rahlstedt). Loyers : $900-1,400. Pour les familles qui cherchent de l'espace et du vert (Blankenese est sur les collines de l'Elbe) ou pour les budgets serrés.</div>
-  </div>
+  <p class="aff-footer">liens partenaires — sans surcoût pour toi</p>
 </div>
 
 <h2>Vie quotidienne <span class="g">&amp;</span> logement</h2>
@@ -414,5 +421,7 @@ En 1189, l'Empereur Frédéric Barberousse accordait aux marchands de Hambourg l
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

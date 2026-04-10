@@ -282,14 +282,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .anecdote-label{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--gd);margin-bottom:10px}
 .anecdote h3{margin:0 0 10px;font-size:15px;font-weight:700;color:var(--ink);font-family:var(--serif)}
 .anecdote p{font-size:14px}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -346,75 +359,63 @@ details[open] summary::after{transform:rotate(45deg)}
     <p class="lead">It was nine in the morning and the queue stretched ten metres out the door. No sign, no visible name from the street — just a fifty-metre cobblestone laneway wedged between two CBD buildings, plastered floor-to-ceiling in street art, and a wooden counter behind which a barista was running his grinder with the focused precision of a Swiss watchmaker. After twenty minutes of waiting, the flat white was worth every second. That is Melbourne: excellence hidden in the gaps, visible only to those who know where to look.</p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepare your move</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span>
-          <span class="aff-strip-desc">Global health cover from $45/mo</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Your borderless account</span>
-          <span class="aff-strip-desc">Card + transfers in 40+ currencies at the real rate</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Local SIM card ready before you land</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Secure access to your accounts from abroad</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepare your move</p>
+    <p class="aff-title">The tools <em>you actually need</em> to relocate</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">From $45/mo</span>
       </div>
-      <div class="aff-strip-note">partner links — at no extra cost to you</div>
-    </div>
-    <h2>Melbourne, the Australian <span class="g">art of living</span></h2>
-
-    <p>Melbourne — 5.3 million people, State of Victoria, Port Phillip Bay — is Australia's second-largest city. But tell a Melburnian that, and you risk a long, passionate argument. The city has an ancient and delicious rivalry with Sydney: Sydney has the Harbour and the reliable sunshine, Melbourne has the culture, the food, the sport and the coffee. Both camps have solid arguments. What an expat needs to understand is this: Melbourne offers something most world-class cities have quietly lost — a dense, diverse and creative urban scene, still legible at human scale in its neighbourhoods, and a quality of life that doesn't rest on a single asset but on an accumulation of cultural layers built across generations.</p>
-
-    <p>With more than 30% of its population born overseas, Melbourne is one of the most multicultural cities on Earth. Greeks, Italians, Vietnamese, Indians, Chinese, Lebanese — each wave of immigration has left a permanent culinary, architectural and cultural mark. For an expat, that diversity is an integration accelerator: the city doesn't have one face, it has dozens.</p>
-
-    <div class="pq">
-      <p>"Melbourne is the city that convinces you to stay the weekend and traps you for life. It's never what you expected — it's always better."</p>
-    </div>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <!-- NUMBERS -->
-    <h2>Melbourne <span class="g">by the numbers</span> — 2026 snapshot</h2>
-
-    <div class="note">
-      <div class="note-ttl">💱 Exchange rate note</div>
-      <p>All prices are in US dollars. Reference rate: 1 AUD ≈ 0.63 USD (March 2026). Salaries and rents are set in AUD — the conversion is provided as an indication only.</p>
-    </div>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <!-- SOUL -->
-    <h2>The soul of Melbourne — <span class="g">living urbanism</span>, infinite cultural layers</h2>
-
-    <p>Melbourne is a city discovered on foot and by bike, neighbourhood by neighbourhood, with a willingness to get lost. Its architecture is a palimpsest: Victorian arcades from the 1890s cut through modernist towers, laneways covered in murals hiding pocket-sized restaurants, 100,000-seat stadiums a short walk from contemporary art galleries. The Yarra River runs through all of it unhurriedly, lined with gardens and open-air cafes, the CBD skyline rising behind.</p>
-
-    <p>The neighbourhoods that matter for expats: <strong>Fitzroy</strong> (bohemian, street art, craft beer bars, affordable ethnic food — the epicentre of Melbourne's counter-culture), <strong>Richmond</strong> (dynamic, mixed, excellent connectivity, long-established Vietnamese community — Victoria Street alone is a full culinary journey), <strong>Collingwood</strong> (proudly hipster, artist studios, intense brunch culture), <strong>South Yarra / Prahran</strong> (polished, great shopping, well-kept neighbourhood life), <strong>St Kilda</strong> (seafront, relaxed atmosphere, social diversity, little penguins living wild in the breakwater), and <strong>Carlton</strong> (the university, Lygon Street's Italian precinct since the 1960s, the Melbourne Museum).</p>
-
-    <div class="quartiers">
-      <div class="q-card">
-        <div class="q-name">Fitzroy</div>
-        <div class="q-desc">Bohemian, street art, craft beer, ethnic food. The epicentre of counter-culture.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Richmond</div>
-        <div class="q-desc">Dynamic, mixed, Vietnamese Victoria Street. Excellent connectivity.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">St Kilda</div>
-        <div class="q-desc">Seafront, relaxed vibes, wild little penguins. Gentrified and pleasant.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Carlton</div>
-        <div class="q-desc">Lygon Street Italian precinct, university, Melbourne Museum. The intellectual quarter.</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Global health insurance built for nomads. Activate from anywhere.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">See the offer →</a>
+        <span class="aff-social">+1M nomads</span>
       </div>
     </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Real rate</span>
+      </div>
+      <p class="aff-name">Wise — Borderless account</p>
+      <p class="aff-desc">Card + transfers in 40+ currencies. Zero hidden fees.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Open an account →</a>
+        <span class="aff-social">16M+ customers</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Before you land</span>
+      </div>
+      <p class="aff-name">Airalo — Global eSIM</p>
+      <p class="aff-desc">Local SIM card you activate from your couch. 200+ countries covered.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Pick your eSIM →</a>
+        <span class="aff-social">10M+ users</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Essential</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Secure access to your accounts from abroad. Bypass local restrictions.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Secure my connection →</a>
+        <span class="aff-social">#1 VPN worldwide</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">partner links — at no extra cost to you</p>
+</div>
 
     <p>The CBD itself is threaded with Victorian-era arcades — <em>Block Arcade</em>, <em>Royal Arcade</em> — housing pastry shops, bookstores and watchmakers since the 1890s. Trams crisscross the city as they do nowhere else in Australia: Melbourne operates the largest tram network in the Southern Hemisphere. And travelling <em>free of charge</em> within the Free Tram Zone that covers the entire city centre is one of those details that make urban life here genuinely pleasant rather than just impressive.</p>
 
@@ -782,5 +783,7 @@ details[open] summary::after{transform:rotate(45deg)}
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

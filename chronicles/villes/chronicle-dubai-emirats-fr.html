@@ -125,14 +125,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -170,68 +183,62 @@ Le Dubai Frame est un cadre géant de 150 mètres de haut construit au milieu de
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton installation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span>
-          <span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span>
-          <span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Carte SIM locale activable avant d'atterrir</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Accès sécurisé à tes comptes depuis l'étranger</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Préparer ton installation</p>
+    <p class="aff-title">Les outils <em>vraiment utiles</em> pour partir</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Dès 45$/mois</span>
       </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Assurance santé mondiale conçue pour les nomades. S'active depuis n'importe où.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Voir l'offre →</a>
+        <span class="aff-social">+1M nomades</span>
+      </div>
     </div>
-<h2>Dubaï en <span class="g">2026</span> — la ville construite pour les expatriés</h2>
-
-<p>Dubaï est statistiquement la ville la plus internationale du monde. Moins de 10% de ses 3,5 millions d'habitants (11 millions dans l'émirat) sont des citoyens émiratis. Les 90%+ restants viennent de plus de 200 nationalités — Indiens (la communauté la plus nombreuse, ~30%), Pakistanais, Philippins, Européens, Américains, Arabes du Golfe, Africains. Cette diversité n'est pas un accident : c'est un modèle économique. Dubaï s'est construite sur le principe que pour attirer les talents, le capital et les entreprises du monde entier, il faut créer un environnement où ils veulent s'installer. Le résultat : 0% d'impôt sur le revenu, sécurité exceptionnelle, infrastructure de classe mondiale, Golden Visa de 10 ans, visa nomade numérique, et un hub de vols qui connecte la planète entière.</p>
-
-<p>Pour un expatrié en 2026, Dubaï est une proposition complexe. Le coût de la vie brut — en particulier le loyer — est élevé, comparable à Paris ou au-dessus. Mais avec 0% d'impôt sur le revenu, une personne qui gagne $8,000/mois à Dubaï en conserve $8,000. La même personne à Paris en conserverait $5,200 après impôts. C'est l'avantage structurel de Dubaï que les chiffres de loyer seuls ne montrent pas.</p>
-
-<div class="note ok">
-  <div class="note-ttl">✓ 0% d'impôt sur le revenu — l'argument fiscal décisif</div>
-  <p>Les Émirats arabes unis n'appliquent aucun impôt sur le revenu des personnes physiques. Pas de TVA sur les revenus, pas de cotisations sociales obligatoires pour les expatriés. Pour un professionnel payé en devise forte, l'économie fiscale par rapport à un pays européen peut atteindre 30 à 50% du salaire brut.</p>
-</div>
-
-<h2>La ville — identité <span class="g">&amp;</span> âme</h2>
-
-<p>Dubaï est une ville de contrastes absolus qui ne cherche pas à les résoudre. Le <strong>souk aux épices de Deira</strong>, où les commerçants pèsent le safran et le cardamome dans des balances antiques, est à dix minutes en abra (taxi-bateau traditionnel à 0,30$ la traversée) du <strong>Dubai Mall</strong> — le plus grand centre commercial du monde, avec une piste de ski en intérieur et un aquarium de 10 millions de litres. La <strong>mosquée Jumeirah</strong> (une des rares mosquées non-musulmans peuvent visiter aux EAU) est à cinq kilomètres du <strong>Burj Al Arab</strong>, hôtel le plus luxueux et le plus photographié de la planète.</p>
-
-<p>Ce qui surprend ceux qui viennent habiter Dubaï plutôt que la visiter, c'est que sous l'ostentation se cache une ville à taille humaine selon les quartiers. Le vieux Dubaï — <strong>Bur Dubai</strong>, <strong>Deira</strong>, <strong>Al Fahidi</strong> — a une authentique vie de quartier, avec ses restaurants indiens et bangladais à $4 le repas, ses hôtels à $30 la nuit, ses textiles et ses pièces détachées. Et les nouveaux quartiers — <strong>Jumeirah</strong>, <strong>Arabian Ranches</strong>, <strong>Mirdif</strong> — sont conçus comme des enclaves résidentielles paisibles, loin du spectacle des gratte-ciels.</p>
-
-<div class="pq">
-  <p>Dubaï n'est pas une ville qu'on aime au premier regard. C'est une ville qu'on comprend après six mois — quand on sait où manger pour $5, où nager gratuit, où les enfants sont en sécurité absolue, et combien on a économisé en impôts.</p>
-</div>
-
-<h2>Quartiers — <span class="g">où s'installer ?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">Dubai Marina / JBR</div>
-    <div class="q-desc">Le quartier expat jeune par excellence. Front de mer animé, restaurants, bars, vie nocturne. Très international. Loyers : $1,500-2,500/mois studio. Accès direct à la plage. Dense et vivant. Le choix naturel pour un premier séjour à Dubaï.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Taux réel</span>
+      </div>
+      <p class="aff-name">Wise — Compte sans frontières</p>
+      <p class="aff-desc">Carte + virements en 40+ devises. Zéro commission cachée.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Ouvrir un compte →</a>
+        <span class="aff-social">16M+ clients</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Avant d'atterrir</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mondiale</p>
+      <p class="aff-desc">Carte SIM locale activable depuis ton canapé. 200+ pays couverts.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Choisir son eSIM →</a>
+        <span class="aff-social">10M+ utilisateurs</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Indispensable</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Accès sécurisé à tes comptes depuis l'étranger. Contourne les restrictions locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Sécuriser ma connexion →</a>
+        <span class="aff-social">Top 1 VPN mondial</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">DIFC / Downtown</div>
-    <div class="q-desc">Le cœur financier et premium. Burj Khalifa, Dubai Mall, restaurants étoilés, finance internationale. Loyers : $1,800-3,200. Le quartier des banquiers, avocats et cadres dirigeants. Le meilleur adresse carte de visite.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Jumeirah / Business Bay</div>
-    <div class="q-desc">L'équilibre idéal pour les familles. Jumeirah : villas avec jardins, plages, bonnes écoles. Loyers villas : $3,000-7,000. Business Bay : appartements modernes à prix plus accessibles ($1,200-1,900). Pour les familles qui cherchent l'espace sans le gigantisme de Downtown.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Deira / Bur Dubai</div>
-    <div class="q-desc">Le vieux Dubaï authentique. Souks, restaurants indiens et arabes bon marché, ambiance de quartier. Loyers très bas ($700-1,200). Pour les profils qui veulent l'expérience réelle du Golfe sans le vernis touristique. Moins pratique sans voiture.</div>
-  </div>
+  <p class="aff-footer">liens partenaires — sans surcoût pour toi</p>
 </div>
 
 <h2>Vie quotidienne <span class="g">&amp;</span> logement</h2>
@@ -424,5 +431,7 @@ Le Dubai Frame est un cadre géant de 150 mètres de haut construit au milieu de
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

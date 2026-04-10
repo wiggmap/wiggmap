@@ -283,14 +283,27 @@ details[open] summary::after{transform:rotate(45deg)}
 
 /* ── DISC ───────────────────────────────────── */
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -349,83 +362,63 @@ details[open] summary::after{transform:rotate(45deg)}
     </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton installation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span>
-          <span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span>
-          <span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Carte SIM locale activable avant d'atterrir</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Accès sécurisé à tes comptes depuis l'étranger</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Préparer ton installation</p>
+    <p class="aff-title">Les outils <em>vraiment utiles</em> pour partir</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Dès 45$/mois</span>
       </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
-    </div>
-    <h2>L'âme de <span class="g">Montréal</span></h2>
-
-    <p>C'est une conversation qui se reproduit dans tous les cafés du Plateau. Quelqu'un commande en français, le serveur répond en anglais, la conversation se poursuit dans les deux langues à la fois sans que personne n'y prête attention — puis les deux interlocuteurs découvrent qu'ils sont tous les deux immigrants récents, l'un de Paris, l'autre de São Paulo, et que la langue de leur échange quotidien s'est construite en trois semaines à Montréal. C'est ça, Montréal : une ville qui absorbe les gens et les fait siens avant qu'ils ne l'aient décidé.</p>
-
-    <p>Montréal — 4,2 millions d'habitants dans le Grand Montréal, Québec, au confluent du Saint-Laurent et de la rivière des Outaouais — est la deuxième ville du Canada et sa capitale culturelle incontestée. Elle est unique en Amérique du Nord : francophone dans son ADN, bilingue dans sa pratique, cosmopolite dans sa réalité. New York est à 5 heures de route. Boston à 4 heures. Paris à 6 heures de vol direct. Pour un expatrié francophone, Montréal offre quelque chose de rare — l'accès à l'économie nord-américaine sans abandon de la langue et du cadre de vie.</p>
-
-    <p>Elle est aussi, et c'est son argument le plus puissant pour les expatriés, <strong>la grande ville nord-américaine la plus abordable</strong>. Un appartement d'une chambre y coûte moins de la moitié de ce qu'il vaut à Vancouver ou New York. Les restaurants sont excellents et accessibles. Les activités culturelles — festivals, concerts, musées — sont parmi les moins chères du continent. Et l'université McGill, l'UQAM, Polytechnique et HEC Montréal forment un bassin de talents qui alimente un écosystème d'intelligence artificielle devenu référence mondiale.</p>
-
-    <div class="pq">
-      <p>"Montréal est la seule ville où j'ai mangé un bagel de Saint-Viateur à trois heures du matin après un concert de jazz gratuit dans la rue, et où j'ai payé mon loyer sans sourciller. Ça n'existe nulle part ailleurs en Amérique du Nord."</p>
-    </div>
-
-    <h2>Montréal en <span class="g">chiffres</span> — snapshot 2026</h2>
-
-    <div class="note">
-      <div class="note-ttl">💱 Taux de change indicatif</div>
-      <p>Tous les prix sont en dollars américains. Taux de référence : 1 CAD ≈ 0,745 USD (mars 2026). Les tarifs en dollars canadiens sont indiqués entre parenthèses pour référence.</p>
-    </div>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <h2>Une ville qui invente <span class="g">son propre code</span></h2>
-
-    <p>Montréal est une ville de paradoxes assumés. Elle est nord-américaine dans sa géographie et ses infrastructures, mais européenne dans son rapport à la rue, à la table, à la lenteur du weekend. Elle est francophone dans sa langue officielle et dans l'arrogance tranquille avec laquelle elle revendique cette identité, mais profondément anglophone dans ses universités, ses quartiers étudiants et une bonne partie de sa culture pop. Elle souffre d'hivers qui feraient fléchir une ville moins bien trempée, mais elle a inventé une manière de les vivre — Igloofest, Nuit Blanche, Montréal en lumière — qui fait de la saison froide un moment culturellement aussi dense que l'été.</p>
-
-    <p>Le <strong>Mont-Royal</strong> — la colline de 233 mètres qui donne son nom à la ville — est le centre géographique et symbolique de Montréal. Le parc du Mont-Royal (dessiné par Frederick Law Olmsted, le même qui a conçu Central Park à New York) est la poumon vert de la ville : en été, les Montréalais s'y retrouvent par milliers le dimanche pour les <em>tam-tams</em>, des rassemblements musicaux improvisés autour de la statue de George-Étienne Cartier qui durent depuis 1979 sans interruption. En hiver, on y fait du ski de fond et de la raquette à dix minutes du downtown.</p>
-
-    <p>Le <strong>Vieux-Montréal</strong> est l'un des centres historiques les mieux préservés d'Amérique du Nord — des rues pavées, des bâtiments en pierre grise du XVIIe et XVIIIe siècles, la Basilique Notre-Dame (dont l'intérieur bleu nuit étoilé est l'un des plus beaux espaces religieux du continent), et le Vieux-Port transformé en promenade culturelle et de loisirs. Ce quartier attire les touristes, mais il est aussi habité, vivant, et constitue l'un des marchés immobiliers les plus cotés de la ville.</p>
-
-    <div class="quartiers">
-      <div class="q-card">
-        <div class="q-name">Plateau-Mont-Royal</div>
-        <div class="q-desc">Le cœur bohème. Duplex colorés, escaliers en colimaçon, cafés littéraires, restaurants de toutes les cuisines du monde.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Mile End</div>
-        <div class="q-desc">Créatif, cosmopolite, légèrement en avance sur tout le monde. Bagels de Saint-Viateur, ateliers d'artistes, bars à vinyle.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Vieux-Montréal</div>
-        <div class="q-desc">Rues pavées du XVIIe siècle, Basilique Notre-Dame, lofts industriels reconvertis, restaurants gastronomiques.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Quartier des Spectacles</div>
-        <div class="q-desc">Le centre névralgique de la vie culturelle. JAZZFEST, Osheaga, Juste pour rire, FrancoFolies.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Rosemont–Petite-Patrie</div>
-        <div class="q-desc">Résidentiel, abordable, très vivant. Marché Jean-Talon, pistes cyclables, épiceries du monde entier.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Griffintown</div>
-        <div class="q-desc">Nouveau quartier en mutation rapide. Canal Lachine, condos design, bars branchés, ambiance jeune et internationale.</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Assurance santé mondiale conçue pour les nomades. S'active depuis n'importe où.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Voir l'offre →</a>
+        <span class="aff-social">+1M nomades</span>
       </div>
     </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Taux réel</span>
+      </div>
+      <p class="aff-name">Wise — Compte sans frontières</p>
+      <p class="aff-desc">Carte + virements en 40+ devises. Zéro commission cachée.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Ouvrir un compte →</a>
+        <span class="aff-social">16M+ clients</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Avant d'atterrir</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mondiale</p>
+      <p class="aff-desc">Carte SIM locale activable depuis ton canapé. 200+ pays couverts.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Choisir son eSIM →</a>
+        <span class="aff-social">10M+ utilisateurs</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Indispensable</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Accès sécurisé à tes comptes depuis l'étranger. Contourne les restrictions locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Sécuriser ma connexion →</a>
+        <span class="aff-social">Top 1 VPN mondial</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">liens partenaires — sans surcoût pour toi</p>
+</div>
 
     <div class="note warn">
       <div class="note-ttl">❄️ L'hiver montréalais — une culture à part entière</div>
@@ -746,5 +739,7 @@ details[open] summary::after{transform:rotate(45deg)}
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

@@ -97,14 +97,27 @@ summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-sh
 .links-grid{display:flex;flex-wrap:wrap;gap:8px}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -151,71 +164,62 @@ Most cities have a postcard moment. Kota Kinabalu has one that happens every sin
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepare your move</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span>
-          <span class="aff-strip-desc">Global health cover from $45/mo</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Your borderless account</span>
-          <span class="aff-strip-desc">Card + transfers in 40+ currencies at the real rate</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Local SIM card ready before you land</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Secure access to your accounts from abroad</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepare your move</p>
+    <p class="aff-title">The tools <em>you actually need</em> to relocate</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">From $45/mo</span>
       </div>
-      <div class="aff-strip-note">partner links — at no extra cost to you</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Global health insurance built for nomads. Activate from anywhere.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">See the offer →</a>
+        <span class="aff-social">+1M nomads</span>
+      </div>
     </div>
-<h2>KK in <span class="g">2026</span> — Borneo's capital, Southeast Asia's most underrated city</h2>
-
-<p>Kota Kinabalu is the capital of Sabah state, in the northwest corner of Borneo — the world's third largest island. Around 500,000 people in the city, 900,000 in the wider metropolitan area. It sits 2,600 km east of Kuala Lumpur, separated from peninsular Malaysia by the Sulu Sea, and it functions more like its own ecosystem than an outpost of a larger country. Sabah has more than thirty indigenous ethnic groups, its own food culture, its own rainfall patterns and its own relationship with the natural world. The peninsula feels a long way away, and the locals tend to prefer it that way.</p>
-
-<p>For expats in 2026, KK occupies a niche that no other city in this guide touches. It is not the cheapest option — JB and George Town are both cheaper. It is not the best connected — KL runs circles around it for flights. It does not have George Town's food scene or KL's professional network. What it has is access. Within two hours of your front door: orangutans in the wild, a reef in the top five globally for diving, a mountain that took the altitude record for Southeast Asia. That particular set of options, available on a regular basis rather than as a once-in-a-lifetime expedition, is not available from any other city in this guide at this price.</p>
-
-<div class="note ok">
-  <div class="note-ttl">✓ The world's most accessible wild nature from a functioning city</div>
-  <p>Borneo ranks among the planet's five most biodiverse regions. From KK: orangutans at Sepilok (1h flight), Sipadan reef in the world diving top five (1h30 flight), primary rainforest at Danum Valley (2h drive), five marine park islands (15 min by boat). All of this from a city with a Grab network, a Starbucks and an international hospital.</p>
-</div>
-
-<h2>The city — identity <span class="g">&amp;</span> character</h2>
-
-<p>KK was almost completely destroyed in 1945 when British forces bombed it to take it back from Japanese occupation, and rebuilt quickly and without much architectural ambition in the decades that followed. The city centre doesn't have colonial charm. What it has instead is an ethnic and cultural diversity that is genuinely remarkable even by Malaysian standards. Sabah is home to the <strong>Kadazan-Dusun</strong> — the largest indigenous group, known for their rice wine <em>tapai</em> and for the annual Harvest Festival in May — the <strong>Bajau</strong>, whose sea-nomad branches hold world records for freediving, the <strong>Murut</strong>, the <strong>Rungus</strong>, and thirty-odd other groups, all living alongside Malay, Chinese, Filipino and expat communities in a city that handles the mix with remarkable ease.</p>
-
-<p>The <strong>Gaya Street Sunday Market</strong> makes this visible in the most direct way possible. Five hundred stalls over one and a half kilometres, running from 6 AM until the heat of midday. Kadazan sellers in traditional dress with forest products and medicinal plants you won't find catalogued outside a botany textbook. Durians from Sabah varieties with flavour profiles genuinely different from anything grown on the peninsula. Handmade ceramics, woven baskets, dried fish, live crabs. Half the city turns up. It is one of the ethnographically richest markets in the whole of Malaysia, and it happens every week two hundred metres from the waterfront.</p>
-
-<p>The <strong>Sabah State Museum</strong> is worth more than an afternoon. It traces 40,000 years of human presence on Borneo — including the Austronesian migrations that eventually peopled the Pacific — and displays artefacts from Sabah's indigenous groups that have no presence in any other museum. The adjacent Heritage Village has full-scale traditional houses from the major ethnic groups, built outdoors in a rainforest setting. For expats trying to understand the cultural context of the city they've moved to, these two institutions cut months off the learning curve.</p>
-
-<div class="pq">
-  <p>KK at 6:30 PM, waterfront: the marine park islands in the golden light. The sea is flat. A Kadazan family, a group of Bajau in traditional dress coming back from a ceremony, a Chinese couple with a stroller. The sky moves from red to violet. Ninety kilometres to the left, Kinabalu's ridge in the haze. Very few places look exactly like this.
-  </p>
-</div>
-
-<h2>Neighbourhoods — <span class="g">where to live?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">KK Town / Waterfront</div>
-    <div class="q-desc">Historic and commercial centre. Restaurants, hawker centres, nightlife, Gaya Street within walking distance. Rents: $350–700. Best for those who want full city immersion and island views. Some noise at night, but the energy and convenience are hard to beat.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Real rate</span>
+      </div>
+      <p class="aff-name">Wise — Borderless account</p>
+      <p class="aff-desc">Card + transfers in 40+ currencies. Zero hidden fees.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Open an account →</a>
+        <span class="aff-social">16M+ customers</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Before you land</span>
+      </div>
+      <p class="aff-name">Airalo — Global eSIM</p>
+      <p class="aff-desc">Local SIM card you activate from your couch. 200+ countries covered.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Pick your eSIM →</a>
+        <span class="aff-social">10M+ users</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Essential</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Secure access to your accounts from abroad. Bypass local restrictions.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Secure my connection →</a>
+        <span class="aff-social">#1 VPN worldwide</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">Sutera Harbour / Likas</div>
-    <div class="q-desc">Premium seafront residential and hotel district. Modern condos with sea views, marina, sports facilities. Rents: $500–1,100. For families and profiles wanting maximum comfort and quality. Sea access directly from the building.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Signal Hill / Bukit Padang</div>
-    <div class="q-desc">Quiet residential hillside above the bay. Houses with gardens, bungalows, panoramic views of the sea and islands. Rents: $450–900. For families and long-termers who want space, quiet and a view. Car recommended.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Api-Api / Sembulan</div>
-    <div class="q-desc">Established local residential areas, more affordable. Authentic neighbourhood life, local markets, shopping centres. Rents: $250–500. For budget-conscious profiles wanting genuine KK residential life. Less premium but practical and well-served.</div>
-  </div>
+  <p class="aff-footer">partner links — at no extra cost to you</p>
 </div>
 
 <h2>Daily life <span class="g">&amp;</span> housing</h2>
@@ -411,5 +415,7 @@ Most cities have a postcard moment. Kota Kinabalu has one that happens every sin
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

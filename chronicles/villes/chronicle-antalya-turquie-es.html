@@ -125,14 +125,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -170,68 +183,62 @@ El teatro de Aspendos fue construido en el año 155 d.C. por el arquitecto Zenó
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepara tu mudanza</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span>
-          <span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Tu cuenta sin fronteras</span>
-          <span class="aff-strip-desc">Tarjeta + transferencias en 40+ divisas al tipo real</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">SIM local activable antes de aterrizar</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Acceso seguro a tus cuentas desde el extranjero</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepara tu mudanza</p>
+    <p class="aff-title">Las herramientas <em>realmente útiles</em> para emigrar</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Desde 45$/mes</span>
       </div>
-      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Seguro de salud mundial pensado para nómadas. Se activa desde cualquier lugar.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Ver la oferta →</a>
+        <span class="aff-social">+1M nómadas</span>
+      </div>
     </div>
-<h2>Antalya en <span class="g">2026</span> — mucho más que un destino de vacaciones</h2>
-
-<p>Antalya es la ciudad que los viajeros conocen por su aeropuerto — la puerta de entrada a las playas turcas para millones de turistas europeos cada verano. Lo que no saben es que decenas de miles de ellos nunca se marcharon. Antalya es el primer destino de jubilación de Turquía, con una de las comunidades expat más consolidadas de todo el Mediterráneo oriental: rusos, alemanes, británicos, neerlandeses, escandinavos, ucranianos. Estos residentes tienen sus propios barrios, asociaciones, restaurantes y médicos angloparlantes o germanoparlantes. Para un recién llegado, la integración en esta comunidad internacional se encuentra entre las más rápidas del mundo turco.</p>
-
-<p>Pero Antalya es también una ciudad de 2,6 millones de habitantes con su propio tejido urbano, sus universidades, su puerto comercial y su admirablemente conservado casco antiguo (<strong>Kaleiçi</strong>) — un laberinto de callejuelas otomanas en torno a un puerto romano encajado en los acantilados, con la <strong>Puerta de Adriano</strong> (130 d.C.) como pieza central. Es la ciudad que construyó su riqueza sobre el turismo pero que no se redujo a él — y para un expatriado que busca lo mejor de dos mundos (confort, sol, mar, precios bajos), suele ser la respuesta.</p>
-
-<div class="note ok">
-  <div class="note-ttl">✓ Una de las comunidades expat más consolidadas del Mediterráneo oriental</div>
-  <p>Antalya alberga decenas de miles de residentes extranjeros permanentes. Las comunidades rusa, alemana, británica y neerlandesa tienen sus propias asociaciones, escuelas, médicos y comercios. La integración en estas redes es una de las más rápidas de Turquía — una ventaja mayor para los recién llegados.</p>
-</div>
-
-<h2>La ciudad — identidad <span class="g">&amp;</span> alma</h2>
-
-<p>Antalya se abre al Mediterráneo como un anfiteatro natural — la ciudad está construida sobre acantilados calcáreos que caen directamente al agua turquesa, con el Tauro nevado como telón de fondo visible desde cualquier terraza. Este entorno natural es posiblemente el más espectacular de todas las ciudades de esta guía. El barrio de <strong>Kaleiçi</strong> (la ciudad amurallada histórica) es una joya de arquitectura otomana conservada casi intacta — casas de madera entramada, callejuelas adoquinadas, pequeñas plazas con palmeras y fuentes, hoteles boutique en mansiones restauradas. Es el alma histórica de la ciudad, a veinte minutos a pie de las grandes playas.</p>
-
-<p>La playa de <strong>Konyaaltı</strong>, al pie de los acantilados al oeste del centro, es una de las playas urbanas más accesibles del Mediterráneo — 7 km de guijarros blancos y aguas turquesas, accesible en tranvía desde el centro. La playa de <strong>Lara</strong>, al este, es más arenosa y está jalonada de grandes hoteles de resort. Y al este de la ciudad, la costa se extiende hacia <strong>Alanya</strong> (130 km), <strong>Side</strong> (75 km) y <strong>Kemer</strong> (45 km) — decenas de kilómetros de litoral mediterráneo accesible desde Antalya.</p>
-
-<div class="pq">
-  <p>Antalya no necesita venderse. Tiene el sol, el mar, los yacimientos antiguos y los precios más bajos del Mediterráneo. Lo que se vende solo es difícil de estropear.</p>
-</div>
-
-<h2>Barrios — <span class="g">¿dónde instalarse?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">Kaleiçi / Casco Antiguo</div>
-    <div class="q-desc">La ciudad histórica amurallada. Callejuelas otomanas, puerto romano, Puerta de Adriano, hoteles boutique. Muy turístico en verano pero auténtico fuera de temporada. Alquileres: $350-600. Ideal para jubilados y amantes de la historia. Ruidoso en julio-agosto.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Tipo real</span>
+      </div>
+      <p class="aff-name">Wise — Cuenta sin fronteras</p>
+      <p class="aff-desc">Tarjeta + transferencias en 40+ divisas. Cero comisiones ocultas.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Abrir una cuenta →</a>
+        <span class="aff-social">16M+ clientes</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Antes de aterrizar</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mundial</p>
+      <p class="aff-desc">SIM local que activas desde tu sofá. 200+ países cubiertos.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Elegir mi eSIM →</a>
+        <span class="aff-social">10M+ usuarios</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Imprescindible</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Acceso seguro a tus cuentas desde el extranjero. Salta las restricciones locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Asegurar mi conexión →</a>
+        <span class="aff-social">Top 1 VPN mundial</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">Konyaaltı / Hurma</div>
-    <div class="q-desc">El barrio residencial expat más apreciado. Playa a pie, restaurantes, cafés, vida de barrio. Alquileres: $280-500. La mejor relación calidad-precio para familias y jubilados activos. Tranvía al centro. Comunidad rusa y europea bien consolidada.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Lara / Güzeloba</div>
-    <div class="q-desc">Zona residencial de alto nivel al este. Playa de arena, urbanizaciones con piscina, restaurantes de calidad. Alquileres: $350-650. Apreciado por familias acomodadas y jubilados que prefieren el confort. Coche recomendado.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Kepez / Varsak</div>
-    <div class="q-desc">Barrios residenciales populares y más baratos en el interior. Menos vistas al mar pero notablemente más asequibles. Alquileres: $200-360. Para presupuestos ajustados o perfiles que no necesitan el mar a diario. Bien comunicados en autobús.</div>
-  </div>
+  <p class="aff-footer">enlaces de afiliado — sin coste adicional para ti</p>
 </div>
 
 <h2>Vida cotidiana <span class="g">&amp;</span> alojamiento</h2>
@@ -414,5 +421,7 @@ El teatro de Aspendos fue construido en el año 155 d.C. por el arquitecto Zenó
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

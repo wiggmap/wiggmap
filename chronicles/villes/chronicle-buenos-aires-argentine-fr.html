@@ -98,14 +98,27 @@ summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-sh
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -152,71 +165,62 @@ Il existe une blague que les Porteños se racontent avec une fierté étrange : 
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton installation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span>
-          <span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span>
-          <span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Carte SIM locale activable avant d'atterrir</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Accès sécurisé à tes comptes depuis l'étranger</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Préparer ton installation</p>
+    <p class="aff-title">Les outils <em>vraiment utiles</em> pour partir</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Dès 45$/mois</span>
       </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Assurance santé mondiale conçue pour les nomades. S'active depuis n'importe où.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Voir l'offre →</a>
+        <span class="aff-social">+1M nomades</span>
+      </div>
     </div>
-<h2>Buenos Aires en <span class="g">2026</span> — la capitale européenne au prix d'Asie du Sud-Est</h2>
-
-<p>Buenos Aires est la capitale fédérale de l'Argentine et la plus grande ville d'Amérique du Sud après São Paulo — 3 millions d'habitants dans la ville autonome, 15 millions dans le Grand Buenos Aires. Fondée en 1536 (puis refondée définitivement en 1580), elle fut le port principal de l'Amérique du Sud espagnole et développa au XIXe siècle une richesse considérable grâce aux exportations de bœuf et de céréales de la pampa. Cette prospérité attira des millions d'immigrés européens — Italiens, Espagnols, Britanniques, Français, Allemands, Juifs ashkénazes — qui construisirent la ville dans un style délibérément européen : haussmanianna parisienne à Recoleta, Art nouveau à San Telmo, Art déco dans le Microcentro. Le résultat est une ville qui ressemble davantage à Naples ou à Madrid qu'à São Paulo ou Mexico.</p>
-
-<p>Pour un expatrié en 2026, BA présente une proposition paradoxale. D'un côté : une des villes les plus culturellement riches, architecturalement belles et gastronomiquement sérieuses d'Amérique Latine, avec une vie nocturne, un théâtre, un cinéma et une scène artistique qui n'ont rien à envier à une capitale européenne. De l'autre : un contexte économique argentin complexe — inflation historique, succession de crises monétaires, dévaluation du peso — qui crée une instabilité de fond. Pour les expatriés avec des revenus en dollars ou en euros, cette instabilité joue souvent en leur faveur : Buenos Aires est l'une des villes les plus abordables de l'hémisphère occidental pour ceux qui gagnent en devises fortes.</p>
-
-<div class="note warn">
-  <div class="note-ttl">⚠️ Contexte économique — lire avant d'arriver</div>
-  <p>L'Argentine de 2026 est en phase de réforme économique majeure sous Milei (élection 2023). L'inflation a été réduite de 211% (2023) à ~60% annuels (2025-2026), ce qui reste élevé. Le peso s'est stabilisé partiellement. Pour un expat en devises fortes : BA reste très abordable. Pour planifier un budget : calculer en USD et convertir au moment des dépenses plutôt que de prévoir en pesos.</p>
-</div>
-
-<h2>La ville — identité <span class="g">&amp;</span> âme</h2>
-
-<p>Buenos Aires est une ville de contradictions productives. Elle est à la fois effrénément vivante et perpétuellement en crise. Ses habitants sont simultanément nostalgiques d'une grandeur passée et fiévreusement créatifs dans le présent. L'architecture de Recoleta — ses immeubles haussmanniens, ses avenues larges, son cimetière de marbre blanc où repose Eva Perón — évoque une capitale européenne qui aurait traversé un siècle de turbulences sans perdre ses proportions. San Telmo, le plus ancien quartier de la ville, est un labyrinthe de pavés et de façades coloniales où les antiquaires voisinent avec les bars à tango et les restaurants de <em>parrilla</em>.</p>
-
-<p>Le <strong>tango</strong> n'est pas un spectacle folklorique à Buenos Aires — c'est une institution sociale vivante. Les milongas (soirées de tango) se tiennent dans des salles qui existent depuis les années 1940. Le tango argentin est une conversation entre deux corps — plus introverti, plus technique, plus exigeant que les versions exportées. Les Porteños qui dansent le tango le font sérieusement, et les milongas les plus réputées maintiennent des codes d'invitation non-verbaux (le <em>cabeceo</em> — léger hochement de tête pour inviter à danser) qui découragent les touristes non initiés. C'est l'une des rares formes artistiques populaires au monde qui demande une acculturation réelle pour être vraiment accessible.</p>
-
-<p>La <strong>gastronomie</strong> porteña repose sur trois piliers. Le premier est la <strong>parrilla</strong> — la grillade de bœuf sur braises de quebracho, avec les coupes asado (plat de côtes), vacío (flanc), ojo de bife (entrecôte) et entraña (hampe) que les bouchers français et les carnivores du monde entier feraient des kilomètres pour manger. Le deuxième est l'<strong>asado</strong> — pas une recette mais un rituel : une réunion dominicale autour du feu, gérée par le <em>asador</em> avec le sérieux d'un liturgiste, qui peut durer 4 à 6 heures et inclure mollejas (ris de veau), chorizos, morcillas (boudins) et plusieurs coupes de bœuf. Le troisième est la <strong>pizza porteña</strong> — épaisse, généreuse, différente de toute pizza italienne, servie en tranches debout dans les pizzerias de quartier depuis les années 1930.</p>
-
-<div class="pq">
-  <p>Buenos Aires à minuit : le restaurant commence à se remplir. La pizzeria d'à côté a une queue dans la rue. À 2h du matin, les bars de Palermo sont combles. La scène de théâtre independiente vient de sortir son public dans la rue. Une ville qui ne commence à vivre qu'après 23h — et qui ne s'en excuse pas.
-  </p>
-</div>
-
-<h2>Quartiers — <span class="g">où s'installer ?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">Palermo (Soho / Hollywood)</div>
-    <div class="q-desc">Le quartier expat et nomad par excellence. Cafés de spécialité, restaurants, bars, coworkings, parcs, librairies. Loyers : $450-900. Le plus vivant, le plus sûr la nuit, le plus dense en communauté internationale. Palermo Soho pour les achats et la vie de rue ; Palermo Hollywood pour la gastronomie et la vie nocturne.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Taux réel</span>
+      </div>
+      <p class="aff-name">Wise — Compte sans frontières</p>
+      <p class="aff-desc">Carte + virements en 40+ devises. Zéro commission cachée.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Ouvrir un compte →</a>
+        <span class="aff-social">16M+ clients</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Avant d'atterrir</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mondiale</p>
+      <p class="aff-desc">Carte SIM locale activable depuis ton canapé. 200+ pays couverts.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Choisir son eSIM →</a>
+        <span class="aff-social">10M+ utilisateurs</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Indispensable</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Accès sécurisé à tes comptes depuis l'étranger. Contourne les restrictions locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Sécuriser ma connexion →</a>
+        <span class="aff-social">Top 1 VPN mondial</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">Recoleta</div>
-    <div class="q-desc">Le quartier haussmannien de BA. Musée des Beaux-Arts, cimetière de la Recoleta, cafés centenaires, ambassades. Loyers : $500-1,100. Pour les profils qui veulent le standing européen et la proximité des institutions culturelles. Moins animé la nuit mais incomparable architecturalement.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">San Telmo</div>
-    <div class="q-desc">Le quartier colonial et bohème. Pavés, antiquaires, tango, marché du dimanche Plaza Dorrego. Loyers : $400-750. Pour les créatifs et amateurs d'atmosphère authentique. Ambiance en constante gentrification — certains blocs sont charmants, d'autres encore très rugueux.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Belgrano / Villa Crespo</div>
-    <div class="q-desc">Quartiers résidentiels établis. Belgrano : calme, bourgeois, bonnes écoles, forte communauté juive et asiatique. Villa Crespo : en pleine gentrification, ateliers d'artistes, gastronomie émergente. Loyers : $380-700. Pour les familles et les long-termers qui veulent le BA local.</div>
-  </div>
+  <p class="aff-footer">liens partenaires — sans surcoût pour toi</p>
 </div>
 
 <h2>Vie quotidienne <span class="g">&amp;</span> logement</h2>
@@ -400,5 +404,7 @@ Il existe une blague que les Porteños se racontent avec une fierté étrange : 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

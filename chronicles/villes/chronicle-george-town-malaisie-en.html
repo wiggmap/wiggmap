@@ -97,14 +97,27 @@ summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-sh
 .links-grid{display:flex;flex-wrap:wrap;gap:8px}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -151,68 +164,62 @@ In 2012, Lithuanian artist Ernest Zacharevic bolted a real bicycle to the wall o
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepare your move</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span>
-          <span class="aff-strip-desc">Global health cover from $45/mo</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Your borderless account</span>
-          <span class="aff-strip-desc">Card + transfers in 40+ currencies at the real rate</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Local SIM card ready before you land</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Secure access to your accounts from abroad</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepare your move</p>
+    <p class="aff-title">The tools <em>you actually need</em> to relocate</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">From $45/mo</span>
       </div>
-      <div class="aff-strip-note">partner links — at no extra cost to you</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Global health insurance built for nomads. Activate from anywhere.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">See the offer →</a>
+        <span class="aff-social">+1M nomads</span>
+      </div>
     </div>
-<h2>George Town in <span class="g">2026</span> — Malaysia's cultural capital</h2>
-
-<p>George Town sits on the northeast tip of Penang Island, about 330 km north of Kuala Lumpur. The city proper has around 700,000 people; the wider Penang conurbation closer to 1.8 million. Francis Light of the British East India Company established a trading post here in 1786, and the colonial infrastructure he laid down — the grid of merchant streets, the mix of Chinese, Indian and Malay communities, the deep natural harbour — shaped the city's character for the next two centuries. In 2008 UNESCO listed George Town alongside Malacca as outstanding examples of multicultural trading port towns in the Straits of Malacca.</p>
-
-<p>For expats in 2026, George Town occupies a very specific niche: it's the kind of place people arrive in for a month and stay in for a year. The cost of living is lower than KL. The food is, by most accounts, better than anywhere else in Southeast Asia. The scale is human — you can walk most of the old town, cycle to the beach, get to know your neighbourhood. The city has a reputation for converting visitors into long-term residents that no amount of marketing could manufacture. It just does it, quietly, through the accumulation of good daily details.</p>
-
-<div class="note">
-  <div class="note-ttl">✓ Southeast Asia's most celebrated food city</div>
-  <p>Lonely Planet, CNN Travel and the New York Times have all put Penang at or near the top of their food destination rankings. Asam laksa regularly makes "world's best dishes" lists. Hawker centres run 24 hours, dishes cost $1.50–4, and the quality at the top end is genuinely competitive with restaurant meals costing ten times as much elsewhere.</p>
-</div>
-
-<h2>The city — identity <span class="g">&amp;</span> soul</h2>
-
-<p>Walk the UNESCO core and you're moving through a compressed history of trade. The <strong>Peranakan shophouses</strong> — those narrow, deep merchant houses built to minimise taxable street frontage — line the lanes in shades of yellow, blue and terracotta, their facades decorated with Portuguese-style tiles, carved timber screens and ornate plasterwork that manages to be Chinese, Malay and colonial European all at once. Nothing about it feels preserved for tourists. People live in these buildings. Laundry hangs from the upper windows. Cats sleep on the five-foot ways.</p>
-
-<p>The <strong>kongsi</strong> clan temples are something else entirely. These Chinese dialect-group associations — essentially mutual aid societies organised by surname — built their temples and meeting halls as statements of permanence and civic pride. The <strong>Khoo Kongsi</strong> on Cannon Square is the most spectacular: a complex of buildings in ornate southern Chinese imperial style, its rooflines bristling with ceramic dragons, that apparently so exceeded what was considered appropriate for a clan association that the original roof collapsed on completion — widely interpreted as a message from the gods to tone it down. The rebuilt version is still extraordinary.</p>
-
-<div class="pq">
-  <p>George Town at six in the morning: the kopitiam on the corner has been pulling kopi-o since 1953, the char kway teow wok is already smoking, a monk in saffron passes the entrance of a Taoist temple. Nowhere else looks quite like this.</p>
-</div>
-
-<h2>Neighbourhoods — <span class="g">where to live?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">UNESCO core (Armenian St / Love Lane)</div>
-    <div class="q-desc">Full immersion: shophouses, street art, specialty coffee, the old town's rhythm. Rents: $400–900 for renovated units. The right choice if you want the authentic George Town experience and can handle some noise. Mornings and evenings are magical; weekend afternoons less so.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Real rate</span>
+      </div>
+      <p class="aff-name">Wise — Borderless account</p>
+      <p class="aff-desc">Card + transfers in 40+ currencies. Zero hidden fees.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Open an account →</a>
+        <span class="aff-social">16M+ customers</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Before you land</span>
+      </div>
+      <p class="aff-name">Airalo — Global eSIM</p>
+      <p class="aff-desc">Local SIM card you activate from your couch. 200+ countries covered.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Pick your eSIM →</a>
+        <span class="aff-social">10M+ users</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Essential</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Secure access to your accounts from abroad. Bypass local restrictions.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Secure my connection →</a>
+        <span class="aff-social">#1 VPN worldwide</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">Pulau Tikus</div>
-    <div class="q-desc">The pick of most long-term expats. Residential, walkable, local market, good cafés, no tour groups. Rents: $300–650. Ten minutes from the old town by bike. WiggMap's consistent recommendation — better value and calmer than the UNESCO core without losing any of the feel.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Gurney / Gurney Drive</div>
-    <div class="q-desc">Modern seafront strip. The Gurney Drive hawker centre is one of Penang's best institutions. Condos, malls, good connectivity. Rents: $400–900. A sensible choice if you want modern amenities and sea views. Less charm than the old town but very practical.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Batu Ferringhi</div>
-    <div class="q-desc">The beach, 25 km from town. Slower pace, resort hotels, seafront restaurants. Rents: $350–800. Works well if the beach matters more than the heritage. Less connected to city life but genuinely pleasant as a long-term coastal base.</div>
-  </div>
+  <p class="aff-footer">partner links — at no extra cost to you</p>
 </div>
 
 <h2>Daily life <span class="g">&amp;</span> housing</h2>
@@ -394,5 +401,7 @@ In 2012, Lithuanian artist Ernest Zacharevic bolted a real bicycle to the wall o
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

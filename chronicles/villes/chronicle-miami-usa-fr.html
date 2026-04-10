@@ -125,14 +125,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -170,43 +183,62 @@ details[open] summary::after{transform:rotate(45deg)}
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton installation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span>
-          <span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span>
-          <span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Carte SIM locale activable avant d'atterrir</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Accès sécurisé à tes comptes depuis l'étranger</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Préparer ton installation</p>
+    <p class="aff-title">Les outils <em>vraiment utiles</em> pour partir</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Dès 45$/mois</span>
       </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Assurance santé mondiale conçue pour les nomades. S'active depuis n'importe où.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Voir l'offre →</a>
+        <span class="aff-social">+1M nomades</span>
+      </div>
     </div>
-<h2>Miami, <span class="g">porte des Amériques</span></h2>
-
-<p>Miami est une ville de contradictions productives. Avec ses 470,000 habitants dans les limites municipales et 6,2 millions dans l'agglomération du Grand Miami, elle est la plus grande ville de Floride et le treizième marché métropolitain des États-Unis. Mais ces chiffres ne disent pas l'essentiel : Miami est la seule grande ville américaine où l'anglais n'est pas la langue dominante dans la vie quotidienne. Environ <strong>70% de la population est hispanique</strong>, et le cubain-américain, le colombien, le vénézuélien et le brésilien forment la colonne vertébrale culturelle réelle de la ville.</p>
-
-<p>Cette identité latine n'est pas ornementale. Elle est structurelle. Miami est depuis les années 1970 le principal hub financier et commercial entre les États-Unis et l'Amérique latine — le lieu où les flux de capitaux, les affaires et les élites économiques de tout le sous-continent se croisent, s'installent et opèrent. Quand une multinationale veut ses opérations Latam à proximité des États-Unis, elle ouvre un bureau à Miami, pas à New York ou Los Angeles. Citibank, eBay, Microsoft, Google, Microsoft, Lennar, World Fuel Services — des dizaines de grandes entreprises ont leur siège ou leur hub Latam ici. La ville est aussi devenue depuis 2020 le hub tech le plus actif du Sun Belt américain, après une migration massive d'entrepreneurs et de fonds de Californie et de New York.</p>
-
-<p>Miami ne s'est pas faite en une génération. Elle a été refaite plusieurs fois. La grande vague cubaine après la révolution de 1959 a d'abord transformé une ville balnéaire secondaire en métropole latinoaméricaine. Les Haïtiens de Petite Haïti ont apporté une autre couche culturelle. Les Colombiens, Vénézuéliens, Brésiliens et Argentins ont rajouté les leurs. Et depuis 2020, une vague de New-Yorkais, San-Franciscains et Européens a accéléré la gentrification d'une ville qui n'avait pas fini d'absorber ses vagues précédentes.</p>
-
-<div class="quartiers">
-  <div class="q-card"><div class="q-name">Brickell</div><div class="q-desc">Le CBD financier. Tours de verre, restaurants gastronomiques, vie nocturne premium. Le "Midtown Manhattan" de Miami. 1BR ~$2,600-3,500. Le choix des jeunes professionnels en finance ou tech.</div></div>
-  <div class="q-card"><div class="q-name">Wynwood</div><div class="q-desc">Le quartier artistique mondialement connu pour ses murales. Galeries, cafés branchés, restaurants créatifs. Très touristique le week-end. 1BR ~$2,200-3,000. Populaire chez les créatifs et les nomads.</div></div>
-  <div class="q-card"><div class="q-name">Coconut Grove</div><div class="q-desc">Le plus ancien quartier de Miami. Arbres, maisons coloniales, marina, ambiance bohème. Proche de Coral Gables. 1BR ~$2,100-2,800. Idéal pour les familles ou les expats qui veulent de l'espace.</div></div>
-  <div class="q-card"><div class="q-name">Edgewater / Midtown</div><div class="q-desc">Entre Wynwood et Brickell. Appartements modernes avec vue sur la baie. Rapport qualité/prix intéressant pour Miami. 1BR ~$2,000-2,600. En développement rapide.</div></div>
-  <div class="q-card"><div class="q-name">South Beach (Miami Beach)</div><div class="q-desc">L'Art Déco iconique, la plage, la fête permanente. Cher et bruyant — peu adapté à une vie résidentielle stable. 1BR ~$2,500-4,000. Plutôt pour un séjour court ou un style de vie très urbain.</div></div>
-  <div class="q-card"><div class="q-name">Little Havana / Coral Way</div><div class="q-desc">L'âme cubaine de Miami. Authentique, moins cher, culturellement dense. 1BR ~$1,600-2,200. Pour les expats qui veulent le vrai Miami sans les prix du centre, avec un espagnol impeccable comme passeport social.</div></div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Taux réel</span>
+      </div>
+      <p class="aff-name">Wise — Compte sans frontières</p>
+      <p class="aff-desc">Carte + virements en 40+ devises. Zéro commission cachée.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Ouvrir un compte →</a>
+        <span class="aff-social">16M+ clients</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Avant d'atterrir</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mondiale</p>
+      <p class="aff-desc">Carte SIM locale activable depuis ton canapé. 200+ pays couverts.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Choisir son eSIM →</a>
+        <span class="aff-social">10M+ utilisateurs</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Indispensable</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Accès sécurisé à tes comptes depuis l'étranger. Contourne les restrictions locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Sécuriser ma connexion →</a>
+        <span class="aff-social">Top 1 VPN mondial</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">liens partenaires — sans surcoût pour toi</p>
 </div>
 
 <div class="orn"><span>· · ✦ · ·</span></div>
@@ -413,5 +445,7 @@ details[open] summary::after{transform:rotate(45deg)}
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

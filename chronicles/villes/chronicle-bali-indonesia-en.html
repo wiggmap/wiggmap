@@ -125,14 +125,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -170,68 +183,62 @@ At six in the morning, Batu Bolong beach in Canggu is empty — just the Indian 
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepare your move</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span>
-          <span class="aff-strip-desc">Global health cover from $45/mo</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Your borderless account</span>
-          <span class="aff-strip-desc">Card + transfers in 40+ currencies at the real rate</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Local SIM card ready before you land</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Secure access to your accounts from abroad</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepare your move</p>
+    <p class="aff-title">The tools <em>you actually need</em> to relocate</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">From $45/mo</span>
       </div>
-      <div class="aff-strip-note">partner links — at no extra cost to you</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Global health insurance built for nomads. Activate from anywhere.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">See the offer →</a>
+        <span class="aff-social">+1M nomads</span>
+      </div>
     </div>
-<h2>Bali in <span class="g">2026</span> — the myth and the reality</h2>
-
-<p>Bali needs no introduction. The destination welcomed over six million international visitors in 2024, and the community of expats and nomads residing there year-round or on a rolling basis far exceeds any official estimate. The Balinese government itself has publicly voiced concern about <strong>overtourism</strong> and pressure on local water, waste and land resources.</p>
-
-<p>And yet, for someone who chooses Bali with clear eyes — understanding its visa constraints, its seasonality, its saturated zones and those that aren't — the island remains an exceptional proposition. The cost of living is among the lowest in Asia for this perceived quality of life. Nature is real and accessible. The international community is the densest and best-organised in Southeast Asia for nomads and creatives. And Balinese cuisine — the kind found in local warungs far from the Kuta tourist trail — is a continuous revelation.</p>
-
-<div class="note warn">
-  <div class="note-ttl">⚠️ Overtourism is real</div>
-  <p>The Indonesian government imposed a tourist levy of 150,000 IDR (~$10) per foreign visitor since 2024. Canggu and Seminyak face chronic traffic. The rental market in these areas has risen 30–40% since 2022. These dynamics should factor into any decision to settle here.</p>
-</div>
-
-<h2>The island — identity <span class="g">&amp;</span> soul</h2>
-
-<p>Bali is not a city but an island — and the most common mistake newcomers make is treating it like one. <strong>Denpasar</strong>, the administrative capital (900,000 people), is an ordinary Indonesian city: dense, noisy, functional, with extraordinary markets and a genuine local urban fabric. Most expats don't settle there. <strong>Canggu</strong>, west of Denpasar, has become the global epicentre of digital nomadism: wifi cafés, yoga studios, restaurants from every corner of the world, affordable pool villas, and a density of online entrepreneurs that would outshine entire neighbourhoods of Berlin or Lisbon.</p>
-
-<p>But Bali is also <strong>Ubud</strong>, in the island's heartland, surrounded by terraced rice fields and jungle — where artists, craftspeople and those seeking something quieter than Canggu eventually settle. It's <strong>Seminyak</strong>, sleeker and livelier. It's <strong>Amed</strong> or <strong>Sidemen</strong> in the east, still largely spared from mass tourism. And it's a Balinese Hindu culture of remarkable richness and coherence — the ceremonies, the daily offerings (canang sari), the temples, the dances — which exist in parallel to the tourist circus, and which deserve genuine respect and attention.</p>
-
-<div class="pq">
-  <p>Bali is the only place on earth where you can surf in the morning, meditate at sunset in a Hindu temple, and attend a startup meeting at a pool party that same evening. That's not a flaw — it's the offer.</p>
-</div>
-
-<h2>Areas — <span class="g">where to live?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">Canggu</div>
-    <div class="q-desc">The global capital of digital nomadism. Wifi cafés (Dojo, Outpost, Bali Bustle), pool villas, yoga studios, surf beaches. Dense and noisy in high season. Studio: $300–500/month. Best for under-35s, solo travellers or couples.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Real rate</span>
+      </div>
+      <p class="aff-name">Wise — Borderless account</p>
+      <p class="aff-desc">Card + transfers in 40+ currencies. Zero hidden fees.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Open an account →</a>
+        <span class="aff-social">16M+ customers</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Before you land</span>
+      </div>
+      <p class="aff-name">Airalo — Global eSIM</p>
+      <p class="aff-desc">Local SIM card you activate from your couch. 200+ countries covered.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Pick your eSIM →</a>
+        <span class="aff-social">10M+ users</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Essential</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Secure access to your accounts from abroad. Bypass local restrictions.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Secure my connection →</a>
+        <span class="aff-social">#1 VPN worldwide</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">Seminyak</div>
-    <div class="q-desc">Upscale neighbour to Canggu, with better fine dining and a premium beach club scene. Less nomad-friendly, more lifestyle-stay oriented. Rents slightly higher ($400–650). Good for entrepreneurs who receive clients.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Ubud</div>
-    <div class="q-desc">The artistic and spiritual counterpoint. Rice terraces, jungle, yoga, craft workshops, farmers' markets. Less reliable internet than the coast. Ideal for creatives, writers, and families seeking nature. Very gentle rents ($200–400).</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Sanur / Denpasar</div>
-    <div class="q-desc">Sanur is the calm residential zone, popular with families and retirees. Less touristy than Canggu/Seminyak, more local. Denpasar is the real Balinese city: markets, local life, lower prices. For those wanting authenticity over scene.</div>
-  </div>
+  <p class="aff-footer">partner links — at no extra cost to you</p>
 </div>
 
 <h2>Daily life <span class="g">&amp;</span> housing</h2>
@@ -436,5 +443,7 @@ At six in the morning, Batu Bolong beach in Canggu is empty — just the Indian 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

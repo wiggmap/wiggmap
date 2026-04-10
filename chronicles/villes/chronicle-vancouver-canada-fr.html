@@ -283,14 +283,27 @@ details[open] summary::after{transform:rotate(45deg)}
 
 /* ── DISC ───────────────────────────────────── */
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -349,134 +362,63 @@ details[open] summary::after{transform:rotate(45deg)}
     </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton installation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span>
-          <span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span>
-          <span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Carte SIM locale activable avant d'atterrir</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Accès sécurisé à tes comptes depuis l'étranger</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Préparer ton installation</p>
+    <p class="aff-title">Les outils <em>vraiment utiles</em> pour partir</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Dès 45$/mois</span>
       </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
-    </div>
-    <h2>Une ville qui <span class="g">assume sa beauté</span></h2>
-
-    <p>Il y a une blague qui circule à Vancouver depuis des décennies : un Vancouvérois ne possède pas de parapluie. Pas parce qu'il n'y a pas de pluie — il y en a, surtout de novembre à mars. Mais parce que l'utiliser serait admettre que la pluie gagne. Cette résistance silencieuse au mauvais temps est peut-être la chose la plus révélatrice sur l'état d'esprit de la ville : Vancouver sait qu'elle est belle, elle sait ce qu'elle a à offrir, et elle n'en fait pas des tonnes pour le justifier.</p>
-
-    <p>Vancouver — 2,7 millions d'habitants dans le Grand Vancouver, Colombie-Britannique, sur le Pacifique — est la troisième ville du Canada et son visage sur l'Asie. L'aéroport international de Vancouver (YVR) est le hub canadien du Pacifique : vols directs vers Tokyo, Séoul, Hong Kong, Shanghai, Sydney, Auckland. La ville est à trois heures de vol de Los Angeles et à neuf heures de Londres. Sa position géographique en fait un nœud de communication qui n'a pas d'équivalent dans le reste du pays.</p>
-
-    <p>Mais Vancouver est d'abord une expérience sensorielle. Skyline de verre et d'acier encadrée par les sommets enneigés des Monts North Shore. Stanley Park — 404 hectares de forêt ancienne de cèdres et de sapins Douglas, traversée par 25 kilomètres de pistes cyclables et pédestres, avec des vues sur les Rocheuses depuis la promenade côtière (<em>seawall</em>) — à cinq minutes à pied du downtown. Des plages de sable (Kitsilano, English Bay) directement accessibles en métro depuis le centre des affaires. C'est cette imbrication absolument anormale entre une grande ville et un environnement naturel de premier rang mondial qui définit Vancouver comme aucune autre ville ne le fait.</p>
-
-    <div class="pq">
-      <p>Nulle part ailleurs au monde tu n'es à la fois à quinze minutes d'une station de ski, à dix minutes d'une plage et à trente minutes d'une grande ville. Vancouver fait quelque chose d'impossible, et elle le fait tous les jours.</p>
-    </div>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <h2>Vancouver en chiffres — <span class="g">snapshot 2026</span></h2>
-
-    <div class="note">
-      <div class="note-ttl">💱 Taux de change indicatif</div>
-      <p>Tous les prix sont en dollars américains. Taux de référence : 1 CAD ≈ 0,745 USD (mars 2026). Les tarifs en dollars canadiens sont indiqués entre parenthèses pour référence.</p>
-    </div>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <h2>L'âme de Vancouver — <span class="g">une ville nature</span></h2>
-
-    <p>Vancouver a un rapport particulier avec son environnement naturel — pas celui d'une ville qui offre de belles escapades le week-end, mais celui d'une ville dont la nature est la constituante première. Le mont <strong>Grouse</strong>, à 30 minutes du centre en voiture, est ouvert de décembre à mars pour le ski alpin. Les mounts <strong>Cypress</strong> et <strong>Seymour</strong> sont sur les North Shore Mountains, accessibles en 25 minutes. <strong>Whistler</strong> — l'une des meilleures stations de ski au monde, hôte des Jeux olympiques d'hiver 2010 — est à deux heures. Et les pistes cyclables de la <em>seawall</em> de Stanley Park permettent de faire le tour de la péninsule (22 km) avec une vue permanente sur les Rocheuses enneigées et les eaux du Burrard Inlet.</p>
-
-    <p>La ville a été surnommée <em>"Hollywood du Nord"</em> — elle est, avec Toronto, l'un des principaux centres de production cinématographique et télévisuelle d'Amérique du Nord. Netflix, Disney, Amazon Prime ont tous des productions tournées à Vancouver à longueur d'année. Cette industrie a contribué à façonner une ville où créatifs, techniciens et professionnels de tous horizons côtoient des profils corporate et tech dans une ambiance plus décontractée que Toronto. Le dress code y est de facto : tenue outdoor acceptable partout.</p>
-
-    <p>Vancouver est aussi la porte d'entrée asiatique du Canada. La communauté chinoise est la plus grande du pays — Richmond (suburb adjacent) abrite une concentration de culture et de gastronomie cantonaise et de Chine continentale qui rivalise avec les Chinatowns d'Asie. Les communautés indiennes (punjabi principalement, concentrées à Surrey), philippines, coréennes et japonaises font de la métro de Vancouver l'une des places les plus authentiquement pan-asiatiques hors Asie.</p>
-
-    <div class="note warn">
-      <div class="note-ttl">🌧️ La pluie de Vancouver — comment y survivre</div>
-      <p>De novembre à mars, Vancouver est une ville grise. Pas de froid paralysant comme à Toronto ou Montréal — les températures restent positives (4-10°C), mais la pluie et la grisaille s'installent pendant des semaines. Le <em>"Vancouver Blues"</em> ou <em>"Seasonal Affective Disorder"</em> (dépression saisonnière) est suffisamment répandu pour avoir son propre surnom local. Les stratégies des Vancouvérois : pratiquer un sport d'extérieur (randonnée sous la pluie, ski sur les North Shore Mountains), investir dans des équipements outdoor imperméables de qualité, et planifier des échappées dans le sud (Seattle à 2h30, San Francisco à 2h30 d'avion) en janvier-février. La récompense est garantie : les étés de Vancouver (juin-septembre) sont parmi les plus beaux du continent.</p>
-    </div>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <h2>Logement — <span class="g">le renversement historique</span></h2>
-
-    <p>Voici la nouvelle la plus importante pour tout expatrié envisageant Vancouver : le marché locatif de la ville a subi un renversement historique en 2025. La vacance a plus que doublé, passant de 1,6% en 2024 à <strong>3,7% en octobre 2025</strong> selon la CMHC — le taux le plus élevé depuis 1988. Le gouvernement de Colombie-Britannique parle lui-même de "résultats prometteurs" sur l'abordabilité. Les loyers demandés ont baissé de <strong>8,5% sur deux ans</strong>, soit la plus forte correction locative du Canada.</p>
-
-    <p>Pour un appartement d'une chambre en ville de Vancouver, le loyer moyen tourne autour de CAD $2 400/mois (~$1 800 USD) en 2025 selon RentSeeker et CMHC — en baisse significative par rapport aux CAD $2 800-3 000 des années 2022-2023. Les quartiers les moins chers tout en restant connectés : <strong>East Van</strong> (Commercial Drive, Hastings Sunrise — CAD $2 000-2 200/mois), <strong>Burnaby</strong> (CAD $2 100-2 300/mois), <strong>New Westminster</strong> (CAD $1 800-2 000/mois). Les plus chers : <strong>Yaletown</strong>, <strong>Coal Harbour</strong>, <strong>Point Grey</strong> — où les condos de luxe dépassent CAD $3 500-4 000/mois.</p>
-
-    <p>La propriété reste la question épineuse. Même après une correction des prix depuis 2022, la médiane des condos downtown tourne autour de CAD $750 000-800 000. Vancouver est, avec Hong Kong, Singapour et Sydney, l'une des villes les moins abordables à l'achat au monde par rapport aux salaires locaux. Pour la grande majorité des expatriés, la location est la voie réaliste.</p>
-
-    <div class="note info">
-      <div class="note-ttl">🏥 MSP — assurance santé de la Colombie-Britannique</div>
-      <p>Le <em>BC Medical Services Plan</em> (MSP) couvre les soins médicaux essentiels pour les résidents de la province. Bonne nouvelle : contrairement à l'Ontario (OHIP) et au Québec (RAMQ), la Colombie-Britannique n'impose pas de délai de carence — la couverture débute généralement dès l'arrivée pour les titulaires de permis de travail ou de résidence. Cependant, l'inscription n'est pas automatique : il faut faire une demande au Health Insurance BC dans les 30 jours suivant l'arrivée. Une assurance santé privée est recommandée pour la période de traitement de la demande.</p>
-    </div>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <h2>Travailler <span class="g">depuis Vancouver</span></h2>
-
-    <p>Vancouver est devenue l'un des principaux hubs technologiques d'Amérique du Nord — souvent surnommé <em>"Silicon North"</em> dans la presse spécialisée. Amazon a installé son deuxième plus grand campus mondial hors Seattle à Vancouver (plus de 10 000 employés). Microsoft, Apple, Google, Salesforce ont des bureaux majeurs en ville. Electronic Arts et NVIDIA ont des studios ici. La startup scene est active dans les secteurs fintech, cleantech, gaming et biotech. Des licornes comme Hootsuite et Limeade sont nées à Vancouver.</p>
-
-    <p>La position sur le fuseau horaire PST (UTC-8) est un avantage réel pour ceux qui travaillent avec la côte ouest américaine (Seattle, San Francisco, Los Angeles) — Vancouver et Seattle partagent le même timezone, et la coordination avec les hubs tech américains est sans friction. Pour les nomads qui travaillent avec l'Asie, le PST crée des chevauchements utiles en début de matinée avec Tokyo (+17h), Shanghai (+16h) et Singapour (+15h).</p>
-
-    <p>Le réseau de coworking est solide : <strong>Spaces</strong> (plusieurs adresses downtown), <strong>Regus</strong>, <strong>WeWork</strong>, <strong>Platform</strong> (Gastown — l'un des meilleurs espaces startup de la ville), <strong>Ampersand</strong> (Mount Pleasant). La scène coffee-shop pour travailler est exceptionnelle — Vancouver est unanimement reconnue pour la qualité de ses cafés de spécialité (Matchstick, Revolver, 49th Parallel, Bows & Arrows) qui sont de facto des espaces de travail informels très appréciés.</p>
-
-    <div class="note">
-      <div class="note-ttl">🛂 Travailler légalement au Canada depuis Vancouver</div>
-      <p>Mêmes voies qu'à Toronto ou Montréal : Visa Vacances-Travail (WHV, jusqu'à 35 ans selon les pays), Entrée express (résidence permanente pour profils qualifiés), permis de travail ouvert pour conjoints de titulaires. Le programme <em>BC Provincial Nominee Program</em> (BC PNP) cible spécifiquement les travailleurs qualifiés en demande dans l'économie de la Colombie-Britannique — notamment tech, santé, éducation. Les ressortissants américains bénéficient de procédures simplifiées via l'ACEUM.</p>
-    </div>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <h2>Santé <span class="g">&amp;</span> Sécurité</h2>
-
-    <p>Le système de santé est excellent. Le <em>Vancouver General Hospital</em> (VGH) et le <em>UBC Hospital</em> sont des hôpitaux de niveau mondial — VGH est l'un des centres de traumatologie et de transplantation les plus importants du Canada. Le <em>BC Children's Hospital</em> est l'hôpital pédiatrique de référence de la province. La couverture MSP sans délai de carence est un avantage concret par rapport à Ontario ou Québec. Comme partout au Canada, trouver un médecin de famille (GP) prend du temps — les cliniques walk-in et les centres de santé (<em>urgent and primary care centres</em>) comblent le vide en attendant.</p>
-
-    <p>La sécurité à Vancouver est un sujet plus nuancé qu'à Toronto ou Montréal. La ville est globalement très sûre, et les quartiers résidentiels (Kitsilano, Point Grey, West End, Mount Pleasant, Strathcona) sont parmi les plus tranquilles d'une grande ville nord-américaine. Cependant, le <strong>Downtown Eastside (DTES)</strong> — le quartier centré autour de Hastings et Main — concentre la crise des opioïdes et de la pauvreté urbaine canadienne de manière visible et intense. Ce quartier est bien délimité et ses enjeux bien connus des résidents. Il n'est pas dangereux pour un passant attentif, mais son atmosphère peut être saisissante pour un nouvel arrivant.</p>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <h2>Quartiers <span class="g">&amp;</span> Nature</h2>
-
-    <p>Vancouver ne se comprend pas seulement par ses quartiers — elle se comprend aussi par ses parcs, ses plages et ses spots de nature immédiate. La frontière entre la ville et l'environnement naturel est ici plus floue qu'en n'importe quelle autre grande métropole du continent.</p>
-
-    <div class="quartiers">
-      <div class="q-card">
-        <div class="q-name">Gastown</div>
-        <div class="q-desc">Quartier historique. Pavés victoriens, horloge à vapeur, restos gastronomiques, galeries, startups. L'âme bohème du centre.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Kitsilano</div>
-        <div class="q-desc">Le quartier plage. Kitsilano Beach, restos animés sur West 4th, yoga studios, ambiance California sur fond de Rocheuses.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Commercial Drive</div>
-        <div class="q-desc">"The Drive" — bohème, multiculturel, alter. Cafés italiens historiques, bars indépendants, scène musicale live. Le moins conformiste.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Mount Pleasant</div>
-        <div class="q-desc">En pleine mutation. Studios d'artistes, breweries artisanales, restaurants créatifs, bureaux tech. Le Brooklyn de Vancouver.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">West End</div>
-        <div class="q-desc">Dense, résidentiel, English Bay Beach à deux pas. Quartier LGBT+ historique, art déco rénové, village urbain sur Davie Street.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Coal Harbour</div>
-        <div class="q-desc">Le quartier premium. Condos de luxe face à l'inlet, marina, terrasses sur l'eau, accès direct à la seawall de Stanley Park.</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Assurance santé mondiale conçue pour les nomades. S'active depuis n'importe où.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Voir l'offre →</a>
+        <span class="aff-social">+1M nomades</span>
       </div>
     </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Taux réel</span>
+      </div>
+      <p class="aff-name">Wise — Compte sans frontières</p>
+      <p class="aff-desc">Carte + virements en 40+ devises. Zéro commission cachée.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Ouvrir un compte →</a>
+        <span class="aff-social">16M+ clients</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Avant d'atterrir</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mondiale</p>
+      <p class="aff-desc">Carte SIM locale activable depuis ton canapé. 200+ pays couverts.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Choisir son eSIM →</a>
+        <span class="aff-social">10M+ utilisateurs</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Indispensable</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Accès sécurisé à tes comptes depuis l'étranger. Contourne les restrictions locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Sécuriser ma connexion →</a>
+        <span class="aff-social">Top 1 VPN mondial</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">liens partenaires — sans surcoût pour toi</p>
+</div>
 
     <div class="orn"><span>· · ✦ · ·</span></div>
 
@@ -751,5 +693,7 @@ details[open] summary::after{transform:rotate(45deg)}
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

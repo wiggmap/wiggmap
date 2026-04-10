@@ -125,14 +125,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -168,43 +181,62 @@ details[open] summary::after{transform:rotate(45deg)}
 <p class="lead">Le pont Dom Luís I est à double étage : en bas, les voitures et les piétons ; en haut, la ligne de métro et, à nouveau, les piétons — ceux qui acceptent le vertige de marcher au-dessus du Douro à soixante mètres d'altitude, avec les caves à porto de Vila Nova de Gaia d'un côté et le quartier de la Ribeira de l'autre. Depuis ce pont — conçu par un élève de Gustave Eiffel en 1886 — Porto se comprend d'un coup d'œil : une ville dense sur ses collines de granit, construite sur l'idée que la beauté et la fonctionnalité n'ont aucune raison d'être séparées. Les Portuenses ont une expression : <em>«Porto trabalha, Braga reza, Coimbra estuda, Lisboa diverte-se.»</em> Porto travaille. C'était vrai au XIXe siècle. C'est encore vrai aujourd'hui — sauf que le travail, désormais, se fait souvent depuis un laptop dans un café de Cedofeita.</p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton installation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span>
-          <span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span>
-          <span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Carte SIM locale activable avant d'atterrir</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Accès sécurisé à tes comptes depuis l'étranger</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Préparer ton installation</p>
+    <p class="aff-title">Les outils <em>vraiment utiles</em> pour partir</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Dès 45$/mois</span>
       </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Assurance santé mondiale conçue pour les nomades. S'active depuis n'importe où.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Voir l'offre →</a>
+        <span class="aff-social">+1M nomades</span>
+      </div>
     </div>
-<h2>La ville <span class="g">de granit et de vin</span></h2>
-
-<p>Porto est la deuxième ville du Portugal avec ses 240 000 habitants intra-muros et 1,7 million dans l'aire métropolitaine. C'est peu, comparé à Lisbonne — et c'est précisément ce qui lui donne son caractère. Porto est une ville qui se traverse entièrement à pied en une heure, mais qui récompense ceux qui ralentissent : chaque ruelle de la Ribeira cache une façade en azulejos que personne n'est venu photographier, chaque café du Bonfim sert un café à 85 centimes de dollar comme si la notion de marge n'avait pas encore atteint ce quartier.</p>
-
-<p>La relation de Porto avec le vin de Porto est souvent mal comprise. Le <strong>vinho do Porto</strong> ne vient pas de Porto — il vient des vignes du Haut-Douro, classées au patrimoine mondial de l'UNESCO, à 100 kilomètres à l'est. Porto est la ville par où il a toujours été exporté, et où les caves de vieillissement (<em>lodges</em>) se sont installées sur la rive sud du Douro, à Vila Nova de Gaia, depuis le XVIIe siècle. Les noms sont anglais — Sandeman, Graham's, Taylor's, Ramos Pinto — parce que ce sont des négociants britanniques qui ont développé le commerce au XVIIIe siècle, bénéficiant d'un accès privilégié au marché anglais après le traité de Methuen de 1703. Visiter une cave à porto n'est pas touristique — c'est comprendre pourquoi cette ville a été construite.</p>
-
-<p>L'architecture de Porto est une déclaration. Le granit gris qui constitue les murs des édifices, des ponts, des pavés absorbe la lumière d'une façon que le calcaire de Lisbonne ne fait pas — Porto est plus sombre, plus dense, plus sérieuse dans son rapport à l'espace. Et pourtant, les azulejos bleus qui couvrent les façades de la gare de São Bento (24 000 carreaux racontant l'histoire du Portugal), de l'Igreja do Carmo ou de dizaines d'immeubles ordinaires créent un contraste saisissant entre la sévérité du granit et la narrativité de la céramique. Porto est une ville qu'on lit autant qu'on la voit.</p>
-
-<div class="quartiers">
-  <div class="q-card"><div class="q-name">Ribeira</div><div class="q-desc">Le cœur médiéval au bord du Douro, classé UNESCO. Façades colorées à pic sur le fleuve, restaurants de fruits de mer, terrasses avec vue sur Gaia. Très touristique. 1BR ~$950–1 300. Pour qui veut l'âme historique de Porto sans condition.</div></div>
-  <div class="q-card"><div class="q-name">Bonfim</div><div class="q-desc">Le quartier en vogue depuis 2018. Mélange de résidents locaux et d'expats, café-librairies, épiceries bio, studios design. 1BR ~$750–1 000. Le meilleur rapport authenticité / confort de Porto aujourd'hui.</div></div>
-  <div class="q-card"><div class="q-name">Cedofeita</div><div class="q-desc">Le quartier bobo par excellence. Galeries d'art, antiquaires, librairie Lello à deux pas. 1BR ~$800–1 100. La rue Miguel Bombarda est le cœur de la scène créative portuense.</div></div>
-  <div class="q-card"><div class="q-name">Foz do Douro</div><div class="q-desc">L'embouchure du fleuve sur l'Atlantique. Résidentiel, calme, bourgeois. Plages accessibles, promenade le long de l'océan. 1BR ~$900–1 300. Le choix des familles et des retraités aisés.</div></div>
-  <div class="q-card"><div class="q-name">Matosinhos</div><div class="q-desc">Le quartier des pêcheurs devenu branché. Marché aux poissons, restaurants de grillades, plage urbaine. 1BR ~$700–950. Porto à taille humaine avec l'océan au bout de la rue.</div></div>
-  <div class="q-card"><div class="q-name">Baixa / Centre</div><div class="q-desc">Le centre commerçant et administratif. Avenida dos Aliados, Praça da Liberdade, gare de São Bento. Dense, animé, moins résidentiel. 1BR ~$800–1 050. Idéal pour l'accessibilité maximale.</div></div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Taux réel</span>
+      </div>
+      <p class="aff-name">Wise — Compte sans frontières</p>
+      <p class="aff-desc">Carte + virements en 40+ devises. Zéro commission cachée.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Ouvrir un compte →</a>
+        <span class="aff-social">16M+ clients</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Avant d'atterrir</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mondiale</p>
+      <p class="aff-desc">Carte SIM locale activable depuis ton canapé. 200+ pays couverts.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Choisir son eSIM →</a>
+        <span class="aff-social">10M+ utilisateurs</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Indispensable</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Accès sécurisé à tes comptes depuis l'étranger. Contourne les restrictions locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Sécuriser ma connexion →</a>
+        <span class="aff-social">Top 1 VPN mondial</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">liens partenaires — sans surcoût pour toi</p>
 </div>
 
 <div class="orn"><span>· · ✦ · ·</span></div>
@@ -422,5 +454,7 @@ details[open] summary::after{transform:rotate(45deg)}
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

@@ -125,14 +125,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -168,43 +181,62 @@ details[open] summary::after{transform:rotate(45deg)}
 <p class="lead">L'atterrissage à Madère est l'un des plus spectaculaires d'Europe — la piste de l'aéroport Cristiano Ronaldo est posée sur des piliers au-dessus de l'Atlantique, prolongée de 800 mètres en mer pour compenser l'impossible géographie volcanique de l'île. On touche le sol et, immédiatement, on comprend quelque chose : Funchal n'obéit pas aux règles ordinaires de la géographie européenne. La ville s'étage à flanc de montagne entre l'océan et des sommets qui dépassent 1 800 mètres. En janvier, on peut nager en mer le matin et voir de la neige au sommet du Pico Ruivo l'après-midi. Des fleurs d'oiseaux de paradis poussent au bord des routes comme d'autres pays font pousser du gazon. Et la température, ce mois de janvier, est de 19 degrés.</p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton installation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span>
-          <span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span>
-          <span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Carte SIM locale activable avant d'atterrir</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Accès sécurisé à tes comptes depuis l'étranger</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Préparer ton installation</p>
+    <p class="aff-title">Les outils <em>vraiment utiles</em> pour partir</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Dès 45$/mois</span>
       </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Assurance santé mondiale conçue pour les nomades. S'active depuis n'importe où.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Voir l'offre →</a>
+        <span class="aff-social">+1M nomades</span>
+      </div>
     </div>
-<h2>L'île <span class="g">au printemps permanent</span></h2>
-
-<p>Madère est une île volcanique portugaise en plein Atlantique, à 900 km des côtes du Portugal continental et à 520 km du Maroc — géographiquement plus proche de l'Afrique que de Lisbonne. Funchal, la capitale, compte environ 111 000 habitants dans les limites municipales, 290 000 sur l'île entière. C'est une capitale insulaire à taille humaine, construite en amphithéâtre sur des pentes escarpées, dont l'ambiance mêle l'urbanité d'une vraie ville, la végétation tropicale d'un jardin botanique permanent et la sérénité d'une destination où personne n'est jamais vraiment pressé.</p>
-
-<p>Le climat de Madère est l'argument le plus fort de l'île pour les expats. Funchal enregistre des températures comprises entre <strong>18 et 25°C toute l'année</strong> — jamais de gel, jamais de canicule, jamais de mois véritablement désagréable. L'île est surnommée l'<em>Île aux Fleurs</em> et l'<em>Île du Printemps Éternel</em> — deux surnoms qui ne sont pas du marketing touristique mais une description climatologique assez exacte. Ce régime climatique exceptionnel tient à la position géographique : les alizés atlantiques tempèrent les étés, l'influence des courants chauds nord-africains empêche les hivers froids. Les précipitations tombent surtout sur les hauteurs du nord de l'île — le sud, où se trouve Funchal, est nettement plus ensoleillé.</p>
-
-<p>La nature de Madère est classée à part entière. La <strong>Laurisilva de Madère</strong> — forêt laurifère primaire qui couvre environ 22 % de la surface de l'île — est inscrite au patrimoine mondial de l'UNESCO depuis 1999. C'est l'une des dernières forêts de ce type au monde, vestige d'une végétation qui couvrait une grande partie de l'Europe il y a 15 millions d'années, avant les glaciations. Les <strong>levadas</strong> — canaux d'irrigation construits à partir du XVe siècle pour acheminer l'eau des hauteurs pluvieuses du nord vers les terres sèches du sud — sont aujourd'hui les axes principaux d'un réseau de randonnée de 2 500 kilomètres qui traverse la forêt laurifère, les falaises, les tunnels taillés dans la roche. Marcher le long d'une levada à 1 200 mètres d'altitude, dans une végétation qui n'existe nulle part ailleurs en Europe, à 2 heures de vol de Paris — c'est l'expérience définitive de Madère.</p>
-
-<div class="quartiers">
-  <div class="q-card"><div class="q-name">Zona Velha</div><div class="q-desc">Le vieux quartier des pêcheurs, reconverti en cœur culturel et festif de Funchal. Rues peintes de street art, restaurants de poissons, bars animés. 1BR ~$900–1 200. L'âme populaire de Funchal modernisée sans se trahir.</div></div>
-  <div class="q-card"><div class="q-name">Lido</div><div class="q-desc">Le quartier touristique et résidentiel le long du front de mer. Piscines naturelles d'eau de mer, hôtels, restaurants internationaux. 1BR ~$950–1 300. Le choix des expats qui veulent confort et vue sur l'Atlantique.</div></div>
-  <div class="q-card"><div class="q-name">Monte</div><div class="q-desc">Quartier en hauteur avec jardins tropicaux, église Nossa Senhora do Monte, toboggan historique. Vue panoramique sur Funchal et la baie. 1BR ~$750–1 000. Calme, verdoyant, typiquement madeiran.</div></div>
-  <div class="q-card"><div class="q-name">São Martinho</div><div class="q-desc">Quartier résidentiel calme à l'ouest, prisé des familles locales et des expats établis. Bonne infrastructure, moins touristique. 1BR ~$700–950. Le meilleur rapport qualité/vie quotidienne de Funchal.</div></div>
-  <div class="q-card"><div class="q-name">Santo António</div><div class="q-desc">Quartier populaire résidentiel au nord-ouest, quartier natal de Cristiano Ronaldo. Authentique, peu touristique, commerces locaux. 1BR ~$600–800. Pour vivre comme un Madeiran.</div></div>
-  <div class="q-card"><div class="q-name">Câmara de Lobos</div><div class="q-desc">Village de pêcheurs à 5 km à l'ouest, rendu célèbre par Churchill qui venait y peindre. Falaises spectaculaires, authentique, en développement doux. 1BR ~$650–850. L'alternative expat romantique.</div></div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Taux réel</span>
+      </div>
+      <p class="aff-name">Wise — Compte sans frontières</p>
+      <p class="aff-desc">Carte + virements en 40+ devises. Zéro commission cachée.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Ouvrir un compte →</a>
+        <span class="aff-social">16M+ clients</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Avant d'atterrir</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mondiale</p>
+      <p class="aff-desc">Carte SIM locale activable depuis ton canapé. 200+ pays couverts.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Choisir son eSIM →</a>
+        <span class="aff-social">10M+ utilisateurs</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Indispensable</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Accès sécurisé à tes comptes depuis l'étranger. Contourne les restrictions locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Sécuriser ma connexion →</a>
+        <span class="aff-social">Top 1 VPN mondial</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">liens partenaires — sans surcoût pour toi</p>
 </div>
 
 <div class="orn"><span>· · ✦ · ·</span></div>
@@ -422,5 +454,7 @@ details[open] summary::after{transform:rotate(45deg)}
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

@@ -268,14 +268,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -330,126 +343,63 @@ details[open] summary::after{transform:rotate(45deg)}
     </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepare your move</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span>
-          <span class="aff-strip-desc">Global health cover from $45/mo</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Your borderless account</span>
-          <span class="aff-strip-desc">Card + transfers in 40+ currencies at the real rate</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Local SIM card ready before you land</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Secure access to your accounts from abroad</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepare your move</p>
+    <p class="aff-title">The tools <em>you actually need</em> to relocate</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">From $45/mo</span>
       </div>
-      <div class="aff-strip-note">partner links — at no extra cost to you</div>
-    </div>
-    <h2>Calgary, the city that pays <span class="g">no provincial tax</span></h2>
-
-    <p>Calgary — 1.4 million people in Greater Calgary, Alberta, at the foot of the Canadian Rockies — is the largest city in the Prairies and the province's economic heart. Its population growth is the fastest in Canada since 2020: fuelled by interprovincial migration (people leaving Toronto and Vancouver for a more manageable cost of living) and international immigration. This dynamic has transformed a city long perceived as exclusively oil-driven into a diversified metropolis — tech, finance, agriculture, renewable energy — with a cultural and food scene that has caught everyone off guard.</p>
-
-    <p>And then there is the geography. Calgary sits on the Prairies but less than an hour's drive from the Canadian Rockies — one of the most spectacular landscapes on the continent. Banff, Lake Louise, Kananaskis Country, Bow Valley Provincial Park: from Calgary, all of it is a weekend road trip, not a multi-day journey.</p>
-
-    <div class="pq">
-      <p>I left Vancouver for Calgary in 2023. My rent was cut in half, my net salary went up 12%, and I'm at Banff in 90 minutes. My friends in Vancouver still don't understand why they stay.</p>
-    </div>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <h2>The tax argument — Calgary's biggest advantage <span class="g">on paper</span></h2>
-
-    <div class="note">
-      <div class="note-ttl">🧾 Zero provincial income tax in Alberta</div>
-      <p>Alberta is the only major Canadian province that levies no provincial income tax. Every other province charges one, on top of the federal rate. The concrete impact on your take-home pay is immediate and permanent.</p>
-    </div>
-
-    <p>Concrete example: for a gross salary of CAD $100,000, provincial tax represents approximately: <strong>Calgary (Alberta) 0%</strong> — federal income tax only; <strong>Toronto (Ontario) ~9.1%</strong> — roughly CAD $9,100 in additional provincial tax; <strong>Vancouver (BC) ~8.7%</strong> — roughly CAD $8,700; <strong>Montreal (Quebec) ~17.8%</strong> — Quebec has the highest provincial rates in Canada.</p>
-
-    <p style="font-size:13px;color:var(--ink3)">* These figures are indicative for a CAD $100k income. Actual rates vary by income bracket, credits and deductions. Consult a tax accountant for a personalised calculation.</p>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <h2>The rental market — Canada's best <span class="g">correction</span></h2>
-
-    <p>Calgary went through two extraordinary years in its rental market. In 2023, vacancy sat at 1.4% — the market was in crisis, landlords called all the shots. In 2025, vacancy climbed to 4.8-5.8% depending on the source (CMHC and liv.rent) — one of the strongest increases in the country. Asking rents for one-bedroom apartments fell 7.9% over the year according to CMHC, with the trend continuing into 2026. For a one-bedroom apartment, average rent now sits around CAD $1,500 per month in late 2025 — well below Toronto (CAD $2,587), Vancouver (CAD $2,400) or even Montreal (CAD $1,950).</p>
-
-    <p>This correction is driven by a massive wave of new construction. Calgary recorded 17,342 housing starts in 2025 — on track to break its annual record for the third consecutive year, according to the City of Calgary. Apartments account for the bulk of this construction, particularly purpose-built rentals, which surged 18% over 2024. For an expat arriving in 2026, the choice of apartments is the best in years, and landlords are offering incentives (first month free, no security deposit) to attract tenants.</p>
-
-    <p>The most popular neighbourhoods among expats: <strong>Downtown</strong> (financial district, direct CTrain access, services), <strong>Beltline</strong> (dense, lively, close to restaurants and bars), <strong>Kensington</strong> (red-brick neighbourhood, independent cafes, Bow River steps away), <strong>Mission</strong> (young, brunch-heavy, well connected), <strong>Inglewood</strong> (Calgary's most bohemian neighbourhood — galleries, craft breweries, record shops, Elbow River), and <strong>Bridgeland</strong> (residential, trendy, dense international dining scene).</p>
-
-    <div class="note warn">
-      <div class="note-ttl">❄️ Calgary winters — and the chinook phenomenon</div>
-      <p>Calgary has a reputation as a cold city — and winters can indeed be biting, with drops to -25/-30°C lasting several days. But Calgary is also the Canadian city most known for <strong>chinooks</strong> — warm winds that descend from the Rockies and can push temperatures up by 20°C in just a few hours in the middle of January. It is not unusual for Calgary to go from a week at -20°C to +10°C for 48 hours. This climatic yo-yo gives winter a more intermittent character than in other cities. In return, Calgary is Canada's <strong>sunniest large city</strong>: 333 days of sunshine per year, 2,400 hours — more than Miami or Barcelona.</p>
-    </div>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <h2>Working <span class="g">from</span> Calgary</h2>
-
-    <p>Calgary's economy was long summarised in a single equation: oil. That era is over — or at least, deeply nuanced. The energy sector remains central (Suncor, Canadian Natural Resources, Cenovus Energy, Enbridge — all headquartered in Calgary), but the city has actively diversified since the 2014 oil price collapse. Tech is now the second-largest employer: a visible startup scene, hubs like <strong>Platform Calgary</strong> (the main incubator), investments from Amazon Web Services (regional data centre), Microsoft (Alberta hub), and a dozen unicorns-in-the-making across cleantech, agtech and fintech.</p>
-
-    <p>The <strong>agriculture and agtech</strong> sector is one of the most dynamic — Calgary sits at the heart of Canada's agricultural belt, and companies bridging data, AI and food production are attracting significant international investment. Alberta finance, already solid (Alberta Investment Management Corporation, ATB Financial), is also growing in scale with the rise of provincial sovereign funds.</p>
-
-    <p>For digital nomads and remote workers, Calgary is a remarkably functional city. The coworking network is dense: <strong>Platform Calgary</strong> (15,000 m² downtown, startup hub), <strong>Regus</strong> and <strong>IWG</strong> (multiple downtown addresses), <strong>Hatch</strong> (energy transition hub), and a dozen independent spaces in Inglewood and Beltline. Internet is fast, airport connectivity is good (direct flights to major Canadian cities, New York, Los Angeles, London, Paris, Amsterdam), and the overall cost of living makes the financial equation excellent for nomads on North American or European rates.</p>
-
-    <div class="note">
-      <div class="note-ttl">🛂 AHCIP — Alberta health coverage</div>
-      <p>The Alberta Health Care Insurance Plan (AHCIP) covers essential healthcare for provincial residents. Key advantage: <strong>no waiting period</strong> — coverage begins upon registration, which can be done online within the first days of arrival. Eligible for valid work permit holders and permanent residents. Alberta eliminated AHCIP premiums in 2009 — coverage is entirely free for eligible residents.</p>
-    </div>
-
-    <div class="note">
-      <div class="note-ttl">💱 Exchange rate note</div>
-      <p>All prices are in US dollars. Reference rate: 1 CAD ≈ 0.745 USD (March 2026). Canadian dollar amounts are shown in parentheses for reference.</p>
-    </div>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <h2>Health <span class="g">&amp;</span> Safety</h2>
-
-    <p>Calgary has a world-class healthcare system. <em>Foothills Medical Centre</em> is the province's largest hospital and one of Canada's foremost neurosurgery and trauma centres. <em>South Health Campus</em> (opened 2012) is Calgary's most modern. <em>Alberta Children's Hospital</em> is the provincial paediatric reference centre. The main structural limitation — shared across all of Canada — is accessing a family physician: Alberta suffers from a chronic GP shortage. Walk-in clinics and urgent care centres fill the gap while a long-term patient relationship is established.</p>
-
-    <p>Safety is one of Calgary's genuine strengths. Statistically, it is one of Canada's safest large cities. The central and residential neighbourhoods are very calm. Some downtown and north peripheral areas have higher crime indicators, but the expat-popular neighbourhoods (Beltline, Kensington, Mission, Inglewood) are among the city's safest. The city has also benefited from notable reductions in drug-related crime through active public health policies.</p>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <h2>Neighbourhoods <span class="g">&amp;</span> Rockies</h2>
-
-    <p>Calgary surprises. A city many picture as an austere oil hub turns out to be a young, diverse metropolis with a food scene that has been making national headlines — and a natural gateway to some of the most spectacular landscapes on the continent.</p>
-
-    <div class="quartiers">
-      <div class="q-card">
-        <div class="q-name">Beltline</div>
-        <div class="q-desc">Calgary's most vibrant neighbourhood. Restaurants, bars, patios, apartments. Dense nightlife, maximum diversity, ten minutes' walk from downtown.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Kensington</div>
-        <div class="q-desc">Urban village on the north bank of the Bow River. Independent cafes, bookshops, local boutiques. Calgary's bohemian DNA — the local Mile End.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Mission</div>
-        <div class="q-desc">4th Street SW — Calgary's restaurant row. International cuisine, animated patios, strong brunch scene, young, festive energy.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Inglewood</div>
-        <div class="q-desc">Calgary's oldest and most bohemian neighbourhood. Art galleries, craft breweries, record shops, Elbow River, antiques market.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Banff / Rockies</div>
-        <div class="q-desc">1hr by road. Banff townsite, Lake Louise, Icefields Parkway. A world-class national park directly accessible as a weekend trip.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Bridgeland</div>
-        <div class="q-desc">Residential, trendy, diverse. Historic Italian and international cuisine, excellent public market, Bow River nearby.</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Global health insurance built for nomads. Activate from anywhere.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">See the offer →</a>
+        <span class="aff-social">+1M nomads</span>
       </div>
     </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Real rate</span>
+      </div>
+      <p class="aff-name">Wise — Borderless account</p>
+      <p class="aff-desc">Card + transfers in 40+ currencies. Zero hidden fees.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Open an account →</a>
+        <span class="aff-social">16M+ customers</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Before you land</span>
+      </div>
+      <p class="aff-name">Airalo — Global eSIM</p>
+      <p class="aff-desc">Local SIM card you activate from your couch. 200+ countries covered.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Pick your eSIM →</a>
+        <span class="aff-social">10M+ users</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Essential</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Secure access to your accounts from abroad. Bypass local restrictions.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Secure my connection →</a>
+        <span class="aff-social">#1 VPN worldwide</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">partner links — at no extra cost to you</p>
+</div>
 
     <div class="orn"><span>· · ✦ · ·</span></div>
 
@@ -718,5 +668,7 @@ details[open] summary::after{transform:rotate(45deg)}
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

@@ -38,14 +38,27 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 .faq{margin:36px 0}details{border:1px solid var(--rule);border-radius:var(--r);margin-bottom:8px;overflow:hidden}details[open]{border-color:var(--g)}summary{font-family:var(--sans);font-size:14px;font-weight:500;padding:16px 20px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;color:var(--ink);gap:12px;user-select:none}summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-shrink:0}details[open] summary::after{transform:rotate(45deg)}.faq-body{padding:4px 20px 18px;font-family:var(--sans);font-size:13.5px;color:var(--ink3);line-height:1.65}
 .links-block{border:1px solid var(--rule);border-radius:12px;padding:24px;margin:40px 0;background:var(--white)}.links-ttl{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:14px}.links-grid{display:flex;flex-wrap:wrap;gap:8px}.links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -70,46 +83,62 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 <p class="lead">En 1586, el corsario inglés Francis Drake atacó Cartagena de Indias con 23 barcos y 2.300 hombres, saqueó la ciudad durante dos meses y exigió un rescate de 107.000 ducados para no quemarla por completo. La ciudad pagó, sobrevivió — y construyó después 11 kilómetros de murallas masivas que la hicieron inexpugnable. Esas murallas existen hoy. Rodean la Ciudad Amurallada, uno de los conjuntos arquitectónicos coloniales mejor conservados de las Américas, donde las buganvillas caen en cascada sobre las fachadas amarillas y ocres, donde las calesas recorren los callejones empedrados, y donde al caer la tarde, García Márquez flota en el aire cálido como perfume de hibisco.</p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepara tu mudanza</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span>
-          <span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Tu cuenta sin fronteras</span>
-          <span class="aff-strip-desc">Tarjeta + transferencias en 40+ divisas al tipo real</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">SIM local activable antes de aterrizar</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Acceso seguro a tus cuentas desde el extranjero</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepara tu mudanza</p>
+    <p class="aff-title">Las herramientas <em>realmente útiles</em> para emigrar</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Desde 45$/mes</span>
       </div>
-      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Seguro de salud mundial pensado para nómadas. Se activa desde cualquier lugar.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Ver la oferta →</a>
+        <span class="aff-social">+1M nómadas</span>
+      </div>
     </div>
-<h2>Cartagena en <span class="g">2026</span> — la belleza caribeña que tiene un precio</h2>
-<p>Cartagena de Indias es la capital del departamento de Bolívar — 1,3 millones de habitantes — y la ciudad colonial más fotografiada de América Latina. Fundada en 1533, fue el primer gran puerto de exportación del oro de Nueva Granada hacia España, y uno de los principales puntos de entrada del comercio transatlántico de esclavos africanos. Esta doble historia — riqueza colonial y dolor de la esclavitud — impregna cada callejón de la ciudad amurallada y cada mural de Getsemaní.</p>
-<p>Para un expatriado en 2026, Cartagena ofrece algo que ninguna otra ciudad colombiana puede dar: la combinación de una belleza arquitectónica colonial declarada Patrimonio UNESCO, un entorno costero caribeño (mar turquesa, islas a 45 minutos en lancha), un calor permanente de 28-34°C y un coste de vida todavía inferior al de las grandes capitales mundiales. La contrapartida es real: la ciudad vive en gran medida del turismo, lo que genera presión de precios en algunos servicios, una estacionalidad marcada y una presencia turística que puede afectar la calidad de vida en temporada alta.</p>
-
-<div class="note ok"><div class="note-ttl">✓ La única gran ciudad costera y caribeña de Colombia</div><p>Cartagena es la única gran metrópolis colombiana en el Mar Caribe. Para los expatriados que quieren combinar Colombia con una vida de playa tropical permanente — mar turquesa, playas, islas, deportes acuáticos — no hay alternativa en el país.</p></div>
-
-<h2>La ciudad — identidad <span class="g">&amp;</span> alma</h2>
-<p>Cartagena es una ciudad de capas. La <strong>Ciudad Amurallada</strong> — el corazón histórico rodeado por los 11 km de murallas de los siglos XVI-XVII — es uno de los grandes logros arquitectónicos de la América colonial. Sus calles estrechas, sus casas con fachadas de colores y balcones repletos de flores, sus plazas y catedrales forman un conjunto de coherencia visual excepcional. Por la noche, iluminada con faroles y animada por restaurantes en terraza y músicos callejeros, la Ciudad Amurallada se transforma exactamente en lo que García Márquez describe en sus novelas.</p>
-<p><strong>Getsemaní</strong>, el barrio adyacente al este de la Ciudad Amurallada, es el contrapunto perfecto. Antiguamente barrio de esclavos libres y artesanos de color, largo tiempo olvidado, está viviendo un renacimiento artístico y cultural que lo convierte en el barrio más auténtico y creativo de Cartagena. Sus muros están cubiertos de gigantescos murales de colores intensos que narran la historia de los africanos deportados a Colombia — una escena de arte urbano entre las más bellas de América Latina. Los precios aquí siguen siendo más asequibles que dentro de las murallas.</p>
-
-<div class="pq"><p>Cartagena al atardecer, desde lo alto de las murallas frente al Mar Caribe, con la cúpula de la Catedral Santa Catalina a la espalda — es uno de los momentos más bellos que un continente puede ofrecer. Hay que estar allí para entender por qué García Márquez nunca pudo alejarse del todo.</p></div>
-
-<h2>Barrios — <span class="g">¿dónde instalarse?</span></h2>
-<div class="quartiers">
-  <div class="q-card"><div class="q-name">Getsemaní</div><div class="q-desc">El barrio más auténtico y creativo. Arte urbano, cafés locales, precios más bajos que dentro de las murallas, vida de barrio real. Alquileres: $500-1.000. La recomendación WiggMap para los expatriados que quieren vivir Cartagena sin la burbuja turística. A 5 min a pie de la Ciudad Amurallada.</div></div>
-  <div class="q-card"><div class="q-name">Bocagrande</div><div class="q-desc">El barrio residencial moderno en la península. Playa accesible, supermercados, restaurantes, edificios modernos. Alquileres: $550-1.200. Para expatriados que quieren comodidad moderna y acceso al mar. Más tranquilo que la Ciudad Amurallada. La vida cotidiana más práctica.</div></div>
-  <div class="q-card"><div class="q-name">Ciudad Amurallada</div><div class="q-desc">Vivir en el corazón histórico. Arquitectura colonial excepcional, restaurantes gastronómicos, animación permanente. Alquileres: $700-2.000+. Para perfiles que aceptan el ruido y la multitud en temporada alta a cambio de una belleza absoluta. Experiencia única pero exigente en el día a día.</div></div>
-  <div class="q-card"><div class="q-name">Manga / El Laguito</div><div class="q-desc">Islas residenciales más tranquilas entre la ciudad amurallada y Bocagrande. Villas, familias, ambiente local. Alquileres: $450-900. Para familias y perfiles que buscan tranquilidad, espacio y fácil acceso a la ciudad. Menos animado pero más agradable en el día a día con niños.</div></div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Tipo real</span>
+      </div>
+      <p class="aff-name">Wise — Cuenta sin fronteras</p>
+      <p class="aff-desc">Tarjeta + transferencias en 40+ divisas. Cero comisiones ocultas.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Abrir una cuenta →</a>
+        <span class="aff-social">16M+ clientes</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Antes de aterrizar</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mundial</p>
+      <p class="aff-desc">SIM local que activas desde tu sofá. 200+ países cubiertos.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Elegir mi eSIM →</a>
+        <span class="aff-social">10M+ usuarios</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Imprescindible</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Acceso seguro a tus cuentas desde el extranjero. Salta las restricciones locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Asegurar mi conexión →</a>
+        <span class="aff-social">Top 1 VPN mundial</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">enlaces de afiliado — sin coste adicional para ti</p>
 </div>
 
 <h2>Vida cotidiana <span class="g">&amp;</span> alojamiento</h2>
@@ -232,5 +261,7 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 <div class="orn"><span>· · ✦ · ·</span></div>
 <div id="siteFooter"></div><script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

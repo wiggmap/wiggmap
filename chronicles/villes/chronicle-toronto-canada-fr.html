@@ -283,14 +283,27 @@ details[open] summary::after{transform:rotate(45deg)}
 
 /* ── DISC ───────────────────────────────────── */
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -349,92 +362,63 @@ details[open] summary::after{transform:rotate(45deg)}
     </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton installation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span>
-          <span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span>
-          <span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Carte SIM locale activable avant d'atterrir</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Accès sécurisé à tes comptes depuis l'étranger</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Préparer ton installation</p>
+    <p class="aff-title">Les outils <em>vraiment utiles</em> pour partir</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Dès 45$/mois</span>
       </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
-    </div>
-    <h2>La ville qui <span class="g">contient le monde</span></h2>
-
-    <p>Toronto — 6,3 millions d'habitants dans le Grand Toronto (GTA), Ontario, rive nord du lac Ontario — est la plus grande ville du Canada et son moteur économique incontesté. Wall Street for Canada : les sièges de cinq des six grandes banques nationales sont ici, la Bourse de Toronto (TSX) est la troisième des Amériques, et le corridor technologique qui s'étend de Waterloo à Toronto concentre l'essentiel de la masse critique tech canadienne. Pour les expatriés professionnels, Toronto est le point d'entrée naturel dans l'économie canadienne.</p>
-
-    <p>Mais Toronto est aussi, selon plusieurs études et l'ONU, la ville la plus multiculturelle du monde. Plus de 50% de sa population est née à l'étranger. Elle parle plus de 200 langues. Elle a des quartiers entiers façonnés par des communautés — chinoises à Scarborough et Markham, indiennes à Brampton, tamiles dans l'est, coréennes à North York, portugaises à Little Portugal, italienne à Little Italy, grecs à Greektown. Pour un expatrié, cette réalité est un accélérateur d'intégration formidable — ou, du moins, une ville où l'on peut être "de nulle part" sans jamais se sentir exclu.</p>
-
-    <div class="pq">
-      <p>"Toronto est la seule ville où j'ai pu arriver en parlant ma langue, trouver ma cuisine, et me faire des amis de douze nationalités différentes sans effort particulier. Ça n'existe nulle part ailleurs."</p>
-    </div>
-
-    <div class="note">
-      <div class="note-ttl">💱 Taux de change indicatif</div>
-      <p>Tous les prix sont en dollars américains. Taux de référence : 1 CAD ≈ 0,745 USD (mars 2026). Les tarifs en dollars canadiens sont indiqués entre parenthèses pour référence.</p>
-    </div>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <!-- ÂME DE TORONTO -->
-    <h2>L'âme de Toronto — <span class="g">une métropole qui s'assume</span></h2>
-
-    <p>Toronto n'a pas toujours eu confiance en elle. Pendant des décennies, elle a été surnommée "Toronto the Good" — une ville respectable, propre, un peu ennuyeuse — dans l'ombre de Montréal, qui accaparait l'imaginaire culturel canadien. Puis quelque chose a changé. Dans les années 1990-2000, la ville a commencé à embrasser ce qu'elle était vraiment : dense, diverse, ambitieuse, et résolument contemporaine. Aujourd'hui, Toronto n'a plus aucun complexe. Drake a mis la ville sur la carte mondiale de la pop culture. Les Raptors ont gagné la NBA en 2019. Le secteur tech attire les talents du monde entier. Et Michelin a publié son premier guide pour Toronto en 2022 — une reconnaissance que la scène gastronomique de la ville méritait depuis longtemps.</p>
-
-    <p>La skyline est dominée par la <strong>CN Tower</strong> — 553 mètres, inaugurée en 1976, ancienne plus haute structure du monde pendant 34 ans. Elle est visible de presque partout dans la ville et constitue un repère géographique autant qu'identitaire. Le front de mer (<em>Waterfront</em>) s'est lui aussi profondément transformé : le quartier des <em>Distillery District</em> (anciennes distilleries victoriennes reconverties en galeries, restaurants et boutiques), <em>Corktown</em> et <em>the Beaches</em> (quartier résidentiel face au lac, plages urbaines, ambiance de village) ont fait du bord du lac Ontario un vrai lieu de vie.</p>
-
-    <p>Le réseau de <strong>PATH</strong> — 30 kilomètres de galeries souterraines climatisées reliant la quasi-totalité du downtown — est l'un des plus grands systèmes piétonniers souterrains du monde. En hiver, c'est plus qu'un avantage : c'est un système de survie climatique qui permet de traverser le centre-ville en manteau léger même par -20°C. Une fois qu'on a compris comment l'utiliser, la ville change de dimensions.</p>
-
-    <div class="note warn">
-      <div class="note-ttl">❄️ L'hiver de Toronto — préparer sa psychologie</div>
-      <p>Toronto est nettement plus froide que les Canadiens du reste du monde le réalisent souvent. Les températures descendent régulièrement à -15°C, parfois -25°C avec le facteur éolien (<em>windchill</em>). La neige est fréquente de décembre à mars. La grisaille de novembre est légendaire. Les hivers peuvent peser sur le moral des expatriés venant de pays ensoleillés. En revanche, les étés torontois (juin-septembre) sont magnifiques — chauds, verts, animés. Le rapport annuel est honnête : difficile l'hiver, exceptionnel le reste de l'année.</p>
-    </div>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <!-- QUARTIERS -->
-    <h2>Quartiers <span class="g">&amp;</span> identités</h2>
-
-    <p>Toronto ne se comprend pas comme une unité — elle se comprend comme un archipel de quartiers, chacun avec son atmosphère, sa population, ses adresses. C'est l'une des choses qui rendent la ville si facile à habiter : peu importe d'où vous venez, il y a probablement un quartier de Toronto qui ressemble un peu à chez vous, tout en vous offrant le reste.</p>
-
-    <div class="quartiers">
-      <div class="q-card">
-        <div class="q-name">Kensington Market</div>
-        <div class="q-desc">Marché bohème, épiceries du monde entier, friperies vintage, cafés alternatifs. Le quartier le plus vivant et le plus imprévisible de Toronto.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Distillery District</div>
-        <div class="q-desc">Anciennes distilleries victoriennes préservées. Restaurants, galeries, boutiques, marché de Noël. L'esthétique la plus photographiée de Toronto.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Yorkville</div>
-        <div class="q-desc">Le quartier chic. Boutiques de luxe, restaurants étoilés, galeries d'art, hôtels design. Là où Toronto assume son ambition.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Queen West</div>
-        <div class="q-desc">La rue de la culture alternative. Streetwear, galeries indépendantes, bars de musique live, le meilleur street food de la ville.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">The Annex</div>
-        <div class="q-desc">Autour de l'université. Maisons victoriennes, librairies (Type Books, BMV), cafés littéraires, ambiance universitaire vivante.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">The Beaches</div>
-        <div class="q-desc">Village résidentiel face au lac Ontario. Plages urbaines, boardwalk, marchés de producteurs, ambiance de bord de mer en plein cœur de la ville.</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Assurance santé mondiale conçue pour les nomades. S'active depuis n'importe où.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Voir l'offre →</a>
+        <span class="aff-social">+1M nomades</span>
       </div>
     </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Taux réel</span>
+      </div>
+      <p class="aff-name">Wise — Compte sans frontières</p>
+      <p class="aff-desc">Carte + virements en 40+ devises. Zéro commission cachée.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Ouvrir un compte →</a>
+        <span class="aff-social">16M+ clients</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Avant d'atterrir</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mondiale</p>
+      <p class="aff-desc">Carte SIM locale activable depuis ton canapé. 200+ pays couverts.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Choisir son eSIM →</a>
+        <span class="aff-social">10M+ utilisateurs</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Indispensable</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Accès sécurisé à tes comptes depuis l'étranger. Contourne les restrictions locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Sécuriser ma connexion →</a>
+        <span class="aff-social">Top 1 VPN mondial</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">liens partenaires — sans surcoût pour toi</p>
+</div>
 
     <div class="orn"><span>· · ✦ · ·</span></div>
 
@@ -747,5 +731,7 @@ details[open] summary::after{transform:rotate(45deg)}
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

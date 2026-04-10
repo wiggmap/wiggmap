@@ -125,14 +125,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -170,68 +183,62 @@ In 1189, Emperor Frederick Barbarossa granted Hamburg's merchants an exemption f
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepare your move</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span>
-          <span class="aff-strip-desc">Global health cover from $45/mo</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Your borderless account</span>
-          <span class="aff-strip-desc">Card + transfers in 40+ currencies at the real rate</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Local SIM card ready before you land</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Secure access to your accounts from abroad</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepare your move</p>
+    <p class="aff-title">The tools <em>you actually need</em> to relocate</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">From $45/mo</span>
       </div>
-      <div class="aff-strip-note">partner links — at no extra cost to you</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Global health insurance built for nomads. Activate from anywhere.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">See the offer →</a>
+        <span class="aff-social">+1M nomads</span>
+      </div>
     </div>
-<h2>Hamburg in <span class="g">2026</span> — the city that always knew where it was going</h2>
-
-<p>Hamburg is a city-state — one of three German Länder alongside Berlin and Bremen to hold federal city-state status. It is therefore simultaneously a major city and a regional government, with its own parliament (the Bürgerschaft) and its own Senate. This legal and fiscal specificity gives it an autonomy and initiative capacity that most German cities lack. In day-to-day practice, this translates into a well-functioning city that invests in its infrastructure and is generally considered one of Germany's best-managed.</p>
-
-<p>For an expat, Hamburg offers a balance that Berlin and Munich cannot: more international and maritime than Munich, more professional and organised than Berlin, and cheaper than both in equivalent neighbourhoods. The city is Germany's leading foreign trade hub — its port handles billions in goods annually, and hundreds of trading, logistics, chemicals and aerospace companies have their headquarters or regional bases here. English is noticeably better covered than in Munich in daily life — a direct consequence of 500 years of international commerce.</p>
-
-<div class="note ok">
-  <div class="note-ttl">✓ Northern Germany's most international city</div>
-  <p>Hamburg is Germany's second most international city after Berlin. Its 800-year commercial and maritime history has created an openness and hospitality culture uncommon in the country. English is common in many everyday contexts — considerably more so than in Munich or Frankfurt.</p>
-</div>
-
-<h2>The city — identity <span class="g">&amp;</span> soul</h2>
-
-<p>Hamburg is a city of water — not of sea or lake, but of a network of 2,500 bridges spanning canals, Alster branches and Elbe arms. It has more bridges than Venice, Amsterdam and London combined. This hydrographic network gives each neighbourhood a different relationship with water — the yachts of the <strong>Außenalster</strong>, the barges of the <strong>Alsterkanal</strong>, the giant cargo ships of the <strong>Elbe</strong>, the houseboats of the <strong>Eilbekkanal</strong>. Kayaking or pedal-boating on the Alster in summer is as Hamburger an activity as visiting the port.</p>
-
-<p><strong>HafenCity</strong> — Europe's largest urban redevelopment project, built on former warehouse docklands ten minutes from the city centre — is simultaneously Hamburg's most expensive new residential neighbourhood and the home of the <strong>Elbphilharmonie</strong>. This concert hall built atop a 1960s cocoa warehouse (2017, Herzog & de Meuron, €789 million) has become the city's architectural symbol — and one of the world's best concert halls acoustically. Its panoramic plaza (8th floor) is freely accessible and offers one of Germany's finest views.</p>
-
-<div class="pq">
-  <p>Hamburg is the only German city that, looking out the window, sees 400-metre cargo ships passing at rooftop height. It changes the way you think about the world.</p>
-</div>
-
-<h2>Neighbourhoods — <span class="g">where to live?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">Altona / Ottensen</div>
-    <div class="q-desc">The mixed, lively neighbourhood most popular with expats. Restaurants, cafés, Saturday market (Altona Fischmarkt), Elbe access. Rents: $1,100–1,800. Multicultural, relaxed, very good S-Bahn connections. The default choice for most young professional expats.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Real rate</span>
+      </div>
+      <p class="aff-name">Wise — Borderless account</p>
+      <p class="aff-desc">Card + transfers in 40+ currencies. Zero hidden fees.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Open an account →</a>
+        <span class="aff-social">16M+ customers</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Before you land</span>
+      </div>
+      <p class="aff-name">Airalo — Global eSIM</p>
+      <p class="aff-desc">Local SIM card you activate from your couch. 200+ countries covered.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Pick your eSIM →</a>
+        <span class="aff-social">10M+ users</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Essential</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Secure access to your accounts from abroad. Bypass local restrictions.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Secure my connection →</a>
+        <span class="aff-social">#1 VPN worldwide</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">Eimsbüttel / Eppendorf</div>
-    <div class="q-desc">Premium family neighbourhoods to the north. Magnificent Gründerzeit buildings, parks, schools. Rents: $1,200–2,000. Calm residential atmosphere, very popular with established families and professionals. Less international than Altona but more peaceful.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">HafenCity</div>
-    <div class="q-desc">The new premium waterfront neighbourhood. Contemporary architecture, Elbphilharmonie, high-end restaurants. Very high rents ($1,600–2,800). For high-income profiles wanting the most modern Hamburg. Still under development.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Blankenese / Barmbek</div>
-    <div class="q-desc">Affluent western suburb (Blankenese) or affordable popular areas (Barmbek, Rahlstedt). Rents: $900–1,400. For families wanting space and greenery (Blankenese is on the Elbe hills) or for tighter budgets.</div>
-  </div>
+  <p class="aff-footer">partner links — at no extra cost to you</p>
 </div>
 
 <h2>Daily life <span class="g">&amp;</span> housing</h2>
@@ -414,5 +421,7 @@ In 1189, Emperor Frederick Barbarossa granted Hamburg's merchants an exemption f
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

@@ -125,14 +125,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -170,68 +183,62 @@ Ras Al Jaima es el emirato donde los superlativos de los EAU se detienen — y d
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepara tu mudanza</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span>
-          <span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Tu cuenta sin fronteras</span>
-          <span class="aff-strip-desc">Tarjeta + transferencias en 40+ divisas al tipo real</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">SIM local activable antes de aterrizar</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Acceso seguro a tus cuentas desde el extranjero</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepara tu mudanza</p>
+    <p class="aff-title">Las herramientas <em>realmente útiles</em> para emigrar</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Desde 45$/mes</span>
       </div>
-      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Seguro de salud mundial pensado para nómadas. Se activa desde cualquier lugar.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Ver la oferta →</a>
+        <span class="aff-social">+1M nómadas</span>
+      </div>
     </div>
-<h2>Ras Al Jaima en <span class="g">2026</span> — el emirato naturaleza en pleno ascenso</h2>
-
-<p>Ras Al Jaima (RAK) es el emirato más septentrional de los EAU — a 100 km de Dubái, al pie de la cordillera de Hajar. Es también el más diverso geográficamente: el mismo día puedes hacer senderismo en montañas a 1.900 metros de altitud por la mañana, bañarte en el Golfo por la tarde y cruzar dunas de arena roja al atardecer. Esta variedad natural es única en los EAU — ninguna otra ciudad de la federación puede ofrecer este entorno.</p>
-
-<p>RAK lleva transformándose desde 2020. El gobierno ha invertido masivamente en turismo de alto nivel y aventura: el <strong>Waldorf Astoria Ras Al Jaima</strong>, el <strong>Rixos Bab Al Bahr</strong> y el <strong>Banyan Tree Al Wadi</strong> han situado al emirato en el mapa mundial del lujo natural. <strong>Marjan Island</strong>, la isla artificial en desarrollo, acoge nuevos hoteles y residencias frente al mar. Y la <strong>RAKEZ</strong> (Zona Económica de Ras Al Jaima) se ha convertido en una de las zonas francas más competitivas y económicas de los EAU — atrayendo a miles de pymes y startups.</p>
-
-<div class="note ok">
-  <div class="note-ttl">✓ Alcohol permitido en hoteles con licencia</div>
-  <p>A diferencia de Sharjah, RAK permite el alcohol en hoteles y restaurantes con licencia — una situación similar a Dubái y Abu Dabi. La densidad de establecimientos con licencia es menor que en Dubái pero el acceso existe, especialmente en hoteles de lujo y resorts frente al mar.</p>
-</div>
-
-<h2>El emirato — identidad <span class="g">&amp;</span> alma</h2>
-
-<p>RAK es menos una ciudad en sentido urbano que un emirato-paisaje — una colección de barrios distintos repartidos por una costa y un interior montañoso de 1.700 km². El histórico casco antiguo en torno al <strong>Ras Al Jaima histórico</strong> (museo nacional, creek tradicional) tiene una autenticidad ausente en los barrios construidos de la nada en Dubái. El barrio de <strong>Al Hamra</strong> es el enclave residencial premium más consolidado — con su campo de golf, marina, villas y complejos residenciales apreciados por los expatriados de larga data. La nueva isla de <strong>Marjan</strong> se está convirtiendo en el moderno frente marítimo de RAK, con una sucesión de hoteles de lujo y nuevos edificios residenciales.</p>
-
-<p>El verdadero alma de RAK está en sus paisajes. El <strong>Yábal Yais</strong> — 1.934 m, el punto más alto de los EAU — es accesible en coche desde el centro en 45 minutos. La carretera panorámica serpentea entre escarpados acantilados de caliza roja y vistas sobre Omán. La tirolina Toroverde (2,83 km, hasta 120 km/h), inaugurada en 2018, ostenta el récord Guinness de la más larga del mundo y ha situado a RAK en el mapa mundial del turismo de aventura. Más tranquilamente, las playas de Marjan y Al Hamra ofrecen kilómetros de arena fina prácticamente desiertos fuera de la temporada turística.</p>
-
-<div class="pq">
-  <p>RAK hace lo que Dubái no puede hacer: salir de la ciudad en diez minutos y encontrarse en una naturaleza que no tiene nada que ver con el Golfo que uno imaginaba.</p>
-</div>
-
-<h2>Barrios — <span class="g">¿dónde instalarse?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">Al Hamra Village</div>
-    <div class="q-desc">El enclave residencial premium de RAK. Golf, marina, villas, apartamentos con piscina, restaurantes, supermercados. Comunidad expat consolidada. Alquileres: $600-1.200. La primera elección para familias y jubilados activos que quieren un estilo de vida resort todo el año.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Tipo real</span>
+      </div>
+      <p class="aff-name">Wise — Cuenta sin fronteras</p>
+      <p class="aff-desc">Tarjeta + transferencias en 40+ divisas. Cero comisiones ocultas.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Abrir una cuenta →</a>
+        <span class="aff-social">16M+ clientes</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Antes de aterrizar</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mundial</p>
+      <p class="aff-desc">SIM local que activas desde tu sofá. 200+ países cubiertos.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Elegir mi eSIM →</a>
+        <span class="aff-social">10M+ usuarios</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Imprescindible</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Acceso seguro a tus cuentas desde el extranjero. Salta las restricciones locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Asegurar mi conexión →</a>
+        <span class="aff-social">Top 1 VPN mundial</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">Marjan Island</div>
-    <div class="q-desc">La isla artificial en desarrollo. Nuevos edificios, frente marítimo, hoteles de lujo, playa integrada. Alquileres: $700-1.400. Para perfiles que quieren lo nuevo y el mar. En fuerte crecimiento de cara a la apertura del casino Wynn prevista para 2027.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Al Nakheel / Khuzam</div>
-    <div class="q-desc">Barrios residenciales cercanos al centro. Más locales, menos turísticos. Alquileres bajos ($400-750). Para presupuestos ajustados o perfiles que quieren la experiencia local auténtica. Bien comunicados con las carreteras hacia Dubái y el Yábal.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Al Dhait / Seih Al Uraibi</div>
-    <div class="q-desc">Barrios residenciales tranquilos más al interior. Villas asequibles, entorno desértico-montañoso, muy silenciosos. Alquileres muy bajos ($350-650). Para familias que quieren espacio y silencio sin pagar el precio de Al Hamra.</div>
-  </div>
+  <p class="aff-footer">enlaces de afiliado — sin coste adicional para ti</p>
 </div>
 
 <h2>Vida cotidiana <span class="g">&amp;</span> alojamiento</h2>
@@ -421,5 +428,7 @@ Ras Al Jaima es el emirato donde los superlativos de los EAU se detienen — y d
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

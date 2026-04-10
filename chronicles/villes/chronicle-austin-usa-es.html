@@ -121,14 +121,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -164,43 +177,62 @@ details[open] summary::after{transform:rotate(45deg)}
 <p class="lead">A las 22h de un jueves en la 6th Street, los clubes de country compiten con los bares de cerveza artesanal y los escenarios de jazz por el mismo trozo de aire. Todo el barrio huele a barbacoa — siempre — desde los ahumadores que llevan doce horas girando brisket en algún lugar del East Austin. Austin es la única ciudad americana donde un ingeniero de Apple, un vaquero con botas Lucchese y un guitarrista de folk en una camioneta de 1978 pueden compartir la misma calle sin que parezca absurdo. La ciudad tiene un lema que no es una campaña publicitaria: <em>Keep Austin Weird</em>. Data de principios de los años 2000. Desde entonces, Austin ha sido invadida por la tecnología, Tesla, Oracle y decenas de miles de californianos que trajeron sus sueldos y sus costumbres. La ciudad es menos rara que antes. También es mucho más grande, mucho más rica — y desde 2023, considerablemente más asequible para los recién llegados.</p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepara tu mudanza</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span>
-          <span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Tu cuenta sin fronteras</span>
-          <span class="aff-strip-desc">Tarjeta + transferencias en 40+ divisas al tipo real</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">SIM local activable antes de aterrizar</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Acceso seguro a tus cuentas desde el extranjero</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepara tu mudanza</p>
+    <p class="aff-title">Las herramientas <em>realmente útiles</em> para emigrar</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Desde 45$/mes</span>
       </div>
-      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Seguro de salud mundial pensado para nómadas. Se activa desde cualquier lugar.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Ver la oferta →</a>
+        <span class="aff-social">+1M nómadas</span>
+      </div>
     </div>
-<h2>Austin, <span class="g">Silicon Hills</span> con una guitarra en el maletero</h2>
-
-<p>Austin es la capital de Texas y la undécima ciudad de los Estados Unidos por población (978.000 habitantes dentro de los límites municipales, 2,3 millones en el área metropolitana) — uno de los crecimientos demográficos más rápidos del país en la década 2010-2020, antes de una desaceleración parcial desde 2023. Es simultáneamente la capital política de Texas, una gran ciudad universitaria (UT Austin — 50.000 estudiantes), la capital mundial de la música en vivo per cápita (Austin tiene más salas de música en vivo por habitante que cualquier otra ciudad del mundo según los Guinness World Records), y el hub tecnológico que atrajo a Tesla, Oracle, Apple, Samsung, Google y cientos de startups desde 2018.</p>
-
-<p>Lo que distingue a Austin de otros hubs tecnológicos americanos es la coexistencia de estas identidades sin fricción aparente. El Barton Creek Greenbelt — una zona natural de 12 km a lo largo de un río en el corazón de la ciudad — está a 15 minutos en coche del campus de Apple en North Austin. El South by Southwest (<strong>SXSW</strong>) — el festival de música, cine y tecnología que transforma toda la ciudad en una conferencia-concierto de 300.000 participantes cada marzo — es el evento mejor situado para entender lo que Austin reivindica: una intersección entre cultura, tecnología y creatividad que no existe a esta escala en ningún otro lugar de los Estados Unidos.</p>
-
-<p>Austin tiene también el perfil demográfico más joven de las grandes ciudades americanas — con una mediana de edad de 33 años. Esta juventud se nota en el ritmo: jam sessions en restaurantes, food trucks abiertos hasta la medianoche, naturaleza y actividades al aire libre omnipresentes (kayak en el Town Lake, ciclismo en Barton Creek, senderismo en Enchanted Rock a 90 minutos). Es una ciudad a la que se va a construir algo — no a descansar. Y para la creciente comunidad latinoamericana de Austin — el 32% de la población del condado es hispana — la ciudad combina la accesibilidad del mercado laboral estadounidense con un coste de vida mucho más razonable que el de Miami, Nueva York o Los Ángeles.</p>
-
-<div class="quartiers">
-  <div class="q-card"><div class="q-name">East Austin</div><div class="q-desc">El barrio más de moda. Restaurantes independientes, bares, murales, estudios de artistas. Gentrificado desde 2015. 1BR ~$1.500-2.000. El destino principal de los expats creativos y tech.</div></div>
-  <div class="q-card"><div class="q-name">South Congress (SoCo)</div><div class="q-desc">El corazón hipster histórico. Tiendas vintage, restaurantes emblemáticos de Austin, food trucks. 1BR ~$1.600-2.200. Central, animado, ideal para quienes quieren el ambiente Austin sin el East Austin.</div></div>
-  <div class="q-card"><div class="q-name">Downtown / Rainey Street</div><div class="q-desc">El centro animado. Rainey Street: bungalows convertidos en bares. Rascacielos recientes, vida nocturna intensa. 1BR ~$1.800-2.600. La elección de los jóvenes profesionales que quieren todo a pie.</div></div>
-  <div class="q-card"><div class="q-name">North Loop / Hyde Park</div><div class="q-desc">Barrio residencial tranquilo con cafeterías literarias. Popular entre universitarios y jóvenes familias. 1BR ~$1.400-1.800. El mejor equilibrio calidad de vida / precio para vivir de barrio.</div></div>
-  <div class="q-card"><div class="q-name">The Domain / North Austin</div><div class="q-desc">El hub tecnológico. Campus de Apple, sede de Oracle, Amazon. Centros comerciales, restaurantes franquicia, apartamentos modernos. 1BR ~$1.600-2.200. Para quienes trabajan en tech y prefieren la eficiencia al "weird".</div></div>
-  <div class="q-card"><div class="q-name">South Lamar / Travis Heights</div><div class="q-desc">Bungalows renovados, Alamo Drafthouse, restaurantes reconocidos. Más residencial que SoCo. 1BR ~$1.500-2.000. Muy popular entre millennials que buscan el Austin auténtico.</div></div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Tipo real</span>
+      </div>
+      <p class="aff-name">Wise — Cuenta sin fronteras</p>
+      <p class="aff-desc">Tarjeta + transferencias en 40+ divisas. Cero comisiones ocultas.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Abrir una cuenta →</a>
+        <span class="aff-social">16M+ clientes</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Antes de aterrizar</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mundial</p>
+      <p class="aff-desc">SIM local que activas desde tu sofá. 200+ países cubiertos.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Elegir mi eSIM →</a>
+        <span class="aff-social">10M+ usuarios</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Imprescindible</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Acceso seguro a tus cuentas desde el extranjero. Salta las restricciones locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Asegurar mi conexión →</a>
+        <span class="aff-social">Top 1 VPN mundial</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">enlaces de afiliado — sin coste adicional para ti</p>
 </div>
 
 <div class="orn"><span>· · ✦ · ·</span></div>
@@ -369,5 +401,7 @@ details[open] summary::after{transform:rotate(45deg)}
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

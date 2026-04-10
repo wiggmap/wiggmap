@@ -268,14 +268,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -334,83 +347,63 @@ details[open] summary::after{transform:rotate(45deg)}
     </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepare your move</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span>
-          <span class="aff-strip-desc">Global health cover from $45/mo</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Your borderless account</span>
-          <span class="aff-strip-desc">Card + transfers in 40+ currencies at the real rate</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Local SIM card ready before you land</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Secure access to your accounts from abroad</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepare your move</p>
+    <p class="aff-title">The tools <em>you actually need</em> to relocate</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">From $45/mo</span>
       </div>
-      <div class="aff-strip-note">partner links — at no extra cost to you</div>
-    </div>
-    <h2>The soul of <span class="g">Montreal</span></h2>
-
-    <p>It's a conversation that plays out in every cafe on the Plateau. Someone orders in French, the server replies in English, the exchange continues in both languages simultaneously without anyone noticing — then both people discover they're both recent immigrants, one from Paris, one from Sao Paulo, and that the language they're using was assembled in three weeks in Montreal. That's Montreal: a city that absorbs people and makes them its own before they've quite decided to let it.</p>
-
-    <p>Montreal — 4.2 million people in Greater Montreal, Quebec, at the confluence of the St. Lawrence and Ottawa rivers — is Canada's second city and its undisputed cultural capital. It is unique in North America: French at its core, bilingual in practice, cosmopolitan in reality. New York is five hours by road. Boston is four. Paris is six hours on a direct flight. For a francophone expat, Montreal offers something rare — access to the North American economy without surrendering language or way of life.</p>
-
-    <p>It is also, and this is its most powerful argument for expats, <strong>the most affordable major city in North America</strong>. A one-bedroom apartment costs less than half what it does in Vancouver or New York. Restaurants are excellent and accessible. Cultural activities — festivals, concerts, museums — are among the cheapest on the continent. And McGill, UQAM, Polytechnique and HEC Montreal form a talent pool that feeds an artificial intelligence ecosystem that has become a global reference.</p>
-
-    <div class="pq">
-      <p>"Montreal is the only city where I ate a St-Viateur bagel at three in the morning after a free outdoor jazz concert, and paid my rent without flinching. That doesn't exist anywhere else in North America."</p>
-    </div>
-
-    <h2>Montreal by the <span class="g">numbers</span> — 2026 snapshot</h2>
-
-    <div class="note">
-      <div class="note-ttl">💱 Exchange rate note</div>
-      <p>All prices are in US dollars. Reference rate: 1 CAD ≈ 0.745 USD (March 2026). Canadian dollar amounts are shown in parentheses for reference.</p>
-    </div>
-
-    <div class="orn"><span>· · ✦ · ·</span></div>
-
-    <h2>A city that invents <span class="g">its own rules</span></h2>
-
-    <p>Montreal is a city of deliberate contradictions. It is North American in its geography and infrastructure, but European in its relationship with the street, the table, and the unhurried pace of a weekend. It is French in its official language and in the quiet confidence with which it asserts that identity, but deeply English in its universities, its student neighbourhoods and much of its pop culture. It endures winters that would break a less resilient city, yet it has invented a way of living through them — Igloofest, Nuit Blanche, Montreal en Lumiere — that makes the cold season culturally as dense as summer.</p>
-
-    <p><strong>Mount Royal</strong> — the 233-metre hill that gives the city its name — is Montreal's geographical and symbolic centre. Parc du Mont-Royal (designed by Frederick Law Olmsted, the same landscape architect behind Central Park in New York) is the city's green lung: in summer, Montrealers gather there in their thousands on Sunday afternoons for the <em>tam-tams</em>, improvised drumming sessions around the George-Etienne Cartier monument that have been running without interruption since 1979. In winter, cross-country skiing and snowshoeing begin ten minutes' walk from downtown.</p>
-
-    <p><strong>Old Montreal</strong> is one of the best-preserved historic cores in North America — cobblestone streets, grey-stone buildings from the 17th and 18th centuries, the Basilica of Notre-Dame (whose star-studded deep-blue interior is one of the most beautiful religious spaces on the continent), and the Old Port transformed into a cultural and leisure promenade. This neighbourhood draws tourists, but it is also lived in, alive, and constitutes one of the city's most coveted real estate markets.</p>
-
-    <div class="quartiers">
-      <div class="q-card">
-        <div class="q-name">Plateau-Mont-Royal</div>
-        <div class="q-desc">The bohemian heart. Colourful duplexes, spiral staircases, literary cafes, restaurants from every cuisine on earth.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Mile End</div>
-        <div class="q-desc">Creative, cosmopolitan, slightly ahead of everyone else. St-Viateur bagels, artist studios, vinyl bars.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Old Montreal</div>
-        <div class="q-desc">17th-century cobblestoned streets, Notre-Dame Basilica, converted industrial lofts, gastronomic restaurants.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Quartier des Spectacles</div>
-        <div class="q-desc">The nerve centre of cultural life. JAZZFEST, Osheaga, Just for Laughs, FrancoFolies.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Rosemont–Petite-Patrie</div>
-        <div class="q-desc">Residential, affordable, intensely alive. Jean-Talon Market, cycling lanes, groceries from around the world.</div>
-      </div>
-      <div class="q-card">
-        <div class="q-name">Griffintown</div>
-        <div class="q-desc">A fast-changing new neighbourhood. Lachine Canal, design condos, trendy bars, young international crowd.</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Global health insurance built for nomads. Activate from anywhere.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">See the offer →</a>
+        <span class="aff-social">+1M nomads</span>
       </div>
     </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Real rate</span>
+      </div>
+      <p class="aff-name">Wise — Borderless account</p>
+      <p class="aff-desc">Card + transfers in 40+ currencies. Zero hidden fees.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Open an account →</a>
+        <span class="aff-social">16M+ customers</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Before you land</span>
+      </div>
+      <p class="aff-name">Airalo — Global eSIM</p>
+      <p class="aff-desc">Local SIM card you activate from your couch. 200+ countries covered.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Pick your eSIM →</a>
+        <span class="aff-social">10M+ users</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Essential</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Secure access to your accounts from abroad. Bypass local restrictions.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Secure my connection →</a>
+        <span class="aff-social">#1 VPN worldwide</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">partner links — at no extra cost to you</p>
+</div>
 
     <div class="note warn">
       <div class="note-ttl">❄️ The Montreal winter — a culture in its own right</div>
@@ -731,5 +724,7 @@ details[open] summary::after{transform:rotate(45deg)}
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

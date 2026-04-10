@@ -125,14 +125,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -170,68 +183,62 @@ Au lever du soleil, quand les premiers rayons traversent le Bosphore et illumine
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton installation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span>
-          <span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span>
-          <span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Carte SIM locale activable avant d'atterrir</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Accès sécurisé à tes comptes depuis l'étranger</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Préparer ton installation</p>
+    <p class="aff-title">Les outils <em>vraiment utiles</em> pour partir</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Dès 45$/mois</span>
       </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Assurance santé mondiale conçue pour les nomades. S'active depuis n'importe où.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Voir l'offre →</a>
+        <span class="aff-social">+1M nomades</span>
+      </div>
     </div>
-<h2>Istanbul en <span class="g">2026</span> — la ville qui ne dort jamais de décider</h2>
-
-<p>Istanbul est la plus grande ville d'Europe (par la population — 15 millions d'habitants dans l'agglomération, devant Paris et Londres), mais pas la capitale de la Turquie (c'est Ankara). Elle concentre pourtant 30% du PIB turc, la quasi-totalité de l'industrie culturelle, financière et médiatique du pays, et une densité de start-ups, de galeries d'art, de restaurants gastronomiques et de scènes musicales qui rivalise avec n'importe quelle métropole mondiale. C'est une ville qui a été successivement grecque, romaine, byzantine et ottomane, et qui porte toutes ces identités simultanément — dans ses mosquées converties en musées, dans ses bazars millénaires qui voisinent avec des coffee shops de troisième vague, dans ses quartiers ottomans reconvertis en centres créatifs internationaux.</p>
-
-<p>Pour un expatrié, Istanbul en 2026 est une équation complexe. D'un côté : une qualité de vie potentielle extraordinaire, un coût de vie compétitif en dollars ou euros, une scène culturelle parmi les plus riches du monde, une gastronomie exceptionnelle, et un dynamisme urbain qui dépasse la plupart des capitales européennes. De l'autre : une inflation chronique, une instabilité monétaire qui peut changer la donne d'une année à l'autre, un contexte politique à surveiller, et une logistique urbaine parfois épuisante dans une ville de quinze millions d'habitants.</p>
-
-<div class="note warn">
-  <div class="note-ttl">⚠️ Inflation et livre turque — point de vigilance</div>
-  <p>La Turquie a traversé une crise d'hyperinflation sévère en 2022-2023 (pic à 85% annuel). En 2026, l'inflation est redescendue mais reste élevée (~30-40% annuel). Les expatriés payés en USD ou EUR sont largement protégés — leur pouvoir d'achat local a paradoxalement augmenté. Les résidents payés en livre turque (TRY) subissent une érosion réelle. Vérifier la devise de son contrat avant l'installation.</p>
-</div>
-
-<h2>La ville — identité <span class="g">&amp;</span> âme</h2>
-
-<p>Istanbul est trop grande pour être résumée — elle est plusieurs villes en une. La péninsule historique (<strong>Sultanahmet</strong>) concentre les monuments impériaux : Sainte-Sophie (byzantino-ottomane, 537 après J.-C., de nouveau mosquée depuis 2020), la Mosquée Bleue, le Palais de Topkapi, le Grand Bazar (4 000 boutiques sous ses voûtes). En face, sur la rive nord de la Corne d'Or, <strong>Beyoğlu</strong> et son artère centrale Istiklal Caddesi concentrent les galeries d'art, les cafés, les restaurants et les boîtes de nuit les plus animés de la ville. Plus à l'est, le quartier de <strong>Kadiköy</strong> sur la rive asiatique est devenu le laboratoire créatif de la ville nouvelle — marché couvert exceptionnel, restaurants branchés, librairies indépendantes, scène musicale live.</p>
-
-<p>La géographie d'Istanbul est celle de l'excès. Quinze ponts, deux tunnels sous le Bosphore, trois aéroports (dont le nouveau Istanbul Havalimanı, le plus grand d'Europe en capacité), 440 kilomètres de côtes, des collines qui font varier le panorama à chaque tournant. C'est une ville qu'on ne comprend qu'en la traversant dans tous les sens — à pied dans Balat, en ferry sur le Bosphore, en minibus (dolmuş) dans Kadiköy, en métro sous la colline de Taksim.</p>
-
-<div class="pq">
-  <p>Istanbul est la seule ville qui peut vous offrir le lever de soleil sur le Bosphore, le meilleur köfte de votre vie à 11h du matin, une galerie d'art contemporain à 15h, et une nuit qui commence à minuit et se termine avec l'appel du muezzin. Tout ça le même jour, pour moins de cinquante dollars.</p>
-</div>
-
-<h2>Quartiers — <span class="g">où s'installer ?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">Cihangir / Beyoğlu</div>
-    <div class="q-desc">Le quartier bohème-expat de référence. Cafés, galeries, restaurants, vie nocturne à pied. Dense, animé, parfois bruyant. Loyers : $400-700. Vue sur Bosphore depuis les rues hautes. Profil : nomads, créatifs, jeunes professionnels. Le quartier Montmartre d'Istanbul.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Taux réel</span>
+      </div>
+      <p class="aff-name">Wise — Compte sans frontières</p>
+      <p class="aff-desc">Carte + virements en 40+ devises. Zéro commission cachée.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Ouvrir un compte →</a>
+        <span class="aff-social">16M+ clients</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Avant d'atterrir</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mondiale</p>
+      <p class="aff-desc">Carte SIM locale activable depuis ton canapé. 200+ pays couverts.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Choisir son eSIM →</a>
+        <span class="aff-social">10M+ utilisateurs</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Indispensable</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Accès sécurisé à tes comptes depuis l'étranger. Contourne les restrictions locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Sécuriser ma connexion →</a>
+        <span class="aff-social">Top 1 VPN mondial</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">Kadiköy / Moda</div>
-    <div class="q-desc">La rive asiatique alternative. Marché de rue exceptionnel, restaurants locaux, scène musicale live. Moins touristique, plus authentique. Loyers : $350-600. Excellente connexion en ferry vers l'Europe. Profil : familles, long-termers, amateurs de vie de quartier authentique.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Beşiktaş / Nişantaşı</div>
-    <div class="q-desc">Le quartier premium côté européen. Boutiques de luxe, restaurants étoilés, immeubles haussmanniens, vue Bosphore. Loyers : $600-1,200. Profil : cadres expatriés, directeurs de filiales, familles aisées. Le 16e arrondissement d'Istanbul.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Balat / Fener</div>
-    <div class="q-desc">Le quartier historique en cours de gentrification. Maisons de bois colorées, synagogues et églises byzantines, cafés indépendants. Loyers encore bas ($300-500). En forte hausse. Pour les profils sensibles à l'histoire et à l'architecture. Voisinage local authentique.</div>
-  </div>
+  <p class="aff-footer">liens partenaires — sans surcoût pour toi</p>
 </div>
 
 <h2>Vie quotidienne <span class="g">&amp;</span> logement</h2>
@@ -420,5 +427,7 @@ Au lever du soleil, quand les premiers rayons traversent le Bosphore et illumine
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

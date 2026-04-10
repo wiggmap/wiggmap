@@ -125,14 +125,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -170,70 +183,62 @@ Dans le port de Tanjung Perak, l'un des plus actifs d'Asie du Sud-Est, des milli
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton installation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span>
-          <span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span>
-          <span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Carte SIM locale activable avant d'atterrir</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Accès sécurisé à tes comptes depuis l'étranger</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Préparer ton installation</p>
+    <p class="aff-title">Les outils <em>vraiment utiles</em> pour partir</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Dès 45$/mois</span>
       </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Assurance santé mondiale conçue pour les nomades. S'active depuis n'importe où.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Voir l'offre →</a>
+        <span class="aff-social">+1M nomades</span>
+      </div>
     </div>
-<h2>Surabaya en <span class="g">2026</span> — la deuxième ville qu'on oublie d'évaluer</h2>
-
-<p>Surabaya souffre d'un déficit d'image persistant. Elle n'est pas dans les guides de voyage. Elle n'a pas de hashtag Instagram viral. Les nomads la survolent pour atterrir à Bali. Les entrepreneurs en mission la traversent pour aller voir leurs usines en Java orientale. Et pourtant, la ville de <strong>Surabaya</strong> — ou Sby dans le langage familier des locaux — est l'une des rares métropoles d'Asie à offrir simultanément : une infrastructure urbaine de capital régionale, un coût de vie de ville secondaire, une sécurité remarquable, et un tissu industriel dense qui génère des opportunités business réelles.</p>
-
-<p>C'est une ville pour les profils qui ont une mission. Pas une ville pour flâner — une ville pour construire. Et pour ceux qui la choisissent délibérément, la récompense est considérable : une qualité de vie nettement supérieure à Jakarta pour un budget de 30 à 40% inférieur, dans une ville où les embouteillages sont gérables et où la communauté expat — principalement constituée de cadres d'industrie, de directeurs de filiales régionales et de professeurs d'université — est discrète mais très soudée.</p>
-
-<div class="note ok">
-  <div class="note-ttl">✓ Hub industriel et logistique</div>
-  <p>Surabaya est le port d'entrée des marchandises pour toute l'Indonésie orientale (Kalimantan, Sulawesi, Nusa Tenggara, Maluku, Papua). Le port de Tanjung Perak traite environ 30% du fret maritime indonésien. La ville abrite également la plus grande zone industrielle de Java orientale (PIER, Pasuruan Industrial Estate Rembang).</p>
-</div>
-
-<h2>La ville — identité <span class="g">&amp;</span> âme</h2>
-
-<p>Surabaya est une ville de contrastes architecturaux qui racontent l'histoire de l'Indonésie en strates. Le quartier de <strong>Kota Lama</strong> (vieille ville), autour de la rivière Kalimas, est un musée à ciel ouvert de l'époque coloniale néerlandaise : entrepôts en brique rouge du XVIIe siècle, banques coloniales aux façades Art Nouveau, maisons de commerce qui servirent de centres de négoce des épices pendant deux siècles. Quelques rues plus loin, la <strong>rue arabe</strong> (Jalan Ampel) et la <strong>Chinatown</strong> (Jalan Kembang Jepun) témoignent des siècles de brassage commercial entre Java, le Moyen-Orient et la Chine.</p>
-
-<p>Surabaya est aussi la ville où s'est jouée l'une des batailles fondatrices de l'indépendance indonésienne. Le 10 novembre 1945, les milices populaires surabayaises repoussèrent durant plusieurs semaines les troupes britanniques venues reprendre le contrôle pour les Pays-Bas — un événement commémoré chaque année comme la Hari Pahlawan (Jour des Héros), fête nationale. La fierté de Surabaya est historique, viscérale, et très présente dans l'identité de ses habitants.</p>
-
-<p>La scène gastronomique est, de l'avis de nombreux connaisseurs, la meilleure de Java. Le <strong>rawon</strong> (soupe noire de bœuf au keluak, noix indonésienne qui donne cette couleur sombre unique), la <strong>rujak cingur</strong> (salade de morceaux de museau de bœuf aux fruits et sauce pimentée), le <strong>lontong balap</strong> (riz compressé, germes de soja, tofu frit) — ces spécialités surabayaises sont des expériences gastronomiques que les amateurs de cuisine authentique viennent chercher spécifiquement dans cette ville.</p>
-
-<div class="pq">
-  <p>Surabaya ne te vend pas de rêve. Elle te propose un deal : une vie sérieuse, efficace, bien moins chère que Jakarta, dans une ville où les gens travaillent vraiment.</p>
-</div>
-
-<h2>Quartiers — <span class="g">où s'installer ?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">Gubeng / Darmo</div>
-    <div class="q-desc">Le quartier résidentiel premium, entre les hôtels internationaux et les centres commerciaux modernes (Galaxy Mall, Tunjungan Plaza). Cafés, restaurants, cliniques, écoles. Le choix naturel des cadres expats. Loyers : $220-450/mois pour un appartement correct.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Taux réel</span>
+      </div>
+      <p class="aff-name">Wise — Compte sans frontières</p>
+      <p class="aff-desc">Carte + virements en 40+ devises. Zéro commission cachée.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Ouvrir un compte →</a>
+        <span class="aff-social">16M+ clients</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Avant d'atterrir</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mondiale</p>
+      <p class="aff-desc">Carte SIM locale activable depuis ton canapé. 200+ pays couverts.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Choisir son eSIM →</a>
+        <span class="aff-social">10M+ utilisateurs</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Indispensable</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Accès sécurisé à tes comptes depuis l'étranger. Contourne les restrictions locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Sécuriser ma connexion →</a>
+        <span class="aff-social">Top 1 VPN mondial</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">Pakuwon / Citraland</div>
-    <div class="q-desc">Complexes résidentiels fermés à l'ouest, très prisés des familles expatriées. Écoles internationales, centres commerciaux premium (Pakuwon Mall). Environnement sécurisé et homogène. Voiture ou scooter indispensable. Loyers : $400-800/mois pour une villa.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Kota Lama / Centre historique</div>
-    <div class="q-desc">Pour les passionnés d'histoire et d'architecture coloniale. Moins de services modernes, plus d'authenticité. Quartier en cours de gentrification depuis 2022. Idéal pour les courts séjours ou les profils qui recherchent le tissu urbain original.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Kenjeran / Surabaya Nord</div>
-    <div class="q-desc">Zone côtière et populaire, proche du port. Moins expat-friendly mais accès direct au marché de poissons, à la plage de Kenjeran et à l'ambiance maritime authentique. Loyers très bas. Pour les profils aventureux et budget ultra-serré.</div>
-  </div>
+  <p class="aff-footer">liens partenaires — sans surcoût pour toi</p>
 </div>
 
 <h2>Vie quotidienne <span class="g">&amp;</span> logement</h2>
@@ -416,5 +421,7 @@ Dans le port de Tanjung Perak, l'un des plus actifs d'Asie du Sud-Est, des milli
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

@@ -41,14 +41,27 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 .faq{margin:36px 0}details{border:1px solid var(--rule);border-radius:var(--r);margin-bottom:8px;overflow:hidden}details[open]{border-color:var(--g)}summary{font-family:var(--sans);font-size:14px;font-weight:500;padding:16px 20px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;color:var(--ink);gap:12px;user-select:none}summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-shrink:0}details[open] summary::after{transform:rotate(45deg)}.faq-body{padding:4px 20px 18px;font-family:var(--sans);font-size:13.5px;color:var(--ink3);line-height:1.65}
 .links-block{border:1px solid var(--rule);border-radius:12px;padding:24px;margin:40px 0;background:var(--white)}.links-ttl{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:14px}.links-grid{display:flex;flex-wrap:wrap;gap:8px}.links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -76,55 +89,62 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 <p class="lead">Hay algo que los argentinos saben sobre Bariloche que el resto del mundo tarda en entender: que esa ciudad de piedra volcánica y tejados alpinos a orillas de un lago patagónico no es un capricho arquitectónico ni un parque temático. Es el resultado lógico de lo que pasa cuando inmigrantes suizos, alemanes y austriacos llegan al fin del mundo y construyen con los materiales que tienen — piedra volcánica, ciprés patagónico, nieve en invierno — lo que sabían hacer. Lo que resulta de esa ecuación es una ciudad que no se parece a ninguna otra en América Latina: una torre de reloj sobre un lago glaciar, chocolaterías artesanales en la calle principal, ciervos colorados cruzando las calles residenciales al atardecer, cóndores planeando sobre el Centro Cívico, y a 20 kilómetros, el Cerro Catedral con sus 1.200 hectáreas esquiables — la mayor estación del hemisferio sur. Todo ello en la Patagonia argentina, a 41 grados de latitud sur, con el estrecho de Magallanes a 1.000 kilómetros. Bariloche no tiene por qué existir. Pero existe — y lo hace con una coherencia y una belleza que la convierten en uno de los lugares más extraordinarios donde vivir en toda América.</p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepara tu mudanza</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span>
-          <span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Tu cuenta sin fronteras</span>
-          <span class="aff-strip-desc">Tarjeta + transferencias en 40+ divisas al tipo real</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">SIM local activable antes de aterrizar</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Acceso seguro a tus cuentas desde el extranjero</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepara tu mudanza</p>
+    <p class="aff-title">Las herramientas <em>realmente útiles</em> para emigrar</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Desde 45$/mes</span>
       </div>
-      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Seguro de salud mundial pensado para nómadas. Se activa desde cualquier lugar.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Ver la oferta →</a>
+        <span class="aff-social">+1M nómadas</span>
+      </div>
     </div>
-<h2>Bariloche en <span class="g">2026</span> — los Alpes patagónicos al fin del mundo</h2>
-
-<p>San Carlos de Bariloche — nombre oficial, casi nunca utilizado — es la capital turística de la Patagonia andina, en la provincia de Río Negro, a 1.600 km al sur de Buenos Aires y a 41°S. La ciudad tiene 130.000 habitantes y se extiende a lo largo de la orilla sur del lago Nahuel Huapi, dentro del parque nacional homónimo, a 770 metros sobre el nivel del mar. El lago es uno de los más grandes y bellos de Argentina — 764 km², agua glaciar de transparencia extraordinaria, rodeado de bosques de lenga y coihue (<em>nothofagus</em>) y picos andinos de los que varios superan los 2.000 metros. Algunos de esos picos son volcanes. El Cerro Tronador, el más alto de la Patagonia andina norte con 3.491 metros, está a 70 km al oeste.</p>
-
-<p>Para un expatriado en 2026, Bariloche queda fuera de todas las categorías habituales. No es una ciudad de negocios, no es un hub de nómadas, no es una capital cultural. Es un lugar donde la naturaleza — el lago, la montaña, el bosque, la nieve en invierno — está tan continuamente presente que reconfigura la calidad de vida cotidiana de una manera que pocas ciudades del mundo pueden ofrecer. Quienes se instalan aquí lo hacen sabiendo que eligen belleza y aislamiento relativo sobre agitación y conexión. Es una elección deliberada — y para muchos, resulta definitiva.</p>
-
-<div class="note ok">
-  <div class="note-ttl">✓ La ciudad más bella de la Patagonia — y más asequible de lo que parece</div>
-  <p>Bariloche es algo más cara que Córdoba o Mendoza debido a su estatus turístico premium, pero sigue estando claramente por debajo de Buenos Aires. Un estudio amueblado de calidad se alquila por $380-600. La calidad de vida natural (lago, montaña, aire puro, esquí en invierno) compensa con creces el ligero sobreprecio respecto a las otras ciudades de esta guía.</p>
-</div>
-
-<h2>La ciudad — identidad <span class="g">&amp;</span> carácter</h2>
-
-<p>El <strong>Centro Cívico</strong> — diseñado en los años treinta por el arquitecto Ernesto de Estrada en un estilo que los urbanistas llaman "Tipico Barilochense" — es un conjunto de edificios en piedra volcánica local y ciprés patagónico, con tejados de dos aguas cubiertos de teja y una torre del reloj sobre la plaza central. Con el lago Nahuel Huapi de fondo inmediato y los Andes nevados detrás, crea una de las escenas arquitectónicas más impactantes de Argentina. Crucialmente, no es un decorado para turistas — los edificios municipales llevan funcionando allí desde su construcción. El vocabulario alpino en piedra volcánica se repite en todo el barrio central: la catedral, los hoteles históricos, las residencias privadas, las propias calles.</p>
-
-<p>La <strong>Calle Mitre</strong>, la arteria comercial principal, es la columna vertebral económica de Bariloche — una secuencia continua de chocolaterías artesanales, tiendas de productos regionales, restaurantes, alquileres de material de esquí y agencias de guías de montaña. En pocos cientos de metros concentra toda la economía de la ciudad: el turismo de nieve en invierno, el turismo de lago y montaña en verano, y la venta de chocolate artesanal durante todo el año. El chocolate de Bariloche es una institución nacional — los argentinos conducen cientos de kilómetros solo para traerlo a casa. Las chocolaterías artesanales de Calle Mitre (Mamuschka, Del Turista, Rapa Nui, Fenoglio) producen bombones, tabletas y trufas según recetas transmitidas desde los primeros colonos suizos y alemanes.</p>
-
-<p>La naturaleza de Bariloche no es una atracción periférica — habita la propia ciudad. Los ciervos colorados (<em>ciervo colorado</em>, introducidos desde Europa Central) bajan a las calles residenciales al atardecer con una familiaridad tranquila. Los cóndores andinos planean sobre los acantilados del lago, visibles desde el Centro Cívico en los días despejados. El bosque de lenga empieza a pocos cientos de metros del centro y se extiende cientos de kilómetros hacia el sur, hacia la Patagonia chilena y argentina.</p>
-
-<div class="pq"><p>Bariloche en julio: la primera nieve ha cubierto los tejados del Centro Cívico. El lago Nahuel Huapi tiene un azul casi irreal en la luz de la mañana. En Calle Mitre, una chocolatería acaba de abrir. A 20 kilómetros, el Cerro Catedral espera. No es Suiza — es mejor.</p></div>
-
-<h2>Barrios — <span class="g">¿dónde instalarse?</span></h2>
-<div class="quartiers">
-  <div class="q-card"><div class="q-name">Centro / Calle Mitre</div><div class="q-desc">El núcleo turístico y residencial. Todo a pie, vistas al lago desde los pisos en altura, actividad todo el año. Alquileres: $420-800. Para los expatriados que quieren la inmersión total en Bariloche. Algo turístico en temporada alta, incomparable en temporada baja.</div></div>
-  <div class="q-card"><div class="q-name">Barrio Belgrano / Melipal</div><div class="q-desc">Barrios residenciales tranquilos a 10-15 min a pie del centro. Casas en parcela con jardín y vistas parciales al lago. Alquileres: $380-700. Para familias y residentes a largo plazo que quieren espacio y calma. La recomendación de WiggMap para residentes permanentes.</div></div>
-  <div class="q-card"><div class="q-name">Llao Llao</div><div class="q-desc">Zona hotelera y residencial premium a 25 km al oeste sobre la Ruta de los Siete Lagos. Paisajes extraordinarios, hotel Llao Llao, silencio absoluto. Alquileres: $600-1.400. Coche imprescindible. Para perfiles que quieren el máximo de belleza natural.</div></div>
-  <div class="q-card"><div class="q-name">Cerro Catedral</div><div class="q-desc">Base de la estación de esquí a 20 km. Residencias de esquí, cabañas en alquiler. Alquileres: $450-900 en temporada alta, muy variables fuera de temporada. Solo para esquiadores de temporada completa — la infraestructura fuera de la temporada de nieve es mínima.</div></div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Tipo real</span>
+      </div>
+      <p class="aff-name">Wise — Cuenta sin fronteras</p>
+      <p class="aff-desc">Tarjeta + transferencias en 40+ divisas. Cero comisiones ocultas.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Abrir una cuenta →</a>
+        <span class="aff-social">16M+ clientes</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Antes de aterrizar</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mundial</p>
+      <p class="aff-desc">SIM local que activas desde tu sofá. 200+ países cubiertos.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Elegir mi eSIM →</a>
+        <span class="aff-social">10M+ usuarios</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Imprescindible</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Acceso seguro a tus cuentas desde el extranjero. Salta las restricciones locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Asegurar mi conexión →</a>
+        <span class="aff-social">Top 1 VPN mundial</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">enlaces de afiliado — sin coste adicional para ti</p>
 </div>
 
 <h2>Vida cotidiana <span class="g">&amp;</span> alojamiento</h2>
@@ -260,5 +280,7 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 <div class="orn"><span>· · ✦ · ·</span></div>
 <div id="siteFooter"></div><script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

@@ -98,14 +98,27 @@ summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-sh
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -143,68 +156,62 @@ En 1538, le conquistador Gonzalo Jiménez de Quesada fondait une ville sur un pl
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton installation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span>
-          <span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span>
-          <span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Carte SIM locale activable avant d'atterrir</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Accès sécurisé à tes comptes depuis l'étranger</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Préparer ton installation</p>
+    <p class="aff-title">Les outils <em>vraiment utiles</em> pour partir</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Dès 45$/mois</span>
       </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Assurance santé mondiale conçue pour les nomades. S'active depuis n'importe où.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Voir l'offre →</a>
+        <span class="aff-social">+1M nomades</span>
+      </div>
     </div>
-<h2>Bogotá en <span class="g">2026</span> — la capitale intellectuelle et culturelle de l'Amérique latine</h2>
-
-<p>Bogotá est la capitale de la Colombie et sa plus grande ville — 8 millions d'habitants dans la ville, 11 millions dans la région métropolitaine. À 2 600 mètres d'altitude, elle est la troisième plus haute capitale du monde après Sucre et La Paz (Bolivie) et Quito (Équateur). Cette altitude est à la fois sa caractéristique la plus définissante et son plus grand paradoxe : elle lui donne un climat perpétuellement frais (7-18°C, veste toujours nécessaire sous les tropiques), ce qui la distingue radicalement de Medellín et en fait une capitale au caractère plus européen que caribéen.</p>
-
-<p>Pour un expatrié en 2026, Bogotá est la proposition la plus complexe — et la plus riche — de Colombie. Plus chère que Medellín ($50-100 de plus sur les loyers comparables), moins agréable sur le plan climatique, plus encombrée dans sa circulation — mais inégalable pour l'accès à la culture, aux institutions, aux ambassades, aux multinationales et à une vie intellectuelle et artistique qui n'a pas d'équivalent sur le continent. Bogotá est souvent décrite comme la "Londres d'Amérique latine" — froide, sérieuse, grise une partie du temps, mais d'une profondeur et d'une richesse culturelle qui justifient pleinement l'investissement.</p>
-
-<div class="note warn">
-  <div class="note-ttl">⚠️ Altitude — les 2-5 premiers jours peuvent surprendre</div>
-  <p>À 2 600 mètres, le mal d'altitude (soroche) peut se manifester : maux de tête, fatigue, essoufflement. La majorité des personnes s'acclimatent en 2-5 jours. Éviter l'alcool et le sport intensif les 48 premières heures, s'hydrater abondamment. Les personnes avec problèmes cardiaques doivent consulter avant.</p>
-</div>
-
-<h2>La ville — identité <span class="g">&amp;</span> âme</h2>
-
-<p><strong>La Candelaria</strong> est le cœur historique de Bogotá — un quartier colonial du XVIe siècle avec des ruelles pavées, des façades colorées, des musées au mètre carré et une densité de vie culturelle sans équivalent en Colombie. C'est ici que se trouvent le <strong>Museo del Oro</strong> (le Musée de l'Or, avec 55 000 pièces d'or et d'émeraude pré-colombiennes — la plus grande collection au monde), la <strong>Plaza de Bolívar</strong> (la place principale), la <strong>Bibliothèque Luis Ángel Arango</strong> (la plus fréquentée d'Amérique latine), et des dizaines de galeries, théâtres et universités qui font de ce quartier l'un des plus densément culturels du continent. La Candelaria est à Bogotá ce que le Quartier Latin est à Paris — l'âme intellectuelle de la ville, avec ses étudiants, ses librairies d'occasion et ses restaurants à $4 le plat.</p>
-
-<p>Au nord, le contraste est saisissant. Le quartier de <strong>Chapinero</strong> est le cœur de la Bogotá moderne et internationale — coffee shops de spécialité, restaurants gastronomiques, startups, bureaux d'ONG et d'agences de coopération internationale. <strong>Usaquén</strong>, plus au nord, est le quartier résidentiel le plus prisé des expatriés — marché artisanal du dimanche, restaurants haut de gamme, galeries, terrasses chauffées (nécessaires à 2 600m sous les tropiques). Et la <strong>Zona Rosa</strong>, avec ses centres commerciaux, restaurants et vie nocturne, est l'équivalent bogotan d'El Poblado à Medellín.</p>
-
-<div class="pq">
-  <p>Bogotá est la ville où une conversation dans un café peut commencer par García Márquez et finir deux heures plus tard sur la politique minière et le prix du café à New York. Nulle part ailleurs en Amérique latine une capitale n'est aussi intellectuellement intense.</p>
-</div>
-
-<h2>Quartiers — <span class="g">où s'installer ?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">Chapinero / Chapinero Alto</div>
-    <div class="q-desc">Le quartier expat et bohème par excellence. Coffee shops, restaurants gastronomiques, vie nocturne, startups. Loyers : $550-1,200. Diversité remarquable (communauté LGBTQ+ très visible, très tolerante). À 20 min de La Candelaria. La recommandation WiggMap pour les long-termers actifs.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Taux réel</span>
+      </div>
+      <p class="aff-name">Wise — Compte sans frontières</p>
+      <p class="aff-desc">Carte + virements en 40+ devises. Zéro commission cachée.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Ouvrir un compte →</a>
+        <span class="aff-social">16M+ clients</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Avant d'atterrir</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mondiale</p>
+      <p class="aff-desc">Carte SIM locale activable depuis ton canapé. 200+ pays couverts.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Choisir son eSIM →</a>
+        <span class="aff-social">10M+ utilisateurs</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Indispensable</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Accès sécurisé à tes comptes depuis l'étranger. Contourne les restrictions locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Sécuriser ma connexion →</a>
+        <span class="aff-social">Top 1 VPN mondial</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">Usaquén</div>
-    <div class="q-desc">Le quartier résidentiel premium du nord. Architecture coloniale rénovée, restaurants gastronomiques, marché du dimanche, cadre sécurisé. Loyers : $700-1,600. Pour les familles et profils à revenus confortables. Plus calme que Chapinero, plus résidentiel.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Zona Rosa / El Retiro</div>
-    <div class="q-desc">Centre commercial et de divertissement. Restaurants, hôtels de luxe, ambassades voisines, vie nocturne animée. Loyers : $700-1,400. Pour les profils qui veulent le maximum d'animation et de praticité. Très touristique mais bien desservi.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Teusaquillo / La Soledad</div>
-    <div class="q-desc">Quartiers résidentiels centraux plus abordables avec architecture Art Déco. Marchés locaux, vie de quartier authentique. Loyers : $400-800. Pour les expats long terme à budget modéré qui veulent une vraie vie de quartier. Idéalement situé entre la Candelaria et le nord.</div>
-  </div>
+  <p class="aff-footer">liens partenaires — sans surcoût pour toi</p>
 </div>
 
 <h2>Vie quotidienne <span class="g">&amp;</span> logement</h2>
@@ -386,5 +393,7 @@ En 1538, le conquistador Gonzalo Jiménez de Quesada fondait une ville sur un pl
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

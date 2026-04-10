@@ -125,14 +125,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -170,68 +183,62 @@ A las seis de la mañana, las primeras bougatsadika abren sus persianas en el pa
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepara tu mudanza</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span>
-          <span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Tu cuenta sin fronteras</span>
-          <span class="aff-strip-desc">Tarjeta + transferencias en 40+ divisas al tipo real</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">SIM local activable antes de aterrizar</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Acceso seguro a tus cuentas desde el extranjero</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepara tu mudanza</p>
+    <p class="aff-title">Las herramientas <em>realmente útiles</em> para emigrar</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Desde 45$/mes</span>
       </div>
-      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Seguro de salud mundial pensado para nómadas. Se activa desde cualquier lugar.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Ver la oferta →</a>
+        <span class="aff-social">+1M nómadas</span>
+      </div>
     </div>
-<h2>Tesalónica en <span class="g">2026</span> — la ciudad que los expatriados siguen subestimando</h2>
-
-<p>Tesalónica es la segunda ciudad de Grecia y, según la mayoría de quienes viven allí, la más agradable. La comparación con Atenas surge constantemente en las conversaciones de los expatriados: Atenas es más internacional, mejor conectada, más dinámica económicamente. Tesalónica es más humana, más auténtica, más barata, mejor nutrida y — en opinión de muchos — más bonita. No tiene la Acrópolis. Tiene algo mejor: un paseo marítimo excepcional, una ciudad alta (el Ano Poli) preservada desde la época otomana con sus casas de madera de colores en voladizo, quince basílicas bizantinas declaradas Patrimonio Mundial de la UNESCO, y una escena gastronómica que los propios griegos reconocen unánimemente como la primera del país.</p>
-
-<p>La ciudad es también una gran ciudad universitaria — la Universidad Aristóteles es la más grande de Grecia y una de las más grandes del sur de Europa. Eso le confiere a Tesalónica una energía joven, una densa vida cultural, y unos alquileres que se mantienen entre un 20 y un 30% por debajo de los de Atenas pese a las recientes subidas. Para un expatriado que busca la Grecia auténtica en lugar de la Grecia turística, Tesalónica es la respuesta obvia.</p>
-
-<div class="note ok">
-  <div class="note-ttl">✓ Puerta de entrada a los Balcanes</div>
-  <p>Tesalónica está a 300 km de Sofía (Bulgaria), 250 km de Skopje (Macedonia del Norte) y 310 km de Tirana (Albania). Para las empresas activas en los Balcanes, es el hub logístico, comercial y cultural natural de toda la región. El puerto de Tesalónica es el segundo de Grecia.</p>
-</div>
-
-<h2>La ciudad — identidad <span class="g">&amp;</span> alma</h2>
-
-<p>Tesalónica es una ciudad de estratos. Pasea por el barrio del Ano Poli (la ciudad alta) y atravesarás un laberinto de callejuelas adoquinadas otomanas, casas de madera pintada que dominan la ciudad baja, fuentes y mezquitas reconvertidas. Baja hacia el paseo marítimo y caminarás cinco kilómetros junto al golfo Termáico, con la Torre Blanca (símbolo de la ciudad, antigua torre de vigilancia otomana) como punto de referencia. Entre medias, vestigios romanos (el Arco de Galerio, el Palacio de Galerio, el Hipódromo) emergen entre los edificios de los años 60 — Tesalónica es una ciudad donde lo antiguo y lo moderno conviven sin artificios.</p>
-
-<p>El barrio de <strong>Ladadika</strong> — literalmente "el barrio de los vendedores de aceite" — es el antiguo almacén comercial de la ciudad, reconvertido en un barrio de bares y restaurantes que nunca duerme. La plaza <strong>Navarinou</strong> y sus alrededores concentran las mejores mesas de la ciudad. Y los mercados cubiertos (Modiano, Kapani), vestigios de la época otomana, siguen siendo lugares de vida cotidiana donde se abastecen tanto las familias como los chefs con estrellas Michelin.</p>
-
-<div class="pq">
-  <p>En Tesalónica no tienes que elegir entre la historia y la vida. Ambas ocurren en la misma calle, a menudo en la misma mesa. Eso es lo que hace a esta ciudad insustituible.</p>
-</div>
-
-<h2>Barrios — <span class="g">¿dónde instalarse?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">Ano Poli</div>
-    <div class="q-desc">La ciudad alta otomana. Callejuelas adoquinadas, casas de madera coloridas, vistas excepcionales sobre el golfo. Ambiente bohemio y artístico. Alquileres muy asequibles ($380-550). A pocos minutos del centro a pie — pero cuesta arriba. Ideal para creativos y amantes de la historia.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Tipo real</span>
+      </div>
+      <p class="aff-name">Wise — Cuenta sin fronteras</p>
+      <p class="aff-desc">Tarjeta + transferencias en 40+ divisas. Cero comisiones ocultas.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Abrir una cuenta →</a>
+        <span class="aff-social">16M+ clientes</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Antes de aterrizar</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mundial</p>
+      <p class="aff-desc">SIM local que activas desde tu sofá. 200+ países cubiertos.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Elegir mi eSIM →</a>
+        <span class="aff-social">10M+ usuarios</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Imprescindible</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Acceso seguro a tus cuentas desde el extranjero. Salta las restricciones locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Asegurar mi conexión →</a>
+        <span class="aff-social">Top 1 VPN mundial</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">Ladadika / Centro</div>
-    <div class="q-desc">El corazón vivo de la ciudad. Bares, restaurantes, casco antiguo y paseo marítimo a mano. La zona más animada, a veces ruidosa los fines de semana. Alquileres: $450-700. Para solteros y parejas sin hijos que quieren tenerlo todo a pie.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Kalamaria</div>
-    <div class="q-desc">Suburbio residencial costero al este. Tranquilo, con vegetación, junto al mar. Muy apreciado por familias y jubilados. Buena calidad de vida, menos animación nocturna. Alquileres: $500-800 para un apartamento familiar. Autobuses frecuentes al centro.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Panorama / Pilea</div>
-    <div class="q-desc">Barrios residenciales en las alturas al este, con vistas espectaculares sobre el golfo y el monte Olimpo. Más caros ($600-1.000) pero calidad de vida excepcional. Muy apreciados por familias y perfiles acomodados. Menos bien comunicados en transporte público.</div>
-  </div>
+  <p class="aff-footer">enlaces de afiliado — sin coste adicional para ti</p>
 </div>
 
 <h2>Vida cotidiana <span class="g">&amp;</span> alojamiento</h2>
@@ -425,5 +432,7 @@ A las seis de la mañana, las primeras bougatsadika abren sus persianas en el pa
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

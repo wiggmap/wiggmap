@@ -125,14 +125,27 @@ details[open] summary::after{transform:rotate(45deg)}
 .links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--ink2);text-decoration:none;transition:border-color 0.15s,color 0.15s,background 0.15s}
 .links-grid a:hover{border-color:var(--g);color:var(--gd);background:var(--gp)}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -170,68 +183,62 @@ Il y a un moment précis à La Canée qui ne ressemble à rien d'autre. C'est le
 </p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton installation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span>
-          <span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span>
-          <span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">Carte SIM locale activable avant d'atterrir</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Accès sécurisé à tes comptes depuis l'étranger</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Préparer ton installation</p>
+    <p class="aff-title">Les outils <em>vraiment utiles</em> pour partir</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Dès 45$/mois</span>
       </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Assurance santé mondiale conçue pour les nomades. S'active depuis n'importe où.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Voir l'offre →</a>
+        <span class="aff-social">+1M nomades</span>
+      </div>
     </div>
-<h2>La Canée en <span class="g">2026</span> — le secret crétois le mieux gardé</h2>
-
-<p>La Canée (Χανιά en grec, Chania en anglais) est la deuxième ville de Crète — 55 000 habitants dans la ville, 150 000 dans l'agglomération — mais la première au palmarès de la beauté. Sa vieille ville vénitienne, construite entre le XIIIe et le XVIIe siècle, est l'une des mieux préservées de Méditerranée orientale. Son port intérieur à la lanterne, ses ruelles de pierre, ses mosquées reconverties, ses arsenaux vénitiens et ses maisons aux volets colorés forment un ensemble architectural d'une cohérence rare — comme si l'histoire s'était arrêtée juste avant de tout gâcher.</p>
-
-<p>La Canée est aussi la ville crétoise la plus internationale. L'installation de l'OTAN (siège du QG AFSOUTH pour la Méditerranée orientale y est associé), la présence de l'Université polytechnique de Crète, et le flux d'expatriés qui choisissent la Crète occidentale pour ses paysages, son authenticité et ses plages ont créé une communauté internationale active et bien organisée. Pour un nomad créatif, un retraité aisé ou une famille qui cherche une vie méditerranéenne sans compromis sur la beauté du cadre, La Canée est probablement la meilleure adresse de toute la Grèce insulaire.</p>
-
-<div class="note ok">
-  <div class="note-ttl">✓ Vieille Ville UNESCO — statut en cours</div>
-  <p>La Vieille Ville vénitienne de La Canée est sur la liste préliminaire d'inscription au Patrimoine mondial de l'UNESCO depuis plusieurs années. La désignation officielle, si elle aboutit, renforcera encore la protection du patrimoine bâti — et probablement la pression sur les loyers de la Vieille Ville.</p>
-</div>
-
-<h2>La ville — identité <span class="g">&amp;</span> âme</h2>
-
-<p>La Canée est une ville de superpositions architecturales fascinantes. Le port intérieur, construit par les Vénitiens à partir du XIIIe siècle et équipé de la grande <strong>lanterne ottomane</strong> (Phare de La Canée, 1594), est entouré d'anciens arsenaux vénitiens qui servaient à construire et abriter les galères de la Sérénissime. La <strong>mosquée des Janissaires</strong> (1645), première mosquée ottomane de Crète, domine le port avec ses coupoles caractéristiques. Dans les ruelles du quartier de <strong>Splantzia</strong>, des platanes centenaires ombragent des places où des mosquées ottomanes reconverties en bureaux ou en cafés côtoient des chapelles vénitiennes.</p>
-
-<p>Le marché couvert de La Canée — construit en 1911 sur le modèle du marché de Marseille — est l'un des plus beaux de Grèce. Fromages crétois, olives, herbes sauvages, épices, miel et raki s'y vendent dans une architecture de métal et de verre qui a traversé le siècle. Et le front de mer de <strong>Koum Kapi</strong>, à l'est de la Vieille Ville, offre un alignement de restaurants de poisson sur une plage de galets en plein cœur de ville — une des scènes de vie les plus plaisantes de toute la Méditerranée.</p>
-
-<div class="pq">
-  <p>La Canée est la ville que Venise aurait construite si elle avait su que le soleil existait. Vivable à l'année, belle à l'excès, et encore secrète aux yeux du monde.</p>
-</div>
-
-<h2>Quartiers — <span class="g">où s'installer ?</span></h2>
-
-<div class="quartiers">
-  <div class="q-card">
-    <div class="q-name">Vieille Ville / Splantzia</div>
-    <div class="q-desc">Le cœur historique. Ruelles pavées, maisons vénitiennes, cafés, restaurants, port à portée de main. Très touristique en été mais authentique hors-saison. Loyers : $550-900/mois. Idéal pour les nomads et les amoureux de l'architecture. Bruyant juillet-août.</div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Taux réel</span>
+      </div>
+      <p class="aff-name">Wise — Compte sans frontières</p>
+      <p class="aff-desc">Carte + virements en 40+ devises. Zéro commission cachée.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Ouvrir un compte →</a>
+        <span class="aff-social">16M+ clients</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Avant d'atterrir</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mondiale</p>
+      <p class="aff-desc">Carte SIM locale activable depuis ton canapé. 200+ pays couverts.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Choisir son eSIM →</a>
+        <span class="aff-social">10M+ utilisateurs</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Indispensable</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Accès sécurisé à tes comptes depuis l'étranger. Contourne les restrictions locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Sécuriser ma connexion →</a>
+        <span class="aff-social">Top 1 VPN mondial</span>
+      </div>
+    </div>
   </div>
-  <div class="q-card">
-    <div class="q-name">Halepa</div>
-    <div class="q-desc">Quartier résidentiel noble à l'est, ex-quartier des consulats. Villas néoclassiques, jardins, calme et caractère. Très prisé des familles et des retraités aisés. Loyers : $650-1,100/mois. À 15 min à pied du port à pied. Le quartier le plus "expat establishment".</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Koum Kapi / Nea Chora</div>
-    <div class="q-desc">Les plages de ville. Front de mer, restaurants de poisson, tavernes. Plus populaire et authentique que la Vieille Ville touristique. Loyers raisonnables ($500-750). Pour ceux qui veulent le bord de mer sans le prix Vieille Ville.</div>
-  </div>
-  <div class="q-card">
-    <div class="q-name">Akrotiri</div>
-    <div class="q-desc">La péninsule au nord-est. Monastères, plages sauvages, villas disséminées dans le maquis. Très calme, voiture indispensable. Apprécié des familles et des retraités qui cherchent la nature. Loyers variables mais souvent compétitifs ($400-700 pour une maison).</div>
-  </div>
+  <p class="aff-footer">liens partenaires — sans surcoût pour toi</p>
 </div>
 
 <h2>Vie quotidienne <span class="g">&amp;</span> logement</h2>
@@ -426,5 +433,7 @@ Il y a un moment précis à La Canée qui ne ressemble à rien d'autre. C'est le
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>

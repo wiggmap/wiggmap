@@ -40,14 +40,27 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 .faq{margin:36px 0}details{border:1px solid var(--rule);border-radius:var(--r);margin-bottom:8px;overflow:hidden}details[open]{border-color:var(--g)}summary{font-family:var(--sans);font-size:14px;font-weight:500;padding:16px 20px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;color:var(--ink);gap:12px;user-select:none}summary::after{content:'+';font-size:20px;color:var(--g);font-weight:300;flex-shrink:0}details[open] summary::after{transform:rotate(45deg)}.faq-body{padding:4px 20px 18px;font-family:var(--sans);font-size:13.5px;color:var(--ink3);line-height:1.65}
 .links-block{border:1px solid var(--rule);border-radius:12px;padding:24px;margin:40px 0;background:var(--white)}.links-ttl{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);margin-bottom:14px}.links-grid{display:flex;flex-wrap:wrap;gap:8px}.links-grid a{display:inline-flex;align-items:center;gap:6px;background:var(--rulet);border:1px solid var(--rule);border-radius:8px;padding:8px 14px;font-family:var(--sans);font-size:12.5px;color:var(--ink2);text-decoration:none}
 .disc{font-family:var(--sans);font-size:11px;color:var(--ink3);text-align:center;padding-top:32px;border-top:1px solid var(--rule);margin-top:48px;line-height:1.6}
-  .aff-strip{background:var(--ink);border-radius:12px;padding:18px 22px;margin:0 0 32px;color:rgba(255,255,255,.85)}
-.aff-strip-title{font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:12px}
-.aff-strip-list{display:flex;flex-direction:column;gap:10px}
-.aff-strip-item{display:flex;align-items:center;gap:12px;text-decoration:none;color:rgba(255,255,255,.85);transition:color .15s}
-.aff-strip-item:hover{color:#fff}
-.aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
-.aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
-.aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+  .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 <body>
@@ -84,46 +97,62 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 <p class="lead">El 28 de febrero de 1999, las Torres Petronas se convirtieron en los edificios más altos del mundo — con 452 metros, destronaron a la Willis Tower de Chicago, que había ostentado el récord desde 1973. Para Kuala Lumpur, fue una declaración de intenciones planetaria: una capital del Sudeste Asiático con menos de 150 años de existencia acababa de clavar sus dos agujas de acero y cristal en el horizonte mundial. Lo que sorprende en 2026 es que esta ciudad cumple su promesa. KL es moderna, funcional, anglófona, extraordinariamente diversa — malayos, chinos, indios, occidentales, árabes conviven en el mismo metro, en los mismos centros comerciales climatizados, en los mismos hawker centres donde en la misma noche se puede comer nasi lemak, char kway teow y roti canai. Y todo ello por un tercio del precio de Singapur.</p>
 
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepara tu mudanza</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span>
-          <span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Wise — Tu cuenta sin fronteras</span>
-          <span class="aff-strip-desc">Tarjeta + transferencias en 40+ divisas al tipo real</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span>
-          <span class="aff-strip-desc">SIM local activable antes de aterrizar</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span>
-          <span class="aff-strip-desc">Acceso seguro a tus cuentas desde el extranjero</span>
-        </a>
+    <div class="aff-block">
+  <div class="aff-head">
+    <p class="aff-eyebrow">Prepara tu mudanza</p>
+    <p class="aff-title">Las herramientas <em>realmente útiles</em> para emigrar</p>
+  </div>
+  <div class="aff-grid">
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#fff3e0">🛡️</div>
+        <span class="aff-badge aff-badge-green">Desde 45$/mes</span>
       </div>
-      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+      <p class="aff-name">SafetyWing</p>
+      <p class="aff-desc">Seguro de salud mundial pensado para nómadas. Se activa desde cualquier lugar.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" target="_blank" rel="noopener sponsored">Ver la oferta →</a>
+        <span class="aff-social">+1M nómadas</span>
+      </div>
     </div>
-<h2>KL en <span class="g">2026</span> — la metrópolis más infravalorada del Sudeste Asiático</h2>
-<p>Kuala Lumpur es la capital y ciudad más grande de Malasia — 2 millones de habitantes en la ciudad propiamente dicha, 8 millones en la aglomeración del Valle de Klang. Fundada en 1857 en la confluencia de los ríos Klang y Gombak por prospectores de estaño, se ha convertido en menos de 170 años en una de las metrópolis más conectadas de Asia. Su aeropuerto KLIA es uno de los mejores de Asia, clasificado regularmente entre los diez mejores del mundo. La ciudad funciona en inglés — idioma oficial de facto en los negocios, la educación privada y la vida expatriada — lo que la convierte en una de las pocas grandes metrópolis asiáticas totalmente accesibles sin aprendizaje previo del idioma local.</p>
-<p>Para un expatriado o nómada digital en 2026, KL es la ecuación más eficiente del Sudeste Asiático: calidad de vida de Singapur, precios de ciudad secundaria, inglés en todas partes, sanidad privada de clase mundial, internet rápido, gastronomía extraordinaria. La principal contrapartida es la dependencia del coche en los barrios residenciales fuera del centro, la contaminación atmosférica estacional (niebla tóxica de Indonesia) y una burocracia malaya que puede desanimar los proyectos empresariales.</p>
-
-<div class="note ok"><div class="note-ttl">✓ DE Rantau — el visado de nómada digital de Malasia</div><p>Malasia dispone desde 2022 de un visado oficial de nómada digital — el <strong>DE Rantau</strong> — accesible para los trabajadores a distancia con ingresos fuera de Malasia (mínimo $24.000/año). Duración inicial de 12 meses, renovable. Uno de los visados de nómada más accesibles y mejor estructurados del Sudeste Asiático.</p></div>
-
-<h2>La ciudad — identidad <span class="g">&amp;</span> alma</h2>
-<p>KL es fundamentalmente una ciudad de contrastes que funcionan. Las <strong>Torres Petronas</strong> dominan un espectacular skyline de cristal y acero, pero a 15 minutos a pie se encuentra <strong>Chow Kit</strong>, el mercado más animado de la ciudad, donde los vendedores de durian ya gritaban sus precios mucho antes de que los primeros rascacielos emergieran del suelo. El barrio de <strong>Brickfields</strong> (Pequeña India) es un fuego de artificio permanente de colores, saris y música tamil. <strong>Chinatown</strong> (Petaling Street) despliega sus puestos y banderas rojas a pocos cientos de metros de la Mezquita Nacional. Esta convivencia no es un artificio turístico — es la realidad cotidiana de 8 millones de personas que comparten el mismo metro vestidas de maneras radicalmente diferentes.</p>
-<p>La <strong>cultura mamak</strong> es la institución social más representativa de KL — y una de las más infravaloradas por los viajeros. Los <strong>puestos mamak</strong> son restaurantes callejeros regentados por malayos de origen tamil indio, abiertos 24 horas al día, 7 días a la semana, que sirven té de menta (<em>teh tarik</em>), roti canai (pan hojaldrado crujiente con curry), mee goreng y arroz al curry por $1,50-3 por plato. Son las verdaderas plazas públicas de KL — a las 3 de la madrugada tanto como a las 7 de la mañana, los malayos de todos los orígenes beben su té leyendo la prensa o viendo el fútbol. Es donde se toma el verdadero pulso de la ciudad.</p>
-
-<div class="pq"><p>KL a las 2 de la madrugada en un mamak de Bangsar — teh tarik tibio, roti canai, el ventilador girando, un partido de la Premier League en la pantalla del fondo, tres generaciones en la misma mesa. Así es la vida real de esta ciudad.</p></div>
-
-<h2>Barrios — <span class="g">¿dónde instalarse?</span></h2>
-<div class="quartiers">
-  <div class="q-card"><div class="q-name">Mont Kiara</div><div class="q-desc">El barrio expatriado por excelencia. Condominios seguros, escuelas internacionales, restaurantes del mundo, densa comunidad expat. Alquileres: $600-1.500. Más caro que otros barrios, pero la concentración expat y la infraestructura internacional son inigualables en KL. Se recomienda coche.</div></div>
-  <div class="q-card"><div class="q-name">Bangsar</div><div class="q-desc">El barrio cool y animado. Cafeterías de especialidad, restaurantes gastronómicos, vida nocturna local, mezcla expat-local. Alquileres: $500-1.100. El mejor equilibrio entre calidad de vida, ambiente de barrio y acceso al centro. La recomendación WiggMap para los nómadas.</div></div>
-  <div class="q-card"><div class="q-name">KLCC / Bukit Bintang</div><div class="q-desc">Centro urbano premium. Torres Petronas, centros comerciales de lujo, restaurantes gastronómicos, vida nocturna. Alquileres: $700-2.000+. Bien conectado por LRT. Para perfiles que quieren el epicentro urbano sin coche. Menos ambiente de barrio, más metrópolis.</div></div>
-  <div class="q-card"><div class="q-name">Petaling Jaya (PJ)</div><div class="q-desc">Suburbio moderno y asequible. Apartamentos amplios, centros comerciales, acceso a Damansara. Alquileres: $350-750. Para familias y perfiles con presupuesto optimizado que quieren espacio. Bien conectado por MRT. Menos cosmopolita pero muy práctico en el día a día.</div></div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#e8f4fd">💸</div>
+        <span class="aff-badge aff-badge-amber">Tipo real</span>
+      </div>
+      <p class="aff-name">Wise — Cuenta sin fronteras</p>
+      <p class="aff-desc">Tarjeta + transferencias en 40+ divisas. Cero comisiones ocultas.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://wise.prf.hn/click/camref:1100l5IbJr" target="_blank" rel="noopener sponsored">Abrir una cuenta →</a>
+        <span class="aff-social">16M+ clientes</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#f0faf4">📱</div>
+        <span class="aff-badge aff-badge-green">Antes de aterrizar</span>
+      </div>
+      <p class="aff-name">Airalo — eSIM mundial</p>
+      <p class="aff-desc">SIM local que activas desde tu sofá. 200+ países cubiertos.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://airalo.pxf.io/3kkEDk" target="_blank" rel="noopener sponsored">Elegir mi eSIM →</a>
+        <span class="aff-social">10M+ usuarios</span>
+      </div>
+    </div>
+    <div class="aff-card">
+      <div class="aff-card-top">
+        <div class="aff-icon" style="background:#eef2fb">🔒</div>
+        <span class="aff-badge aff-badge-blue">Imprescindible</span>
+      </div>
+      <p class="aff-name">NordVPN</p>
+      <p class="aff-desc">Acceso seguro a tus cuentas desde el extranjero. Salta las restricciones locales.</p>
+      <div class="aff-cta">
+        <a class="aff-link" href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" target="_blank" rel="noopener sponsored">Asegurar mi conexión →</a>
+        <span class="aff-social">Top 1 VPN mundial</span>
+      </div>
+    </div>
+  </div>
+  <p class="aff-footer">enlaces de afiliado — sin coste adicional para ti</p>
 </div>
 
 <h2>Vida cotidiana <span class="g">&amp;</span> alojamiento</h2>
@@ -246,5 +275,7 @@ html{scroll-behavior:smooth}body{font-family:var(--sans);color:var(--ink);backgr
 <div class="orn"><span>· · ✦ · ·</span></div>
 <div id="siteFooter"></div><script src="/data/footer.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>
+<link rel="stylesheet" href="/connect/widget.css">
+<script src="/connect/widget.js"></script>
 </body>
 </html>
