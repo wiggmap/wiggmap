@@ -70,3 +70,18 @@
 
   document.body.insertAdjacentHTML("beforeend", footerHTML);
 })();
+
+// WiggMap Connect Widget — chargement automatique sur les chronicles
+(function() {
+  const path = window.location.pathname;
+  if (!path.includes('/chronicles/')) return;
+
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = '/connect/widget.css';
+  document.head.appendChild(link);
+
+  const script = document.createElement('script');
+  script.src = '/connect/widget.js';
+  document.body.appendChild(script);
+})();

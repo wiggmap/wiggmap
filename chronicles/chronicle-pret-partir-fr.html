@@ -365,7 +365,27 @@
     .pr.expat .pr-label { background: var(--red-light); color: var(--red); border-radius: 8px 0 0 8px; }
 
     /* INLINE AFFILIATE */
-    .aff-inline {
+.aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:14px 18px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
+.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:2px}
+.aff-title{font-family:'Fraunces',Georgia,serif;font-size:16px;font-weight:600;color:#1a1208;margin-bottom:10px}
+.aff-title em{font-style:italic;color:#1a5430}
+.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:10px 12px;display:flex;flex-direction:column;gap:4px;transition:border-color .15s}
+.aff-card:hover{border-color:#1a5430}
+.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.aff-icon{width:28px;height:28px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
+.aff-badge-green{background:#d4e8d0;color:#1a5430}
+.aff-badge-amber{background:#ead9b0;color:#7a4f10}
+.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
+.aff-name{font-size:13px;font-weight:600;color:#1a1208}
+.aff-desc{font-size:11px;color:#6b6258;line-height:1.45;flex:1}
+.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
+.aff-link:hover{text-decoration:underline}
+.aff-social{font-size:10px;color:#b0a898}
+.aff-footer{margin-top:8px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
+@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:12px 14px}}
       background: var(--green-light);
       border-left: 3px solid var(--green);
       border-radius: 0 8px 8px 0;
@@ -376,13 +396,10 @@
       color: #1a3d2a;
       line-height: 1.5;
     }
-    .aff-inline a {
       color: var(--green);
       font-weight: 700;
       text-decoration: none;
     }
-    .aff-inline a:hover { text-decoration: underline; }
-    .aff-inline .aff-note {
       display: block;
       font-size: 11px;
       color: var(--muted);
@@ -615,27 +632,6 @@
 .hero-mosaic.cols-3{grid-template-columns:1fr 1fr 1fr}
 .hero-mosaic-panel{background-size:cover;background-position:center}
 .hero-mosaic::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%);z-index:1}
-.aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
-.aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
-.aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
-.aff-title em{font-style:italic;color:#1a5430}
-.aff-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.aff-card{background:#fff;border:1px solid #e0d8cc;border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s}
-.aff-card:hover{border-color:#1a5430}
-.aff-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
-.aff-icon{width:36px;height:36px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.aff-badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:2px;white-space:nowrap}
-.aff-badge-green{background:#d4e8d0;color:#1a5430}
-.aff-badge-amber{background:#ead9b0;color:#7a4f10}
-.aff-badge-blue{background:#d0dff0;color:#1a3a7a}
-.aff-name{font-size:13px;font-weight:600;color:#1a1208}
-.aff-desc{font-size:12px;color:#6b6258;line-height:1.45;flex:1}
-.aff-cta{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
-.aff-link{font-size:12px;font-weight:600;color:#1a5430;text-decoration:none}
-.aff-link:hover{text-decoration:underline}
-.aff-social{font-size:10px;color:#b0a898}
-.aff-footer{margin-top:14px;text-align:center;font-size:11px;color:#b0a898;font-style:italic}
-@media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 </style>
 </head>
 
@@ -873,48 +869,6 @@
 
   <!-- FAQ -->
   <div class="faq">
-    <h2>Questions fréquentes</h2>
-    <details>
-      <summary>À partir de quand faut-il une assurance santé internationale ?</summary>
-      <p>Dès que vous quittez l'Union européenne pour plus de quelques semaines, votre couverture nationale devient partielle ou nulle. Pour un voyage de 3 mois ou plus hors UE, une assurance internationale dédiée est fortement recommandée. Pour une installation longue durée ou une expatriation, elle est indispensable.</p>
-    </details>
-    <details>
-      <summary>Est-ce que ma carte bancaire suffit pour vivre à l'étranger ?</summary>
-      <p>Pour un séjour court, oui — mais avec des frais de change souvent invisibles (1,5 à 3% par transaction). Pour un séjour long, une banque internationale sans frais de change comme Wise est clairement plus adaptée. La différence sur un an représente souvent plusieurs centaines d'euros.</p>
-    </details>
-    <details>
-      <summary>Quelle est la différence entre un voyage longue durée et une expatriation ?</summary>
-      <p>La ligne est floue, mais elle a des conséquences concrètes. En dessous de 6 mois, votre résidence fiscale reste généralement dans votre pays d'origine. Au-delà, des obligations déclaratives peuvent s'appliquer selon votre situation. La couverture santé, la fiscalité et les obligations administratives changent de nature selon la durée et le statut.</p>
-    </details>
-    <details>
-      <summary>Un nomade digital doit-il déclarer ses revenus différemment ?</summary>
-      <p>Oui, dans la plupart des cas. Si vous travaillez à distance depuis l'étranger plus de 183 jours par an, des questions de double imposition peuvent se poser. Certains pays ont des accords de non-double imposition, d'autres non. Une consultation avec un expert fiscal spécialisé en mobilité internationale est recommandée avant le départ.</p>
-    </details>
-    <details>
-      <summary>Faut-il un VPN pour travailler depuis l'étranger ?</summary>
-      <p>Pas obligatoire, mais fortement utile. Un VPN permet d'accéder aux services de son pays bloqués géographiquement (banque, administration, streaming), de sécuriser les connexions sur les wifi publics, et d'éviter certains blocages dans des pays avec une censure internet. Pour un nomade digital qui travaille sur des réseaux non maîtrisés, c'est devenu un outil de base.</p>
-    </details>
-  </div>
-
-  <!-- INTERNAL LINKS -->
-  <div class="internal-links">
-    <h3>Aller plus loin sur WiggMap</h3>
-    <div class="link-grid">
-      <a href="../countries/portugal-fr.html">Portugal — Données & Coût de vie</a>
-      <a href="../countries/thailand-fr.html">Thaïlande — Données & Coût de vie</a>
-      <a href="../countries/mexico-fr.html">Mexique — Données & Coût de vie</a>
-      <a href="chronicle-erreurs-expatries-fr.html">7 erreurs financières des expatriés</a>
-      <a href="chronicle-checklist-depart-v2-fr.html">Checklist départ — 30 minutes</a>
-      <a href="../indexchronicles.html">Toutes les chronicles WiggMap</a>
-    </div>
-  </div>
-
-  <div class="sources">
-    <p><strong>Note éditoriale :</strong> cet article contient des liens d'affiliation vers Wise, SafetyWing, Airalo et NordVPN. WiggMap perçoit une commission si vous souscrivez via ces liens, sans coût supplémentaire pour vous. Ces produits ont été sélectionnés pour leur pertinence éditoriale, indépendamment des accords commerciaux. Les estimations de coûts sont indicatives et varient selon le profil, la destination et les conditions du marché.</p>
-  </div>
-
-</article>
-</div>
 
 <div class="aff-block">
   <div class="aff-head">
@@ -974,6 +928,48 @@
   <p class="aff-footer">liens partenaires — sans surcoût pour toi</p>
 </div>
 
+    <h2>Questions fréquentes</h2>
+    <details>
+      <summary>À partir de quand faut-il une assurance santé internationale ?</summary>
+      <p>Dès que vous quittez l'Union européenne pour plus de quelques semaines, votre couverture nationale devient partielle ou nulle. Pour un voyage de 3 mois ou plus hors UE, une assurance internationale dédiée est fortement recommandée. Pour une installation longue durée ou une expatriation, elle est indispensable.</p>
+    </details>
+    <details>
+      <summary>Est-ce que ma carte bancaire suffit pour vivre à l'étranger ?</summary>
+      <p>Pour un séjour court, oui — mais avec des frais de change souvent invisibles (1,5 à 3% par transaction). Pour un séjour long, une banque internationale sans frais de change comme Wise est clairement plus adaptée. La différence sur un an représente souvent plusieurs centaines d'euros.</p>
+    </details>
+    <details>
+      <summary>Quelle est la différence entre un voyage longue durée et une expatriation ?</summary>
+      <p>La ligne est floue, mais elle a des conséquences concrètes. En dessous de 6 mois, votre résidence fiscale reste généralement dans votre pays d'origine. Au-delà, des obligations déclaratives peuvent s'appliquer selon votre situation. La couverture santé, la fiscalité et les obligations administratives changent de nature selon la durée et le statut.</p>
+    </details>
+    <details>
+      <summary>Un nomade digital doit-il déclarer ses revenus différemment ?</summary>
+      <p>Oui, dans la plupart des cas. Si vous travaillez à distance depuis l'étranger plus de 183 jours par an, des questions de double imposition peuvent se poser. Certains pays ont des accords de non-double imposition, d'autres non. Une consultation avec un expert fiscal spécialisé en mobilité internationale est recommandée avant le départ.</p>
+    </details>
+    <details>
+      <summary>Faut-il un VPN pour travailler depuis l'étranger ?</summary>
+      <p>Pas obligatoire, mais fortement utile. Un VPN permet d'accéder aux services de son pays bloqués géographiquement (banque, administration, streaming), de sécuriser les connexions sur les wifi publics, et d'éviter certains blocages dans des pays avec une censure internet. Pour un nomade digital qui travaille sur des réseaux non maîtrisés, c'est devenu un outil de base.</p>
+    </details>
+  </div>
+
+  <!-- INTERNAL LINKS -->
+  <div class="internal-links">
+    <h3>Aller plus loin sur WiggMap</h3>
+    <div class="link-grid">
+      <a href="../countries/portugal-fr.html">Portugal — Données & Coût de vie</a>
+      <a href="../countries/thailand-fr.html">Thaïlande — Données & Coût de vie</a>
+      <a href="../countries/mexico-fr.html">Mexique — Données & Coût de vie</a>
+      <a href="chronicle-erreurs-expatries-fr.html">7 erreurs financières des expatriés</a>
+      <a href="chronicle-checklist-depart-v2-fr.html">Checklist départ — 30 minutes</a>
+      <a href="../indexchronicles.html">Toutes les chronicles WiggMap</a>
+    </div>
+  </div>
+
+  <div class="sources">
+    <p><strong>Note éditoriale :</strong> cet article contient des liens d'affiliation vers Wise, SafetyWing, Airalo et NordVPN. WiggMap perçoit une commission si vous souscrivez via ces liens, sans coût supplémentaire pour vous. Ces produits ont été sélectionnés pour leur pertinence éditoriale, indépendamment des accords commerciaux. Les estimations de coûts sont indicatives et varient selon le profil, la destination et les conditions du marché.</p>
+  </div>
+
+</article>
+</div>
 <div id="siteFooter"></div>
 <script src="../data/footer.js"></script>
 <script>

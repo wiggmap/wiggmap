@@ -1,0 +1,66 @@
+/* WiggMap Connect — Chronicle Comment Widget */
+
+.wcc-root{background:#faf8f3;border:1px solid #c8bfaa;border-radius:2px;padding:28px 24px;margin:2.5rem auto;max-width:800px;font-family:'Inter',system-ui,sans-serif;color:#1a1208}
+
+/* ── Header ── */
+.wcc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
+.wcc-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:700;color:#1a1208;margin:0}
+.wcc-save-btn{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #c8bfaa;border-radius:2px;padding:7px 14px;font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:600;color:#1a5430;cursor:pointer;transition:border-color .15s,background .15s}
+.wcc-save-btn:hover{border-color:#1a5430;background:#f0ede4}
+.wcc-save-btn.wcc-saved{background:#1a5430;color:#fff;border-color:#1a5430}
+
+/* ── Auth ── */
+.wcc-auth{margin-bottom:18px}
+.wcc-google-btn{display:inline-flex;align-items:center;gap:10px;background:#fff;border:1px solid #c8bfaa;border-radius:2px;padding:10px 20px;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:600;color:#1a1208;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.wcc-google-btn:hover{border-color:#1a5430;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.wcc-google-btn svg{width:18px;height:18px;flex-shrink:0}
+.wcc-user-row{display:flex;align-items:center;gap:10px}
+.wcc-avatar{width:32px;height:32px;border-radius:2px;object-fit:cover;border:1px solid #c8bfaa}
+.wcc-user-name{font-size:13px;font-weight:600;color:#1a1208}
+.wcc-logout-btn{background:none;border:none;font-size:11px;color:#8a7f6a;cursor:pointer;text-decoration:underline;padding:0;font-family:'Inter',system-ui,sans-serif}
+.wcc-logout-btn:hover{color:#1a5430}
+
+/* ── Compose ── */
+.wcc-compose{margin-bottom:22px;border:1px solid #c8bfaa;border-radius:2px;background:#fff;overflow:hidden}
+.wcc-type-bar{display:flex;border-bottom:1px solid #e8e2d6;background:#f5f0e6}
+.wcc-type-btn{flex:1;padding:8px 0;font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:600;text-align:center;cursor:pointer;background:none;border:none;color:#8a7f6a;transition:color .15s,background .15s;border-bottom:2px solid transparent}
+.wcc-type-btn:hover{color:#1a5430}
+.wcc-type-btn.wcc-active{color:#1a5430;background:#fff;border-bottom-color:#1a5430}
+.wcc-textarea{width:100%;min-height:70px;padding:12px 14px;border:none;resize:vertical;font-family:'Fraunces',Georgia,serif;font-size:14px;line-height:1.65;color:#1a1208;background:#fff}
+.wcc-textarea::placeholder{color:#b0a898}
+.wcc-textarea:focus{outline:none}
+.wcc-textarea:disabled{background:#f5f2ec;cursor:not-allowed}
+.wcc-compose-footer{display:flex;align-items:center;justify-content:flex-end;padding:8px 12px;border-top:1px solid #e8e2d6;background:#faf8f3}
+.wcc-submit-btn{background:#1a5430;color:#fff;border:none;border-radius:2px;padding:7px 18px;font-family:'Inter',system-ui,sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:background .15s}
+.wcc-submit-btn:hover{background:#145228}
+.wcc-submit-btn:disabled{background:#b0a898;cursor:not-allowed}
+
+/* ── Posts ── */
+.wcc-posts{display:flex;flex-direction:column;gap:12px}
+.wcc-post{border:1px solid #c8bfaa;border-radius:2px;background:#fff;padding:14px 16px}
+.wcc-post.wcc-pinned{border-color:#1a5430;background:#f6f9f5}
+.wcc-post-head{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.wcc-post-avatar{width:24px;height:24px;border-radius:2px;object-fit:cover;border:1px solid #e8e2d6}
+.wcc-post-author{font-size:12px;font-weight:600;color:#1a1208}
+.wcc-post-type{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:2px;flex-shrink:0}
+.wcc-post-type[data-type="temoignage"]{background:#d4e8d0;color:#1a5430}
+.wcc-post-type[data-type="flash"]{background:#ead9b0;color:#7a4f10}
+.wcc-post-type[data-type="question"]{background:#d0dff0;color:#1a3a7a}
+.wcc-post-route{font-size:10px;color:#8a7f6a;font-style:italic}
+.wcc-post-date{font-size:10px;color:#b0a898;margin-left:auto;flex-shrink:0}
+.wcc-post-pinned-badge{font-size:10px;font-weight:700;color:#1a5430;display:flex;align-items:center;gap:4px}
+.wcc-post-body{font-family:'Fraunces',Georgia,serif;font-size:14px;line-height:1.7;color:#2a2518;margin-bottom:10px}
+.wcc-post-foot{display:flex;align-items:center;gap:12px}
+.wcc-vote-btn{display:inline-flex;align-items:center;gap:5px;background:none;border:1px solid #c8bfaa;border-radius:2px;padding:4px 10px;font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:600;color:#8a7f6a;cursor:pointer;transition:border-color .15s,color .15s}
+.wcc-vote-btn:hover{border-color:#1a5430;color:#1a5430}
+.wcc-vote-btn.wcc-voted{border-color:#1a5430;color:#1a5430;background:#f0ede4}
+.wcc-vote-btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* ── Empty state ── */
+.wcc-empty{text-align:center;padding:24px 0;color:#8a7f6a;font-size:13px;font-style:italic}
+
+/* ── Loading ── */
+.wcc-loading{text-align:center;padding:18px 0;color:#b0a898;font-size:12px}
+
+/* ── Responsive ── */
+@media(max-width:600px){.wcc-root{padding:18px 14px;margin:1.5rem 10px}.wcc-header{flex-direction:column;align-items:flex-start}.wcc-post-date{margin-left:0}}
