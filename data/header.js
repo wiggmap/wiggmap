@@ -363,25 +363,148 @@
     return slug.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
   }
 
+  const SEARCH_EXTRAS=[{n:"Abu Dhabi",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-abu-dhabi-emirats-{lang}.html"},
+    {n:"Ankara",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-ankara-turquie-{lang}.html"},
+    {n:"Antalya",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-antalya-turquie-{lang}.html"},
+    {n:"Athens",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-athenes-grece-{lang}.html"},
+    {n:"Austin",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-austin-usa-{lang}.html"},
+    {n:"Bali",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-bali-indonesia-{lang}.html"},
+    {n:"Bangkok",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-bangkok-thailand-{lang}.html"},
+    {n:"Barcelona",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-barcelone-espagne-{lang}.html"},
+    {n:"Bariloche",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-bariloche-argentine-{lang}.html"},
+    {n:"Berlin",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-berlin-allemagne-{lang}.html"},
+    {n:"Bogotá",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-bogota-colombie-{lang}.html"},
+    {n:"Buenos Aires",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-buenos-aires-argentine-{lang}.html"},
+    {n:"Cairns",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-cairns-australia-{lang}.html"},
+    {n:"Calgary",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-calgary-canada-{lang}.html"},
+    {n:"Cali",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-cali-colombie-{lang}.html"},
+    {n:"Cancún",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-cancun-mexico-{lang}.html"},
+    {n:"Cartagena",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-cartagena-colombie-{lang}.html"},
+    {n:"Chiang Mai",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-chiang-mai-thailand-{lang}.html"},
+    {n:"Cologne",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-cologne-allemagne-{lang}.html"},
+    {n:"Córdoba",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-cordoba-argentine-{lang}.html"},
+    {n:"Da Nang",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-da-nang-vietnam-{lang}.html"},
+    {n:"Dubai",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-dubai-emirats-{lang}.html"},
+    {n:"Faro",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-faro-portugal-{lang}.html"},
+    {n:"Florianópolis",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-florianopolis-bresil-{lang}.html"},
+    {n:"Fukuoka",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-fukuoka-japan-{lang}.html"},
+    {n:"Funchal",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-funchal-portugal-{lang}.html"},
+    {n:"George Town",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-george-town-malaisie-{lang}.html"},
+    {n:"Guadalajara",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-guadalajara-mexico-{lang}.html"},
+    {n:"Hamburg",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-hambourg-allemagne-{lang}.html"},
+    {n:"Hanoi",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-hanoi-vietnam-{lang}.html"},
+    {n:"Heraklion",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-heraklion-grece-{lang}.html"},
+    {n:"Ho Chi Minh City",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-ho-chi-minh-vietnam-{lang}.html"},
+    {n:"Hội An",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-hoi-an-vietnam-{lang}.html"},
+    {n:"Hua Hin",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-hua-hin-thailand-{lang}.html"},
+    {n:"Istanbul",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-istanbul-turquie-{lang}.html"},
+    {n:"Izmir",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-izmir-turquie-{lang}.html"},
+    {n:"Jakarta",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-jakarta-indonesia-{lang}.html"},
+    {n:"Johor Bahru",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-johor-bahru-malaisie-{lang}.html"},
+    {n:"Kota Kinabalu",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-kota-kinabalu-malaisie-{lang}.html"},
+    {n:"Kuala Lumpur",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-kuala-lumpur-malaisie-{lang}.html"},
+    {n:"Kyoto",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-kyoto-japan-{lang}.html"},
+    {n:"Chania",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-la-canee-grece-{lang}.html"},
+    {n:"Lisbon",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-lisbonne-portugal-{lang}.html"},
+    {n:"Los Angeles",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-los-angeles-usa-{lang}.html"},
+    {n:"Lyon",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-lyon-france-{lang}.html"},
+    {n:"Madrid",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-madrid-espagne-{lang}.html"},
+    {n:"Málaga",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-malaga-espagne-{lang}.html"},
+    {n:"Marseille",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-marseille-france-{lang}.html"},
+    {n:"Medellín",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-medellin-colombie-{lang}.html"},
+    {n:"Melbourne",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-melbourne-australia-{lang}.html"},
+    {n:"Mendoza",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-mendoza-argentine-{lang}.html"},
+    {n:"Mexico City",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-mexico-city-mexico-{lang}.html"},
+    {n:"Miami",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-miami-usa-{lang}.html"},
+    {n:"Monterrey",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-monterrey-mexico-{lang}.html"},
+    {n:"Montreal",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-montreal-canada-{lang}.html"},
+    {n:"Munich",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-munich-allemagne-{lang}.html"},
+    {n:"New York",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-new-york-usa-{lang}.html"},
+    {n:"Nice",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-nice-france-{lang}.html"},
+    {n:"Osaka",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-osaka-japan-{lang}.html"},
+    {n:"Paris",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-paris-france-{lang}.html"},
+    {n:"Perth",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-perth-australia-{lang}.html"},
+    {n:"Phuket",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-phuket-thailand-{lang}.html"},
+    {n:"Porto",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-porto-portugal-{lang}.html"},
+    {n:"Ras Al Khaimah",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-ras-al-khaimah-emirats-{lang}.html"},
+    {n:"Rio de Janeiro",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-rio-bresil-{lang}.html"},
+    {n:"Salvador de Bahia",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-salvador-bresil-{lang}.html"},
+    {n:"São Paulo",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-sao-paulo-bresil-{lang}.html"},
+    {n:"Sharjah",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-sharjah-emirats-{lang}.html"},
+    {n:"Surabaya",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-surabaya-indonesia-{lang}.html"},
+    {n:"Sydney",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-sydney-australia-{lang}.html"},
+    {n:"Thessaloniki",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-thessalonique-grece-{lang}.html"},
+    {n:"Tokyo",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-tokyo-japan-{lang}.html"},
+    {n:"Toronto",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-toronto-canada-{lang}.html"},
+    {n:"Valencia",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-valence-espagne-{lang}.html"},
+    {n:"Vancouver",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-vancouver-canada-{lang}.html"},
+    {n:"Yogyakarta",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-yogyakarta-indonesia-{lang}.html"},
+    {n:"2056: Where Will Life Be Best in 30 Years? The Prospective G",i:"📖",t:"chronicle",u:"/chronicles/chronicle-2056-best-countries-30-years-en.html"},
+    {n:"Expat in Africa 2026: The Complete Guide (18 Countries)",i:"📖",t:"chronicle",u:"/chronicles/chronicle-africa-expat-p1-en.html"},
+    {n:"Living in North Africa &amp; Islands 2026: Morocco, Tunisia,",i:"📖",t:"chronicle",u:"/chronicles/chronicle-africa-expat-p2-en.html"},
+    {n:"Living in East &amp; Southern Africa 2026: Kenya, Rwanda, Ta",i:"📖",t:"chronicle",u:"/chronicles/chronicle-africa-expat-p3-en.html"},
+    {n:"Living in West Africa 2026: Senegal, Ghana, Ivory Coast + Fi",i:"📖",t:"chronicle",u:"/chronicles/chronicle-africa-expat-p4-en.html"},
+    {n:"Expat Life Under the American Sun — Panama, Costa Rica, Puer",i:"📖",t:"chronicle",u:"/chronicles/chronicle-ameriques-partie1-en.html"},
+    {n:"Expat Life Under the American Sun — St Kitts, Bahamas, Antig",i:"📖",t:"chronicle",u:"/chronicles/chronicle-ameriques-partie2-en.html"},
+    {n:"Expat Life Under the American Sun — Anguilla, BVI, Sint Maar",i:"📖",t:"chronicle",u:"/chronicles/chronicle-ameriques-partie3-en.html"},
+    {n:"Moving to Southeast Asia in 2026: Thailand, Vietnam, Bali, P",i:"📖",t:"chronicle",u:"/chronicles/chronicle-asia-expat-guide-part1-2026-en.html"},
+    {n:"Moving to Asia in 2026: Japan, Laos, China, Cambodia — Visas",i:"📖",t:"chronicle",u:"/chronicles/chronicle-asia-expat-guide-part2-2026-en.html"},
+    {n:"Australia 2026: Visas, Salaries, Quality of Life &amp; Regio",i:"📖",t:"chronicle",u:"/chronicles/chronicle-australia-expat-guide-2026-en.html"},
+    {n:"The 25 Best Digital Nomad Visas in 2026",i:"📖",t:"chronicle",u:"/chronicles/chronicle-digital-nomad-visas-2026-en.html"},
+    {n:"Expat Work Visas in 2026: the 25 Best Countries to Relocate ",i:"📖",t:"chronicle",u:"/chronicles/chronicle-expat-work-visas-2026-en.html"},
+    {n:"6 Countries Nobody Thinks of for Expats in 2026",i:"📖",t:"chronicle",u:"/chronicles/chronicle-forgotten-expat-countries-2026-en.html"},
+    {n:"The 25 Best Healthcare Systems for Expats in 2026",i:"📖",t:"chronicle",u:"/chronicles/chronicle-healthcare-expats-2026-en.html"},
+    {n:"Buying Property Abroad: What Foreigners Actually Own in 15 C",i:"📖",t:"chronicle",u:"/chronicles/chronicle-property-abroad-2026-en.html"},
+    {n:"Best Countries to Raise Children in 2026 — Education, Safety",i:"📖",t:"chronicle",u:"/chronicles/chronicle-raise-children-2026-en.html"},
+    {n:"Am I really ready to move abroad in 2026?",i:"📖",t:"chronicle",u:"/chronicles/chronicle-ready-to-leave-en.html"},
+    {n:"Retirement Visas in 2026: the 25 Best Options to Retire Abro",i:"📖",t:"chronicle",u:"/chronicles/chronicle-retirement-visas-2026-en.html"},
+    {n:"Study Abroad 2026: Argentina, Canada, Mexico, Georgia, Moroc",i:"📖",t:"chronicle",u:"/chronicles/chronicle-study-abroad-americas-africa-2026-en.html"},
+    {n:"Studying in Asia & Pacific 2026: Taiwan, South Korea, Malays",i:"📖",t:"chronicle",u:"/chronicles/chronicle-study-abroad-asia-pacific-2026-en.html"},
+    {n:"Best Erasmus Destinations 2026: 8 European Cities for Studen",i:"📖",t:"chronicle",u:"/chronicles/chronicle-study-abroad-europe-erasmus-2026-en.html"},
+    {n:"Practical guide: studying abroad in 2026 — fund, prepare, go",i:"📖",t:"chronicle",u:"/chronicles/chronicle-study-abroad-practical-guide-2026-en.html"},
+    {n:"WiggMatch",i:"💚",t:"tool",u:"/wiggmatch.html"},
+    {n:"Quiz",i:"🎮",t:"tool",u:"/ggg/wigggame.html"},
+    {n:"Compare",i:"⚖️",t:"tool",u:"/compare.html"},
+    {n:"Globe 3D",i:"🌍",t:"tool",u:"/globe.html"}];
+
   function renderResults(query, data, resultsEl){
     const q = query.toLowerCase().trim();
     if(!q){ resultsEl.innerHTML = ""; return; }
+    const lg = (localStorage.getItem("wigg_lang") || "en").toLowerCase();
+    const ul = ["en","fr","es"].includes(lg) ? lg : "en";
+    const results = [];
+
+    // Search countries
     const entries = Object.entries(data || {});
-    const matches = entries.filter(([slug, info]) => {
+    entries.forEach(([slug, info]) => {
       const name = (info && (info.name || info.country || info.pays || info.pais) || slugToName(slug)).toLowerCase();
-      return name.includes(q) || slug.replace(/-/g," ").includes(q);
-    }).slice(0, 8);
-    if(!matches.length){
+      if(name.includes(q) || slug.replace(/-/g," ").includes(q)){
+        const display = (info && (info.name || info.country || info.pays || info.pais)) || slugToName(slug);
+        const flag = (info && info.flag) ? info.flag + " " : "";
+        results.push({html:`<a class="wmh-drop-item" href="/countries/${encodeURIComponent(slug)}-${ul}.html">${flag}${display}</a>`, priority:0});
+      }
+    });
+
+    // Search extras (cities, chronicles, tools)
+    if(typeof SEARCH_EXTRAS !== "undefined"){
+      SEARCH_EXTRAS.forEach(ex => {
+        if(ex.n.toLowerCase().includes(q)){
+          const url = ex.u.replace("{lang}", ul);
+          const label = ex.i + " " + ex.n;
+          const cat = ex.t === "city" ? "ville" : ex.t === "chronicle" ? "article" : "";
+          const tag = cat ? ` <span style="font-size:10px;color:#999;margin-left:4px">${cat}</span>` : "";
+          results.push({html:`<a class="wmh-drop-item" href="${url}">${label}${tag}</a>`, priority: ex.t === "tool" ? -1 : 1});
+        }
+      });
+    }
+
+    if(!results.length){
       resultsEl.innerHTML = `<div class="wmh-search-empty">—</div>`;
       return;
     }
-    resultsEl.innerHTML = matches.map(([slug, info]) => {
-      const name = (info && (info.name || info.country || info.pays || info.pais)) || slugToName(slug);
-      const flag = (info && info.flag) ? info.flag + " " : "";
-      const lg = (localStorage.getItem("wigg_lang") || "en").toLowerCase();
-      const ul = ["en","fr","es"].includes(lg) ? lg : "en";
-      return `<a class="wmh-drop-item" href="/countries/${encodeURIComponent(slug)}-${ul}.html">${flag}${name}</a>`;
-    }).join("");
+    // Sort: tools first, then countries, then extras
+    results.sort((a,b) => a.priority - b.priority);
+    resultsEl.innerHTML = results.slice(0, 10).map(r => r.html).join("");
   }
 
   function initSearch(dropId, inputId, resultsId){
