@@ -39,7 +39,7 @@
       pinned: 'Validated on the ground',
       empty: 'No posts yet \u2014 be the first to share.',
       temoignage: 'Testimony',
-      flash: 'Flash',
+      flash: 'Flash infos',
       question: 'Question',
       loginFirst: 'Sign in to post'
     },
@@ -55,7 +55,7 @@
       pinned: 'Valid\u00e9 terrain',
       empty: 'Aucun post pour le moment \u2014 sois le premier.',
       temoignage: 'T\u00e9moignage',
-      flash: 'Flash',
+      flash: 'Flash infos',
       question: 'Question',
       loginFirst: 'Connecte-toi pour poster'
     },
@@ -71,7 +71,7 @@
       pinned: 'Validado en terreno',
       empty: 'Sin publicaciones a\u00fan \u2014 s\u00e9 el primero.',
       temoignage: 'Testimonio',
-      flash: 'Flash',
+      flash: 'Flash infos',
       question: 'Pregunta',
       loginFirst: 'Inicia sesi\u00f3n para publicar'
     }
@@ -108,6 +108,49 @@
     if (cls) e.className = cls;
     if (html) e.innerHTML = html;
     return e;
+  }
+
+  /* ── Translate Supabase error messages to user-friendly text ── */
+  function friendlyError(err) {
+    if (!err) return '';
+    var msg = (err.message || err.code || '').toLowerCase();
+    var ERR = {
+      en: {
+        invalid_credentials: 'Wrong email or password.',
+        email_not_confirmed: 'Confirm your email first — check your inbox.',
+        user_already_registered: 'This email is already registered. Sign in instead.',
+        weak_password: 'Password too weak — use at least 6 characters.',
+        rate_limit: 'Too many attempts — try again in a minute.',
+        network: 'Network error — check your connection.',
+        generic: 'Something went wrong. Please try again.'
+      },
+      fr: {
+        invalid_credentials: 'Email ou mot de passe incorrect.',
+        email_not_confirmed: 'Confirme ton email d\u2019abord \u2014 v\u00e9rifie ta bo\u00eete mail.',
+        user_already_registered: 'Email d\u00e9j\u00e0 utilis\u00e9. Connecte-toi plut\u00f4t.',
+        weak_password: 'Mot de passe trop faible \u2014 6 caract\u00e8res minimum.',
+        rate_limit: 'Trop de tentatives \u2014 r\u00e9essaye dans une minute.',
+        network: 'Erreur r\u00e9seau \u2014 v\u00e9rifie ta connexion.',
+        generic: 'Une erreur est survenue. R\u00e9essaye.'
+      },
+      es: {
+        invalid_credentials: 'Email o contrase\u00f1a incorrectos.',
+        email_not_confirmed: 'Confirma tu email primero \u2014 revisa tu bandeja.',
+        user_already_registered: 'Este email ya est\u00e1 registrado. Inicia sesi\u00f3n.',
+        weak_password: 'Contrase\u00f1a muy d\u00e9bil \u2014 6 caracteres m\u00ednimo.',
+        rate_limit: 'Demasiados intentos \u2014 espera un minuto.',
+        network: 'Error de red \u2014 revisa tu conexi\u00f3n.',
+        generic: 'Algo sali\u00f3 mal. Int\u00e9ntalo de nuevo.'
+      }
+    };
+    var L = ERR[LANG] || ERR.en;
+    if (msg.indexOf('invalid login credentials') !== -1 || msg.indexOf('invalid_credentials') !== -1) return L.invalid_credentials;
+    if (msg.indexOf('email not confirmed') !== -1) return L.email_not_confirmed;
+    if (msg.indexOf('already registered') !== -1 || msg.indexOf('already exists') !== -1 || msg.indexOf('user_already_exists') !== -1) return L.user_already_registered;
+    if (msg.indexOf('weak password') !== -1 || msg.indexOf('password should') !== -1) return L.weak_password;
+    if (msg.indexOf('rate') !== -1 || msg.indexOf('too many') !== -1) return L.rate_limit;
+    if (msg.indexOf('network') !== -1 || msg.indexOf('failed to fetch') !== -1) return L.network;
+    return err.message || L.generic;
   }
 
   function timeAgo(dateStr) {
@@ -303,9 +346,9 @@
   function doLoginEmail(email, pw, errEl, btn) {
     sb.auth.signInWithPassword({ email: email, password: pw }).then(function (res) {
       btn.disabled = false;
-      btn.textContent = LANG === 'fr' ? 'Connexion' : 'Sign in';
+      btn.textContent = LANG === 'fr' ? 'Connexion' : LANG === 'es' ? 'Iniciar sesión' : 'Sign in';
       if (res.error) {
-        errEl.textContent = res.error.message;
+        errEl.textContent = friendlyError(res.error);
         return;
       }
       // Session set by onAuthStateChange
@@ -316,24 +359,25 @@
     sb.auth.signUp({
       email: email,
       password: pw,
-      options: { emailRedirectTo: window.location.href }
+      options: { emailRedirectTo: window.location.origin + '/onboarding.html' }
     }).then(function (res) {
       btn.disabled = false;
-      btn.textContent = LANG === 'fr' ? 'Créer un compte' : 'Create account';
+      btn.textContent = LANG === 'fr' ? 'Créer un compte' : LANG === 'es' ? 'Crear cuenta' : 'Create account';
       if (res.error) {
-        errEl.textContent = res.error.message;
+        errEl.textContent = friendlyError(res.error);
         return;
       }
-      // Check if email confirmation is required
+      // Check if email confirmation is required (no identities = already exists)
       if (res.data.user && res.data.user.identities && res.data.user.identities.length === 0) {
-        errEl.textContent = LANG === 'fr' ? 'Un email de confirmation a été envoyé — vérifie ta boîte mail.' : 'Confirmation email sent — check your inbox.';
+        errEl.textContent = LANG === 'fr' ? 'Email d\u00e9j\u00e0 utilis\u00e9. Connecte-toi plut\u00f4t.' : LANG === 'es' ? 'Email ya registrado. Inicia sesi\u00f3n.' : 'Email already registered. Sign in instead.';
         return;
       }
       // If session exists (no email confirm), redirect to onboarding
       if (res.data.session) {
         window.location.href = '/onboarding.html?from=' + encodeURIComponent(window.location.href);
       } else {
-        errEl.textContent = LANG === 'fr' ? 'Vérifie ta boîte mail pour confirmer ton compte.' : 'Check your inbox to confirm your account.';
+        errEl.style.color = '#1a5430';
+        errEl.textContent = LANG === 'fr' ? '\u2713 V\u00e9rifie ta bo\u00eete mail pour confirmer ton compte.' : LANG === 'es' ? '\u2713 Revisa tu bandeja para confirmar tu cuenta.' : '\u2713 Check your inbox to confirm your account.';
       }
     });
   }
@@ -453,7 +497,7 @@
     head.appendChild(el('span', 'wcc-post-date', timeAgo(post.created_at)));
     card.appendChild(head);
 
-    card.appendChild(el('div', 'wcc-post-body', escapeHtml(post.body)));
+    card.appendChild(el('div', 'wcc-post-body', escapeHtml(post.content)));
 
     var foot = el('div', 'wcc-post-foot');
     var voteBtn = el('button', 'wcc-vote-btn' + (hasVoted ? ' wcc-voted' : ''), '\u2726 ' + t.useful + ' <strong>' + (post.useful_count || 0) + '</strong>');
@@ -498,7 +542,7 @@
       slug: SLUG,
       user_id: currentUser.id,
       type: selectedType,
-      body: body,
+      content: body,
       useful_count: 0
     };
     console.log('[wcc] inserting post', payload);
@@ -509,7 +553,14 @@
       submitBtn.textContent = t.submit;
       if (res.error) {
         console.error('[wcc] post error', res.error);
-        alert('Error: ' + (res.error.message || res.error.code || 'unknown'));
+        // Inline error feedback
+        var existingErr = composeEl.querySelector('.wcc-post-error');
+        if (existingErr) existingErr.remove();
+        var errBox = el('div', 'wcc-post-error');
+        errBox.style.cssText = 'padding:8px 12px;margin:0 12px 8px;font-size:12px;color:#c0392b;background:#fef2f2;border:1px solid #fecaca;border-radius:2px';
+        errBox.textContent = friendlyError(res.error);
+        composeEl.querySelector('.wcc-compose-footer').parentNode.insertBefore(errBox, composeEl.querySelector('.wcc-compose-footer'));
+        setTimeout(function(){ if (errBox.parentNode) errBox.remove(); }, 5000);
         return;
       }
       textarea.value = '';
@@ -538,22 +589,35 @@
     });
   }
 
-  /* ── Set user from session ── */
-  function setUser(session) {
+  /* ── Set user from session (loads username/avatar from profiles table) ── */
+  function setUser(session, onReady) {
     if (session && session.user) {
       var u = session.user;
       var meta = u.user_metadata || {};
+      // Optimistic — use auth metadata first
       currentUser = {
         id: u.id,
         email: u.email,
         username: meta.full_name || meta.name || u.email.split('@')[0],
         avatar_url: meta.avatar_url || meta.picture || ''
       };
-      console.log('[wcc] user set:', currentUser.username, currentUser.id);
-      upsertProfile(u);
+      console.log('[wcc] user set (optimistic):', currentUser.username, currentUser.id);
+      // Then load from profiles table to get the canonical username
+      sb.from('profiles').select('username,avatar_url').eq('id', u.id).maybeSingle().then(function (res) {
+        if (res.data) {
+          if (res.data.username) currentUser.username = res.data.username;
+          if (res.data.avatar_url) currentUser.avatar_url = res.data.avatar_url;
+          console.log('[wcc] user upgraded from profile:', currentUser.username);
+        } else {
+          // Profile doesn't exist — create it
+          upsertProfile(u);
+        }
+        if (onReady) onReady();
+      });
     } else {
       currentUser = null;
       console.log('[wcc] no session');
+      if (onReady) onReady();
     }
   }
 
@@ -562,28 +626,27 @@
     buildWidget();
 
     initSupabase(function () {
-      // Clean up OAuth hash fragment from URL (after Supabase reads it)
       var hasOAuthHash = window.location.hash && window.location.hash.includes('access_token');
 
       sb.auth.getSession().then(function (res) {
         console.log('[wcc] getSession result:', res.data.session ? 'active' : 'none');
-        setUser(res.data.session);
-        renderAuth();
-        checkSaved();
-        loadPosts();
-
-        // Clean URL after successful session recovery
-        if (hasOAuthHash && res.data.session) {
-          history.replaceState(null, '', window.location.pathname + window.location.search);
-        }
+        setUser(res.data.session, function () {
+          renderAuth();
+          checkSaved();
+          loadPosts();
+          if (hasOAuthHash && res.data.session) {
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+          }
+        });
       });
 
       sb.auth.onAuthStateChange(function (event, session) {
         console.log('[wcc] auth state changed:', event);
-        setUser(session);
-        renderAuth();
-        checkSaved();
-        loadPosts();
+        setUser(session, function () {
+          renderAuth();
+          checkSaved();
+          loadPosts();
+        });
       });
     });
   }

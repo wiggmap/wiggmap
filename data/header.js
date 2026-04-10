@@ -952,35 +952,111 @@
   bindRandom("btnRandom");
   bindRandom("btnRandomMobile");
 
-  // ── Auth state in header ──
+  // ── Auth state in header (centralized — works on every page) ──
   (function(){
     var SB_URL='https://tkctreoftezvbfejhbto.supabase.co';
     var SB_KEY='sb_publishable_lAKWBnp2nbfgb2w5Uj55aQ_aD6fBWUb';
-    function initHeaderAuth(sbClient){
-      sbClient.auth.getSession().then(function(res){
-        var authEl=document.getElementById('wigg-auth-btn');
-        if(!authEl) return;
-        var session=res.data.session;
-        if(session&&session.user){
-          var u=session.user;
-          var meta=u.user_metadata||{};
-          var name=(meta.full_name||meta.name||'Mon compte').split(' ')[0];
-          var avatar=meta.avatar_url||meta.picture||'';
-          var avatarHtml=avatar
-            ? '<img src="'+avatar+'" style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:1.5px solid #c8bfaa" />'
-            : '<div style="width:30px;height:30px;border-radius:50%;background:#1a5430;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">'+name[0].toUpperCase()+'</div>';
-          authEl.innerHTML='<a href="/mon-compte.html" style="display:flex;align-items:center;gap:7px;text-decoration:none;color:#1a5430;font-family:Inter,sans-serif;font-size:13px;font-weight:500;">'+avatarHtml+'<span class="wmh-auth-name" style="max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+name+'</span></a>';
-        }else{
-          authEl.innerHTML='<a href="/onboarding.html" style="padding:6px 14px;border:1.5px solid #1a5430;border-radius:2px;color:#1a5430;font-family:Inter,sans-serif;font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap">Connexion</a>';
+    var lang=(localStorage.getItem('wigg_lang')||'en').toLowerCase();
+    var T={
+      en:{login:'Sign in',account:'My account'},
+      fr:{login:'Connexion',account:'Mon compte'},
+      es:{login:'Iniciar sesión',account:'Mi cuenta'}
+    };
+    var t=T[lang]||T.en;
+
+    function renderLoading(authEl){
+      authEl.innerHTML='<div style="width:30px;height:30px;border-radius:50%;background:rgba(26,84,48,.08);animation:wmhPulse 1.2s ease-in-out infinite"></div>';
+      if(!document.getElementById('wmhPulseStyle')){
+        var st=document.createElement('style');
+        st.id='wmhPulseStyle';
+        st.textContent='@keyframes wmhPulse{0%,100%{opacity:.4}50%{opacity:.8}}';
+        document.head.appendChild(st);
+      }
+    }
+
+    function renderLoggedOut(authEl){
+      authEl.innerHTML='<a href="/onboarding.html" style="padding:6px 14px;border:1.5px solid #1a5430;border-radius:2px;color:#1a5430;font-family:Inter,sans-serif;font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap">'+t.login+'</a>';
+    }
+
+    function renderLoggedIn(authEl,name,avatar){
+      var displayName=name||t.account;
+      var initial=displayName[0]?displayName[0].toUpperCase():'?';
+      var avatarHtml=avatar
+        ? '<img src="'+avatar+'" style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:1.5px solid #c8bfaa" onerror="this.outerHTML=\'<div style=&quot;width:30px;height:30px;border-radius:50%;background:#1a5430;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700&quot;>'+initial+'</div>\'" />'
+        : '<div style="width:30px;height:30px;border-radius:50%;background:#1a5430;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">'+initial+'</div>';
+      authEl.innerHTML='<a href="/mon-compte.html" style="display:flex;align-items:center;gap:7px;text-decoration:none;color:#1a5430;font-family:Inter,sans-serif;font-size:13px;font-weight:500;" title="'+displayName+'">'+avatarHtml+'<span class="wmh-auth-name" style="max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+displayName+'</span></a>';
+    }
+
+    // Ensure profile exists in DB (called for every authenticated user, on every page)
+    function ensureProfile(sbClient,user,onProfileLoaded){
+      var meta=user.user_metadata||{};
+      sbClient.from('profiles').select('username,avatar_url').eq('id',user.id).maybeSingle().then(function(res){
+        if(res.data){
+          // Profile exists — return it
+          if(onProfileLoaded) onProfileLoaded(res.data);
+          return;
         }
+        // Profile doesn't exist — create it (handles signup flow)
+        var fullName=meta.full_name||meta.name||(user.email?user.email.split('@')[0]:'');
+        sbClient.from('profiles').insert({
+          id:user.id,
+          username:fullName,
+          avatar_url:meta.avatar_url||meta.picture||null,
+          onboarding_done:false
+        }).select('username,avatar_url').single().then(function(insertRes){
+          if(insertRes.error&&insertRes.error.code!=='23505'){
+            console.warn('[wmh] profile insert error',insertRes.error);
+          }
+          if(onProfileLoaded) onProfileLoaded(insertRes.data||{username:fullName,avatar_url:meta.avatar_url||meta.picture||''});
+        });
       });
     }
+
+    function refresh(sbClient){
+      var authEl=document.getElementById('wigg-auth-btn');
+      if(!authEl) return;
+      sbClient.auth.getSession().then(function(res){
+        var session=res.data.session;
+        if(!session||!session.user){
+          renderLoggedOut(authEl);
+          return;
+        }
+        var u=session.user;
+        var meta=u.user_metadata||{};
+        // Show optimistic UI immediately from auth metadata
+        var fallbackName=(meta.full_name||meta.name||(u.email?u.email.split('@')[0]:'')).split(' ')[0];
+        var fallbackAvatar=meta.avatar_url||meta.picture||'';
+        renderLoggedIn(authEl,fallbackName,fallbackAvatar);
+        // Then upgrade with profile data from DB (username may differ)
+        ensureProfile(sbClient,u,function(profile){
+          var name=(profile.username||fallbackName||'').split(' ')[0];
+          var avatar=profile.avatar_url||fallbackAvatar;
+          renderLoggedIn(authEl,name,avatar);
+        });
+      });
+    }
+
+    function initHeaderAuth(sbClient){
+      var authEl=document.getElementById('wigg-auth-btn');
+      if(authEl) renderLoading(authEl);
+      // Expose globally so other scripts can refresh the header (e.g. after onboarding)
+      window.wmhAuthClient=sbClient;
+      window.wmhRefreshAuth=function(){refresh(sbClient);};
+      refresh(sbClient);
+      sbClient.auth.onAuthStateChange(function(event,session){
+        refresh(sbClient);
+      });
+    }
+
+    function makeClient(){
+      return window.supabase.createClient(SB_URL,SB_KEY,{auth:{detectSessionInUrl:true,persistSession:true,autoRefreshToken:true}});
+    }
     if(window.supabase){
-      initHeaderAuth(window.supabase.createClient(SB_URL,SB_KEY,{auth:{detectSessionInUrl:true,persistSession:true}}));
+      initHeaderAuth(makeClient());
     }else{
       var s=document.createElement('script');
       s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
-      s.onload=function(){initHeaderAuth(window.supabase.createClient(SB_URL,SB_KEY,{auth:{detectSessionInUrl:true,persistSession:true}}));};
+      s.onload=function(){initHeaderAuth(makeClient());};
       document.head.appendChild(s);
     }
   })();

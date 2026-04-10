@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mon compte — WiggMap</title>
+  <title>WiggMap — Account</title>
   <meta name="robots" content="noindex,nofollow">
   <link rel="icon" href="/assets/favicon.ico">
   <link rel="manifest" href="/manifest.webmanifest">
@@ -14,11 +14,10 @@
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     :root{--green:#1a5430;--green-light:#d4e8d0;--ink:#171714;--ink-soft:#54554e;--bg:#f5f0e8;--paper:#fffdf8;--line:rgba(23,23,20,.10);--border:#c8bfaa;--muted:#8a7f6a;--ghost:#b0a898}
-    body{font-family:'Inter',system-ui,sans-serif;color:var(--ink);background:var(--bg);min-height:100vh}
+    body{font-family:'Inter',system-ui,sans-serif;color:var(--ink);background:var(--bg);min-height:100svh;min-height:100dvh}
     main{max-width:680px;margin:0 auto;padding:40px 24px 80px}
     .loading{text-align:center;padding:80px 0;color:var(--muted);font-size:14px}
 
-    /* Profile header */
     .profile-head{text-align:center;margin-bottom:40px}
     .profile-avatar{width:72px;height:72px;border-radius:50%;background:var(--green);color:#f5f0e8;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;margin:0 auto 16px;overflow:hidden;border:3px solid #fff;box-shadow:0 4px 16px rgba(0,0,0,.1)}
     .profile-avatar img{width:100%;height:100%;object-fit:cover}
@@ -26,16 +25,13 @@
     .profile-email{font-size:13px;color:var(--ghost);margin-bottom:6px}
     .profile-since{font-size:12px;color:var(--muted)}
 
-    /* Sections */
     .section-title{font-family:'Fraunces',Georgia,serif;font-size:18px;font-weight:700;color:var(--ink);margin:36px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--line)}
 
-    /* Saved cities */
     .cities-grid{display:flex;flex-wrap:wrap;gap:8px}
     .city-pill{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:var(--paper);border:1px solid var(--border);border-radius:2px;font-size:13px;font-weight:600;color:var(--ink);text-decoration:none;transition:border-color .15s}
     .city-pill:hover{border-color:var(--green);color:var(--green)}
     .empty-msg{font-size:14px;color:var(--ghost);font-style:italic}
 
-    /* Posts */
     .post-item{background:var(--paper);border:1px solid var(--line);border-radius:2px;padding:14px 18px;margin-bottom:10px}
     .post-item-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}
     .post-city{font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.06em}
@@ -46,9 +42,10 @@
     .post-type-badge.question{background:#e8d0d4;color:#7a1a2e}
     .post-content{font-family:'Fraunces',Georgia,serif;font-size:14px;line-height:1.6;color:var(--ink-soft)}
 
-    /* Logout */
     .logout-wrap{text-align:center;margin-top:48px;padding-top:24px;border-top:1px solid var(--line)}
-    .logout-btn{padding:10px 28px;border:1px solid var(--border);border-radius:2px;background:var(--paper);font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;transition:all .15s}
+    .edit-btn{display:inline-block;margin-bottom:16px;padding:10px 28px;border:1px solid var(--green);border-radius:2px;font-size:13px;font-weight:600;color:var(--green);text-decoration:none;transition:all .15s;background:var(--paper);cursor:pointer;font-family:'Inter',sans-serif}
+    .edit-btn:hover{background:var(--green);color:#fff}
+    .logout-btn{padding:10px 28px;border:1px solid var(--border);border-radius:2px;background:var(--paper);font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif}
     .logout-btn:hover{border-color:#dc2626;color:#dc2626}
 
     @media(max-width:500px){
@@ -62,7 +59,7 @@
 <script src="/data/header.js"></script>
 
 <main>
-  <div id="loading" class="loading">Chargement…</div>
+  <div id="loading" class="loading">Loading…</div>
   <div id="content" style="display:none">
 
     <div class="profile-head">
@@ -74,16 +71,16 @@
       <div class="profile-since" id="userSince" style="margin-top:6px"></div>
     </div>
 
-    <h2 class="section-title">Mes pages sauvegardées</h2>
+    <h2 class="section-title" id="savedTitle"></h2>
     <div class="cities-grid" id="savedCities"></div>
 
-    <h2 class="section-title">Mes contributions</h2>
+    <h2 class="section-title" id="postsTitle"></h2>
     <div id="userPosts"></div>
 
     <div class="logout-wrap">
-      <a href="/onboarding.html?from=/mon-compte.html" style="display:inline-block;margin-bottom:16px;padding:10px 28px;border:1px solid var(--green);border-radius:2px;font-size:13px;font-weight:600;color:var(--green);text-decoration:none;transition:all .15s">Modifier mon profil</a>
+      <a href="/onboarding.html?from=/mon-compte.html" class="edit-btn" id="editBtn"></a>
       <br>
-      <button class="logout-btn" id="logoutBtn">Se déconnecter</button>
+      <button class="logout-btn" id="logoutBtn"></button>
     </div>
   </div>
 </main>
@@ -94,30 +91,125 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script>
 (async function(){
-  // ── REMPLACE CES 2 LIGNES ──
   const SUPABASE_URL  = 'https://tkctreoftezvbfejhbto.supabase.co';
   const SUPABASE_KEY  = 'sb_publishable_lAKWBnp2nbfgb2w5Uj55aQ_aD6fBWUb';
 
-  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  // ── i18n ──
+  let LANG = (localStorage.getItem('wigg_lang') || 'en').toLowerCase();
+  if (!['en','fr','es'].includes(LANG)) LANG = 'en';
+  document.documentElement.lang = LANG;
+
+  const I18N = {
+    en: {
+      pageTitle: 'My account — WiggMap',
+      loading: 'Loading…',
+      memberSince: 'Member since',
+      savedTitle: 'My saved pages',
+      postsTitle: 'My contributions',
+      editProfile: 'Edit my profile',
+      logout: 'Sign out',
+      emptySaved: 'No pages saved yet.',
+      emptyPosts: 'No contributions yet.',
+      cibleSuffix: '(target)',
+      // life status labels
+      ls_voyageur: '✈️ Traveler',
+      ls_curieux: '💭 Curious',
+      ls_planificateur: '📋 Planner',
+      ls_transition: '🚀 In transition',
+      ls_installe: '🏠 Settled',
+      ls_veteran: '🌐 Veteran',
+      ls_rentre: '↩️ Returned',
+      // post types
+      type_temoignage: 'Testimony',
+      type_flash: 'Flash news',
+      type_question: 'Question'
+    },
+    fr: {
+      pageTitle: 'Mon compte — WiggMap',
+      loading: 'Chargement…',
+      memberSince: 'Membre depuis',
+      savedTitle: 'Mes pages sauvegardées',
+      postsTitle: 'Mes contributions',
+      editProfile: 'Modifier mon profil',
+      logout: 'Se déconnecter',
+      emptySaved: 'Aucune page sauvegardée pour le moment.',
+      emptyPosts: 'Aucune contribution pour le moment.',
+      cibleSuffix: '(cible)',
+      ls_voyageur: '✈️ Voyageur',
+      ls_curieux: '💭 Curieux',
+      ls_planificateur: '📋 Planificateur',
+      ls_transition: '🚀 En transition',
+      ls_installe: '🏠 Installé',
+      ls_veteran: '🌐 Vétéran',
+      ls_rentre: '↩️ Rentré',
+      type_temoignage: 'Témoignage',
+      type_flash: 'Flash infos',
+      type_question: 'Question'
+    },
+    es: {
+      pageTitle: 'Mi cuenta — WiggMap',
+      loading: 'Cargando…',
+      memberSince: 'Miembro desde',
+      savedTitle: 'Mis páginas guardadas',
+      postsTitle: 'Mis contribuciones',
+      editProfile: 'Editar mi perfil',
+      logout: 'Cerrar sesión',
+      emptySaved: 'Aún no hay páginas guardadas.',
+      emptyPosts: 'Aún no hay contribuciones.',
+      cibleSuffix: '(objetivo)',
+      ls_voyageur: '✈️ Viajero',
+      ls_curieux: '💭 Curioso',
+      ls_planificateur: '📋 Planificador',
+      ls_transition: '🚀 En transición',
+      ls_installe: '🏠 Instalado',
+      ls_veteran: '🌐 Veterano',
+      ls_rentre: '↩️ Volvió',
+      type_temoignage: 'Testimonio',
+      type_flash: 'Flash noticias',
+      type_question: 'Pregunta'
+    }
+  };
+  const T = I18N[LANG];
+
+  document.title = T.pageTitle;
+  document.getElementById('loading').textContent = T.loading;
+  document.getElementById('savedTitle').textContent = T.savedTitle;
+  document.getElementById('postsTitle').textContent = T.postsTitle;
+  document.getElementById('editBtn').textContent = T.editProfile;
+  document.getElementById('logoutBtn').textContent = T.logout;
+
+  const STATUS_LABELS = {
+    voyageur: T.ls_voyageur, curieux: T.ls_curieux, planificateur: T.ls_planificateur,
+    transition: T.ls_transition, installe: T.ls_installe, veteran: T.ls_veteran, rentre: T.ls_rentre
+  };
+
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { detectSessionInUrl: true, persistSession: true } });
   const { data: { session } } = await sb.auth.getSession();
 
   if (!session) {
-    window.location.href = '/';
+    window.location.href = '/onboarding.html?from=/mon-compte.html';
     return;
   }
 
   const user = session.user;
-  const lang = (localStorage.getItem('wigg_lang') || 'fr').toLowerCase();
-  const ul = ['en','fr','es'].includes(lang) ? lang : 'fr';
-  const dateFmt = lang === 'fr' ? 'fr-FR' : lang === 'es' ? 'es-ES' : 'en-US';
+  const dateFmt = LANG === 'fr' ? 'fr-FR' : LANG === 'es' ? 'es-ES' : 'en-US';
 
-  const STATUS_LABELS = {
-    voyageur:'✈️ Voyageur', curieux:'💭 Curieux', planificateur:'📋 Planificateur',
-    transition:'🚀 En transition', installe:'🏠 Installé', veteran:'🌐 Vétéran', rentre:'↩️ Rentré'
-  };
-
-  // ── Profile from Supabase ──
-  const { data: profile } = await sb.from('profiles').select('*').eq('id', user.id).single();
+  // ── Profile from Supabase (with auto-create if missing) ──
+  let { data: profile } = await sb.from('profiles').select('*').eq('id', user.id).maybeSingle();
+  if (!profile) {
+    const meta0 = user.user_metadata || {};
+    const insertRes = await sb.from('profiles').insert({
+      id: user.id,
+      username: meta0.full_name || meta0.name || user.email?.split('@')[0] || 'User',
+      avatar_url: meta0.avatar_url || meta0.picture || null,
+      onboarding_done: false
+    }).select('*').maybeSingle();
+    profile = insertRes.data;
+  }
+  if (profile && !profile.onboarding_done) {
+    window.location.href = '/onboarding.html?from=/mon-compte.html';
+    return;
+  }
   const meta = user.user_metadata || {};
   const name = profile?.username || meta.full_name || user.email?.split('@')[0] || 'User';
   const avatarUrl = profile?.avatar_url || meta.avatar_url || '';
@@ -129,17 +221,18 @@
     : initials;
   document.getElementById('userName').textContent = name;
   document.getElementById('userEmail').textContent = user.email;
-  document.getElementById('userSince').textContent = 'Membre depuis ' + createdAt;
+  document.getElementById('userSince').textContent = T.memberSince + ' ' + createdAt;
 
   if (profile?.life_status) {
     document.getElementById('userStatus').textContent = STATUS_LABELS[profile.life_status] || profile.life_status;
   }
   if (profile?.country_origin || profile?.country_current) {
+    const cap = (s) => (s || '').split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
     let txt = '';
-    if (profile.country_origin) txt += profile.country_origin;
-    if (profile.country_current) txt += ' → ' + profile.country_current;
-    if (profile.country_target) txt += ' → ' + profile.country_target + ' (cible)';
-    document.getElementById('userCountries').textContent = txt.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    if (profile.country_origin) txt += cap(profile.country_origin);
+    if (profile.country_current) txt += ' → ' + cap(profile.country_current);
+    if (profile.country_target) txt += ' → ' + cap(profile.country_target) + ' ' + T.cibleSuffix;
+    document.getElementById('userCountries').textContent = txt;
   }
 
   // ── Saved pages ──
@@ -164,34 +257,36 @@
         return '<span class="city-pill">' + label + '</span>';
       }).join('');
     } else {
-      citiesEl.innerHTML = '<p class="empty-msg">Aucune page sauvegardée pour le moment.</p>';
+      citiesEl.innerHTML = '<p class="empty-msg">' + T.emptySaved + '</p>';
     }
   }
 
   // ── Posts ──
   const { data: posts } = await sb
     .from('posts')
-    .select('slug, type, body, created_at')
+    .select('slug, type, content, created_at')
     .eq('user_id', user.id)
     .order('created_at', { ascending: false });
 
   const postsEl = document.getElementById('userPosts');
   if (posts && posts.length) {
+    const TYPE_LABELS = { temoignage: T.type_temoignage, flash: T.type_flash, question: T.type_question };
     postsEl.innerHTML = posts.map(p => {
       const slug = (p.slug || '').split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
       const date = new Date(p.created_at).toLocaleDateString(dateFmt);
       const type = p.type || 'post';
+      const typeLabel = TYPE_LABELS[type] || type;
       return '<div class="post-item">' +
         '<div class="post-item-head">' +
           '<span class="post-city">' + slug + '</span>' +
-          '<span class="post-type-badge ' + type + '">' + type + '</span>' +
+          '<span class="post-type-badge ' + type + '">' + typeLabel + '</span>' +
         '</div>' +
-        '<div class="post-content">' + (p.body || '').substring(0, 200) + '</div>' +
+        '<div class="post-content">' + (p.content || '').substring(0, 200) + '</div>' +
         '<div class="post-date">' + date + '</div>' +
       '</div>';
     }).join('');
   } else {
-    postsEl.innerHTML = '<p class="empty-msg">Aucune contribution pour le moment.</p>';
+    postsEl.innerHTML = '<p class="empty-msg">' + T.emptyPosts + '</p>';
   }
 
   // ── Show content ──
