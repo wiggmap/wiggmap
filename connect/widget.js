@@ -454,18 +454,23 @@
 
   // ── Auto-injection ───────────────────────────────────────
   document.addEventListener('DOMContentLoaded', async () => {
+    try {
     const target = document.getElementById('siteFooter')
       || document.querySelector('script[src*="footer.js"]')
       || document.body.lastElementChild;
     if (!target) return;
 
-    // Load Supabase + check session
-    await loadSupabase();
-    const user = await getSession();
-    if (user) await migrateLocalStorage(user.id);
-
-    // Fetch real posts (or empty array if no backend yet)
-    const posts = await fetchPosts();
+    // Load Supabase + check session (wrapped in try/catch — widget works without Supabase)
+    let user = null;
+    let posts = [];
+    try {
+      await loadSupabase();
+      user = await getSession();
+      if (user) await migrateLocalStorage(user.id);
+      posts = await fetchPosts();
+    } catch (e) {
+      console.warn('WCC: Supabase unavailable, running in guest mode', e);
+    }
 
     // Build + inject
     const container = document.createElement('div');
@@ -473,6 +478,9 @@
     container.innerHTML = buildWidget(posts, user);
     target.parentNode.insertBefore(container, target);
     attachListeners();
+    } catch (e) {
+      console.warn('WCC: Widget init failed', e);
+    }
   });
 
 })();
