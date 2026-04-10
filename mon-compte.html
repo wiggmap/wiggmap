@@ -69,16 +69,20 @@
       <div class="profile-avatar" id="avatar"></div>
       <div class="profile-name" id="userName"></div>
       <div class="profile-email" id="userEmail"></div>
-      <div class="profile-since" id="userSince"></div>
+      <div class="profile-status" id="userStatus" style="font-size:13px;color:var(--muted);margin-top:6px"></div>
+      <div class="profile-countries" id="userCountries" style="font-size:13px;color:var(--ink-soft);margin-top:4px"></div>
+      <div class="profile-since" id="userSince" style="margin-top:6px"></div>
     </div>
 
-    <h2 class="section-title">Mes villes sauvegardées</h2>
+    <h2 class="section-title">Mes pages sauvegardées</h2>
     <div class="cities-grid" id="savedCities"></div>
 
     <h2 class="section-title">Mes contributions</h2>
     <div id="userPosts"></div>
 
     <div class="logout-wrap">
+      <a href="/onboarding.html?from=/mon-compte.html" style="display:inline-block;margin-bottom:16px;padding:10px 28px;border:1px solid var(--green);border-radius:2px;font-size:13px;font-weight:600;color:var(--green);text-decoration:none;transition:all .15s">Modifier mon profil</a>
+      <br>
       <button class="logout-btn" id="logoutBtn">Se déconnecter</button>
     </div>
   </div>
@@ -105,12 +109,20 @@
   const user = session.user;
   const lang = (localStorage.getItem('wigg_lang') || 'fr').toLowerCase();
   const ul = ['en','fr','es'].includes(lang) ? lang : 'fr';
+  const dateFmt = lang === 'fr' ? 'fr-FR' : lang === 'es' ? 'es-ES' : 'en-US';
 
-  // ── Profile ──
-  const name = user.user_metadata?.full_name || user.email?.split('@')[0] || 'User';
-  const avatarUrl = user.user_metadata?.avatar_url || '';
+  const STATUS_LABELS = {
+    voyageur:'✈️ Voyageur', curieux:'💭 Curieux', planificateur:'📋 Planificateur',
+    transition:'🚀 En transition', installe:'🏠 Installé', veteran:'🌐 Vétéran', rentre:'↩️ Rentré'
+  };
+
+  // ── Profile from Supabase ──
+  const { data: profile } = await sb.from('profiles').select('*').eq('id', user.id).single();
+  const meta = user.user_metadata || {};
+  const name = profile?.display_name || meta.full_name || user.email?.split('@')[0] || 'User';
+  const avatarUrl = profile?.avatar_url || meta.avatar_url || '';
   const initials = name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
-  const createdAt = new Date(user.created_at).toLocaleDateString(lang === 'fr' ? 'fr-FR' : lang === 'es' ? 'es-ES' : 'en-US', { year:'numeric', month:'long' });
+  const createdAt = new Date(user.created_at).toLocaleDateString(dateFmt, { year:'numeric', month:'long' });
 
   document.getElementById('avatar').innerHTML = avatarUrl
     ? '<img src="' + avatarUrl + '" alt="">'
@@ -119,53 +131,62 @@
   document.getElementById('userEmail').textContent = user.email;
   document.getElementById('userSince').textContent = 'Membre depuis ' + createdAt;
 
-  // ── Saved cities ──
+  if (profile?.life_status) {
+    document.getElementById('userStatus').textContent = STATUS_LABELS[profile.life_status] || profile.life_status;
+  }
+  if (profile?.country_origin || profile?.country_current) {
+    let txt = '';
+    if (profile.country_origin) txt += profile.country_origin;
+    if (profile.country_current) txt += ' → ' + profile.country_current;
+    if (profile.country_target) txt += ' → ' + profile.country_target + ' (cible)';
+    document.getElementById('userCountries').textContent = txt.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  }
+
+  // ── Saved pages ──
   const { data: savedCities } = await sb
     .from('saved_cities')
-    .select('city_slug, created_at')
+    .select('slug, created_at')
     .eq('user_id', user.id)
     .order('created_at', { ascending: false });
 
   const citiesEl = document.getElementById('savedCities');
   if (savedCities && savedCities.length) {
     citiesEl.innerHTML = savedCities.map(c => {
-      const name = c.city_slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-      const url = '/chronicles/villes/chronicle-' + c.city_slug + '-' + ul + '.html';
-      return '<a class="city-pill" href="' + url + '">' + name + '</a>';
+      const label = c.slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+      return '<span class="city-pill">' + label + '</span>';
     }).join('');
   } else {
-    // Fallback: check localStorage
     let local = [];
-    try { local = JSON.parse(localStorage.getItem('wigg_saved_cities') || '[]'); } catch(e){}
+    try { local = JSON.parse(localStorage.getItem('wcc_saved') || '[]'); } catch(e){}
     if (local.length) {
       citiesEl.innerHTML = local.map(slug => {
-        const name = slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-        return '<a class="city-pill" href="/chronicles/villes/chronicle-' + slug + '-' + ul + '.html">' + name + '</a>';
+        const label = slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        return '<span class="city-pill">' + label + '</span>';
       }).join('');
     } else {
-      citiesEl.innerHTML = '<p class="empty-msg">Aucune ville sauvegardée pour le moment.</p>';
+      citiesEl.innerHTML = '<p class="empty-msg">Aucune page sauvegardée pour le moment.</p>';
     }
   }
 
   // ── Posts ──
   const { data: posts } = await sb
     .from('posts')
-    .select('city_slug, post_type, content, created_at')
-    .eq('author_id', user.id)
+    .select('slug, type, body, created_at')
+    .eq('user_id', user.id)
     .order('created_at', { ascending: false });
 
   const postsEl = document.getElementById('userPosts');
   if (posts && posts.length) {
     postsEl.innerHTML = posts.map(p => {
-      const city = p.city_slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-      const date = new Date(p.created_at).toLocaleDateString(lang === 'fr' ? 'fr-FR' : lang === 'es' ? 'es-ES' : 'en-US');
-      const type = p.post_type || 'post';
+      const slug = (p.slug || '').split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+      const date = new Date(p.created_at).toLocaleDateString(dateFmt);
+      const type = p.type || 'post';
       return '<div class="post-item">' +
         '<div class="post-item-head">' +
-          '<span class="post-city">' + city + '</span>' +
+          '<span class="post-city">' + slug + '</span>' +
           '<span class="post-type-badge ' + type + '">' + type + '</span>' +
         '</div>' +
-        '<div class="post-content">' + (p.content || '').substring(0, 200) + '</div>' +
+        '<div class="post-content">' + (p.body || '').substring(0, 200) + '</div>' +
         '<div class="post-date">' + date + '</div>' +
       '</div>';
     }).join('');

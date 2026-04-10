@@ -84,16 +84,21 @@
   var currentUser = null;
 
   function initSupabase(cb) {
-    if (window.supabase) {
-      sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-      return cb();
+    function create() {
+      sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+        auth: {
+          detectSessionInUrl: true,
+          persistSession: true,
+          autoRefreshToken: true
+        }
+      });
+      console.log('[wcc] Supabase client created');
+      cb();
     }
+    if (window.supabase) return create();
     var s = document.createElement('script');
     s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
-    s.onload = function () {
-      sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-      cb();
-    };
+    s.onload = create;
     document.head.appendChild(s);
   }
 
@@ -186,6 +191,7 @@
       av.className = 'wcc-avatar';
       av.src = currentUser.avatar_url || '';
       av.alt = '';
+      av.onerror = function(){ this.style.display='none'; };
       row.appendChild(av);
       row.appendChild(el('span', 'wcc-user-name', currentUser.display_name || currentUser.email));
       var out = el('button', 'wcc-logout-btn', t.logout);
@@ -196,11 +202,10 @@
       var ta = composeEl.querySelector('.wcc-textarea');
       var sb2 = composeEl.querySelector('.wcc-submit-btn');
       ta.disabled = false;
+      ta.placeholder = t.placeholder;
       sb2.disabled = false;
     } else {
-      var btn = el('button', 'wcc-google-btn', GOOGLE_SVG + ' ' + t.login);
-      btn.onclick = doLogin;
-      authEl.appendChild(btn);
+      authEl.appendChild(buildAuthPanel());
 
       var ta2 = composeEl.querySelector('.wcc-textarea');
       var sb3 = composeEl.querySelector('.wcc-submit-btn');
@@ -210,10 +215,118 @@
     }
   }
 
-  function doLogin() {
+  /* ── Auth panel (Google + email) ── */
+  var authMode = 'login'; // 'login' or 'signup'
+
+  function buildAuthPanel() {
+    var panel = el('div', 'wcc-auth-panel');
+
+    // Google button
+    var gBtn = el('button', 'wcc-google-btn', GOOGLE_SVG + ' ' + t.login);
+    gBtn.onclick = doLoginGoogle;
+    panel.appendChild(gBtn);
+
+    // Separator
+    var sep = el('div', 'wcc-auth-sep');
+    sep.innerHTML = '<span>' + (LANG === 'fr' ? 'ou' : LANG === 'es' ? 'o' : 'or') + '</span>';
+    panel.appendChild(sep);
+
+    // Email form
+    var form = el('div', 'wcc-auth-form');
+    var emailInput = document.createElement('input');
+    emailInput.type = 'email';
+    emailInput.className = 'wcc-input';
+    emailInput.placeholder = 'Email';
+    emailInput.autocomplete = 'email';
+    form.appendChild(emailInput);
+
+    var pwInput = document.createElement('input');
+    pwInput.type = 'password';
+    pwInput.className = 'wcc-input';
+    pwInput.placeholder = LANG === 'fr' ? 'Mot de passe' : LANG === 'es' ? 'Contraseña' : 'Password';
+    pwInput.autocomplete = 'current-password';
+    form.appendChild(pwInput);
+
+    var errEl = el('div', 'wcc-auth-error');
+    form.appendChild(errEl);
+
+    var submitRow = el('div', 'wcc-auth-submit-row');
+    var submitLabel = authMode === 'signup'
+      ? (LANG === 'fr' ? 'Créer un compte' : LANG === 'es' ? 'Crear cuenta' : 'Create account')
+      : (LANG === 'fr' ? 'Connexion' : LANG === 'es' ? 'Iniciar sesión' : 'Sign in');
+    var submitBtn = el('button', 'wcc-submit-btn', submitLabel);
+    submitBtn.onclick = function () {
+      var email = emailInput.value.trim();
+      var pw = pwInput.value;
+      errEl.textContent = '';
+      if (!email || !pw) { errEl.textContent = LANG === 'fr' ? 'Remplis tous les champs' : 'Fill all fields'; return; }
+      if (pw.length < 6) { errEl.textContent = LANG === 'fr' ? '6 caractères minimum' : 'Min 6 characters'; return; }
+      submitBtn.disabled = true;
+      submitBtn.textContent = '…';
+      if (authMode === 'signup') {
+        doSignupEmail(email, pw, errEl, submitBtn);
+      } else {
+        doLoginEmail(email, pw, errEl, submitBtn);
+      }
+    };
+    submitRow.appendChild(submitBtn);
+    form.appendChild(submitRow);
+
+    // Toggle link
+    var toggleRow = el('div', 'wcc-auth-toggle');
+    if (authMode === 'login') {
+      toggleRow.innerHTML = (LANG === 'fr' ? 'Pas encore de compte ? ' : LANG === 'es' ? '¿Sin cuenta? ' : 'No account? ');
+      var toggleLink = el('a', 'wcc-auth-toggle-link', LANG === 'fr' ? 'Créer un compte' : LANG === 'es' ? 'Crear cuenta' : 'Create account');
+      toggleLink.href = '#';
+      toggleLink.onclick = function (e) { e.preventDefault(); authMode = 'signup'; renderAuth(); };
+      toggleRow.appendChild(toggleLink);
+    } else {
+      toggleRow.innerHTML = (LANG === 'fr' ? 'Déjà un compte ? ' : LANG === 'es' ? '¿Ya tienes cuenta? ' : 'Already have an account? ');
+      var toggleLink2 = el('a', 'wcc-auth-toggle-link', LANG === 'fr' ? 'Se connecter' : LANG === 'es' ? 'Iniciar sesión' : 'Sign in');
+      toggleLink2.href = '#';
+      toggleLink2.onclick = function (e) { e.preventDefault(); authMode = 'login'; renderAuth(); };
+      toggleRow.appendChild(toggleLink2);
+    }
+    form.appendChild(toggleRow);
+
+    panel.appendChild(form);
+    return panel;
+  }
+
+  function doLoginGoogle() {
     sb.auth.signInWithOAuth({
       provider: 'google',
       options: { redirectTo: window.location.href }
+    });
+  }
+
+  function doLoginEmail(email, pw, errEl, btn) {
+    sb.auth.signInWithPassword({ email: email, password: pw }).then(function (res) {
+      btn.disabled = false;
+      btn.textContent = LANG === 'fr' ? 'Connexion' : 'Sign in';
+      if (res.error) {
+        errEl.textContent = res.error.message;
+        return;
+      }
+      // Session set by onAuthStateChange
+    });
+  }
+
+  function doSignupEmail(email, pw, errEl, btn) {
+    sb.auth.signUp({
+      email: email,
+      password: pw,
+      options: { emailRedirectTo: window.location.href }
+    }).then(function (res) {
+      btn.disabled = false;
+      btn.textContent = LANG === 'fr' ? 'Créer un compte' : 'Create account';
+      if (res.error) {
+        errEl.textContent = res.error.message;
+        return;
+      }
+      // Redirect to onboarding
+      localStorage.setItem('wigg_pending_signup', email);
+      window.location.href = '/onboarding.html?from=' + encodeURIComponent(window.location.href);
     });
   }
 
@@ -278,13 +391,20 @@
   /* ── Load posts ── */
   function loadPosts() {
     postsEl.innerHTML = '<div class="wcc-loading">\u2026</div>';
+    console.log('[wcc] loading posts for slug:', SLUG);
     sb.from('posts')
       .select('*, profiles(display_name, avatar_url)')
       .eq('slug', SLUG)
       .order('useful_count', { ascending: false })
       .order('created_at', { ascending: false })
       .then(function (res) {
+        console.log('[wcc] posts result:', res.error || (res.data ? res.data.length + ' posts' : 'null'));
         postsEl.innerHTML = '';
+        if (res.error) {
+          console.error('[wcc] loadPosts error', res.error);
+          postsEl.appendChild(el('div', 'wcc-empty', 'Error loading posts'));
+          return;
+        }
         if (!res.data || res.data.length === 0) {
           postsEl.appendChild(el('div', 'wcc-empty', t.empty));
           return;
@@ -359,19 +479,31 @@
 
   /* ── Submit post ── */
   function submitPost(textarea, submitBtn) {
+    console.log('[wcc] submitPost called', { body: textarea.value.trim(), user: currentUser, slug: SLUG, type: selectedType });
     var body = textarea.value.trim();
-    if (!body || !currentUser) return;
+    if (!body) { console.warn('[wcc] empty body'); return; }
+    if (!currentUser) { console.warn('[wcc] no user session'); return; }
     submitBtn.disabled = true;
+    submitBtn.textContent = '…';
 
-    sb.from('posts').insert({
+    var payload = {
       slug: SLUG,
       user_id: currentUser.id,
       type: selectedType,
       body: body,
       useful_count: 0
-    }).then(function (res) {
+    };
+    console.log('[wcc] inserting post', payload);
+
+    sb.from('posts').insert(payload).then(function (res) {
+      console.log('[wcc] insert result', res);
       submitBtn.disabled = false;
-      if (res.error) { console.error('wcc post error', res.error); return; }
+      submitBtn.textContent = t.submit;
+      if (res.error) {
+        console.error('[wcc] post error', res.error);
+        alert('Error: ' + (res.error.message || res.error.code || 'unknown'));
+        return;
+      }
       textarea.value = '';
       loadPosts();
     });
@@ -388,43 +520,49 @@
     }, { onConflict: 'id' }).then(function () {});
   }
 
+  /* ── Set user from session ── */
+  function setUser(session) {
+    if (session && session.user) {
+      var u = session.user;
+      var meta = u.user_metadata || {};
+      currentUser = {
+        id: u.id,
+        email: u.email,
+        display_name: meta.full_name || meta.name || u.email.split('@')[0],
+        avatar_url: meta.avatar_url || meta.picture || ''
+      };
+      console.log('[wcc] user set:', currentUser.display_name, currentUser.id);
+      upsertProfile(u);
+    } else {
+      currentUser = null;
+      console.log('[wcc] no session');
+    }
+  }
+
   /* ── Boot ── */
   function boot() {
     buildWidget();
 
     initSupabase(function () {
+      // Clean up OAuth hash fragment from URL (after Supabase reads it)
+      var hasOAuthHash = window.location.hash && window.location.hash.includes('access_token');
+
       sb.auth.getSession().then(function (res) {
-        var session = res.data.session;
-        if (session && session.user) {
-          var u = session.user;
-          var meta = u.user_metadata || {};
-          currentUser = {
-            id: u.id,
-            email: u.email,
-            display_name: meta.full_name || meta.name || u.email.split('@')[0],
-            avatar_url: meta.avatar_url || meta.picture || ''
-          };
-          upsertProfile(u);
-        }
+        console.log('[wcc] getSession result:', res.data.session ? 'active' : 'none');
+        setUser(res.data.session);
         renderAuth();
         checkSaved();
         loadPosts();
+
+        // Clean URL after successful session recovery
+        if (hasOAuthHash && res.data.session) {
+          history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
       });
 
       sb.auth.onAuthStateChange(function (event, session) {
-        if (session && session.user) {
-          var u = session.user;
-          var meta = u.user_metadata || {};
-          currentUser = {
-            id: u.id,
-            email: u.email,
-            display_name: meta.full_name || meta.name || u.email.split('@')[0],
-            avatar_url: meta.avatar_url || meta.picture || ''
-          };
-          upsertProfile(u);
-        } else {
-          currentUser = null;
-        }
+        console.log('[wcc] auth state changed:', event);
+        setUser(session);
         renderAuth();
         checkSaved();
         loadPosts();

@@ -291,6 +291,9 @@
             ${burgerDropHTML("wmhMenuDrop", "wmh-drop-trigger")}
           </nav>
 
+          <!-- Auth button -->
+          <div id="wigg-auth-btn" style="display:flex;align-items:center;"></div>
+
           <!-- Dropdown langue — desktop : tout à droite -->
           <div class="wmh-dropdown wmh-lang-wrap" id="wmhLangDropdown">
             <div class="wmh-drop-trigger" id="wmhLangTrigger">
@@ -948,5 +951,38 @@
   }
   bindRandom("btnRandom");
   bindRandom("btnRandomMobile");
+
+  // ── Auth state in header ──
+  (function(){
+    var SB_URL='https://tkctreoftezvbfejhbto.supabase.co';
+    var SB_KEY='sb_publishable_lAKWBnp2nbfgb2w5Uj55aQ_aD6fBWUb';
+    function initHeaderAuth(sbClient){
+      sbClient.auth.getSession().then(function(res){
+        var authEl=document.getElementById('wigg-auth-btn');
+        if(!authEl) return;
+        var session=res.data.session;
+        if(session&&session.user){
+          var u=session.user;
+          var meta=u.user_metadata||{};
+          var name=(meta.full_name||meta.name||'Mon compte').split(' ')[0];
+          var avatar=meta.avatar_url||meta.picture||'';
+          var avatarHtml=avatar
+            ? '<img src="'+avatar+'" style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:1.5px solid #c8bfaa" />'
+            : '<div style="width:30px;height:30px;border-radius:50%;background:#1a5430;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;">'+name[0].toUpperCase()+'</div>';
+          authEl.innerHTML='<a href="/mon-compte.html" style="display:flex;align-items:center;gap:7px;text-decoration:none;color:#1a5430;font-family:Inter,sans-serif;font-size:13px;font-weight:500;">'+avatarHtml+'<span class="wmh-auth-name" style="max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+name+'</span></a>';
+        }else{
+          authEl.innerHTML='<a href="/onboarding.html" style="padding:6px 14px;border:1.5px solid #1a5430;border-radius:2px;color:#1a5430;font-family:Inter,sans-serif;font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap">Connexion</a>';
+        }
+      });
+    }
+    if(window.supabase){
+      initHeaderAuth(window.supabase.createClient(SB_URL,SB_KEY,{auth:{detectSessionInUrl:true,persistSession:true}}));
+    }else{
+      var s=document.createElement('script');
+      s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
+      s.onload=function(){initHeaderAuth(window.supabase.createClient(SB_URL,SB_KEY,{auth:{detectSessionInUrl:true,persistSession:true}}));};
+      document.head.appendChild(s);
+    }
+  })();
 
 })();

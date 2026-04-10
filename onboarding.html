@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Créer mon profil — WiggMap</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="icon" href="/assets/favicon.ico">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#1a5430">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet">
+  <style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--green:#1a5430;--ink:#171714;--ink-soft:#54554e;--bg:#f5f0e8;--paper:#fffdf8;--border:#c8bfaa;--muted:#8a7f6a;--ghost:#b0a898}
+body{font-family:'Inter',system-ui,sans-serif;color:var(--ink);background:var(--bg);min-height:100vh}
+
+.ob-wrap{max-width:560px;margin:0 auto;padding:40px 24px 80px}
+.ob-title{font-family:'Fraunces',Georgia,serif;font-size:28px;font-weight:800;text-align:center;margin-bottom:6px}
+.ob-sub{text-align:center;font-size:14px;color:var(--muted);margin-bottom:32px}
+
+/* Steps */
+.ob-step{background:var(--paper);border:1px solid var(--border);border-radius:2px;padding:24px 22px;margin-bottom:18px}
+.ob-step-title{font-family:'Fraunces',Georgia,serif;font-size:18px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.ob-step-num{width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+
+/* Fields */
+.ob-field{margin-bottom:14px}
+.ob-label{display:block;font-size:12px;font-weight:600;color:var(--ink-soft);margin-bottom:5px;letter-spacing:.02em}
+.ob-label .req{color:#c0392b}
+.ob-input{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:2px;font-family:'Inter',sans-serif;font-size:14px;color:var(--ink);background:#fff;transition:border-color .15s}
+.ob-input:focus{outline:none;border-color:var(--green)}
+.ob-select{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:2px;font-family:'Inter',sans-serif;font-size:14px;color:var(--ink);background:#fff;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238a7f6a'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+.ob-select:focus{outline:none;border-color:var(--green)}
+
+/* Avatar */
+.ob-avatar-row{display:flex;align-items:center;gap:14px}
+.ob-avatar-preview{width:56px;height:56px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;overflow:hidden;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.1);flex-shrink:0}
+.ob-avatar-preview img{width:100%;height:100%;object-fit:cover}
+.ob-avatar-upload{font-size:12px;color:var(--green);font-weight:600;cursor:pointer;text-decoration:underline}
+
+/* Pills */
+.ob-pills{display:flex;flex-wrap:wrap;gap:8px}
+.ob-pill{padding:8px 14px;border:1px solid var(--border);border-radius:2px;font-size:13px;font-weight:500;color:var(--ink-soft);background:var(--paper);cursor:pointer;transition:border-color .15s,background .15s,color .15s;user-select:none}
+.ob-pill:hover{border-color:var(--green);color:var(--green)}
+.ob-pill.selected{background:var(--green);color:#fff;border-color:var(--green)}
+
+/* Multi-select pills */
+.ob-pill-multi.selected{background:#d4e8d0;color:var(--green);border-color:var(--green)}
+
+/* Submit */
+.ob-submit{width:100%;padding:14px;background:var(--green);color:#fff;border:none;border-radius:2px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:background .15s;margin-top:8px}
+.ob-submit:hover{background:#145228}
+.ob-submit:disabled{background:var(--ghost);cursor:not-allowed}
+.ob-error{font-size:13px;color:#c0392b;text-align:center;margin-top:10px;min-height:20px}
+
+@media(max-width:500px){.ob-wrap{padding:24px 14px 60px}.ob-step{padding:18px 16px}}
+  </style>
+</head>
+<body>
+<div id="siteHeader"></div>
+<script src="/data/header.js"></script>
+
+<div class="ob-wrap">
+  <h1 class="ob-title">Crée ton profil</h1>
+  <p class="ob-sub">Quelques infos pour personnaliser ton expérience WiggMap</p>
+
+  <!-- Step 1: Identity -->
+  <div class="ob-step">
+    <div class="ob-step-title"><span class="ob-step-num">1</span> Identité</div>
+    <div class="ob-field">
+      <div class="ob-avatar-row">
+        <div class="ob-avatar-preview" id="obAvatarPreview">?</div>
+        <div>
+          <label class="ob-avatar-upload" for="obAvatarFile">Changer la photo</label>
+          <input type="file" id="obAvatarFile" accept="image/*" style="display:none">
+          <div style="font-size:11px;color:var(--ghost);margin-top:3px">Optionnel — ta photo Google sera utilisée par défaut</div>
+        </div>
+      </div>
+    </div>
+    <div class="ob-field">
+      <label class="ob-label">Pseudo / Prénom affiché <span class="req">*</span></label>
+      <input class="ob-input" id="obUsername" type="text" placeholder="Ex: Marie, NomadMax..." maxlength="30">
+    </div>
+  </div>
+
+  <!-- Step 2: Situation -->
+  <div class="ob-step">
+    <div class="ob-step-title"><span class="ob-step-num">2</span> Ta situation</div>
+    <div class="ob-field">
+      <label class="ob-label">Pays d'origine <span class="req">*</span></label>
+      <input class="ob-input" id="obCountryOrigin" type="text" placeholder="Commence à taper..." autocomplete="off">
+      <div id="obCountryOriginList" style="display:none;max-height:180px;overflow-y:auto;border:1px solid var(--border);border-top:none;border-radius:0 0 2px 2px;background:#fff"></div>
+    </div>
+    <div class="ob-field">
+      <label class="ob-label">Situation actuelle <span class="req">*</span></label>
+      <div class="ob-pills" id="obLifeStatus">
+        <div class="ob-pill" data-val="voyageur">✈️ Voyageur</div>
+        <div class="ob-pill" data-val="curieux">💭 Curieux</div>
+        <div class="ob-pill" data-val="planificateur">📋 Je planifie mon départ</div>
+        <div class="ob-pill" data-val="transition">🚀 En transition</div>
+        <div class="ob-pill" data-val="installe">🏠 Installé</div>
+        <div class="ob-pill" data-val="veteran">🌐 Vétéran (3+ ans)</div>
+        <div class="ob-pill" data-val="rentre">↩️ Je suis rentré</div>
+      </div>
+    </div>
+    <div class="ob-field">
+      <label class="ob-label">Pays actuel (optionnel)</label>
+      <input class="ob-input" id="obCountryCurrent" type="text" placeholder="Où vis-tu en ce moment ?" autocomplete="off">
+      <div id="obCountryCurrentList" style="display:none;max-height:180px;overflow-y:auto;border:1px solid var(--border);border-top:none;border-radius:0 0 2px 2px;background:#fff"></div>
+    </div>
+    <div class="ob-field">
+      <label class="ob-label">Pays cible (optionnel)</label>
+      <input class="ob-input" id="obCountryTarget" type="text" placeholder="Où rêves-tu d'aller ?" autocomplete="off">
+      <div id="obCountryTargetList" style="display:none;max-height:180px;overflow-y:auto;border:1px solid var(--border);border-top:none;border-radius:0 0 2px 2px;background:#fff"></div>
+    </div>
+  </div>
+
+  <!-- Step 3: Interests -->
+  <div class="ob-step">
+    <div class="ob-step-title"><span class="ob-step-num">3</span> Tes intérêts</div>
+    <div class="ob-field">
+      <label class="ob-label">Secteur d'activité (optionnel)</label>
+      <div class="ob-pills" id="obSector">
+        <div class="ob-pill" data-val="tech">Tech / Remote</div>
+        <div class="ob-pill" data-val="finance">Finance</div>
+        <div class="ob-pill" data-val="sante">Santé</div>
+        <div class="ob-pill" data-val="education">Éducation</div>
+        <div class="ob-pill" data-val="commerce">Commerce</div>
+        <div class="ob-pill" data-val="artisan">Artisan</div>
+        <div class="ob-pill" data-val="retraite">Retraité</div>
+        <div class="ob-pill" data-val="autre">Autre</div>
+      </div>
+    </div>
+    <div class="ob-field">
+      <label class="ob-label">Langues parlées (optionnel)</label>
+      <div class="ob-pills" id="obLanguages">
+        <div class="ob-pill ob-pill-multi" data-val="fr">🇫🇷 Français</div>
+        <div class="ob-pill ob-pill-multi" data-val="en">🇬🇧 English</div>
+        <div class="ob-pill ob-pill-multi" data-val="es">🇪🇸 Español</div>
+        <div class="ob-pill ob-pill-multi" data-val="de">🇩🇪 Deutsch</div>
+        <div class="ob-pill ob-pill-multi" data-val="pt">🇧🇷 Português</div>
+        <div class="ob-pill ob-pill-multi" data-val="it">🇮🇹 Italiano</div>
+        <div class="ob-pill ob-pill-multi" data-val="ar">🇸🇦 العربية</div>
+        <div class="ob-pill ob-pill-multi" data-val="zh">🇨🇳 中文</div>
+        <div class="ob-pill ob-pill-multi" data-val="ja">🇯🇵 日本語</div>
+        <div class="ob-pill ob-pill-multi" data-val="th">🇹🇭 ไทย</div>
+      </div>
+    </div>
+  </div>
+
+  <button class="ob-submit" id="obSubmit">Créer mon profil →</button>
+  <div class="ob-error" id="obError"></div>
+</div>
+
+<div id="siteFooter"></div>
+<script src="/data/footer.js"></script>
+
+<script>
+(function(){
+  var SUPABASE_URL = 'https://tkctreoftezvbfejhbto.supabase.co';
+  var SUPABASE_KEY = 'sb_publishable_lAKWBnp2nbfgb2w5Uj55aQ_aD6fBWUb';
+  var sb = null;
+  var countriesData = null;
+  var selectedLifeStatus = null;
+  var selectedSector = null;
+  var selectedLanguages = [];
+  var avatarDataUrl = null;
+  var selectedCountryOrigin = null;
+  var selectedCountryCurrent = null;
+  var selectedCountryTarget = null;
+
+  // ── Load Supabase ──
+  function loadSB(cb) {
+    if (window.supabase) { sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { detectSessionInUrl: true, persistSession: true } }); return cb(); }
+    var s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
+    s.onload = function() { sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { detectSessionInUrl: true, persistSession: true } }); cb(); };
+    document.head.appendChild(s);
+  }
+
+  // ── Load countries ──
+  function loadCountries(cb) {
+    fetch('/data/countries.json').then(function(r){ return r.json(); }).then(function(data){
+      countriesData = data;
+      cb();
+    });
+  }
+
+  // ── Country autocomplete ──
+  function setupCountryInput(inputId, listId, onSelect) {
+    var input = document.getElementById(inputId);
+    var list = document.getElementById(listId);
+    if (!input || !list) return;
+
+    input.addEventListener('input', function() {
+      var q = input.value.trim().toLowerCase();
+      list.innerHTML = '';
+      if (q.length < 1) { list.style.display = 'none'; return; }
+      var matches = [];
+      for (var slug in countriesData) {
+        var c = countriesData[slug];
+        var name = c.name || '';
+        var aliases = c.aliases || [];
+        var found = name.toLowerCase().indexOf(q) !== -1;
+        if (!found) { for (var i = 0; i < aliases.length; i++) { if (aliases[i].toLowerCase().indexOf(q) !== -1) { found = true; break; } } }
+        if (found) matches.push({ slug: slug, name: name });
+      }
+      matches.sort(function(a,b){ return a.name.localeCompare(b.name); });
+      matches = matches.slice(0, 10);
+      if (matches.length === 0) { list.style.display = 'none'; return; }
+      list.style.display = 'block';
+      matches.forEach(function(m) {
+        var item = document.createElement('div');
+        item.style.cssText = 'padding:8px 12px;cursor:pointer;font-size:13px;border-bottom:1px solid #f0ede4;';
+        item.textContent = m.name;
+        item.onmouseover = function(){ item.style.background='#f0ede4'; };
+        item.onmouseout = function(){ item.style.background='#fff'; };
+        item.onclick = function() {
+          input.value = m.name;
+          list.style.display = 'none';
+          onSelect(m.slug);
+        };
+        list.appendChild(item);
+      });
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!input.contains(e.target) && !list.contains(e.target)) list.style.display = 'none';
+    });
+  }
+
+  // ── Pills (single select) ──
+  function setupPills(containerId, onSelect) {
+    var container = document.getElementById(containerId);
+    if (!container) return;
+    container.querySelectorAll('.ob-pill').forEach(function(pill) {
+      pill.addEventListener('click', function() {
+        container.querySelectorAll('.ob-pill').forEach(function(p){ p.classList.remove('selected'); });
+        pill.classList.toggle('selected');
+        onSelect(pill.classList.contains('selected') ? pill.dataset.val : null);
+      });
+    });
+  }
+
+  // ── Pills (multi select) ──
+  function setupMultiPills(containerId, arr) {
+    var container = document.getElementById(containerId);
+    if (!container) return;
+    container.querySelectorAll('.ob-pill-multi').forEach(function(pill) {
+      pill.addEventListener('click', function() {
+        pill.classList.toggle('selected');
+        arr.length = 0;
+        container.querySelectorAll('.ob-pill-multi.selected').forEach(function(p){ arr.push(p.dataset.val); });
+      });
+    });
+  }
+
+  // ── Avatar preview ──
+  function setupAvatar() {
+    var fileInput = document.getElementById('obAvatarFile');
+    var preview = document.getElementById('obAvatarPreview');
+    if (!fileInput || !preview) return;
+    fileInput.addEventListener('change', function() {
+      var file = fileInput.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        avatarDataUrl = e.target.result;
+        preview.innerHTML = '<img src="' + avatarDataUrl + '" alt="">';
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // ── Prefill from Google auth ──
+  function prefillFromSession(session) {
+    if (!session || !session.user) return;
+    var u = session.user;
+    var meta = u.user_metadata || {};
+    var name = meta.full_name || meta.name || '';
+    var avatar = meta.avatar_url || meta.picture || '';
+
+    var usernameInput = document.getElementById('obUsername');
+    var preview = document.getElementById('obAvatarPreview');
+
+    if (usernameInput && name && !usernameInput.value) {
+      usernameInput.value = name.split(' ')[0];
+    }
+    if (preview && avatar) {
+      preview.innerHTML = '<img src="' + avatar + '" alt="">';
+      avatarDataUrl = avatar; // Use Google avatar URL directly
+    }
+  }
+
+  // ── Submit ──
+  function setupSubmit() {
+    var btn = document.getElementById('obSubmit');
+    var errEl = document.getElementById('obError');
+    if (!btn) return;
+
+    btn.addEventListener('click', function() {
+      errEl.textContent = '';
+      var username = (document.getElementById('obUsername').value || '').trim();
+      if (!username) { errEl.textContent = 'Un pseudo est requis'; return; }
+      if (!selectedCountryOrigin) { errEl.textContent = 'Indique ton pays d\'origine'; return; }
+      if (!selectedLifeStatus) { errEl.textContent = 'Choisis ta situation actuelle'; return; }
+
+      btn.disabled = true;
+      btn.textContent = '…';
+
+      sb.auth.getSession().then(function(res) {
+        var session = res.data.session;
+        if (!session) {
+          errEl.textContent = 'Session expirée — reconnecte-toi';
+          btn.disabled = false;
+          btn.textContent = 'Créer mon profil →';
+          return;
+        }
+
+        var payload = {
+          id: session.user.id,
+          email: session.user.email,
+          display_name: username,
+          avatar_url: avatarDataUrl || (session.user.user_metadata || {}).avatar_url || null,
+          country_origin: selectedCountryOrigin,
+          life_status: selectedLifeStatus,
+          country_current: selectedCountryCurrent || null,
+          country_target: selectedCountryTarget || null,
+          sector: selectedSector || null,
+          languages: selectedLanguages.length > 0 ? selectedLanguages : [],
+          onboarding_done: true
+        };
+
+        sb.from('profiles').upsert(payload, { onConflict: 'id' }).then(function(r) {
+          if (r.error) {
+            errEl.textContent = r.error.message;
+            btn.disabled = false;
+            btn.textContent = 'Créer mon profil →';
+            return;
+          }
+          // Redirect back
+          var params = new URLSearchParams(window.location.search);
+          var from = params.get('from');
+          window.location.href = from || '/';
+        });
+      });
+    });
+  }
+
+  // ── Boot ──
+  loadSB(function() {
+    loadCountries(function() {
+      setupCountryInput('obCountryOrigin', 'obCountryOriginList', function(slug){ selectedCountryOrigin = slug; });
+      setupCountryInput('obCountryCurrent', 'obCountryCurrentList', function(slug){ selectedCountryCurrent = slug; });
+      setupCountryInput('obCountryTarget', 'obCountryTargetList', function(slug){ selectedCountryTarget = slug; });
+      setupPills('obLifeStatus', function(val){ selectedLifeStatus = val; });
+      setupPills('obSector', function(val){ selectedSector = val; });
+      setupMultiPills('obLanguages', selectedLanguages);
+      setupAvatar();
+      setupSubmit();
+
+      // Prefill from session
+      sb.auth.getSession().then(function(res) {
+        prefillFromSession(res.data.session);
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
