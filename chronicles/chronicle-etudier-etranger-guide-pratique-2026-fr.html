@@ -280,6 +280,11 @@
 .aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
 .aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
 .aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+.hero-mosaic{position:absolute;inset:0;display:grid;gap:2px;overflow:hidden}
+.hero-mosaic.cols-2{grid-template-columns:1fr 1fr}
+.hero-mosaic.cols-3{grid-template-columns:1fr 1fr 1fr}
+.hero-mosaic-panel{background-size:cover;background-position:center}
+.hero-mosaic::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%);z-index:1}
 </style>
 </head>
 <body>
@@ -289,10 +294,10 @@
 
 <!-- ══════ HERO ══════ -->
 <section class="hero">
-  <div class="hero-bg" style="background-image:url('/assets/hero-france.jpg')"></div>
+  <div class="hero-mosaic cols-3"><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-france.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-germany.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-canada.jpg')"></div></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">Chronique · WiggMap</div>
-    <h1 class="hero-title">Financer, préparer, partir — le guide opérationnel pour étudier à l&#x27;étranger en 2026</h1>
+    <h1 class="hero-title">Guide pratique : étudier à l'étranger en 2026 — financer, préparer, partir</h1>
     <p class="hero-sub">Bourse Erasmus, logement étudiant international, assurance santé, compte Wise, eSIM, visa — le guide complet pour préparer son départ à l&#x27;étranger en 2026. Chec</p>
   </div>
 </section>
@@ -342,41 +347,7 @@
 
   <p class="lead">Trois parties de cette série ont répondu à la question "où". Cette quatrième répond à la question "comment" — celle que tout le monde a une fois qu'on lui a ouvert les yeux sur les destinations. Comment financer un semestre à Prague ou un an à Taïwan. Comment trouver un appartement dans une ville qu'on ne connaît pas encore. Quelle assurance prendre quand on sort de l'espace Schengen. Comment ne pas perdre 200€ en frais de change en un an. Ce guide est opérationnel, dans l'ordre, sans rien oublier.</p>
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton expatriation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Transferts — Wise</span><span class="aff-strip-desc">Taux de change réel, sans frais cachés</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span>
-        </a>
-      </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
-    </div>
-
-  <!-- ══════ SECTION 1 : CALENDRIER ══════ -->
-  <div class="orn">· · ✦ · ·</div>
-  <section id="calendrier">
-    <h2>01. Le calendrier — à quel moment préparer quoi</h2>
-
-    <p>La première erreur de la plupart des étudiants qui ratent leur séjour à l'étranger : commencer trop tard. La candidature Erasmus se fait entre 9 et 12 mois avant le départ. Les bourses gouvernementales asiatiques (MEXT, KGSP) demandent 12 à 18 mois. Même une inscription directe dans une université étrangère, sans bourse, peut prendre 6 à 8 mois si on intègre la recherche de logement et l'obtention du visa.</p>
-
-    <div class="timeline">
-      <div class="tl-item">
-        <div class="tl-dot amber">J-12</div>
-        <div class="tl-content">
-          <div class="tl-when">12 mois avant le départ</div>
-          <div class="tl-title">Candidature Erasmus à votre université d'origine</div>
-          <div class="tl-text">Dépôt du dossier auprès du service des relations internationales (RI) de votre établissement. Lettre de motivation, relevés de notes, niveau de langue. Résultats : janvier-février. C'est à cette étape que se jouent les places disponibles dans chaque université partenaire.</div>
-        </div>
-      </div>
+    
       <div class="tl-item">
         <div class="tl-dot">J-9</div>
         <div class="tl-content">
@@ -842,6 +813,17 @@
 <div class="sources">
   <strong>Sources &amp; données :</strong> Commission européenne — règlement Erasmus+ et montants des bourses 2025-2026 · CEAM — Carte Européenne d'Assurance Maladie (pour ressortissants UE/EEE) · IRCC (Immigration, Réfugiés et Citoyenneté Canada) — conditions Study Permit 2026 · Ambassades et consulats concernés — délais de traitement des visas · SafetyWing — conditions de couverture Nomad Insurance 2026 · Wise — conditions de compte multi-devises · Airalo — couverture eSIM et tarifs 2026 · HousingAnywhere — conditions de la plateforme. Les tarifs de bourses, délais de visa et conditions de produits financiers sont indicatifs et peuvent évoluer — vérifiez les conditions officielles avant toute décision. <em>Données vérifiées et mises à jour : mars 2026.</em>
   <br><br><em style="font-size:.68rem;">Certains liens dans cette page sont des liens d'affiliation. WiggMap peut percevoir une commission si vous souscrivez à un service via ces liens — sans coût supplémentaire pour vous. Ces recommandations reflètent une sélection éditoriale indépendante : WiggMap ne recommande que des services utilisés et approuvés par l'équipe.</em>
+</div>
+
+<div class="aff-strip">
+  <div class="aff-strip-title">Préparer ton expatriation</div>
+  <div class="aff-strip-list">
+    <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span></a>
+    <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span><span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span></a>
+    <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span></a>
+    <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span></a>
+  </div>
+  <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
 </div>
 
 <div id="siteFooter"></div>

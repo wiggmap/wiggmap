@@ -165,6 +165,11 @@
 .aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
 .aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
 .aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+.hero-mosaic{position:absolute;inset:0;display:grid;gap:2px;overflow:hidden}
+.hero-mosaic.cols-2{grid-template-columns:1fr 1fr}
+.hero-mosaic.cols-3{grid-template-columns:1fr 1fr 1fr}
+.hero-mosaic-panel{background-size:cover;background-position:center}
+.hero-mosaic::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%);z-index:1}
 </style>
 </head>
 <body>
@@ -173,10 +178,10 @@
 <script src="../data/header.js"></script>
 
 <section class="hero">
-  <div class="hero-bg" style="background-image:url('/assets/hero-morocco.jpg')"></div>
+  <div class="hero-mosaic cols-3"><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-morocco.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-kenya.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-senegal.jpg')"></div></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">Chronique · WiggMap</div>
-    <h1 class="hero-title">S&#x27;expatrier en  Afrique  en 2026 : tout ce qu&#x27;on ne vous dit pas</h1>
+    <h1 class="hero-title">S'expatrier en Afrique en 2026 : Le Guide Complet (18 Pays)</h1>
     <p class="hero-sub">Sécurité, visas, coût de la vie en dollars, fiscalité crypto : tout ce que personne ne dit sur l&#x27;expatriation en Afrique. 18 pays analysés sans filtre. Partie 1</p>
   </div>
 </section>
@@ -225,182 +230,7 @@
 
     <p class="lead">Sophie a 41 ans. Elle est graphiste freelance, elle travaille pour des clients à Lyon et à Bruxelles, et depuis trois ans elle vit à Kigali, au Rwanda. Son appartement avec terrasse et vue sur les collines lui coûte $520 par mois. Sa connexion fibre est plus rapide que celle qu'elle avait dans son studio du 3e arrondissement de Lyon. Elle prend son café rwandais — cultivé à deux heures de route, torréfié localement, parmi les meilleurs du monde — à $2,50 sur la terrasse du Question Coffee. Ses clients n'ont pas l'air de savoir ou de s'en préoccuper. Et elle, elle ne comprend toujours pas pourquoi ses amis restés en France se plaignent des loyers.</p>
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton expatriation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Transferts — Wise</span><span class="aff-strip-desc">Taux de change réel, sans frais cachés</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span>
-        </a>
-      </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
-    </div>
-
-    <p>Sophie n'est pas un cas isolé, ni une aventurière atypique. Elle fait partie d'une vague discrète mais documentée : des dizaines de milliers d'Européens, d'Américains, d'Asiatiques qui ont choisi de vivre en Afrique — pas en mission humanitaire, pas en détachement d'entreprise avec voiture de fonction. En résidents libres, attirés par des budgets divisés par deux ou trois, des fiscalités légères, un rythme de vie qui a du sens, et parfois par quelque chose de plus difficile à nommer : le fait d'être quelque part qui bouge encore, qui n'a pas tout figé.</p>
-
-    <p>Le problème, c'est que l'information sur l'expatriation en Afrique est soit inexistante, soit catastrophiste, soit tellement romantique qu'elle ne vous apprend rien d'utile. On vous parle des conflits ou des couchers de soleil. Rarement des visas, des loyers réels, de ce que dit la loi rwandaise sur les plus-values crypto, ou de ce que coûte une assurance santé avec évacuation médicale au Botswana.</p>
-
-    <p>Cette série — quatre parties, 18 pays — comble ce vide. Avec des chiffres en dollars, des récits de vie concrets, et un regard honnête sur ce qui fonctionne et ce qui ne fonctionne pas.</p>
-
-    <div class="orn">· · ✦ · ·</div>
-
-    <h2 id="idee-recue">L'idée reçue qui coûte cher</h2>
-
-    <p>Avant les chiffres et les tableaux, il faut régler un malentendu fondamental. Quand vous dites "l'Afrique" à quelqu'un qui n'y est pas allé, il voit un continent. En réalité, l'Afrique c'est 54 pays, 1,4 milliard d'habitants, une superficie qui pourrait contenir les États-Unis, l'Europe, la Chine et l'Inde réunis — avec encore de la place. Mettre "l'Afrique" dans une même case revient à dire "l'Eurasie, c'est dangereux parce qu'il y a la Syrie". Ce n'est pas faux. Mais ça ne vous dit rien sur la Suède.</p>
-
-    <p>La Namibie est l'une des démocraties les plus stables et les plus sûres du monde, avec un crime violent parmi les plus bas d'Afrique australe. Maurice est classée régulièrement parmi les économies les plus compétitives d'Afrique par la Banque mondiale, avec un PIB par habitant supérieur à plusieurs pays d'Europe de l'Est. Le Rwanda a été reconstruit entièrement depuis 1994 et Kigali figure dans les classements indépendants parmi les villes les mieux gérées d'Afrique subsaharienne. Ces faits ne sont pas des arguments de marketing touristique — ils sont vérifiables, sourcés, et ignorés par la plupart des guides expat qui continuent de traiter l'Afrique comme un monolithe dangereux.</p>
-
-    <div class="quote">
-      "Ce qui m'a le plus surpris en arrivant à Kigali, c'est de réaliser que mes préjugés sur l'Afrique venaient tous de gens qui n'y avaient jamais mis les pieds."
-      <cite>— Mathieu, ingénieur logiciel, résident Kigali depuis 4 ans</cite>
-    </div>
-
-    <p>Ce n'est pas que l'Afrique est parfaite. C'est que la majorité des guides expat publient des classements des "meilleurs pays pour s'expatrier" en oubliant systématiquement les 54 pays du continent — parce que les données sont moins accessibles, parce que les clichés sont tenaces, et parce que les lecteurs n'y pensent pas encore. Ce "pas encore" est précisément l'opportunité. Les destinations africaines les plus intéressantes sont sous le radar, sous-peuplées d'expatriés, et donc souvent moins chères, moins saturées et plus ouvertes à ceux qui arrivent avec curiosité et préparation.</p>
-
-    <div class="insight">
-      <strong>📊 Chiffre de contexte</strong>
-      Plus de 300 000 Européens résident en Afrique subsaharienne de façon permanente hors expatriation d'entreprise — un chiffre en progression régulière depuis 2020 selon les estimations des communautés expat terrain. La plupart ne font pas parler d'eux.
-    </div>
-
-    <div class="orn">· · ✦ · ·</div>
-
-    <h2 id="securite">La carte sécurité — sans filtre</h2>
-
-    <p>Voici ce que la plupart des guides ne font pas : nommer clairement les zones où vous ne devez pas vous installer, expliquer pourquoi, et séparer ça des zones où des milliers d'expatriés vivent normalement. L'Afrique a des conflits actifs, des milices, des zones d'enlèvements. C'est une réalité géographique localisée — exactement comme l'Europe ou l'Asie ont les leurs. La carte ci-dessous est celle des 18 pays couverts dans cette série, avec leur niveau de viabilité pour un expatrié en 2026.</p>
-
-    <div class="zone-grid">
-      <div class="zone-card z-green">
-        <div class="zone-card-label">🟢 Recommandable</div>
-        <ul>
-          <li>Maurice</li>
-          <li>Rwanda</li>
-          <li>Namibie</li>
-          <li>Botswana</li>
-          <li>Cap-Vert</li>
-          <li>Maroc</li>
-          <li>Tunisie</li>
-          <li>Sénégal</li>
-          <li>Ghana</li>
-        </ul>
-      </div>
-      <div class="zone-card z-amber">
-        <div class="zone-card-label">🟡 Avec conditions</div>
-        <ul>
-          <li>Kenya (hors nord)</li>
-          <li>Tanzanie / Zanzibar</li>
-          <li>Égypte (hors Sinaï)</li>
-          <li>Afrique du Sud</li>
-          <li>Côte d'Ivoire</li>
-          <li>Madagascar</li>
-          <li>Seychelles</li>
-          <li>Éthiopie (hors Tigré)</li>
-        </ul>
-      </div>
-      <div class="zone-card z-red">
-        <div class="zone-card-label">🔴 Zones à éviter</div>
-        <ul>
-          <li>Mali, Burkina Faso, Niger</li>
-          <li>Soudan, Soudan du Sud</li>
-          <li>Libye (majorité)</li>
-          <li>Somalie (hors Hargeisa)</li>
-          <li>Nord-est Nigeria</li>
-          <li>Est RDC</li>
-          <li>Région Tigré (Éthiopie)</li>
-          <li>Sinaï égyptien</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="alert">
-      <strong>⚠️ Zones de conflit actif — état mars 2026</strong>
-      Le Sahel (Mali, Burkina Faso, Niger) reste sous influence de groupes armés jihadistes liés à Al-Qaïda et à l'État Islamique. Les enlèvements d'étrangers y sont documentés. L'est de la RDC est en conflit quasi permanent depuis 1996. Ces zones ne font pas partie de notre sélection. Elles ne représentent pas "l'Afrique" — elles représentent des régions en crise spécifiques, comme il en existe sur plusieurs continents.
-    </div>
-
-    <p>Pour les pays en orange de notre liste, le risque principal n'est généralement pas un conflit armé mais une criminalité urbaine ou un contexte politique à connaître. L'Afrique du Sud, par exemple, a un taux de criminalité violente élevé qui demande une vraie adaptation des habitudes — mais des centaines de milliers d'expatriés y vivent très bien dans les bons quartiers. La nuance compte. Les parties 2, 3 et 4 de cette série expliquent ces nuances pays par pays, sans les enjoliver.</p>
-
-    <div class="orn">· · ✦ · ·</div>
-
-    <h2 id="18pays">Les 18 pays de la série — votre boussole</h2>
-
-    <p>Ce tableau est le fil directeur de toute la série. Chaque pays que nous analysons en profondeur dans les parties suivantes est ici résumé en une ligne : zone géographique, viabilité expat, profil dominant, budget mensuel en dollars, et dans quelle partie vous trouverez l'analyse complète avec les scènes de vie, les visas, la fiscalité et les vrais chiffres.</p>
-
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Pays</th>
-            <th>Zone</th>
-            <th>Viabilité</th>
-            <th>Profil dominant</th>
-            <th>Budget/mois (USD)</th>
-            <th>Partie</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>🇲🇦 <a href="../countries/morocco-fr.html">Maroc</a></td><td>Nord</td><td><span class="tag green">🟢 Recommandé</span></td><td>Nomad · Retraité · Salarié</td><td>$900 – $1 600</td><td><a href="chronicle-afrique-expatrier-p2-fr.html">Partie 2</a></td></tr>
-          <tr><td>🇹🇳 <a href="../countries/tunisia-fr.html">Tunisie</a></td><td>Nord</td><td><span class="tag green">🟢 Recommandé</span></td><td>Retraité budget · Nomad</td><td>$650 – $1 100</td><td><a href="chronicle-afrique-expatrier-p2-fr.html">Partie 2</a></td></tr>
-          <tr><td>🇪🇬 <a href="../countries/egypt-fr.html">Égypte</a></td><td>Nord</td><td><span class="tag amber">🟡 Avec conditions</span></td><td>Retraité budget · Trader</td><td>$550 – $1 000</td><td><a href="chronicle-afrique-expatrier-p2-fr.html">Partie 2</a></td></tr>
-          <tr><td>🇩🇿 Algérie</td><td>Nord</td><td><span class="tag red">🔴 Contexte seul</span></td><td>Non recommandé</td><td>—</td><td><a href="chronicle-afrique-expatrier-p2-fr.html">Partie 2</a></td></tr>
-          <tr><td>🇲🇺 <a href="../countries/mauritius-fr.html">Maurice</a></td><td>Îles</td><td><span class="tag green">🟢 Recommandé</span></td><td>Crypto · Retraité aisé · Nomad</td><td>$2 700 – $4 500</td><td><a href="chronicle-afrique-expatrier-p2-fr.html">Partie 2</a></td></tr>
-          <tr><td>🇨🇻 <a href="../countries/cape-verde-fr.html">Cap-Vert</a></td><td>Îles</td><td><span class="tag green">🟢 Recommandé</span></td><td>Nomad · Retraité calme</td><td>$1 000 – $1 500</td><td><a href="chronicle-afrique-expatrier-p2-fr.html">Partie 2</a></td></tr>
-          <tr><td>🇸🇨 <a href="../countries/seychelles-fr.html">Seychelles</a></td><td>Îles</td><td><span class="tag amber">🟡 Avec conditions</span></td><td>Crypto · Aisé</td><td>$3 300 – $5 500</td><td><a href="chronicle-afrique-expatrier-p2-fr.html">Partie 2</a></td></tr>
-          <tr><td>🇰🇪 <a href="../countries/kenya-fr.html">Kenya</a></td><td>Est</td><td><span class="tag green">🟢 Recommandé</span></td><td>Nomad tech · Crypto · Salarié</td><td>$1 100 – $2 000</td><td><a href="chronicle-afrique-expatrier-p3-fr.html">Partie 3</a></td></tr>
-          <tr><td>🇷🇼 <a href="../countries/rwanda-fr.html">Rwanda</a></td><td>Est</td><td><span class="tag green">🟢 Recommandé</span></td><td>Business · Salarié · Sécurité</td><td>$950 – $1 600</td><td><a href="chronicle-afrique-expatrier-p3-fr.html">Partie 3</a></td></tr>
-          <tr><td>🇹🇿 <a href="../countries/tanzania-fr.html">Tanzanie / Zanzibar</a></td><td>Est</td><td><span class="tag green">🟢 Recommandé</span></td><td>Nomad · Retraité · Nature</td><td>$850 – $1 500</td><td><a href="chronicle-afrique-expatrier-p3-fr.html">Partie 3</a></td></tr>
-          <tr><td>🇲🇬 <a href="../countries/madagascar-fr.html">Madagascar</a></td><td>Est</td><td><span class="tag amber">🟡 Avec conditions</span></td><td>Retraité aventurier</td><td>$500 – $850</td><td><a href="chronicle-afrique-expatrier-p3-fr.html">Partie 3</a></td></tr>
-          <tr><td>🇿🇦 <a href="../countries/south-africa-fr.html">Afrique du Sud</a></td><td>Australe</td><td><span class="tag amber">🟡 Avec conditions</span></td><td>Retraité · Nomad</td><td>$1 300 – $2 200</td><td><a href="chronicle-afrique-expatrier-p3-fr.html">Partie 3</a></td></tr>
-          <tr><td>🇳🇦 <a href="../countries/namibia-fr.html">Namibie</a></td><td>Australe</td><td><span class="tag green">🟢 Recommandé</span></td><td>Retraité · Nature · Calme</td><td>$1 100 – $1 800</td><td><a href="chronicle-afrique-expatrier-p3-fr.html">Partie 3</a></td></tr>
-          <tr><td>🇧🇼 <a href="../countries/botswana-fr.html">Botswana</a></td><td>Australe</td><td><span class="tag green">🟢 Recommandé</span></td><td>Stable · Famille · Anglophone</td><td>$1 200 – $1 900</td><td><a href="chronicle-afrique-expatrier-p3-fr.html">Partie 3</a></td></tr>
-          <tr><td>🇸🇳 <a href="../countries/senegal-fr.html">Sénégal</a></td><td>Ouest</td><td><span class="tag green">🟢 Recommandé</span></td><td>Nomad · Salarié · Retraité francophone</td><td>$850 – $1 500</td><td><a href="chronicle-afrique-expatrier-p4-fr.html">Partie 4</a></td></tr>
-          <tr><td>🇬🇭 <a href="../countries/ghana-fr.html">Ghana</a></td><td>Ouest</td><td><span class="tag green">🟢 Recommandé</span></td><td>Diaspora · Business · Anglophone</td><td>$950 – $1 600</td><td><a href="chronicle-afrique-expatrier-p4-fr.html">Partie 4</a></td></tr>
-          <tr><td>🇨🇮 <a href="../countries/cote-divoire-fr.html">Côte d'Ivoire</a></td><td>Ouest</td><td><span class="tag amber">🟡 Avec conditions</span></td><td>Business · Salarié</td><td>$1 100 – $2 000</td><td><a href="chronicle-afrique-expatrier-p4-fr.html">Partie 4</a></td></tr>
-          <tr><td>🇪🇹 Éthiopie</td><td>Est</td><td><span class="tag red">🔴 Contexte seul</span></td><td>Instabilité post-Tigré</td><td>—</td><td><a href="chronicle-afrique-expatrier-p3-fr.html">Partie 3</a></td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <p>Les budgets indiqués représentent une vie confortable — logement décent, alimentation locale avec quelques restaurants, transport. Hors frais d'installation et billets d'avion. À Kigali, on peut descendre à $700/mois en adoptant le rythme local, ou monter à $3 000/mois dans les résidences expat haut de gamme. La fourchette dépend entièrement de vos choix de vie, pas du pays.</p>
-
-    <div class="orn">· · ✦ · ·</div>
-
-    <h2 id="profils">Les 4 profils — à quel type de vie aspirez-vous ?</h2>
-
-    <p>L'Afrique ne convient pas à tout le monde de la même façon. Un trader crypto qui veut une exonération sur ses plus-values n'a rien à faire à Madagascar. Un retraité qui cherche une pension qui vaut trois fois plus n'a pas besoin de Maurice. Avant de lire les analyses pays par pays dans les parties suivantes, identifier votre profil vous évitera de vous perdre.</p>
-
-    <div class="profil-grid">
-      <div class="profil-card">
-        <div class="profil-card-icon">💻</div>
-        <div class="profil-card-title">Digital nomad / Remote</div>
-        <p>Vous travaillez pour des clients ou un employeur hors Afrique. Vous avez besoin d'une connexion fibre fiable, d'un fuseau horaire compatible Europe, et d'un coût de vie inférieur à vos revenus. Le zéro décalage horaire du Maroc ou du Sénégal change tout pour qui travaille avec des clients français.</p>
-        <div class="top-pays">→ Maroc · Rwanda · Kenya · Sénégal · Maurice</div>
-      </div>
-      <div class="profil-card">
-        <div class="profil-card-icon">📈</div>
-        <div class="profil-card-title">Trader &amp; Crypto</div>
-        <p>Vous vivez de trading ou de revenus crypto. La fiscalité est votre premier critère. Maurice est la seule destination africaine avec un cadre légal crypto complet et une exonération des plus-values dans le cadre en vigueur. Les autres options (Kenya, Namibie) sont des vides légaux à surveiller.</p>
-        <div class="top-pays">→ Maurice · Seychelles · Kenya · Namibie</div>
-      </div>
-      <div class="profil-card">
-        <div class="profil-card-icon">🌴</div>
-        <div class="profil-card-title">Retraité budget</div>
-        <p>Vous avez une pension ou des revenus passifs fixes. Vous cherchez à les valoriser dans un pays où $1 000–$1 500 donnent accès à une vie confortable et sécurisée. La Tunisie et le Maroc ont tous les deux des conventions de sécurité sociale avec la France.</p>
-        <div class="top-pays">→ Tunisie · Maroc · Zanzibar · Namibie · Sénégal</div>
-      </div>
-      <div class="profil-card">
-        <div class="profil-card-icon">💼</div>
-        <div class="profil-card-title">Salarié expatrié / Poste local</div>
-        <p>Vous êtes détaché par votre entreprise ou vous cherchez un poste en demande (finance, tech, ONG, enseignement). Certaines villes africaines — Nairobi, Abidjan, Kigali, Casablanca — sont de vrais hubs régionaux avec des packages expat compétitifs.</p>
-        <div class="top-pays">→ Nairobi · Abidjan · Kigali · Casablanca · Dakar</div>
-      </div>
-    </div>
+    
 
     <div class="orn">· · ✦ · ·</div>
 
@@ -546,6 +376,17 @@
     </div>
   </nav>
 </main>
+
+<div class="aff-strip">
+      <div class="aff-strip-title">Préparer ton expatriation</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span></a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span><span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span></a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span></a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span></a>
+      </div>
+      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+    </div>
 
 <div id="siteFooter"></div>
 <script src="../data/footer.js"></script>

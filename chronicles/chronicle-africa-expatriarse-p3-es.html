@@ -146,6 +146,11 @@
 .aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
 .aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
 .aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+.hero-mosaic{position:absolute;inset:0;display:grid;gap:2px;overflow:hidden}
+.hero-mosaic.cols-2{grid-template-columns:1fr 1fr}
+.hero-mosaic.cols-3{grid-template-columns:1fr 1fr 1fr}
+.hero-mosaic-panel{background-size:cover;background-position:center}
+.hero-mosaic::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%);z-index:1}
 </style>
 </head>
 <body>
@@ -154,10 +159,10 @@
 <script src="../data/header.js"></script>
 
 <section class="hero">
-  <div class="hero-bg" style="background-image:url('/assets/hero-kenya.jpg')"></div>
+  <div class="hero-mosaic cols-3"><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-kenya.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-south-africa.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-tanzania.jpg')"></div></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">Crónica · WiggMap</div>
-    <h1 class="hero-title">África del Este y  del Sur : la África que más te sorprenderá</h1>
+    <h1 class="hero-title">Vivir en África del Este y Sur 2026: Kenia, Ruanda, Tanzania, Namibia, Sudáfrica, Botsuana</h1>
     <p class="hero-sub">Kenia, Ruanda, Tanzania, Zanzíbar, Namibia, Sudáfrica, Botsuana, Madagascar: calidad de vida real, costes en dólares, visados, crypto y verdad sobre el terreno.</p>
   </div>
 </section>
@@ -207,38 +212,7 @@
 
     <p class="lead">La primera vez que aterrizas en Nairobi de noche, te golpea lo mismo: las luces. Luces por todas partes, una ciudad que desborda su perímetro hacia el horizonte, con esa misma energía concentrada de todas las capitales emergentes que saben que se están convirtiendo en algo. Luego, a la mañana siguiente, a cuarenta minutos en coche, el Parque Nacional de Nairobi — el único parque nacional del mundo dentro de los límites de una capital — con jirafas caminando en silueta frente a los rascacielos. El África Oriental es así: juega en dos líneas temporales simultáneamente, la ultramoderna y la ancestral, y lo hace mejor que ningún otro lugar del mundo.</p>
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepara tu mudanza</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span><span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Transferencias — Wise</span><span class="aff-strip-desc">Tipo de cambio real, sin comisiones ocultas</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM desde el avión, 15+ operadores</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Acceso seguro desde el extranjero</span>
-        </a>
-      </div>
-      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
-    </div>
-
-    <p>Esta parte cubre destinos que no tienen nada que ver entre sí — una Ruanda que recuerda a Singapur en versión africana, un Zanzíbar que huele a vainilla y especias, una Namibia casi vacía bajo un cielo estrellado sin contaminación lumínica, una Sudáfrica con sus dolorosas contradicciones. Lo que tienen en común: todos ofrecen algo excepcional para el expatriado que sabe por qué va.</p>
-
-    <div class="orn">· · ✦ · ·</div>
-
-    <!-- KENIA -->
-    <section id="kenia">
-      <div class="pays-header">
-        <div class="pays-flag">🇰🇪</div>
-        <div>
-          <div class="pays-title">Kenia</div>
-          <div class="pays-subtitle">África Oriental · Nairobi · Mombasa · Malindi · Diani Beach · Nakuru</div>
-        </div>
-      </div>
+    
       <div class="pays-pills">
         <span class="pill green">🟢 Recomendado</span>
         <span class="pill blue">$1.100 – $2.000 / mes</span>
@@ -698,6 +672,17 @@
     </div>
   </nav>
 </main>
+
+<div class="aff-strip">
+      <div class="aff-strip-title">Prepara tu mudanza</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span><span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span></a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">💸 Wise — Tu cuenta sin fronteras</span><span class="aff-strip-desc">Tarjeta + transferencias en 40+ divisas al tipo real</span></a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM desde el avión, 15+ operadores</span></a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Acceso seguro desde el extranjero</span></a>
+      </div>
+      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+    </div>
 
 <div id="siteFooter"></div>
 <script src="../data/footer.js"></script>

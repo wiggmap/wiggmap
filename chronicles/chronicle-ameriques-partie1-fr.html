@@ -185,6 +185,11 @@
 .aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
 .aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
 .aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+.hero-mosaic{position:absolute;inset:0;display:grid;gap:2px;overflow:hidden}
+.hero-mosaic.cols-2{grid-template-columns:1fr 1fr}
+.hero-mosaic.cols-3{grid-template-columns:1fr 1fr 1fr}
+.hero-mosaic-panel{background-size:cover;background-position:center}
+.hero-mosaic::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%);z-index:1}
 </style>
 </head>
 <body>
@@ -192,10 +197,10 @@
 <div id="siteHeader"></div>
 
 <section class="hero">
-  <div class="hero-bg" style="background-image:url('/assets/hero-panama.jpg')"></div>
+  <div class="hero-mosaic cols-2"><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-panama.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-costa-rica.jpg')"></div></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">Chronique · WiggMap</div>
-    <h1 class="hero-title">Les Chroniques Wigg</h1>
+    <h1 class="hero-title">L'expatriation sous le soleil des Amériques — Panama, Costa Rica, Puerto Rico · Partie 1</h1>
     <p class="hero-sub">Série Amériques · Partie 1 — Panama, Costa Rica, Puerto Rico : comparatif 2026 pour expatriés, nomades numériques, traders crypto et retraités — visa, fiscalité</p>
   </div>
 </section>
@@ -247,154 +252,7 @@
       Pendant longtemps, "s'expatrier dans les Amériques" voulait dire Central America budget ou retraite au Panama. Cette époque est révolue. En 2026, le couloir Panama–Costa Rica–Puerto Rico constitue un triangle stratégique dans lequel chaque profil d'expatrié — qu'il soit trader crypto, développeur freelance, consultant à tarif élevé ou retraité avec pension — trouve une proposition distincte, légalement structurée et fiscalement documentée. Ce n'est plus une question d'opportunisme. C'est une décision de planification patrimoniale sérieuse.
     </p>
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton expatriation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Transferts — Wise</span><span class="aff-strip-desc">Taux de change réel, sans frais cachés</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span>
-        </a>
-      </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
-    </div>
-
-    <p>
-      La promesse de cette région est simple : la fiscalité territoriale. Panama et Costa Rica ne taxent que les revenus <em>générés localement</em>. Si vous gagnez votre argent depuis l'étranger — clients européens, employeur américain, dividendes de sociétés offshore — vous ne devez rien à l'administration fiscale locale. Puerto Rico va encore plus loin avec l'Act 60 : pour les résidents bona fide, les plus-values crypto réalisées après l'installation sont à 0% d'impôt fédéral américain. Ces trois destinations partagent cette logique fondamentale mais divergent radicalement sur le reste : coût de la vie, qualité des infrastructures, complexité administrative, niveau de vie et ce que "vivre là" implique concrètement au quotidien.
-    </p>
-
-    <div class="quote">
-      La fiscalité territoriale ne signifie pas l'absence totale d'impôt — elle signifie que vos revenus étrangers sont exclus de la base taxable locale. Nuance capitale.
-    </div>
-
-    <h2>Tableau comparatif : Panama vs Costa Rica vs Puerto Rico</h2>
-
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Critère</th>
-            <th>🇵🇦 Panama</th>
-            <th>🇨🇷 Costa Rica</th>
-            <th>🇵🇷 Puerto Rico</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Visa nómada numérique</strong></td>
-            <td>9 mois + 9 mois<br><small>$3 000/mois requis</small></td>
-            <td>Visa nomade 2 ans<br><small>$3 000/mois requis</small></td>
-            <td>Act 27-2024 (DNB)<br><small>Pas de seuil fixe</small></td>
-          </tr>
-          <tr>
-            <td><strong>Visa retraité</strong></td>
-            <td>Pensionado + carte réduction<br><small>$1 000/mois pension</small></td>
-            <td>Pensionado populaire<br><small>$1 000/mois pension</small></td>
-            <td>Résidence US standard<br><small>Territoire américain</small></td>
-          </tr>
-          <tr>
-            <td><strong>Budget mensuel (confort)</strong></td>
-            <td>$1 500 – $3 000</td>
-            <td>$1 600 – $3 000</td>
-            <td>$2 000 – $4 500</td>
-          </tr>
-          <tr>
-            <td><strong>Fiscalité revenus étrangers</strong></td>
-            <td><span class="tag green">0% territorial</span></td>
-            <td><span class="tag green">0% territorial</span></td>
-            <td><span class="tag green">0% Act 60 (résidents)</span></td>
-          </tr>
-          <tr>
-            <td><strong>Crypto — plus-values</strong></td>
-            <td><span class="tag green">0% si revenu étranger</span></td>
-            <td><span class="tag green">0% si revenu étranger</span></td>
-            <td><span class="tag green">0% (post-installation)</span><br><small>Audit IRS possible</small></td>
-          </tr>
-          <tr>
-            <td><strong>Système de santé</strong></td>
-            <td>⭐⭐⭐⭐<br><small>Privé excellent, public limité</small></td>
-            <td>⭐⭐⭐⭐⭐<br><small>CCSS universel + privé</small></td>
-            <td>⭐⭐⭐⭐<br><small>Accès Medicare/Medicaid (US)</small></td>
-          </tr>
-          <tr>
-            <td><strong>Internet & infra</strong></td>
-            <td>⭐⭐⭐⭐<br><small>Fibre en ville, variable hors</small></td>
-            <td>⭐⭐⭐⭐<br><small>Solide en zones urbanisées</small></td>
-            <td>⭐⭐⭐⭐<br><small>US standard, post-Maria récupéré</small></td>
-          </tr>
-          <tr>
-            <td><strong>Monnaie</strong></td>
-            <td>Dollar US (USD)</td>
-            <td>Colón costaricien (variable)</td>
-            <td>Dollar US (USD)</td>
-          </tr>
-          <tr>
-            <td><strong>Langue principale</strong></td>
-            <td>Espagnol (anglais courant en ville)</td>
-            <td>Espagnol (anglais limité)</td>
-            <td>Espagnol + anglais officiel</td>
-          </tr>
-          <tr>
-            <td><strong>Chemin vers résidence perm.</strong></td>
-            <td>Oui (5 ans résidence temp.)</td>
-            <td>Oui (3 ans résidence temp.)</td>
-            <td>Territoire US — résidence directe</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="orn">· · ✦ · ·</div>
-
-    <!-- PANAMA -->
-    <h2>1) Panama : le hub dollarisé d'Amérique Centrale, entre fiscalité zéro et classe mondiale</h2>
-
-    <p>
-      Panama est une anomalie géographique et économique. Un pays de 4 millions d'habitants qui abrite un hub aéroportuaire continental, les gratte-ciels de Punta Pacífica, une banque privée parmi les plus sophistiquées d'Amérique latine, et l'une des rares économies du monde entièrement dollarisées sans être un territoire américain. En 2026, Panama City figure systématiquement dans le top 5 des villes les plus attractives pour les expatriés à hauts revenus en dehors de l'Asie-Pacifique. Et pour cause : la combinaison fiscalité territoriale stricte + dollar américain + coût de vie modéré + accès direct à toute l'Amérique latine est difficile à battre dans la région.
-    </p>
-
-    <div class="dbox">
-      <div class="dbox-head"><strong>Panama</strong><span class="sub">Données vérifiées — Février 2026</span></div>
-      <div class="dbox-grid">
-        <div class="dbox-cell">
-          <span class="dbox-lbl">Visa nomade numérique</span>
-          <span class="dbox-val">9 mois + 9 mois</span>
-          <span class="dbox-note">Revenus étrangers min. $3 000/mois</span>
-        </div>
-        <div class="dbox-cell">
-          <span class="dbox-lbl">Coût du visa (tout compris)</span>
-          <span class="dbox-val">~$1 500</span>
-          <span class="dbox-note">$500 frais gouvernement + ~$1 000 avocat</span>
-        </div>
-        <div class="dbox-cell">
-          <span class="dbox-lbl">Impôt revenus étrangers</span>
-          <span class="dbox-val">0%</span>
-          <span class="dbox-note">Système territorial depuis 1917</span>
-        </div>
-        <div class="dbox-cell">
-          <span class="dbox-lbl">Budget mensuel (confort)</span>
-          <span class="dbox-val">$1 500 – $3 000</span>
-          <span class="dbox-note">Panama City quartiers populaires expats</span>
-        </div>
-        <div class="dbox-cell">
-          <span class="dbox-lbl">Pensionado retraités</span>
-          <span class="dbox-val">$1 000/mois</span>
-          <span class="dbox-note">Pension viagère + carte réductions</span>
-        </div>
-        <div class="dbox-cell">
-          <span class="dbox-lbl">Monnaie</span>
-          <span class="dbox-val">Dollar US</span>
-          <span class="dbox-note">Balboa = 1 USD, billet US en circulation</span>
-        </div>
-      </div>
-    </div>
+    
 
     <h3>La fiscalité territoriale panaméenne : la plus ancienne du continent</h3>
     <p>
@@ -726,6 +584,17 @@
   </aside>
 </section>
 </main>
+
+<div class="aff-strip">
+      <div class="aff-strip-title">Préparer ton expatriation</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span></a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span><span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span></a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span></a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span></a>
+      </div>
+      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+    </div>
 
 <div id="siteFooter"></div>
 <script src="../data/header.js"></script>

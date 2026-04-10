@@ -254,6 +254,11 @@
 .aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
 .aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
 .aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+.hero-mosaic{position:absolute;inset:0;display:grid;gap:2px;overflow:hidden}
+.hero-mosaic.cols-2{grid-template-columns:1fr 1fr}
+.hero-mosaic.cols-3{grid-template-columns:1fr 1fr 1fr}
+.hero-mosaic-panel{background-size:cover;background-position:center}
+.hero-mosaic::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%);z-index:1}
 </style>
 </head>
 <body>
@@ -263,10 +268,10 @@
 <script src="../data/header.js"></script>
 
 <section class="hero">
-  <div class="hero-bg" style="background-image:url('/assets/hero-montenegro.jpg')"></div>
+  <div class="hero-mosaic cols-2"><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-montenegro.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-georgia.jpg')"></div></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">Chronique · WiggMap</div>
-    <h1 class="hero-title">The Wigg Chronicles</h1>
+    <h1 class="hero-title">6 pays auxquels on ne pense pas pour s'expatrier en 2026</h1>
     <p class="hero-sub">Maurice, Monténégro, Chypre, Taïwan, Uruguay, Oman : 6 destinations sous-radar avec une vraie qualité de vie, des visas solides et des coûts défendables. Le gui</p>
   </div>
 </section>
@@ -301,112 +306,7 @@
   <section id="introduction">
     <p class="lead">Il y a une liste qui circule sur internet depuis 2018 sans changer d'une virgule. Portugal. Bali. Thaïlande. Géorgie. Dubaï. Elle est devenue le fonds commun de l'expatriation connectée — utile, honnête, documentée, et lue par tellement de monde que ces destinations sont désormais encombrées d'un type particulier d'habitant : celui qui a lu les mêmes articles que vous et s'y est installé en même temps. Ce n'est pas un reproche. C'est une observation. Et elle en cache une autre, plus intéressante : pendant que tout le monde se précipitait sur les mêmes adresses, six pays — solides, documentés, défendables sur presque tous les critères — sont restés dans l'angle mort.</p>
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton expatriation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Transferts — Wise</span><span class="aff-strip-desc">Taux de change réel, sans frais cachés</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span>
-        </a>
-      </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
-    </div>
-
-    <p>Ce qui suit n'est pas une liste de destinations "exotiques" ou d'expériences de vie difficiles à traduire en arguments concrets. C'est une sélection rigoureuse : qualité de vie mesurée, fiscalité documentée, visas vérifiés, coût de la vie réel, et — parce que ça compte — un indice de bonheur qui n'a pas à rougir devant les favoris habituels. Maurice. Monténégro. Chypre. Taïwan. Uruguay. Oman. Six pays qui n'ont pas le profil Instagram de la Thaïlande, mais qui ont quelque chose de plus rare : de la substance.</p>
-  </section>
-
-  <blockquote class="pull-quote">
-    "La meilleure destination d'expatriation n'est pas celle dont tout le monde parle. C'est celle qui correspond exactement à votre profil — et dont vous êtes encore le seul à avoir entendu parler."
-  </blockquote>
-
-  <!-- COMPARATIF -->
-  <section id="comparatif">
-    <h2>Vue d'ensemble — 6 destinations comparées</h2>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Destination</th>
-            <th>Coût vie/mois</th>
-            <th>Visa nomad</th>
-            <th>Bonheur</th>
-            <th>Sécurité</th>
-            <th>Profil idéal</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><a href="#maurice">🇲🇺 Maurice</a></td>
-            <td>$1.200–2.000</td>
-            <td><span style="font-size:.72rem; font-family:'Poppins',sans-serif; background:#dcfce7; color:#15803d; padding:2px 8px; border-radius:12px; font-weight:700;">Premium Visa 1 an</span></td>
-            <td>6,0 / 10 ★</td>
-            <td>Modérée</td>
-            <td>Retraité / Remote premium</td>
-          </tr>
-          <tr>
-            <td><a href="#montenegro">🇲🇪 Monténégro</a></td>
-            <td>€800–1.400</td>
-            <td><span style="font-size:.72rem; font-family:'Poppins',sans-serif; background:#dcfce7; color:#15803d; padding:2px 8px; border-radius:12px; font-weight:700;">Digital Nomad officiel</span></td>
-            <td>6,0 / 10</td>
-            <td>Haute</td>
-            <td>Nomad / Entrepreneur Balkans</td>
-          </tr>
-          <tr>
-            <td><a href="#chypre">🇨🇾 Chypre</a></td>
-            <td>€1.400–2.200</td>
-            <td><span style="font-size:.72rem; font-family:'Poppins',sans-serif; background:#dcfce7; color:#15803d; padding:2px 8px; border-radius:12px; font-weight:700;">DNV 1 an — UE</span></td>
-            <td>6,5 / 10</td>
-            <td>Très haute</td>
-            <td>Freelance UE / Non-Dom</td>
-          </tr>
-          <tr>
-            <td><a href="#taiwan">🇹🇼 Taïwan</a></td>
-            <td>$1.500–2.500</td>
-            <td><span style="font-size:.72rem; font-family:'Poppins',sans-serif; background:#dbeafe; color:#1d4ed8; padding:2px 8px; border-radius:12px; font-weight:700;">Gold Card qualifiés</span></td>
-            <td>7,0 / 10 ★★</td>
-            <td>Exceptionnelle</td>
-            <td>Tech / Entrepreneur / Trader</td>
-          </tr>
-          <tr>
-            <td><a href="#uruguay">🇺🇾 Uruguay</a></td>
-            <td>$1.200–2.000</td>
-            <td><span style="font-size:.72rem; font-family:'Poppins',sans-serif; background:#fef3c7; color:#92400e; padding:2px 8px; border-radius:12px; font-weight:700;">Résidence standard</span></td>
-            <td>6,4 / 10</td>
-            <td>Haute</td>
-            <td>Retraité sérieux / Passifs</td>
-          </tr>
-          <tr>
-            <td><a href="#oman">🇴🇲 Oman</a></td>
-            <td>$1.500–2.800</td>
-            <td><span style="font-size:.72rem; font-family:'Poppins',sans-serif; background:#fef3c7; color:#92400e; padding:2px 8px; border-radius:12px; font-weight:700;">Freelance / Retraite</span></td>
-            <td>6,1 / 10</td>
-            <td>Exceptionnelle</td>
-            <td>Salarié expat / Couple aisé</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <p style="font-size:.72rem; color:var(--muted); font-family:'Poppins',sans-serif;">★ Maurice = 1ère nation d'Afrique au World Happiness Report 2025. ★★ Taïwan = 27e mondial, 1er d'Asie de l'Est — WHR 2025.</p>
-  </section>
-
-  <!-- ══════ MAURICE ══════ -->
-  <div class="orn">· · ✦ · ·</div>
-  <section class="country-block" id="maurice">
-    <div class="country-header">
-      <div class="country-num">1</div>
-      <div class="country-title-block">
-        <div class="country-name">🇲🇺 Maurice</div>
-        <div class="country-tagline">L'île premium qu'on oublie — et que les expatriés sérieux ne devraient pas</div>
-      </div>
-    </div>
+    
 
     <p>Il y a un malentendu persistant sur Maurice : on pense hôtel de luxe, lune de miel, tout compris. C'est vrai. Et ça cache complètement le reste. Maurice est la nation la mieux classée du continent africain au World Happiness Report 2025. Elle a un cadre juridique anglosaxon hérité de la couronne britannique, un système éducatif qui a produit des ingénieurs, des médecins et des juristes exportés dans toute l'Europe, une économie diversifiée (finance, tech, logistique), et un réseau de traités fiscaux bilatéraux qui en fait l'une des plateformes légales les plus solides de l'océan Indien. L'île a aussi un plan stratégique clair — le Maurice Vision 2030 — pour attirer des résidents qualifiés et des retraités aisés. Ce n'est pas un accident que HSBC et d'autres grandes banques y aient installé des structures régionales.</p>
 
@@ -1035,6 +935,17 @@
   </div>
 
 </div>
+
+<div class="aff-strip">
+      <div class="aff-strip-title">Préparer ton expatriation</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span></a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span><span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span></a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span></a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span></a>
+      </div>
+      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+    </div>
 
 <div id="siteFooter"></div>
 <script src="../data/footer.js"></script>

@@ -228,6 +228,11 @@
 .aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
 .aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
 .aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+.hero-mosaic{position:absolute;inset:0;display:grid;gap:2px;overflow:hidden}
+.hero-mosaic.cols-2{grid-template-columns:1fr 1fr}
+.hero-mosaic.cols-3{grid-template-columns:1fr 1fr 1fr}
+.hero-mosaic-panel{background-size:cover;background-position:center}
+.hero-mosaic::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%);z-index:1}
 </style>
 </head>
 <body>
@@ -237,10 +242,10 @@
 <script src="../data/header.js"></script>
 
 <section class="hero">
-  <div class="hero-bg" style="background-image:url('/assets/hero-thailand.jpg')"></div>
+  <div class="hero-mosaic cols-3"><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-thailand.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-vietnam.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-indonesia.jpg')"></div></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">Chronicle · WiggMap</div>
-    <h1 class="hero-title">The Wigg Chronicles</h1>
+    <h1 class="hero-title">Moving to Southeast Asia in 2026: Thailand, Vietnam, Bali, Philippines Guide</h1>
     <p class="hero-sub">Visas, taxes, real cost of living and under-the-radar cities: the complete guide to living in Thailand, Vietnam, Bali or the Philippines in 2026. Four expat pro</p>
   </div>
 </section>
@@ -279,108 +284,7 @@
   <section id="intro">
     <p class="lead">There's a specific moment — somewhere between your first bowl of phở at 7am and the realization that your Paris rent covers four months in a pool apartment in Chiang Mai — when something shifts. It's not a crush on coconut trees; that's the traveler's fantasy. It's something colder and more arithmetical: the recognition that the geography of your daily life is, for the most part, a choice you never actually made.</p>
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepare your move</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span><span class="aff-strip-desc">Global health cover from $45/mo</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Transfers — Wise</span><span class="aff-strip-desc">Real exchange rate, no hidden fees</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM from the plane, 15+ carriers</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Secure access from abroad</span>
-        </a>
-      </div>
-      <div class="aff-strip-note">partner links — at no extra cost to you</div>
-    </div>
-
-    <p>Southeast Asia pulls people in for reasons that have nothing to do with the usual clichés. It's not the beach — Spain does that better without the jet lag. It's not "exoticism" either — a condescending notion that serious people have moved on from. It's something more substantial: a density of the world that doesn't exist anywhere else. Five millennia of civilization coexisting with fintech startups without anyone finding it unusual. Landscapes of geological absurdity — Ha Long Bay's limestone formations look like a Song dynasty painting, Bali's rice terraces were carved by water over a thousand years. And the food. Nobody talks enough about food as a migration argument. The fact that you can eat extraordinarily well, three times a day, for under $5 — that changes the texture of a life more than any visa or rent price.</p>
-
-    <p>But settling in Southeast Asia in 2026 is a more nuanced decision than it was five years ago. Thailand has overhauled its foreign income tax rules. Bali is overtouristed in its iconic areas. Vietnam still has no official nomad visa. The Philippines has the SRRV — arguably the best retirement visa in the region — but its island medical infrastructure demands airtight insurance. This guide gives you the full picture, country by country, profile by profile, without unnecessary romance or catastrophizing.</p>
-  </section>
-
-  <blockquote class="pull-quote">
-    "The question isn't 'is Southeast Asia cheaper?' It's 'in which country, on which visa, paying which taxes, does your life actually look like what you want?'"
-  </blockquote>
-
-  <section id="overview">
-    <h2>Overview — 4 destinations at a glance</h2>
-    <p>The table below covers the key metrics. Each country then gets a full breakdown: visas, taxes, insurance, lifestyle, and the places nobody shows you.</p>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Country</th>
-            <th>Cost of living/mo.</th>
-            <th>Studio rent</th>
-            <th>Nomad visa</th>
-            <th>Retirement visa</th>
-            <th>Crypto</th>
-            <th>English</th>
-            <th>Expat Score</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><a href="#thailand">🇹🇭 Thailand</a></td>
-            <td>$1,200–2,000</td>
-            <td>$250–600</td>
-            <td><span class="tag green">DTV / LTR</span></td>
-            <td><span class="tag green">✅ Non-OA</span></td>
-            <td><span class="tag amber">⚠️ 2024 reform</span></td>
-            <td>Moderate</td>
-            <td>8.5 / 10</td>
-          </tr>
-          <tr>
-            <td><a href="#vietnam">🇻🇳 Vietnam</a></td>
-            <td>$900–1,500</td>
-            <td>$300–600</td>
-            <td><span class="tag amber">⚠️ No official visa</span></td>
-            <td><span class="tag grey">Limited</span></td>
-            <td><span class="tag amber">🟡 Grey area</span></td>
-            <td>Good (cities)</td>
-            <td>7.5 / 10</td>
-          </tr>
-          <tr>
-            <td><a href="#bali">🇮🇩 Bali</a></td>
-            <td>$1,500–2,500</td>
-            <td>$400–900</td>
-            <td><span class="tag green">B211A / SDV</span></td>
-            <td><span class="tag green">✅ KITAS</span></td>
-            <td><span class="tag amber">0.1% spot</span></td>
-            <td>Good</td>
-            <td>8.0 / 10</td>
-          </tr>
-          <tr>
-            <td><a href="#philippines">🇵🇭 Philippines</a></td>
-            <td>$800–1,400</td>
-            <td>$300–700</td>
-            <td><span class="tag blue">Tourist ext.</span></td>
-            <td><span class="tag green">✅ SRRV</span></td>
-            <td><span class="tag amber">🟡 In progress</span></td>
-            <td>Excellent</td>
-            <td>7.5 / 10</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <p style="font-size:.78rem; color:var(--muted); font-family:'Poppins',sans-serif;">* Monthly cost of living estimate for a standard nomad lifestyle, excluding rent. Significant variation by city and lifestyle.</p>
-  </section>
-
-  <!-- ══════ THAILAND ══════ -->
-  <div class="orn">· · ✦ · ·</div>
-  <section class="country-block" id="thailand">
-    <div class="country-header">
-      <div class="country-num">1</div>
-      <div class="country-title-block">
-        <div class="country-name"><span>🇹🇭</span> Thailand</div>
-        <div class="country-tagline">The undisputed benchmark — navigating tax reform without losing the good life</div>
-      </div>
-    </div>
+    
 
     <p>Thailand remains, for most people, the first real entry point into expat Asia. Not without reason. Bangkok is a proper world city — ten million people, street food that competes with any Michelin-starred restaurant, a public transit network that shames most European capitals, and a culture of hospitality that runs centuries deep. Four hours north by road, Chiang Mai is the perfect counterpoint: jungle-covered mountains, golden Buddhist temples at dusk, a night market, and a cost of living a third lower. Further south, Koh Lanta, Koh Phangan and Koh Samui offer something else entirely — jade water, hammocks, coworking spaces with ocean views.</p>
 
@@ -896,6 +800,17 @@
   </div>
 
 </div>
+
+<div class="aff-strip">
+      <div class="aff-strip-title">Prepare your move</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span><span class="aff-strip-desc">Global health cover from $45/mo</span></a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">💸 Wise — Your borderless account</span><span class="aff-strip-desc">Card + transfers in 40+ currencies at the real rate</span></a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM from the plane, 15+ carriers</span></a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Secure access from abroad</span></a>
+      </div>
+      <div class="aff-strip-note">partner links — at no extra cost to you</div>
+    </div>
 
 <div id="siteFooter"></div>
 <script src="../data/footer.js"></script>

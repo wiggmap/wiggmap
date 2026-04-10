@@ -129,6 +129,11 @@
 .aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
 .aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
 .aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+.hero-mosaic{position:absolute;inset:0;display:grid;gap:2px;overflow:hidden}
+.hero-mosaic.cols-2{grid-template-columns:1fr 1fr}
+.hero-mosaic.cols-3{grid-template-columns:1fr 1fr 1fr}
+.hero-mosaic-panel{background-size:cover;background-position:center}
+.hero-mosaic::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%);z-index:1}
 </style>
 </head>
 <body>
@@ -136,10 +141,10 @@
 <div id="siteHeader"></div>
 
 <section class="hero">
-  <div class="hero-bg" style="background-image:url('/assets/hero-germany.jpg')"></div>
+  <div class="hero-mosaic cols-3"><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-germany.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-canada.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-australia.jpg')"></div></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">Chronique · WiggMap</div>
-    <h1 class="hero-title">Les Wigg Chroniques</h1>
+    <h1 class="hero-title">Visas Expatriation en 2026 : les 25 Meilleures Destinations pour S'installer et Travailler</h1>
     <p class="hero-sub">Allemagne, Canada, Singapour, Australie, Portugal, France... Les 25 meilleures destinations et visas pour s&#x27;expatrier, travailler sur place et construire sa vie</p>
   </div>
 </section>
@@ -607,6 +612,17 @@
 
 <div id="wiggmap-footer"></div>
 <script src="../data/header.js"></script>
+<div class="aff-strip">
+  <div class="aff-strip-title">Préparer ton expatriation</div>
+  <div class="aff-strip-list">
+    <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span></a>
+    <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span><span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span></a>
+    <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span></a>
+    <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span></a>
+  </div>
+  <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+</div>
+
 <script src="../data/footer.js"></script>
 <script>if('serviceWorker'in navigator){navigator.serviceWorker.register('../sw.js').catch(function(){})}</script>
 </body>

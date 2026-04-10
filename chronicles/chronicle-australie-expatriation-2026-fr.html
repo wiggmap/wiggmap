@@ -163,6 +163,11 @@
 .aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
 .aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
 .aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+.hero-mosaic{position:absolute;inset:0;display:grid;gap:2px;overflow:hidden}
+.hero-mosaic.cols-2{grid-template-columns:1fr 1fr}
+.hero-mosaic.cols-3{grid-template-columns:1fr 1fr 1fr}
+.hero-mosaic-panel{background-size:cover;background-position:center}
+.hero-mosaic::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%);z-index:1}
 </style>
 </head>
 <body>
@@ -170,10 +175,10 @@
 <div id="siteHeader"></div>
 
 <section class="hero">
-  <div class="hero-bg" style="background-image:url('/assets/hero-australia.jpg')"></div>
+  <div class="hero-mosaic cols-2"><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-australia.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-new-zealand.jpg')"></div></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">Chronique · WiggMap</div>
-    <h1 class="hero-title">Les Chroniques Wigg</h1>
+    <h1 class="hero-title">Australie 2026 : Visas, Salaires, Qualité de Vie et Régions — Guide Complet Expatriation</h1>
     <p class="hero-sub">Guide complet expatriation Australie 2026 : nouveaux visas Skills in Demand, salaires réels, coût de la vie à Sydney, Melbourne, Brisbane et Perth, opportunités</p>
   </div>
 </section>
@@ -225,42 +230,7 @@
       Vingt-cinq millions de personnes sur un continent grand comme l'Europe. Des côtes à n'en plus finir, des déserts d'ocre rouge, des forêts tropicales et des grandes villes ultramodernes. L'Australie est une des rares nations au monde qui a réussi à concilier croissance économique durable, immigration massive et maintien d'un niveau de vie parmi les plus élevés de la planète — tout en restant délibérément difficile d'accès. Ce paradoxe est au cœur de ce guide : l'Australie vous veut, mais elle vous choisit.
     </p>
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton expatriation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Transferts — Wise</span><span class="aff-strip-desc">Taux de change réel, sans frais cachés</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span>
-        </a>
-      </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
-    </div>
-
-    <p>
-      En 2026, l'Australie traverse une phase de transformation migratoire importante. Le gouvernement Albanese, réélu en mai 2025, a accéléré la réforme du système de visas amorcée avec le rapport Nixon de 2023. Le visa Skills in Demand (SID), lancé le 7 décembre 2024, marque le changement le plus significatif pour les travailleurs qualifiés depuis une décennie. Parallèlement, les plafonds migratoires ont été revus après des records historiques en 2022-2023, les délais de traitement se sont allongés dans plusieurs catégories, et la crise du logement dans les grandes villes continue de peser sur l'attractivité réelle du pays pour les nouvelles arrivées.
-    </p>
-
-    <div class="dbox">
-      <div class="dbox-head"><strong>Australie — Chiffres Clés 2026</strong><span class="sub">Données macroéconomiques et migratoires vérifiées</span></div>
-      <div class="dbox-grid">
-        <div class="dbox-cell"><span class="dbox-lbl">Population</span><span class="dbox-val">27,2 millions</span><span class="dbox-note">31% nés à l'étranger — une des plus hautes proportions au monde</span></div>
-        <div class="dbox-cell"><span class="dbox-lbl">PIB par habitant (PPA)</span><span class="dbox-val">USD 65 400</span><span class="dbox-note">Top 15 mondial — en hausse soutenue depuis 2024</span></div>
-        <div class="dbox-cell"><span class="dbox-lbl">Salaire minimum légal</span><span class="dbox-val">AUD 24,10/h</span><span class="dbox-note">Révisé juillet 2025 — ~AUD 47 000/an temps plein</span></div>
-        <div class="dbox-cell"><span class="dbox-lbl">Salaire médian national</span><span class="dbox-val">AUD 72 000/an</span><span class="dbox-note">Brut — net ~AUD 57 000 selon la tranche fiscale</span></div>
-        <div class="dbox-cell"><span class="dbox-lbl">Taux de chômage</span><span class="dbox-val">4,0%</span><span class="dbox-note">Début 2026 — marché du travail historiquement tendu</span></div>
-        <div class="dbox-cell"><span class="dbox-lbl">Plafond migratoire (permanent)</span><span class="dbox-val">185 000/an</span><span class="dbox-note">Exercice 2025-2026 — dont 70% skilled stream</span></div>
-        <div class="dbox-cell"><span class="dbox-lbl">Loyer médian Sydney (2 ch.)</span><span class="dbox-val">AUD 3 200/mois</span><span class="dbox-note">En légère décroissance vs pic 2024 — marché encore très tendu</span></div>
-        <div class="dbox-cell"><span class="dbox-lbl">Devise</span><span class="dbox-val">AUD / USD 0,63</span><span class="dbox-note">Taux de change indicatif début 2026</span></div>
-      </div>
-    </div>
+    
 
     <div class="orn">· · ✦ · ·</div>
 
@@ -731,6 +701,17 @@
   </aside>
 </section>
 </main>
+
+<div class="aff-strip">
+      <div class="aff-strip-title">Préparer ton expatriation</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span></a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span><span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span></a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span></a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span></a>
+      </div>
+      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+    </div>
 
 <div id="siteFooter"></div>
 <script src="../data/header.js"></script>

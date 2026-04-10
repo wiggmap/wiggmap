@@ -280,6 +280,11 @@
 .aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
 .aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
 .aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+.hero-mosaic{position:absolute;inset:0;display:grid;gap:2px;overflow:hidden}
+.hero-mosaic.cols-2{grid-template-columns:1fr 1fr}
+.hero-mosaic.cols-3{grid-template-columns:1fr 1fr 1fr}
+.hero-mosaic-panel{background-size:cover;background-position:center}
+.hero-mosaic::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%);z-index:1}
 </style>
 </head>
 <body>
@@ -289,10 +294,10 @@
 
 <!-- ══════ HERO ══════ -->
 <section class="hero">
-  <div class="hero-bg" style="background-image:url('/assets/hero-france.jpg')"></div>
+  <div class="hero-mosaic cols-3"><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-france.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-germany.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-canada.jpg')"></div></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">Crónica · WiggMap</div>
-    <h1 class="hero-title">Financiar, preparar, partir — la guía operativa para estudiar en el extranjero en 2026</h1>
+    <h1 class="hero-title">Guía práctica: estudiar en el extranjero en 2026 — financiar, preparar, partir</h1>
     <p class="hero-sub">Beca Erasmus, alojamiento estudiantil internacional, seguro médico, cuenta Wise, eSIM, visado — la guía completa para preparar tu salida al extranjero en 2026. </p>
   </div>
 </section>
@@ -342,41 +347,7 @@
 
   <p class="lead">Tres partes de esta serie han respondido a la pregunta "dónde". Esta cuarta responde a la pregunta "cómo" — la que todo el mundo se hace una vez que le abren los ojos sobre los destinos. Cómo financiar un semestre en Praga o un año en Taiwán. Cómo encontrar un piso en una ciudad que aún no conoces. Qué seguro contratar cuando sales del espacio Schengen. Cómo no perder 200€ en comisiones de cambio en un año. Esta guía es operativa, en orden, sin olvidar nada.</p>
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepara tu mudanza</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span><span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Transferencias — Wise</span><span class="aff-strip-desc">Tipo de cambio real, sin comisiones ocultas</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM desde el avión, 15+ operadores</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Acceso seguro desde el extranjero</span>
-        </a>
-      </div>
-      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
-    </div>
-
-  <!-- ══════ SECTION 1 : CALENDRIER ══════ -->
-  <div class="orn">· · ✦ · ·</div>
-  <section id="calendrier">
-    <h2>01. El calendario — cuándo preparar qué</h2>
-
-    <p>El primer error de la mayoría de los estudiantes que fracasan en su estancia en el extranjero: empezar demasiado tarde. La candidatura Erasmus se presenta entre 9 y 12 meses antes de la salida. Las becas gubernamentales asiáticas (MEXT, KGSP) requieren de 12 a 18 meses. Incluso una inscripción directa en una universidad extranjera, sin beca, puede tardar de 6 a 8 meses si se incluye la búsqueda de alojamiento y la obtención del visado.</p>
-
-    <div class="timeline">
-      <div class="tl-item">
-        <div class="tl-dot amber">J-12</div>
-        <div class="tl-content">
-          <div class="tl-when">12 meses antes de la salida</div>
-          <div class="tl-title">Candidatura Erasmus en tu universidad de origen</div>
-          <div class="tl-text">Presentación del expediente ante el servicio de relaciones internacionales (RI) de tu institución. Carta de motivación, expediente académico, nivel de idioma. Resultados: enero-febrero. Es en esta etapa donde se juegan las plazas disponibles en cada universidad asociada.</div>
-        </div>
-      </div>
+    
       <div class="tl-item">
         <div class="tl-dot">J-9</div>
         <div class="tl-content">
@@ -842,6 +813,17 @@
 <div class="sources">
   <strong>Sources &amp; données :</strong> Comisión Europea — reglamento Erasmus+ y cuantías de las becas 2025-2026 · TSE — Tarjeta Sanitaria Europea (para ciudadanos UE/EEE) · IRCC (Inmigración, Refugiados y Ciudadanía Canadá) — condiciones Study Permit 2026 · Embajadas y consulados correspondientes — plazos de tramitación de visados · SafetyWing — condiciones de cobertura Nomad Insurance 2026 · Wise — condiciones de cuenta multidivisa · Airalo — cobertura eSIM y tarifas 2026 · HousingAnywhere — condiciones de la plataforma. Los importes de becas, plazos de visado y condiciones de productos financieros son indicativos y pueden variar — verifica las condiciones oficiales antes de cualquier decisión. <em>Datos verificados y actualizados: marzo 2026.</em>
   <br><br><em style="font-size:.68rem;">Certains liens dans cette page sont des liens d'affiliation. WiggMap peut percevoir une commission si vous souscrivez à un service via ces liens — sans coût supplémentaire pour vous. Ces recommandations reflètent une sélection éditoriale indépendante : WiggMap ne recommande que des services utilisés et approuvés par l'équipe.</em>
+</div>
+
+<div class="aff-strip">
+  <div class="aff-strip-title">Prepara tu mudanza</div>
+  <div class="aff-strip-list">
+    <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span><span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span></a>
+    <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">💸 Wise — Tu cuenta sin fronteras</span><span class="aff-strip-desc">Tarjeta + transferencias en 40+ divisas al tipo real</span></a>
+    <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM desde el avión, 15+ operadores</span></a>
+    <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Acceso seguro desde el extranjero</span></a>
+  </div>
+  <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
 </div>
 
 <div id="siteFooter"></div>

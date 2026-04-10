@@ -277,6 +277,11 @@
 .aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
 .aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
 .aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+.hero-mosaic{position:absolute;inset:0;display:grid;gap:2px;overflow:hidden}
+.hero-mosaic.cols-2{grid-template-columns:1fr 1fr}
+.hero-mosaic.cols-3{grid-template-columns:1fr 1fr 1fr}
+.hero-mosaic-panel{background-size:cover;background-position:center}
+.hero-mosaic::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%);z-index:1}
 </style>
 </head>
 <body>
@@ -286,10 +291,10 @@
 
 <!-- ══════ HERO ══════ -->
 <section class="hero">
-  <div class="hero-bg" style="background-image:url('/assets/hero-japan.jpg')"></div>
+  <div class="hero-mosaic cols-3"><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-japan.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-south-korea.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-australia.jpg')"></div></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">Chronique · WiggMap</div>
-    <h1 class="hero-title">Étudier en Asie en 2026 — 6 destinations qui changent une trajectoire</h1>
+    <h1 class="hero-title">Étudier en Asie 2026 : Taïwan, Corée, Japon, Malaisie, Singapour</h1>
     <p class="hero-sub">Taïwan, Corée du Sud, Malaisie, Japon, Thaïlande, Singapour — 6 destinations pour étudier en Asie-Pacifique en 2026. Budget réel, bourses nationales, frais de s</p>
   </div>
 </section>
@@ -339,122 +344,7 @@
   <!-- INTRO -->
   <p class="lead">Étudier en Asie reste perçu, dans beaucoup de pays, comme une aventure pour esprits aventuriers ou pour les filières spécialisées. C'est une erreur de catégorie. NUS Singapour est classée 8e mondiale selon QS. KAIST Corée du Sud est dans le top 50 en sciences et ingénierie. L'Université Nationale de Taïwan est dans le top 70 mondial — devant la plupart des grandes universités européennes. Ces institutions ne sont pas exotiques. Elles sont compétitives — et pour certains profils, elles sont un meilleur choix qu'une grande école d'ingénieurs ou de commerce européenne.</p>
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton expatriation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Transferts — Wise</span><span class="aff-strip-desc">Taux de change réel, sans frais cachés</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span>
-        </a>
-      </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
-    </div>
-
-  <p>Ce qui change radicalement par rapport à la Partie 1 de cette série, c'est la logique de visa et de financement. L'Erasmus+ ne couvre pas l'Asie — mais presque tous ces pays ont leur propre système de bourses gouvernementales pour étudiants étrangers, souvent plus généreux que le programme européen. La MEXT japonaise, la KGSP coréenne, la bourse du Ministère de l'Éducation taïwanais : ce sont des programmes full-ride — frais de scolarité couverts, allocation mensuelle, billet d'avion aller inclus pour certains. Le niveau de sélectivité est réel. Mais pour un dossier solide, le calcul mérite d'être fait.</p>
-
-  <div class="pull-quote">
-    Un diplôme d'une université asiatique de premier rang ouvre des portes que les classements nationaux ne montrent pas. C'est un avantage comparatif réel — à condition de le choisir pour les bonnes raisons.
-  </div>
-
-  <p>Ce guide couvre les six destinations les plus pertinentes de la région pour un étudiant francophone en 2026 : celles qui combinent une vraie qualité académique, des programmes accessibles en anglais, un budget étudiant réaliste et un accueil organisé des étudiants étrangers. Chaque destination inclut la principale bourse nationale disponible — avec les conditions réelles, sans enjoliver les taux de sélection.</p>
-
-  <!-- COMPARATIF -->
-  <div class="orn">· · ✦ · ·</div>
-  <section id="comparatif">
-    <h2>Les 6 destinations en un coup d'œil</h2>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Destination</th>
-            <th>Budget / mois</th>
-            <th>Loyer chambre</th>
-            <th>Frais scolarité / an</th>
-            <th>Bourse principale</th>
-            <th>Anglais campus</th>
-            <th>Score étudiant</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><a href="#taiwan">🇹🇼 Taïwan</a></td>
-            <td>600–850 USD</td>
-            <td>200–400 USD</td>
-            <td>2 500–5 000 USD</td>
-            <td>MoE Taiwan Scholarship</td>
-            <td>✓✓ Bon</td>
-            <td><span class="score-high">8,8 / 10</span></td>
-          </tr>
-          <tr>
-            <td><a href="#coree">🇰🇷 Corée du Sud</a></td>
-            <td>900–1 300 USD</td>
-            <td>350–700 USD</td>
-            <td>3 000–7 000 USD</td>
-            <td>KGSP (full ride)</td>
-            <td>✓✓ Bon (campus)</td>
-            <td><span class="score-high">8,5 / 10</span></td>
-          </tr>
-          <tr>
-            <td><a href="#malaisie">🇲🇾 Malaisie</a></td>
-            <td>580–800 USD</td>
-            <td>180–340 USD</td>
-            <td>3 000–8 000 USD</td>
-            <td>MIS Malaysia</td>
-            <td>✓✓✓ Excellent</td>
-            <td><span class="score-mid">7,5 / 10</span></td>
-          </tr>
-          <tr>
-            <td><a href="#japon">🇯🇵 Japon</a></td>
-            <td>950–1 350 USD</td>
-            <td>400–750 USD</td>
-            <td>4 800–6 200 USD</td>
-            <td>MEXT (full ride)</td>
-            <td>✓ Moyen (hors campus)</td>
-            <td><span class="score-high">8,2 / 10</span></td>
-          </tr>
-          <tr>
-            <td><a href="#thailande">🇹🇭 Thaïlande</a></td>
-            <td>420–650 USD</td>
-            <td>140–290 USD</td>
-            <td>2 000–4 500 USD</td>
-            <td>ASEAN + bilatérales</td>
-            <td>✓ Moyen (campus intl.)</td>
-            <td><span class="score-mid">7,5 / 10</span></td>
-          </tr>
-          <tr>
-            <td><a href="#singapour">🇸🇬 Singapour</a></td>
-            <td>1 200–1 700 USD</td>
-            <td>600–1 100 USD</td>
-            <td>8 000–12 000 USD ★</td>
-            <td>MOE Tuition Grant</td>
-            <td>✓✓✓ Excellent</td>
-            <td><span class="score-high">8,0 / 10</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <p style="font-size:.71rem;color:var(--muted);font-family:'Poppins',sans-serif;">★ Après MOE Tuition Grant (sans subvention : 25 000–35 000 USD/an). Budgets en USD — taux de change indicatifs mars 2026. Budget étudiant = logement inclus, hors billet d'avion.</p>
-    <p style="font-size:.71rem;color:var(--muted);font-family:'Poppins',sans-serif;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);"><strong style="color:var(--navy);">⭐ Score Étudiant WiggMap (/10)</strong> — Score composite WiggMap fondé sur 6 critères pondérés : budget mensuel étudiant, sécurité quotidienne, niveau d'anglais disponible, réputation académique (rankings internationaux), praticité administrative (visa, inscription, logement) et qualité de vie globale.</p>
-  </section>
-
-  <!-- ══════ 01. TAÏWAN ══════ -->
-  <div class="orn">· · ✦ · ·</div>
-  <section class="dest-block" id="taiwan">
-    <div class="dest-header">
-      <div class="dest-num">1</div>
-      <div class="dest-title-block">
-        <div class="dest-name">🇹🇼 Taïwan</div>
-        <div class="dest-tagline">Le meilleur rapport qualité-coût de l'enseignement supérieur asiatique — encore inconnu des Français</div>
-      </div>
-    </div>
+    
 
     <p>Taïwan est le secret le mieux gardé de cette liste. Dans les salles de classe des universités asiatiques, les étudiants indonésiens, vietnamiens et malaisiens connaissent l'île depuis longtemps — la qualité de l'enseignement, la sécurité exceptionnelle, le coût de vie modéré et les bourses accessibles en font une destination de premier choix dans la région. En France, elle est quasi absente des radars. National Taiwan University (NTU) est classée dans le top 70 mondial selon QS 2025 — devant l'École Polytechnique. Ce n'est pas une approximation.</p>
 
@@ -1170,6 +1060,17 @@
 
 <div class="sources">
   <strong>Sources &amp; données :</strong> QS World University Rankings 2025 · EF English Proficiency Index 2024 · Commission européenne — Erasmus+ · MEXT (Ministry of Education Japan) — MEXT Scholarship Program 2025-2026 · NIIED (National Institute for International Education Korea) — KGSP 2025 · Taiwan Ministry of Education — MoE Scholarship · Malaysian International Scholarship — Ministry of Higher Education · MOE Singapore — Tuition Grant · SINGA (Singapore International Graduate Award) · Expatistan Cost of Living Index 2025-2026 · Mercer Quality of Living Survey 2025 · rapports statistiques nationaux (sécurité). Les indices de sécurité, budgets étudiants et coûts de vie sont des <strong>données composites WiggMap</strong> construites depuis plusieurs sources croisées. Les montants de bourses et frais de scolarité sont indicatifs — vérifiez les conditions officielles sur les sites des programmes concernés. <em>Données vérifiées et mises à jour : mars 2026.</em>
+</div>
+
+<div class="aff-strip">
+  <div class="aff-strip-title">Préparer ton expatriation</div>
+  <div class="aff-strip-list">
+    <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span></a>
+    <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span><span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span></a>
+    <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span></a>
+    <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span></a>
+  </div>
+  <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
 </div>
 
 <div id="siteFooter"></div>

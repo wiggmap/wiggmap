@@ -258,6 +258,11 @@
 .aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
 .aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
 .aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+.hero-mosaic{position:absolute;inset:0;display:grid;gap:2px;overflow:hidden}
+.hero-mosaic.cols-2{grid-template-columns:1fr 1fr}
+.hero-mosaic.cols-3{grid-template-columns:1fr 1fr 1fr}
+.hero-mosaic-panel{background-size:cover;background-position:center}
+.hero-mosaic::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%);z-index:1}
 </style>
 </head>
 <body>
@@ -266,10 +271,10 @@
 <script src="../data/header.js"></script>
 
 <section class="hero">
-  <div class="hero-bg" style="background-image:url('/assets/hero-canada.jpg')"></div>
+  <div class="hero-mosaic cols-3"><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-canada.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-mexico.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-south-africa.jpg')"></div></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">Crónica · WiggMap</div>
-    <h1 class="hero-title">Estudiar fuera de los caminos trillados en 2026 — Buenos Aires, Montreal, Tbilisi, Marruecos, Dubái</h1>
+    <h1 class="hero-title">Estudiar en el Extranjero 2026: Argentina, Canadá, México, Georgia, Marruecos, Dubái</h1>
     <p class="hero-sub">UBA gratuita para todos, Montreal bilingüe, Monterrey, Tbilisi medicina en inglés, Marruecos, Dubái — 6 destinos fuera de Erasmus para estudiar en 2026. Presupu</p>
   </div>
 </section>
@@ -317,120 +322,7 @@
 
   <p class="lead">Hay destinos que no encajan en las categorías habituales. No son Erasmus — están demasiado lejos. No son "las grandes universidades asiáticas" — no aparecen en los rankings del gran público. Sin embargo, son precisamente los que más cambian una trayectoria. La Universidad de Buenos Aires es completamente gratuita para los extranjeros — un hecho que la mayoría de los orientadores académicos del mundo desconocen. Georgia forma médicos en inglés por menos de 7.000 USD al año con diplomas reconocidos en la UE. Montreal ofrece a un estudiante francófono lo que Toronto no puede: una doble identidad cultural real, matrículas reducidas y acceso inmediato al mercado laboral continental.</p>
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepara tu mudanza</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span><span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Transferencias — Wise</span><span class="aff-strip-desc">Tipo de cambio real, sin comisiones ocultas</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM desde el avión, 15+ operadores</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Acceso seguro desde el extranjero</span>
-        </a>
-      </div>
-      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
-    </div>
-
-  <p>Esta tercera parte cubre los destinos que están ausentes de los folletos estándar — no porque no merezcan figurar en ellos, sino porque los circuitos de información universitarios tradicionales aún no los han integrado. Para algunos de ellos, es una oportunidad directa: menos competencia en las solicitudes, universidades que buscan activamente estudiantes europeos, y una experiencia realmente diferente de la que todo el mundo vive al mismo tiempo.</p>
-
-  <div class="pull-quote">
-    El mejor Erasmus del mundo no es necesariamente un Erasmus. A veces es una universidad pública argentina gratuita, un campus canadiense francófono o una facultad de medicina georgiana que el 95% de los estudiantes nunca se han planteado.
-  </div>
-
-  <!-- COMPARATIF -->
-  <div class="orn">· · ✦ · ·</div>
-  <section id="comparatif">
-    <h2>Los 6 destinos de un vistazo</h2>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Destino</th>
-            <th>Presupuesto / mes</th>
-            <th>Alquiler habitación</th>
-            <th>Matrícula / año</th>
-            <th>Punto fuerte</th>
-            <th>Idioma de estudios</th>
-            <th>Puntuación</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><a href="#buenos-aires">🇦🇷 Buenos Aires</a></td>
-            <td>300–500 USD</td>
-            <td>100–250 USD</td>
-            <td><strong>0 € (UBA)</strong></td>
-            <td>Gratuidad total UBA</td>
-            <td>Español</td>
-            <td><span class="score-high">8,0 / 10</span></td>
-          </tr>
-          <tr>
-            <td><a href="#montreal">🇨🇦 Montreal</a></td>
-            <td>1 100–1 500 USD</td>
-            <td>650–950 USD</td>
-            <td>7 000–20 000 CAD</td>
-            <td>Francofonía + McGill</td>
-            <td>FR / EN</td>
-            <td><span class="score-high">8,5 / 10</span></td>
-          </tr>
-          <tr>
-            <td><a href="#monterrey">🇲🇽 Monterrey</a></td>
-            <td>600–900 USD</td>
-            <td>250–450 USD</td>
-            <td>500–15 000 USD</td>
-            <td>Tec de Monterrey #148 QS</td>
-            <td>ES / EN (Tec)</td>
-            <td><span class="score-mid">7,2 / 10</span></td>
-          </tr>
-          <tr>
-            <td><a href="#tbilisi">🇬🇪 Tbilisi</a></td>
-            <td>380–580 USD</td>
-            <td>180–320 USD</td>
-            <td>5 000–8 000 USD</td>
-            <td>Medicina EN asequible</td>
-            <td>EN (medicina)</td>
-            <td><span class="score-mid">7,8 / 10</span></td>
-          </tr>
-          <tr>
-            <td><a href="#maroc">🇲🇦 Maroc (Rabat)</a></td>
-            <td>380–600 USD</td>
-            <td>140–280 USD</td>
-            <td>Quasi-gratuit–10 000 USD</td>
-            <td>Francés · 3h de París</td>
-            <td>Francés / Árabe</td>
-            <td><span class="score-mid">7,5 / 10</span></td>
-          </tr>
-          <tr>
-            <td><a href="#dubai">🇦🇪 Dubai</a></td>
-            <td>1 200–1 800 USD</td>
-            <td>600–1 050 USD</td>
-            <td>12 000–20 000 USD</td>
-            <td>Red MENA, seguridad</td>
-            <td>Inglés</td>
-            <td><span class="score-mid">7,0 / 10</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <p style="font-size:.71rem;color:var(--muted);font-family:'Poppins',sans-serif;">Presupuesto en USD — tipos de cambio indicativos marzo 2026. Presupuesto estudiantil = alojamiento incluido. UBA = Universidad de Buenos Aires — gratuita para todos, extranjeros incluidos.</p>
-    <p style="font-size:.71rem;color:var(--muted);font-family:'Poppins',sans-serif;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);"><strong style="color:var(--navy);">⭐ Puntuación Estudiante WiggMap (/10)</strong> — Puntuación compuesta WiggMap basada en 6 criterios ponderados: presupuesto mensual estudiantil, seguridad cotidiana, nivel de idioma accesible, reputación académica, practicidad administrativa y calidad de vida global.</p>
-  </section>
-
-  <!-- ══════ 01. BUENOS AIRES ══════ -->
-  <div class="orn">· · ✦ · ·</div>
-  <section class="dest-block" id="buenos-aires">
-    <div class="dest-header">
-      <div class="dest-num">1</div>
-      <div class="dest-title-block">
-        <div class="dest-name">🇦🇷 Buenos Aires, Argentina</div>
-        <div class="dest-tagline">La universidad pública gratuita para todos los extranjeros. Nº1 en América Latina. Desde 1885.</div>
-      </div>
-    </div>
+    
 
     <p>La ley Avellaneda de 1885 estableció un principio simple: la educación superior argentina es gratuita para todos. Extranjeros incluidos, sin excepción, sin condición de reciprocidad. La Universidad de Buenos Aires — fundada en 1821, regularmente en el top 1 a 3 de las universidades de América Latina según QS y THE — es la consecuencia directa. Sus facultades de medicina, derecho, psicología, economía, ingeniería y ciencias sociales son reconocidas a escala internacional y forman desde hace generaciones una parte significativa de la élite intelectual del continente. No es una universidad de segunda categoría que ofrece gratuidad por falta de atractivo. Es una institución con 330.000 estudiantes, 14 facultades, 100 departamentos de investigación y alumni que cuentan seis premios Nobel.</p>
 
@@ -1151,6 +1043,17 @@
 
 <div class="sources">
   <strong>Sources &amp; données :</strong> QS World University Rankings 2025 · Times Higher Education World University Rankings 2025 · World Directory of Medical Schools (WDOMS) — reconnaissance diplômes médecine · AMEXCID — Agencia Mexicana de Cooperación Internacional · AMCI — Agencia Marroquí de Cooperación Internacional · CONICET Argentina — becas doctorales · LOJIQ — Office Québec-Monde pour la Jeunesse · Fonds de Recherche du Québec (FRQ) · GDRFA — General Directorate of Residency and Foreigners Affairs Dubai · EUR-ACE / CTI — acreditación ingeniería internacional · Expatistan Cost of Living Index 2025–2026 · Mercer Quality of Living Survey 2025 · informes estadísticos nacionales (seguridad). Los índices de seguridad y presupuestos estudiantiles son <strong>datos compuestos de WiggMap</strong> construidos a partir de múltiples fuentes cruzadas. La información sobre reconocimiento de títulos es indicativa — consulta las autoridades competentes de tu país antes de cualquier decisión de inscripción. <em>Datos verificados y actualizados: marzo 2026.</em>
+</div>
+
+<div class="aff-strip">
+  <div class="aff-strip-title">Prepara tu mudanza</div>
+  <div class="aff-strip-list">
+    <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span><span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span></a>
+    <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">💸 Wise — Tu cuenta sin fronteras</span><span class="aff-strip-desc">Tarjeta + transferencias en 40+ divisas al tipo real</span></a>
+    <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM desde el avión, 15+ operadores</span></a>
+    <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Acceso seguro desde el extranjero</span></a>
+  </div>
+  <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
 </div>
 
 <div id="siteFooter"></div>

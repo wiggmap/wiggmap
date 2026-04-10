@@ -228,6 +228,11 @@
 .aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
 .aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
 .aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+.hero-mosaic{position:absolute;inset:0;display:grid;gap:2px;overflow:hidden}
+.hero-mosaic.cols-2{grid-template-columns:1fr 1fr}
+.hero-mosaic.cols-3{grid-template-columns:1fr 1fr 1fr}
+.hero-mosaic-panel{background-size:cover;background-position:center}
+.hero-mosaic::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%);z-index:1}
 </style>
 </head>
 <body>
@@ -237,10 +242,10 @@
 <script src="../data/header.js"></script>
 
 <section class="hero">
-  <div class="hero-bg" style="background-image:url('/assets/hero-thailand.jpg')"></div>
+  <div class="hero-mosaic cols-3"><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-thailand.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-vietnam.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-indonesia.jpg')"></div></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">Crónica · WiggMap</div>
-    <h1 class="hero-title">The Wigg Chronicles</h1>
+    <h1 class="hero-title">Vivir en el Sudeste Asiático en 2026: Tailandia, Vietnam, Bali, Filipinas</h1>
     <p class="hero-sub">Visas, fiscalidad, costo de vida real y destinos fuera del radar: la guía completa para instalarte en Tailandia, Vietnam, Bali o Filipinas en 2026. Cuatro perfi</p>
   </div>
 </section>
@@ -279,108 +284,7 @@
   <section id="intro">
     <p class="lead">Hay un momento concreto — en algún punto entre tu primer bol de phở a las siete de la mañana y el descubrimiento de que el alquiler de tu apartamento en Madrid cubre cuatro meses en un piso con piscina en Chiang Mai — en que algo cambia. No es un flechazo con las palmeras; eso es la fantasía del viajero. Es algo más frío y más aritmético: la constatación de que la geografía de tu vida cotidiana es, en gran medida, una elección que nunca llegaste a hacer.</p>
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepara tu mudanza</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span><span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Transferencias — Wise</span><span class="aff-strip-desc">Tipo de cambio real, sin comisiones ocultas</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM desde el avión, 15+ operadores</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Acceso seguro desde el extranjero</span>
-        </a>
-      </div>
-      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
-    </div>
-
-    <p>El Sudeste Asiático atrae por razones que no tienen nada que ver con los tópicos habituales. No es la playa — España lo hace mejor y sin desfase horario. No es tampoco lo "exótico" — una noción condescendiente que la gente seria ha abandonado. Es algo más sustancial: una densidad del mundo que no existe en ningún otro lugar. Cinco milenios de civilización conviviendo con startups de fintech sin que a nadie le parezca extraño. Paisajes de una absurdidad geográfica — la bahía de Ha Long parece sacada de una pintura Song, las terrazas de arroz de Bali fueron esculpidas por el agua durante mil años. Y la comida. Nadie habla suficiente de la comida como argumento migratorio — poder comer extraordinariamente bien, tres veces al día, por menos de 5 dólares cambia la textura de una vida más que cualquier visa o alquiler.</p>
-
-    <p>Pero instalarse en el Sudeste Asiático en 2026 es una decisión más matizada que hace cinco años. Tailandia ha reformado su fiscalidad sobre los ingresos extranjeros. Bali está saturada de turismo en sus zonas emblemáticas. Vietnam sigue sin tener visa nómada oficial. Filipinas cuenta con la SRRV — probablemente la mejor visa de jubilación de la región — pero su infraestructura médica insular exige un seguro sin fisuras. Esta guía te da el panorama completo — sin romanticismo innecesario, sin catastrofismo — país por país, perfil por perfil.</p>
-  </section>
-
-  <blockquote class="pull-quote">
-    "La pregunta no es '¿es el Sudeste Asiático más barato?'. Es '¿en qué país, con qué visa, pagando qué impuestos, tu vida se parece a la que realmente quieres?'"
-  </blockquote>
-
-  <section id="comparativa">
-    <h2>Panorama general — 4 destinos comparados</h2>
-    <p>La tabla siguiente recoge los datos clave. Cada país tiene después un análisis completo: visas, fiscalidad, seguros, estilo de vida y los destinos que nadie te muestra.</p>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>País</th>
-            <th>Costo de vida/mes</th>
-            <th>Alquiler estudio</th>
-            <th>Visa nómada</th>
-            <th>Visa jubilación</th>
-            <th>Cripto</th>
-            <th>Inglés</th>
-            <th>Expat Score</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><a href="#tailandia">🇹🇭 Tailandia</a></td>
-            <td>$1.200–2.000</td>
-            <td>$250–600</td>
-            <td><span class="tag green">DTV / LTR</span></td>
-            <td><span class="tag green">✅ Non-OA</span></td>
-            <td><span class="tag amber">⚠️ Reforma 2024</span></td>
-            <td>Moderado</td>
-            <td>8,5 / 10</td>
-          </tr>
-          <tr>
-            <td><a href="#vietnam">🇻🇳 Vietnam</a></td>
-            <td>$900–1.500</td>
-            <td>$300–600</td>
-            <td><span class="tag amber">⚠️ Sin visa oficial</span></td>
-            <td><span class="tag grey">Limitado</span></td>
-            <td><span class="tag amber">🟡 Zona gris</span></td>
-            <td>Bueno (ciudades)</td>
-            <td>7,5 / 10</td>
-          </tr>
-          <tr>
-            <td><a href="#bali">🇮🇩 Bali</a></td>
-            <td>$1.500–2.500</td>
-            <td>$400–900</td>
-            <td><span class="tag green">B211A / SDV</span></td>
-            <td><span class="tag green">✅ KITAS</span></td>
-            <td><span class="tag amber">0,1% spot</span></td>
-            <td>Bueno</td>
-            <td>8,0 / 10</td>
-          </tr>
-          <tr>
-            <td><a href="#filipinas">🇵🇭 Filipinas</a></td>
-            <td>$800–1.400</td>
-            <td>$300–700</td>
-            <td><span class="tag blue">Turística ext.</span></td>
-            <td><span class="tag green">✅ SRRV</span></td>
-            <td><span class="tag amber">🟡 En desarrollo</span></td>
-            <td>Excelente</td>
-            <td>7,5 / 10</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <p style="font-size:.78rem; color:var(--muted); font-family:'Poppins',sans-serif;">* Costo de vida mensual estimado, estilo nómada estándar sin incluir alquiler. Variaciones importantes según ciudad y estilo de vida.</p>
-  </section>
-
-  <!-- ══════ TAILANDIA ══════ -->
-  <div class="orn">· · ✦ · ·</div>
-  <section class="country-block" id="tailandia">
-    <div class="country-header">
-      <div class="country-num">1</div>
-      <div class="country-title-block">
-        <div class="country-name"><span>🇹🇭</span> Tailandia</div>
-        <div class="country-tagline">El referente indiscutible — entre reforma fiscal y arte de vivir</div>
-      </div>
-    </div>
+    
 
     <p>Tailandia sigue siendo, para la mayoría, la primera puerta de entrada al Asia expatriada. No sin razón. Bangkok es una ciudad-mundo — diez millones de personas, gastronomía callejera que compite con cualquier restaurante de estrella Michelin, una red de transporte que avergüenza a muchas capitales europeas, y una cultura de hospitalidad enraizada desde hace siglos. A cuatro horas al norte por carretera, Chiang Mai ofrece la antítesis perfecta: montañas cubiertas de jungla, templos budistas dorados al atardecer, mercado nocturno y un costo de vida un tercio inferior. Al sur, Koh Lanta, Koh Phangan y Koh Samui proponen otro ideal — mar turquesa, hamacas, espacios de coworking con vistas al agua.</p>
 
@@ -896,6 +800,17 @@
   </div>
 
 </div>
+
+<div class="aff-strip">
+      <div class="aff-strip-title">Prepara tu mudanza</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span><span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span></a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">💸 Wise — Tu cuenta sin fronteras</span><span class="aff-strip-desc">Tarjeta + transferencias en 40+ divisas al tipo real</span></a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM desde el avión, 15+ operadores</span></a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Acceso seguro desde el extranjero</span></a>
+      </div>
+      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+    </div>
 
 <div id="siteFooter"></div>
 <script src="../data/footer.js"></script>

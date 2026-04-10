@@ -145,6 +145,11 @@
 .aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
 .aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
 .aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+.hero-mosaic{position:absolute;inset:0;display:grid;gap:2px;overflow:hidden}
+.hero-mosaic.cols-2{grid-template-columns:1fr 1fr}
+.hero-mosaic.cols-3{grid-template-columns:1fr 1fr 1fr}
+.hero-mosaic-panel{background-size:cover;background-position:center}
+.hero-mosaic::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%);z-index:1}
 </style>
 </head>
 <body>
@@ -153,10 +158,10 @@
 <script src="../data/header.js"></script>
 
 <section class="hero">
-  <div class="hero-bg" style="background-image:url('/assets/hero-tunisia.jpg')"></div>
+  <div class="hero-mosaic cols-3"><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-tunisia.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-morocco.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-egypt.jpg')"></div></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">Chronicle · WiggMap</div>
-    <h1 class="hero-title">North Africa &amp;amp;  Islands : Africa&#x27;s most accessible entry points</h1>
+    <h1 class="hero-title">Living in North Africa &amp; Islands 2026: Morocco, Tunisia, Egypt, Mauritius, Seychelles</h1>
     <p class="hero-sub">Morocco, Tunisia, Egypt, Mauritius, Cape Verde, Seychelles: real quality of life, costs in dollars, visas and crypto taxes in 2026. Part 2/4.</p>
   </div>
 </section>
@@ -205,38 +210,7 @@
 
     <p class="lead">There's a well-documented phenomenon among expats: the first time they land in their new country, they wonder why they didn't do it sooner. The second time — flying back from a holiday in Europe — they wonder why everyone else hasn't made the move yet. The countries in this article all have one thing in common: they tend to provoke exactly that reaction. Not because they're perfect. Because of what people actually say about them — on forums, in expat WhatsApp groups, over a drink in Marrakech or Grand Baie.</p>
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepare your move</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span><span class="aff-strip-desc">Global health cover from $45/mo</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Transfers — Wise</span><span class="aff-strip-desc">Real exchange rate, no hidden fees</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM from the plane, 15+ carriers</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Secure access from abroad</span>
-        </a>
-      </div>
-      <div class="aff-strip-note">partner links — at no extra cost to you</div>
-    </div>
-
-    <p>This part covers the destinations most geographically and culturally accessible to Europeans and Americans: North Africa and the African islands. They're not the most exotic or the cheapest in the series — but they're where the landing is softest, and where day-to-day quality of life is easiest to imagine before you've arrived.</p>
-
-    <div class="orn">· · ✦ · ·</div>
-
-    <!-- MOROCCO -->
-    <section id="morocco">
-      <div class="pays-header">
-        <div class="pays-flag">🇲🇦</div>
-        <div>
-          <div class="pays-title">Morocco</div>
-          <div class="pays-subtitle">North Africa · Casablanca · Marrakech · Tangier · Rabat · Agadir</div>
-        </div>
-      </div>
+    
       <div class="pays-pills">
         <span class="pill green">🟢 Recommended</span>
         <span class="pill blue">$900 – $1,600 / month</span>
@@ -719,6 +693,17 @@
     </div>
   </nav>
 </main>
+
+<div class="aff-strip">
+      <div class="aff-strip-title">Prepare your move</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span><span class="aff-strip-desc">Global health cover from $45/mo</span></a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">💸 Wise — Your borderless account</span><span class="aff-strip-desc">Card + transfers in 40+ currencies at the real rate</span></a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM from the plane, 15+ carriers</span></a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Secure access from abroad</span></a>
+      </div>
+      <div class="aff-strip-note">partner links — at no extra cost to you</div>
+    </div>
 
 <div id="siteFooter"></div>
 <script src="../data/footer.js"></script>

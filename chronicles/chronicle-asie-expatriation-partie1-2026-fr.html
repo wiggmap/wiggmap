@@ -274,6 +274,11 @@
 .aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
 .aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
 .aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+.hero-mosaic{position:absolute;inset:0;display:grid;gap:2px;overflow:hidden}
+.hero-mosaic.cols-2{grid-template-columns:1fr 1fr}
+.hero-mosaic.cols-3{grid-template-columns:1fr 1fr 1fr}
+.hero-mosaic-panel{background-size:cover;background-position:center}
+.hero-mosaic::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%);z-index:1}
 </style>
 </head>
 <body>
@@ -283,10 +288,10 @@
 <script src="../data/header.js"></script>
 
 <section class="hero">
-  <div class="hero-bg" style="background-image:url('/assets/hero-thailand.jpg')"></div>
+  <div class="hero-mosaic cols-3"><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-thailand.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-vietnam.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-indonesia.jpg')"></div></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">Chronique · WiggMap</div>
-    <h1 class="hero-title">The Wigg Chronicles</h1>
+    <h1 class="hero-title">S'expatrier en Asie du Sud-Est en 2026 : Thaïlande, Vietnam, Bali, Philippines</h1>
     <p class="hero-sub">Visas, fiscalité, coût de vie réel et villes hors radar : le guide complet pour s&#x27;installer en Thaïlande, au Vietnam, à Bali ou aux Philippines en 2026. Quatre </p>
   </div>
 </section>
@@ -326,109 +331,7 @@
   <section id="intro">
     <p class="lead">Il y a un moment particulier, quelque part entre le premier bol de phở à 7h du matin et la découverte que votre loyer parisien couvre quatre mois de location d'un appartement avec piscine à Chiang Mai, où quelque chose bascule. Ce n'est pas un coup de foudre pour les cocotiers — ça, c'est le fantasme du voyageur. C'est autre chose : une prise de conscience froide et arithmétique que la géographie de votre vie quotidienne est, pour une large part, un choix que vous n'avez jamais vraiment fait.</p>
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton expatriation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Transferts — Wise</span><span class="aff-strip-desc">Taux de change réel, sans frais cachés</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span>
-        </a>
-      </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
-    </div>
-
-    <p>L'Asie du Sud-Est attire pour des raisons qui n'ont rien à voir avec les clichés habituels. Ce n'est pas la plage — l'Espagne le fait mieux et sans le décalage horaire. Ce n'est pas non plus "l'exotisme" — cette notion condescendante que les gens sérieux ont abandonnée. C'est quelque chose de plus substantiel : une densité du monde qui n'existe nulle part ailleurs. Cinq millénaires de civilisation qui cohabitent avec des startups de la fintech sans que personne ne trouve ça bizarre. Des paysages d'une absurdité géographique — les baies calcaires du Vietnam sortent d'un tableau de Song, les rizières en terrasses de Bali ont été sculptées par l'eau pendant mille ans. Et la nourriture. Personne ne parle assez de la nourriture comme argument migratoire — le fait de pouvoir manger extraordinairement bien, trois fois par jour, pour moins de $5, change la texture d'une vie plus profondément qu'un visa ou un loyer.</p>
-
-    <p>Mais s'installer en Asie du Sud-Est en 2026 est une décision plus nuancée qu'il y a cinq ans. La Thaïlande a revu sa fiscalité sur les revenus étrangers. Bali est en surtension touristique sur ses zones emblématiques. Le Vietnam n'a toujours pas de visa nomad officiel. Les Philippines ont un SRRV qui reste le meilleur visa retraite de la région — mais l'infrastructure médicale insulaire demande une assurance sans défaut. Ce guide est là pour vous donner le tableau complet — sans romance inutile, sans catastrophisme — pays par pays, profil par profil.</p>
-  </section>
-
-  <blockquote class="pull-quote">
-    "La question n'est pas 'est-ce que l'Asie du Sud-Est est moins chère ?'. C'est 'dans quel pays, avec quel visa, en payant quels impôts, votre vie ressemble-t-elle à celle que vous voulez vraiment ?'"
-  </blockquote>
-
-  <!-- ── COMPARATIF ── -->
-  <section id="comparatif">
-    <h2>Vue d'ensemble — 4 destinations comparées</h2>
-    <p>Le tableau ci-dessous donne les grandes lignes. Chaque pays fait ensuite l'objet d'une analyse complète : visas, fiscalité, assurances, style de vie, et les villes que personne ne vous montre.</p>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Pays</th>
-            <th>Coût vie/mois</th>
-            <th>Loyer studio</th>
-            <th>Visa nomad</th>
-            <th>Visa retraite</th>
-            <th>Crypto</th>
-            <th>Anglais</th>
-            <th>Expat Score</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><a href="#thailande">🇹🇭 Thaïlande</a></td>
-            <td>$1 200–2 000</td>
-            <td>$250–600</td>
-            <td><span class="tag green">DTV / LTR</span></td>
-            <td><span class="tag green">✅ Non-OA</span></td>
-            <td><span class="tag amber">⚠️ 2024</span></td>
-            <td>Moyen</td>
-            <td>8,5 / 10</td>
-          </tr>
-          <tr>
-            <td><a href="#vietnam">🇻🇳 Vietnam</a></td>
-            <td>$900–1 500</td>
-            <td>$300–600</td>
-            <td><span class="tag amber">⚠️ Pas officiel</span></td>
-            <td><span class="tag grey">Limité</span></td>
-            <td><span class="tag amber">🟡 Zone grise</span></td>
-            <td>Bon (villes)</td>
-            <td>7,5 / 10</td>
-          </tr>
-          <tr>
-            <td><a href="#bali">🇮🇩 Bali</a></td>
-            <td>$1 500–2 500</td>
-            <td>$400–900</td>
-            <td><span class="tag green">B211A / SDV</span></td>
-            <td><span class="tag green">✅ KITAS</span></td>
-            <td><span class="tag amber">0,1 % spot</span></td>
-            <td>Bon</td>
-            <td>8,0 / 10</td>
-          </tr>
-          <tr>
-            <td><a href="#philippines">🇵🇭 Philippines</a></td>
-            <td>$800–1 400</td>
-            <td>$300–700</td>
-            <td><span class="tag blue">Touristique ext.</span></td>
-            <td><span class="tag green">✅ SRRV</span></td>
-            <td><span class="tag amber">🟡 En construction</span></td>
-            <td>Excellent</td>
-            <td>7,5 / 10</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <p style="font-size:.78rem; color:var(--muted); font-family:'Poppins',sans-serif;">* Coût de vie mensuel indicatif, lifestyle nomad standard hors loyer. Variations importantes selon la ville et le style de vie.</p>
-  </section>
-
-  <!-- ══════ THAÏLANDE ══════ -->
-  <div class="orn">· · ✦ · ·</div>
-  <section class="country-block" id="thailande">
-    <div class="country-header">
-      <div class="country-num">1</div>
-      <div class="country-title-block">
-        <div class="country-name"><span>🇹🇭</span> Thaïlande</div>
-        <div class="country-tagline">L'indétrônable — entre réforme fiscale et art de vivre</div>
-      </div>
-    </div>
+    
 
     <p>La Thaïlande reste, pour beaucoup, la première porte d'entrée de l'Asie expatriée. Non sans raison. Bangkok est une ville-monde — dix millions de personnes, une gastronomie de rue qui rivalise avec n'importe quel restaurant étoilé, une infrastructure de transport qui fait honte à bien des capitales européennes, et une culture hospitalière enracinée depuis des siècles. À quatre heures de route vers le nord, Chiang Mai offre l'antithèse parfaite : montagnes couvertes de jungle, temples bouddhistes dorés à l'heure du crépuscule, marché nocturne, coût de la vie réduit d'un tiers. Au sud, Koh Lanta, Koh Phangan et Koh Samui proposent un autre idéal encore — mer de jade, hamac, coworking face à l'eau.</p>
 
@@ -945,6 +848,17 @@
   </div>
 
 </div>
+
+<div class="aff-strip">
+      <div class="aff-strip-title">Préparer ton expatriation</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span></a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span><span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span></a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span></a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span></a>
+      </div>
+      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+    </div>
 
 <div id="siteFooter"></div>
 <script src="../data/footer.js"></script>

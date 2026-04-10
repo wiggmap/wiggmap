@@ -280,6 +280,11 @@
 .aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
 .aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
 .aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+.hero-mosaic{position:absolute;inset:0;display:grid;gap:2px;overflow:hidden}
+.hero-mosaic.cols-2{grid-template-columns:1fr 1fr}
+.hero-mosaic.cols-3{grid-template-columns:1fr 1fr 1fr}
+.hero-mosaic-panel{background-size:cover;background-position:center}
+.hero-mosaic::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%);z-index:1}
 </style>
 </head>
 <body>
@@ -289,10 +294,10 @@
 
 <!-- ══════ HERO ══════ -->
 <section class="hero">
-  <div class="hero-bg" style="background-image:url('/assets/hero-france.jpg')"></div>
+  <div class="hero-mosaic cols-3"><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-france.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-germany.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-canada.jpg')"></div></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">Chronicle · WiggMap</div>
-    <h1 class="hero-title">Fund, prepare, go — the operational guide to studying abroad in 2026</h1>
+    <h1 class="hero-title">Practical guide: studying abroad in 2026 — fund, prepare, go</h1>
     <p class="hero-sub">Erasmus grant, international student housing, health insurance, Wise account, eSIM, visa — the complete guide to preparing your departure abroad in 2026. Checkl</p>
   </div>
 </section>
@@ -342,41 +347,7 @@
 
   <p class="lead">Three parts of this series answered the question "where." This fourth answers the question "how" — the one everyone has once their eyes have been opened to the destinations. How to fund a semester in Prague or a year in Taiwan. How to find an apartment in a city you've never been to. Which insurance to get when you leave the Schengen area. How not to lose 200 euros in currency fees over a year. This guide is operational, in order, leaving nothing out.</p>
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepare your move</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span><span class="aff-strip-desc">Global health cover from $45/mo</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Transfers — Wise</span><span class="aff-strip-desc">Real exchange rate, no hidden fees</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM from the plane, 15+ carriers</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Secure access from abroad</span>
-        </a>
-      </div>
-      <div class="aff-strip-note">partner links — at no extra cost to you</div>
-    </div>
-
-  <!-- ══════ SECTION 1 : CALENDRIER ══════ -->
-  <div class="orn">· · ✦ · ·</div>
-  <section id="calendrier">
-    <h2>01. The timeline — when to prepare what</h2>
-
-    <p>The number one mistake most students make when they miss out on their study abroad experience: starting too late. The Erasmus application is submitted 9 to 12 months before departure. Asian government scholarships (MEXT, KGSP) require 12 to 18 months. Even a direct enrolment at a foreign university, without a scholarship, can take 6 to 8 months when you factor in finding housing and obtaining the visa.</p>
-
-    <div class="timeline">
-      <div class="tl-item">
-        <div class="tl-dot amber">J-12</div>
-        <div class="tl-content">
-          <div class="tl-when">12 months before departure</div>
-          <div class="tl-title">Erasmus application at your home university</div>
-          <div class="tl-text">Submit your application to the international relations office at your institution. Motivation letter, transcripts, language proficiency. Results: January-February. This is the stage where available spots at each partner university are allocated.</div>
-        </div>
-      </div>
+    
       <div class="tl-item">
         <div class="tl-dot">J-9</div>
         <div class="tl-content">
@@ -842,6 +813,17 @@
 <div class="sources">
   <strong>Sources &amp; data:</strong> European Commission — Erasmus+ regulation and grant amounts 2025-2026 · EHIC — European Health Insurance Card (for EU/EEA nationals) · IRCC (Immigration, Refugees and Citizenship Canada) — Study Permit conditions 2026 · Relevant embassies and consulates — visa processing times · SafetyWing — Nomad Insurance coverage conditions 2026 · Wise — multi-currency account conditions · Airalo — eSIM coverage and rates 2026 · HousingAnywhere — platform conditions. Scholarship amounts, visa timelines and financial product terms are indicative and subject to change — verify official conditions before any decision. <em>Data verified and updated: March 2026.</em>
   <br><br><em style="font-size:.68rem;">Some links on this page are affiliate links. WiggMap may earn a commission if you subscribe to a service through these links — at no additional cost to you. These recommendations reflect an independent editorial selection: WiggMap only recommends services used and approved by the team.</em>
+</div>
+
+<div class="aff-strip">
+  <div class="aff-strip-title">Prepare your move</div>
+  <div class="aff-strip-list">
+    <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span><span class="aff-strip-desc">Global health cover from $45/mo</span></a>
+    <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">💸 Wise — Your borderless account</span><span class="aff-strip-desc">Card + transfers in 40+ currencies at the real rate</span></a>
+    <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM from the plane, 15+ carriers</span></a>
+    <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Secure access from abroad</span></a>
+  </div>
+  <div class="aff-strip-note">partner links — at no extra cost to you</div>
 </div>
 
 <div id="siteFooter"></div>

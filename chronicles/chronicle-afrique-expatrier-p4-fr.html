@@ -170,6 +170,11 @@
 .aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
 .aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
 .aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+.hero-mosaic{position:absolute;inset:0;display:grid;gap:2px;overflow:hidden}
+.hero-mosaic.cols-2{grid-template-columns:1fr 1fr}
+.hero-mosaic.cols-3{grid-template-columns:1fr 1fr 1fr}
+.hero-mosaic-panel{background-size:cover;background-position:center}
+.hero-mosaic::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%);z-index:1}
 </style>
 </head>
 <body>
@@ -178,10 +183,10 @@
 <script src="../data/header.js"></script>
 
 <section class="hero">
-  <div class="hero-bg" style="background-image:url('/assets/hero-senegal.jpg')"></div>
+  <div class="hero-mosaic cols-2"><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-senegal.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-ghana.jpg')"></div></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">Chronique · WiggMap</div>
-    <h1 class="hero-title">Afrique de l&#x27;Ouest &amp;amp;  guide final par profil</h1>
+    <h1 class="hero-title">S'expatrier en Afrique de l'Ouest 2026 : Sénégal, Ghana, Côte d'Ivoire + Guide par Profil</h1>
     <p class="hero-sub">Sénégal, Ghana, Côte d&#x27;Ivoire analysés en profondeur + guide complet par profil : digital nomad, trader crypto, retraité, salarié expatrié. Quelle Afrique pour </p>
   </div>
 </section>
@@ -231,38 +236,7 @@
 
     <p class="lead">Dakar a une lumière particulière en fin d'après-midi. Le soleil de l'Atlantique tape sur les maisons aux façades pastel de la presqu'île, les piroguiers rentrent avec leur pêche dans la baie de Soumbédioune, et les call-à-la-prière des mosquées se superposent aux sons de la radio qui diffuse du mbalax depuis un restaurant de quartier. C'est l'heure où les expatriés finissent leur journée de travail, referment leurs ordinateurs et sortent — vers la Corniche Ouest, vers les terrasses de la Médina, vers les plages des Almadies. L'Afrique de l'Ouest a quelque chose que les autres zones n'ont pas : une chaleur humaine brute, immédiate, qui vous prend dès les premières heures et ne vous lâche plus.</p>
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton expatriation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Transferts — Wise</span><span class="aff-strip-desc">Taux de change réel, sans frais cachés</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span>
-        </a>
-      </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
-    </div>
-
-    <p>Cette dernière partie couvre les trois grandes destinations francophones et anglophones d'Afrique de l'Ouest, puis répond à la question que cette série a construite depuis le début : concrètement, quelle Afrique pour quel profil ? Avec les classements, les budgets et les recommandations que les parties précédentes ont préparés.</p>
-
-    <div class="orn">· · ✦ · ·</div>
-
-    <!-- ═══════════════ SÉNÉGAL ═══════════════ -->
-    <section id="senegal">
-      <div class="pays-header">
-        <div class="pays-flag">🇸🇳</div>
-        <div>
-          <div class="pays-title">Sénégal</div>
-          <div class="pays-subtitle">Afrique de l'Ouest · Dakar · Saint-Louis · Saly · Ziguinchor (Casamance)</div>
-        </div>
-      </div>
+    
       <div class="pays-pills">
         <span class="pill green">🟢 Recommandé</span>
         <span class="pill blue">$850 – $1 500 / mois</span>
@@ -750,6 +724,17 @@
     </div>
   </nav>
 </main>
+
+<div class="aff-strip">
+      <div class="aff-strip-title">Préparer ton expatriation</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span></a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span><span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span></a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span></a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span></a>
+      </div>
+      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+    </div>
 
 <div id="siteFooter"></div>
 <script src="../data/footer.js"></script>

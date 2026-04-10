@@ -184,6 +184,11 @@
 .aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
 .aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
 .aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+.hero-mosaic{position:absolute;inset:0;display:grid;gap:2px;overflow:hidden}
+.hero-mosaic.cols-2{grid-template-columns:1fr 1fr}
+.hero-mosaic.cols-3{grid-template-columns:1fr 1fr 1fr}
+.hero-mosaic-panel{background-size:cover;background-position:center}
+.hero-mosaic::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%);z-index:1}
 </style>
 </head>
 <body>
@@ -191,10 +196,10 @@
 <div id="siteHeader"></div>
 
 <section class="hero">
-  <div class="hero-bg" style="background-image:url('/assets/hero-norway.jpg')"></div>
+  <div class="hero-mosaic cols-3"><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-norway.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-japan.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-new-zealand.jpg')"></div></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">Chronique · WiggMap</div>
-    <h1 class="hero-title">2056 :  où vivra-t-on  le mieux ?</h1>
+    <h1 class="hero-title">2056 : Où Vivra-t-on le Mieux dans 30 Ans ? Le Guide Prospectif</h1>
     <p class="hero-sub">Quels sont les meilleurs pays pour vivre dans 30 ans ? IA, guerres, démocratie, longévité, démographie — un guide prospectif honnête sur les pays qui offriront </p>
   </div>
 </section>
@@ -247,166 +252,7 @@
       Imagine une famille. Deux enfants en bas âge, un appartement quelque part en Europe occidentale, des vies bien lancées. Rien d'exceptionnel — juste des gens normaux qui regardent les informations le soir et qui, parfois, ressentent cette chose difficile à nommer : une inquiétude diffuse sur le monde que leurs enfants vont hériter. Pas une panique. Juste une question qui revient de plus en plus souvent : <em>est-ce qu'on est vraiment au bon endroit pour les trente prochaines années ?</em>
     </p>
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton expatriation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Transferts — Wise</span><span class="aff-strip-desc">Taux de change réel, sans frais cachés</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span>
-        </a>
-      </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
-    </div>
-
-    <p>
-      Cette question-là, on la reçoit souvent chez WiggMap. Elle prend des formes différentes — "où s'expatrier avant d'avoir 40 ans", "dans quel pays acheter un bien immobilier", "où vais-je envoyer mes enfants à l'université" — mais elle revient toujours au même fond : <em>quels sont les meilleurs pays pour vivre dans 30 ans ?</em> Pas pour les vacances. Pas pour une mission de deux ans. Pour la vraie vie.
-    </p>
-
-    <p>
-      Le problème, c'est que la plupart des classements qu'on trouve répondent à une autre question. Ils mesurent le présent — le PIB par habitant, le score de bonheur de l'année dernière, le coût de la vie ce trimestre. C'est utile pour décider où passer le prochain hiver. Ça ne dit presque rien sur où tu voudras être en 2055. Parce que la vraie question n'est pas "ce pays est-il bien aujourd'hui ?" — c'est "ce pays sera-t-il encore un bon endroit pour vivre dans 30 ans, et pourquoi ?"
-    </p>
-
-    <p>
-      L'histoire ne fonctionne pas en ligne droite. En 1990, personne ne prévoyait que la Corée du Sud deviendrait une puissance culturelle planétaire. En 2000, que l'Estonie serait l'État le plus numérisé de la planète. En 2015, qu'une guerre conventionnelle entre États reviendrait au cœur de l'Europe. Lire l'avenir, ce n'est pas prédire — c'est identifier les forces structurelles déjà en mouvement et comprendre où elles mènent. C'est exactement ce que cet article essaie de faire.
-    </p>
-
-    <div class="orn">· · ✦ · ·</div>
-
-    <!-- CRITERES -->
-    <h2 id="criteres">Les Huit Questions qui Vont Décider de ta Qualité de Vie en 2055</h2>
-
-    <p>
-      Avant de parler de pays, il faut parler de variables. Pas celles qu'on regarde habituellement — le soleil, les impôts, les salaires. Celles qui, sur 30 ans, déterminent réellement si un endroit reste vivable, prospère et sûr. En voici huit, formulées non pas comme des critères d'analyse mais comme des questions concrètes sur ta vie réelle.
-    </p>
-
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>La question</th><th>Ce qu'elle change dans ta vie quotidienne</th><th>Quand ça bascule</th></tr>
-        </thead>
-        <tbody>
-          <tr><td><strong>Stabilité institutionnelle</strong></td><td>Ton appartement te sera-t-il toujours appartenu dans 20 ans ? Peux-tu contester une décision injuste devant un tribunal indépendant ? Ton passeport vaudra-t-il demain ce qu'il vaut aujourd'hui ?</td><td>Constant — socle de tout</td></tr>
-          <tr><td><strong>Transition IA &amp; emploi</strong></td><td>Ton travail existera-t-il encore en 2038 ? Si non, l'État t'aidera-t-il à te reconstruire — ou seras-tu livré à toi-même avec 12 mois d'allocations ?</td><td>Rupture 2028–2038</td></tr>
-          <tr><td><strong>Géopolitique &amp; conflits</strong></td><td>Est-ce que tu dormiras sans entendre des alertes ? Ton fils de 18 ans sera-t-il mobilisable ? Ton épargne sera-t-elle sanctionnée par une guerre économique ?</td><td>Imprévisible, mais lisible en tendances</td></tr>
-          <tr><td><strong>Santé &amp; longévité</strong></td><td>Auras-tu accès aux traitements qui prolongent la vie saine au-delà de 80 ans — ou seulement si tu peux les payer 100 000 € par an ?</td><td>Rupture biotech 2030–2045</td></tr>
-          <tr><td><strong>Capital humain &amp; éducation</strong></td><td>Tes enfants seront-ils formés pour le monde qui vient — ou pour le monde qui part ?</td><td>Se construit sur 20–30 ans</td></tr>
-          <tr><td><strong>Démographie &amp; cohésion</strong></td><td>Vivras-tu dans une société qui fonctionne — ou dans une société qui se fracture lentement sous le poids de ses inégalités et de son vieillissement ?</td><td>Tendance lourde, irréversible à court terme</td></tr>
-          <tr><td><strong>Autonomie énergétique</strong></td><td>Ton pays peut-il allumer les lumières et chauffer les maisons sans dépendre d'un autocrate étranger qui peut couper le robinet du jour au lendemain ?</td><td>Décisif post-2035</td></tr>
-          <tr><td><strong>Résilience environnementale</strong></td><td>L'eau sera-t-elle disponible en été ? Les étés seront-ils gérables ? L'agriculture locale survivra-t-elle à la pression climatique ?</td><td>Contrainte croissante, non uniforme</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <p>
-      Ce qui est frappant quand on regarde cette liste, c'est que les pays les mieux notés sur ces huit dimensions ne sont pas les plus grands, ni les plus riches, ni les plus ensoleillés. Ce sont souvent des pays de taille moyenne, discrets sur la scène mondiale, mais qui ont construit sur des décennies des fondations que la plupart des grandes puissances n'ont jamais eu. La Finlande. L'Estonie. La Nouvelle-Zélande. Des noms qui reviennent rarement dans les conversations de comptoir — et que cet article va expliquer.
-    </p>
-
-    <div class="orn">· · ✦ · ·</div>
-
-    <!-- IA -->
-    <h2 id="ia">L'Intelligence Artificielle : le Grand Séparateur de Destins Nationaux</h2>
-
-    <p>
-      Prenons Marc. 34 ans, développeur backend dans une ESN parisienne, deux enfants, propriétaire depuis trois ans. En 2026, Marc va bien. Son salaire est correct, son poste est stable, il a de la visibilité. En 2035 — selon un spectre assez large d'économistes et de chercheurs en IA, même si les projections varient significativement —, une partie importante de ce qu'il fait aujourd'hui sera automatisable. Pas parce qu'il sera devenu incompétent. Parce que les systèmes autonomes auront atteint un niveau de performance suffisant sur les tâches cognitives routinières pour que les entreprises les préfèrent économiquement.
-    </p>
-
-    <p>
-      Ce scénario n'est pas une certitude — les transformations technologiques sont régulièrement plus lentes que prévu. Mais il est suffisamment documenté pour qu'on se pose une question très concrète avant de décider où vivre : <em>dans ce pays, si mon métier se rétrécit à 40 ans, que se passe-t-il ?</em> Est-ce qu'il existe un système de requalification rapide qui me permet de me reconstruire en 18 mois ? Un filet de sécurité qui n'a pas l'air d'une charité ? Une culture de l'adaptabilité qui permet de recommencer sans honte sociale ?
-    </p>
-
-    <div class="scenario">
-      <span class="sc-label">📍 Même personne, deux pays — 2037</span>
-      <p><strong>Marc en Finlande :</strong> son employeur reçoit une aide gouvernementale pour le reconvertir. Il suit 18 mois de formation co-financée dans une spécialité émergente. Pendant ce temps, il perçoit 70% de son salaire. Ses enfants ne changeront pas d'école. Son couple ne se fragilise pas sous la pression financière. À 38 ans, il repart sur de nouvelles bases. En Finlande, changer de métier à la quarantaine n'est pas un naufrage — c'est un parcours ordinaire.</p>
-      <p><strong>Marc dans un pays à inégalités élevées sans filet robuste :</strong> il est licencié, les allocations durent 12 mois, les formations disponibles sont génériques et peu valorisées par les employeurs. Il voit ses économies fondre. La pression monte, la famille se fragilise. Dans les années qui suivent, la frustration sociale cherche des exutoires — politiques, ou autres. Ce n'est pas une caricature : c'est le scénario documenté dans toutes les grandes transitions économiques du XXe siècle.</p>
-    </div>
-
-    <p>
-      Les meilleurs pays pour vivre dans 30 ans ne sont donc pas les plus technologiquement avancés aujourd'hui. Ce sont ceux qui combinent trois capacités : la <em>flexibilité éducative</em> — requalifier un adulte en 18 mois, pas en 4 ans —, la <em>redistribution robuste</em> — des protections sociales capables d'amortir des destructions sectorielles sans explosion des inégalités —, et la <em>confiance institutionnelle</em> — des populations qui font suffisamment confiance à leur État pour accepter des transformations profondes sans rupture politique brutale. Les pays nordiques cochent historiquement ces trois cases. Le Canada, l'Estonie, la Suisse, la Nouvelle-Zélande également.
-    </p>
-
-    <div class="quote">
-      La vraie question n'est pas "l'IA va-t-elle détruire des emplois ?" — elle le fera, massivement, selon la plupart des projections sérieuses. La vraie question est : dans quel pays auras-tu le plus de chances de t'en sortir quand ça arrivera ?
-    </div>
-
-    <div class="orn">· · ✦ · ·</div>
-
-    <!-- DEMOCRATIE -->
-    <h2 id="democratie">La Démocratie : pas une Valeur — un Mécanisme de Survie</h2>
-
-    <p>
-      Il y a quelques années, un ami revenait de trois ans passés en Turquie — entrepreneur, bien intégré, bonne vie à Istanbul. Il est rentré non pas parce que le pays était désagréable, mais parce qu'il avait vu, en quelques années, son environnement légal se transformer sans prévenir. Des contrats annulés arbitrairement. Des partenaires locaux poursuivis pour des raisons opaques. Une difficulté croissante à protéger ce qu'il avait construit. "Le pays était super pour vivre, me dit-il. Mais je ne pouvais plus faire confiance aux règles."
-    </p>
-
-    <p>
-      C'est exactement ça, la démocratie libérale, vue d'un angle utilitaire et non idéologique. Ce n'est pas d'abord un système de valeurs — c'est un <em>mécanisme de correction des erreurs</em>. Un gouvernement démocratique qui se trompe peut être remplacé sans coup d'État. Sa politique économique peut être contestée devant des tribunaux indépendants. Tes droits de propriété sont protégés même quand le pouvoir change de mains. Les règles du jeu sont stables sur le long terme — et c'est précisément ce dont tu as besoin pour construire une vie, un patrimoine, une famille sur 30 ans.
-    </p>
-
-    <p>
-      Depuis 2015, selon l'Economist Intelligence Unit, la majorité des pays du monde enregistrent une détérioration continue de leurs indicateurs démocratiques. En 2025, moins de la moitié de la population mondiale vit dans une démocratie correctement fonctionnelle. Ce n'est pas une parenthèse liée à un dirigeant ou à une crise. C'est une tendance de fond portée par la désinformation de masse, les frustrations économiques non résolues et la tentation autoritaire face à des problèmes complexes. La Russie, la Turquie, la Hongrie, le Venezuela — des trajectoires très différentes, mais avec un point commun : l'affaiblissement progressif des contre-pouvoirs a précédé, à chaque fois, une dégradation brutale et durable des conditions de vie réelles des habitants ordinaires.
-    </p>
-
-    <div class="insight">
-      <strong>Les démocraties les plus robustes en 2026, selon les données :</strong> Finlande, Danemark, Nouvelle-Zélande, Suisse, Estonie, Canada. Ces pays maintiennent systématiquement les scores les plus élevés en matière d'État de droit, de liberté de presse et de confiance institutionnelle — et ce depuis plusieurs décennies. Cette solidité n'est pas un hasard : c'est le résultat d'une culture civique construite sur le long terme, difficile à éroder rapidement même sous pression externe.
-    </div>
-
-    <div class="orn">· · ✦ · ·</div>
-
-    <!-- GUERRES -->
-    <h2 id="guerres">Guerres et Géopolitique : Lire la Carte sans Panique ni Aveuglement</h2>
-
-    <p>
-      Le 24 février 2022, les chars russes franchissaient la frontière ukrainienne. Pour beaucoup de gens en Europe, ce matin-là avait quelque chose d'irréel — pas parce que c'était imprévisible (les analystes le documentaient depuis des mois), mais parce que quelque chose de profond venait de se briser dans la façon dont les démocraties occidentales se racontaient le monde. La guerre conventionnelle entre États était censée appartenir au passé. Elle n'appartient qu'au présent.
-    </p>
-
-    <p>
-      Pour quelqu'un qui réfléchit à où vivre dans 30 ans — et à trouver le meilleur pays pour y construire sa vie —, la question géopolitique n'est pas "y aura-t-il une guerre quelque part ?". Il y en aura. Probablement plusieurs. La question est plus précise : <em>mon pays de résidence a-t-il une probabilité significativement plus haute d'être directement touché par un conflit majeur ? Et qu'est-ce que ça changerait concrètement dans ma vie de tous les jours ?</em>
-    </p>
-
-    <h3>La carte des tensions documentées à horizon 2030–2055</h3>
-
-    <div class="dbox">
-      <div class="dbox-head"><strong>Zones de Tension Géopolitique — Horizon 2055</strong><span class="sub">Basé sur les tendances structurelles — pas des prédictions</span></div>
-      <div class="dbox-grid">
-        <div class="dbox-cell">
-          <span class="dbox-lbl">🇹🇼 Détroit de Taïwan</span>
-          <span class="dbox-val">Risque élevé</span>
-          <span class="dbox-note">Le scénario de confrontation sino-américaine le plus analysé par les stratèges militaires. Minoritaire en probabilité mais cataclysmique en impact : le semiconducteur de ton téléphone vient à 90% de Taïwan. Une confrontation, même limitée, équivaudrait à couper les artères de l'économie mondiale</span>
-        </div>
-        <div class="dbox-cell">
-          <span class="dbox-lbl">🇷🇺 Flanc est de l'Europe</span>
-          <span class="dbox-val">Risque modéré-élevé</span>
-          <span class="dbox-note">La Russie post-Ukraine reste une source d'instabilité structurelle pour la Moldavie, les pays baltes, la Géorgie, l'Arménie. L'entrée des pays baltes dans l'OTAN (2023–2024) est un bouclier solide — mais il a aussi accru la perception d'encerclement côté russe. Un équilibre à surveiller sur 30 ans</span>
-        </div>
-        <div class="dbox-cell">
-          <span class="dbox-lbl">🌊 Mer de Chine méridionale</span>
-          <span class="dbox-val">Risque modéré</span>
-          <span class="dbox-note">Disputes territoriales entre Chine, Philippines, Vietnam, Malaisie sur des îles qui valent des trillions en ressources sous-marines. Les Philippines — allié américain par traité — sont la clé de voûte d'un équilibre militaire fragile que Pékin teste régulièrement</span>
-        </div>
-        <div class="dbox-cell">
-          <span class="dbox-lbl">🕌 Moyen-Orient structurel</span>
-          <span class="dbox-val">Risque persistant</span>
-          <span class="dbox-note">Iran, Israël, Arabie Saoudite, Yémen, Liban — un système régional d'instabilité chronique. La nucléarisation potentielle de l'Iran est le joker le plus dangereux. Une désescalade durable est possible — elle ne s'est jamais maintenue sur 30 ans dans cette région</span>
-        </div>
-        <div class="dbox-cell">
-          <span class="dbox-lbl">🧊 Arctique</span>
-          <span class="dbox-val">Risque émergent</span>
-          <span class="dbox-note">La fonte des glaces ouvre de nouvelles routes maritimes et donne accès à des ressources considérables. Russie, Canada, Danemark (Groenland), Norvège et États-Unis se positionnent militairement. À horizon 2040–2050, l'Arctique deviendra un enjeu géopolitique majeur — encore largement sous-estimé dans les débats publics</span>
-        </div>
-        <div class="dbox-cell">
-          <span class="dbox-lbl">💻 Guerres invisibles — cyber &amp; économique</span>
-          <span class="dbox-val">Déjà en cours</span>
-          <span class="dbox-note">Les conflits de demain ne seront pas tous des tranchées. Les cyberattaques sur les infrastructures critiques (énergie, hôpitaux, eau), les guerres de sanctions et le découplage technologique touchent déjà les citoyens ordinaires : inflation, pannes, supply chains fragilisées, données volées</span>
-        </div>
-      </div>
-    </div>
+    
 
     <h3>La géographie comme premier bouclier</h3>
     <p>
@@ -706,6 +552,17 @@
   </aside>
 </section>
 </main>
+
+<div class="aff-strip">
+      <div class="aff-strip-title">Préparer ton expatriation</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span></a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span><span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span></a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span></a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span></a>
+      </div>
+      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+    </div>
 
 <div id="siteFooter"></div>
 <script src="../data/header.js"></script>

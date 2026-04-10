@@ -184,6 +184,11 @@
 .aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
 .aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
 .aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+.hero-mosaic{position:absolute;inset:0;display:grid;gap:2px;overflow:hidden}
+.hero-mosaic.cols-2{grid-template-columns:1fr 1fr}
+.hero-mosaic.cols-3{grid-template-columns:1fr 1fr 1fr}
+.hero-mosaic-panel{background-size:cover;background-position:center}
+.hero-mosaic::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%);z-index:1}
 </style>
 </head>
 <body>
@@ -191,10 +196,10 @@
 <div id="siteHeader"></div>
 
 <section class="hero">
-  <div class="hero-bg" style="background-image:url('/assets/hero-finland.jpg')"></div>
+  <div class="hero-mosaic cols-3"><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-finland.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-denmark.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-new-zealand.jpg')"></div></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">Chronicle · WiggMap</div>
-    <h1 class="hero-title">Where to raise your  children  in 2026?</h1>
+    <h1 class="hero-title">Best Countries to Raise Children in 2026 — Education, Safety &amp; Child Well-Being Guide</h1>
     <p class="hero-sub">Comparative analysis 2026: which countries offer the best environment for raising children? PISA scores, safety, child well-being, education costs, school press</p>
   </div>
 </section>
@@ -243,102 +248,7 @@
       There is a common confusion in education debates: the one between <em>performance</em> and <em>fulfilment</em>. The country that produces the best PISA scores is not necessarily the one where children grow up best. And the country where children report being the happiest is not always the one that best prepares them for a rapidly changing labour market. This tension is at the heart of this article — and understanding it is the first step towards making an intelligent choice.
     </p>
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepare your move</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span><span class="aff-strip-desc">Global health cover from $45/mo</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Transfers — Wise</span><span class="aff-strip-desc">Real exchange rate, no hidden fees</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM from the plane, 15+ carriers</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Secure access from abroad</span>
-        </a>
-      </div>
-      <div class="aff-strip-note">partner links — at no extra cost to you</div>
-    </div>
-
-    <p>
-      The PISA 2022 data from the OECD (published in 2023, the most recent available in 2026) compares 81 countries on the performance of 15-year-olds in mathematics, reading and science. The UNICEF Children's Well-Being Index (2020, partially updated in 2023) measures the health, social relationships, skills and risk behaviours of children aged 0 to 17. These two sources, combined with crime data, education costs and school working time, form the foundation of this analysis.
-    </p>
-
-    <div class="orn">· · ✦ · ·</div>
-
-    <h2 id="criteria">The Evaluation Framework: Eight Criteria for Assessing a Child-Friendly Environment</h2>
-
-    <p>
-      Assessing the quality of a country for raising children requires going beyond anecdotes and impressions. Here are the eight criteria we use in this analysis, along with their main data source and rationale.
-    </p>
-
-    <div class="criteria-grid">
-      <div class="crit">
-        <span class="icon">📊</span>
-        <span class="label">Academic Performance</span>
-        <span class="desc">PISA 2022 scores in maths, reading, science — a measure of pedagogical effectiveness at age 15</span>
-      </div>
-      <div class="crit">
-        <span class="icon">🧠</span>
-        <span class="label">Critical Thinking &amp; Autonomy</span>
-        <span class="desc">Teaching methods, freedom of expression, independent projects, reasoning vs. rote memorisation</span>
-      </div>
-      <div class="crit">
-        <span class="icon">😊</span>
-        <span class="label">Well-Being &amp; Happiness</span>
-        <span class="desc">UNICEF child well-being index, self-reported happiness, rates of school-related distress</span>
-      </div>
-      <div class="crit">
-        <span class="icon">🔒</span>
-        <span class="label">Safety</span>
-        <span class="desc">Crime rates, documented school violence, public space safety for minors</span>
-      </div>
-      <div class="crit">
-        <span class="icon">⚖️</span>
-        <span class="label">School Pressure</span>
-        <span class="desc">Class hours, homework, standardised tests, school anxiety rates, student suicides</span>
-      </div>
-      <div class="crit">
-        <span class="icon">🌿</span>
-        <span class="label">Nature, Sport, Culture</span>
-        <span class="desc">Access to natural spaces, sports participation, cultural offerings accessible to children</span>
-      </div>
-      <div class="crit">
-        <span class="icon">💶</span>
-        <span class="label">Education Costs</span>
-        <span class="desc">Public vs. private school fees, total annual cost per child (tuition, materials, extracurriculars)</span>
-      </div>
-      <div class="crit">
-        <span class="icon">🏛️</span>
-        <span class="label">Social Stability</span>
-        <span class="desc">Community cohesion, institutional trust, political stability, children's rights</span>
-      </div>
-    </div>
-
-    <div class="orn">· · ✦ · ·</div>
-
-    <h2 id="pisa">What PISA 2022 Really Reveals — and What It Does Not</h2>
-
-    <p>
-      The Programme for International Student Assessment (PISA) is the global benchmark for comparing education systems. Every three years, the OECD tests approximately 700,000 fifteen-year-olds in 81 countries on mathematics, reading and science. The PISA 2022 results were published in December 2023 and are the most recent data available in 2026. Their lessons are rich — and more nuanced than raw rankings suggest.
-    </p>
-
-    <div class="dbox">
-      <div class="dbox-head"><strong>PISA 2022 Results — Selected Countries</strong><span class="sub">Average mathematics score — OECD 2023</span></div>
-      <div class="dbox-grid">
-        <div class="dbox-cell"><span class="dbox-lbl">🇸🇬 Singapore</span><span class="dbox-val">575 pts</span><span class="dbox-note">1st worldwide — 40+ point lead over 2nd place. Exceptional performance but a high-pressure model</span></div>
-        <div class="dbox-cell"><span class="dbox-lbl">🇯🇵 Japan</span><span class="dbox-val">536 pts</span><span class="dbox-note">2nd — strong in science and maths. Reform underway to reduce rote memorisation</span></div>
-        <div class="dbox-cell"><span class="dbox-lbl">🇰🇷 South Korea</span><span class="dbox-val">527 pts</span><span class="dbox-note">3rd — academic excellence against a backdrop of extreme pressure and very low well-being scores</span></div>
-        <div class="dbox-cell"><span class="dbox-lbl">🇪🇪 Estonia</span><span class="dbox-val">510 pts</span><span class="dbox-note">4th — highest score in Europe. Balanced model: high performance, good well-being</span></div>
-        <div class="dbox-cell"><span class="dbox-lbl">🇨🇭 Switzerland</span><span class="dbox-val">508 pts</span><span class="dbox-note">5th — very solid, high well-being, effective dual education system</span></div>
-        <div class="dbox-cell"><span class="dbox-lbl">🇨🇦 Canada</span><span class="dbox-val">497 pts</span><span class="dbox-note">Top 10 — exemplary performance / well-being balance according to OECD</span></div>
-        <div class="dbox-cell"><span class="dbox-lbl">🇫🇮 Finland</span><span class="dbox-val">484 pts</span><span class="dbox-note">Notable decline vs. 2009 but student well-being remains among the highest in the world</span></div>
-        <div class="dbox-cell"><span class="dbox-lbl">🇫🇷 France</span><span class="dbox-val">474 pts</span><span class="dbox-note">Around OECD average — but with significant school inequalities depending on location</span></div>
-        <div class="dbox-cell wide"><span class="dbox-lbl">OECD Average</span><span class="dbox-val">472 pts</span><span class="dbox-note">Down 15 points vs. 2018 — documented COVID impact on learning in almost all countries</span></div>
-      </div>
-    </div>
+    
 
     <h3>The Estonia lesson: proof that performance and well-being are compatible</h3>
     <p>
@@ -724,6 +634,17 @@
   </aside>
 </section>
 </main>
+
+<div class="aff-strip">
+      <div class="aff-strip-title">Prepare your move</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span><span class="aff-strip-desc">Global health cover from $45/mo</span></a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">💸 Wise — Your borderless account</span><span class="aff-strip-desc">Card + transfers in 40+ currencies at the real rate</span></a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM from the plane, 15+ carriers</span></a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Secure access from abroad</span></a>
+      </div>
+      <div class="aff-strip-note">partner links — at no extra cost to you</div>
+    </div>
 
 <div id="siteFooter"></div>
 <script src="../data/header.js"></script>

@@ -278,6 +278,11 @@
 .aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
 .aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
 .aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+.hero-mosaic{position:absolute;inset:0;display:grid;gap:2px;overflow:hidden}
+.hero-mosaic.cols-2{grid-template-columns:1fr 1fr}
+.hero-mosaic.cols-3{grid-template-columns:1fr 1fr 1fr}
+.hero-mosaic-panel{background-size:cover;background-position:center}
+.hero-mosaic::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%);z-index:1}
 </style>
 </head>
 <body>
@@ -287,10 +292,10 @@
 <script src="../data/header.js"></script>
 
 <section class="hero">
-  <div class="hero-bg" style="background-image:url('/assets/hero-japan.jpg')"></div>
+  <div class="hero-mosaic cols-3"><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-japan.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-cambodia.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-china.jpg')"></div></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">Chronique · WiggMap</div>
-    <h1 class="hero-title">The Wigg Chronicles</h1>
+    <h1 class="hero-title">S'expatrier en Asie en 2026 : Japon, Laos, Chine, Cambodge — visas, assurances &amp; verdict final</h1>
     <p class="hero-sub">Partie 2 du guide : visa nomad Japon 6 mois, crypto japonaise taxée à 55 %, Laos hors réseau, Great Firewall chinois, Cambodge sous-estimé, assurances santé com</p>
   </div>
 </section>
@@ -334,36 +339,7 @@
   <section>
     <p class="lead">Il existe en Asie trois destinations qui ne rentrent dans aucune case. Le Japon, d'abord — peut-être la civilisation la plus accomplie au monde, celle où les trains arrivent à la seconde, où la nourriture est élevée au rang d'art quotidien, où le taux de criminalité est proche de zéro. Et simultanément : 55 % d'imposition sur les gains crypto, pas de visa retraite, et la moitié des propriétaires de Tokyo qui refusent de louer à un étranger. Le Laos, ensuite — beauté brute, silence total, Mékong au crépuscule, moines dans la lumière du matin. Et aussi : zéro infrastructure médicale, zéro programme visa, internet moyen. La Chine, enfin — un continent déguisé en pays, fascinant à proportion exacte de ses contraintes. À quoi s'ajoutent le Cambodge, systématiquement sous-estimé et pourtant l'une des bases les moins chères d'Asie, et le Myanmar — le pays qui aurait dû figurer ici, et qui ne peut pas. Ces destinations ont en commun d'exiger quelque chose de vous avant de vous donner quoi que ce soit. Ce guide est là pour vous dire exactement quoi.</p>
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton expatriation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Transferts — Wise</span><span class="aff-strip-desc">Taux de change réel, sans frais cachés</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span>
-        </a>
-      </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
-    </div>
-  </section>
-
-  <!-- ══════ JAPON ══════ -->
-  <div class="orn">· · ✦ · ·</div>
-  <section class="country-block" id="japon">
-    <div class="country-header">
-      <div class="country-num">1</div>
-      <div class="country-title-block">
-        <div class="country-name"><span>🇯🇵</span> Japon</div>
-        <div class="country-tagline">La perfection qui se mérite — et qui taxe vos cryptos à 55 %</div>
-      </div>
-    </div>
+    
 
     <p>Le Japon brise tous les préjugés dans les deux sens. Plus beau que ce que vous imaginiez — les cerisiers d'avril ne sont pas un cliché mais une expérience authentiquement déstabilisante, les Alpes japonaises reçoivent plus de neige que la plupart des stations des Alpes françaises, Kyoto en automne compte parmi les villes les plus belles au monde. Plus fermé aussi, d'une façon qui ne se voit pas immédiatement : la société japonaise est codifiée à un niveau que peu d'étrangers comprennent vraiment, la barrière de la langue est réelle, et la fiscalité sur les cryptomonnaies est franchement punitive.</p>
 
@@ -970,6 +946,17 @@
   </div>
 
 </div>
+
+<div class="aff-strip">
+      <div class="aff-strip-title">Préparer ton expatriation</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span></a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span><span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span></a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span></a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span></a>
+      </div>
+      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+    </div>
 
 <div id="siteFooter"></div>
 <script src="../data/footer.js"></script>

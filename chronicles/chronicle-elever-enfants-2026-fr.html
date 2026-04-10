@@ -234,6 +234,11 @@
 .aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
 .aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
 .aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+.hero-mosaic{position:absolute;inset:0;display:grid;gap:2px;overflow:hidden}
+.hero-mosaic.cols-2{grid-template-columns:1fr 1fr}
+.hero-mosaic.cols-3{grid-template-columns:1fr 1fr 1fr}
+.hero-mosaic-panel{background-size:cover;background-position:center}
+.hero-mosaic::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%);z-index:1}
 </style>
 </head>
 <body>
@@ -241,10 +246,10 @@
 <div id="siteHeader"></div>
 
 <section class="hero">
-  <div class="hero-bg" style="background-image:url('/assets/hero-finland.jpg')"></div>
+  <div class="hero-mosaic cols-3"><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-finland.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-denmark.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-new-zealand.jpg')"></div></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">Chronique · WiggMap</div>
-    <h1 class="hero-title">Où élever ses  enfants  en 2026 ?</h1>
+    <h1 class="hero-title">Où Élever ses Enfants en 2026 ? Les Pays Offrant le Meilleur Environnement Éducatif et Social</h1>
     <p class="hero-sub">Analyse comparative 2026 : quels pays offrent le meilleur environnement pour élever des enfants ? PISA, sécurité, bien-être, coût de l&#x27;éducation, équilibre vie-</p>
   </div>
 </section>
@@ -293,104 +298,7 @@
       Il existe une confusion fréquente dans les débats sur l'éducation : celle entre <em>performance</em> et <em>épanouissement</em>. Le pays qui produit les meilleurs scores PISA n'est pas nécessairement celui où les enfants grandissent le mieux. Et le pays où les enfants se déclarent les plus heureux n'est pas toujours celui qui les prépare le mieux à un marché du travail en mutation rapide. Cette tension est au cœur de cet article — et la comprendre est la première étape pour choisir intelligemment.
     </p>
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton expatriation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Transferts — Wise</span><span class="aff-strip-desc">Taux de change réel, sans frais cachés</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span>
-        </a>
-      </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
-    </div>
-
-    <p>
-      Les données PISA 2022 de l'OCDE (publiées en 2023, les plus récentes disponibles en 2026) comparent 81 pays sur les performances en mathématiques, lecture et sciences des élèves de 15 ans. L'indice de bien-être des enfants de l'UNICEF (2020, mis à jour partiellement en 2023) mesure la santé, les relations sociales, les compétences et les comportements à risque des enfants de 0 à 17 ans. Ces deux sources, combinées avec les données de criminalité, de coût de l'éducation et de temps de travail scolaire, constituent la base de cette analyse.
-    </p>
-
-    <div class="orn">· · ✦ · ·</div>
-
-    <!-- CRITERES -->
-    <h2 id="criteres">La Grille d'Évaluation : Huit Critères pour Juger un Environnement Enfant</h2>
-
-    <p>
-      Évaluer la qualité d'un pays pour y élever ses enfants requiert de dépasser les anecdotes et les impressions. Voici les huit critères que nous utilisons dans cette analyse, avec leur source de données principale et leur justification.
-    </p>
-
-    <div class="criteria-grid">
-      <div class="crit">
-        <span class="icon">📊</span>
-        <span class="label">Performance académique</span>
-        <span class="desc">Scores PISA 2022 en maths, lecture, sciences — mesure de l'efficacité pédagogique à 15 ans</span>
-      </div>
-      <div class="crit">
-        <span class="icon">🧠</span>
-        <span class="label">Pensée critique &amp; autonomie</span>
-        <span class="desc">Méthodes pédagogiques, liberté d'expression, projets autonomes, raisonnement versus mémorisation</span>
-      </div>
-      <div class="crit">
-        <span class="icon">😊</span>
-        <span class="label">Bien-être &amp; bonheur</span>
-        <span class="desc">Indice UNICEF bien-être enfants, autodéclarations de bonheur, taux de mal-être scolaire</span>
-      </div>
-      <div class="crit">
-        <span class="icon">🔒</span>
-        <span class="label">Sécurité</span>
-        <span class="desc">Taux de criminalité, violence scolaire documentée, sécurité dans l'espace public pour les mineurs</span>
-      </div>
-      <div class="crit">
-        <span class="icon">⚖️</span>
-        <span class="label">Pression scolaire</span>
-        <span class="desc">Heures de cours, devoirs, examens standardisés, taux d'anxiété scolaire, suicides d'élèves</span>
-      </div>
-      <div class="crit">
-        <span class="icon">🌿</span>
-        <span class="label">Nature, sport, culture</span>
-        <span class="desc">Accès aux espaces naturels, pratique sportive, offre culturelle accessible aux enfants</span>
-      </div>
-      <div class="crit">
-        <span class="icon">💶</span>
-        <span class="label">Coût de l'éducation</span>
-        <span class="desc">Frais scolaires publics vs privés, coût total annuel par enfant (cours, matériel, parascolaire)</span>
-      </div>
-      <div class="crit">
-        <span class="icon">🏛️</span>
-        <span class="label">Stabilité sociale</span>
-        <span class="desc">Cohésion communautaire, confiance institutionnelle, stabilité politique, droits de l'enfant</span>
-      </div>
-    </div>
-
-    <div class="orn">· · ✦ · ·</div>
-
-    <!-- PISA -->
-    <h2 id="pisa">Ce que PISA 2022 Révèle Vraiment — et ce qu'il ne Dit Pas</h2>
-
-    <p>
-      Le Programme International pour le Suivi des Acquis des élèves (PISA) est la référence mondiale pour comparer les systèmes éducatifs. Chaque trois ans, l'OCDE teste environ 700 000 élèves de 15 ans dans 81 pays sur des compétences en mathématiques, lecture et sciences. Les résultats PISA 2022 ont été publiés en décembre 2023 et sont les données les plus récentes disponibles en 2026. Leur enseignement est riche — et plus nuancé que les classements bruts ne le suggèrent.
-    </p>
-
-    <div class="dbox">
-      <div class="dbox-head"><strong>Résultats PISA 2022 — Pays sélectionnés</strong><span class="sub">Score moyen mathématiques — OCDE 2023</span></div>
-      <div class="dbox-grid">
-        <div class="dbox-cell"><span class="dbox-lbl">🇸🇬 Singapour</span><span class="dbox-val">575 pts</span><span class="dbox-note">1er mondial — avance de 40+ pts sur le 2e. Performance exceptionnelle mais modèle de pression intense</span></div>
-        <div class="dbox-cell"><span class="dbox-lbl">🇯🇵 Japon</span><span class="dbox-val">536 pts</span><span class="dbox-note">2e — fort en sciences et maths. Réforme vers moins de mémorisation en cours</span></div>
-        <div class="dbox-cell"><span class="dbox-lbl">🇰🇷 Corée du Sud</span><span class="dbox-val">527 pts</span><span class="dbox-note">3e — excellence académique sur fond de pression extrême et taux de bien-être très bas</span></div>
-        <div class="dbox-cell"><span class="dbox-lbl">🇪🇪 Estonie</span><span class="dbox-val">510 pts</span><span class="dbox-note">4e — meilleur score européen. Modèle équilibré : performances élevées, bien-être correct</span></div>
-        <div class="dbox-cell"><span class="dbox-lbl">🇨🇭 Suisse</span><span class="dbox-val">508 pts</span><span class="dbox-note">5e — très solide, bien-être élevé, système dual efficace</span></div>
-        <div class="dbox-cell"><span class="dbox-lbl">🇨🇦 Canada</span><span class="dbox-val">497 pts</span><span class="dbox-note">Top 10 — équilibre performances / bien-être exemplaire selon l'OCDE</span></div>
-        <div class="dbox-cell"><span class="dbox-lbl">🇫🇮 Finlande</span><span class="dbox-val">484 pts</span><span class="dbox-note">Recul notable vs 2009 mais bien-être des élèves parmi les plus élevés du monde</span></div>
-        <div class="dbox-cell"><span class="dbox-lbl">🇫🇷 France</span><span class="dbox-val">474 pts</span><span class="dbox-note">Dans la moyenne OCDE — mais avec des inégalités scolaires importantes selon les zones</span></div>
-        <div class="dbox-cell wide"><span class="dbox-lbl">Moyenne OCDE</span><span class="dbox-val">472 pts</span><span class="dbox-note">Recul de 15 points vs 2018 — impact COVID documenté sur les apprentissages dans la quasi-totalité des pays</span></div>
-      </div>
-    </div>
+    
 
     <h3>La leçon Estonie : la preuve que performance et bien-être sont compatibles</h3>
     <p>
@@ -832,6 +740,17 @@
   </aside>
 </section>
 </main>
+
+<div class="aff-strip">
+      <div class="aff-strip-title">Préparer ton expatriation</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span></a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span><span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span></a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span></a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span></a>
+      </div>
+      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+    </div>
 
 <div id="siteFooter"></div>
 <script src="../data/header.js"></script>

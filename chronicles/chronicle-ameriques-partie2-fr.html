@@ -156,6 +156,11 @@
 .aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
 .aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
 .aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+.hero-mosaic{position:absolute;inset:0;display:grid;gap:2px;overflow:hidden}
+.hero-mosaic.cols-2{grid-template-columns:1fr 1fr}
+.hero-mosaic.cols-3{grid-template-columns:1fr 1fr 1fr}
+.hero-mosaic-panel{background-size:cover;background-position:center}
+.hero-mosaic::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%);z-index:1}
 </style>
 </head>
 <body>
@@ -163,10 +168,10 @@
 <div id="siteHeader"></div>
 
 <section class="hero">
-  <div class="hero-bg" style="background-image:url('/assets/hero-bahamas.jpg')"></div>
+  <div class="hero-mosaic cols-2"><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-bahamas.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-panama.jpg')"></div></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">Chronique · WiggMap</div>
-    <h1 class="hero-title">Les Chroniques Wigg</h1>
+    <h1 class="hero-title">L'expatriation sous le soleil des Amériques — Saint-Kitts, Bahamas, Antigua · Partie 2</h1>
     <p class="hero-sub">Série Amériques · Partie 2 — Saint-Kitts, Bahamas, Antigua : comparatif 2026 des îles caribéennes CBI — citizenship by investment, fiscalité 0%, coût de la vie.</p>
   </div>
 </section>
@@ -216,122 +221,7 @@
       Il existe deux types de paradis fiscaux : ceux qui vous demandent de simuler une vie, et ceux qui vous donnent la citoyenneté pour de vrai. Dans les Caraïbes indépendantes, la deuxième catégorie domine. Saint Kitts & Nevis a inventé le concept de Citizenship by Investment en 1984. Antigua l'a perfectionné. Saint-Vincent l'a démocratisé. Les Bahamas, eux, ont construit un modèle différent — celui de la résidence de luxe sans passeport, mais avec une qualité de vie et une infrastructure financière qui justifient leur réputation. En 2026, ces quatre îles représentent quatre philosophies d'accueil distinctes pour une même promesse : aucun impôt sur vos revenus, vos gains en capital, vos dividendes, vos successions.
     </p>
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Préparer ton expatriation</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Transferts — Wise</span><span class="aff-strip-desc">Taux de change réel, sans frais cachés</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span>
-        </a>
-      </div>
-      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
-    </div>
-
-    <p>
-      La différence fondamentale avec la Partie 1 ? Ici, vous n'avez pas besoin d'être américain pour maximiser l'avantage. Pas besoin de passer 183 jours sur place pour protéger vos gains crypto. Pas besoin d'une structuration juridique complexe. Pour un Français, un Belge, un Canadien, un Singapourien ou tout ressortissant d'un pays à fiscalité mondiale, ces îles offrent une sortie légale et définitive de la pression fiscale de leur pays d'origine — à condition de structurer correctement sa résidence fiscale et, pour certains profils, d'obtenir la citoyenneté.
-    </p>
-
-    <div class="quote">
-      Dans les Caraïbes indépendantes, "0% d'impôt" n'est pas un régime spécial accordé sous conditions — c'est le droit commun. Il s'applique à tout résident, qu'il soit né là ou arrivé hier avec un investissement.
-    </div>
-
-    <h2>Tableau comparatif : les 4 îles caribéennes</h2>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>Critère</th><th>🇰🇳 Saint Kitts &amp; Nevis</th><th>🇧🇸 Bahamas</th><th>🇦🇬 Antigua &amp; Barbuda</th><th>🇻🇨 Saint-Vincent</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Programme CBI</strong></td>
-            <td>Oui — depuis 1984<br><small>$250 000 min. (SISC)</small></td>
-            <td>Non — pas de CBI</td>
-            <td>Oui<br><small>$230 000 min. (NDF)</small></td>
-            <td>Oui<br><small>$200 000 min. (don gouvernemental)</small></td>
-          </tr>
-          <tr>
-            <td><strong>Visa nomade numérique</strong></td>
-            <td>Pas de visa dédié<br><small>CBI ou résidence</small></td>
-            <td>BEATS — 12 mois<br><small>Pas de condition de revenu</small></td>
-            <td>NDR — 2 ans<br><small>~$50 000/an estimé</small></td>
-            <td>Pas de visa dédié<br><small>CBI ou entrée touristique</small></td>
-          </tr>
-          <tr>
-            <td><strong>Impôt revenu / capital</strong></td>
-            <td><span class="tag green">0% absolu</span></td>
-            <td><span class="tag green">0% absolu</span></td>
-            <td><span class="tag green">0% absolu</span></td>
-            <td><span class="tag green">0% absolu</span></td>
-          </tr>
-          <tr>
-            <td><strong>Impôt succession / héritage</strong></td>
-            <td><span class="tag green">0%</span></td>
-            <td><span class="tag green">0%</span></td>
-            <td><span class="tag green">0%</span></td>
-            <td><span class="tag green">0%</span></td>
-          </tr>
-          <tr>
-            <td><strong>Passeport — accès Schengen</strong></td>
-            <td><span class="tag green">Oui — 150+ pays</span></td>
-            <td><span class="tag green">Oui — 160+ pays</span></td>
-            <td><span class="tag green">Oui — 150+ pays</span></td>
-            <td><span class="tag blue">Oui — 140+ pays</span></td>
-          </tr>
-          <tr>
-            <td><strong>Budget mensuel (confort)</strong></td>
-            <td>$1 500 – $2 500</td>
-            <td>$2 300 – $5 000</td>
-            <td>$2 000 – $3 500</td>
-            <td>$1 200 – $2 200</td>
-          </tr>
-          <tr>
-            <td><strong>Résidence obligatoire CBI</strong></td>
-            <td>Aucune</td>
-            <td>N/A (pas de CBI)</td>
-            <td>5 jours en 5 ans</td>
-            <td>Aucune</td>
-          </tr>
-          <tr>
-            <td><strong>Délai CBI (passeport)</strong></td>
-            <td>4 à 6 mois</td>
-            <td>N/A</td>
-            <td>3 à 6 mois</td>
-            <td>2 à 4 mois</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="orn">· · ✦ · ·</div>
-
-    <!-- SAINT KITTS -->
-    <h2>1) Saint Kitts & Nevis : le pionnier mondial du passeport investisseur, toujours au sommet</h2>
-
-    <p>
-      Saint Kitts & Nevis n'a pas inventé le concept de citizenship by investment par hasard. En 1984, alors que l'économie sucrière s'effondrait, le gouvernement a eu une idée révolutionnaire : vendre la citoyenneté légalement à des investisseurs étrangers. Quarante ans plus tard, ce petit archipel de 50 000 habitants est devenu la référence mondiale du secteur, imité par des dizaines de pays mais jamais vraiment dépassé sur les points essentiels : solidité juridique, réputation due diligence, et qualité du passeport. En 2026, le passeport Saint Kitts & Nevis est accepté dans 150+ pays sans visa, dont l'espace Schengen, le Royaume-Uni, Singapour et Hong Kong. Son seul point faible notable : les États-Unis, pour lesquels un ESTA ou visa B reste nécessaire.
-    </p>
-
-    <div class="dbox">
-      <div class="dbox-head"><strong>Saint Kitts &amp; Nevis — CBI 2026</strong><span class="sub">Données vérifiées — Février 2026</span></div>
-      <div class="dbox-grid">
-        <div class="dbox-cell"><span class="dbox-lbl">Option minimum (SISC)</span><span class="dbox-val">$250 000</span><span class="dbox-note">Pour famille jusqu'à 4 personnes — contribution non remboursable</span></div>
-        <div class="dbox-cell"><span class="dbox-lbl">Option immobilière parts</span><span class="dbox-val">$325 000</span><span class="dbox-note">Parts de projet immobilier approuvé — à conserver 7 ans</span></div>
-        <div class="dbox-cell"><span class="dbox-lbl">Option immobilière privée</span><span class="dbox-val">$600 000</span><span class="dbox-note">Propriété exclusive — à conserver 7 ans</span></div>
-        <div class="dbox-cell"><span class="dbox-lbl">Due diligence par adulte</span><span class="dbox-val">~$7 500 – $10 000</span><span class="dbox-note">Enquête internationale obligatoire pour tous les +16 ans</span></div>
-        <div class="dbox-cell"><span class="dbox-lbl">Délai de traitement</span><span class="dbox-val">4 – 6 mois</span><span class="dbox-note">Option accélérée disponible (60 jours, supplément)</span></div>
-        <div class="dbox-cell"><span class="dbox-lbl">Fiscalité</span><span class="dbox-val">0% absolu</span><span class="dbox-note">Revenu, capital, dividendes, succession, patrimoine</span></div>
-        <div class="dbox-cell"><span class="dbox-lbl">Résidence requise</span><span class="dbox-val">Aucune</span><span class="dbox-note">Citoyenneté à vie — aucun séjour minimum</span></div>
-        <div class="dbox-cell"><span class="dbox-lbl">Accès Schengen</span><span class="dbox-val">150+ pays</span><span class="dbox-note">Dont UE, UK, Singapour, Hong Kong</span></div>
-      </div>
-    </div>
+    
 
     <h3>Les quatre options d'investissement de Saint Kitts en détail</h3>
 
@@ -614,6 +504,17 @@
   </aside>
 </section>
 </main>
+
+<div class="aff-strip">
+      <div class="aff-strip-title">Préparer ton expatriation</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🛡 Assurance expat — SafetyWing</span><span class="aff-strip-desc">Couverture santé mondiale dès 45$/mois</span></a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">💸 Wise — Ton compte sans frontières</span><span class="aff-strip-desc">Carte + virements en 40+ devises au taux réel</span></a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM dès l'avion, 15+ opérateurs</span></a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Accès sécurisé depuis l'étranger</span></a>
+      </div>
+      <div class="aff-strip-note">liens partenaires — sans surcoût pour toi</div>
+    </div>
 
 <div id="siteFooter"></div>
 <script src="../data/header.js"></script>

@@ -275,6 +275,11 @@
 .aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
 .aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
 .aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+.hero-mosaic{position:absolute;inset:0;display:grid;gap:2px;overflow:hidden}
+.hero-mosaic.cols-2{grid-template-columns:1fr 1fr}
+.hero-mosaic.cols-3{grid-template-columns:1fr 1fr 1fr}
+.hero-mosaic-panel{background-size:cover;background-position:center}
+.hero-mosaic::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%);z-index:1}
 </style>
 </head>
 <body>
@@ -284,10 +289,10 @@
 
 <!-- ══════ HERO ══════ -->
 <section class="hero">
-  <div class="hero-bg" style="background-image:url('/assets/hero-czech-republic.jpg')"></div>
+  <div class="hero-mosaic cols-3"><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-czech-republic.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-spain.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-poland.jpg')"></div></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">Crónica · WiggMap</div>
-    <h1 class="hero-title">Estudiar en Europa en 2026 — 8 destinos Erasmus que nadie te cuenta</h1>
+    <h1 class="hero-title">Erasmus 2026 : las 8 mejores destinos en Europa para estudiantes</h1>
     <p class="hero-sub">Praga, Cracovia, Valencia, Tallin, Riga, Liubliana, Budapest, Chipre — 8 destinos Erasmus elegidos con criterio real. Presupuesto real, matrículas, beca Erasmus</p>
   </div>
 </section>
@@ -340,140 +345,7 @@
   <!-- INTRO -->
   <p class="lead">Hay un mapa que los servicios Erasmus de las universidades nunca muestran de verdad. El de las ciudades donde una beca de 500€ al mes cubre el alquiler entero. Donde las facultades tienen seis siglos de historia y bibliotecas que huelen a pergamino viejo. Donde los estudiantes extranjeros no acaban en burbujas angloparlantes turísticas sino en ciudades reales — con terrazas reales, noches reales, vida real. Esta crónica cubre ocho de ellas, elegidas por lo que son en 2026, no por lo que representaban hace diez años.</p>
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepara tu mudanza</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span><span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Transferencias — Wise</span><span class="aff-strip-desc">Tipo de cambio real, sin comisiones ocultas</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM desde el avión, 15+ operadores</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Acceso seguro desde el extranjero</span>
-        </a>
-      </div>
-      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
-    </div>
-
-  <p>El programa Erasmus+ celebró sus 35 años con más de 12 millones de ex participantes. Es enorme. Pero la distribución de destinos sigue concentrada en un puñado de capitales conocidas — Madrid, Barcelona, Roma, Ámsterdam — mientras que las mejores opciones en términos de calidad de vida, oferta universitaria y presupuesto están a menudo en otro sitio. En Praga, la Universidad Carolina forma juristas, médicos y filósofos desde 1348. En Liubliana, se vive mejor que en la mayoría de capitales de Europa occidental por un 30% menos. En Tallin, se estudia tecnología en inglés en la ciudad que inventó Skype. Ninguno de estos hechos es un secreto. Simplemente están sistemáticamente ausentes de los folletos.</p>
-
-  <div class="pull-quote">
-    La beca Erasmus es la misma cantidad independientemente del destino. Lo que compra — una habitación de buhardilla en Dublín o un piso entero en el centro de Cracovia — es otra historia muy distinta.
-  </div>
-
-  <p>Esta guía se estructura en torno a los datos que realmente importan cuando preparas un intercambio: el presupuesto mensual real (no la estimación oficial suavizada), las tasas universitarias para los programas en inglés, el importe estimado de la beca Erasmus por grupo de países, el nivel de inglés local, la seguridad cotidiana y una puntuación sintética de estudiante WiggMap. Cada destino incluye también los perfiles de estudiantes para quienes funciona mejor — porque la mejor elección Erasmus es siempre personal.</p>
-
-  <!-- TABLEAU COMPARATIF -->
-  <div class="orn">· · ✦ · ·</div>
-  <section id="comparatif">
-    <h2>Los 8 destinos de un vistazo</h2>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Destino</th>
-            <th>Presupuesto / mes</th>
-            <th>Alquiler habitación</th>
-            <th>Matrícula / año</th>
-            <th>Beca Erasmus</th>
-            <th>Inglés</th>
-            <th>Puntuación</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><a href="#prague">🇨🇿 Praga</a></td>
-            <td>650–900 €</td>
-            <td>350–520 €</td>
-            <td>2 000–6 000 € ★</td>
-            <td>~470 €/mes</td>
-            <td>✓✓ Bueno</td>
-            <td><span class="score-high">8,5 / 10</span></td>
-          </tr>
-          <tr>
-            <td><a href="#cracovie">🇵🇱 Cracovia</a></td>
-            <td>550–750 €</td>
-            <td>280–450 €</td>
-            <td>1 500–5 000 € ★</td>
-            <td>~470 €/mes</td>
-            <td>✓✓ Bueno</td>
-            <td><span class="score-high">8,2 / 10</span></td>
-          </tr>
-          <tr>
-            <td><a href="#valence">🇪🇸 Valencia</a></td>
-            <td>850–1 100 €</td>
-            <td>420–620 €</td>
-            <td>750–1 500 € ★★</td>
-            <td>~650 €/mes</td>
-            <td>✓ Medio</td>
-            <td><span class="score-high">8,0 / 10</span></td>
-          </tr>
-          <tr>
-            <td><a href="#tallinn">🇪🇪 Tallinn</a></td>
-            <td>800–1 050 €</td>
-            <td>400–560 €</td>
-            <td>1 660–3 500 €</td>
-            <td>~510 €/mes</td>
-            <td>✓✓✓ Muy bueno</td>
-            <td><span class="score-high">8,0 / 10</span></td>
-          </tr>
-          <tr>
-            <td><a href="#riga">🇱🇻 Riga</a></td>
-            <td>620–820 €</td>
-            <td>300–460 €</td>
-            <td>1 500–4 000 €</td>
-            <td>~470 €/mes</td>
-            <td>✓✓ Bueno</td>
-            <td><span class="score-mid">7,5 / 10</span></td>
-          </tr>
-          <tr>
-            <td><a href="#ljubljana">🇸🇮 Liubliana</a></td>
-            <td>750–970 €</td>
-            <td>380–540 €</td>
-            <td>2 000–3 500 €</td>
-            <td>~510 €/mes</td>
-            <td>✓✓✓ Muy bueno</td>
-            <td><span class="score-high">8,2 / 10</span></td>
-          </tr>
-          <tr>
-            <td><a href="#budapest">🇭🇺 Budapest</a></td>
-            <td>650–900 €</td>
-            <td>330–510 €</td>
-            <td>1 500–16 000 € ★★★</td>
-            <td>~470 €/mes</td>
-            <td>✓✓ Bueno</td>
-            <td><span class="score-mid">7,8 / 10</span></td>
-          </tr>
-          <tr>
-            <td><a href="#chypre">🇨🇾 Chipre</a></td>
-            <td>900–1 200 €</td>
-            <td>400–620 €</td>
-            <td>3 000–8 000 €</td>
-            <td>~480 €/mes</td>
-            <td>✓✓✓ Excelente</td>
-            <td><span class="score-mid">7,8 / 10</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <p style="font-size:.71rem;color:var(--muted);font-family:'Poppins',sans-serif;">★ En programa anglófono. Los estudios en idioma local suelen ser gratuitos para ciudadanos UE. ★★ Matrículas públicas UE — fuera UE: 4.000–8.000 €/año. ★★★ Medicina en inglés: 14.000–16.000 €/año. Presupuesto estudiante = alojamiento incluido. Beca Erasmus = estimación indicativa para ciudadanos UE/EEE <span class="atag atag-eu" style="font-size:.62rem;">🇪🇺 UE / EEE</span>, antes de complementos nacionales. No aplicable fuera de Erasmus.</p>
-    <p style="font-size:.71rem;color:var(--muted);font-family:'Poppins',sans-serif;margin-top:10px;padding-top:10px;border-top:1px solid var(--border);"><strong style="color:var(--navy);">⭐ Puntuación Estudiante WiggMap (/10)</strong> — Puntuación compuesta WiggMap basada en 6 criterios ponderados: presupuesto mensual estudiantil, seguridad cotidiana, nivel de inglés disponible, reputación académica (rankings internacionales), facilidad administrativa (visado, inscripción, alojamiento) y calidad de vida global. Ni un ranking de prestigio ni una lista de presupuestos — una herramienta para encontrar <em>tu</em> mejor destino.</p>
-  </section>
-
-  <!-- ══════ 01. PRAGUE ══════ -->
-  <div class="orn">· · ✦ · ·</div>
-  <section class="dest-block" id="prague">
-    <div class="dest-header">
-      <div class="dest-num">1</div>
-      <div class="dest-title-block">
-        <div class="dest-name">🇨🇿 Praga, República Checa</div>
-        <div class="dest-tagline">El Erasmus de referencia en Europa central — y la más infravalorada</div>
-      </div>
-    </div>
+    
 
     <p>Hay dos Pragas. La de los turistas que fotografían el Puente de Carlos entre las 9 y las 11 de la mañana, y luego se van. Y la de los estudiantes que descubren que la ciudad tiene vida propia, es densa intelectualmente, improbablemente asequible para su tamaño — y que la Universidad Carolina, fundada en 1348, es una de las instituciones académicas más serias de la Unión Europea. Copérnico no estudió aquí (eso es Cracovia), pero Einstein sí enseñó aquí. Como pedigrí, no está mal.</p>
 
@@ -1334,6 +1206,17 @@
 
 <div class="sources">
   <strong>Fuentes y datos:</strong> QS World University Rankings 2025 · EF English Proficiency Index 2024 · Comisión Europea — Erasmus+: importes de becas 2025-2026 por grupo de países · Erasmus Student Network (ESN) · Expatistan Cost of Living Index 2025-2026 · Mercer Quality of Living Survey 2025 · informes estadísticos nacionales de los ministerios del interior (criminalidad). Los índices de seguridad, presupuestos estudiantiles y costes de vida son <strong>datos compuestos de WiggMap</strong> construidos a partir de múltiples fuentes cruzadas — no copiados de un único índice. Los importes de las becas Erasmus son indicativos y pueden variar según el centro de origen, la región académica y los acuerdos bilaterales. Verifica las condiciones específicas con tu universidad y el servicio de relaciones internacionales. <em>Datos verificados y actualizados: marzo 2026.</em>
+</div>
+
+<div class="aff-strip">
+  <div class="aff-strip-title">Prepara tu mudanza</div>
+  <div class="aff-strip-list">
+    <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span><span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span></a>
+    <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">💸 Wise — Tu cuenta sin fronteras</span><span class="aff-strip-desc">Tarjeta + transferencias en 40+ divisas al tipo real</span></a>
+    <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM desde el avión, 15+ operadores</span></a>
+    <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Acceso seguro desde el extranjero</span></a>
+  </div>
+  <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
 </div>
 
 <div id="siteFooter"></div>

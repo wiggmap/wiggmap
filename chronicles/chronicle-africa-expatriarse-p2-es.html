@@ -145,6 +145,11 @@
 .aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
 .aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
 .aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+.hero-mosaic{position:absolute;inset:0;display:grid;gap:2px;overflow:hidden}
+.hero-mosaic.cols-2{grid-template-columns:1fr 1fr}
+.hero-mosaic.cols-3{grid-template-columns:1fr 1fr 1fr}
+.hero-mosaic-panel{background-size:cover;background-position:center}
+.hero-mosaic::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%);z-index:1}
 </style>
 </head>
 <body>
@@ -153,10 +158,10 @@
 <script src="../data/header.js"></script>
 
 <section class="hero">
-  <div class="hero-bg" style="background-image:url('/assets/hero-tunisia.jpg')"></div>
+  <div class="hero-mosaic cols-3"><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-tunisia.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-morocco.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-egypt.jpg')"></div></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">Crónica · WiggMap</div>
-    <h1 class="hero-title">Norte de África e  Islas : las puertas de entrada al continente</h1>
+    <h1 class="hero-title">Vivir en el Norte de África e Islas 2026: Marruecos, Túnez, Egipto, Mauricio, Seychelles</h1>
     <p class="hero-sub">Marruecos, Túnez, Egipto, Mauricio, Cabo Verde, Seychelles: calidad de vida real, costes en dólares, visados y fiscalidad crypto en 2026. Parte 2/4.</p>
   </div>
 </section>
@@ -205,38 +210,7 @@
 
     <p class="lead">Existe un fenómeno bien documentado entre los expatriados: la primera vez que aterrizan en su nuevo país, se preguntan por qué no lo hicieron antes. La segunda vez — cuando vuelven de vacaciones en Europa — se preguntan por qué todo el mundo no ha dado el salto todavía. Los países que vas a leer en este artículo tienen algo en común: tienden a provocar exactamente esa reacción. No por folletos turísticos. Porque es lo que la gente dice en los foros, en los grupos de WhatsApp de expatriados, tomando una copa en Marrakech o en Grand Baie.</p>
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepara tu mudanza</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span><span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Transferencias — Wise</span><span class="aff-strip-desc">Tipo de cambio real, sin comisiones ocultas</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM desde el avión, 15+ operadores</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Acceso seguro desde el extranjero</span>
-        </a>
-      </div>
-      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
-    </div>
-
-    <p>Esta parte cubre los destinos geográfica y culturalmente más accesibles para europeos y latinoamericanos: el norte de África y las islas africanas. No son los más exóticos ni los más baratos de la serie — pero son los de aterrizaje más suave, donde la calidad de vida cotidiana es más fácil de imaginar antes de estar allí.</p>
-
-    <div class="orn">· · ✦ · ·</div>
-
-    <!-- MARRUECOS -->
-    <section id="marruecos">
-      <div class="pays-header">
-        <div class="pays-flag">🇲🇦</div>
-        <div>
-          <div class="pays-title">Marruecos</div>
-          <div class="pays-subtitle">Norte de África · Casablanca · Marrakech · Tánger · Rabat · Agadir</div>
-        </div>
-      </div>
+    
       <div class="pays-pills">
         <span class="pill green">🟢 Recomendado</span>
         <span class="pill blue">$900 – $1.600 / mes</span>
@@ -668,6 +642,17 @@
     </div>
   </nav>
 </main>
+
+<div class="aff-strip">
+      <div class="aff-strip-title">Prepara tu mudanza</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🛡 Seguro expat — SafetyWing</span><span class="aff-strip-desc">Cobertura sanitaria mundial desde 45$/mes</span></a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">💸 Wise — Tu cuenta sin fronteras</span><span class="aff-strip-desc">Tarjeta + transferencias en 40+ divisas al tipo real</span></a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM desde el avión, 15+ operadores</span></a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Acceso seguro desde el extranjero</span></a>
+      </div>
+      <div class="aff-strip-note">enlaces de afiliado — sin coste adicional para ti</div>
+    </div>
 
 <div id="siteFooter"></div>
 <script src="../data/footer.js"></script>

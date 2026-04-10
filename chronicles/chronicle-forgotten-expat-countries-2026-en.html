@@ -216,6 +216,11 @@
 .aff-strip-name{font-size:13px;font-weight:600;white-space:nowrap}
 .aff-strip-desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.35}
 .aff-strip-note{font-size:10px;color:rgba(255,255,255,.25);font-style:italic;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+.hero-mosaic{position:absolute;inset:0;display:grid;gap:2px;overflow:hidden}
+.hero-mosaic.cols-2{grid-template-columns:1fr 1fr}
+.hero-mosaic.cols-3{grid-template-columns:1fr 1fr 1fr}
+.hero-mosaic-panel{background-size:cover;background-position:center}
+.hero-mosaic::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%);z-index:1}
 </style>
 </head>
 <body>
@@ -225,10 +230,10 @@
 <script src="../data/header.js"></script>
 
 <section class="hero">
-  <div class="hero-bg" style="background-image:url('/assets/hero-montenegro.jpg')"></div>
+  <div class="hero-mosaic cols-2"><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-montenegro.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-georgia.jpg')"></div></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">Chronicle · WiggMap</div>
-    <h1 class="hero-title">The Wigg Chronicles</h1>
+    <h1 class="hero-title">6 Countries Nobody Thinks of for Expats in 2026</h1>
     <p class="hero-sub">Mauritius, Montenegro, Cyprus, Taiwan, Uruguay, Oman: 6 under-the-radar destinations with real quality of life, solid visas and defensible costs. The WiggMap 20</p>
   </div>
 </section>
@@ -262,111 +267,7 @@
   <section id="introduction">
     <p class="lead">There's a list that has been circulating online since 2018 without changing by so much as a comma. Portugal. Bali. Thailand. Georgia. Dubai. It has become the shared vocabulary of connected expat life — useful, honest, well-documented, and read by so many people that these destinations are now inhabited by a particular type of resident: the one who read the same articles as you and moved there at the same time. That's not a criticism. It's an observation. And it conceals something more interesting: while everyone was rushing to the same addresses, six countries — solid, documented, defensible on almost every criterion — stayed in the blind spot.</p>
 
-    <div class="aff-strip">
-      <div class="aff-strip-title">Prepare your move</div>
-      <div class="aff-strip-list">
-        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span><span class="aff-strip-desc">Global health cover from $45/mo</span>
-        </a>
-        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">💸 Transfers — Wise</span><span class="aff-strip-desc">Real exchange rate, no hidden fees</span>
-        </a>
-        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM from the plane, 15+ carriers</span>
-        </a>
-        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item">
-          <span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Secure access from abroad</span>
-        </a>
-      </div>
-      <div class="aff-strip-note">partner links — at no extra cost to you</div>
-    </div>
-
-    <p>What follows is not a list of "exotic" destinations or difficult-to-translate life experiments. It's a rigorous selection: quality of life measured, taxation documented, visas verified, real cost of living, and — because it matters — a happiness index that holds its own against the usual favourites. Mauritius. Montenegro. Cyprus. Taiwan. Uruguay. Oman. Six countries that don't have Thailand's Instagram profile, but that have something rarer: substance.</p>
-  </section>
-
-  <blockquote class="pull-quote">
-    "The best expat destination isn't the one everyone talks about. It's the one that fits your exact profile — and that you're still the only one to have heard of."
-  </blockquote>
-
-  <section id="overview">
-    <h2>At a glance — 6 destinations compared</h2>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Destination</th>
-            <th>Cost of living/mo.</th>
-            <th>Nomad visa</th>
-            <th>Happiness</th>
-            <th>Safety</th>
-            <th>Best for</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><a href="#mauritius">🇲🇺 Mauritius</a></td>
-            <td>$1,200–2,000</td>
-            <td><span style="font-size:.72rem;font-family:'Poppins',sans-serif;background:#dcfce7;color:#15803d;padding:2px 8px;border-radius:12px;font-weight:700;">Premium Visa 1 yr</span></td>
-            <td>6.0 / 10 ★</td>
-            <td>Moderate</td>
-            <td>Retiree / Remote premium</td>
-          </tr>
-          <tr>
-            <td><a href="#montenegro">🇲🇪 Montenegro</a></td>
-            <td>€800–1,400</td>
-            <td><span style="font-size:.72rem;font-family:'Poppins',sans-serif;background:#dcfce7;color:#15803d;padding:2px 8px;border-radius:12px;font-weight:700;">Official Nomad Visa</span></td>
-            <td>6.0 / 10</td>
-            <td>High</td>
-            <td>Nomad / Balkans entrepreneur</td>
-          </tr>
-          <tr>
-            <td><a href="#cyprus">🇨🇾 Cyprus</a></td>
-            <td>€1,400–2,200</td>
-            <td><span style="font-size:.72rem;font-family:'Poppins',sans-serif;background:#dcfce7;color:#15803d;padding:2px 8px;border-radius:12px;font-weight:700;">DNV 1 yr — EU</span></td>
-            <td>6.5 / 10</td>
-            <td>Very high</td>
-            <td>EU freelance / Non-Dom</td>
-          </tr>
-          <tr>
-            <td><a href="#taiwan">🇹🇼 Taiwan</a></td>
-            <td>$1,500–2,500</td>
-            <td><span style="font-size:.72rem;font-family:'Poppins',sans-serif;background:#dbeafe;color:#1d4ed8;padding:2px 8px;border-radius:12px;font-weight:700;">Gold Card — qualified</span></td>
-            <td>7.0 / 10 ★★</td>
-            <td>Exceptional</td>
-            <td>Tech / Entrepreneur / Trader</td>
-          </tr>
-          <tr>
-            <td><a href="#uruguay">🇺🇾 Uruguay</a></td>
-            <td>$1,200–2,000</td>
-            <td><span style="font-size:.72rem;font-family:'Poppins',sans-serif;background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:12px;font-weight:700;">Standard residency</span></td>
-            <td>6.4 / 10</td>
-            <td>High</td>
-            <td>Serious retiree / Passive income</td>
-          </tr>
-          <tr>
-            <td><a href="#oman">🇴🇲 Oman</a></td>
-            <td>$1,500–2,800</td>
-            <td><span style="font-size:.72rem;font-family:'Poppins',sans-serif;background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:12px;font-weight:700;">Freelance / Retiree</span></td>
-            <td>6.1 / 10</td>
-            <td>Exceptional</td>
-            <td>Expat employee / Affluent couple</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <p style="font-size:.72rem;color:var(--muted);font-family:'Poppins',sans-serif;">★ Mauritius = top-ranked nation in Africa, World Happiness Report 2025. ★★ Taiwan = 27th globally, 1st in East Asia — WHR 2025.</p>
-  </section>
-
-  <!-- ══════ MAURITIUS ══════ -->
-  <div class="orn">· · ✦ · ·</div>
-  <section class="country-block" id="mauritius">
-    <div class="country-header">
-      <div class="country-num">1</div>
-      <div class="country-title-block">
-        <div class="country-name">🇲🇺 Mauritius</div>
-        <div class="country-tagline">The premium island everyone overlooks — and that serious expats shouldn't</div>
-      </div>
-    </div>
+    
 
     <p>There's a persistent misunderstanding about Mauritius: people think luxury hotel, honeymoon, all-inclusive. That's true. And it completely obscures everything else. Mauritius is the top-ranked nation on the African continent in the World Happiness Report 2025. It has a common law legal framework inherited from the British Crown, an education system that has produced engineers, doctors and lawyers exported across Europe, a diversified economy (finance, tech, logistics), and a network of bilateral tax treaties that make it one of the most solid legal platforms in the Indian Ocean. The island also has a clear strategic plan — the Mauritius Vision 2030 — to attract qualified residents and affluent retirees. It's not a coincidence that HSBC and other major banks have set up regional structures there.</p>
 
@@ -994,6 +895,17 @@
   </div>
 
 </div>
+
+<div class="aff-strip">
+      <div class="aff-strip-title">Prepare your move</div>
+      <div class="aff-strip-list">
+        <a href="https://safetywing.com/?referenceID=26499930&amp;utm_source=26499930&amp;utm_medium=Ambassador" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🛡 Expat insurance — SafetyWing</span><span class="aff-strip-desc">Global health cover from $45/mo</span></a>
+        <a href="https://wise.prf.hn/click/camref:1100l5IbJr" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">💸 Wise — Your borderless account</span><span class="aff-strip-desc">Card + transfers in 40+ currencies at the real rate</span></a>
+        <a href="https://airalo.pxf.io/3kkEDk" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">📱 eSIM — Airalo</span><span class="aff-strip-desc">eSIM from the plane, 15+ carriers</span></a>
+        <a href="https://go.nordvpn.net/aff_c?offer_id=15&amp;aff_id=144301&amp;url_id=902" rel="noopener sponsored" target="_blank" class="aff-strip-item"><span class="aff-strip-name">🔒 VPN — NordVPN</span><span class="aff-strip-desc">Secure access from abroad</span></a>
+      </div>
+      <div class="aff-strip-note">partner links — at no extra cost to you</div>
+    </div>
 
 <div id="siteFooter"></div>
 <script src="../data/footer.js"></script>
