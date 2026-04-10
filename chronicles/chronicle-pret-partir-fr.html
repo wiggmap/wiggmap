@@ -5,18 +5,241 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Suis-je vraiment prêt à partir à l'étranger ? · WiggMap</title>
+  <meta name="description" content="La préparation financière du départ, c'est rarement un problème de budget. C'est un problème d'outils. Et si vous ne savez pas ce que votre banque actuelle prél">
   <link rel="canonical" href="https://wiggmap.com/chronicles/chronicle-pret-partir-fr.html">
   <link rel="alternate" hreflang="en" href="https://wiggmap.com/chronicles/chronicle-ready-to-leave-en.html">
   <link rel="alternate" hreflang="fr" href="https://wiggmap.com/chronicles/chronicle-pret-partir-fr.html">
   <link rel="alternate" hreflang="es" href="https://wiggmap.com/chronicles/chronicle-listo-para-partir-es.html">
   <link rel="alternate" hreflang="x-default" href="https://wiggmap.com/chronicles/chronicle-ready-to-leave-en.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Suis-je vraiment prêt à partir à l'étranger ? · WiggMap">
+  <meta property="og:description" content="La préparation financière du départ, c'est rarement un problème de budget. C'est un problème d'outils. Et si vous ne savez pas ce que votre banque actuelle prél">
+  <meta property="og:url" content="https://wiggmap.com/chronicles/chronicle-pret-partir-fr.html">
   <link rel="icon" href="/assets/favicon.ico">
   <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#1d7f48">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
-:root {
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f7f5f0;
+      --text: #1a1a1a;
+      --accent: #92400e;
+      --accent-light: #fef3c7;
+      --green: #1a5430;
+      --green-light: #e8f5ee;
+      --red: #991b1b;
+      --red-light: #fee2e2;
+      --muted: #6b7280;
+      --border: #e5e1d8;
+      --serif: 'Fraunces', Georgia, serif;
+      --body: 'Source Serif 4', Georgia, serif;
+      --ui: 'Poppins', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--body); font-size: 18px; line-height: 1.8; }
+
+    /* ── HERO ── */
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(28px, 5.5vw, 54px);
+      font-weight: 700;
+      line-height: 1.1;
+      max-width: 760px;
+      margin: 0 auto 18px;
+      position: relative;
+    }
+    .hero h1 em { font-style: italic; color: #fcd34d; }
+    .deck {
+      font-family: var(--ui);
+      font-size: 15px;
+      color: rgba(255,255,255,0.68);
+      max-width: 560px;
+      margin: 0 auto 32px;
+      line-height: 1.6;
+      position: relative;
+    }
+    .profile-tag {
+      font-family: var(--ui);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.75);
+    }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+    article { padding: 60px 0 80px; }
+
+    /* ── TOC ── */
+    .toc {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin-bottom: 52px;
+    }
+    .toc-title {
+      font-family: var(--ui);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .toc ol {
+      list-style: none;
+      counter-reset: toc;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 28px;
+    }
+    @media (max-width: 560px) { .toc ol { grid-template-columns: 1fr; } }
+    .toc li { counter-increment: toc; }
+    .toc a {
+      font-family: var(--ui);
+      font-size: 13px;
+      color: var(--green);
+      text-decoration: none;
+      display: flex;
+      gap: 8px;
+      align-items: baseline;
+    }
+    .toc a::before {
+      content: counter(toc, decimal-leading-zero);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+    .toc a:hover { text-decoration: underline; }
+
+    /* ── TYPOGRAPHY ── */
+    p { margin-bottom: 22px; }
+    p.lead {
+      font-size: 20px;
+      line-height: 1.72;
+      color: #2a2a2a;
+      margin-bottom: 26px;
+    }
+    p.lead::first-letter {
+      font-family: var(--serif);
+      font-size: 76px;
+      font-weight: 700;
+      float: left;
+      line-height: 0.78;
+      margin: 10px 14px 0 0;
+      color: var(--accent);
+    }
+    h2 {
+      font-family: var(--serif);
+      font-size: clamp(22px, 3vw, 32px);
+      font-weight: 700;
+      color: var(--text);
+      margin: 56px 0 20px;
+      line-height: 1.2;
+    }
+    h3 {
+      font-family: var(--serif);
+      font-size: 21px;
+      font-weight: 600;
+      margin: 32px 0 14px;
+      color: var(--text);
+    }
+
+    /* ── QUOTE ── */
+    .quote {
+      border-left: 4px solid var(--accent);
+      background: var(--accent-light);
+      padding: 22px 26px;
+      margin: 36px 0;
+      border-radius: 0 10px 10px 0;
+    }
+    .quote p {
+      font-family: var(--serif);
+      font-size: 21px;
+      font-style: italic;
+      color: #78350f;
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* ── PROFIL BOX ── */
+    .profil-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin: 28px 0;
+    }
+    .profil-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 18px;
+    }
+    .profil-label {
+      font-family: var(--ui);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .profil-title {
+      font-family: var(--serif);
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .profil-desc {
+      font-family: var(--ui);
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.45;
+      margin: 0;
+    }
+
+    /* ── DIMENSION SECTION ── */
+    .dimension {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin: 40px 0;
+    }
+    .dimension-header {
+      background: linear-gradient(135deg, #1c1710, #2d2218);
+      padding: 24px 28px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .dimension-num {
+      font-family: var(--serif);
+      font-size: 42px;
+      font-weight: 700;
+      color: #fcd34d;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .dimension-title {
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+   
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
       --bg: #f7f5f0;
       --text: #1a1a1a;
       --accent: #92400e;
@@ -513,6 +736,8 @@
 
 .bandeau-inner strong{color:rgba(255,255,255,0.55);font-weight:500}
 .bandeau-inner span.dot{opacity:0.25}
+.hero-mosaic.cols-2{grid-template-columns:1fr 1fr}
+.hero-mosaic.cols-3{grid-template-columns:1fr 1fr 1fr}
 .aff-block{background:#f5f0e6;border:1px solid #ddd5c0;border-radius:4px;padding:24px 28px;margin:2rem 0;font-family:'Inter',system-ui,sans-serif}
 .aff-eyebrow{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#8a7f6a;margin-bottom:4px}
 .aff-title{font-family:'Fraunces',Georgia,serif;font-size:20px;font-weight:600;color:#1a1208;margin-bottom:18px}
@@ -536,8 +761,11 @@
 @media(max-width:520px){.aff-grid{grid-template-columns:1fr}.aff-block{padding:18px 16px}}
 /* Hero mosaic */
 .hero{position:relative;min-height:380px;display:flex;align-items:flex-end;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat}
-.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%)}
+.hero-mosaic{position:absolute;inset:0;display:grid;gap:2px;overflow:hidden}
+.hero-mosaic.cols-2{grid-template-columns:1fr 1fr}
+.hero-mosaic.cols-3{grid-template-columns:1fr 1fr 1fr}
+.hero-mosaic-panel{background-size:cover;background-position:center}
+.hero-mosaic::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(15,17,23,0.95) 0%,rgba(15,17,23,0.55) 40%,rgba(15,17,23,0.2) 100%);z-index:1}
 .hero-inner{position:relative;z-index:2;width:100%;max-width:900px;margin:0 auto;padding:0 28px 40px}
 .hero-eyebrow{display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--g);margin-bottom:14px}
 .hero-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--g)}
@@ -548,9 +776,7 @@
 .bandeau-inner{max-width:900px;margin:0 auto;padding:0 28px;display:flex;align-items:center;gap:8px;font-family:var(--sans);font-size:12px;color:rgba(255,255,255,0.35);flex-wrap:wrap}
 .bandeau-inner strong{color:rgba(255,255,255,0.55);font-weight:500}
 .bandeau-inner span.dot{opacity:0.25}
-
 </style>
-
 </head>
 <body>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -558,7 +784,7 @@
 <script src="/data/header.js"></script>
 
 <section class="hero">
-  <div class="hero-bg" style="background-image:url('/assets/hero-indonesia.jpg')"></div>
+  <div class="hero-mosaic cols-3"><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-indonesia.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-portugal.jpg')"></div><div class="hero-mosaic-panel" style="background-image:url('/assets/hero-thailand.jpg')"></div></div>
   <div class="hero-inner">
     <div class="hero-eyebrow">Chronique · WiggMap</div>
     <h1 class="hero-title">Suis-je vraiment prêt à partir à l'étranger ?</h1>
@@ -575,7 +801,15 @@
   </div>
 </div>
 
-
+<div class="bandeau">
+  <div class="bandeau-inner">
+    <strong>Par Wigg</strong>
+    <span class="dot">·</span>
+    <span>2026</span>
+    <span class="dot">·</span>
+    <span>WiggMap</span>
+  </div>
+</div>
     <div class="dimension-body">
       <p>La préparation financière du départ, c'est rarement un problème de budget. C'est un problème d'outils. Et si vous ne savez pas ce que votre banque actuelle prélève sur chaque paiement en devise étrangère, vous n'êtes pas prêt financièrement — même si votre compte est plein.</p>
       <p>Un paiement en devise étrangère avec une banque classique coûte entre 1,5 et 3% de commission, souvent silencieusement. Sur un mois de vie à l'étranger avec des charges normales, ça représente entre 30 et 80€ selon le pays. Sur un an, plusieurs centaines. Ce n'est pas une catastrophe — c'est de l'argent perdu sans même s'en rendre compte, transaction après transaction.</p>
