@@ -274,6 +274,26 @@ a{color:inherit;text-decoration:none}
   min-height:200px;
 }
 .tool-card:hover{border-color:var(--green);transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.08)}
+
+/* WiggMatch — featured card */
+.tool-card.featured{
+  border-color:#22c55e;
+  background:linear-gradient(180deg,rgba(34,197,94,.06),rgba(34,197,94,.02));
+  box-shadow:0 4px 18px rgba(34,197,94,.10);
+}
+.tool-card.featured:hover{
+  border-color:#16a34a;
+  box-shadow:0 12px 36px rgba(34,197,94,.18);
+}
+.tool-badge{
+  position:absolute;top:12px;right:12px;
+  display:inline-flex;align-items:center;gap:4px;
+  background:#22c55e;color:#fff;
+  font-family:'Inter',sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:.04em;
+  padding:4px 9px;border-radius:100px;
+  box-shadow:0 2px 8px rgba(34,197,94,.35);
+}
 .tool-icon{font-size:30px;line-height:1}
 .tool-name{
   font-family:'Fraunces',Georgia,serif;
@@ -474,7 +494,8 @@ a{color:inherit;text-decoration:none}
     </div>
 
     <div class="tools-grid">
-      <a class="tool-card" href="/wiggmatch.html">
+      <a class="tool-card featured" href="/wiggmatch.html">
+        <span class="tool-badge" id="lblTool1Badge">🔥 Nouveau</span>
         <div class="tool-icon">💚</div>
         <div class="tool-name" id="lblTool1">WiggMatch</div>
         <div class="tool-desc" id="lblTool1Sub">Test personnalisé qui trouve la ville faite pour toi en 5 questions.</div>
@@ -554,7 +575,7 @@ var I18N = {
     popEyebrow: 'Destinations', popTitle: 'Countries to explore', popSub: 'The destinations most explored by our community.',
     browseAll: 'Browse all 160+ countries',
     toolsEyebrow: 'Our tools', toolsTitle: 'Find your perfect destination',
-    tool1: 'WiggMatch', tool1Sub: 'Personalised test that finds the city made for you in 5 questions.', toolStart: 'Start',
+    tool1: 'WiggMatch', tool1Sub: 'Personalised test that finds the city made for you in 5 questions.', toolStart: 'Start', tool1Badge: '🔥 New',
     tool2: 'Compare', tool2Sub: 'Place 2 countries side by side on 25+ criteria.', toolStart2: 'Compare',
     tool3: '3D Globe', tool3Sub: 'Spin the globe and land on any country.', toolStart3: 'Explore',
     tool4: 'Quiz', tool4Sub: 'Test your knowledge of the world\u2019s countries.', toolStart4: 'Play',
@@ -576,7 +597,7 @@ var I18N = {
     popEyebrow: 'Destinations', popTitle: 'Les pays à explorer', popSub: 'Les destinations les plus explorées par notre communauté.',
     browseAll: 'Explorer les 160+ pays',
     toolsEyebrow: 'Nos outils', toolsTitle: 'Trouve ta destination idéale',
-    tool1: 'WiggMatch', tool1Sub: 'Test personnalisé qui trouve la ville faite pour toi en 5 questions.', toolStart: 'Commencer',
+    tool1: 'WiggMatch', tool1Sub: 'Test personnalisé qui trouve la ville faite pour toi en 5 questions.', toolStart: 'Commencer', tool1Badge: '🔥 Nouveau',
     tool2: 'Comparer', tool2Sub: 'Place 2 pays côte à côte sur 25+ critères.', toolStart2: 'Comparer',
     tool3: 'Globe 3D', tool3Sub: 'Tourne le globe et atterris sur n\u2019importe quel pays.', toolStart3: 'Explorer',
     tool4: 'Quiz', tool4Sub: 'Teste tes connaissances sur les pays du monde.', toolStart4: 'Jouer',
@@ -598,7 +619,7 @@ var I18N = {
     popEyebrow: 'Destinos', popTitle: 'Los países a explorar', popSub: 'Los destinos más explorados por nuestra comunidad.',
     browseAll: 'Explorar los 160+ países',
     toolsEyebrow: 'Nuestras herramientas', toolsTitle: 'Encuentra tu destino ideal',
-    tool1: 'WiggMatch', tool1Sub: 'Test personalizado que encuentra la ciudad hecha para ti en 5 preguntas.', toolStart: 'Empezar',
+    tool1: 'WiggMatch', tool1Sub: 'Test personalizado que encuentra la ciudad hecha para ti en 5 preguntas.', toolStart: 'Empezar', tool1Badge: '🔥 Nuevo',
     tool2: 'Comparar', tool2Sub: 'Coloca 2 países uno al lado del otro en 25+ criterios.', toolStart2: 'Comparar',
     tool3: 'Globo 3D', tool3Sub: 'Gira el globo y aterriza en cualquier país.', toolStart3: 'Explorar',
     tool4: 'Quiz', tool4Sub: 'Pon a prueba tu conocimiento de los países del mundo.', toolStart4: 'Jugar',
@@ -630,7 +651,7 @@ setT('lblPopSub', T.popSub);
 setT('lblBrowseAll', T.browseAll);
 setT('lblToolsEyebrow', T.toolsEyebrow);
 setT('lblToolsTitle', T.toolsTitle);
-setT('lblTool1', T.tool1); setT('lblTool1Sub', T.tool1Sub); setT('lblToolStart', T.toolStart);
+setT('lblTool1', T.tool1); setT('lblTool1Sub', T.tool1Sub); setT('lblToolStart', T.toolStart); setT('lblTool1Badge', T.tool1Badge);
 setT('lblTool2', T.tool2); setT('lblTool2Sub', T.tool2Sub); setT('lblToolStart2', T.toolStart2);
 setT('lblTool3', T.tool3); setT('lblTool3Sub', T.tool3Sub); setT('lblToolStart3', T.toolStart3);
 setT('lblTool4', T.tool4); setT('lblTool4Sub', T.tool4Sub); setT('lblToolStart4', T.toolStart4);
