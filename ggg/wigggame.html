@@ -310,6 +310,107 @@
       width: 0%;
     }
 
+    /* ── LIFELINES ── */
+    .lifelines { display:flex; gap:8px; align-items:center; margin-right:auto; }
+    .lifelineBtn {
+      display:flex; align-items:center; gap:5px;
+      padding:7px 11px;
+      background:rgba(245,158,11,0.10);
+      border:1px solid rgba(245,158,11,0.35);
+      border-radius:10px;
+      color:#f59e0b;
+      font-weight:900; font-size:13px;
+      cursor:pointer;
+      transition:all 0.15s ease;
+      font-family:inherit;
+    }
+    .lifelineBtn:hover:not(.disabled) { background:rgba(245,158,11,0.18); transform:translateY(-2px); box-shadow:0 6px 16px rgba(245,158,11,0.25); }
+    .lifelineBtn.disabled { opacity:0.25; cursor:not-allowed; pointer-events:none; }
+    .lifelineBtn .llIcon { font-size:15px; line-height:1; }
+    .lifelineBtn .llCount {
+      background:rgba(245,158,11,0.30);
+      border-radius:6px;
+      padding:1px 6px;
+      font-size:11px;
+      font-weight:950;
+      min-width:16px;
+      text-align:center;
+    }
+
+    /* ── POINT FLOATER (when answer is correct) ── */
+    .pointFloater {
+      position:absolute;
+      top:-10px; left:50%;
+      transform:translateX(-50%);
+      font-weight:950; font-size:18px;
+      color:#1dd876;
+      text-shadow:0 2px 12px rgba(29,216,118,0.5);
+      pointer-events:none;
+      animation:floatPoint 1.2s ease-out forwards;
+      z-index:60;
+      white-space:nowrap;
+    }
+    @keyframes floatPoint {
+      0%   { opacity:1; transform:translateX(-50%) translateY(0) scale(1); }
+      60%  { opacity:1; }
+      100% { opacity:0; transform:translateX(-50%) translateY(-46px) scale(1.25); }
+    }
+
+    /* ── ACHIEVEMENT TOAST ── */
+    .achievementToast {
+      position:fixed;
+      top:20px; left:50%;
+      transform:translateX(-50%) translateY(-120px);
+      width:min(360px, calc(100vw - 32px));
+      background:linear-gradient(135deg, rgba(245,158,11,0.18), rgba(29,216,118,0.10));
+      border:1px solid rgba(245,158,11,0.45);
+      border-radius:16px;
+      padding:14px 18px;
+      display:flex; align-items:center; gap:14px;
+      box-shadow:0 12px 40px rgba(0,0,0,0.45), 0 0 60px rgba(245,158,11,0.18);
+      backdrop-filter:blur(16px);
+      z-index:400;
+      transition:transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+      opacity:0;
+      pointer-events:none;
+    }
+    .achievementToast.show { transform:translateX(-50%) translateY(0); opacity:1; }
+    .achIcon { font-size:32px; line-height:1; flex-shrink:0; }
+    .achBody { flex:1; min-width:0; }
+    .achLabel { font-size:10px; font-weight:900; color:#f59e0b; letter-spacing:0.8px; text-transform:uppercase; margin-bottom:2px; }
+    .achName { font-size:14px; font-weight:850; color:#fff; letter-spacing:-0.2px; }
+
+    /* ── GAME RECAP (game over modal) ── */
+    #gameRecap { display:flex; flex-direction:column; gap:14px; }
+    .recapStatsRow { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+    .recapStat {
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:12px;
+      padding:12px 8px;
+      text-align:center;
+    }
+    .recapStatLabel { font-size:10px; font-weight:800; color:rgba(255,255,255,0.5); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:6px; }
+    .recapStatValue { font-size:22px; font-weight:950; color:#1dd876; }
+    .recapBlock { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:14px; }
+    .recapBlockTitle { font-size:11px; font-weight:900; color:rgba(255,255,255,0.5); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px; }
+    .catBreakdown { display:flex; flex-direction:column; gap:6px; }
+    .catRow { display:flex; justify-content:space-between; align-items:center; padding:6px 10px; background:rgba(255,255,255,0.03); border-radius:8px; font-size:13px; }
+    .catName { color:rgba(255,255,255,0.75); font-weight:700; }
+    .catScore { color:#1dd876; font-weight:950; font-size:13px; }
+    .achievementList { display:flex; flex-wrap:wrap; gap:6px; }
+    .achPill {
+      background:rgba(245,158,11,0.14);
+      border:1px solid rgba(245,158,11,0.35);
+      color:#f59e0b;
+      font-size:12px; font-weight:850;
+      padding:6px 11px;
+      border-radius:999px;
+    }
+
+    /* SOUND TOGGLE */
+    .soundToggleBtn { font-size:14px !important; }
+
     /* MOBILE */
     @media (max-width:720px) {
       .wrap { padding:6px 10px; gap:5px; }
@@ -341,6 +442,18 @@
       .btn { padding:8px 10px; font-size:12px; }
       .levelUpBox { padding:24px 28px; }
       .levelUpName { font-size:22px; }
+      .lifelines { gap:6px; margin-right:6px; }
+      .lifelineBtn { padding:6px 9px; font-size:12px; }
+      .lifelineBtn .llIcon { font-size:13px; }
+      .lifelineBtn .llCount { font-size:10px; padding:1px 5px; }
+      .achievementToast { top:14px; padding:11px 14px; gap:10px; }
+      .achIcon { font-size:26px; }
+      .achName { font-size:12px; }
+      .recapStatsRow { gap:6px; }
+      .recapStat { padding:9px 4px; }
+      .recapStatValue { font-size:18px; }
+      .recapStatLabel { font-size:9px; }
+      .pointFloater { font-size:15px; }
     }
 
     /* START SCREEN */
@@ -406,6 +519,7 @@
 
   <!-- Lang selector -->
   <div class="langBar">
+    <button class="langBtn soundToggleBtn" id="soundToggle" title="Sound on/off">🔊</button>
     <button class="langBtn" id="langEN" onclick="setLang('en')">🇬🇧 EN</button>
     <button class="langBtn" id="langFR" onclick="setLang('fr')">🇫🇷 FR</button>
     <button class="langBtn" id="langES" onclick="setLang('es')">🇪🇸 ES</button>
@@ -467,6 +581,16 @@
     </div>
 
     <div class="controls">
+      <div class="lifelines">
+        <button class="lifelineBtn" id="lifelineFifty" title="50/50 (H)">
+          <span class="llIcon">½</span>
+          <span class="llCount">1</span>
+        </button>
+        <button class="lifelineBtn" id="lifelineSkip" title="Skip (S)">
+          <span class="llIcon">⏭</span>
+          <span class="llCount">1</span>
+        </button>
+      </div>
       <div class="hint" id="hint"></div>
       <div class="ctrlButtons">
         <button class="btn primary" id="restart">↻ Restart</button>
@@ -475,6 +599,9 @@
     </div>
   </div>
 </div>
+
+<!-- Achievement toast -->
+<div id="achievementToast" class="achievementToast"></div>
 
 <!-- Game Over Modal -->
 <div class="modal" id="modal">
@@ -489,6 +616,7 @@
         <div class="resultRank"  id="finalRank">🌍 Explorer</div>
         <div class="resultLabel" id="lYourScore">Score • Best: <span id="bestInModal">0</span></div>
       </div>
+      <div id="gameRecap"></div>
       <div class="leaderboard" id="leaderboard"></div>
       <div class="modalButtons">
         <button class="btn share" id="shareBtn">📤 <span id="lShare">Share</span></button>
@@ -569,10 +697,17 @@ const LANGS = {
     startRules:[
       {icon:"🌍",text:"Answer questions about countries, capitals, culture & more"},
       {icon:"❤️",text:"3 lives — every 3 wrong answers costs you one life"},
-      {icon:"⚡",text:"Build combos and streaks to climb the ranks"},
-      {icon:"⏱",text:"19 seconds to answer each question"},
-      {icon:"🏆",text:"Beat your record and reach WiggMaster rank"}
+      {icon:"⚡",text:"Answer fast (<5s) for bonus points"},
+      {icon:"💡",text:"2 lifelines per game: 50/50 and Skip"},
+      {icon:"🏆",text:"Build combos, unlock achievements, beat your record"}
     ],
+    comboBonusMsg:(c,b)=>`✓ Combo x${c} ! +${b} bonus`,
+    achUnlocked:"ACHIEVEMENT UNLOCKED",
+    achNew:"🏅 Achievements unlocked",
+    bestStreakLabel:"🔥 Best streak",
+    fastAnswersLabel:"⚡ Fast answers",
+    dailyStreakLabel:"📅 Daily streak",
+    catBreakdown:"📊 By category",
   },
   fr: {
     score:"Score", combo:"Combo", lives:"Vies", best:"Record", left:"restantes",
@@ -604,10 +739,17 @@ const LANGS = {
     startRules:[
       {icon:"🌍",text:"Répondez à des questions sur les pays, capitales, culture et plus"},
       {icon:"❤️",text:"3 vies — toutes les 3 mauvaises réponses vous en coûte une"},
-      {icon:"⚡",text:"Combos et séries pour grimper dans les rangs"},
-      {icon:"⏱",text:"19 secondes pour répondre à chaque question"},
-      {icon:"🏆",text:"Battez votre record et atteignez le rang WiggMaître"}
+      {icon:"⚡",text:"Répondez vite (<5s) pour des points bonus"},
+      {icon:"💡",text:"2 jokers par partie : 50/50 et Passer"},
+      {icon:"🏆",text:"Combos, achievements, battez votre record"}
     ],
+    comboBonusMsg:(c,b)=>`✓ Combo x${c} ! +${b} bonus`,
+    achUnlocked:"SUCCÈS DÉBLOQUÉ",
+    achNew:"🏅 Succès débloqués",
+    bestStreakLabel:"🔥 Meilleure série",
+    fastAnswersLabel:"⚡ Réponses rapides",
+    dailyStreakLabel:"📅 Série quotidienne",
+    catBreakdown:"📊 Par catégorie",
   },
   es: {
     score:"Puntos", combo:"Combo", lives:"Vidas", best:"Récord", left:"restantes",
@@ -639,10 +781,17 @@ const LANGS = {
     startRules:[
       {icon:"🌍",text:"Responde preguntas sobre países, capitales, cultura y más"},
       {icon:"❤️",text:"3 vidas — cada 3 respuestas incorrectas pierdes una"},
-      {icon:"⚡",text:"Combos y rachas para subir de rango"},
-      {icon:"⏱",text:"19 segundos para responder cada pregunta"},
-      {icon:"🏆",text:"Supera tu récord y alcanza el rango WiggMaestro"}
+      {icon:"⚡",text:"Responde rápido (<5s) para puntos extra"},
+      {icon:"💡",text:"2 ayudas por partida: 50/50 y Saltar"},
+      {icon:"🏆",text:"Combos, logros, supera tu récord"}
     ],
+    comboBonusMsg:(c,b)=>`✓ ¡Combo x${c}! +${b} bonus`,
+    achUnlocked:"LOGRO DESBLOQUEADO",
+    achNew:"🏅 Logros desbloqueados",
+    bestStreakLabel:"🔥 Mejor racha",
+    fastAnswersLabel:"⚡ Respuestas rápidas",
+    dailyStreakLabel:"📅 Racha diaria",
+    catBreakdown:"📊 Por categoría",
   }
 };
 
@@ -656,6 +805,10 @@ const Q_URLS = {
 const BEST_KEY = "wigggame_best_v2";
 const LB_KEY   = "wigggame_lb_v1";
 const LANG_KEY = "wigggame_lang";
+const ACH_KEY  = "wigggame_achievements_v1";
+const STREAK_KEY = "wigggame_daily_streak_v1";
+const BEST_STREAK_KEY = "wigggame_best_streak_v1";
+const SOUND_KEY = "wigggame_sound_v1";
 
 /* ══ STATE ══ */
 let bank=[], deck=[], current=null, qIndex=0;
@@ -663,10 +816,69 @@ let lives=3, maxLives=3, score=0, combo=0, streak=0, wrongCount=0;
 let gameActive=false;
 let lang = localStorage.getItem(LANG_KEY) || "en";
 let seenIdxs = new Set(); // questions already seen this session
-let _qTimer = null; // question timer interval ID
-let _toastTimer = null; // toast auto-dismiss timeout ID
-let _toastNextAction = null; // action to run after toast
-const Q_TIME = 19; // seconds per question
+let _qTimer = null;
+let _toastTimer = null;
+let _toastNextAction = null;
+const Q_TIME = 19;
+
+/* ══ NEW STATE — engagement features ══ */
+let questionStartTime = 0;          // when the current question started (for speed bonus)
+let lifelines = { fifty: 1, skip: 1 }; // available lifelines this game
+let usedFifty = false;               // is 50/50 active on the current question?
+let bestStreak = 0;                  // best streak this game
+let categoryStats = {};              // {cat: {correct: n, total: n}} this game
+let unlockedAchievements = new Set(JSON.parse(localStorage.getItem(ACH_KEY) || "[]"));
+let newAchievementsThisGame = [];    // achievements unlocked during this game
+let soundEnabled = (localStorage.getItem(SOUND_KEY) ?? "1") === "1";
+let _audioCtx = null;
+
+/* ══ ACHIEVEMENTS DEFINITIONS ══ */
+const ACHIEVEMENTS = {
+  first_blood:  { icon:"🎯", id:"first_blood",  cond:s=>s.score>=1,                   t:{en:"First answer",        fr:"Premier point",          es:"Primera respuesta"} },
+  streak_5:     { icon:"🔥", id:"streak_5",     cond:s=>s.bestStreak>=5,              t:{en:"Streak of 5",         fr:"Série de 5",             es:"Racha de 5"} },
+  streak_10:    { icon:"⚡", id:"streak_10",    cond:s=>s.bestStreak>=10,             t:{en:"Streak of 10",        fr:"Série de 10",            es:"Racha de 10"} },
+  streak_20:    { icon:"💎", id:"streak_20",    cond:s=>s.bestStreak>=20,             t:{en:"Streak of 20",        fr:"Série de 20",            es:"Racha de 20"} },
+  speed_demon:  { icon:"⚡", id:"speed_demon",  cond:s=>s.fastAnswers>=10,            t:{en:"Speed Demon (10 fast answers)", fr:"Démon de la vitesse (10 réponses rapides)", es:"Demonio de la velocidad (10 respuestas rápidas)"} },
+  score_50:     { icon:"🏆", id:"score_50",     cond:s=>s.score>=50,                  t:{en:"Score 50",            fr:"Score 50",               es:"Puntos 50"} },
+  score_100:    { icon:"👑", id:"score_100",    cond:s=>s.score>=100,                 t:{en:"Score 100 — WiggMaster",fr:"Score 100 — WiggMaître",es:"Puntos 100 — WiggMaestro"} },
+  no_lifeline:  { icon:"🦾", id:"no_lifeline",  cond:s=>s.score>=20 && !s.usedAnyLifeline, t:{en:"Pure skill (20 pts, no lifeline)", fr:"Pur talent (20 pts, sans aide)", es:"Puro talento (20 pts, sin ayuda)"} },
+  perfect_10:   { icon:"💯", id:"perfect_10",   cond:s=>s.bestStreak>=10 && s.wrongTotal===0, t:{en:"Perfect 10 (no mistakes)", fr:"10 sans faute", es:"10 perfecto sin errores"} },
+  daily_3:      { icon:"📅", id:"daily_3",      cond:s=>s.dailyStreak>=3,             t:{en:"3-day streak",        fr:"Série de 3 jours",       es:"Racha de 3 días"} },
+  daily_7:      { icon:"🗓️", id:"daily_7",      cond:s=>s.dailyStreak>=7,             t:{en:"7-day streak",        fr:"Série de 7 jours",       es:"Racha de 7 días"} },
+  globe_trotter:{ icon:"🌍", id:"globe_trotter",cond:s=>Object.keys(s.categoryStats).length>=5, t:{en:"Globe trotter (5 categories)",fr:"Globe-trotteur (5 catégories)",es:"Trotamundos (5 categorías)"} },
+};
+
+/* ══ SCORING ══ */
+const POINTS_NORMAL = 1;
+const POINTS_BONUS_FAST = 2;
+const POINTS_BONUS_QUICK = 1;
+const COMBO_BONUS = { 5: 1, 10: 3, 15: 5, 20: 8 };
+let fastAnswersCount = 0;
+let wrongTotalGame = 0;
+let usedAnyLifeline = false;
+
+/* ══ CROSS-SESSION SEEN QUESTIONS (uses question ID, not index) ══
+   Persists which question IDs the user has already encountered, so a fresh
+   page load doesn't show the same questions again until they've completed
+   a full cycle of the bank in the current language. */
+function getSeenKey() { return `wigggame_seen_${lang}_v1`; }
+function loadSeen() {
+  try { return new Set(JSON.parse(localStorage.getItem(getSeenKey()) || "[]")); }
+  catch { return new Set(); }
+}
+function saveSeen(set) {
+  try { localStorage.setItem(getSeenKey(), JSON.stringify([...set])); } catch {}
+}
+function markSeenPersistent(qId) {
+  if (!qId) return;
+  const s = loadSeen();
+  s.add(qId);
+  // If we've seen all questions, reset the cycle
+  if (bank.length > 0 && s.size >= bank.length) {
+    s.clear();
+  }
+  saveSeen(s);
+}
 
 /* ══ DOM ══ */
 const $  = id => document.getElementById(id);
@@ -806,8 +1018,15 @@ function showLevelUp(lv) {
 function buildDeck() {
   const lv = getLevel(score);
 
-  // Only unseen questions; if all seen, start a fresh cycle
-  let available = bank.filter(q => !seenIdxs.has(q._idx));
+  // Combine current-session seen + persistent cross-session seen
+  const persistentSeen = loadSeen();
+  let available = bank.filter(q => !seenIdxs.has(q._idx) && !persistentSeen.has(q.id));
+  // If everything seen (across sessions + current), reset persistent and try again
+  if (available.length === 0) {
+    saveSeen(new Set());
+    available = bank.filter(q => !seenIdxs.has(q._idx));
+  }
+  // If still empty (whole bank already seen this session too), reset session
   if (available.length === 0) {
     seenIdxs.clear();
     available = [...bank];
@@ -894,6 +1113,138 @@ function shareScore() {
   }
 }
 
+/* ══ SOUND (Web Audio — no files needed) ══ */
+function getAudioCtx() {
+  if (!soundEnabled) return null;
+  if (!_audioCtx) {
+    try { _audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+    catch { return null; }
+  }
+  return _audioCtx;
+}
+function beep(freq, duration, type, vol) {
+  const ctx = getAudioCtx();
+  if (!ctx) return;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = type || "sine";
+  osc.frequency.value = freq;
+  gain.gain.setValueAtTime(vol || 0.08, ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+  osc.connect(gain); gain.connect(ctx.destination);
+  osc.start(); osc.stop(ctx.currentTime + duration);
+}
+function playCorrect()    { beep(880, 0.12, "triangle", 0.07); setTimeout(()=>beep(1320, 0.14, "triangle", 0.06), 60); }
+function playWrong()      { beep(220, 0.18, "sawtooth", 0.06); setTimeout(()=>beep(160, 0.22, "sawtooth", 0.05), 80); }
+function playLevelUp()    { [523, 659, 784, 1047].forEach((f,i) => setTimeout(()=>beep(f, 0.15, "triangle", 0.07), i*80)); }
+function playStreakBonus(){ [659, 880, 1175].forEach((f,i) => setTimeout(()=>beep(f, 0.10, "sine", 0.06), i*60)); }
+function playClick()      { beep(660, 0.04, "sine", 0.04); }
+function playAchievement(){ [880, 1175, 1320, 1568].forEach((f,i) => setTimeout(()=>beep(f, 0.12, "triangle", 0.07), i*70)); }
+
+/* ══ DAILY STREAK ══ */
+function updateDailyStreak() {
+  const today = new Date().toISOString().slice(0, 10);
+  const data = JSON.parse(localStorage.getItem(STREAK_KEY) || '{"last":"","count":0}');
+  if (data.last === today) return data.count;
+  // Yesterday?
+  const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+  if (data.last === yesterday) data.count = (data.count || 0) + 1;
+  else data.count = 1;
+  data.last = today;
+  localStorage.setItem(STREAK_KEY, JSON.stringify(data));
+  return data.count;
+}
+function getDailyStreak() {
+  const data = JSON.parse(localStorage.getItem(STREAK_KEY) || '{"count":0}');
+  return data.count || 0;
+}
+
+/* ══ ACHIEVEMENTS ══ */
+function checkAchievements() {
+  const stats = {
+    score, bestStreak, fastAnswers: fastAnswersCount,
+    usedAnyLifeline, wrongTotal: wrongTotalGame,
+    dailyStreak: getDailyStreak(), categoryStats
+  };
+  for (const key in ACHIEVEMENTS) {
+    const a = ACHIEVEMENTS[key];
+    if (!unlockedAchievements.has(a.id) && a.cond(stats)) {
+      unlockedAchievements.add(a.id);
+      newAchievementsThisGame.push(a);
+      showAchievementToast(a);
+    }
+  }
+  localStorage.setItem(ACH_KEY, JSON.stringify([...unlockedAchievements]));
+}
+function showAchievementToast(a) {
+  playAchievement();
+  const T = tr();
+  const wrap = document.getElementById("achievementToast");
+  if (!wrap) return;
+  wrap.innerHTML = `
+    <div class="achIcon">${a.icon}</div>
+    <div class="achBody">
+      <div class="achLabel">${T.achUnlocked || "ACHIEVEMENT"}</div>
+      <div class="achName">${a.t[lang] || a.t.en}</div>
+    </div>`;
+  wrap.classList.add("show");
+  setTimeout(() => wrap.classList.remove("show"), 3200);
+}
+
+/* ══ LIFELINES ══ */
+function useFiftyFifty() {
+  if (lifelines.fifty <= 0 || !gameActive || !current || current.type === "tf" || usedFifty) return;
+  lifelines.fifty -= 1;
+  usedFifty = true;
+  usedAnyLifeline = true;
+  playClick();
+  // Hide 2 wrong answers
+  const correctIdx = current._shuffledCorrect ?? current.correct;
+  const buttons = [...document.querySelectorAll(".answerBtn")];
+  const wrongBtns = buttons.filter((_, i) => i !== correctIdx);
+  // Remove 2 random wrong answers
+  for (let i = wrongBtns.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [wrongBtns[i], wrongBtns[j]] = [wrongBtns[j], wrongBtns[i]];
+  }
+  wrongBtns.slice(0, 2).forEach(b => { b.style.opacity = "0.18"; b.style.pointerEvents = "none"; });
+  updateLifelinesUI();
+}
+function useSkip() {
+  if (lifelines.skip <= 0 || !gameActive || !current) return;
+  lifelines.skip -= 1;
+  usedAnyLifeline = true;
+  playClick();
+  stopQTimer();
+  gameActive = false;
+  // No penalty, no reward — skip to next
+  pickNext();
+  render();
+}
+function updateLifelinesUI() {
+  const f = document.getElementById("lifelineFifty");
+  const s = document.getElementById("lifelineSkip");
+  if (f) {
+    f.classList.toggle("disabled", lifelines.fifty <= 0 || (current && current.type === "tf"));
+    f.querySelector(".llCount").textContent = lifelines.fifty;
+  }
+  if (s) {
+    s.classList.toggle("disabled", lifelines.skip <= 0);
+    s.querySelector(".llCount").textContent = lifelines.skip;
+  }
+}
+
+/* ══ POINT FLOATER ══ */
+function showPointFloater(text, color) {
+  const container = el.score.parentElement.parentElement;
+  const f = document.createElement("div");
+  f.className = "pointFloater";
+  f.textContent = text;
+  if (color) f.style.color = color;
+  container.appendChild(f);
+  setTimeout(() => f.remove(), 1200);
+}
+
 /* ══ GAME LOGIC ══ */
 function shuffle(arr) {
   for (let i=arr.length-1; i>0; i--) {
@@ -953,8 +1304,13 @@ function normalizeQuestion(q, idx) {
 function pickNext() {
   if (deck.length===0) deck = buildDeck();
   current = deck.pop();
-  if (current) seenIdxs.add(current._idx); // mark as seen this session
+  if (current) {
+    seenIdxs.add(current._idx);              // session memory
+    if (current.id) markSeenPersistent(current.id); // cross-session memory
+  }
   qIndex++;
+  usedFifty = false;
+  questionStartTime = performance.now();
 }
 
 function stopQTimer() {
@@ -1107,8 +1463,10 @@ function render() {
   }
 
   updateStats();
+  updateLifelinesUI();
   startQTimer();
   gameActive = true;
+  questionStartTime = performance.now();
 }
 
 function answer(idx) {
@@ -1127,13 +1485,44 @@ function answer(idx) {
   const ok = idx === correctIdx;
   const oldScore = score;
 
+  // Track per-category stats
+  const cat = current.category || "General";
+  if (!categoryStats[cat]) categoryStats[cat] = { correct: 0, total: 0 };
+  categoryStats[cat].total += 1;
+  if (ok) categoryStats[cat].correct += 1;
+
+  // Compute answer time
+  const answerTimeSec = (performance.now() - questionStartTime) / 1000;
+
   if (ok) {
-    score += 1; combo += 1; streak += 1;
-    // Score pop animation
+    // Base + speed bonus
+    let pts = POINTS_NORMAL;
+    let speedLabel = "";
+    if (answerTimeSec < 5) {
+      pts += POINTS_BONUS_FAST;
+      fastAnswersCount += 1;
+      speedLabel = "⚡";
+    } else if (answerTimeSec < 10) {
+      pts += POINTS_BONUS_QUICK;
+      speedLabel = "✦";
+    }
+    // Combo milestone bonus
+    const newCombo = combo + 1;
+    let comboBonus = COMBO_BONUS[newCombo] || 0;
+    pts += comboBonus;
+
+    score += pts;
+    combo = newCombo;
+    streak += 1;
+    if (streak > bestStreak) bestStreak = streak;
+
+    // Visual feedback
+    showPointFloater(`+${pts}${speedLabel ? " " + speedLabel : ""}`, "#1dd876");
+    playCorrect();
+
     el.score.classList.remove("score-pop");
     void el.score.offsetWidth;
     el.score.classList.add("score-pop");
-    // Combo pulse if >= 3
     if (combo >= 3) {
       el.combo.classList.remove("combo-hot");
       void el.combo.offsetWidth;
@@ -1144,9 +1533,13 @@ function answer(idx) {
       maxLives = Math.max(maxLives, lives);
       gainBonus("+1 ❤️");
       showConfetti();
+      playStreakBonus();
       el.status.className = "status correct";
       el.status.textContent = T.streakLife;
       streak = 0; combo = 0;
+    } else if (comboBonus > 0) {
+      el.status.className = "status correct";
+      el.status.textContent = (T.comboBonusMsg ? T.comboBonusMsg(combo, comboBonus) : `✓ Combo x${combo} ! +${comboBonus} bonus`);
     } else {
       el.status.className = "status correct";
       el.status.textContent = combo>=5 ? T.comboMsg(combo) : T.correct;
@@ -1154,6 +1547,7 @@ function answer(idx) {
     checkLevelUp(oldScore, score);
   } else {
     wrongCount += 1;
+    wrongTotalGame += 1;
     combo = 0; streak = 0;
     if (wrongCount >= 3) {
       lives -= 1;
@@ -1162,9 +1556,12 @@ function answer(idx) {
     el.status.className = "status wrong";
     el.status.textContent = T.wrong;
     showWrongFlash();
+    playWrong();
   }
 
+  checkAchievements();
   updateStats();
+  updateLifelinesUI();
 
   const hasExplain = current.explain && current.explain.trim();
   const toastMs = (hasExplain && current.explain.length >= 100) ? 18000 : 14000;
@@ -1196,7 +1593,13 @@ function endGame() {
   stopQTimer();
   const best = Number(localStorage.getItem(BEST_KEY)||"0");
   if (score > best) localStorage.setItem(BEST_KEY, String(score));
+  // Save best streak
+  const bestStreakRecord = Number(localStorage.getItem(BEST_STREAK_KEY)||"0");
+  if (bestStreak > bestStreakRecord) localStorage.setItem(BEST_STREAK_KEY, String(bestStreak));
   addToLB(score);
+
+  // Final achievement check (in case any conditions only end-game)
+  checkAchievements();
 
   const T = tr();
   const { lv, emoji, title } = getRankInfo(score);
@@ -1205,6 +1608,46 @@ function endGame() {
   el.bestInModal.textContent = Math.max(score, best);
   el.modalSubtitle.textContent = T.levelSub(lv);
   el.lYourScore.innerHTML = `${T.yourScore} <span id="bestInModal">${Math.max(score,best)}</span>`;
+
+  // Build the new "Game Recap" section: best streak, daily streak, category breakdown, achievements
+  const recap = document.getElementById("gameRecap");
+  if (recap) {
+    const dailyStreak = getDailyStreak();
+    const newBestStreak = Math.max(bestStreak, bestStreakRecord);
+    const catRows = Object.entries(categoryStats)
+      .sort((a,b)=>b[1].correct - a[1].correct)
+      .map(([k,v]) => `<div class="catRow"><span class="catName">${k}</span><span class="catScore">${v.correct}/${v.total}</span></div>`)
+      .join("");
+    const achHTML = newAchievementsThisGame.length > 0
+      ? `<div class="recapBlock">
+           <div class="recapBlockTitle">${T.achNew || "🏅 Achievements unlocked"}</div>
+           <div class="achievementList">
+             ${newAchievementsThisGame.map(a => `<div class="achPill">${a.icon} ${a.t[lang] || a.t.en}</div>`).join("")}
+           </div>
+         </div>`
+      : "";
+    recap.innerHTML = `
+      <div class="recapStatsRow">
+        <div class="recapStat">
+          <div class="recapStatLabel">${T.bestStreakLabel || "🔥 Best streak"}</div>
+          <div class="recapStatValue">${bestStreak}</div>
+        </div>
+        <div class="recapStat">
+          <div class="recapStatLabel">${T.fastAnswersLabel || "⚡ Fast answers"}</div>
+          <div class="recapStatValue">${fastAnswersCount}</div>
+        </div>
+        <div class="recapStat">
+          <div class="recapStatLabel">${T.dailyStreakLabel || "📅 Daily streak"}</div>
+          <div class="recapStatValue">${dailyStreak}</div>
+        </div>
+      </div>
+      ${catRows ? `<div class="recapBlock">
+        <div class="recapBlockTitle">${T.catBreakdown || "📊 By category"}</div>
+        <div class="catBreakdown">${catRows}</div>
+      </div>` : ""}
+      ${achHTML}
+    `;
+  }
 
   renderLB(score);
   el.modal.classList.add("show");
@@ -1216,18 +1659,32 @@ function endGame() {
 function restart() {
   stopQTimer();
   lives=3; maxLives=3; score=0; combo=0; streak=0; wrongCount=0; qIndex=0;
-  seenIdxs.clear(); // fresh session: all questions available again
+  // KEEP persistent seenIdxs between restarts so users don't see the same questions again
+  // Only the in-session seenIdxs is cleared (so the deck rebuild can pick fresh ones)
+  seenIdxs.clear();
+  bestStreak = 0; fastAnswersCount = 0; wrongTotalGame = 0;
+  usedAnyLifeline = false;
+  lifelines = { fifty: 1, skip: 1 };
+  categoryStats = {};
+  newAchievementsThisGame = [];
   el.modal.classList.remove("show");
   deck = buildDeck();
   pickNext();
   render();
+  updateLifelinesUI();
 }
 
 async function init() {
   stopQTimer();
   bank=[]; deck=[]; current=null; qIndex=0;
   lives=3; maxLives=3; score=0; combo=0; streak=0; wrongCount=0;
-  seenIdxs.clear(); // reset seen questions on new game
+  seenIdxs.clear();
+  bestStreak = 0; fastAnswersCount = 0; wrongTotalGame = 0;
+  usedAnyLifeline = false;
+  lifelines = { fifty: 1, skip: 1 };
+  categoryStats = {};
+  newAchievementsThisGame = [];
+  updateDailyStreak(); // mark today as played
   el.modal.classList.remove("show");
   applyTranslations();
 
@@ -1266,6 +1723,73 @@ el.restart.addEventListener("click", restart);
 document.getElementById("toastClose").addEventListener("click", dismissToast);
 el.playAgain.addEventListener("click", restart);
 el.shareBtn.addEventListener("click", shareScore);
+
+/* ══ TAP/CLICK ANYWHERE ON TOAST TO SKIP ══ */
+el.toast.addEventListener("click", e => {
+  // Don't dismiss if user clicked the close button (already handled)
+  if (e.target.id !== "toastClose") dismissToast();
+});
+
+/* ══ KEYBOARD SHORTCUTS ══ */
+document.addEventListener("keydown", e => {
+  if (el.modal.classList.contains("show")) {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); restart(); }
+    return;
+  }
+  if (el.toast.classList.contains("show")) {
+    if (e.key === " " || e.key === "Enter" || e.key === "Escape") {
+      e.preventDefault();
+      dismissToast();
+    }
+    return;
+  }
+  if (!gameActive || !current) return;
+  const key = e.key.toLowerCase();
+  // MCQ: A B C D
+  if (current.type !== "tf") {
+    const idx = "abcd".indexOf(key);
+    if (idx >= 0) {
+      const btns = document.querySelectorAll(".answerBtn");
+      if (btns[idx] && !btns[idx].classList.contains("locked")) {
+        e.preventDefault();
+        answer(idx);
+      }
+    }
+  } else {
+    // T/F: T or 1 = True, F or 2 = False
+    let pick = -1;
+    if (key === "t" || key === "1" || key === "v" || key === "arrowleft") pick = 0;
+    if (key === "f" || key === "2" || key === "arrowright") pick = 1;
+    if (pick >= 0) {
+      const btns = document.querySelectorAll(".tfBtn");
+      const trueIdx = [...btns].findIndex(b => b.classList.contains("true-btn"));
+      const target = pick === 0 ? trueIdx : 1 - trueIdx;
+      if (btns[target] && !btns[target].classList.contains("locked")) {
+        e.preventDefault();
+        answer(target);
+      }
+    }
+  }
+  // Lifelines: H = 50/50, S = Skip
+  if (key === "h") { e.preventDefault(); useFiftyFifty(); }
+  if (key === "s") { e.preventDefault(); useSkip(); }
+});
+
+/* ══ LIFELINES BUTTONS ══ */
+document.getElementById("lifelineFifty")?.addEventListener("click", useFiftyFifty);
+document.getElementById("lifelineSkip")?.addEventListener("click", useSkip);
+
+/* ══ SOUND TOGGLE ══ */
+const soundToggle = document.getElementById("soundToggle");
+if (soundToggle) {
+  soundToggle.textContent = soundEnabled ? "🔊" : "🔇";
+  soundToggle.addEventListener("click", () => {
+    soundEnabled = !soundEnabled;
+    localStorage.setItem(SOUND_KEY, soundEnabled ? "1" : "0");
+    soundToggle.textContent = soundEnabled ? "🔊" : "🔇";
+    if (soundEnabled) playClick();
+  });
+}
 
 /* ══ PWA INSTALL ══ */
 let _deferredInstallPrompt = null;
