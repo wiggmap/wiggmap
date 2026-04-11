@@ -523,7 +523,7 @@ window.addEventListener('pageshow', function(e) {
     //   1. Sign up at https://buttondown.email (free up to 100 subs)
     //   2. Set BUTTONDOWN_USERNAME below to your username
     //   3. Done — every signup is dual-posted to Netlify + Buttondown
-    var BUTTONDOWN_USERNAME = ''; // ← e.g. 'wiggmap'
+    var BUTTONDOWN_USERNAME = 'wiggmap'; // ← e.g. 'wiggmap'
 
     var form = document.getElementById('wmNlForm');
     var msg = document.getElementById('wmNlMsg');
