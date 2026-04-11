@@ -7,7 +7,7 @@
 // https://business.facebook.com/events_manager/ → "Connect data sources" → Web → Pixel
 // The pixel respects the cookie consent — it only fires after user opts in.
 (function () {
-  var META_PIXEL_ID = 'YOUR_PIXEL_ID'; // ← REPLACE WITH REAL ID
+  var META_PIXEL_ID = '867064843065581'; // ← REPLACE WITH REAL ID
   if (META_PIXEL_ID === 'YOUR_PIXEL_ID') return; // skip until configured
   function loadPixel() {
     if (window.fbq) return;
