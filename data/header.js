@@ -1,4 +1,35 @@
 // data/header.js
+
+// ═════════════════════════════════════════════════════════════════
+// META PIXEL — Facebook/Instagram retargeting & conversion tracking
+// ═════════════════════════════════════════════════════════════════
+// Replace 'YOUR_PIXEL_ID' below with the actual pixel ID once created at
+// https://business.facebook.com/events_manager/ → "Connect data sources" → Web → Pixel
+// The pixel respects the cookie consent — it only fires after user opts in.
+(function () {
+  var META_PIXEL_ID = 'YOUR_PIXEL_ID'; // ← REPLACE WITH REAL ID
+  if (META_PIXEL_ID === 'YOUR_PIXEL_ID') return; // skip until configured
+  function loadPixel() {
+    if (window.fbq) return;
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', META_PIXEL_ID);
+    fbq('track', 'PageView');
+    // Expose globally for custom event tracking (e.g. fbq('track','Lead') on signup)
+    window.wmTrackEvent = function(name, params) { if (window.fbq) fbq('track', name, params || {}); };
+  }
+  // Respect cookie consent: only load pixel if user accepted
+  if (localStorage.getItem('wigg_consent') === 'accepted') {
+    loadPixel();
+  } else {
+    // Wait for opt-in via the cookie banner (custom event from footer.js)
+    window.addEventListener('wigg_consent_granted', loadPixel);
+  }
+})();
+
 (function () {
   const isSubPage = document.location.pathname.includes("/countries/")
                  || document.location.pathname.includes("/chronicles/");

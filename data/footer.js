@@ -134,6 +134,8 @@
   function grant() {
     localStorage.setItem('wigg_consent', 'accepted');
     if (window.gtag) gtag('consent', 'update', { analytics_storage: 'granted' });
+    // Notify other scripts (Meta Pixel, etc.) that consent was granted
+    window.dispatchEvent(new Event('wigg_consent_granted'));
     banner.remove();
   }
   function deny() {
@@ -513,7 +515,16 @@ window.addEventListener('pageshow', function(e) {
       document.head.appendChild(st);
     }
 
-    // Form handling — works with Netlify Forms (no JS backend needed)
+    // ─────────────────────────────────────────────────────────────
+    // EMAIL SERVICE CONFIG — change BUTTONDOWN_USERNAME to switch
+    // ─────────────────────────────────────────────────────────────
+    // Default: Netlify Forms (stores emails in your Netlify dashboard)
+    // To also auto-add subscribers to Buttondown:
+    //   1. Sign up at https://buttondown.email (free up to 100 subs)
+    //   2. Set BUTTONDOWN_USERNAME below to your username
+    //   3. Done — every signup is dual-posted to Netlify + Buttondown
+    var BUTTONDOWN_USERNAME = ''; // ← e.g. 'wiggmap'
+
     var form = document.getElementById('wmNlForm');
     var msg = document.getElementById('wmNlMsg');
     form.addEventListener('submit', function(e) {
@@ -524,19 +535,32 @@ window.addEventListener('pageshow', function(e) {
         msg.textContent = t.error;
         return;
       }
-      // Submit to Netlify Forms via fetch
+      // 1. Submit to Netlify Forms (always — primary storage)
       var fd = new FormData(form);
-      fetch('/', {
+      var netlifyPromise = fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams(fd).toString()
-      }).then(function() {
+      });
+      // 2. Optionally also send to Buttondown
+      var buttondownPromise = Promise.resolve();
+      if (BUTTONDOWN_USERNAME) {
+        var bdData = new FormData();
+        bdData.append('email', email);
+        bdData.append('tag', 'wiggmap_newsletter_' + lang);
+        buttondownPromise = fetch('https://buttondown.email/api/emails/embed-subscribe/' + BUTTONDOWN_USERNAME, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: bdData
+        }).catch(function(){}); // best-effort
+      }
+      // 3. Track Meta conversion event
+      if (window.wmTrackEvent) window.wmTrackEvent('Lead', { content_name: 'newsletter_signup', content_category: lang });
+      // 4. UI feedback
+      Promise.allSettled([netlifyPromise, buttondownPromise]).then(function() {
         msg.className = 'wm-nl-msg';
         msg.textContent = t.thanks;
         form.style.display = 'none';
-      }).catch(function() {
-        msg.className = 'wm-nl-msg err';
-        msg.textContent = t.error;
       });
     });
   }
