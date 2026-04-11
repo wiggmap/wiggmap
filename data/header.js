@@ -32,7 +32,9 @@
 
 (function () {
   const isSubPage = document.location.pathname.includes("/countries/")
-                 || document.location.pathname.includes("/chronicles/");
+                 || document.location.pathname.includes("/chronicles/")
+                 || document.location.pathname.includes("/lp/")
+                 || document.location.pathname.includes("/lead-magnet/");
   const isDeepPage2 = document.location.pathname.includes("/chronicles/villes/");
   const isDeepPage3 = document.location.pathname.includes("/compare/static/");
   const prefix = isDeepPage3 ? "../../../" : (isDeepPage2 ? "../../" : (isSubPage ? "../" : ""));
