@@ -2,9 +2,46 @@
 
 ## Vision et objectif
 
-WiggMap est une plateforme éducative, récréative et attractive sur les pays du monde.  
-**Phase actuelle :** construire la qualité du contenu et acquérir du trafic organique.  
+WiggMap est une plateforme éducative, récréative et attractive sur les pays du monde.
+**Phase actuelle :** construire la qualité du contenu et acquérir du trafic organique.
 **Objectif final :** monétisation propre une fois le trafic établi (affiliations, partenariats — SafetyWing, Wise, Booking, NordVPN, services de relocation). Pas de monétisation prématurée qui dégraderait l'expérience.
+
+---
+
+## Funnel acquisition / capture (mis en place 11 avril 2026)
+
+```
+Cold visitor (Search ou Meta)
+   ↓
+Landing page dédiée (3 LPs créées × 3 langues = 9 pages)
+   ↓
+Capture email (formulaire avec event Lead Meta)
+   ↓
+Stockage : Netlify Forms (primaire) + Buttondown (envoi)
+   ↓
+Welcome email avec lien lead magnet (3 versions FR/EN/ES)
+   ↓
+Drip 1 chronique/semaine via Buttondown
+   ↓
+Retour récurrent → Pixel Meta retargete → Conversion long terme
+```
+
+**Stack acquisition** :
+- Pixel Meta : `867064843065581` (header.js, gated derrière le cookie consent)
+- Buttondown : username `wiggmap`
+- Netlify Forms : `newsletter` + `correction` (déclarés dans `forms.html`)
+- Tracker : `window.wmTrackEvent('Lead', ...)` exposé globalement
+- Lead magnet : `/lead-magnet/visas-2026-{en,fr,es}.html` — compile 25 visas (10 retraite + 10 nomade + 5 travail)
+- Landing pages : `/lp/visa-mm2h-malaisie-{en,fr,es}.html`, `/lp/erasmus-prague-budget-{en,fr,es}.html`, `/lp/vivre-bali-budget-{en,fr,es}.html`
+
+**Budget pub mensuel cible** : 300€/mois
+- 30€ brand search Google ("wiggmap")
+- 70€ retargeting Meta (visiteurs 30j)
+- 50€ sponsoring newsletter expat (Beehiiv Boost ou direct)
+- 100€ Search long-tail (Top 5 mots-clés audit)
+- 50€ buffer outils + créa pubs
+
+**Routine hebdo organique** : 2 chroniques + 2 vidéos TikTok/Insta + 2 posts X
 
 ---
 
@@ -32,16 +69,27 @@ WiggMap est une plateforme éducative, récréative et attractive sur les pays d
 
 ---
 
-## État SEO (Mars 2026)
+## État SEO (Avril 2026)
 
 ### Complété ✅
-- Canonicals : 42/42 chronicles corrects
-- robots.txt + sitemap.xml (229 URLs)
-- hreflang sur les 42 chronicles (HTML + CHRONICLE_LANGS header.js)
+- Canonicals : 100% chronicles corrects
+- **sitemap.xml régénéré** : 866 URLs avec lastmod auto, priorités correctes
+- robots.txt OK
+- hreflang sur les chronicles (HTML + CHRONICLE_LANGS header.js)
 - Titles + meta descriptions différenciés sur 161 pays
 - H1 vide country.html + canonical dynamique via setSeo()
 - Maillage pays ↔ chronicles : 67 pays couverts
-- header.js CHRONICLE_LANGS : complet incluant Visa 2026, Asie Expatriation et Pays oubliés
+- header.js CHRONICLE_LANGS : complet
+- **JSON-LD WebSite + SearchAction + Organization** sur homepage (sitelinks Google débloqués)
+- **404.html customisé** avec search bar countries fonctionnelle (FR/EN/ES auto)
+- **Breadcrumbs visibles** sur toutes les chronicles (injection footer.js)
+- **Bloc "Continue exploring"** en bas de chaque chronique (3 cards aléatoires)
+- **Newsletter capture** dans footer + dual-post Netlify Forms + Buttondown
+- **Runtime swap .jpg → .webp** (footer.js, MutationObserver)
+- **Images optimisées** : 269 fichiers convertis en WebP (-593 MB → poids assets divisé par ~5)
+- **Pixel Meta** installé (id 867064843065581) avec cookie consent gating
+- **Hierarchie H1** : 1 seul H1 par page (homepage seoFallback corrigé)
+- **Newsletter form Netlify** : `newsletter` + `correction` déclarés dans forms.html
 
 ### En attente 🔲
 - Série Visa 2026 absente de `CHRONICLES.countries` dans country.html
