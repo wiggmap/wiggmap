@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1a1a1a">
 <title>WiggMap — Where is the grass actually greener?</title>
-<meta name="description" content="WiggMap compares 160+ countries on cost of living, salaries, taxes, visas and quality of life. Find where to live, work or retire abroad.">
+<meta name="description" content="Comparez salaires, loyers, visas et qualité de vie dans 160+ pays. WiggMap vous aide à trouver où vivre, travailler ou prendre votre retraite à l'étranger.">
 <link rel="canonical" href="https://wiggmap.com/">
 <link rel="alternate" hreflang="en" href="https://wiggmap.com/">
 <link rel="alternate" hreflang="fr" href="https://wiggmap.com/">
@@ -222,10 +222,10 @@ a{color:inherit;text-decoration:none}
   aspect-ratio:4/5;
   background:#1a1a1a;
   box-shadow:0 6px 24px rgba(0,0,0,.08);
-  transition:transform .25s,box-shadow .25s;
+  transition:transform .2s ease,box-shadow .25s;
   cursor:pointer;
 }
-.country-card:hover{transform:translateY(-4px);box-shadow:0 14px 40px rgba(0,0,0,.18)}
+.country-card:hover{transform:scale(1.02) translateY(-4px);box-shadow:0 14px 40px rgba(0,0,0,.18)}
 .country-card img{
   position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
   transition:transform .5s ease;
@@ -280,10 +280,10 @@ a{color:inherit;text-decoration:none}
 .tool-card:hover .tool-arrow::after{transform:translateX(4px)}
 
 /* ─────────── CHRONICLES ─────────── */
-.chron-section{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.chron-section{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden}
 .chron-grid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(3,minmax(0,1fr));
   gap:18px;
 }
 .chron-card{
@@ -292,9 +292,11 @@ a{color:inherit;text-decoration:none}
   border:1px solid var(--border);
   border-radius:2px;
   overflow:hidden;
-  transition:border-color .2s,transform .2s,box-shadow .2s;
+  transition:border-color .2s,transform .2s ease,box-shadow .2s;
+  min-width:0;
+  cursor:pointer;
 }
-.chron-card:hover{border-color:var(--green);transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.08)}
+.chron-card:hover{border-color:var(--green);transform:scale(1.02) translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.08)}
 .chron-thumb{
   position:relative;
   aspect-ratio:16/10;
@@ -330,9 +332,9 @@ a{color:inherit;text-decoration:none}
   position:relative;border-radius:2px;overflow:hidden;
   aspect-ratio:3/4;
   background:#1a1a1a;cursor:pointer;
-  transition:transform .25s,box-shadow .25s;
+  transition:transform .2s ease,box-shadow .25s;
 }
-.city-card:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.15)}
+.city-card:hover{transform:scale(1.02) translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.15)}
 .city-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .4s}
 .city-card:hover img{transform:scale(1.05)}
 .city-card::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.15) 50%,transparent)}
@@ -413,7 +415,7 @@ a{color:inherit;text-decoration:none}
   <div class="hero-content">
     <div class="hero-eyebrow" id="heroEyebrow">160+ countries · Real data</div>
     <h1 class="hero-title" id="heroTitle">Et si ta vie était différente ailleurs ?</h1>
-    <p class="hero-sub" id="heroSub">Compare salaires, loyers, visas et qualité de vie. Trouve l'endroit où l'herbe est vraiment plus verte.</p>
+    <p class="hero-sub" id="heroSub">160+ pays. Salaires, loyers, visas, qualité de vie. Les vraies données pour choisir où vivre mieux.</p>
 
     <div class="search-block">
       <form class="search-form" id="searchForm" autocomplete="off">
@@ -425,7 +427,7 @@ a{color:inherit;text-decoration:none}
     </div>
 
     <div class="hero-quick">
-      <a href="/globe.html"><span>🌍</span><span id="qkGlobe">Globe 3D</span></a>
+      <a href="/compare.html"><span>🔀</span><span id="qkCompare">Comparer</span></a>
       <a href="/indexchronicles.html"><span>📖</span><span id="qkChron">Chroniques</span></a>
       <a href="/wiggmatch.html"><span>💚</span><span id="qkMatch">WiggMatch</span></a>
     </div>
@@ -441,9 +443,9 @@ a{color:inherit;text-decoration:none}
 <section class="section">
   <div class="section-inner">
     <div class="section-head">
-      <span class="section-eyebrow" id="lblPopEyebrow">Populaires</span>
-      <h2 class="section-title" id="lblPopTitle">Où est l'herbe plus verte ?</h2>
-      <p class="section-sub" id="lblPopSub">Les destinations les plus consultées par nos utilisateurs.</p>
+      <span class="section-eyebrow" id="lblPopEyebrow">Destinations</span>
+      <h2 class="section-title" id="lblPopTitle">Les pays qui changent une vie</h2>
+      <p class="section-sub" id="lblPopSub">Les destinations les plus explorées par notre communauté.</p>
     </div>
 
     <div class="country-grid" id="countryGrid"></div>
@@ -466,7 +468,7 @@ a{color:inherit;text-decoration:none}
       <a class="tool-card" href="/wiggmatch.html">
         <div class="tool-icon">💚</div>
         <div class="tool-name" id="lblTool1">WiggMatch</div>
-        <div class="tool-desc" id="lblTool1Sub">Quiz personnalisé qui te trouve la ville faite pour toi.</div>
+        <div class="tool-desc" id="lblTool1Sub">Quiz personnalisé qui trouve la ville faite pour toi en 5 questions.</div>
         <div class="tool-arrow" id="lblToolStart">Commencer</div>
       </a>
       <a class="tool-card" href="/compare.html">
@@ -520,7 +522,7 @@ a{color:inherit;text-decoration:none}
     <div class="city-grid" id="cityGrid"></div>
 
     <div class="section-cta">
-      <a class="btn-pill" href="/chronicles-villes.html"><span id="lblAllCities">Toutes les villes</span> →</a>
+      <a class="btn-pill" href="/indexchronicles.html"><span id="lblAllCities">Toutes les villes</span> →</a>
     </div>
   </div>
 </section>
@@ -535,15 +537,15 @@ var I18N = {
     title: 'WiggMap — Where is the grass actually greener?',
     eyebrow: '160+ countries · Real data',
     heroTitle: 'What if your life were different somewhere else?',
-    heroSub: 'Compare salaries, rent, visas and quality of life. Find where the grass is actually greener.',
+    heroSub: '160+ countries. Salaries, rent, visas, quality of life. The real data to choose where to live better.',
     placeholder: 'e.g. Switzerland, Japan, Bangkok…',
     goBtn: 'Go →',
-    qkGlobe: '3D Globe', qkChron: 'Chronicles', qkMatch: 'WiggMatch',
+    qkCompare: 'Compare', qkChron: 'Chronicles', qkMatch: 'WiggMatch',
     scroll: 'Scroll',
-    popEyebrow: 'Popular', popTitle: 'Where is the grass greener?', popSub: 'The destinations most browsed by our visitors.',
+    popEyebrow: 'Destinations', popTitle: 'The countries that change a life', popSub: 'The destinations most explored by our community.',
     browseAll: 'Browse all 160+ countries',
     toolsEyebrow: 'Our tools', toolsTitle: 'Find your perfect destination',
-    tool1: 'WiggMatch', tool1Sub: 'Personalised quiz that finds the city made for you.', toolStart: 'Start',
+    tool1: 'WiggMatch', tool1Sub: 'Personalised quiz that finds the city made for you in 5 questions.', toolStart: 'Start',
     tool2: 'Compare', tool2Sub: 'Place 2 countries side by side on 25+ criteria.', toolStart2: 'Compare',
     tool3: '3D Globe', tool3Sub: 'Spin the globe and land on any country.', toolStart3: 'Explore',
     tool4: 'Quiz', tool4Sub: 'Test your knowledge of the world\u2019s countries.', toolStart4: 'Play',
@@ -557,15 +559,15 @@ var I18N = {
     title: 'WiggMap — Où l\u2019herbe est-elle vraiment plus verte ?',
     eyebrow: '160+ pays · Données réelles',
     heroTitle: 'Et si ta vie était différente ailleurs ?',
-    heroSub: 'Compare salaires, loyers, visas et qualité de vie. Trouve l\u2019endroit où l\u2019herbe est vraiment plus verte.',
+    heroSub: '160+ pays. Salaires, loyers, visas, qualité de vie. Les vraies données pour choisir où vivre mieux.',
     placeholder: 'ex. Suisse, Japon, Bangkok…',
     goBtn: 'Go →',
-    qkGlobe: 'Globe 3D', qkChron: 'Chroniques', qkMatch: 'WiggMatch',
+    qkCompare: 'Comparer', qkChron: 'Chroniques', qkMatch: 'WiggMatch',
     scroll: 'Découvrir',
-    popEyebrow: 'Populaires', popTitle: 'Où est l\u2019herbe plus verte ?', popSub: 'Les destinations les plus consultées par nos utilisateurs.',
+    popEyebrow: 'Destinations', popTitle: 'Les pays qui changent une vie', popSub: 'Les destinations les plus explorées par notre communauté.',
     browseAll: 'Explorer les 160+ pays',
     toolsEyebrow: 'Nos outils', toolsTitle: 'Trouve ta destination idéale',
-    tool1: 'WiggMatch', tool1Sub: 'Quiz personnalisé qui te trouve la ville faite pour toi.', toolStart: 'Commencer',
+    tool1: 'WiggMatch', tool1Sub: 'Quiz personnalisé qui trouve la ville faite pour toi en 5 questions.', toolStart: 'Commencer',
     tool2: 'Comparer', tool2Sub: 'Place 2 pays côte à côte sur 25+ critères.', toolStart2: 'Comparer',
     tool3: 'Globe 3D', tool3Sub: 'Tourne le globe et atterris sur n\u2019importe quel pays.', toolStart3: 'Explorer',
     tool4: 'Quiz', tool4Sub: 'Teste tes connaissances sur les pays du monde.', toolStart4: 'Jouer',
@@ -579,15 +581,15 @@ var I18N = {
     title: 'WiggMap — ¿Dónde está la hierba realmente más verde?',
     eyebrow: '160+ países · Datos reales',
     heroTitle: '¿Y si tu vida fuera diferente en otro lugar?',
-    heroSub: 'Compara salarios, alquileres, visados y calidad de vida. Descubre dónde la hierba es realmente más verde.',
+    heroSub: '160+ países. Salarios, alquileres, visados, calidad de vida. Los datos reales para elegir dónde vivir mejor.',
     placeholder: 'p.ej. Suiza, Japón, Bangkok…',
     goBtn: 'Ir →',
-    qkGlobe: 'Globo 3D', qkChron: 'Crónicas', qkMatch: 'WiggMatch',
+    qkCompare: 'Comparar', qkChron: 'Crónicas', qkMatch: 'WiggMatch',
     scroll: 'Descubrir',
-    popEyebrow: 'Populares', popTitle: '¿Dónde la hierba es más verde?', popSub: 'Los destinos más consultados por nuestros visitantes.',
+    popEyebrow: 'Destinos', popTitle: 'Los países que cambian una vida', popSub: 'Los destinos más explorados por nuestra comunidad.',
     browseAll: 'Explorar los 160+ países',
     toolsEyebrow: 'Nuestras herramientas', toolsTitle: 'Encuentra tu destino ideal',
-    tool1: 'WiggMatch', tool1Sub: 'Quiz personalizado que encuentra la ciudad hecha para ti.', toolStart: 'Empezar',
+    tool1: 'WiggMatch', tool1Sub: 'Quiz personalizado que encuentra la ciudad hecha para ti en 5 preguntas.', toolStart: 'Empezar',
     tool2: 'Comparar', tool2Sub: 'Coloca 2 países uno al lado del otro en 25+ criterios.', toolStart2: 'Comparar',
     tool3: 'Globo 3D', tool3Sub: 'Gira el globo y aterriza en cualquier país.', toolStart3: 'Explorar',
     tool4: 'Quiz', tool4Sub: 'Pon a prueba tu conocimiento de los países del mundo.', toolStart4: 'Jugar',
@@ -609,7 +611,7 @@ function setT(id, val) { var el = document.getElementById(id); if (el) el.textCo
 setT('heroEyebrow', T.eyebrow);
 setT('heroTitle', T.heroTitle);
 setT('heroSub', T.heroSub);
-setT('qkGlobe', T.qkGlobe);
+setT('qkCompare', T.qkCompare);
 setT('qkChron', T.qkChron);
 setT('qkMatch', T.qkMatch);
 setT('lblScroll', T.scroll);
@@ -813,7 +815,7 @@ window.__I18N_NOMATCH = T.noMatch;
   var grid = document.getElementById('countryGrid');
   if (grid) {
     grid.innerHTML = POPULAR.map(function(c) {
-      return '<a class="country-card" href="/countries/' + c.slug + '-' + ul + '.html">' +
+      return '<a class="country-card" href="/countries/country.html?country=' + c.slug + '">' +
         '<img src="/assets/hero-' + c.slug + '.jpg" alt="' + c.name[ul] + '" loading="lazy" onerror="this.style.display=\'none\'">' +
         '<div class="cc-body">' +
           '<span class="cc-flag">' + c.flag + '</span>' +
