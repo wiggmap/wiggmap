@@ -165,15 +165,15 @@
 
       /* Mobile */
       @media (max-width: 768px){
-        .wmh-inner{ padding:8px 12px; gap:6px; flex-wrap:wrap; }
-        .wmh-brand img{ height:44px; }
+        .wmh-inner{ padding:6px 12px !important; gap:6px; flex-wrap:wrap; }
+        .wmh-brand img{ height:40px !important; }
         .wmh-social{ display:none !important; }
         .wmh-right .wmh-nav{ display:none !important; }
         .wmh-right .wmh-lang-wrap{ display:none !important; }
         .wmh-right{ flex:1 1 auto; justify-content:flex-end; align-items:center; gap:6px; }
 
         /* Hamburger top row — inline-flex pour ne pas casser le layout du trigger */
-        .wmh-menu-top-m{ display:inline-flex !important; }
+        .wmh-menu-top-m{ display:inline-flex !important; padding:5px 9px !important; }
         /* Masquer la flèche ▾ dans le hamburger mobile (redondant avec l'icône ☰) */
         #wmhMenuTopM .arrow{ display:none !important; }
 
@@ -181,7 +181,8 @@
         .wmh-nav-mobile{
           display:grid !important;
           grid-template-columns:1fr 1fr;
-          gap:8px; width:100%; flex-basis:100%;
+          gap:6px; width:100%; flex-basis:100%;
+          margin-top:2px;
         }
         /* Le dropdown search prend toute la cellule */
         .wmh-nav-mobile .wmh-dropdown{ width:100%; display:block; }
@@ -189,10 +190,10 @@
         .wmh-nav-mobile .wmh-btn,
         .wmh-nav-mobile .wmh-dropdown .wmh-btn{
           box-sizing:border-box;
-          width:100%; height:38px;
+          width:100%; height:34px !important;
           display:inline-flex; align-items:center; justify-content:center;
-          padding:0 8px; margin:0;
-          font-size:13px; font-weight:700; line-height:1;
+          padding:0 8px !important; margin:0;
+          font-size:12px !important; font-weight:700; line-height:1;
           border:1px solid rgba(0,0,0,.10);
           background:rgba(255,255,255,.80);
           font-family:inherit;
@@ -203,6 +204,21 @@
         .wmh-nav-mobile .wmh-dropdown:first-child .wmh-drop-menu{ left:0; right:auto; }
         .wmh-nav-mobile .wmh-dropdown:last-child .wmh-drop-menu{ right:0; left:auto; }
       }
+
+      /* Petits écrans réels — encore plus compact */
+      @media (max-width: 480px){
+        .wmh-inner{ padding:5px 10px !important; gap:5px; }
+        .wmh-brand img{ height:36px !important; }
+        .wmh-menu-top-m{ padding:4px 8px !important; }
+        .wmh-nav-mobile{ gap:5px; margin-top:1px; }
+        .wmh-nav-mobile .wmh-btn,
+        .wmh-nav-mobile .wmh-dropdown .wmh-btn{
+          height:32px !important;
+          font-size:11.5px !important;
+          padding:0 6px !important;
+        }
+      }
+
       .wmh-nav-mobile{ display:none; }
     `;
     document.head.appendChild(st);
