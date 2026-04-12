@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});if(localStorage.getItem('wigg_consent')==='accepted'){gtag('consent','update',{analytics_storage:'granted'});}(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-K4MMRD4R');</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1a1a1a">
+<title>Inscription confirmée — WiggMap</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/assets/favicon.ico">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@1,400;1,600;1,700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#1a5430;
+  --green-bright:#22c55e;
+  --ink:#171714;
+  --ink-soft:#54554e;
+  --bg:#f5f0e8;
+  --paper:#fffdf8;
+  --border:#c8bfaa;
+  --muted:#8a7f6a;
+  --line:rgba(23,23,20,.10);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  color:var(--ink);
+  background:var(--bg);
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+a{color:inherit;text-decoration:none}
+
+.confirm-wrap{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:40px 20px;
+}
+
+.confirm-card{
+  background:var(--paper);
+  border:1px solid var(--border);
+  border-radius:16px;
+  max-width:520px;
+  width:100%;
+  padding:56px 40px;
+  text-align:center;
+  box-shadow:0 4px 24px rgba(0,0,0,.06);
+}
+
+.confirm-emoji{
+  font-size:56px;
+  line-height:1;
+  margin-bottom:20px;
+}
+
+.confirm-title{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-style:italic;
+  font-weight:700;
+  font-size:clamp(28px,5vw,38px);
+  line-height:1.15;
+  color:var(--ink);
+  margin-bottom:12px;
+}
+
+.confirm-sub{
+  font-size:15px;
+  color:var(--ink-soft);
+  line-height:1.6;
+  margin-bottom:36px;
+  max-width:38ch;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.confirm-actions{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  align-items:center;
+}
+
+.btn-primary{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:var(--green);
+  color:#fff;
+  font-weight:600;
+  font-size:15px;
+  padding:14px 32px;
+  border-radius:10px;
+  transition:background .2s,transform .15s;
+  width:100%;
+  max-width:340px;
+  justify-content:center;
+}
+.btn-primary:hover{
+  background:var(--green-bright);
+  color:#fff;
+  transform:translateY(-1px);
+}
+
+.btn-secondary{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  color:var(--muted);
+  font-size:13px;
+  font-weight:500;
+  padding:10px 20px;
+  border-radius:8px;
+  border:1px solid var(--line);
+  transition:color .2s,border-color .2s;
+}
+.btn-secondary:hover{
+  color:var(--ink);
+  border-color:var(--border);
+}
+
+@media(max-width:480px){
+  .confirm-card{
+    padding:40px 24px;
+    border-radius:12px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div id="siteHeader"></div>
+<script src="/data/header.js"></script>
+
+<main class="confirm-wrap">
+  <div class="confirm-card">
+    <div class="confirm-emoji">🎉</div>
+    <h1 class="confirm-title">C'est confirmé !</h1>
+    <p class="confirm-sub">Ton guide des 25 meilleurs visas 2026 arrive dans ta boîte mail.</p>
+
+    <div class="confirm-actions">
+      <a href="/" class="btn-primary">Explorer WiggMap</a>
+    </div>
+  </div>
+</main>
+
+<div id="siteFooter"></div>
+<script src="/data/footer.js"></script>
+
+</body>
+</html>
