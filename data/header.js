@@ -78,6 +78,13 @@
 
   const svgGlobe = `<svg viewBox="0 0 24 24" width="17" height="17"><path fill="#22C55E" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>`;
 
+  if (!document.getElementById("wmhFontBrand")) {
+    const lk = document.createElement("link");
+    lk.id = "wmhFontBrand";
+    lk.rel = "stylesheet";
+    lk.href = "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,600;1,700;1,800&display=swap";
+    document.head.appendChild(lk);
+  }
   if (!document.getElementById("wmhStyle")) {
     const st = document.createElement("style");
     st.id = "wmhStyle";
@@ -110,30 +117,24 @@
 
       /* Wordmark brand */
       .wmh-brand{
-        display:inline-flex; align-items:center; gap:10px;
+        display:inline-flex; align-items:center;
         padding:2px 0; line-height:1;
         color:#1a1a18;
-        transition:opacity .15s;
+        transition:opacity .15s, transform .2s;
       }
       .wmh-brand:hover{ opacity:.82; }
-      .wmh-brand-mark{
-        width:30px; height:30px; flex-shrink:0;
-        display:block;
-        filter:drop-shadow(0 1px 2px rgba(15,79,42,.18));
-        transition:transform .25s cubic-bezier(.2,.8,.2,1);
-      }
-      .wmh-brand:hover .wmh-brand-mark{ transform:rotate(-8deg) scale(1.05); }
       .wmh-brand-text{
-        font-family:"Fraunces","Playfair Display",Georgia,serif;
-        font-size:22px; line-height:1;
-        letter-spacing:-.035em;
+        font-family:"Cormorant Garamond","Playfair Display",Georgia,serif;
+        font-size:28px; line-height:1;
+        letter-spacing:-.015em;
         display:inline-flex; align-items:baseline;
+        font-style:italic;
       }
       .wmh-brand-text .w-wigg{
-        color:#0f1f17; font-weight:800; font-style:italic;
+        color:#0f1f17; font-weight:800;
       }
       .wmh-brand-text .w-map{
-        color:#1a5430; font-weight:600; font-style:italic;
+        color:#1a5430; font-weight:700;
       }
 
       /* Desktop primary nav */
@@ -310,10 +311,17 @@
         .wmh-nav-primary{ display:none; }
       }
       @media(max-width:640px){
-        .wmh-inner{ padding:0 12px; gap:8px; height:52px; }
-        .wmh-brand{ font-size:20px; }
+        .wmh-inner{ padding:0 10px; gap:4px; height:54px; }
+        .wmh-brand-text{ font-size:24px; letter-spacing:-.01em; }
         .wmh-lang-pill{ display:none; }
         .wmh-icon-btn--desktop{ display:none; }
+        .wmh-icon-btn{ width:34px; height:34px; }
+        .wmh-right{ gap:2px; }
+        .wmh-auth-name{ display:none; }
+      }
+      @media(max-width:380px){
+        .wmh-brand-text{ font-size:21px; }
+        #btnRandomMobile{ display:none; }
       }
       @media(min-width:641px){
         .wmh-icon-btn--mobile{ display:none; }
@@ -367,23 +375,6 @@
       <div class="wmh-inner">
         <button class="wmh-icon-btn wmh-icon-btn--mobile" id="wmhDrawerOpenMobile" aria-label="Menu">${svgBurger}</button>
         <a class="wmh-brand" href="${homeLink}" aria-label="WiggMap home">
-          <svg class="wmh-brand-mark" viewBox="0 0 40 40" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="wmBg" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#22a15a"/>
-                <stop offset="100%" stop-color="#0f4f2a"/>
-              </linearGradient>
-              <linearGradient id="wmSheen" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#ffffff" stop-opacity=".24"/>
-                <stop offset="55%" stop-color="#ffffff" stop-opacity="0"/>
-              </linearGradient>
-            </defs>
-            <rect x="1" y="1" width="38" height="38" rx="11" fill="url(#wmBg)"/>
-            <rect x="1" y="1" width="38" height="38" rx="11" fill="url(#wmSheen)"/>
-            <path d="M9 14 L14 27 L20 17 L26 27 L31 14" fill="none" stroke="#f8f4ea" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="20" cy="10.5" r="2.2" fill="#f8f4ea"/>
-            <circle cx="20" cy="10.5" r="0.9" fill="#0f4f2a"/>
-          </svg>
           <span class="wmh-brand-text"><span class="w-wigg">wigg</span><span class="w-map">map</span></span>
         </a>
 
@@ -432,7 +423,7 @@
     <div class="wmh-drawer-overlay" id="wmhDrawerOverlay"></div>
     <aside class="wmh-drawer" id="wmhDrawer" aria-hidden="true">
       <div class="wmh-drawer-head">
-        <span class="wmh-drawer-title"><span style="color:#1a1a18">wigg</span><span style="color:#1a5430">map</span></span>
+        <span class="wmh-drawer-title" style="font-family:'Cormorant Garamond','Playfair Display',Georgia,serif;font-style:italic;font-size:26px;letter-spacing:-.01em;"><span style="color:#1a1a18;font-weight:800">wigg</span><span style="color:#1a5430;font-weight:700">map</span></span>
         <button class="wmh-drawer-close" id="wmhDrawerClose" aria-label="Close">×</button>
       </div>
 
