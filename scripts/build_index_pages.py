@@ -87,7 +87,10 @@ def render_index_static(articles, sections, lang='en'):
         out.append('<div class="arrow arrow-left" onclick="scrollCarousel(this,-1)">‹</div>')
         out.append('<div class="scroll-row">')
         items = [a for a in articles if a.get('section') == sid]
-        if sid != 'city':
+        if sid == 'city':
+            import random
+            random.shuffle(items)
+        else:
             items.sort(key=lambda a: a.get('date', ''), reverse=True)
         for a in items[:20]:
             url = a.get('url', {})
