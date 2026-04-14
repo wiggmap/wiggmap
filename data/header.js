@@ -38,7 +38,7 @@
   const isDeepPage2 = document.location.pathname.includes("/chronicles/villes/");
   const isDeepPage3 = document.location.pathname.includes("/compare/static/");
   const prefix = isDeepPage3 ? "../../../" : (isDeepPage2 ? "../../" : (isSubPage ? "../" : ""));
-  const homeLink = "/index.html";
+  const homeLink = "/";
   const globeLink = "/globe.html";
   const aboutLink = "/about.html";
 
@@ -110,28 +110,31 @@
 
       /* Wordmark brand */
       .wmh-brand{
-        display:inline-flex; align-items:center; gap:8px;
-        padding:4px 2px; line-height:1;
+        display:inline-flex; align-items:center; gap:10px;
+        padding:2px 0; line-height:1;
         color:#1a1a18;
+        transition:opacity .15s;
       }
+      .wmh-brand:hover{ opacity:.82; }
       .wmh-brand-mark{
-        width:26px; height:26px;
-        border-radius:8px;
-        background:linear-gradient(135deg,#1d7f48 0%,#0f4f2a 100%);
-        display:inline-flex; align-items:center; justify-content:center;
-        box-shadow:0 1px 2px rgba(15,79,42,.25), inset 0 1px 0 rgba(255,255,255,.18);
-        flex-shrink:0;
+        width:30px; height:30px; flex-shrink:0;
+        display:block;
+        filter:drop-shadow(0 1px 2px rgba(15,79,42,.18));
+        transition:transform .25s cubic-bezier(.2,.8,.2,1);
       }
-      .wmh-brand-mark svg{ display:block; }
+      .wmh-brand:hover .wmh-brand-mark{ transform:rotate(-8deg) scale(1.05); }
       .wmh-brand-text{
         font-family:"Fraunces","Playfair Display",Georgia,serif;
-        font-size:20px; font-weight:700; font-style:italic;
-        letter-spacing:-.025em; line-height:1;
+        font-size:22px; line-height:1;
+        letter-spacing:-.035em;
+        display:inline-flex; align-items:baseline;
       }
-      .wmh-brand-text .w-wigg{ color:#1a1a18; }
-      .wmh-brand-text .w-map{ color:#1a5430; font-weight:600; font-style:normal; letter-spacing:-.01em; }
-      .wmh-brand:hover .wmh-brand-mark{ transform:scale(1.04); }
-      .wmh-brand-mark{ transition:transform .2s ease; }
+      .wmh-brand-text .w-wigg{
+        color:#0f1f17; font-weight:800; font-style:italic;
+      }
+      .wmh-brand-text .w-map{
+        color:#1a5430; font-weight:600; font-style:italic;
+      }
 
       /* Desktop primary nav */
       .wmh-nav-primary{
@@ -364,12 +367,23 @@
       <div class="wmh-inner">
         <button class="wmh-icon-btn wmh-icon-btn--mobile" id="wmhDrawerOpenMobile" aria-label="Menu">${svgBurger}</button>
         <a class="wmh-brand" href="${homeLink}" aria-label="WiggMap home">
-          <span class="wmh-brand-mark" aria-hidden="true">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#f8f4ea"/>
-              <circle cx="12" cy="9" r="2.6" fill="#1d7f48"/>
-            </svg>
-          </span>
+          <svg class="wmh-brand-mark" viewBox="0 0 40 40" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="wmBg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#22a15a"/>
+                <stop offset="100%" stop-color="#0f4f2a"/>
+              </linearGradient>
+              <linearGradient id="wmSheen" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity=".24"/>
+                <stop offset="55%" stop-color="#ffffff" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <rect x="1" y="1" width="38" height="38" rx="11" fill="url(#wmBg)"/>
+            <rect x="1" y="1" width="38" height="38" rx="11" fill="url(#wmSheen)"/>
+            <path d="M9 14 L14 27 L20 17 L26 27 L31 14" fill="none" stroke="#f8f4ea" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="20" cy="10.5" r="2.2" fill="#f8f4ea"/>
+            <circle cx="20" cy="10.5" r="0.9" fill="#0f4f2a"/>
+          </svg>
           <span class="wmh-brand-text"><span class="w-wigg">wigg</span><span class="w-map">map</span></span>
         </a>
 
