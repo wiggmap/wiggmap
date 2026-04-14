@@ -82,227 +82,176 @@
     const st = document.createElement("style");
     st.id = "wmhStyle";
     st.textContent = `
-      /* Modern header — 2026 refresh */
       .wmh-bar{
         position:sticky; top:0; z-index:9999;
-        background:rgba(246,241,232,.72);
-        backdrop-filter:saturate(180%) blur(18px);
-        -webkit-backdrop-filter:saturate(180%) blur(18px);
-        border-bottom:1px solid rgba(23,23,20,.06);
-        transition:box-shadow .2s, background .2s;
+        background:rgba(246,248,247,.95);
+        backdrop-filter:blur(10px);
+        border-bottom:1px solid rgba(0,0,0,.08);
       }
-      .wmh-bar.is-scrolled{
-        background:rgba(246,241,232,.92);
-        box-shadow:0 1px 20px rgba(25,20,12,.06);
-      }
-      .wmh-bar, .wmh-bar *{
-        box-sizing:border-box;
-        font-family:"Inter","Helvetica Neue",system-ui,sans-serif;
-      }
-      .wmh-bar a{ text-decoration:none; color:inherit; }
-      .wmh-bar svg{ display:block; }
+      .wmh-bar, .wmh-bar *{ box-sizing:border-box !important; font-family:Arial,Helvetica,sans-serif !important; }
+      .wmh-bar a{ text-decoration:none !important; }
+      .wmh-bar svg{ display:block !important; }
 
       .wmh-inner{
-        max-width:1280px; margin:0 auto;
-        padding:0 20px; height:56px;
-        display:flex; align-items:center; gap:16px;
-      }
-
-      /* Wordmark brand */
-      .wmh-brand{
-        display:inline-flex; align-items:baseline; gap:1px;
-        font-family:"Fraunces","Playfair Display",Georgia,serif;
-        font-size:22px; font-weight:700; font-style:italic;
-        letter-spacing:-.02em; color:#1a1a18;
-        padding:2px 0; line-height:1;
-      }
-      .wmh-brand-dot{ color:#1a5430; font-style:normal; }
-      .wmh-brand:hover{ opacity:.72; }
-
-      /* Desktop primary nav */
-      .wmh-nav-primary{
-        display:flex; align-items:center; gap:4px;
-        margin-left:8px;
-      }
-      .wmh-nav-primary a{
-        font-size:13px; font-weight:500; color:#54554e;
-        padding:8px 12px; border-radius:8px;
-        transition:color .15s, background .15s;
-      }
-      .wmh-nav-primary a:hover{ color:#1a1a18; background:rgba(23,23,20,.04); }
-
-      /* Right cluster */
-      .wmh-right{
-        margin-left:auto;
-        display:flex; align-items:center; gap:6px;
-      }
-      .wmh-icon-btn{
-        width:36px; height:36px; border-radius:10px;
-        display:inline-flex; align-items:center; justify-content:center;
-        color:#54554e; cursor:pointer; border:0; background:transparent;
-        transition:background .15s, color .15s;
-      }
-      .wmh-icon-btn:hover{ background:rgba(23,23,20,.06); color:#1a1a18; }
-
-      /* Segmented language pill */
-      .wmh-lang-pill{
-        display:inline-flex; align-items:center;
-        background:rgba(23,23,20,.04);
-        border-radius:999px; padding:3px;
-        gap:0;
-      }
-      .wmh-lang-pill [data-lang]{
-        font-size:11px; font-weight:600; letter-spacing:.06em;
-        padding:5px 10px; border-radius:999px;
-        color:#8a8a82; cursor:pointer;
-        text-transform:uppercase;
-        transition:color .15s, background .15s;
-        user-select:none;
-      }
-      .wmh-lang-pill [data-lang]:hover{ color:#1a1a18; }
-      .wmh-lang-pill [data-lang].active{
-        background:#fff; color:#1a1a18;
-        box-shadow:0 1px 2px rgba(0,0,0,.06);
-      }
-
-      /* Auth button wrapper — let Supabase draw inside */
-      #wigg-auth-btn{ display:flex; align-items:center; }
-
-      /* Search dropdown — minimal */
-      .wmh-dropdown{ position:relative; }
-      .wmh-drop-menu{
-        display:none; position:absolute;
-        top:calc(100% + 8px); right:0;
-        min-width:280px; max-width:min(92vw,420px);
-        background:#fffdf8;
-        border:1px solid rgba(23,23,20,.08);
-        border-radius:14px;
-        box-shadow:0 20px 48px rgba(25,20,12,.18);
-        padding:6px; overflow:hidden; z-index:100;
-      }
-      .wmh-dropdown.open .wmh-drop-menu{ display:block; }
-      .wmh-drop-item{
-        display:flex; align-items:center; gap:10px;
-        padding:10px 12px; border-radius:8px;
-        font-size:13.5px; color:#1a1a18; cursor:pointer;
-        transition:background .12s;
-      }
-      .wmh-drop-item:hover{ background:rgba(23,23,20,.05); }
-      .wmh-drop-item.active{ background:rgba(29,127,72,.08); color:#1a5430; }
-      .wmh-drop-item svg{ flex-shrink:0; }
-      .wmh-search-panel{ padding:10px; min-width:320px; }
-      .wmh-search-panel input{
-        width:100%; padding:10px 12px;
-        border:1px solid rgba(23,23,20,.10);
-        border-radius:10px;
-        font-size:14px; color:#1a1a18;
-        background:#f8f4ea; outline:none;
-        transition:border-color .15s;
-      }
-      .wmh-search-panel input:focus{ border-color:#1a5430; background:#fff; }
-      .wmh-search-results{ margin-top:8px; max-height:340px; overflow-y:auto; }
-      .wmh-search-empty{ padding:20px; text-align:center; color:#8a8a82; font-size:12px; }
-
-      /* Drawer (opens from right) */
-      .wmh-drawer-overlay{
-        position:fixed; inset:0;
-        background:rgba(10,8,4,.4); backdrop-filter:blur(4px);
-        opacity:0; pointer-events:none;
-        transition:opacity .25s ease;
-        z-index:10000;
-      }
-      .wmh-drawer-overlay.open{ opacity:1; pointer-events:auto; }
-      .wmh-drawer{
-        position:fixed; top:0; right:0; bottom:0;
-        width:min(380px,100vw);
-        background:#f8f4ea;
-        box-shadow:-16px 0 40px rgba(25,20,12,.18);
-        transform:translateX(100%);
-        transition:transform .3s cubic-bezier(.2,.8,.2,1);
-        z-index:10001;
-        display:flex; flex-direction:column;
-        overflow-y:auto;
-      }
-      .wmh-drawer.open{ transform:translateX(0); }
-      .wmh-drawer-head{
+        max-width:1100px; margin:0 auto;
+        padding:10px 14px;
         display:flex; align-items:center; justify-content:space-between;
-        padding:18px 22px;
-        border-bottom:1px solid rgba(23,23,20,.06);
+        gap:10px;
       }
-      .wmh-drawer-title{
-        font-family:"Fraunces",Georgia,serif;
-        font-size:17px; font-weight:600; font-style:italic;
-        color:#1a1a18; letter-spacing:-.01em;
+
+      .wmh-left{ display:flex; align-items:center; }
+      .wmh-brand img{ height:54px; width:auto; display:block; }
+
+      .wmh-right{
+        display:flex; align-items:center; justify-content:flex-end;
+        gap:10px; flex-wrap:nowrap !important;
       }
-      .wmh-drawer-close{
-        width:36px; height:36px; border-radius:10px;
+
+      /* Social icons desktop */
+      .wmh-social{ display:flex; align-items:center; gap:6px; }
+      .wmh-ico{
+        width:36px; height:36px;
         display:inline-flex; align-items:center; justify-content:center;
-        border:0; background:transparent; cursor:pointer;
-        color:#54554e; font-size:20px;
-      }
-      .wmh-drawer-close:hover{ background:rgba(23,23,20,.06); color:#1a1a18; }
-      .wmh-drawer-nav{
-        display:flex; flex-direction:column; padding:12px 14px;
-      }
-      .wmh-drawer-nav a, .wmh-drawer-nav button{
-        display:flex; align-items:center; gap:12px;
-        padding:12px 14px; border-radius:10px;
-        font-size:15px; font-weight:500; color:#1a1a18;
-        border:0; background:transparent; text-align:left;
-        cursor:pointer;
-        transition:background .12s;
-      }
-      .wmh-drawer-nav a:hover, .wmh-drawer-nav button:hover{
-        background:rgba(23,23,20,.05);
-      }
-      .wmh-drawer-sep{
-        height:1px; background:rgba(23,23,20,.06);
-        margin:12px 22px;
-      }
-      .wmh-drawer-label{
-        padding:0 22px 8px;
-        font-size:10px; font-weight:700; letter-spacing:.14em;
-        text-transform:uppercase; color:#8a8a82;
-      }
-      .wmh-drawer .wmh-lang-pill{
-        margin:0 22px; align-self:stretch;
-        display:flex;
-      }
-      .wmh-drawer .wmh-lang-pill [data-lang]{
-        flex:1; text-align:center; padding:8px 10px;
-      }
-      .wmh-drawer-socials{
-        display:flex; gap:8px; padding:14px 22px 22px;
-      }
-      .wmh-drawer-socials a{
-        width:40px; height:40px; border-radius:10px;
-        display:inline-flex; align-items:center; justify-content:center;
-        background:rgba(23,23,20,.05);
+        border:1px solid rgba(0,0,0,.10);
+        background:rgba(255,255,255,.80);
+        border-radius:10px; color:#18201c;
         transition:background .15s;
       }
-      .wmh-drawer-socials a:hover{ background:rgba(23,23,20,.1); }
-      .wmh-drawer-foot{
-        margin-top:auto;
-        padding:14px 22px 22px;
-        font-size:11px; color:#8a8a82;
-        border-top:1px solid rgba(23,23,20,.06);
+      .wmh-ico:hover{ background:#fff; }
+      .wmh-ico--x{ background:rgba(0,0,0,.05); border-color:rgba(0,0,0,.18); }
+      .wmh-ico--x:hover{ background:rgba(0,0,0,.10); }
+      .wmh-ico--ig{ background:rgba(193,53,132,.07); border-color:rgba(193,53,132,.22); }
+      .wmh-ico--ig:hover{ background:rgba(193,53,132,.14); }
+      .wmh-ico--tg{ background:rgba(41,182,246,.12); border-color:rgba(41,182,246,.30); }
+      .wmh-ico--tg:hover{ background:rgba(41,182,246,.22); }
+
+      /* Nav buttons */
+      .wmh-nav{ display:flex; align-items:center; gap:8px; flex-wrap:nowrap !important; }
+      .wmh-btn{
+        font-weight:900; font-size:13px; color:#5b6b62;
+        padding:7px 11px; border-radius:999px;
+        border:1px solid rgba(0,0,0,.10);
+        background:rgba(255,255,255,.80);
+        display:inline-flex; align-items:center; gap:6px;
+        cursor:pointer;
+        transition:background .15s, color .15s;
+      }
+      .wmh-btn:hover{ background:#fff; color:#18201c; }
+
+      /* Dropdown base */
+      .wmh-dropdown{ position:relative; }
+      .wmh-drop-trigger{
+        display:inline-flex; align-items:center; gap:5px;
+        padding:6px 10px; border-radius:999px;
+        border:1px solid rgba(0,0,0,.10);
+        background:rgba(255,255,255,.80);
+        cursor:pointer; font-size:15px; font-weight:800;
+        color:#18201c; transition:background .15s;
+        user-select:none; white-space:nowrap;
+      }
+      .wmh-drop-trigger:hover{ background:#fff; }
+      .wmh-drop-trigger .arrow{
+        font-size:9px; color:#999;
+        transition:transform .2s; display:inline-block;
+      }
+      .wmh-dropdown.open .arrow{ transform:rotate(180deg); }
+
+      .wmh-drop-menu{
+        display:none;
+        position:absolute; top:calc(100% + 7px); right:0;
+        background:#fff;
+        border:1px solid rgba(0,0,0,.10);
+        border-radius:12px;
+        box-shadow:0 8px 28px rgba(0,0,0,.13);
+        min-width:150px; overflow:hidden;
+        z-index:10000;
+      }
+      .wmh-dropdown.open .wmh-drop-menu{ display:block; }
+      .wmh-drop-left{ left:0 !important; right:auto !important; }
+
+      .wmh-drop-item{
+        display:flex; align-items:center; gap:9px;
+        padding:10px 15px;
+        font-size:13px; font-weight:800; color:#18201c;
+        cursor:pointer; transition:background .12s;
+        white-space:nowrap; text-decoration:none !important;
+      }
+      .wmh-drop-item:hover{ background:rgba(0,0,0,.05); }
+      .wmh-drop-item.active{ background:rgba(0,0,0,.07); }
+      .wmh-drop-item + .wmh-drop-item{ border-top:1px solid rgba(0,0,0,.05); }
+
+      /* Search panel */
+      .wmh-search-panel{ min-width:300px; padding:10px 10px 8px; }
+      .wmh-search-panel input{
+        width:100%; padding:8px 12px; font-size:14px;
+        border:1px solid rgba(0,0,0,.15); border-radius:8px;
+        background:#fff; color:#18201c; outline:none;
+        font-family:Arial,Helvetica,sans-serif !important;
+      }
+      .wmh-search-panel input:focus{ border-color:#22c55e; box-shadow:0 0 0 2px rgba(34,197,94,.15); }
+      .wmh-search-results{ max-height:230px; overflow-y:auto; margin-top:6px; }
+      .wmh-search-results .wmh-drop-item{ padding:8px 10px; font-size:13px; white-space:normal; }
+      .wmh-search-empty{ padding:10px 12px; font-size:13px; color:#999; text-align:center; }
+
+      /* Mobile hamburger (top row) — caché sur desktop */
+      .wmh-menu-top-m{ display:none; }
+
+      /* Mobile */
+      @media (max-width: 768px){
+        .wmh-inner{ padding:6px 12px !important; gap:6px; flex-wrap:wrap; }
+        .wmh-brand img{ height:40px !important; }
+        .wmh-social{ display:none !important; }
+        .wmh-right .wmh-nav{ display:none !important; }
+        .wmh-right .wmh-lang-wrap{ display:none !important; }
+        .wmh-right{ flex:1 1 auto; justify-content:flex-end; align-items:center; gap:6px; }
+
+        /* Hamburger top row — inline-flex pour ne pas casser le layout du trigger */
+        .wmh-menu-top-m{ display:inline-flex !important; padding:5px 9px !important; }
+        /* Masquer la flèche ▾ dans le hamburger mobile (redondant avec l'icône ☰) */
+        #wmhMenuTopM .arrow{ display:none !important; }
+
+        /* Grille 2 colonnes égales pour Recherche + Random */
+        .wmh-nav-mobile{
+          display:grid !important;
+          grid-template-columns:1fr 1fr;
+          gap:6px; width:100%; flex-basis:100%;
+          margin-top:2px;
+        }
+        /* Le dropdown search prend toute la cellule */
+        .wmh-nav-mobile .wmh-dropdown{ width:100%; display:block; }
+        /* Boutons : pleine largeur, bien centrés, hauteur uniforme */
+        .wmh-nav-mobile .wmh-btn,
+        .wmh-nav-mobile .wmh-dropdown .wmh-btn{
+          box-sizing:border-box;
+          width:100%; height:34px !important;
+          display:inline-flex; align-items:center; justify-content:center;
+          padding:0 8px !important; margin:0;
+          font-size:12px !important; font-weight:700; line-height:1;
+          border:1px solid rgba(0,0,0,.10);
+          background:rgba(255,255,255,.80);
+          font-family:inherit;
+        }
+        /* Panneau de recherche plein écran */
+        .wmh-search-panel{ min-width:calc(100vw - 28px); }
+        /* Positionnement des menus déroulants dans la grille */
+        .wmh-nav-mobile .wmh-dropdown:first-child .wmh-drop-menu{ left:0; right:auto; }
+        .wmh-nav-mobile .wmh-dropdown:last-child .wmh-drop-menu{ right:0; left:auto; }
       }
 
-      /* Responsive */
-      @media(max-width:900px){
-        .wmh-nav-primary{ display:none; }
-      }
-      @media(max-width:640px){
-        .wmh-inner{ padding:0 12px; gap:8px; height:52px; }
-        .wmh-brand{ font-size:20px; }
-        .wmh-lang-pill{ display:none; }
-        .wmh-icon-btn--desktop{ display:none; }
-      }
-      @media(min-width:641px){
-        .wmh-icon-btn--mobile{ display:none; }
+      /* Petits écrans réels — encore plus compact */
+      @media (max-width: 480px){
+        .wmh-inner{ padding:5px 10px !important; gap:5px; }
+        .wmh-brand img{ height:36px !important; }
+        .wmh-menu-top-m{ padding:4px 8px !important; }
+        .wmh-nav-mobile{ gap:5px; margin-top:1px; }
+        .wmh-nav-mobile .wmh-btn,
+        .wmh-nav-mobile .wmh-dropdown .wmh-btn{
+          height:32px !important;
+          font-size:11.5px !important;
+          padding:0 6px !important;
+        }
       }
 
-      /* Hide legacy mobile nav grid (still exists in markup for backward search) */
       .wmh-nav-mobile{ display:none; }
     `;
     document.head.appendChild(st);
@@ -346,85 +295,70 @@
     </div>`;
 
   const headerHTML = `
-    <header class="wmh-bar" id="wmhBar">
+    <header class="wmh-bar">
       <div class="wmh-inner">
-        <button class="wmh-icon-btn wmh-icon-btn--mobile" id="wmhDrawerOpenMobile" aria-label="Menu">${svgBurger}</button>
-        <a class="wmh-brand" href="${homeLink}" aria-label="WiggMap home">Wigg<span class="wmh-brand-dot">.</span></a>
-
-        <nav class="wmh-nav-primary">
-          <a href="${prefix}indexchronicles.html">${ni.chronicles}</a>
-          <a href="${prefix}wiggmatch.html">${ni.match}</a>
-          <a href="${prefix}compare.html?c=thailand,indonesia,portugal">${ni.compare}</a>
-        </nav>
-
+        <div class="wmh-left">
+          <a class="wmh-brand" href="${homeLink}" aria-label="WiggMap home">
+            <img src="/assets/logo.png" alt="WiggMap logo">
+          </a>
+        </div>
         <div class="wmh-right">
-          <div class="wmh-dropdown" id="wmhSearchDrop">
-            <button class="wmh-icon-btn" id="wmhSearchDropTrig" aria-label="Search">${svgSearch}</button>
-            <div class="wmh-drop-menu wmh-search-panel" id="wmhSearchDropPanel">
-              <input type="text" id="wmhSearchInput" autocomplete="off" placeholder="${ni.search}…">
-              <div class="wmh-search-results" id="wmhSearchResults"></div>
+
+          <!-- Icônes sociales — desktop uniquement -->
+          <div class="wmh-social">
+            <a class="wmh-ico wmh-ico--x" href="${X_URL}" target="_blank" rel="noopener noreferrer" title="X">
+              <svg viewBox="0 0 24 24" width="17" height="17"><path fill="#000000" d="M18.9 2H22l-6.6 7.6L23.5 22h-6.7l-5.2-6.8L5.6 22H2.5l7.1-8.2L.5 2h6.8l4.7 6.1L18.9 2Zm-1.2 18h1.8L6.2 3.9H4.3L17.7 20Z"/></svg>
+            </a>
+            <a class="wmh-ico wmh-ico--ig" href="${IG_URL}" target="_blank" rel="noopener noreferrer" title="Instagram">
+              <svg viewBox="0 0 24 24" width="17" height="17">
+                <defs><linearGradient id="ig_wmh" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#FCAF45"/><stop offset="35%" stop-color="#FD1D1D"/><stop offset="65%" stop-color="#C13584"/><stop offset="100%" stop-color="#405DE6"/></linearGradient></defs>
+                <path fill="url(#ig_wmh)" d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4A5.8 5.8 0 0 1 16.2 22H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2Zm0 2A3.8 3.8 0 0 0 4 7.8v8.4A3.8 3.8 0 0 0 7.8 20h8.4a3.8 3.8 0 0 0 3.8-3.8V7.8A3.8 3.8 0 0 0 16.2 4H7.8Z"/>
+                <path fill="url(#ig_wmh)" d="M12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/>
+                <circle fill="url(#ig_wmh)" cx="17.5" cy="6.5" r="1.1"/>
+              </svg>
+            </a>
+            <a class="wmh-ico wmh-ico--tg" href="${TELEGRAM_URL}" target="_blank" rel="noopener noreferrer" title="Telegram">
+              <svg viewBox="0 0 24 24" width="17" height="17"><path fill="#29B6F6" d="M21.9 4.6c.2-.8-.5-1.5-1.3-1.2L2.7 10.4c-.9.4-.9 1.7.1 2l4.6 1.5 1.8 5.6c.3 1 1.6 1.1 2.1.3l2.6-3.7 4.9 3.6c.7.5 1.7.1 1.9-.8l1.2-14.3ZM8.3 13.2l9.9-6.1-7.6 7.4-.3 3.9-1.7-5.1-2.5-.8Z"/></svg>
+            </a>
+          </div>
+
+          <!-- Dropdown réseaux — mobile uniquement, caché par défaut -->
+          <div class="wmh-dropdown" id="wmhSocialDropdown" style="display:none;">
+            <div class="wmh-drop-trigger" id="wmhSocialTrigger">
+              ${svgShare}<span class="arrow">▾</span>
             </div>
+            <div class="wmh-drop-menu">${socialItems}</div>
           </div>
 
-          <a class="wmh-icon-btn wmh-icon-btn--desktop" href="#" id="btnRandom" title="Random country" aria-label="Random">🎲</a>
+          <!-- Hamburger — mobile top row (entre réseaux et langue) -->
+          ${burgerDropHTML("wmhMenuTopM", "wmh-drop-trigger wmh-menu-top-m")}
 
-          <div class="wmh-lang-pill" role="tablist" aria-label="Language">
-            ${Object.entries(LANGS).map(([code, d]) =>
-              `<div data-lang="${code}" class="${code === currentLang ? 'active' : ''}" role="tab">${code}</div>`
-            ).join("")}
+          <!-- Nav desktop : Search + Random + Hamburger -->
+          <nav class="wmh-nav">
+            ${searchDropHTML("wmhSearchDrop", "wmhSearchInput", "wmhSearchResults", svgSearch)}
+            <a class="wmh-btn" href="#" id="btnRandom">🎲 Random</a>
+            ${burgerDropHTML("wmhMenuDrop", "wmh-drop-trigger")}
+          </nav>
+
+          <!-- Auth button -->
+          <div id="wigg-auth-btn" style="display:flex;align-items:center;"></div>
+
+          <!-- Dropdown langue — desktop : tout à droite -->
+          <div class="wmh-dropdown wmh-lang-wrap" id="wmhLangDropdown">
+            <div class="wmh-drop-trigger" id="wmhLangTrigger">
+              <span>${currentLangData.flag}</span><span class="arrow">▾</span>
+            </div>
+            <div class="wmh-drop-menu">${langItems}</div>
           </div>
-
-          <div id="wigg-auth-btn"></div>
-
-          <button class="wmh-icon-btn wmh-icon-btn--desktop" id="wmhDrawerOpen" aria-label="Menu">${svgBurger}</button>
-          <a class="wmh-icon-btn wmh-icon-btn--mobile" href="#" id="btnRandomMobile" title="Random" aria-label="Random">🎲</a>
         </div>
 
-        <!-- Legacy hidden mobile nav (keeps search IDs alive for old handlers) -->
+        <!-- Mobile grid : Search + Random seulement (2 colonnes) -->
         <nav class="wmh-nav-mobile">
-          <div class="wmh-dropdown" id="wmhSearchDropM">
-            <button id="wmhSearchDropMTrig" class="wmh-icon-btn">🔍</button>
-            <div class="wmh-drop-menu wmh-search-panel" id="wmhSearchDropMPanel">
-              <input type="text" id="wmhSearchInputM" autocomplete="off" placeholder="${ni.search}…">
-              <div class="wmh-search-results" id="wmhSearchResultsM"></div>
-            </div>
-          </div>
+          ${searchDropHTML("wmhSearchDropM", "wmhSearchInputM", "wmhSearchResultsM", "🔍")}
+          <a class="wmh-btn" href="#" id="btnRandomMobile">🎲 Random</a>
         </nav>
       </div>
     </header>
-
-    <div class="wmh-drawer-overlay" id="wmhDrawerOverlay"></div>
-    <aside class="wmh-drawer" id="wmhDrawer" aria-hidden="true">
-      <div class="wmh-drawer-head">
-        <span class="wmh-drawer-title">Wigg<span style="color:#1a5430">.</span></span>
-        <button class="wmh-drawer-close" id="wmhDrawerClose" aria-label="Close">×</button>
-      </div>
-
-      <nav class="wmh-drawer-nav">
-        <a href="${prefix}indexchronicles.html">${svgChronicles}<span>${ni.chronicles}</span></a>
-        <a href="${prefix}wiggmatch.html">${svgMatch}<span>${ni.match}</span></a>
-        <a href="${prefix}compare.html?c=thailand,indonesia,portugal">${svgCompare}<span>${ni.compare}</span></a>
-        <a href="${globeLink}" target="_blank" rel="noopener noreferrer">${svgGlobe}<span>${ni.globe}</span></a>
-        <a href="${prefix}ggg/wigggame.html">${svgGame}<span>Quiz</span></a>
-        <a href="#" id="btnRandomDrawer">🎲 <span>Random</span></a>
-      </nav>
-
-      <div class="wmh-drawer-sep"></div>
-      <div class="wmh-drawer-label">Langue</div>
-      <div class="wmh-lang-pill" role="tablist" aria-label="Language">
-        ${Object.entries(LANGS).map(([code, d]) =>
-          `<div data-lang="${code}" class="${code === currentLang ? 'active' : ''}">${d.flag} ${code.toUpperCase()}</div>`
-        ).join("")}
-      </div>
-
-      <div class="wmh-drawer-sep"></div>
-      <div class="wmh-drawer-label">Social</div>
-      <div class="wmh-drawer-socials">
-        ${SOCIALS.map(s => `<a href="${s.href}" target="_blank" rel="noopener noreferrer" title="${s.label}">${s.svg}</a>`).join("")}
-      </div>
-
-      <div class="wmh-drawer-foot">© WiggMap · explore the world with intent</div>
-    </aside>
   `;
 
   const mount = document.getElementById("siteHeader");
@@ -1023,37 +957,6 @@
     if (!m) return null;
     return `/countries/${m[1]}-${newLang}.html`;
   }
-
-
-  // Drawer handlers
-  (function(){
-    const drawer = document.getElementById("wmhDrawer");
-    const overlay = document.getElementById("wmhDrawerOverlay");
-    const openBtns = [document.getElementById("wmhDrawerOpen"), document.getElementById("wmhDrawerOpenMobile")].filter(Boolean);
-    const closeBtn = document.getElementById("wmhDrawerClose");
-    function open(){ drawer && drawer.classList.add("open"); overlay && overlay.classList.add("open"); document.body.style.overflow="hidden"; }
-    function close(){ drawer && drawer.classList.remove("open"); overlay && overlay.classList.remove("open"); document.body.style.overflow=""; }
-    openBtns.forEach(b => b.addEventListener("click", e => { e.preventDefault(); open(); }));
-    if(closeBtn) closeBtn.addEventListener("click", close);
-    if(overlay) overlay.addEventListener("click", close);
-    document.addEventListener("keydown", e => { if(e.key === "Escape") close(); });
-    // Drawer random
-    const drawerRandom = document.getElementById("btnRandomDrawer");
-    if(drawerRandom) drawerRandom.addEventListener("click", e => { e.preventDefault(); close(); goRandomCountry(); });
-  })();
-
-  // Scroll-aware background
-  (function(){
-    const bar = document.getElementById("wmhBar");
-    if(!bar) return;
-    let t = null;
-    function onScroll(){
-      if(window.scrollY > 8) bar.classList.add("is-scrolled");
-      else bar.classList.remove("is-scrolled");
-    }
-    window.addEventListener("scroll", onScroll, { passive:true });
-    onScroll();
-  })();
 
   document.querySelectorAll("[data-lang]").forEach(item => {
     item.addEventListener("click", () => {
