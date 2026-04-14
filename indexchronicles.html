@@ -81,6 +81,7 @@ a{text-decoration:none;color:inherit}
 .split-grid.split-2{grid-template-columns:1fr 1fr}
 .split-grid.split-4{grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr}
 .split-cell{overflow:hidden;position:relative;background:#1a1a1a}
+.split-cell picture{display:block;width:100%;height:100%}
 .split-cell img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
 .card:hover .split-cell img{transform:scale(1.05)}
 .card-overlay{position:absolute;bottom:0;left:0;right:0;padding:14px 12px;background:linear-gradient(transparent 0%,rgba(0,0,0,.55) 30%,rgba(0,0,0,.88) 100%);z-index:2}
@@ -284,9 +285,11 @@ function cardTag(a,section){
 
 function pickRandom(arr,n){var a=arr.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var tmp=a[i];a[i]=a[j];a[j]=tmp}return a.slice(0,n)}
 
-function cardMedia(a){
+function cardMedia(a,idx){
+  var eager=idx<2;
+  var loadAttr=eager?'loading="eager" fetchpriority="high"':'loading="lazy" fetchpriority="low"';
   if(a.img){
-    return '<img class="card-img" src="'+esc(a.img)+'" alt="" loading="lazy" onerror="this.remove()"><div class="card-img-grad"></div>';
+    return '<img class="card-img" src="'+esc(a.img)+'" alt="" '+loadAttr+' decoding="async" onerror="this.remove()"><div class="card-img-grad"></div>';
   }
   if(a.countries&&a.countries.length>=2){
     var n=a.countries.length>=4?4:2;
@@ -294,7 +297,8 @@ function cardMedia(a){
     var cls="split-"+(picked.length>=4?"4":"2");
     var h='<div class="split-grid '+cls+'">';
     picked.forEach(function(slug){
-      h+='<div class="split-cell"><img src="/assets/hero-'+esc(slug)+'.jpg" alt="" loading="lazy" onerror="this.remove()"></div>';
+      var s=esc(slug);
+      h+='<div class="split-cell"><picture><source type="image/webp" srcset="/assets/hero-'+s+'.webp"><img src="/assets/hero-'+s+'.jpg" alt="" '+loadAttr+' decoding="async" onerror="var c=this.closest(\'.split-cell\');if(c)c.remove()"></picture></div>';
     });
     h+='</div><div class="card-img-grad"></div>';
     return h;
@@ -302,14 +306,14 @@ function cardMedia(a){
   return "";
 }
 
-function cardHTML(a,section){
+function cardHTML(a,section,idx){
   var url=esc(str(a.url));
   var bg=a.bg||"smoke";
   var wm=a.wm?('<div class="watermark">'+esc(a.wm)+"</div>"):"";
   var flag=a.flag?('<div class="card-flag">'+a.flag+"</div>"):"";
   var tag=esc(cardTag(a,section));
   var title=esc(str(a.title));
-  var media=cardMedia(a);
+  var media=cardMedia(a,idx||0);
   return '<a class="card bg-'+esc(bg)+'" href="'+url+'">'+media+wm+flag+
     '<div class="card-overlay"><div class="card-tag">'+tag+'</div><div class="card-title">'+title+'</div></div></a>';
 }
@@ -334,7 +338,7 @@ function render(){
     html+='<div class="arrow arrow-left" onclick="scrollCarousel(this,-1)">\u2039</div>';
     html+='<div class="scroll-row">';
     if(!items.length){html+='<div style="padding:20px;color:#999;font-size:12px">'+t.comingSoon+'</div>'}
-    items.forEach(function(a){html+=cardHTML(a,sec.id)});
+    items.forEach(function(a,i){html+=cardHTML(a,sec.id,i)});
     html+='</div>';
     html+='<div class="arrow arrow-right" onclick="scrollCarousel(this,1)">\u203A</div>';
     html+='</div></div>';
