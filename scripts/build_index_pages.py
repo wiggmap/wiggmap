@@ -111,8 +111,19 @@ def render_index_static(articles, sections, lang='en'):
                 tag = f'{tag_foresight} · {time}'
             else:
                 tag = f'{reg} · {time}'
+            # media: single image or split grid of country heroes
+            media_html = ''
+            img = a.get('img')
+            countries = a.get('countries') or []
+            if img:
+                media_html = f'<img class="card-img" src="{img}" alt="" loading="lazy"><div class="card-img-grad"></div>'
+            elif len(countries) >= 2:
+                picked = countries[:4] if len(countries) >= 4 else countries[:2]
+                cls = 'split-4' if len(picked) >= 4 else 'split-2'
+                cells = ''.join(f'<div class="split-cell"><img src="/assets/hero-{c}.jpg" alt="" loading="lazy"></div>' for c in picked)
+                media_html = f'<div class="split-grid {cls}">{cells}</div><div class="card-img-grad"></div>'
             out.append(
-                f'<a class="card bg-{bg}" href="{url}">{wm_html}{flag_html}'
+                f'<a class="card bg-{bg}" href="{url}">{media_html}{wm_html}{flag_html}'
                 f'<div class="card-overlay">'
                 f'<div class="card-tag">{tag}</div>'
                 f'<div class="card-title">{title}</div>'
