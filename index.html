@@ -45,9 +45,22 @@ html{scroll-behavior:smooth}
 body{
   font-family:'Inter',system-ui,-apple-system,sans-serif;
   color:var(--ink);
-  background:var(--bg);
+  background-color:#1a1a1a;
+  background-image:url('/assets/bc.png');
+  background-size:cover;
+  background-position:center top;
+  background-attachment:fixed;
+  background-repeat:no-repeat;
   -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
+}
+/* iOS/tactile — fixed bg ne marche pas : on fige via ::before pleine vue */
+@media(hover:none) and (pointer:coarse){
+  body{background:#1a1a1a}
+  body::before{
+    content:'';position:fixed;inset:0;z-index:-1;
+    background:url('/assets/bc.png') center/cover no-repeat;
+  }
 }
 img{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
@@ -60,24 +73,12 @@ a{color:inherit;text-decoration:none}
   display:flex;
   flex-direction:column;
   overflow:hidden;
-  background-color:#1a1a1a;
-  background-image:url('/assets/bc.png');
-  background-size:cover;
-  background-position:center 30%;
-  background-attachment:fixed;
 }
 .hero-bg{
   position:absolute;inset:0;
   z-index:0;
   pointer-events:none;
-}
-.hero-bg::after{
-  content:'';position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,.15) 25%,rgba(0,0,0,.15) 55%,rgba(0,0,0,.75) 100%);
-}
-/* iOS / tactile: fixed background ne marche pas bien → fallback scroll */
-@media(hover:none) and (pointer:coarse){
-  .hero{background-attachment:scroll}
 }
 .hero-content{
   position:relative;z-index:2;
@@ -210,21 +211,17 @@ a{color:inherit;text-decoration:none}
 .hero-scroll svg{width:14px;height:14px}
 @keyframes bobScroll{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
 
-/* ─────────── PARALLAX DIVIDER ─────────── */
+/* ─────────── PARALLAX DIVIDER (texte sur bg global fixe) ─────────── */
 .parallax{
   position:relative;
-  min-height:60vh;
+  min-height:52vh;
   display:flex;align-items:center;justify-content:center;
   padding:120px 24px;
-  background-image:url('/assets/earth-grass.webp');
-  background-size:cover;
-  background-position:center;
-  background-attachment:fixed;
   overflow:hidden;
 }
 .parallax::before{
   content:'';position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.35) 40%,rgba(0,0,0,.65));
+  background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.3) 40%,rgba(0,0,0,.6));
 }
 .parallax-inner{
   position:relative;z-index:2;
@@ -246,12 +243,9 @@ a{color:inherit;text-decoration:none}
   font-size:12px;letter-spacing:.18em;text-transform:uppercase;
   color:rgba(255,255,255,.7);
 }
-@media(hover:none) and (pointer:coarse){
-  .parallax{background-attachment:scroll;min-height:42vh;padding:80px 20px}
-}
 
-/* ─────────── SECTION COMMON ─────────── */
-.section{padding:80px 24px}
+/* ─────────── SECTION COMMON (voile clair par-dessus bg fixe) ─────────── */
+.section{padding:80px 24px;position:relative;background:rgba(245,240,232,.92);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
 .section-inner{max-width:1180px;margin:0 auto}
 .section-head{text-align:center;margin-bottom:48px}
 .section-eyebrow{
@@ -362,7 +356,7 @@ a{color:inherit;text-decoration:none}
 .tool-card:hover .tool-arrow::after{transform:translateX(4px)}
 
 /* ─────────── CHRONICLES ─────────── */
-.chron-section{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden}
+.chron-section{background:rgba(255,253,248,.94);border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden}
 .chron-grid{
   display:grid;
   grid-template-columns:repeat(3,minmax(0,1fr));
