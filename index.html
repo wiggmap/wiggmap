@@ -4,7 +4,7 @@
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});if(localStorage.getItem('wigg_consent')==='accepted'){gtag('consent','update',{analytics_storage:'granted'});}(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-K4MMRD4R');</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#f5f0e8">
+<meta name="theme-color" content="#111311">
 <title>WiggMap — Where is the grass actually greener?</title>
 <meta name="description" content="Comparez salaires, loyers, visas et qualité de vie dans 160+ pays. WiggMap vous aide à trouver où vivre, travailler ou prendre votre retraite à l'étranger.">
 <link rel="canonical" href="https://wiggmap.com/">
@@ -25,788 +25,592 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"WiggMap","url":"https://wiggmap.com/","logo":"https://wiggmap.com/assets/logo.png","sameAs":["https://t.me/wiggmap","https://x.com/wiggmap70349","https://www.instagram.com/wiggmap"],"description":"Data-driven platform comparing 160+ countries for expats, digital nomads and retirees."}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600;1,9..144,700;1,9..144,800&family=Cormorant+Garamond:ital,wght@1,400;1,600;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Cormorant+Garamond:ital,wght@0,500;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --green:#1a5430;
-  --green-bright:#22a15a;
-  --green-deep:#0f3a20;
-  --ink:#171714;
-  --ink-soft:#54554e;
-  --bg:#f5f0e8;
-  --bg-deep:#efe8d9;
-  --paper:#fffdf8;
-  --border:rgba(23,23,20,.12);
-  --muted:#8a7f6a;
-  --line:rgba(23,23,20,.08);
+  --bg:#efeadf;
+  --paper:#f8f4eb;
+  --paper-2:#fffdf8;
+  --ink:#121410;
+  --ink-soft:#5a5b52;
+  --muted:#867c6d;
+  --line:rgba(18,20,16,.10);
+  --line-strong:rgba(18,20,16,.18);
+  --green:#173c24;
+  --green-2:#22c55e;
+  --green-3:#dbead8;
+  --dark:#0f120f;
+  --shadow:0 14px 50px rgba(0,0,0,.10);
+  --radius:22px;
 }
-html.lenis,html.lenis body{ height:auto }
-html.lenis-smooth [data-lenis-prevent]{ overscroll-behavior:contain }
-.lenis-smooth body{ overflow:clip }
-.lenis-stopped{ overflow:clip }
-html.is-loading{overflow:hidden}
+html{scroll-behavior:smooth}
 body{
   font-family:'Inter',system-ui,-apple-system,sans-serif;
   color:var(--ink);
   background:var(--bg);
   -webkit-font-smoothing:antialiased;
-  text-rendering:optimizeLegibility;
   overflow-x:hidden;
-  line-height:1.55;
 }
-a{text-decoration:none;color:inherit}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
+  background:radial-gradient(circle at top, rgba(255,255,255,.14), transparent 32%);
+  mix-blend-mode:soft-light;
+}
 img{display:block;max-width:100%}
-::selection{background:var(--green);color:#fff}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit}
 
-.wrap{width:min(1320px,calc(100% - 56px));margin:0 auto}
-@media(max-width:720px){.wrap{width:min(100% - 32px,1320px)}}
-
-/* ──────────── TYPOGRAPHY ──────────── */
-.eyebrow{
+/* Layout */
+.section{position:relative;padding:100px 24px}
+.section-inner{max-width:1240px;margin:0 auto}
+.section-head{max-width:760px;margin:0 auto 48px;text-align:center}
+.section-eyebrow{
   display:inline-flex;align-items:center;gap:10px;
-  font-family:'Inter',sans-serif;
-  font-size:11px;font-weight:500;letter-spacing:.22em;
-  text-transform:uppercase;color:var(--ink-soft);
+  font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--green);margin-bottom:12px;
 }
-.eyebrow::before{
-  content:"";width:28px;height:1px;background:var(--ink-soft);
-  display:block;opacity:.5;
-}
-
-.h-display{
-  font-family:'Fraunces',Georgia,serif;
-  font-weight:400;font-style:italic;
-  line-height:.92;letter-spacing:-.035em;
-  color:var(--ink);
-}
-
+.section-eyebrow::before,.section-eyebrow::after{content:'';width:26px;height:1px;background:rgba(23,60,36,.24)}
 .section-title{
   font-family:'Fraunces',Georgia,serif;
-  font-weight:400;font-style:italic;
-  font-size:clamp(40px,6.2vw,88px);
-  line-height:.96;letter-spacing:-.028em;
+  font-size:clamp(30px,4vw,52px);
+  line-height:1.04;
+  letter-spacing:-.03em;
   color:var(--ink);
-  margin:18px 0 22px;
-  max-width:18ch;
 }
 .section-sub{
-  font-size:clamp(15px,1.3vw,17px);
-  color:var(--ink-soft);line-height:1.65;
-  max-width:44ch;
-  font-weight:400;
+  margin-top:14px;
+  font-size:15px;
+  line-height:1.7;
+  color:var(--ink-soft);
 }
-
-.section-head{
-  margin-bottom:72px;
+.btn-pill{
+  display:inline-flex;align-items:center;gap:10px;
+  min-height:48px;padding:0 22px;
+  border-radius:999px;border:1px solid rgba(23,60,36,.18);
+  background:rgba(255,255,255,.5);backdrop-filter:blur(12px);
+  color:var(--green);font-size:13px;font-weight:700;letter-spacing:.02em;
+  transition:transform .25s ease,border-color .25s ease,background .25s ease;
 }
-@media(max-width:720px){ .section-head{ margin-bottom:48px; } }
+.btn-pill:hover{transform:translateY(-2px);border-color:rgba(23,60,36,.38);background:#fff}
+.section-cta{text-align:center;margin-top:36px}
 
-.pad-xl{
-  padding:clamp(100px,14vw,180px) 0;
-  position:relative;
-}
+/* Motion primitives */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s cubic-bezier(.22,1,.36,1);will-change:opacity,transform}
+.reveal.in{opacity:1;transform:none}
+.reveal[data-delay="1"]{transition-delay:.08s}
+.reveal[data-delay="2"]{transition-delay:.16s}
+.reveal[data-delay="3"]{transition-delay:.24s}
 
-/* ──────────── HERO ──────────── */
+/* Hero */
 .hero{
-  position:relative;min-height:100vh;min-height:100svh;
-  padding:clamp(80px,10vh,120px) 0 60px;
-  display:flex;flex-direction:column;justify-content:center;
-  overflow:hidden;
+  position:relative;
+  min-height:100svh;min-height:100dvh;
+  color:#fff;background:#0d100d;overflow:hidden;
 }
+.hero-bg,
+.hero-layer,
+.hero-noise,
+.hero-vignette,
+.hero-glow{position:absolute;inset:0}
+.hero-bg{
+  background-image:url('/assets/bc.png');
+  background-size:cover;
+  background-position:center center;
+  transform:scale(1.08);
+  transform-origin:center;
+  will-change:transform,filter;
+}
+.hero-layer{background:linear-gradient(180deg,rgba(5,8,6,.34) 0%,rgba(5,8,6,.20) 24%,rgba(5,8,6,.32) 58%,rgba(5,8,6,.82) 100%)}
+.hero-glow{
+  background:
+    radial-gradient(circle at 50% 26%, rgba(255,244,220,.18), transparent 24%),
+    radial-gradient(circle at 20% 50%, rgba(34,197,94,.10), transparent 25%),
+    radial-gradient(circle at 80% 45%, rgba(255,255,255,.08), transparent 22%);
+  mix-blend-mode:screen;
+}
+.hero-noise{opacity:.06;background-image:radial-gradient(rgba(255,255,255,.8) .5px, transparent .5px);background-size:5px 5px}
+.hero-vignette{box-shadow:inset 0 -180px 120px rgba(0,0,0,.35), inset 0 80px 80px rgba(0,0,0,.16)}
 .hero-grid{
-  display:grid;grid-template-columns:1.05fr 1fr;
-  gap:clamp(40px,5vw,80px);
-  align-items:center;
-  width:min(1320px,calc(100% - 56px));
-  margin:0 auto;
+  position:relative;z-index:2;min-height:100svh;min-height:100dvh;
+  display:grid;grid-template-columns:minmax(0,1fr);
+  padding:120px 24px 34px;
 }
-@media(max-width:960px){
-  .hero-grid{ grid-template-columns:1fr; gap:56px }
+.hero-inner{
+  width:min(1100px,100%);margin:0 auto;
+  display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:44px;align-items:end;
 }
-@media(max-width:720px){ .hero-grid{ width:min(100% - 32px,1320px) } }
-
-.hero-copy{min-width:0}
+.hero-copy{max-width:760px;align-self:center;padding-top:20px}
+.hero-kicker{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:10px 16px;border-radius:999px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(255,255,255,.82);
+  margin-bottom:22px;
+}
+.hero-kicker::before{content:'';width:7px;height:7px;border-radius:50%;background:#83f1a3;box-shadow:0 0 18px rgba(131,241,163,.8)}
 .hero-title{
-  font-family:'Fraunces',Georgia,serif;
-  font-weight:400;font-style:italic;
-  font-size:clamp(56px,8.8vw,148px);
-  line-height:.9;letter-spacing:-.04em;
-  color:var(--ink);
-  margin:26px 0 32px;
-  display:block;
-  overflow-wrap:break-word;
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:clamp(48px,7vw,102px);
+  line-height:.94;
+  font-weight:700;letter-spacing:-.03em;
+  max-width:10.4ch;
+  text-wrap:balance;
+  text-shadow:0 14px 40px rgba(0,0,0,.26);
 }
-.hero-title .word{ display:inline-block; }
-.hero-title .char{
-  display:inline-block;
-  opacity:0;transform:translateY(.5em);
-}
-.hero-title.no-gsap .char{ opacity:1;transform:none }
 .hero-sub{
-  font-size:clamp(15px,1.15vw,18px);
-  line-height:1.75;color:var(--ink-soft);
-  max-width:46ch;margin-bottom:40px;
-  font-weight:400;
+  margin-top:18px;max-width:52ch;
+  color:rgba(255,255,255,.76);
+  font-size:clamp(15px,1.55vw,18px);
+  line-height:1.72;
 }
-
-.search-block{ max-width:540px;position:relative;z-index:5 }
+.hero-actions{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px}
+.hero-chip{
+  display:inline-flex;align-items:center;gap:9px;
+  min-height:44px;padding:0 16px;border-radius:999px;
+  background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  font-size:13px;font-weight:600;color:#fff;
+  transition:transform .25s ease,background .25s ease,border-color .25s ease;
+}
+.hero-chip:hover{transform:translateY(-2px);background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.28)}
+.hero-side{
+  align-self:end;
+  background:rgba(255,253,248,.10);
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:26px;
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  padding:20px;
+  box-shadow:0 24px 60px rgba(0,0,0,.18);
+}
+.hero-side-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:18px}
+.hero-side-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.6);font-weight:700}
+.hero-side-value{margin-top:8px;font-family:'Fraunces',Georgia,serif;font-size:26px;line-height:1.06;color:#fff}
+.hero-side-note{margin-top:10px;font-size:12px;line-height:1.55;color:rgba(255,255,255,.68)}
+.hero-mini-stack{display:grid;gap:10px}
+.hero-mini{
+  display:flex;justify-content:space-between;gap:12px;align-items:center;
+  min-height:58px;padding:12px 14px;border-radius:18px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.10);
+}
+.hero-mini span{display:block}
+.hero-mini-label{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.58);font-weight:700}
+.hero-mini-value{margin-top:4px;font-size:13px;font-weight:600;color:#fff}
+.hero-mini-icon{font-size:18px}
+.hero-bottom{
+  width:min(1100px,100%);margin:28px auto 0;position:relative;z-index:2;
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:end;
+}
+.search-stage{
+  position:relative;
+  background:rgba(255,253,248,.94);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:30px;
+  padding:14px;
+  box-shadow:0 30px 80px rgba(0,0,0,.22);
+}
+.search-caption{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding:0 10px 8px}
 .search-form{
   display:flex;align-items:center;gap:10px;
-  padding:8px 8px 8px 18px;
-  background:var(--paper);
-  border:1px solid var(--border);
-  border-radius:999px;
-  box-shadow:0 2px 20px rgba(25,20,12,.04);
-  transition:border-color .15s, box-shadow .2s;
+  background:#fff;border-radius:999px;padding:7px 7px 7px 18px;
+  border:1px solid rgba(18,20,16,.08);
 }
-.search-form:focus-within{
-  border-color:var(--green);
-  box-shadow:0 4px 24px rgba(26,84,48,.12);
-}
-.search-form svg{
-  width:18px;height:18px;color:var(--muted);flex-shrink:0;
-}
-.search-input{
-  flex:1;min-width:0;padding:14px 8px;
-  border:0;outline:none;background:transparent;
-  font:400 15px 'Inter',sans-serif;color:var(--ink);
-}
-.search-input::placeholder{ color:var(--muted) }
+.search-form svg{width:18px;height:18px;color:#7c7467;flex-shrink:0}
+.search-input{flex:1;min-width:0;border:none;outline:none;background:transparent;color:var(--ink);font-size:15px;padding:15px 0}
+.search-input::placeholder{color:#8a8377}
 .search-go{
-  padding:12px 20px;border:0;cursor:pointer;
-  background:var(--ink);color:var(--paper);
-  border-radius:999px;
-  font:600 13px 'Inter',sans-serif;letter-spacing:.02em;
-  transition:background .15s, transform .15s;
-  white-space:nowrap;
+  min-width:132px;height:48px;padding:0 22px;border:none;border-radius:999px;
+  background:linear-gradient(180deg,#1b4a2c,#13361f);color:#fff;font-size:13px;font-weight:700;
+  cursor:pointer;transition:transform .25s ease,filter .25s ease;
 }
-.search-go:hover{ background:var(--green);transform:translateX(2px) }
-
+.search-go:hover{transform:translateY(-1px);filter:brightness(1.06)}
 .search-sug{
-  display:none;
-  position:absolute;top:calc(100% + 8px);left:0;right:0;
-  background:var(--paper);
-  border:1px solid var(--border);
-  border-radius:20px;
-  box-shadow:0 16px 48px rgba(25,20,12,.14);
-  padding:6px;z-index:20;max-height:360px;overflow-y:auto;
+  position:absolute;top:calc(100% + 12px);left:12px;right:12px;
+  display:none;z-index:60;max-height:300px;overflow-y:auto;
+  background:rgba(255,253,248,.98);border:1px solid rgba(18,20,16,.08);border-radius:24px;
+  box-shadow:0 20px 50px rgba(0,0,0,.16);backdrop-filter:blur(16px);
 }
-.search-sug-item{
-  display:flex;align-items:center;gap:12px;
-  padding:11px 14px;border-radius:14px;cursor:pointer;
-  font-size:14px;color:var(--ink);
-  transition:background .12s;
+.search-sug-item{display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid rgba(18,20,16,.06);cursor:pointer;transition:background .18s ease}
+.search-sug-item:last-child{border-bottom:none}
+.search-sug-item:hover,.search-sug-item.active{background:#f2ede4}
+.search-sug-item .ssi-icon{font-size:18px;flex:0 0 auto}
+.search-sug-item .ssi-name{flex:1;font-size:14px;font-weight:600;color:var(--ink)}
+.search-sug-item .ssi-tag{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.hero-scroll{
+  display:inline-flex;align-items:center;gap:10px;align-self:center;
+  color:rgba(255,255,255,.62);font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  cursor:pointer;user-select:none;
 }
-.search-sug-item:hover,.search-sug-item.active{
-  background:rgba(26,84,48,.06);
-}
-.ssi-icon{font-size:18px;flex-shrink:0}
-.ssi-name{flex:1}
-.ssi-tag{
-  font-size:10px;text-transform:uppercase;letter-spacing:.12em;
-  color:var(--muted);
-}
+.hero-scroll svg{width:16px;height:16px;animation:heroBob 2.4s ease-in-out infinite}
+@keyframes heroBob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
 
-.hero-quick{
-  display:flex;flex-wrap:wrap;gap:10px;margin-top:28px;
+/* Intro manifesto */
+.manifesto{position:relative;background:linear-gradient(180deg,var(--bg),#f6f1e8)}
+.manifesto-wrap{
+  display:grid;grid-template-columns:1.05fr .95fr;gap:26px;align-items:stretch;
 }
-.hero-quick a{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:10px 16px;border-radius:999px;
-  border:1px solid var(--border);
-  font-size:13px;font-weight:500;color:var(--ink);
-  background:transparent;
-  transition:background .15s, border-color .15s;
+.manifesto-panel{
+  position:relative;background:rgba(255,253,248,.68);border:1px solid var(--line);border-radius:28px;padding:34px;
+  box-shadow:var(--shadow);overflow:hidden;
 }
-.hero-quick a:hover{
-  background:var(--paper);border-color:var(--ink-soft);
+.manifesto-panel::before{
+  content:'';position:absolute;inset:-1px auto auto -1px;width:160px;height:160px;
+  background:radial-gradient(circle at top left, rgba(34,197,94,.12), transparent 72%);
 }
-.hero-quick span:first-child{font-size:14px}
+.manifesto-lead{
+  font-family:'Fraunces',Georgia,serif;font-size:clamp(28px,4vw,44px);line-height:1.08;letter-spacing:-.03em;
+  max-width:16ch;
+}
+.manifesto-copy{margin-top:18px;max-width:52ch;color:var(--ink-soft);font-size:15px;line-height:1.78}
+.manifesto-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px}
+.metric{
+  background:rgba(255,255,255,.7);border:1px solid rgba(18,20,16,.08);border-radius:20px;padding:18px 16px;
+}
+.metric-value{font-family:'Fraunces',Georgia,serif;font-size:30px;line-height:1;color:var(--ink)}
+.metric-label{margin-top:8px;font-size:12px;line-height:1.5;color:var(--ink-soft)}
+.manifesto-visual{
+  position:relative;min-height:540px;border-radius:28px;overflow:hidden;background:#111;
+  box-shadow:0 28px 80px rgba(0,0,0,.18);
+}
+.manifesto-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.05)}
+.manifesto-visual::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.14) 35%,rgba(0,0,0,.64))}
+.visual-card{
+  position:absolute;left:24px;right:24px;bottom:24px;z-index:2;
+  background:rgba(255,253,248,.88);border:1px solid rgba(255,255,255,.4);border-radius:24px;padding:20px;
+  backdrop-filter:blur(18px);
+}
+.visual-card-label{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.visual-card-title{margin-top:8px;font-family:'Fraunces',Georgia,serif;font-size:28px;line-height:1.08;color:var(--ink)}
+.visual-card-copy{margin-top:10px;font-size:14px;line-height:1.65;color:var(--ink-soft)}
 
-.hero-visual{
-  position:relative;
-  aspect-ratio:4/5;
-  border-radius:18px;
-  overflow:hidden;
-  background:var(--bg-deep);
-  box-shadow:0 30px 80px rgba(25,20,12,.12);
+/* Editorial strip */
+.editorial{padding-top:30px}
+.editorial-shell{
+  position:relative;border-radius:34px;overflow:hidden;background:#10130f;color:#fff;
+  box-shadow:0 34px 90px rgba(0,0,0,.2);
 }
-.hero-img{
-  position:absolute;inset:-8%;
-  background:url('/assets/bc.png') center/cover no-repeat;
-  will-change:transform;
+.editorial-bg{position:absolute;inset:0;background-image:url('/assets/bc.png');background-size:cover;background-position:center 45%;transform:scale(1.04);opacity:.26}
+.editorial-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(9,12,10,.88) 0%,rgba(9,12,10,.68) 46%,rgba(9,12,10,.52) 100%)}
+.editorial-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.1fr .9fr;gap:26px;padding:46px 42px}
+.editorial-copy h3{font-family:'Fraunces',Georgia,serif;font-size:clamp(32px,4vw,54px);line-height:1.02;max-width:11ch}
+.editorial-copy p{margin-top:16px;max-width:54ch;color:rgba(255,255,255,.74);font-size:15px;line-height:1.8}
+.editorial-points{display:grid;gap:14px}
+.ep{
+  display:grid;grid-template-columns:38px 1fr;gap:14px;align-items:flex-start;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);border-radius:22px;padding:18px;
 }
-.hero-visual::after{
-  content:"";position:absolute;inset:0;
-  background:linear-gradient(160deg,transparent 50%,rgba(15,58,32,.22) 100%);
-  pointer-events:none;
-}
-.hero-visual-badge{
-  position:absolute;top:20px;left:20px;right:20px;
-  display:flex;justify-content:space-between;align-items:flex-start;
-  font-family:'Inter',sans-serif;font-size:11px;font-weight:500;
-  letter-spacing:.16em;text-transform:uppercase;
-  color:#fff;mix-blend-mode:difference;opacity:.85;
-  z-index:1;
-}
+.ep-icon{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.08);font-size:17px}
+.ep-title{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.92)}
+.ep-copy{margin-top:5px;font-size:13px;line-height:1.65;color:rgba(255,255,255,.68)}
 
-.scroll-cue{
-  position:absolute;bottom:28px;left:50%;transform:translateX(-50%);
-  display:flex;flex-direction:column;align-items:center;gap:8px;
-  background:transparent;border:0;cursor:pointer;color:var(--ink-soft);
-  font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
-}
-.scroll-cue svg{ width:14px;height:14px; animation:bob 1.8s ease-in-out infinite; }
-@keyframes bob{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(4px)} }
-@media(max-width:720px){ .scroll-cue{ display:none } }
+/* Cards / grids */
+.country-grid,.tools-grid,.chron-grid,.city-grid{display:grid;gap:16px}
+.country-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+.tools-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+.chron-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.city-grid{grid-template-columns:repeat(6,minmax(0,1fr))}
 
-/* ──────────── HORIZONTAL SCROLL SECTION ──────────── */
-.hscroll-sec{ position:relative;overflow:hidden }
-.hscroll-viewport{ height:100vh;height:100svh;position:relative;overflow:hidden;display:flex;align-items:center }
-.hscroll-track{ display:flex;flex-wrap:nowrap;gap:24px;padding:0 8vw;will-change:transform }
-.hscroll-track .country-grid{ display:flex;flex-wrap:nowrap;gap:24px;grid-template-columns:none }
-.hscroll-track .country-card{ width:min(360px,78vw);flex-shrink:0;aspect-ratio:3/4 }
-.hscroll-num{
-  position:absolute;top:50%;transform:translate(-110%,-50%);
-  left:8vw;
-  font-family:'Fraunces',Georgia,serif;font-style:italic;
-  font-size:clamp(180px,22vw,340px);line-height:.9;
-  color:rgba(23,23,20,.06);letter-spacing:-.04em;
-  pointer-events:none;z-index:0;
-}
-.hscroll-head{
-  max-width:min(920px,calc(100% - 56px));margin:0 auto;
-  padding:clamp(90px,10vw,140px) 0 40px;
-}
-@media(max-width:720px){
-  .hscroll-viewport{ height:auto;padding:20px 0 40px }
-  .hscroll-track{ gap:14px;padding:0 24px;overflow-x:auto;scroll-snap-type:x mandatory }
-  .hscroll-track .country-card{ scroll-snap-align:start }
-  .hscroll-num{ display:none }
-}
-
-/* ──────────── SECTION ──────────── */
-.section{ position:relative }
-
-/* wiper overlay */
-.wiper{
-  position:absolute;inset:0;
-  background:var(--bg);
-  transform-origin:top center;
-  pointer-events:none;z-index:2;
-}
-
-/* ──────────── STATS RIBBON ──────────── */
-.stats{
-  background:var(--ink);
-  color:var(--paper);
-  padding:clamp(80px,10vw,130px) 0;
-  position:relative;overflow:hidden;
-}
-.stats::before{
-  content:"";position:absolute;inset:0;
-  background:
-    radial-gradient(circle at 15% 40%,rgba(34,161,90,.12),transparent 40%),
-    radial-gradient(circle at 85% 70%,rgba(34,161,90,.08),transparent 35%);
-  pointer-events:none;
-}
-.stats-head{
-  max-width:38ch;margin-bottom:72px;position:relative;
-}
-.stats-head .eyebrow{ color:rgba(255,253,248,.5) }
-.stats-head .eyebrow::before{ background:rgba(255,253,248,.4) }
-.stats-head h2{
-  font-family:'Fraunces',Georgia,serif;
-  font-weight:400;font-style:italic;
-  font-size:clamp(34px,4.6vw,64px);
-  line-height:1;letter-spacing:-.025em;
-  color:var(--paper);margin-top:18px;
-}
-.stats-head h2 em{ color:var(--green-bright);font-style:italic }
-.stats-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:48px;position:relative;
-  border-top:1px solid rgba(255,253,248,.12);
-  padding-top:56px;
-}
-@media(max-width:900px){ .stats-grid{ grid-template-columns:repeat(2,1fr);gap:48px 32px } }
-.stat{
-  display:flex;flex-direction:column;gap:10px;
-}
-.stat-num{
-  font-family:'Fraunces',Georgia,serif;
-  font-weight:400;font-style:italic;
-  font-size:clamp(56px,7vw,104px);
-  line-height:.9;letter-spacing:-.03em;
-  color:var(--paper);
-  font-variant-numeric:tabular-nums;
-}
-.stat-sep{
-  width:42px;height:1px;background:var(--green-bright);
-  margin:6px 0;
-}
-.stat-lbl{
-  font-size:13px;font-weight:500;letter-spacing:.18em;
-  text-transform:uppercase;color:rgba(255,253,248,.56);
-}
-
-/* ──────────── COUNTRIES ──────────── */
-.country-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:28px 20px;
-}
-@media(max-width:900px){ .country-grid{ grid-template-columns:repeat(2,1fr) } }
-@media(max-width:480px){ .country-grid{ grid-template-columns:1fr;gap:20px } }
-.country-card{
-  position:relative;display:block;overflow:hidden;
-  border-radius:16px;aspect-ratio:3/4;
-  background:var(--bg-deep);
-  transition:transform .35s cubic-bezier(.2,.8,.2,1);
-}
-.country-card img{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  transition:transform .8s cubic-bezier(.2,.8,.2,1);
-  will-change:transform;
-}
-.country-card::after{
-  content:"";position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(10,8,4,0) 35%,rgba(10,8,4,.72) 100%);
-  z-index:1;
-}
-.country-card:hover{ transform:translateY(-6px); }
-.country-card:hover img{ transform:scale(1.08); }
-.cc-body{
-  position:absolute;left:18px;right:18px;bottom:16px;
-  color:#fff;z-index:2;
-}
-.cc-flag{
-  display:inline-block;font-size:22px;margin-bottom:8px;
-  filter:drop-shadow(0 1px 2px rgba(0,0,0,.4));
-}
-.cc-name{
-  font-family:'Fraunces',Georgia,serif;font-style:italic;
-  font-size:22px;font-weight:400;line-height:1.1;letter-spacing:-.01em;
-  margin-bottom:4px;
-}
-.cc-fact{
-  font-size:11.5px;letter-spacing:.04em;
-  color:rgba(255,255,255,.8);font-weight:400;
-}
-
-/* ──────────── PHILOSOPHY ──────────── */
-.philosophy{
-  padding:clamp(140px,18vw,220px) 0;
-  text-align:center;position:relative;
-  background:var(--bg-deep);
-}
-.philosophy .wrap{ max-width:900px }
-.philo-mark{
-  font-family:'Cormorant Garamond',Georgia,serif;
-  font-style:italic;font-size:80px;line-height:1;
-  color:var(--green);opacity:.4;
-  margin-bottom:20px;
-}
-.philo-quote{
-  font-family:'Cormorant Garamond','Fraunces',Georgia,serif;
-  font-style:italic;font-weight:400;
-  font-size:clamp(32px,4.4vw,58px);
-  line-height:1.18;letter-spacing:-.012em;
-  color:var(--ink);
-}
-.philo-quote em{ color:var(--green);font-style:italic;font-weight:600 }
-.philo-sig{
-  margin-top:40px;
-  font-size:11px;letter-spacing:.24em;text-transform:uppercase;
-  color:var(--muted);
-}
-
-/* ──────────── TOOLS ──────────── */
-.tools{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:16px;
-}
-@media(max-width:960px){ .tools{ grid-template-columns:repeat(2,1fr) } }
-@media(max-width:480px){ .tools{ grid-template-columns:1fr } }
-.tool{
-  position:relative;display:flex;flex-direction:column;gap:10px;
-  padding:36px 28px 32px;
-  background:var(--paper);
-  border:1px solid var(--border);
-  border-radius:18px;
-  min-height:240px;
-  transition:transform .25s, border-color .2s, box-shadow .2s;
-}
-.tool:hover{
-  transform:translateY(-4px);
-  border-color:var(--green);
-  box-shadow:0 20px 48px rgba(26,84,48,.08);
-}
-.tool.featured{
-  background:var(--ink);color:var(--paper);
-  border-color:var(--ink);
-}
-.tool.featured:hover{ box-shadow:0 20px 48px rgba(0,0,0,.2) }
-.tool-badge{
-  align-self:flex-start;
-  padding:4px 10px;
-  background:rgba(34,161,90,.15);
-  color:var(--green-bright);
-  border-radius:999px;font-size:10.5px;font-weight:600;
-  letter-spacing:.08em;text-transform:uppercase;
-}
-.tool-icon{font-size:32px;line-height:1}
-.tool-name{
-  font-family:'Fraunces',Georgia,serif;font-style:italic;
-  font-size:26px;font-weight:400;letter-spacing:-.015em;
-  margin-top:auto;
-}
-.tool-desc{
-  font-size:13px;line-height:1.55;color:var(--ink-soft);
-}
-.tool.featured .tool-desc{ color:rgba(255,253,248,.7) }
-.tool-arrow{
-  display:inline-flex;align-items:center;gap:6px;
-  margin-top:14px;
-  font-size:11.5px;font-weight:600;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--green);
-}
-.tool.featured .tool-arrow{ color:var(--green-bright) }
-.tool-arrow::after{ content:"→";margin-left:2px }
-
-/* ──────────── CHRONICLES ──────────── */
-.chron-wrap{ background:var(--bg-deep) }
-.chron-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);gap:28px;
-}
-@media(max-width:900px){ .chron-grid{ grid-template-columns:1fr;gap:20px } }
-.chron-card{
-  display:flex;flex-direction:column;
-  background:var(--paper);
-  border:1px solid var(--border);
-  border-radius:16px;
-  overflow:hidden;
-  transition:transform .3s, box-shadow .3s;
-}
-.chron-card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 22px 50px rgba(25,20,12,.1);
-}
-.chron-thumb{
-  position:relative;aspect-ratio:16/10;overflow:hidden;
-  background:#222;
-}
-.chron-thumb-grid{
-  position:absolute;inset:0;display:grid;gap:1px;
-  background:rgba(0,0,0,.3);
-}
-.chron-thumb-grid.cols-3{ grid-template-columns:repeat(3,1fr) }
-.chron-thumb-grid.cols-2{ grid-template-columns:repeat(2,1fr) }
-.chron-thumb-grid > div{
-  background-size:cover;background-position:center;
-  transition:transform .6s ease;
-}
-.chron-card:hover .chron-thumb-grid > div{ transform:scale(1.06) }
-.chron-body{ padding:26px 26px 28px }
-.chron-cat{
-  font-size:10.5px;font-weight:600;letter-spacing:.18em;
-  text-transform:uppercase;color:var(--green);
-  margin-bottom:14px;
-}
-.chron-title{
-  font-family:'Fraunces',Georgia,serif;font-style:italic;
-  font-weight:400;font-size:22px;line-height:1.2;
-  letter-spacing:-.015em;margin-bottom:14px;color:var(--ink);
-}
-.chron-meta{
-  font-size:12px;color:var(--muted);
-}
-
-/* ──────────── CITIES ──────────── */
-.city-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:20px;
-}
-@media(max-width:960px){ .city-grid{ grid-template-columns:repeat(3,1fr) } }
-@media(max-width:700px){ .city-grid{ grid-template-columns:repeat(2,1fr);gap:14px } }
+.country-card,
+.tool-card,
+.chron-card,
 .city-card{
-  position:relative;display:block;
-  aspect-ratio:3/4;border-radius:14px;overflow:hidden;
-  background:var(--bg-deep);
-  transition:transform .3s;
+  will-change:transform;transition:transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s ease, border-color .35s ease;
 }
-.city-card img{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  transition:transform .7s;will-change:transform;
-}
-.city-card::after{
-  content:"";position:absolute;inset:0;z-index:1;
-  background:linear-gradient(180deg,transparent 45%,rgba(10,8,4,.75) 100%);
-}
-.city-card:hover{ transform:translateY(-4px) }
-.city-card:hover img{ transform:scale(1.07) }
-.city-body{
-  position:absolute;bottom:14px;left:14px;right:14px;z-index:2;color:#fff;
-}
-.city-name{
-  font-family:'Fraunces',Georgia,serif;font-style:italic;
-  font-size:18px;font-weight:400;letter-spacing:-.01em;
-}
-.city-country{
-  font-size:10.5px;font-weight:500;letter-spacing:.14em;
-  text-transform:uppercase;opacity:.7;margin-top:3px;
-}
+.country-card:hover,.tool-card:hover,.chron-card:hover,.city-card:hover{transform:translateY(-6px)}
 
-/* ──────────── CTA ROW ──────────── */
-.cta-row{ margin-top:64px;display:flex;justify-content:center }
-.btn-ghost{
-  display:inline-flex;align-items:center;gap:10px;
-  padding:16px 28px;
-  border:1px solid var(--ink);border-radius:999px;
-  font-family:'Inter',sans-serif;font-size:13px;font-weight:600;
-  letter-spacing:.04em;color:var(--ink);
-  transition:background .2s,color .2s;
+.country-card{
+  position:relative;overflow:hidden;aspect-ratio:4/5;border-radius:24px;background:#131513;
+  box-shadow:0 18px 40px rgba(0,0,0,.12);
 }
-.btn-ghost:hover{ background:var(--ink);color:var(--paper) }
+.country-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.22,1,.36,1)}
+.country-card:hover img{transform:scale(1.07)}
+.country-card::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 0%,rgba(0,0,0,.14) 35%,rgba(0,0,0,.82) 100%)}
+.cc-body{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:22px;color:#fff}
+.cc-flag{font-size:22px;display:block;line-height:1;margin-bottom:8px}
+.cc-name{font-family:'Fraunces',Georgia,serif;font-size:22px;line-height:1.05;letter-spacing:-.02em}
+.cc-fact{margin-top:6px;font-size:12px;line-height:1.5;color:rgba(255,255,255,.72)}
 
-/* ──────────── REVEAL DEFAULTS ──────────── */
-[data-reveal] .section-head .eyebrow,
-[data-reveal] .section-head .section-sub,
-[data-reveal] .stats-head .eyebrow,
-[data-reveal] .cta-row{
-  opacity:0;transform:translateY(24px);
-  transition:opacity .7s ease, transform .8s cubic-bezier(.2,.8,.2,1);
+.tool-card{
+  min-height:220px;display:flex;flex-direction:column;gap:12px;
+  padding:28px;border-radius:24px;background:rgba(255,253,248,.75);
+  border:1px solid var(--line);box-shadow:var(--shadow)
 }
-[data-reveal].is-visible .section-head .eyebrow,
-[data-reveal].is-visible .section-head .section-sub,
-[data-reveal].is-visible .stats-head .eyebrow,
-[data-reveal].is-visible .cta-row{
-  opacity:1;transform:translateY(0);
+.tool-card:hover{border-color:rgba(23,60,36,.28);box-shadow:0 24px 56px rgba(0,0,0,.12)}
+.tool-card.featured{background:linear-gradient(180deg,rgba(34,197,94,.09),rgba(255,253,248,.86));border-color:rgba(34,197,94,.22)}
+.tool-badge{position:absolute;top:18px;right:18px;display:inline-flex;align-items:center;gap:4px;padding:6px 10px;border-radius:999px;background:#22c55e;color:#fff;font-size:10px;font-weight:700;letter-spacing:.06em;box-shadow:0 8px 20px rgba(34,197,94,.28)}
+.tool-icon{font-size:30px;line-height:1;margin-top:10px}
+.tool-name{font-family:'Fraunces',Georgia,serif;font-size:24px;line-height:1.05;color:var(--ink)}
+.tool-desc{font-size:14px;line-height:1.7;color:var(--ink-soft);flex:1;max-width:24ch}
+.tool-arrow{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green)}
+.tool-arrow::after{content:'→';transition:transform .25s ease}.tool-card:hover .tool-arrow::after{transform:translateX(4px)}
+
+.chron-section{background:linear-gradient(180deg,#faf7f1,#f1ebdf);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.chron-card{
+  display:flex;flex-direction:column;overflow:hidden;border-radius:24px;
+  background:#fff;border:1px solid var(--line);box-shadow:var(--shadow)
 }
-[data-reveal].is-visible .section-head .section-sub{ transition-delay:.2s }
+.chron-card:hover{border-color:rgba(23,60,36,.24)}
+.chron-thumb{position:relative;aspect-ratio:16/10;background:#131513;overflow:hidden}
+.chron-thumb-grid{position:absolute;inset:0;display:grid;gap:2px}
+.chron-thumb-grid.cols-2{grid-template-columns:1fr 1fr}
+.chron-thumb-grid.cols-3{grid-template-columns:1fr 1fr 1fr}
+.chron-thumb-grid div{background-size:cover;background-position:center;transition:transform 1s cubic-bezier(.22,1,.36,1)}
+.chron-card:hover .chron-thumb-grid div{transform:scale(1.05)}
+.chron-thumb::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent,rgba(0,0,0,.10) 48%,rgba(0,0,0,.46) 100%)}
+.chron-body{padding:22px 22px 24px;display:flex;flex-direction:column;gap:9px;flex:1}
+.chron-cat{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--green)}
+.chron-title{font-family:'Fraunces',Georgia,serif;font-size:22px;line-height:1.18;letter-spacing:-.02em;color:var(--ink)}
+.chron-meta{margin-top:auto;padding-top:10px;font-size:12px;color:var(--muted)}
 
-.card-reveal{ opacity:0;transform:translateY(24px) }
-.word-r{ display:inline-block }
-.philo-c{ display:inline-block }
+.city-card{position:relative;overflow:hidden;aspect-ratio:3/4;border-radius:22px;background:#131513;box-shadow:0 16px 36px rgba(0,0,0,.12)}
+.city-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1s cubic-bezier(.22,1,.36,1)}
+.city-card:hover img{transform:scale(1.06)}
+.city-card::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent,rgba(0,0,0,.12) 50%,rgba(0,0,0,.82) 100%)}
+.city-body{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:16px 16px 18px;color:#fff}
+.city-name{font-family:'Fraunces',Georgia,serif;font-size:17px;line-height:1.08;letter-spacing:-.02em}
+.city-country{margin-top:4px;font-size:11px;color:rgba(255,255,255,.7)}
 
-/* Scroll progress bar */
-.scroll-prog{
-  position:fixed;top:0;left:0;right:0;height:2px;
-  background:rgba(23,23,20,.05);z-index:9998;pointer-events:none;
+/* Floating separators */
+.soft-divider{padding:0 24px}
+.soft-divider-line{max-width:1240px;height:1px;margin:0 auto;background:linear-gradient(90deg,transparent,rgba(18,20,16,.12),transparent)}
+
+/* Responsive */
+@media(max-width:1160px){
+  .hero-inner{grid-template-columns:minmax(0,1fr) 320px;gap:28px}
+  .country-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .tools-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .chron-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .city-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .manifesto-wrap,.editorial-grid{grid-template-columns:1fr}
+  .manifesto-visual{min-height:460px}
 }
-.scroll-prog-bar{
-  position:absolute;left:0;top:0;bottom:0;width:0%;
-  background:linear-gradient(90deg,var(--green),var(--green-bright));
-  transition:width .05s linear;
+@media(max-width:780px){
+  .section{padding:72px 18px}
+  .hero-grid{padding:96px 18px 24px}
+  .hero-inner{grid-template-columns:1fr;gap:20px}
+  .hero-copy{max-width:none}
+  .hero-title{max-width:11ch;font-size:clamp(42px,15vw,70px)}
+  .hero-sub{max-width:33ch}
+  .hero-side{padding:16px;border-radius:22px}
+  .hero-bottom{grid-template-columns:1fr;align-items:start}
+  .search-stage{padding:12px;border-radius:26px}
+  .search-form{padding:5px 5px 5px 14px}
+  .search-input{font-size:14px;padding:13px 0}
+  .search-go{min-width:112px;height:44px;padding:0 18px;font-size:12px}
+  .hero-scroll{justify-content:flex-start}
+  .manifesto-panel{padding:26px}
+  .manifesto-metrics{grid-template-columns:1fr;gap:10px}
+  .editorial-shell{border-radius:28px}
+  .editorial-grid{padding:30px 22px}
+  .country-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .tools-grid{grid-template-columns:1fr;gap:12px}
+  .chron-grid{grid-template-columns:1fr;gap:14px}
+  .city-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .tool-card{min-height:0;padding:24px}
 }
-
-/* Hero: allow clip-path reveal on image */
-.hero-visual{ clip-path:inset(0 0 0 0 round 18px);will-change:clip-path,transform }
-.hero-visual.intro{ clip-path:inset(100% 0 0 0 round 0) }
-
-/* Pinned philosophy: will be transitioned by GSAP */
-.philosophy{ will-change:background-color }
+@media(max-width:440px){
+  .section-head{margin-bottom:32px}
+  .hero-kicker{padding:9px 14px;font-size:10px}
+  .hero-actions{gap:10px}
+  .hero-chip{min-height:42px;padding:0 14px;font-size:12px}
+  .country-grid,.city-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cc-name{font-size:18px}.chron-title{font-size:20px}
+}
 </style>
 </head>
 <body>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-<!-- SEO fallback (off-screen) -->
 <div id="seoFallback" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden">
   <h2>WiggMap — Where is the grass actually greener? Compare 160+ countries</h2>
   <p>WiggMap is the data-driven tool that helps expats, digital nomads, retirees and global citizens decide where to live, work or retire abroad. We compare more than 160 countries on 25+ data points: net average and minimum salaries, studio rent, electricity, water and mobile costs, beer and coffee prices, gasoline, VAT and income tax brackets, immigration ease, public healthcare quality, sun hours per year, crime index, purchasing power and religion snapshot.</p>
-  <h3>Most popular country profiles</h3>
-  <ul>
-    <li><a href="/countries/portugal-en.html">Portugal — cost of living, salaries, D7 visa</a></li>
-    <li><a href="/countries/spain-en.html">Spain — taxes, rent, digital nomad visa</a></li>
-    <li><a href="/countries/thailand-en.html">Thailand — Bangkok, Chiang Mai, retirement visa</a></li>
-    <li><a href="/countries/japan-en.html">Japan — Tokyo, salaries, healthcare</a></li>
-    <li><a href="/countries/france-en.html">France — Paris, taxes, social security</a></li>
-    <li><a href="/countries/germany-en.html">Germany — Berlin, salaries, work visas</a></li>
-    <li><a href="/countries/mexico-en.html">Mexico — Mexico City, cost of living</a></li>
-    <li><a href="/countries/indonesia-en.html">Indonesia — Bali, digital nomad visa</a></li>
-  </ul>
 </div>
 
 <div id="siteHeader"></div>
 <script src="/data/header.js"></script>
 
-<!-- ──────────── HERO ──────────── -->
-<section class="hero" id="hero">
+<section class="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-layer"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-noise"></div>
+  <div class="hero-vignette"></div>
+
   <div class="hero-grid">
-    <div class="hero-copy">
-      <span class="eyebrow" id="heroEyebrow">160+ countries · Real data</span>
-      <h1 class="hero-title no-gsap" id="heroTitle">Et si ta vie était différente ailleurs ?</h1>
-      <p class="hero-sub" id="heroSub">160+ pays. Salaires, loyers, visas, qualité de vie. Les vraies données pour choisir où vivre mieux.</p>
-
-      <div class="search-block">
-        <form class="search-form" id="searchForm" autocomplete="off">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-          <input id="searchInput" class="search-input" type="text" placeholder="ex. Suisse, Japon, Bangkok…">
-          <button id="searchGo" class="search-go" type="submit">Go →</button>
-        </form>
-        <div id="searchSug" class="search-sug" role="listbox"></div>
+    <div class="hero-inner">
+      <div class="hero-copy reveal in">
+        <div class="hero-kicker" id="heroEyebrow">160+ countries · Real data</div>
+        <h1 class="hero-title" id="heroTitle">Et si ta vie était différente ailleurs ?</h1>
+        <p class="hero-sub" id="heroSub">160+ pays. Salaires, loyers, visas, qualité de vie. Les vraies données pour choisir où vivre mieux.</p>
+        <div class="hero-actions">
+          <a class="hero-chip" href="/compare.html?c=thailand,indonesia,portugal"><span>⚖️</span><span id="qkCompare">Comparer</span></a>
+          <a class="hero-chip" href="/indexchronicles.html"><span>📖</span><span id="qkChron">Chroniques</span></a>
+          <a class="hero-chip" href="/wiggmatch.html"><span>💚</span><span id="qkMatch">WiggMatch</span></a>
+        </div>
       </div>
 
-      <div class="hero-quick">
-        <a href="/compare.html?c=thailand,indonesia,portugal"><span>🔀</span><span id="qkCompare">Comparer</span></a>
-        <a href="/indexchronicles.html"><span>📖</span><span id="qkChron">Chroniques</span></a>
-        <a href="/wiggmatch.html"><span>💚</span><span id="qkMatch">WiggMatch</span></a>
-      </div>
+      <aside class="hero-side reveal in" aria-label="Aperçu WiggMap">
+        <div class="hero-side-top">
+          <div>
+            <div class="hero-side-label">WiggMap</div>
+            <div class="hero-side-value">Décider avec du vrai contexte</div>
+            <div class="hero-side-note">Pas juste des chiffres isolés. Des pays, des villes, des chroniques, des comparaisons, et une sensation de projection réelle.</div>
+          </div>
+        </div>
+        <div class="hero-mini-stack">
+          <div class="hero-mini"><div><span class="hero-mini-label">Pays comparés</span><span class="hero-mini-value">160+ profils détaillés</span></div><span class="hero-mini-icon">🌍</span></div>
+          <div class="hero-mini"><div><span class="hero-mini-label">Angles de lecture</span><span class="hero-mini-value">salaires · loyers · visas · qualité de vie</span></div><span class="hero-mini-icon">📊</span></div>
+          <div class="hero-mini"><div><span class="hero-mini-label">Format</span><span class="hero-mini-value">outil data + média éditorial</span></div><span class="hero-mini-icon">✦</span></div>
+        </div>
+      </aside>
     </div>
 
-    <div class="hero-visual" aria-hidden="true">
-      <div class="hero-img" id="heroImg"></div>
-      <div class="hero-visual-badge">
-        <span>WiggMap</span><span>Est. 2024</span>
+    <div class="hero-bottom reveal in">
+      <div class="search-stage">
+        <div class="search-caption">Trouver un pays, une ville, un angle</div>
+        <div class="search-block">
+          <form class="search-form" id="searchForm" autocomplete="off">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
+            <input id="searchInput" class="search-input" type="text" placeholder="ex. Suisse, Japon, Bangkok…">
+            <button id="searchGo" class="search-go" type="submit">Go →</button>
+          </form>
+          <div id="searchSug" class="search-sug" role="listbox"></div>
+        </div>
       </div>
-    </div>
-  </div>
-
-  <button class="scroll-cue" id="heroScroll" aria-label="Scroll down">
-    <span id="lblScroll">Découvrir</span>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-  </button>
-</section>
-
-<!-- ──────────── STATS RIBBON ──────────── -->
-<section class="stats" data-reveal>
-  <div class="wrap">
-    <div class="stats-head">
-      <span class="eyebrow" id="lblStatsEyebrow">The library</span>
-      <h2 id="lblStatsTitle">Une bibliothèque pour <em>partir</em>.</h2>
-    </div>
-    <div class="stats-grid">
-      <div class="stat">
-        <span class="stat-num" data-count="163">0</span>
-        <span class="stat-sep"></span>
-        <span class="stat-lbl" id="lblStatCountries">pays</span>
-      </div>
-      <div class="stat">
-        <span class="stat-num" data-count="48">0</span>
-        <span class="stat-sep"></span>
-        <span class="stat-lbl" id="lblStatData">données par pays</span>
-      </div>
-      <div class="stat">
-        <span class="stat-num" data-count="3">0</span>
-        <span class="stat-sep"></span>
-        <span class="stat-lbl" id="lblStatLangs">langues</span>
-      </div>
-      <div class="stat">
-        <span class="stat-num" data-count="33">0</span>
-        <span class="stat-sep"></span>
-        <span class="stat-lbl" id="lblStatChrons">chroniques</span>
+      <div class="hero-scroll" id="heroScroll">
+        <span id="lblScroll">Découvrir</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ──────────── DESTINATIONS (horizontal pinned) ──────────── -->
-<section class="section hscroll-sec" id="destSection">
-  <div class="wiper"></div>
-  <div class="hscroll-head wrap">
-    <div class="section-head" data-reveal-head>
-      <span class="eyebrow" id="lblPopEyebrow">Destinations</span>
+<section class="section manifesto">
+  <div class="section-inner">
+    <div class="manifesto-wrap">
+      <div class="manifesto-panel reveal">
+        <div class="section-eyebrow" id="lblIntroEyebrow">Une plateforme pour choisir mieux</div>
+        <h2 class="manifesto-lead" id="lblIntroTitle">Le monde est vaste. Le bon endroit est rarement évident.</h2>
+        <p class="manifesto-copy" id="lblIntroCopy">WiggMap prend le sujet comme un vrai choix de vie. Pas comme une simple liste de destinations. Tu compares, tu explores, tu lis, tu te projettes, puis tu affines. C’est ça qu’il faut faire ressentir dès la page d’accueil.</p>
+        <div class="manifesto-metrics">
+          <div class="metric reveal" data-delay="1"><div class="metric-value">160+</div><div class="metric-label">pays avec données, profils et lecture expat</div></div>
+          <div class="metric reveal" data-delay="2"><div class="metric-value">25+</div><div class="metric-label">critères clés pour comparer le quotidien réel</div></div>
+          <div class="metric reveal" data-delay="3"><div class="metric-value">3</div><div class="metric-label">portes d’entrée : data, chroniques, villes</div></div>
+        </div>
+      </div>
+      <div class="manifesto-visual reveal">
+        <img src="/assets/bc.png" alt="WiggMap editorial visual" loading="lazy">
+        <div class="visual-card">
+          <div class="visual-card-label">Approche WiggMap</div>
+          <div class="visual-card-title">Explorer, comprendre, comparer.</div>
+          <div class="visual-card-copy">L’idée n’est pas juste de faire joli. C’est de donner une impression premium, vivante et cinématographique, tout en gardant un site clair, mobile-first, et utile.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="soft-divider"><div class="soft-divider-line"></div></div>
+
+<section class="section editorial">
+  <div class="section-inner">
+    <div class="editorial-shell reveal">
+      <div class="editorial-bg" id="editorialBg"></div>
+      <div class="editorial-overlay"></div>
+      <div class="editorial-grid">
+        <div class="editorial-copy">
+          <div class="section-eyebrow" style="color:#b6efc8">Le bon ton visuel</div>
+          <h3>Un scroll qui donne une sensation, pas un gadget.</h3>
+          <p>Le principe du design ici, c’est un mouvement lent. Des images qui respirent un peu. Des blocs qui apparaissent proprement. Une profondeur subtile. Pas un site qui saute dans tous les sens. Pas une démo technique. Un rendu premium, posé, lisible.</p>
+        </div>
+        <div class="editorial-points">
+          <div class="ep reveal" data-delay="1"><div class="ep-icon">✦</div><div><div class="ep-title">Parallax léger</div><div class="ep-copy">Seulement sur les grands visuels et le hero, pour donner du relief sans casser la fluidité mobile.</div></div></div>
+          <div class="ep reveal" data-delay="2"><div class="ep-icon">◌</div><div><div class="ep-title">Révélations propres</div><div class="ep-copy">Fade + translate courts pour structurer la descente, sans effet showroom trop démonstratif.</div></div></div>
+          <div class="ep reveal" data-delay="3"><div class="ep-icon">▣</div><div><div class="ep-title">Sections plus éditoriales</div><div class="ep-copy">Moins de blocs purement utilitaires au-dessus de la ligne de flottaison, plus de respiration et de hiérarchie.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <span class="section-eyebrow" id="lblPopEyebrow">Destinations</span>
       <h2 class="section-title" id="lblPopTitle">Les pays à explorer</h2>
       <p class="section-sub" id="lblPopSub">Les destinations les plus explorées par notre communauté.</p>
     </div>
-  </div>
-  <div class="hscroll-viewport" id="destViewport">
-    <div class="hscroll-num" aria-hidden="true">01</div>
-    <div class="hscroll-track" id="destTrack">
-      <div class="country-grid" id="countryGrid"></div>
-    </div>
-  </div>
-  <div class="wrap cta-row">
-    <a class="btn-ghost" href="/globe.html"><span id="lblBrowseAll">Explorer les 160+ pays</span> →</a>
+    <div class="country-grid" id="countryGrid"></div>
+    <div class="section-cta reveal"><a class="btn-pill" href="/globe.html"><span id="lblBrowseAll">Explorer les 160+ pays</span> →</a></div>
   </div>
 </section>
 
-<!-- ──────────── PHILOSOPHY ──────────── -->
-<section class="philosophy">
-  <div class="wiper"></div>
-  <div class="wrap">
-    <div class="philo-mark">“</div>
-    <p class="philo-quote" id="philoQuote">Où l'herbe est-elle <em>vraiment</em> plus verte&nbsp;?</p>
-    <div class="philo-sig" id="philoSig">— Wigg</div>
-  </div>
-</section>
-
-<!-- ──────────── TOOLS ──────────── -->
-<section class="section pad-xl" data-reveal>
-  <div class="wiper"></div>
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow" id="lblToolsEyebrow">Nos outils</span>
+<section class="section" style="padding-top:0">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <span class="section-eyebrow" id="lblToolsEyebrow">Nos outils</span>
       <h2 class="section-title" id="lblToolsTitle">Trouve ta destination idéale</h2>
+      <p class="section-sub">Un design plus premium ne doit jamais cacher l’utilité. Tes outils doivent rester immédiats, visibles et compréhensibles.</p>
     </div>
-    <div class="tools">
-      <a class="tool featured" href="/wiggmatch.html">
+    <div class="tools-grid">
+      <a class="tool-card featured reveal" href="/wiggmatch.html">
         <span class="tool-badge" id="lblTool1Badge">🔥 Nouveau</span>
         <div class="tool-icon">💚</div>
         <div class="tool-name" id="lblTool1">WiggMatch</div>
         <div class="tool-desc" id="lblTool1Sub">Test personnalisé qui trouve la ville faite pour toi en 5 questions.</div>
-        <span class="tool-arrow" id="lblToolStart">Commencer</span>
+        <div class="tool-arrow" id="lblToolStart">Commencer</div>
       </a>
-      <a class="tool" href="/compare.html?c=thailand,indonesia,portugal">
+      <a class="tool-card reveal" data-delay="1" href="/compare.html?c=thailand,indonesia,portugal">
         <div class="tool-icon">⚖️</div>
         <div class="tool-name" id="lblTool2">Comparer</div>
         <div class="tool-desc" id="lblTool2Sub">Place 2 pays côte à côte sur 25+ critères.</div>
-        <span class="tool-arrow" id="lblToolStart2">Comparer</span>
+        <div class="tool-arrow" id="lblToolStart2">Comparer</div>
       </a>
-      <a class="tool" href="/globe.html">
+      <a class="tool-card reveal" data-delay="2" href="/globe.html">
         <div class="tool-icon">🌍</div>
         <div class="tool-name" id="lblTool3">Globe 3D</div>
-        <div class="tool-desc" id="lblTool3Sub">Tourne le globe et atterris sur n'importe quel pays.</div>
-        <span class="tool-arrow" id="lblToolStart3">Explorer</span>
+        <div class="tool-desc" id="lblTool3Sub">Tourne le globe et atterris sur n’importe quel pays.</div>
+        <div class="tool-arrow" id="lblToolStart3">Explorer</div>
       </a>
-      <a class="tool" href="/ggg/wigggame.html">
+      <a class="tool-card reveal" data-delay="3" href="/ggg/wigggame.html">
         <div class="tool-icon">🎮</div>
         <div class="tool-name" id="lblTool4">Quiz</div>
         <div class="tool-desc" id="lblTool4Sub">Teste tes connaissances sur les pays du monde.</div>
-        <span class="tool-arrow" id="lblToolStart4">Jouer</span>
+        <div class="tool-arrow" id="lblToolStart4">Jouer</div>
       </a>
     </div>
   </div>
 </section>
 
-<!-- ──────────── CHRONICLES ──────────── -->
-<section class="section pad-xl chron-wrap" data-reveal>
-  <div class="wiper"></div>
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow" id="lblChronEyebrow">Chroniques</span>
+<section class="section chron-section">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <span class="section-eyebrow" id="lblChronEyebrow">Chroniques</span>
       <h2 class="section-title" id="lblChronTitle">Articles longue forme</h2>
       <p class="section-sub" id="lblChronSub">Visas, fiscalité, expatriation et guides détaillés écrits par Wigg.</p>
     </div>
     <div class="chron-grid" id="chronGrid"></div>
-    <div class="cta-row">
-      <a class="btn-ghost" href="/indexchronicles.html"><span id="lblAllChron">Toutes les chroniques</span> →</a>
-    </div>
+    <div class="section-cta reveal"><a class="btn-pill" href="/indexchronicles.html"><span id="lblAllChron">Toutes les chroniques</span> →</a></div>
   </div>
 </section>
 
-<!-- ──────────── CITIES ──────────── -->
-<section class="section pad-xl" data-reveal>
-  <div class="wiper"></div>
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow" id="lblCityEyebrow">Chroniques villes</span>
+<section class="section">
+  <div class="section-inner">
+    <div class="section-head reveal">
+      <span class="section-eyebrow" id="lblCityEyebrow">Chroniques villes</span>
       <h2 class="section-title" id="lblCityTitle">Les villes à découvrir</h2>
-      <p class="section-sub" id="lblCitySub">Le quotidien, les coûts cachés et l'ambiance — ville par ville.</p>
+      <p class="section-sub" id="lblCitySub">Le quotidien, les coûts cachés et l’ambiance — ville par ville.</p>
     </div>
     <div class="city-grid" id="cityGrid"></div>
-    <div class="cta-row">
-      <a class="btn-ghost" href="/indexchronicles.html"><span id="lblAllCities">Toutes les villes</span> →</a>
-    </div>
+    <div class="section-cta reveal"><a class="btn-pill" href="/indexchronicles.html"><span id="lblAllCities">Toutes les villes</span> →</a></div>
   </div>
 </section>
 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
 
-<!-- ─────────── I18N ─────────── -->
 <script>
 var I18N = {
   en: {
@@ -818,16 +622,13 @@ var I18N = {
     goBtn: 'Go →',
     qkCompare: 'Compare', qkChron: 'Chronicles', qkMatch: 'WiggMatch',
     scroll: 'Scroll',
-    statsEyebrow: 'The library', statsTitle: 'A library for those about to <em>leave</em>.',
-    statCountries: 'countries', statData: 'data points', statLangs: 'languages', statChrons: 'chronicles',
     popEyebrow: 'Destinations', popTitle: 'Countries to explore', popSub: 'The destinations most explored by our community.',
     browseAll: 'Browse all 160+ countries',
-    philoQuote: 'Where is the grass <em>actually</em> greener?', philoSig: '— Wigg',
     toolsEyebrow: 'Our tools', toolsTitle: 'Find your perfect destination',
     tool1: 'WiggMatch', tool1Sub: 'Personalised test that finds the city made for you in 5 questions.', toolStart: 'Start', tool1Badge: '🔥 New',
     tool2: 'Compare', tool2Sub: 'Place 2 countries side by side on 25+ criteria.', toolStart2: 'Compare',
     tool3: '3D Globe', tool3Sub: 'Spin the globe and land on any country.', toolStart3: 'Explore',
-    tool4: 'Quiz', tool4Sub: 'Test your knowledge of the world\u2019s countries.', toolStart4: 'Play',
+    tool4: 'Quiz', tool4Sub: 'Test your knowledge of the world’s countries.', toolStart4: 'Play',
     chronEyebrow: 'Chronicles', chronTitle: 'Long-form articles', chronSub: 'Visas, taxes, expat life and in-depth guides written by Wigg.',
     allChron: 'All chronicles',
     cityEyebrow: 'City chronicles', cityTitle: 'Cities to discover', citySub: 'Daily life, hidden costs and atmosphere — city by city.',
@@ -835,7 +636,7 @@ var I18N = {
     noMatch: 'No match found.'
   },
   fr: {
-    title: 'WiggMap — Où l\u2019herbe est-elle vraiment plus verte ?',
+    title: 'WiggMap — Où l’herbe est-elle vraiment plus verte ?',
     eyebrow: '160+ pays · Données réelles',
     heroTitle: 'Et si ta vie était différente ailleurs ?',
     heroSub: '160+ pays. Salaires, loyers, visas, qualité de vie. Les vraies données pour choisir où vivre mieux.',
@@ -843,19 +644,16 @@ var I18N = {
     goBtn: 'Go →',
     qkCompare: 'Comparer', qkChron: 'Chroniques', qkMatch: 'WiggMatch',
     scroll: 'Découvrir',
-    statsEyebrow: 'La bibliothèque', statsTitle: 'Une bibliothèque pour <em>partir</em>.',
-    statCountries: 'pays', statData: 'données par pays', statLangs: 'langues', statChrons: 'chroniques',
     popEyebrow: 'Destinations', popTitle: 'Les pays à explorer', popSub: 'Les destinations les plus explorées par notre communauté.',
     browseAll: 'Explorer les 160+ pays',
-    philoQuote: 'Où l\u2019herbe est-elle <em>vraiment</em> plus verte ?', philoSig: '— Wigg',
     toolsEyebrow: 'Nos outils', toolsTitle: 'Trouve ta destination idéale',
     tool1: 'WiggMatch', tool1Sub: 'Test personnalisé qui trouve la ville faite pour toi en 5 questions.', toolStart: 'Commencer', tool1Badge: '🔥 Nouveau',
     tool2: 'Comparer', tool2Sub: 'Place 2 pays côte à côte sur 25+ critères.', toolStart2: 'Comparer',
-    tool3: 'Globe 3D', tool3Sub: 'Tourne le globe et atterris sur n\u2019importe quel pays.', toolStart3: 'Explorer',
+    tool3: 'Globe 3D', tool3Sub: 'Tourne le globe et atterris sur n’importe quel pays.', toolStart3: 'Explorer',
     tool4: 'Quiz', tool4Sub: 'Teste tes connaissances sur les pays du monde.', toolStart4: 'Jouer',
     chronEyebrow: 'Chroniques', chronTitle: 'Articles longue forme', chronSub: 'Visas, fiscalité, expatriation et guides détaillés écrits par Wigg.',
     allChron: 'Toutes les chroniques',
-    cityEyebrow: 'Chroniques villes', cityTitle: 'Les villes à découvrir', citySub: 'Le quotidien, les coûts cachés et l\u2019ambiance — ville par ville.',
+    cityEyebrow: 'Chroniques villes', cityTitle: 'Les villes à découvrir', citySub: 'Le quotidien, les coûts cachés et l’ambiance — ville par ville.',
     allCities: 'Toutes les villes',
     noMatch: 'Aucun résultat.'
   },
@@ -868,11 +666,8 @@ var I18N = {
     goBtn: 'Ir →',
     qkCompare: 'Comparar', qkChron: 'Crónicas', qkMatch: 'WiggMatch',
     scroll: 'Descubrir',
-    statsEyebrow: 'La biblioteca', statsTitle: 'Una biblioteca para <em>partir</em>.',
-    statCountries: 'países', statData: 'datos por país', statLangs: 'idiomas', statChrons: 'crónicas',
     popEyebrow: 'Destinos', popTitle: 'Los países a explorar', popSub: 'Los destinos más explorados por nuestra comunidad.',
     browseAll: 'Explorar los 160+ países',
-    philoQuote: '¿Dónde está la hierba <em>realmente</em> más verde?', philoSig: '— Wigg',
     toolsEyebrow: 'Nuestras herramientas', toolsTitle: 'Encuentra tu destino ideal',
     tool1: 'WiggMatch', tool1Sub: 'Test personalizado que encuentra la ciudad hecha para ti en 5 preguntas.', toolStart: 'Empezar', tool1Badge: '🔥 Nuevo',
     tool2: 'Comparar', tool2Sub: 'Coloca 2 países uno al lado del otro en 25+ criterios.', toolStart2: 'Comparar',
@@ -890,53 +685,26 @@ var LANG = (localStorage.getItem('wigg_lang') || 'en').toLowerCase();
 if (['en','fr','es'].indexOf(LANG) === -1) LANG = 'en';
 document.documentElement.lang = LANG;
 var T = I18N[LANG];
-
 document.title = T.title;
 function setT(id, val) { var el = document.getElementById(id); if (el) el.textContent = val; }
-function setH(id, val) { var el = document.getElementById(id); if (el) el.innerHTML = val; }
 setT('heroEyebrow', T.eyebrow);
 setT('heroTitle', T.heroTitle);
 setT('heroSub', T.heroSub);
-setT('qkCompare', T.qkCompare);
-setT('qkChron', T.qkChron);
-setT('qkMatch', T.qkMatch);
+setT('qkCompare', T.qkCompare); setT('qkChron', T.qkChron); setT('qkMatch', T.qkMatch);
 setT('lblScroll', T.scroll);
-setT('lblStatsEyebrow', T.statsEyebrow);
-setH('lblStatsTitle', T.statsTitle);
-setT('lblStatCountries', T.statCountries);
-setT('lblStatData', T.statData);
-setT('lblStatLangs', T.statLangs);
-setT('lblStatChrons', T.statChrons);
-setT('lblPopEyebrow', T.popEyebrow);
-setT('lblPopTitle', T.popTitle);
-setT('lblPopSub', T.popSub);
-setT('lblBrowseAll', T.browseAll);
-setH('philoQuote', T.philoQuote);
-setT('philoSig', T.philoSig);
-setT('lblToolsEyebrow', T.toolsEyebrow);
-setT('lblToolsTitle', T.toolsTitle);
+setT('lblPopEyebrow', T.popEyebrow); setT('lblPopTitle', T.popTitle); setT('lblPopSub', T.popSub); setT('lblBrowseAll', T.browseAll);
+setT('lblToolsEyebrow', T.toolsEyebrow); setT('lblToolsTitle', T.toolsTitle);
 setT('lblTool1', T.tool1); setT('lblTool1Sub', T.tool1Sub); setT('lblToolStart', T.toolStart); setT('lblTool1Badge', T.tool1Badge);
 setT('lblTool2', T.tool2); setT('lblTool2Sub', T.tool2Sub); setT('lblToolStart2', T.toolStart2);
 setT('lblTool3', T.tool3); setT('lblTool3Sub', T.tool3Sub); setT('lblToolStart3', T.toolStart3);
 setT('lblTool4', T.tool4); setT('lblTool4Sub', T.tool4Sub); setT('lblToolStart4', T.toolStart4);
-setT('lblChronEyebrow', T.chronEyebrow);
-setT('lblChronTitle', T.chronTitle);
-setT('lblChronSub', T.chronSub);
-setT('lblAllChron', T.allChron);
-setT('lblCityEyebrow', T.cityEyebrow);
-setT('lblCityTitle', T.cityTitle);
-setT('lblCitySub', T.citySub);
-setT('lblAllCities', T.allCities);
-
-var inp = document.getElementById('searchInput');
-if (inp) inp.placeholder = T.placeholder;
-var goBtn = document.getElementById('searchGo');
-if (goBtn) goBtn.textContent = T.goBtn;
-
+setT('lblChronEyebrow', T.chronEyebrow); setT('lblChronTitle', T.chronTitle); setT('lblChronSub', T.chronSub); setT('lblAllChron', T.allChron);
+setT('lblCityEyebrow', T.cityEyebrow); setT('lblCityTitle', T.cityTitle); setT('lblCitySub', T.citySub); setT('lblAllCities', T.allCities);
+var inp = document.getElementById('searchInput'); if (inp) inp.placeholder = T.placeholder;
+var goBtn = document.getElementById('searchGo'); if (goBtn) goBtn.textContent = T.goBtn;
 window.__I18N_NOMATCH = T.noMatch;
 </script>
 
-<!-- ─────────── SEARCH ─────────── -->
 <script>
 (function() {
   var LANG = (localStorage.getItem('wigg_lang') || 'en').toLowerCase();
@@ -944,9 +712,7 @@ window.__I18N_NOMATCH = T.noMatch;
   var ul = LANG;
   var cf = LANG === 'fr' ? '/data/countries.fr.json' : LANG === 'es' ? '/data/countries.es.json' : '/data/countries.json';
   var CDATA = null;
-
   function norm(s) { return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
-
   async function loadDB() {
     if (CDATA) return;
     try {
@@ -957,29 +723,26 @@ window.__I18N_NOMATCH = T.noMatch;
         if (r2.ok) CDATA = await r2.json();
       }
     } catch (e) {
-      console.warn('countries fetch failed', e);
       try { var r3 = await fetch('/data/countries.json'); if (r3.ok) CDATA = await r3.json(); } catch(e2){}
     }
   }
-
   var IDX_EXTRAS = [
-    {n:"Bali",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-bali-indonesia-{L}.html"},
-    {n:"Bangkok",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-bangkok-thailand-{L}.html"},
-    {n:"Berlin",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-berlin-allemagne-{L}.html"},
-    {n:"Buenos Aires",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-buenos-aires-argentine-{L}.html"},
-    {n:"Chiang Mai",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-chiang-mai-thailand-{L}.html"},
-    {n:"Dubai",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-dubai-emirats-{L}.html"},
-    {n:"Lisbon",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-lisbonne-portugal-{L}.html"},
-    {n:"Madrid",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-madrid-espagne-{L}.html"},
-    {n:"Mexico City",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-mexico-city-mexico-{L}.html"},
-    {n:"New York",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-new-york-usa-{L}.html"},
-    {n:"Paris",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-paris-france-{L}.html"},
-    {n:"Tokyo",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-tokyo-japan-{L}.html"},
-    {n:"WiggMatch",i:"💚",t:"tool",u:"/wiggmatch.html"},
-    {n:"Compare",i:"⚖️",t:"tool",u:"/compare.html"},
-    {n:"Globe",i:"🌍",t:"tool",u:"/globe.html"}
+    {n:'Bali',i:'🏙️',t:'city',u:'/chronicles/villes/chronicle-bali-indonesia-{L}.html'},
+    {n:'Bangkok',i:'🏙️',t:'city',u:'/chronicles/villes/chronicle-bangkok-thailand-{L}.html'},
+    {n:'Berlin',i:'🏙️',t:'city',u:'/chronicles/villes/chronicle-berlin-allemagne-{L}.html'},
+    {n:'Buenos Aires',i:'🏙️',t:'city',u:'/chronicles/villes/chronicle-buenos-aires-argentine-{L}.html'},
+    {n:'Chiang Mai',i:'🏙️',t:'city',u:'/chronicles/villes/chronicle-chiang-mai-thailand-{L}.html'},
+    {n:'Dubai',i:'🏙️',t:'city',u:'/chronicles/villes/chronicle-dubai-emirats-{L}.html'},
+    {n:'Lisbon',i:'🏙️',t:'city',u:'/chronicles/villes/chronicle-lisbonne-portugal-{L}.html'},
+    {n:'Madrid',i:'🏙️',t:'city',u:'/chronicles/villes/chronicle-madrid-espagne-{L}.html'},
+    {n:'Mexico City',i:'🏙️',t:'city',u:'/chronicles/villes/chronicle-mexico-city-mexico-{L}.html'},
+    {n:'New York',i:'🏙️',t:'city',u:'/chronicles/villes/chronicle-new-york-usa-{L}.html'},
+    {n:'Paris',i:'🏙️',t:'city',u:'/chronicles/villes/chronicle-paris-france-{L}.html'},
+    {n:'Tokyo',i:'🏙️',t:'city',u:'/chronicles/villes/chronicle-tokyo-japan-{L}.html'},
+    {n:'WiggMatch',i:'💚',t:'tool',u:'/wiggmatch.html'},
+    {n:'Compare',i:'⚖️',t:'tool',u:'/compare.html'},
+    {n:'Globe',i:'🌍',t:'tool',u:'/globe.html'}
   ];
-
   function search(q, max) {
     if (!q) return [];
     var out = [];
@@ -987,60 +750,47 @@ window.__I18N_NOMATCH = T.noMatch;
       var keys = Object.keys(CDATA);
       for (var i = 0; i < keys.length && out.length < max; i++) {
         var k = keys[i], c = CDATA[k], name = c.name || k;
-        if (norm(name).indexOf(q) === 0)
-          out.push({ name: name, icon: (c.flag || '🌐'), url: '/countries/' + encodeURIComponent(k) + '-' + ul + '.html', tag: 'country' });
+        if (norm(name).indexOf(q) === 0) out.push({ name: name, icon: (c.flag || '🌐'), url: '/countries/' + encodeURIComponent(k) + '-' + ul + '.html', tag: 'country' });
       }
       for (var i2 = 0; i2 < keys.length && out.length < max; i2++) {
         var k2 = keys[i2], c2 = CDATA[k2], name2 = c2.name || k2;
-        if (norm(name2).indexOf(q) > 0 && !out.find(function(x){return x.name===name2}))
-          out.push({ name: name2, icon: (c2.flag || '🌐'), url: '/countries/' + encodeURIComponent(k2) + '-' + ul + '.html', tag: 'country' });
+        if (norm(name2).indexOf(q) > 0 && !out.find(function(x){return x.name===name2})) out.push({ name: name2, icon: (c2.flag || '🌐'), url: '/countries/' + encodeURIComponent(k2) + '-' + ul + '.html', tag: 'country' });
       }
     }
     for (var j = 0; j < IDX_EXTRAS.length && out.length < max; j++) {
       var ex = IDX_EXTRAS[j];
-      if (norm(ex.n).indexOf(q) >= 0 && !out.find(function(x){return x.name===ex.n}))
-        out.push({ name: ex.n, icon: ex.i, url: ex.u.replace('{L}', ul), tag: ex.t });
+      if (norm(ex.n).indexOf(q) >= 0 && !out.find(function(x){return x.name===ex.n})) out.push({ name: ex.n, icon: ex.i, url: ex.u.replace('{L}', ul), tag: ex.t });
     }
     return out;
   }
-
   function goUrl(url) { window.location.href = url; }
-
   var inp = document.getElementById('searchInput');
   var sug = document.getElementById('searchSug');
   var form = document.getElementById('searchForm');
   var list = [], ai = -1, debT;
-
   function renderSug(items) {
     list = items; ai = -1;
     if (!items.length) { sug.style.display = 'none'; sug.innerHTML = ''; return; }
     sug.innerHTML = items.map(function(it, i) {
-      return '<div class="search-sug-item" data-i="' + i + '">' +
-        '<span class="ssi-icon">' + it.icon + '</span>' +
-        '<span class="ssi-name">' + it.name + '</span>' +
-        (it.tag ? '<span class="ssi-tag">' + it.tag + '</span>' : '') +
-      '</div>';
+      return '<div class="search-sug-item" data-i="' + i + '"><span class="ssi-icon">' + it.icon + '</span><span class="ssi-name">' + it.name + '</span>' + (it.tag ? '<span class="ssi-tag">' + it.tag + '</span>' : '') + '</div>';
     }).join('');
     sug.style.display = 'block';
   }
-
   function setActive(idx) {
     var items = sug.querySelectorAll('.search-sug-item');
     items.forEach(function(el, i) { el.classList.toggle('active', i === idx); });
     ai = idx;
   }
-
   function showToast(msg) {
     var existing = document.getElementById('wmToast');
     if (existing) existing.remove();
     var toast = document.createElement('div');
     toast.id = 'wmToast';
-    toast.style.cssText = 'position:fixed;top:90px;left:50%;transform:translateX(-50%);background:rgba(220,38,38,.95);color:#fff;padding:10px 22px;border-radius:999px;font-family:Inter,sans-serif;font-size:13px;font-weight:600;z-index:9999;box-shadow:0 8px 28px rgba(0,0,0,.3)';
+    toast.style.cssText = 'position:fixed;top:90px;left:50%;transform:translateX(-50%);background:rgba(220,38,38,.95);color:#fff;padding:12px 22px;border-radius:18px;font-family:Inter,sans-serif;font-size:13px;font-weight:600;z-index:9999;box-shadow:0 14px 40px rgba(0,0,0,.28)';
     toast.textContent = msg;
     document.body.appendChild(toast);
-    setTimeout(function(){ if (toast.parentNode) toast.remove(); }, 2500);
+    setTimeout(function(){ if (toast.parentNode) toast.remove(); }, 2400);
   }
-
   if (inp) {
     inp.addEventListener('input', function() {
       clearTimeout(debT);
@@ -1058,16 +808,11 @@ window.__I18N_NOMATCH = T.noMatch;
       if (e.key === 'Escape') sug.style.display = 'none';
     });
   }
-
   if (sug) sug.addEventListener('click', function(e) {
     var it = e.target.closest('[data-i]');
     if (it) { var i = Number(it.dataset.i); if (list[i]) goUrl(list[i].url); }
   });
-
-  document.addEventListener('click', function(e) {
-    if (!e.target.closest('.search-block')) sug.style.display = 'none';
-  });
-
+  document.addEventListener('click', function(e) { if (!e.target.closest('.search-stage')) sug.style.display = 'none'; });
   if (form) form.addEventListener('submit', async function(e) {
     e.preventDefault();
     await loadDB();
@@ -1078,500 +823,123 @@ window.__I18N_NOMATCH = T.noMatch;
     if (res.length) goUrl(res[0].url);
     else showToast(window.__I18N_NOMATCH || 'No match.');
   });
-
   loadDB().catch(console.error);
 })();
 </script>
 
-<!-- ─────────── DYNAMIC CONTENT ─────────── -->
 <script>
 (function() {
   var LANG = (localStorage.getItem('wigg_lang') || 'en').toLowerCase();
   if (['en','fr','es'].indexOf(LANG) === -1) LANG = 'en';
   var ul = LANG;
-
   var POPULAR = [
-    { slug: 'portugal',  flag: '🇵🇹', name: { en:'Portugal',    fr:'Portugal',     es:'Portugal' },     fact: { en:'Studio €560/mo · D7 visa', fr:'Studio 560€/mois · Visa D7', es:'Estudio 560€/mes · Visa D7' } },
-    { slug: 'thailand',  flag: '🇹🇭', name: { en:'Thailand',    fr:'Thaïlande',    es:'Tailandia' },    fact: { en:'Studio $480/mo · LTR visa', fr:'Studio 480$/mois · Visa LTR', es:'Estudio 480$/mes · Visa LTR' } },
-    { slug: 'spain',     flag: '🇪🇸', name: { en:'Spain',       fr:'Espagne',      es:'España' },       fact: { en:'Studio €700/mo · DN visa', fr:'Studio 700€/mois · Visa nomade', es:'Estudio 700€/mes · Visa nómada' } },
-    { slug: 'japan',     flag: '🇯🇵', name: { en:'Japan',       fr:'Japon',        es:'Japón' },        fact: { en:'Studio $620/mo · DN visa', fr:'Studio 620$/mois · Visa nomade', es:'Estudio 620$/mes · Visa nómada' } },
-    { slug: 'mexico',    flag: '🇲🇽', name: { en:'Mexico',      fr:'Mexique',      es:'México' },       fact: { en:'Studio $450/mo · DN visa', fr:'Studio 450$/mois · Visa nomade', es:'Estudio 450$/mes · Visa nómada' } },
-    { slug: 'indonesia', flag: '🇮🇩', name: { en:'Indonesia',   fr:'Indonésie',    es:'Indonesia' },    fact: { en:'Studio $380/mo · KITAS', fr:'Studio 380$/mois · KITAS', es:'Estudio 380$/mes · KITAS' } },
-    { slug: 'germany',   flag: '🇩🇪', name: { en:'Germany',     fr:'Allemagne',    es:'Alemania' },     fact: { en:'Studio €820/mo · EU Blue Card', fr:'Studio 820€/mois · Carte bleue UE', es:'Estudio 820€/mes · Tarjeta Azul UE' } },
-    { slug: 'united-arab-emirates', flag: '🇦🇪', name: { en:'UAE',  fr:'Émirats',  es:'EAU' }, fact: { en:'Studio $1100/mo · 0% tax', fr:'Studio 1100$/mois · 0% impôt', es:'Estudio 1100$/mes · 0% impuesto' } }
+    { slug: 'portugal',  flag: '🇵🇹', name: { en:'Portugal', fr:'Portugal', es:'Portugal' }, fact: { en:'Studio €560/mo · D7 visa', fr:'Studio 560€/mois · Visa D7', es:'Estudio 560€/mes · Visa D7' } },
+    { slug: 'thailand',  flag: '🇹🇭', name: { en:'Thailand', fr:'Thaïlande', es:'Tailandia' }, fact: { en:'Studio $480/mo · LTR visa', fr:'Studio 480$/mois · Visa LTR', es:'Estudio 480$/mes · Visa LTR' } },
+    { slug: 'spain',     flag: '🇪🇸', name: { en:'Spain', fr:'Espagne', es:'España' }, fact: { en:'Studio €700/mo · DN visa', fr:'Studio 700€/mois · Visa nomade', es:'Estudio 700€/mes · Visa nómada' } },
+    { slug: 'japan',     flag: '🇯🇵', name: { en:'Japan', fr:'Japon', es:'Japón' }, fact: { en:'Studio $620/mo · DN visa', fr:'Studio 620$/mois · Visa nomade', es:'Estudio 620$/mes · Visa nómada' } },
+    { slug: 'mexico',    flag: '🇲🇽', name: { en:'Mexico', fr:'Mexique', es:'México' }, fact: { en:'Studio $450/mo · DN visa', fr:'Studio 450$/mois · Visa nomade', es:'Estudio 450$/mes · Visa nómada' } },
+    { slug: 'indonesia', flag: '🇮🇩', name: { en:'Indonesia', fr:'Indonésie', es:'Indonesia' }, fact: { en:'Studio $380/mo · KITAS', fr:'Studio 380$/mois · KITAS', es:'Estudio 380$/mes · KITAS' } },
+    { slug: 'germany',   flag: '🇩🇪', name: { en:'Germany', fr:'Allemagne', es:'Alemania' }, fact: { en:'Studio €820/mo · EU Blue Card', fr:'Studio 820€/mois · Carte bleue UE', es:'Estudio 820€/mes · Tarjeta Azul UE' } },
+    { slug: 'united-arab-emirates', flag: '🇦🇪', name: { en:'UAE', fr:'Émirats', es:'EAU' }, fact: { en:'Studio $1100/mo · 0% tax', fr:'Studio 1100$/mois · 0% impôt', es:'Estudio 1100$/mes · 0% impuesto' } }
   ];
-
   var grid = document.getElementById('countryGrid');
   if (grid) {
-    grid.innerHTML = POPULAR.map(function(c) {
-      return '<a class="country-card card-reveal" href="/countries/country.html?country=' + c.slug + '">' +
+    grid.innerHTML = POPULAR.map(function(c, idx) {
+      return '<a class="country-card reveal" data-delay="' + Math.min(idx % 4, 3) + '" href="/countries/country.html?country=' + c.slug + '">' +
         '<img src="/assets/hero-' + c.slug + '.jpg" alt="' + c.name[ul] + '" loading="lazy" onerror="this.style.display=\'none\'">' +
-        '<div class="cc-body">' +
-          '<span class="cc-flag">' + c.flag + '</span>' +
-          '<div class="cc-name">' + c.name[ul] + '</div>' +
-          '<div class="cc-fact">' + c.fact[ul] + '</div>' +
-        '</div>' +
-      '</a>';
+        '<div class="cc-body"><span class="cc-flag">' + c.flag + '</span><div class="cc-name">' + c.name[ul] + '</div><div class="cc-fact">' + c.fact[ul] + '</div></div></a>';
     }).join('');
   }
-
   var CHRONICLES = [
     {
       cat: { en:'Visas', fr:'Visas', es:'Visados' },
-      title: {
-        en: 'The 25 Best Digital Nomad Visas in 2026',
-        fr: 'Les 25 meilleurs visas digital nomad en 2026',
-        es: 'Los 25 mejores visados nómada digital en 2026'
-      },
-      url: {
-        en: '/chronicles/chronicle-digital-nomad-visas-2026-en.html',
-        fr: '/chronicles/chronicle-visas-digital-nomads-2026-fr.html',
-        es: '/chronicles/chronicle-visas-nomadas-digitales-2026-es.html'
-      },
-      images: ['portugal','spain','indonesia'],
-      time: '~25 min'
+      title: { en:'The 25 Best Digital Nomad Visas in 2026', fr:'Les 25 meilleurs visas digital nomad en 2026', es:'Los 25 mejores visados nómada digital en 2026' },
+      url: { en:'/chronicles/chronicle-digital-nomad-visas-2026-en.html', fr:'/chronicles/chronicle-visas-digital-nomads-2026-fr.html', es:'/chronicles/chronicle-visas-nomadas-digitales-2026-es.html' },
+      images:['portugal','spain','indonesia'], time:'~25 min'
     },
     {
       cat: { en:'Asia', fr:'Asie', es:'Asia' },
-      title: {
-        en: 'Asia Expat Guide 2026 — Part 1: Thailand, Vietnam, Bali',
-        fr: 'Asie 2026 — Partie 1 : Thaïlande, Vietnam, Bali',
-        es: 'Asia 2026 — Parte 1: Tailandia, Vietnam, Bali'
-      },
-      url: {
-        en: '/chronicles/chronicle-asia-expat-guide-part1-2026-en.html',
-        fr: '/chronicles/chronicle-asie-expatriation-partie1-2026-fr.html',
-        es: '/chronicles/chronicle-asia-guia-expatriados-parte1-2026-es.html'
-      },
-      images: ['thailand','vietnam','indonesia'],
-      time: '~30 min'
+      title: { en:'Asia Expat Guide 2026 — Part 1: Thailand, Vietnam, Bali', fr:'Asie 2026 — Partie 1 : Thaïlande, Vietnam, Bali', es:'Asia 2026 — Parte 1: Tailandia, Vietnam, Bali' },
+      url: { en:'/chronicles/chronicle-asia-expat-guide-part1-2026-en.html', fr:'/chronicles/chronicle-asie-expatriation-partie1-2026-fr.html', es:'/chronicles/chronicle-asia-guia-expatriados-parte1-2026-es.html' },
+      images:['thailand','vietnam','indonesia'], time:'~30 min'
     },
     {
-      cat: { en:'Horizons', fr:'Horizons', es:'Horizontes' },
-      title: {
-        en: '2056: Where will life be best in 30 years?',
-        fr: '2056 : où vivra-t-on le mieux dans 30 ans ?',
-        es: '2056: ¿dónde se vivirá mejor en 30 años?'
-      },
-      url: {
-        en: '/chronicles/chronicle-2056-best-countries-30-years-en.html',
-        fr: '/chronicles/chronicle-2056-ou-vivra-t-on-le-mieux-fr.html',
-        es: '/chronicles/chronicle-2056-mejores-paises-30-anos-es.html'
-      },
-      images: ['norway','japan','new-zealand'],
-      time: '~25 min'
+      cat: { en:'Future', fr:'Futur', es:'Futuro' },
+      title: { en:'2056: Where will life be best in 30 years?', fr:'2056 : où vivra-t-on le mieux dans 30 ans ?', es:'2056: ¿dónde se vivirá mejor en 30 años?' },
+      url: { en:'/chronicles/chronicle-2056-best-countries-30-years-en.html', fr:'/chronicles/chronicle-2056-ou-vivra-t-on-le-mieux-fr.html', es:'/chronicles/chronicle-2056-mejores-paises-30-anos-es.html' },
+      images:['norway','japan','new-zealand'], time:'~25 min'
     }
   ];
-
   var chronGrid = document.getElementById('chronGrid');
   if (chronGrid) {
-    chronGrid.innerHTML = CHRONICLES.map(function(c) {
+    chronGrid.innerHTML = CHRONICLES.map(function(c, idx) {
       var n = c.images.length;
-      var panels = c.images.map(function(s) {
-        return '<div style="background-image:url(\'/assets/hero-' + s + '.jpg\')"></div>';
-      }).join('');
-      return '<a class="chron-card card-reveal" href="' + c.url[ul] + '">' +
-        '<div class="chron-thumb">' +
-          '<div class="chron-thumb-grid cols-' + n + '">' + panels + '</div>' +
-        '</div>' +
-        '<div class="chron-body">' +
-          '<div class="chron-cat">' + c.cat[ul] + '</div>' +
-          '<div class="chron-title">' + c.title[ul] + '</div>' +
-          '<div class="chron-meta">📖 ' + c.time + '</div>' +
-        '</div>' +
-      '</a>';
+      var panels = c.images.map(function(s) { return '<div style="background-image:url(\'/assets/hero-' + s + '.jpg\')"></div>'; }).join('');
+      return '<a class="chron-card reveal" data-delay="' + idx + '" href="' + c.url[ul] + '"><div class="chron-thumb"><div class="chron-thumb-grid cols-' + n + '">' + panels + '</div></div><div class="chron-body"><div class="chron-cat">' + c.cat[ul] + '</div><div class="chron-title">' + c.title[ul] + '</div><div class="chron-meta">📖 ' + c.time + '</div></div></a>';
     }).join('');
   }
-
   var CITIES = [
-    { slug:'bangkok-thailand',     img:'thailand',  name:'Bangkok',     country:{en:'Thailand',fr:'Thaïlande',es:'Tailandia'} },
-    { slug:'lisbonne-portugal',    img:'portugal',  name:'Lisbon',      country:{en:'Portugal',fr:'Portugal',es:'Portugal'} },
-    { slug:'tokyo-japan',          img:'japan',     name:'Tokyo',       country:{en:'Japan',fr:'Japon',es:'Japón'} },
-    { slug:'mexico-city-mexico',   img:'mexico',    name:'Mexico City', country:{en:'Mexico',fr:'Mexique',es:'México'} },
-    { slug:'bali-indonesia',       img:'indonesia', name:'Bali',        country:{en:'Indonesia',fr:'Indonésie',es:'Indonesia'} },
-    { slug:'dubai-emirats',        img:'uae',       name:'Dubai',       country:{en:'UAE',fr:'Émirats',es:'EAU'} },
-    { slug:'berlin-allemagne',     img:'germany',   name:'Berlin',      country:{en:'Germany',fr:'Allemagne',es:'Alemania'} },
-    { slug:'medellin-colombie',    img:'colombia',  name:'Medellín',    country:{en:'Colombia',fr:'Colombie',es:'Colombia'} },
-    { slug:'kuala-lumpur-malaisie',img:'malaysia',  name:'Kuala Lumpur',country:{en:'Malaysia',fr:'Malaisie',es:'Malasia'} },
-    { slug:'porto-portugal',       img:'portugal',  name:'Porto',       country:{en:'Portugal',fr:'Portugal',es:'Portugal'} },
-    { slug:'istanbul-turquie',     img:'turkey',    name:'Istanbul',    country:{en:'Turkey',fr:'Turquie',es:'Turquía'} },
-    { slug:'buenos-aires-argentine',img:'argentina',name:'Buenos Aires',country:{en:'Argentina',fr:'Argentine',es:'Argentina'} }
+    { slug:'bangkok-thailand', img:'thailand', name:'Bangkok', country:{en:'Thailand',fr:'Thaïlande',es:'Tailandia'} },
+    { slug:'lisbonne-portugal', img:'portugal', name:'Lisbon', country:{en:'Portugal',fr:'Portugal',es:'Portugal'} },
+    { slug:'tokyo-japan', img:'japan', name:'Tokyo', country:{en:'Japan',fr:'Japon',es:'Japón'} },
+    { slug:'mexico-city-mexico', img:'mexico', name:'Mexico City', country:{en:'Mexico',fr:'Mexique',es:'México'} },
+    { slug:'bali-indonesia', img:'indonesia', name:'Bali', country:{en:'Indonesia',fr:'Indonésie',es:'Indonesia'} },
+    { slug:'dubai-emirats', img:'uae', name:'Dubai', country:{en:'UAE',fr:'Émirats',es:'EAU'} },
+    { slug:'berlin-allemagne', img:'germany', name:'Berlin', country:{en:'Germany',fr:'Allemagne',es:'Alemania'} },
+    { slug:'medellin-colombie', img:'colombia', name:'Medellín', country:{en:'Colombia',fr:'Colombie',es:'Colombia'} },
+    { slug:'kuala-lumpur-malaisie', img:'malaysia', name:'Kuala Lumpur', country:{en:'Malaysia',fr:'Malaisie',es:'Malasia'} },
+    { slug:'porto-portugal', img:'portugal', name:'Porto', country:{en:'Portugal',fr:'Portugal',es:'Portugal'} },
+    { slug:'istanbul-turquie', img:'turkey', name:'Istanbul', country:{en:'Turkey',fr:'Turquie',es:'Turquía'} },
+    { slug:'buenos-aires-argentine', img:'argentina', name:'Buenos Aires', country:{en:'Argentina',fr:'Argentine',es:'Argentina'} }
   ];
-
   var cityGrid = document.getElementById('cityGrid');
   if (cityGrid) {
-    cityGrid.innerHTML = CITIES.map(function(c) {
-      return '<a class="city-card card-reveal" href="/chronicles/villes/chronicle-' + c.slug + '-' + ul + '.html">' +
-        '<img src="/assets/hero-' + c.img + '.jpg" alt="' + c.name + '" loading="lazy" onerror="this.style.display=\'none\'">' +
-        '<div class="city-body">' +
-          '<div class="city-name">' + c.name + '</div>' +
-          '<div class="city-country">' + c.country[ul] + '</div>' +
-        '</div>' +
-      '</a>';
+    cityGrid.innerHTML = CITIES.map(function(c, idx) {
+      return '<a class="city-card reveal" data-delay="' + (idx % 4) + '" href="/chronicles/villes/chronicle-' + c.slug + '-' + ul + '.html"><img src="/assets/hero-' + c.img + '.jpg" alt="' + c.name + '" loading="lazy" onerror="this.style.display=\'none\'"><div class="city-body"><div class="city-name">' + c.name + '</div><div class="city-country">' + c.country[ul] + '</div></div></a>';
     }).join('');
   }
-
   var heroScroll = document.getElementById('heroScroll');
-  if (heroScroll) {
-    heroScroll.addEventListener('click', function() {
-      var firstSection = document.querySelector('.hero + .stats, .hero + .section');
-      if (firstSection) firstSection.scrollIntoView({ behavior: 'smooth' });
-    });
-  }
+  if (heroScroll) heroScroll.addEventListener('click', function() {
+    var target = document.querySelector('.manifesto');
+    if (target) target.scrollIntoView({behavior:'smooth'});
+  });
 })();
 </script>
 
-<!-- ─────────── GSAP + LENIS ANIMATIONS ─────────── -->
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <script>
 (function(){
-  if (typeof gsap === 'undefined') return;
-  gsap.registerPlugin(ScrollTrigger);
-
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduce) return;
-
-  var isMobile = window.matchMedia('(max-width:720px)').matches;
-
-  // ── LENIS smooth-scroll (the Elyse secret) ──
-  if (typeof Lenis !== 'undefined' && !isMobile) {
-    var lenis = new Lenis({
-      duration: 1.25,
-      easing: function(t){ return Math.min(1, 1.001 - Math.pow(2, -10*t)); },
-      smoothWheel: true,
-      wheelMultiplier: 1,
-      lerp: 0.09
-    });
-    lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add(function(time){ lenis.raf(time * 1000); });
-    gsap.ticker.lagSmoothing(0);
-    window.__lenis = lenis;
-  }
-
-  // ── Scroll progress bar ──
-  var progBar = document.createElement('div');
-  progBar.className = 'scroll-prog';
-  progBar.innerHTML = '<div class="scroll-prog-bar" id="scrollProgBar"></div>';
-  document.body.appendChild(progBar);
-  var progEl = document.getElementById('scrollProgBar');
-  ScrollTrigger.create({
-    start: 0, end: () => document.documentElement.scrollHeight - window.innerHeight,
-    onUpdate: function(self){
-      progEl.style.width = (self.progress * 100) + '%';
+  var heroBg = document.getElementById('heroBg');
+  var editorialBg = document.getElementById('editorialBg');
+  var ticking = false;
+  function updateScrollFx(){
+    var y = window.scrollY || window.pageYOffset || 0;
+    if (heroBg) {
+      var scale = 1.08 + Math.min(y * 0.00012, 0.06);
+      var shift = Math.min(y * 0.18, 70);
+      heroBg.style.transform = 'translate3d(0,' + shift + 'px,0) scale(' + scale.toFixed(3) + ')';
+      heroBg.style.filter = 'saturate(' + (1 + Math.min(y * 0.0004, 0.12)).toFixed(3) + ')';
     }
-  });
-
-  // ── Helpers ──
-  function splitChars(el){
-    var text = el.textContent;
-    el.textContent = '';
-    var words = text.split(/(\s+)/);
-    words.forEach(function(w){
-      if (/^\s+$/.test(w)) { el.appendChild(document.createTextNode(w)); return; }
-      var wrap = document.createElement('span');
-      wrap.className = 'word';
-      wrap.style.display = 'inline-block';
-      for (var i = 0; i < w.length; i++) {
-        var c = document.createElement('span');
-        c.className = 'char';
-        c.style.display = 'inline-block';
-        c.textContent = w[i];
-        wrap.appendChild(c);
-      }
-      el.appendChild(wrap);
-    });
-    return el.querySelectorAll('.char');
+    if (editorialBg) editorialBg.style.transform = 'translate3d(0,' + Math.min(y * 0.08, 28) + 'px,0) scale(1.04)';
+    ticking = false;
   }
-  function splitWords(el){
-    var text = el.textContent;
-    el.textContent = '';
-    var words = text.split(/\s+/).filter(Boolean);
-    var spans = [];
-    words.forEach(function(w, idx){
-      var s = document.createElement('span');
-      s.className = 'word-r';
-      s.style.display = 'inline-block';
-      s.textContent = w;
-      el.appendChild(s);
-      spans.push(s);
-      if (idx < words.length - 1) el.appendChild(document.createTextNode(' '));
-    });
-    return spans;
+  window.addEventListener('scroll', function(){ if(!ticking){ window.requestAnimationFrame(updateScrollFx); ticking = true; } }, {passive:true});
+  updateScrollFx();
+})();
+</script>
+
+<script>
+(function(){
+  var nodes = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window) || !nodes.length) {
+    nodes.forEach(function(n){ n.classList.add('in'); });
+    return;
   }
-
-  // ── HERO: intro sequence (on load) ──
-  var heroTitle = document.getElementById('heroTitle');
-  var heroImg = document.getElementById('heroImg');
-  var heroVisual = document.querySelector('.hero-visual');
-
-  if (heroTitle) {
-    heroTitle.classList.remove('no-gsap');
-    var chars = splitChars(heroTitle);
-    var intro = gsap.timeline({ defaults:{ ease:'power3.out' } });
-    intro
-      .from('.hero-copy .eyebrow', { y: 30, opacity: 0, duration: .9 }, 0)
-      .fromTo(chars, { yPercent: 110, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 1.1, stagger: 0.022 }, 0.15)
-      .from('.hero-copy .hero-sub', { y: 30, opacity: 0, duration: .9 }, 0.5)
-      .from('.hero-copy .search-block', { y: 30, opacity: 0, duration: .9 }, 0.65)
-      .from('.hero-copy .hero-quick', { y: 30, opacity: 0, duration: .9 }, 0.8)
-      .fromTo(heroVisual,
-        { clipPath: 'inset(100% 0 0 0 round 18px)', scale: 1.15 },
-        { clipPath: 'inset(0% 0 0 0 round 18px)', scale: 1, duration: 1.6, ease: 'power3.out' }, 0.2);
-  }
-
-  // ── HERO: pinned cinematic (scrub) ──
-  if (!isMobile && heroImg) {
-    var heroTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: '#hero',
-        start: 'top top',
-        end: '+=150%',
-        pin: true,
-        pinSpacing: true,
-        scrub: 0.6,
-        anticipatePin: 1
-      }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){ entry.target.classList.add('in'); io.unobserve(entry.target); }
     });
-    heroTl
-      .to('.hero-copy', { y: -120, opacity: 0, ease: 'power2.in' }, 0)
-      .to(heroImg, { scale: 1.28, yPercent: 14, ease: 'none' }, 0)
-      .to(heroVisual, { scale: 0.92, ease: 'none' }, 0.4)
-      .to('.scroll-cue', { opacity: 0, duration: 0.2 }, 0);
-  } else if (heroImg) {
-    gsap.to(heroImg, { yPercent: 12, ease:'none', scrollTrigger:{ trigger:'#hero', start:'top top', end:'bottom top', scrub:.6 }});
-  }
-
-  // ── SECTION TITLES: word-by-word scrub ──
-  document.querySelectorAll('.section-title').forEach(function(title){
-    if (title.querySelector('em, span')) return;
-    var words = splitWords(title);
-    gsap.fromTo(words,
-      { opacity: 0.12, y: 30 },
-      {
-        opacity: 1, y: 0,
-        stagger: 0.08, ease: 'power2.out',
-        scrollTrigger: {
-          trigger: title,
-          start: 'top 82%',
-          end: 'top 40%',
-          scrub: 1.2
-        }
-      }
-    );
-  });
-
-  // Stats title (contains <em>)
-  document.querySelectorAll('.stats-head h2').forEach(function(el){
-    gsap.fromTo(el, { opacity:.1, y:40 }, {
-      opacity:1, y:0, ease:'power2.out',
-      scrollTrigger: { trigger: el, start:'top 82%', end:'top 40%', scrub:1 }
-    });
-  });
-
-  // ── Counters animate ──
-  document.querySelectorAll('.stat-num').forEach(function(el){
-    var target = parseInt(el.dataset.count, 10) || 0;
-    var obj = { v: 0 };
-    ScrollTrigger.create({
-      trigger: el,
-      start: 'top 85%',
-      once: true,
-      onEnter: function(){
-        gsap.to(obj, {
-          v: target,
-          duration: 2.2,
-          ease: 'power2.out',
-          onUpdate: function(){ el.textContent = Math.round(obj.v); }
-        });
-      }
-    });
-  });
-
-  // ── Stats section: body bg to ink ──
-  ScrollTrigger.create({
-    trigger: '.stats',
-    start: 'top 60%',
-    end: 'bottom 40%',
-    onEnter: function(){ gsap.to('body', { backgroundColor: '#171714', duration: .6 }); },
-    onLeave: function(){ gsap.to('body', { backgroundColor: '#f5f0e8', duration: .6 }); },
-    onEnterBack: function(){ gsap.to('body', { backgroundColor: '#171714', duration: .6 }); },
-    onLeaveBack: function(){ gsap.to('body', { backgroundColor: '#f5f0e8', duration: .6 }); }
-  });
-
-  // ── Stats counters stagger entrance ──
-  gsap.from('.stat', {
-    y: 60, opacity: 0, duration: .9, stagger: 0.12, ease: 'power3.out',
-    scrollTrigger: { trigger: '.stats-grid', start: 'top 78%', once: true }
-  });
-
-  // ── Wiper overlays (reveal curtain between sections) ──
-  document.querySelectorAll('.wiper').forEach(function(w){
-    var parent = w.parentElement;
-    gsap.set(w, { scaleY: 1 });
-    gsap.to(w, {
-      scaleY: 0,
-      ease: 'none',
-      scrollTrigger: { trigger: parent, start: 'top 98%', end: 'top 55%', scrub: true }
-    });
-  });
-
-  // ── [data-reveal] helpers ──
-  document.querySelectorAll('[data-reveal]').forEach(function(sec){
-    ScrollTrigger.create({
-      trigger: sec, start: 'top 78%', once: true,
-      onEnter: function(){ sec.classList.add('is-visible'); }
-    });
-  });
-
-  // ── HORIZONTAL destinations (pinned) ──
-  if (!isMobile) {
-    var destSec = document.getElementById('destSection');
-    var destVp = document.getElementById('destViewport');
-    var destTrack = document.getElementById('destTrack');
-    var destNum = destSec && destSec.querySelector('.hscroll-num');
-    if (destSec && destVp && destTrack) {
-      requestAnimationFrame(function(){
-        setTimeout(function(){
-          function getScrollDist(){
-            return Math.max(0, destTrack.scrollWidth - window.innerWidth + 160);
-          }
-          var dist = getScrollDist();
-          if (dist < 200) return;
-
-          gsap.to(destTrack, {
-            x: function(){ return -getScrollDist(); },
-            ease: 'none',
-            scrollTrigger: {
-              trigger: destVp,
-              start: 'top top',
-              end: function(){ return '+=' + getScrollDist(); },
-              pin: true,
-              scrub: 0.8,
-              invalidateOnRefresh: true,
-              anticipatePin: 1
-            }
-          });
-
-          if (destNum) {
-            gsap.fromTo(destNum, { x:'-120%', opacity:.8 }, {
-              x:'8%', opacity:.25,
-              ease:'none',
-              scrollTrigger: {
-                trigger: destVp, start:'top top',
-                end: function(){ return '+=' + getScrollDist(); },
-                scrub: 0.8
-              }
-            });
-          }
-
-          // Cards: soft tilt as they pass center
-          destTrack.querySelectorAll('.country-card').forEach(function(card){
-            gsap.fromTo(card,
-              { scale: .92, opacity: .7 },
-              { scale: 1, opacity: 1, ease:'power2.out',
-                scrollTrigger: {
-                  trigger: card,
-                  containerAnimation: ScrollTrigger.getAll().find(function(st){ return st.pin === destVp; }),
-                  start: 'left 80%', end: 'center center', scrub: true
-                }
-              }
-            );
-          });
-
-          ScrollTrigger.refresh();
-        }, 150);
-      });
-    }
-  }
-
-  // ── PHILOSOPHY: pinned, letter reveal on scrub + bg transition to green ──
-  var philoSec = document.querySelector('.philosophy');
-  var philoEl = document.getElementById('philoQuote');
-  if (philoSec && philoEl && !isMobile) {
-    // split text preserving <em>
-    var temp = document.createElement('div');
-    temp.innerHTML = philoEl.innerHTML;
-    var walker = document.createTreeWalker(temp, NodeFilter.SHOW_TEXT, null, false);
-    var textNodes = [], node;
-    while ((node = walker.nextNode())) textNodes.push(node);
-    textNodes.forEach(function(tn){
-      var frag = document.createDocumentFragment();
-      for (var i = 0; i < tn.nodeValue.length; i++){
-        var c = tn.nodeValue[i];
-        if (c === ' ' || c === '\u00a0') { frag.appendChild(document.createTextNode(c)); continue; }
-        var s = document.createElement('span');
-        s.className = 'philo-c';
-        s.style.display = 'inline-block';
-        s.textContent = c;
-        frag.appendChild(s);
-      }
-      tn.parentNode.replaceChild(frag, tn);
-    });
-    philoEl.innerHTML = temp.innerHTML;
-    var chars = philoEl.querySelectorAll('.philo-c');
-
-    // Pin the philosophy section for a long scrub
-    var philoTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: philoSec,
-        start: 'top top',
-        end: '+=110%',
-        pin: true,
-        scrub: 0.8,
-        anticipatePin: 1
-      }
-    });
-    philoTl
-      .fromTo(philoSec, { backgroundColor: '#efe8d9' }, { backgroundColor: '#0f3a20', ease:'none' }, 0)
-      .fromTo(philoEl, { color: '#171714' }, { color: '#f5f0e8', ease:'none' }, 0)
-      .fromTo(chars, { opacity: 0.05 }, { opacity: 1, stagger: 0.01, ease:'none' }, 0.1)
-      .fromTo('.philo-mark', { opacity: .3, color:'#1a5430' }, { opacity: .6, color:'#22a15a', ease:'none' }, 0)
-      .fromTo('.philo-sig', { opacity: .3, color:'#8a7f6a' }, { opacity: .8, color:'rgba(245,240,232,.7)', ease:'none' }, 0.4);
-  } else if (philoEl) {
-    // simple reveal on mobile
-    gsap.from(philoEl, { y:30, opacity:0, duration: 1, ease:'power3.out',
-      scrollTrigger: { trigger: philoEl, start:'top 80%', once:true } });
-  }
-
-  // ── Tool cards stagger ──
-  gsap.from('.tool', {
-    y: 60, opacity: 0, duration: .9, stagger: 0.08, ease: 'power3.out',
-    scrollTrigger: { trigger: '.tools', start:'top 82%', once: true }
-  });
-
-  // ── Chronicles cards: slide from bottom with big stagger ──
-  gsap.from('.chron-card', {
-    y: 80, opacity: 0, duration: 1, stagger: 0.12, ease: 'power3.out',
-    scrollTrigger: { trigger: '.chron-grid', start:'top 80%', once: true }
-  });
-
-  // ── Cities stagger + scale-in ──
-  gsap.from('.city-card', {
-    y: 50, opacity: 0, scale: .94, duration: .9, stagger: { amount: .8, from: 'start' },
-    ease: 'power3.out',
-    scrollTrigger: { trigger: '.city-grid', start:'top 82%', once: true }
-  });
-
-  // ── Parallax on city images ──
-  document.querySelectorAll('.city-card img').forEach(function(img){
-    gsap.fromTo(img,
-      { yPercent: -8 },
-      { yPercent: 8, ease:'none',
-        scrollTrigger: { trigger: img.closest('.city-card'), start:'top bottom', end:'bottom top', scrub: 1 }
-      }
-    );
-  });
-
-  // ── CTA rows: fade up ──
-  gsap.utils.toArray('.cta-row').forEach(function(el){
-    gsap.from(el, { y: 24, opacity: 0, duration: .8, ease:'power2.out',
-      scrollTrigger: { trigger: el, start:'top 90%', once: true } });
-  });
-
-  // Refresh after load
-  window.addEventListener('load', function(){ setTimeout(function(){ ScrollTrigger.refresh(); }, 200); });
+  }, {threshold:.12, rootMargin:'0px 0px -8% 0px'});
+  nodes.forEach(function(n){ if(!n.classList.contains('in')) io.observe(n); });
 })();
 </script>
 
