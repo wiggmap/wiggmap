@@ -41,7 +41,10 @@
   --muted:#8a7f6a;
   --line:rgba(23,23,20,.08);
 }
-html{scroll-behavior:smooth}
+html.lenis,html.lenis body{ height:auto }
+html.lenis-smooth [data-lenis-prevent]{ overscroll-behavior:contain }
+.lenis-smooth body{ overflow:clip }
+.lenis-stopped{ overflow:clip }
 html.is-loading{overflow:hidden}
 body{
   font-family:'Inter',system-ui,-apple-system,sans-serif;
@@ -586,6 +589,24 @@ img{display:block;max-width:100%}
 .card-reveal{ opacity:0;transform:translateY(24px) }
 .word-r{ display:inline-block }
 .philo-c{ display:inline-block }
+
+/* Scroll progress bar */
+.scroll-prog{
+  position:fixed;top:0;left:0;right:0;height:2px;
+  background:rgba(23,23,20,.05);z-index:9998;pointer-events:none;
+}
+.scroll-prog-bar{
+  position:absolute;left:0;top:0;bottom:0;width:0%;
+  background:linear-gradient(90deg,var(--green),var(--green-bright));
+  transition:width .05s linear;
+}
+
+/* Hero: allow clip-path reveal on image */
+.hero-visual{ clip-path:inset(0 0 0 0 round 18px);will-change:clip-path,transform }
+.hero-visual.intro{ clip-path:inset(100% 0 0 0 round 0) }
+
+/* Pinned philosophy: will be transitioned by GSAP */
+.philosophy{ will-change:background-color }
 </style>
 </head>
 <body>
@@ -1200,7 +1221,8 @@ window.__I18N_NOMATCH = T.noMatch;
 })();
 </script>
 
-<!-- ─────────── GSAP ANIMATIONS ─────────── -->
+<!-- ─────────── GSAP + LENIS ANIMATIONS ─────────── -->
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <script>
@@ -1208,13 +1230,40 @@ window.__I18N_NOMATCH = T.noMatch;
   if (typeof gsap === 'undefined') return;
   gsap.registerPlugin(ScrollTrigger);
 
-  // Respect reduced motion
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce) return;
 
   var isMobile = window.matchMedia('(max-width:720px)').matches;
 
-  // Lightweight split: wrap each char in a span, preserving word boundaries
+  // ── LENIS smooth-scroll (the Elyse secret) ──
+  if (typeof Lenis !== 'undefined' && !isMobile) {
+    var lenis = new Lenis({
+      duration: 1.25,
+      easing: function(t){ return Math.min(1, 1.001 - Math.pow(2, -10*t)); },
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      lerp: 0.09
+    });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(function(time){ lenis.raf(time * 1000); });
+    gsap.ticker.lagSmoothing(0);
+    window.__lenis = lenis;
+  }
+
+  // ── Scroll progress bar ──
+  var progBar = document.createElement('div');
+  progBar.className = 'scroll-prog';
+  progBar.innerHTML = '<div class="scroll-prog-bar" id="scrollProgBar"></div>';
+  document.body.appendChild(progBar);
+  var progEl = document.getElementById('scrollProgBar');
+  ScrollTrigger.create({
+    start: 0, end: () => document.documentElement.scrollHeight - window.innerHeight,
+    onUpdate: function(self){
+      progEl.style.width = (self.progress * 100) + '%';
+    }
+  });
+
+  // ── Helpers ──
   function splitChars(el){
     var text = el.textContent;
     el.textContent = '';
@@ -1223,9 +1272,11 @@ window.__I18N_NOMATCH = T.noMatch;
       if (/^\s+$/.test(w)) { el.appendChild(document.createTextNode(w)); return; }
       var wrap = document.createElement('span');
       wrap.className = 'word';
+      wrap.style.display = 'inline-block';
       for (var i = 0; i < w.length; i++) {
         var c = document.createElement('span');
         c.className = 'char';
+        c.style.display = 'inline-block';
         c.textContent = w[i];
         wrap.appendChild(c);
       }
@@ -1233,48 +1284,6 @@ window.__I18N_NOMATCH = T.noMatch;
     });
     return el.querySelectorAll('.char');
   }
-
-  // ── Hero: letter-by-letter reveal ──
-  var heroTitle = document.getElementById('heroTitle');
-  if (heroTitle) {
-    heroTitle.classList.remove('no-gsap');
-    var chars = splitChars(heroTitle);
-    gsap.fromTo(chars,
-      { yPercent: 60, opacity: 0 },
-      { yPercent: 0, opacity: 1, duration: 1, ease: 'power3.out', stagger: 0.018, delay: 0.15 }
-    );
-  }
-
-  // ── Hero supporting elements ──
-  gsap.from('.hero-copy .eyebrow', { y: 20, opacity: 0, duration: .8, ease: 'power2.out', delay: .05 });
-  gsap.from('.hero-copy .hero-sub, .hero-copy .search-block, .hero-copy .hero-quick', {
-    y: 24, opacity: 0, duration: .9, ease: 'power2.out', stagger: 0.08, delay: 0.6
-  });
-  gsap.from('.hero-visual', { scale: 1.06, opacity: 0, duration: 1.4, ease: 'power3.out', delay: .2 });
-
-  // ── HERO pinned cinematic: text fades + image zooms + gradient darkens ──
-  var heroImg = document.getElementById('heroImg');
-  if (!isMobile) {
-    var heroTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: '#hero',
-        start: 'top top',
-        end: '+=120%',
-        pin: true,
-        pinSpacing: true,
-        scrub: 0.8
-      }
-    });
-    heroTl
-      .to('.hero-copy', { y: -60, opacity: 0, ease: 'none' }, 0)
-      .to(heroImg, { scale: 1.18, yPercent: 8, ease: 'none' }, 0)
-      .to('.hero-visual', { scale: .96, ease: 'none' }, 0)
-      .to('.hero-visual::after', { opacity: 1 }, 0);
-  } else if (heroImg) {
-    gsap.to(heroImg, { yPercent: 10, ease:'none', scrollTrigger:{ trigger:'#hero', start:'top top', end:'bottom top', scrub:.6 }});
-  }
-
-  // ── Word-by-word scrub reveals on all section titles ──
   function splitWords(el){
     var text = el.textContent;
     el.textContent = '';
@@ -1291,51 +1300,77 @@ window.__I18N_NOMATCH = T.noMatch;
     });
     return spans;
   }
-  document.querySelectorAll('.section-title, .stats-head h2').forEach(function(title){
-    // skip if contains HTML children already (e.g. <em>)
+
+  // ── HERO: intro sequence (on load) ──
+  var heroTitle = document.getElementById('heroTitle');
+  var heroImg = document.getElementById('heroImg');
+  var heroVisual = document.querySelector('.hero-visual');
+
+  if (heroTitle) {
+    heroTitle.classList.remove('no-gsap');
+    var chars = splitChars(heroTitle);
+    var intro = gsap.timeline({ defaults:{ ease:'power3.out' } });
+    intro
+      .from('.hero-copy .eyebrow', { y: 30, opacity: 0, duration: .9 }, 0)
+      .fromTo(chars, { yPercent: 110, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 1.1, stagger: 0.022 }, 0.15)
+      .from('.hero-copy .hero-sub', { y: 30, opacity: 0, duration: .9 }, 0.5)
+      .from('.hero-copy .search-block', { y: 30, opacity: 0, duration: .9 }, 0.65)
+      .from('.hero-copy .hero-quick', { y: 30, opacity: 0, duration: .9 }, 0.8)
+      .fromTo(heroVisual,
+        { clipPath: 'inset(100% 0 0 0 round 18px)', scale: 1.15 },
+        { clipPath: 'inset(0% 0 0 0 round 18px)', scale: 1, duration: 1.6, ease: 'power3.out' }, 0.2);
+  }
+
+  // ── HERO: pinned cinematic (scrub) ──
+  if (!isMobile && heroImg) {
+    var heroTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: '#hero',
+        start: 'top top',
+        end: '+=150%',
+        pin: true,
+        pinSpacing: true,
+        scrub: 0.6,
+        anticipatePin: 1
+      }
+    });
+    heroTl
+      .to('.hero-copy', { y: -120, opacity: 0, ease: 'power2.in' }, 0)
+      .to(heroImg, { scale: 1.28, yPercent: 14, ease: 'none' }, 0)
+      .to(heroVisual, { scale: 0.92, ease: 'none' }, 0.4)
+      .to('.scroll-cue', { opacity: 0, duration: 0.2 }, 0);
+  } else if (heroImg) {
+    gsap.to(heroImg, { yPercent: 12, ease:'none', scrollTrigger:{ trigger:'#hero', start:'top top', end:'bottom top', scrub:.6 }});
+  }
+
+  // ── SECTION TITLES: word-by-word scrub ──
+  document.querySelectorAll('.section-title').forEach(function(title){
     if (title.querySelector('em, span')) return;
     var words = splitWords(title);
     gsap.fromTo(words,
-      { opacity: 0.15, y: 18 },
+      { opacity: 0.12, y: 30 },
       {
         opacity: 1, y: 0,
         stagger: 0.08, ease: 'power2.out',
         scrollTrigger: {
           trigger: title,
-          start: 'top 85%',
-          end: 'top 45%',
-          scrub: 1
+          start: 'top 82%',
+          end: 'top 40%',
+          scrub: 1.2
         }
       }
     );
   });
 
-  // For titles that contain HTML (stats-head h2 with <em>), do a simpler reveal
+  // Stats title (contains <em>)
   document.querySelectorAll('.stats-head h2').forEach(function(el){
-    if (!el.querySelector('em')) return;
-    gsap.fromTo(el, { opacity:.15, y:24 }, {
+    gsap.fromTo(el, { opacity:.1, y:40 }, {
       opacity:1, y:0, ease:'power2.out',
-      scrollTrigger: { trigger: el, start:'top 85%', end:'top 50%', scrub:1 }
+      scrollTrigger: { trigger: el, start:'top 82%', end:'top 40%', scrub:1 }
     });
   });
 
-  // ── Wiper overlay on sections (scrub) ──
-  document.querySelectorAll('.wiper').forEach(function(w){
-    var parent = w.parentElement;
-    gsap.set(w, { scaleY: 1 });
-    gsap.to(w, {
-      scaleY: 0,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: parent,
-        start: 'top 95%',
-        end: 'top 55%',
-        scrub: true
-      }
-    });
-  });
-
-  // ── Animated counters ──
+  // ── Counters animate ──
   document.querySelectorAll('.stat-num').forEach(function(el){
     var target = parseInt(el.dataset.count, 10) || 0;
     var obj = { v: 0 };
@@ -1346,115 +1381,120 @@ window.__I18N_NOMATCH = T.noMatch;
       onEnter: function(){
         gsap.to(obj, {
           v: target,
-          duration: 1.8,
+          duration: 2.2,
           ease: 'power2.out',
-          onUpdate: function(){
-            el.textContent = Math.round(obj.v);
-          }
+          onUpdate: function(){ el.textContent = Math.round(obj.v); }
         });
       }
     });
   });
 
-  // ── Section head reveal ──
+  // ── Stats section: body bg to ink ──
+  ScrollTrigger.create({
+    trigger: '.stats',
+    start: 'top 60%',
+    end: 'bottom 40%',
+    onEnter: function(){ gsap.to('body', { backgroundColor: '#171714', duration: .6 }); },
+    onLeave: function(){ gsap.to('body', { backgroundColor: '#f5f0e8', duration: .6 }); },
+    onEnterBack: function(){ gsap.to('body', { backgroundColor: '#171714', duration: .6 }); },
+    onLeaveBack: function(){ gsap.to('body', { backgroundColor: '#f5f0e8', duration: .6 }); }
+  });
+
+  // ── Stats counters stagger entrance ──
+  gsap.from('.stat', {
+    y: 60, opacity: 0, duration: .9, stagger: 0.12, ease: 'power3.out',
+    scrollTrigger: { trigger: '.stats-grid', start: 'top 78%', once: true }
+  });
+
+  // ── Wiper overlays (reveal curtain between sections) ──
+  document.querySelectorAll('.wiper').forEach(function(w){
+    var parent = w.parentElement;
+    gsap.set(w, { scaleY: 1 });
+    gsap.to(w, {
+      scaleY: 0,
+      ease: 'none',
+      scrollTrigger: { trigger: parent, start: 'top 98%', end: 'top 55%', scrub: true }
+    });
+  });
+
+  // ── [data-reveal] helpers ──
   document.querySelectorAll('[data-reveal]').forEach(function(sec){
     ScrollTrigger.create({
-      trigger: sec,
-      start: 'top 78%',
-      once: true,
+      trigger: sec, start: 'top 78%', once: true,
       onEnter: function(){ sec.classList.add('is-visible'); }
     });
   });
 
-  // ── Card stagger reveal ──
-  document.querySelectorAll('.country-grid, .chron-grid, .city-grid, .tools').forEach(function(g){
-    var cards = g.querySelectorAll('.card-reveal, .tool');
-    if (!cards.length) return;
-    ScrollTrigger.create({
-      trigger: g,
-      start: 'top 85%',
-      once: true,
-      onEnter: function(){
-        gsap.to(cards, {
-          y: 0, opacity: 1,
-          duration: .85, ease: 'power3.out',
-          stagger: 0.07
-        });
-      }
-    });
-    // initial state (in case css didn't apply)
-    gsap.set(cards, { y: 24, opacity: 0 });
-  });
-
-  // ── Image parallax on scroll for city/chron thumbnails ──
-  document.querySelectorAll('.city-card img').forEach(function(img){
-    gsap.fromTo(img,
-      { yPercent: -6 },
-      {
-        yPercent: 6,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: img.closest('.city-card'),
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1
-        }
-      }
-    );
-  });
-
-  // ── HORIZONTAL SCROLL on destinations (pinned) ──
+  // ── HORIZONTAL destinations (pinned) ──
   if (!isMobile) {
     var destSec = document.getElementById('destSection');
     var destVp = document.getElementById('destViewport');
     var destTrack = document.getElementById('destTrack');
     var destNum = destSec && destSec.querySelector('.hscroll-num');
     if (destSec && destVp && destTrack) {
-      // Wait for dynamic content to populate
       requestAnimationFrame(function(){
         setTimeout(function(){
-          var totalScroll = destTrack.scrollWidth - window.innerWidth + 120;
-          if (totalScroll < 200) return;
-          var tl = gsap.to(destTrack, {
-            x: () => -(destTrack.scrollWidth - window.innerWidth + 120),
+          function getScrollDist(){
+            return Math.max(0, destTrack.scrollWidth - window.innerWidth + 160);
+          }
+          var dist = getScrollDist();
+          if (dist < 200) return;
+
+          gsap.to(destTrack, {
+            x: function(){ return -getScrollDist(); },
             ease: 'none',
             scrollTrigger: {
               trigger: destVp,
               start: 'top top',
-              end: () => '+=' + (destTrack.scrollWidth - window.innerWidth + 120),
+              end: function(){ return '+=' + getScrollDist(); },
               pin: true,
-              scrub: 0.6,
+              scrub: 0.8,
               invalidateOnRefresh: true,
               anticipatePin: 1
             }
           });
+
           if (destNum) {
-            gsap.fromTo(destNum, { x:'-110%' }, {
-              x:'6%',
+            gsap.fromTo(destNum, { x:'-120%', opacity:.8 }, {
+              x:'8%', opacity:.25,
               ease:'none',
               scrollTrigger: {
                 trigger: destVp, start:'top top',
-                end: () => '+=' + (destTrack.scrollWidth - window.innerWidth + 120),
-                scrub: 0.6
+                end: function(){ return '+=' + getScrollDist(); },
+                scrub: 0.8
               }
             });
           }
+
+          // Cards: soft tilt as they pass center
+          destTrack.querySelectorAll('.country-card').forEach(function(card){
+            gsap.fromTo(card,
+              { scale: .92, opacity: .7 },
+              { scale: 1, opacity: 1, ease:'power2.out',
+                scrollTrigger: {
+                  trigger: card,
+                  containerAnimation: ScrollTrigger.getAll().find(function(st){ return st.pin === destVp; }),
+                  start: 'left 80%', end: 'center center', scrub: true
+                }
+              }
+            );
+          });
+
           ScrollTrigger.refresh();
-        }, 100);
+        }, 150);
       });
     }
   }
 
-  // ── PHILOSOPHY letter reveal (scrub) ──
+  // ── PHILOSOPHY: pinned, letter reveal on scrub + bg transition to green ──
+  var philoSec = document.querySelector('.philosophy');
   var philoEl = document.getElementById('philoQuote');
-  if (philoEl) {
-    var text = philoEl.innerHTML; // may contain <em>
-    // wrap each character while preserving <em> tags
+  if (philoSec && philoEl && !isMobile) {
+    // split text preserving <em>
     var temp = document.createElement('div');
-    temp.innerHTML = text;
+    temp.innerHTML = philoEl.innerHTML;
     var walker = document.createTreeWalker(temp, NodeFilter.SHOW_TEXT, null, false);
-    var textNodes = [];
-    var node;
+    var textNodes = [], node;
     while ((node = walker.nextNode())) textNodes.push(node);
     textNodes.forEach(function(tn){
       var frag = document.createDocumentFragment();
@@ -1471,47 +1511,67 @@ window.__I18N_NOMATCH = T.noMatch;
     });
     philoEl.innerHTML = temp.innerHTML;
     var chars = philoEl.querySelectorAll('.philo-c');
-    gsap.fromTo(chars,
-      { opacity: 0.1 },
-      {
-        opacity: 1,
-        stagger: 0.015,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: philoEl,
-          start: 'top 80%',
-          end: 'bottom 40%',
-          scrub: 1
-        }
+
+    // Pin the philosophy section for a long scrub
+    var philoTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: philoSec,
+        start: 'top top',
+        end: '+=110%',
+        pin: true,
+        scrub: 0.8,
+        anticipatePin: 1
       }
-    );
+    });
+    philoTl
+      .fromTo(philoSec, { backgroundColor: '#efe8d9' }, { backgroundColor: '#0f3a20', ease:'none' }, 0)
+      .fromTo(philoEl, { color: '#171714' }, { color: '#f5f0e8', ease:'none' }, 0)
+      .fromTo(chars, { opacity: 0.05 }, { opacity: 1, stagger: 0.01, ease:'none' }, 0.1)
+      .fromTo('.philo-mark', { opacity: .3, color:'#1a5430' }, { opacity: .6, color:'#22a15a', ease:'none' }, 0)
+      .fromTo('.philo-sig', { opacity: .3, color:'#8a7f6a' }, { opacity: .8, color:'rgba(245,240,232,.7)', ease:'none' }, 0.4);
+  } else if (philoEl) {
+    // simple reveal on mobile
+    gsap.from(philoEl, { y:30, opacity:0, duration: 1, ease:'power3.out',
+      scrollTrigger: { trigger: philoEl, start:'top 80%', once:true } });
   }
 
-  // ── Chronicles cards: slide in from right with stagger on scroll ──
-  document.querySelectorAll('.chron-grid .chron-card').forEach(function(card, i){
-    gsap.fromTo(card,
-      { x: 60, opacity: 0 },
-      {
-        x: 0, opacity: 1,
-        duration: 1, ease: 'power3.out',
-        scrollTrigger: { trigger: card, start: 'top 88%', toggleActions: 'play none none none' }
+  // ── Tool cards stagger ──
+  gsap.from('.tool', {
+    y: 60, opacity: 0, duration: .9, stagger: 0.08, ease: 'power3.out',
+    scrollTrigger: { trigger: '.tools', start:'top 82%', once: true }
+  });
+
+  // ── Chronicles cards: slide from bottom with big stagger ──
+  gsap.from('.chron-card', {
+    y: 80, opacity: 0, duration: 1, stagger: 0.12, ease: 'power3.out',
+    scrollTrigger: { trigger: '.chron-grid', start:'top 80%', once: true }
+  });
+
+  // ── Cities stagger + scale-in ──
+  gsap.from('.city-card', {
+    y: 50, opacity: 0, scale: .94, duration: .9, stagger: { amount: .8, from: 'start' },
+    ease: 'power3.out',
+    scrollTrigger: { trigger: '.city-grid', start:'top 82%', once: true }
+  });
+
+  // ── Parallax on city images ──
+  document.querySelectorAll('.city-card img').forEach(function(img){
+    gsap.fromTo(img,
+      { yPercent: -8 },
+      { yPercent: 8, ease:'none',
+        scrollTrigger: { trigger: img.closest('.city-card'), start:'top bottom', end:'bottom top', scrub: 1 }
       }
     );
   });
 
-  // ── Body background color transitions ──
-  ScrollTrigger.create({
-    trigger: '.stats',
-    start: 'top 50%',
-    end: 'bottom 50%',
-    onEnter: () => gsap.to('body', { backgroundColor: '#171714', duration: .6 }),
-    onLeave: () => gsap.to('body', { backgroundColor: '#f5f0e8', duration: .6 }),
-    onEnterBack: () => gsap.to('body', { backgroundColor: '#171714', duration: .6 }),
-    onLeaveBack: () => gsap.to('body', { backgroundColor: '#f5f0e8', duration: .6 })
+  // ── CTA rows: fade up ──
+  gsap.utils.toArray('.cta-row').forEach(function(el){
+    gsap.from(el, { y: 24, opacity: 0, duration: .8, ease:'power2.out',
+      scrollTrigger: { trigger: el, start:'top 90%', once: true } });
   });
 
-  // Refresh after images load
-  window.addEventListener('load', function(){ ScrollTrigger.refresh(); });
+  // Refresh after load
+  window.addEventListener('load', function(){ setTimeout(function(){ ScrollTrigger.refresh(); }, 200); });
 })();
 </script>
 
