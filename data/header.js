@@ -38,9 +38,9 @@
   const isDeepPage2 = document.location.pathname.includes("/chronicles/villes/");
   const isDeepPage3 = document.location.pathname.includes("/compare/static/");
   const prefix = isDeepPage3 ? "../../../" : (isDeepPage2 ? "../../" : (isSubPage ? "../" : ""));
-  const homeLink = prefix + "index.html";
-  const globeLink = prefix + "globe.html";
-  const aboutLink = prefix + "about.html";
+  const homeLink = "/index.html";
+  const globeLink = "/globe.html";
+  const aboutLink = "/about.html";
 
   const TELEGRAM_URL = "https://t.me/wiggmap";
   const X_URL = "https://x.com/wiggmap70349";
@@ -110,14 +110,28 @@
 
       /* Wordmark brand */
       .wmh-brand{
-        display:inline-flex; align-items:baseline; gap:1px;
-        font-family:"Fraunces","Playfair Display",Georgia,serif;
-        font-size:22px; font-weight:700; font-style:italic;
-        letter-spacing:-.02em; color:#1a1a18;
-        padding:2px 0; line-height:1;
+        display:inline-flex; align-items:center; gap:8px;
+        padding:4px 2px; line-height:1;
+        color:#1a1a18;
       }
-      .wmh-brand-dot{ color:#1a5430; font-style:normal; }
-      .wmh-brand:hover{ opacity:.72; }
+      .wmh-brand-mark{
+        width:26px; height:26px;
+        border-radius:8px;
+        background:linear-gradient(135deg,#1d7f48 0%,#0f4f2a 100%);
+        display:inline-flex; align-items:center; justify-content:center;
+        box-shadow:0 1px 2px rgba(15,79,42,.25), inset 0 1px 0 rgba(255,255,255,.18);
+        flex-shrink:0;
+      }
+      .wmh-brand-mark svg{ display:block; }
+      .wmh-brand-text{
+        font-family:"Fraunces","Playfair Display",Georgia,serif;
+        font-size:20px; font-weight:700; font-style:italic;
+        letter-spacing:-.025em; line-height:1;
+      }
+      .wmh-brand-text .w-wigg{ color:#1a1a18; }
+      .wmh-brand-text .w-map{ color:#1a5430; font-weight:600; font-style:normal; letter-spacing:-.01em; }
+      .wmh-brand:hover .wmh-brand-mark{ transform:scale(1.04); }
+      .wmh-brand-mark{ transition:transform .2s ease; }
 
       /* Desktop primary nav */
       .wmh-nav-primary{
@@ -323,11 +337,11 @@
   const svgShare = `<svg viewBox="0 0 24 24" width="17" height="17"><path fill="currentColor" d="M18 16c-.8 0-1.4.3-1.9.8L8.9 12.7c.1-.2.1-.5.1-.7s0-.5-.1-.7l7.1-4.1c.5.5 1.2.8 2 .8 1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3c0 .2 0 .5.1.7L7.9 9.8C7.4 9.3 6.7 9 6 9c-1.7 0-3 1.3-3 3s1.3 3 3 3c.7 0 1.4-.3 1.9-.8l7.2 4.1c-.1.2-.1.4-.1.7 0 1.6 1.3 2.9 2.9 2.9s2.9-1.3 2.9-2.9S19.6 16 18 16z"/></svg>`;
 
   const menuItemsHTML = `
-    <a class="wmh-drop-item" href="${prefix}indexchronicles.html">${svgChronicles} ${ni.chronicles}</a>
-    <a class="wmh-drop-item" href="${prefix}compare.html?c=thailand,indonesia,portugal">${svgCompare} ${ni.compare}</a>
+    <a class="wmh-drop-item" href="/indexchronicles.html">${svgChronicles} ${ni.chronicles}</a>
+    <a class="wmh-drop-item" href="/compare.html?c=thailand,indonesia,portugal">${svgCompare} ${ni.compare}</a>
     <a class="wmh-drop-item" href="${globeLink}" target="_blank" rel="noopener noreferrer">${svgGlobe} ${ni.globe}</a>
-    <a class="wmh-drop-item" href="${prefix}wiggmatch.html">${svgMatch} ${ni.match}</a>
-    <a class="wmh-drop-item" href="${prefix}ggg/wigggame.html">${svgGame} Quiz</a>
+    <a class="wmh-drop-item" href="/wiggmatch.html">${svgMatch} ${ni.match}</a>
+    <a class="wmh-drop-item" href="/ggg/wigggame.html">${svgGame} Quiz</a>
   `;
 
   const searchDropHTML = (id, inputId, resultsId, icon) => `
@@ -349,12 +363,20 @@
     <header class="wmh-bar" id="wmhBar">
       <div class="wmh-inner">
         <button class="wmh-icon-btn wmh-icon-btn--mobile" id="wmhDrawerOpenMobile" aria-label="Menu">${svgBurger}</button>
-        <a class="wmh-brand" href="${homeLink}" aria-label="WiggMap home">Wigg<span class="wmh-brand-dot">.</span></a>
+        <a class="wmh-brand" href="${homeLink}" aria-label="WiggMap home">
+          <span class="wmh-brand-mark" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#f8f4ea"/>
+              <circle cx="12" cy="9" r="2.6" fill="#1d7f48"/>
+            </svg>
+          </span>
+          <span class="wmh-brand-text"><span class="w-wigg">wigg</span><span class="w-map">map</span></span>
+        </a>
 
         <nav class="wmh-nav-primary">
-          <a href="${prefix}indexchronicles.html">${ni.chronicles}</a>
-          <a href="${prefix}wiggmatch.html">${ni.match}</a>
-          <a href="${prefix}compare.html?c=thailand,indonesia,portugal">${ni.compare}</a>
+          <a href="/indexchronicles.html">${ni.chronicles}</a>
+          <a href="/wiggmatch.html">${ni.match}</a>
+          <a href="/compare.html?c=thailand,indonesia,portugal">${ni.compare}</a>
         </nav>
 
         <div class="wmh-right">
@@ -396,16 +418,16 @@
     <div class="wmh-drawer-overlay" id="wmhDrawerOverlay"></div>
     <aside class="wmh-drawer" id="wmhDrawer" aria-hidden="true">
       <div class="wmh-drawer-head">
-        <span class="wmh-drawer-title">Wigg<span style="color:#1a5430">.</span></span>
+        <span class="wmh-drawer-title"><span style="color:#1a1a18">wigg</span><span style="color:#1a5430">map</span></span>
         <button class="wmh-drawer-close" id="wmhDrawerClose" aria-label="Close">×</button>
       </div>
 
       <nav class="wmh-drawer-nav">
-        <a href="${prefix}indexchronicles.html">${svgChronicles}<span>${ni.chronicles}</span></a>
-        <a href="${prefix}wiggmatch.html">${svgMatch}<span>${ni.match}</span></a>
-        <a href="${prefix}compare.html?c=thailand,indonesia,portugal">${svgCompare}<span>${ni.compare}</span></a>
+        <a href="/indexchronicles.html">${svgChronicles}<span>${ni.chronicles}</span></a>
+        <a href="/wiggmatch.html">${svgMatch}<span>${ni.match}</span></a>
+        <a href="/compare.html?c=thailand,indonesia,portugal">${svgCompare}<span>${ni.compare}</span></a>
         <a href="${globeLink}" target="_blank" rel="noopener noreferrer">${svgGlobe}<span>${ni.globe}</span></a>
-        <a href="${prefix}ggg/wigggame.html">${svgGame}<span>Quiz</span></a>
+        <a href="/ggg/wigggame.html">${svgGame}<span>Quiz</span></a>
         <a href="#" id="btnRandomDrawer">🎲 <span>Random</span></a>
       </nav>
 
@@ -1014,6 +1036,22 @@
     "/chronicles/chronicle-property-abroad-2026-en.html":        { en: "/chronicles/chronicle-property-abroad-2026-en.html",        fr: "/chronicles/chronicle-immo-etranger-2026-fr.html",            es: "/chronicles/chronicle-propiedad-extranjero-2026-es.html" },
     "/chronicles/chronicle-immo-etranger-2026-fr.html":          { en: "/chronicles/chronicle-property-abroad-2026-en.html",        fr: "/chronicles/chronicle-immo-etranger-2026-fr.html",            es: "/chronicles/chronicle-propiedad-extranjero-2026-es.html" },
     "/chronicles/chronicle-propiedad-extranjero-2026-es.html":   { en: "/chronicles/chronicle-property-abroad-2026-en.html",        fr: "/chronicles/chronicle-immo-etranger-2026-fr.html",            es: "/chronicles/chronicle-propiedad-extranjero-2026-es.html" },
+
+    "/chronicles/1966/chronicle-1966-france-en.html":      { en: "/chronicles/1966/chronicle-1966-france-en.html",      fr: "/chronicles/1966/chronicle-1966-france-fr.html",      es: "/chronicles/1966/chronicle-1966-france-es.html" },
+    "/chronicles/1966/chronicle-1966-france-fr.html":      { en: "/chronicles/1966/chronicle-1966-france-en.html",      fr: "/chronicles/1966/chronicle-1966-france-fr.html",      es: "/chronicles/1966/chronicle-1966-france-es.html" },
+    "/chronicles/1966/chronicle-1966-france-es.html":      { en: "/chronicles/1966/chronicle-1966-france-en.html",      fr: "/chronicles/1966/chronicle-1966-france-fr.html",      es: "/chronicles/1966/chronicle-1966-france-es.html" },
+
+    "/chronicles/1966/chronicle-1966-angleterre-en.html":  { en: "/chronicles/1966/chronicle-1966-angleterre-en.html",  fr: "/chronicles/1966/chronicle-1966-angleterre-fr.html",  es: "/chronicles/1966/chronicle-1966-angleterre-es.html" },
+    "/chronicles/1966/chronicle-1966-angleterre-fr.html":  { en: "/chronicles/1966/chronicle-1966-angleterre-en.html",  fr: "/chronicles/1966/chronicle-1966-angleterre-fr.html",  es: "/chronicles/1966/chronicle-1966-angleterre-es.html" },
+    "/chronicles/1966/chronicle-1966-angleterre-es.html":  { en: "/chronicles/1966/chronicle-1966-angleterre-en.html",  fr: "/chronicles/1966/chronicle-1966-angleterre-fr.html",  es: "/chronicles/1966/chronicle-1966-angleterre-es.html" },
+
+    "/chronicles/1966/chronicle-1966-japon-en.html":       { en: "/chronicles/1966/chronicle-1966-japon-en.html",       fr: "/chronicles/1966/chronicle-1966-japon-fr.html",       es: "/chronicles/1966/chronicle-1966-japon-es.html" },
+    "/chronicles/1966/chronicle-1966-japon-fr.html":       { en: "/chronicles/1966/chronicle-1966-japon-en.html",       fr: "/chronicles/1966/chronicle-1966-japon-fr.html",       es: "/chronicles/1966/chronicle-1966-japon-es.html" },
+    "/chronicles/1966/chronicle-1966-japon-es.html":       { en: "/chronicles/1966/chronicle-1966-japon-en.html",       fr: "/chronicles/1966/chronicle-1966-japon-fr.html",       es: "/chronicles/1966/chronicle-1966-japon-es.html" },
+
+    "/chronicles/1966/chronicle-1966-iran-en.html":        { en: "/chronicles/1966/chronicle-1966-iran-en.html",        fr: "/chronicles/1966/chronicle-1966-iran-fr.html",        es: "/chronicles/1966/chronicle-1966-iran-es.html" },
+    "/chronicles/1966/chronicle-1966-iran-fr.html":        { en: "/chronicles/1966/chronicle-1966-iran-en.html",        fr: "/chronicles/1966/chronicle-1966-iran-fr.html",        es: "/chronicles/1966/chronicle-1966-iran-es.html" },
+    "/chronicles/1966/chronicle-1966-iran-es.html":        { en: "/chronicles/1966/chronicle-1966-iran-en.html",        fr: "/chronicles/1966/chronicle-1966-iran-fr.html",        es: "/chronicles/1966/chronicle-1966-iran-es.html" },
   };
 
   // Lang selection
@@ -1121,7 +1159,7 @@
     }
 
     function renderLoggedOut(authEl){
-      authEl.innerHTML='<a href="/onboarding.html" style="padding:6px 14px;border:1.5px solid #1a5430;border-radius:2px;color:#1a5430;font-family:Inter,sans-serif;font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap">'+t.login+'</a>';
+      authEl.innerHTML='<a href="/onboarding.html" style="padding:7px 16px;border:1.5px solid #1a5430;border-radius:999px;color:#1a5430;font-family:Inter,sans-serif;font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap;transition:background .15s,color .15s" onmouseover="this.style.background=\'#1a5430\';this.style.color=\'#fff\'" onmouseout="this.style.background=\'transparent\';this.style.color=\'#1a5430\'">'+t.login+'</a>';
     }
 
     function renderLoggedIn(authEl,name,avatar){
