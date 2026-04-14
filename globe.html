@@ -14,12 +14,14 @@
   <meta property="og:image" content="https://wiggmap.com/assets/og-globe.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="/assets/favicon.ico" type="image/x-icon" />
+  <link rel="preload" as="image" href="./assets/earth-grass.webp" fetchpriority="high" />
+  <link rel="preconnect" href="https://unpkg.com" crossorigin />
   <script src="https://unpkg.com/globe.gl"></script>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     html,body{
       height:100%;overflow:hidden;
-      background: radial-gradient(ellipse at 50% 40%, #0e1a2e 0%, #060c18 55%, #030710 100%);
+      background: radial-gradient(ellipse at 50% 40%, #faf6ec 0%, #f5f0e8 55%, #ece6d6 100%);
     }
     #globe{width:100vw;height:100svh;height:100dvh}
 
@@ -705,7 +707,7 @@ async function init(){
 
   const globe = Globe()(document.getElementById("globe"))
     .backgroundColor("rgba(0,0,0,0)")
-    .globeImageUrl("./assets/earth-grass.png")
+    .globeImageUrl("./assets/earth-grass.webp")
     .bumpImageUrl("https://unpkg.com/three-globe/example/img/earth-topology.png")
     .showAtmosphere(true)
     .atmosphereColor("rgba(60,120,255,0.7)")
