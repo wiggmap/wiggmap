@@ -48,18 +48,18 @@ def extract_array(html_text, var_name):
 SECTION_LABELS = {
     'en': {
         'visas': 'Visas & Immigration', 'dest': 'Expat Destinations',
-        'nomads': 'Digital Nomads', 'family': 'Family & Education',
-        'future': 'Future & Strategy', 'city': 'City Chronicles',
+        'family': 'Family & Education',
+        'horizons': 'Horizons', 'city': 'City Chronicles',
     },
     'fr': {
         'visas': 'Visas & Immigration', 'dest': 'Destinations Expat',
-        'nomads': 'Digital Nomads', 'family': 'Famille & Éducation',
-        'future': 'Futur & Stratégie', 'city': 'Chroniques Villes',
+        'family': 'Famille & Éducation',
+        'horizons': 'Horizons', 'city': 'Chroniques Villes',
     },
     'es': {
         'visas': 'Visas e Inmigración', 'dest': 'Destinos Expat',
-        'nomads': 'Digital Nomads', 'family': 'Familia & Educación',
-        'future': 'Futuro & Estrategia', 'city': 'Crónicas Ciudad',
+        'family': 'Familia & Educación',
+        'horizons': 'Horizontes', 'city': 'Crónicas Ciudad',
     },
 }
 
@@ -68,23 +68,28 @@ def render_index_static(articles, sections, lang='en'):
     """Build static HTML mirroring what render() does in JS, for one language."""
     out = []
     labels = SECTION_LABELS[lang]
+    see_all = {'en': 'See all →', 'fr': 'Voir tout →', 'es': 'Ver todo →'}[lang]
+    tag_serie = {'en': 'Series', 'fr': 'Série', 'es': 'Serie'}[lang]
+    tag_foresight = {'en': 'Foresight', 'fr': 'Prospective', 'es': 'Prospectiva'}[lang]
     for sec in sections:
         sid = sec['id']
         label = labels.get(sid, sid)
         page_url = sec.get('page', '')
         if isinstance(page_url, dict):
             page_url = page_url.get(lang) or page_url.get('en', '')
-        out.append(f'<div class="theme-section"><div class="theme-head">')
-        out.append(f'<span class="theme-dot"></span><span class="theme-label">{label}</span>')
-        out.append(f'<div class="theme-rule"></div>')
+        out.append('<div class="category">')
+        out.append('<div class="cat-header"><div class="cat-dot"></div>')
+        out.append(f'<span class="cat-name">{label}</span>')
         if page_url:
-            out.append(f'<a class="theme-see" href="{page_url}">→</a>')
-        out.append('</div><div class="carousel">')
+            out.append(f'<a class="cat-voir" href="{page_url}">{see_all}</a>')
+        out.append('</div>')
+        out.append('<div class="carousel-wrap">')
+        out.append('<div class="arrow arrow-left" onclick="scrollCarousel(this,-1)">‹</div>')
+        out.append('<div class="scroll-row">')
         items = [a for a in articles if a.get('section') == sid]
-        # sort by date desc, except city which stays mixed
         if sid != 'city':
             items.sort(key=lambda a: a.get('date', ''), reverse=True)
-        for a in items[:15]:
+        for a in items[:20]:
             url = a.get('url', {})
             if isinstance(url, dict):
                 url = url.get(lang) or url.get('en') or '#'
@@ -96,13 +101,25 @@ def render_index_static(articles, sections, lang='en'):
                 reg = reg.get(lang) or reg.get('en') or ''
             flag = a.get('flag', '')
             time = a.get('time', '')
+            bg = a.get('bg', 'smoke')
+            wm = a.get('wm', '')
+            wm_html = f'<div class="watermark">{wm}</div>' if wm else ''
+            flag_html = f'<div class="card-flag">{flag}</div>' if flag else ''
+            if sid == 'horizons' and wm == '1966':
+                tag = f'{tag_serie} 1966 · {time}'
+            elif sid == 'horizons' and wm == '2056':
+                tag = f'{tag_foresight} · {time}'
+            else:
+                tag = f'{reg} · {time}'
             out.append(
-                f'<a class="vcard" href="{url}">'
-                f'<div class="vcard-body">'
-                f'<div class="vcard-meta">{flag} {reg} - {time}</div>'
-                f'<div class="vcard-title">{title}</div>'
+                f'<a class="card bg-{bg}" href="{url}">{wm_html}{flag_html}'
+                f'<div class="card-overlay">'
+                f'<div class="card-tag">{tag}</div>'
+                f'<div class="card-title">{title}</div>'
                 f'</div></a>'
             )
+        out.append('</div>')
+        out.append('<div class="arrow arrow-right" onclick="scrollCarousel(this,1)">›</div>')
         out.append('</div></div>')
     return ''.join(out)
 
