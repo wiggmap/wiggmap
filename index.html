@@ -258,6 +258,31 @@ img{display:block;max-width:100%}
 @keyframes bob{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(4px)} }
 @media(max-width:720px){ .scroll-cue{ display:none } }
 
+/* ──────────── HORIZONTAL SCROLL SECTION ──────────── */
+.hscroll-sec{ position:relative;overflow:hidden }
+.hscroll-viewport{ height:100vh;height:100svh;position:relative;overflow:hidden;display:flex;align-items:center }
+.hscroll-track{ display:flex;flex-wrap:nowrap;gap:24px;padding:0 8vw;will-change:transform }
+.hscroll-track .country-grid{ display:flex;flex-wrap:nowrap;gap:24px;grid-template-columns:none }
+.hscroll-track .country-card{ width:min(360px,78vw);flex-shrink:0;aspect-ratio:3/4 }
+.hscroll-num{
+  position:absolute;top:50%;transform:translate(-110%,-50%);
+  left:8vw;
+  font-family:'Fraunces',Georgia,serif;font-style:italic;
+  font-size:clamp(180px,22vw,340px);line-height:.9;
+  color:rgba(23,23,20,.06);letter-spacing:-.04em;
+  pointer-events:none;z-index:0;
+}
+.hscroll-head{
+  max-width:min(920px,calc(100% - 56px));margin:0 auto;
+  padding:clamp(90px,10vw,140px) 0 40px;
+}
+@media(max-width:720px){
+  .hscroll-viewport{ height:auto;padding:20px 0 40px }
+  .hscroll-track{ gap:14px;padding:0 24px;overflow-x:auto;scroll-snap-type:x mandatory }
+  .hscroll-track .country-card{ scroll-snap-align:start }
+  .hscroll-num{ display:none }
+}
+
 /* ──────────── SECTION ──────────── */
 .section{ position:relative }
 
@@ -543,21 +568,24 @@ img{display:block;max-width:100%}
 .btn-ghost:hover{ background:var(--ink);color:var(--paper) }
 
 /* ──────────── REVEAL DEFAULTS ──────────── */
-[data-reveal] .section-head > *,
-[data-reveal] .stats-head > *,
+[data-reveal] .section-head .eyebrow,
+[data-reveal] .section-head .section-sub,
+[data-reveal] .stats-head .eyebrow,
 [data-reveal] .cta-row{
   opacity:0;transform:translateY(24px);
   transition:opacity .7s ease, transform .8s cubic-bezier(.2,.8,.2,1);
 }
-[data-reveal].is-visible .section-head > *,
-[data-reveal].is-visible .stats-head > *,
+[data-reveal].is-visible .section-head .eyebrow,
+[data-reveal].is-visible .section-head .section-sub,
+[data-reveal].is-visible .stats-head .eyebrow,
 [data-reveal].is-visible .cta-row{
   opacity:1;transform:translateY(0);
 }
-[data-reveal].is-visible .section-head > *:nth-child(2){ transition-delay:.1s }
-[data-reveal].is-visible .section-head > *:nth-child(3){ transition-delay:.2s }
+[data-reveal].is-visible .section-head .section-sub{ transition-delay:.2s }
 
 .card-reveal{ opacity:0;transform:translateY(24px) }
+.word-r{ display:inline-block }
+.philo-c{ display:inline-block }
 </style>
 </head>
 <body>
@@ -653,19 +681,24 @@ img{display:block;max-width:100%}
   </div>
 </section>
 
-<!-- ──────────── DESTINATIONS ──────────── -->
-<section class="section pad-xl" data-reveal>
+<!-- ──────────── DESTINATIONS (horizontal pinned) ──────────── -->
+<section class="section hscroll-sec" id="destSection">
   <div class="wiper"></div>
-  <div class="wrap">
-    <div class="section-head">
+  <div class="hscroll-head wrap">
+    <div class="section-head" data-reveal-head>
       <span class="eyebrow" id="lblPopEyebrow">Destinations</span>
       <h2 class="section-title" id="lblPopTitle">Les pays à explorer</h2>
       <p class="section-sub" id="lblPopSub">Les destinations les plus explorées par notre communauté.</p>
     </div>
-    <div class="country-grid" id="countryGrid"></div>
-    <div class="cta-row">
-      <a class="btn-ghost" href="/globe.html"><span id="lblBrowseAll">Explorer les 160+ pays</span> →</a>
+  </div>
+  <div class="hscroll-viewport" id="destViewport">
+    <div class="hscroll-num" aria-hidden="true">01</div>
+    <div class="hscroll-track" id="destTrack">
+      <div class="country-grid" id="countryGrid"></div>
     </div>
+  </div>
+  <div class="wrap cta-row">
+    <a class="btn-ghost" href="/globe.html"><span id="lblBrowseAll">Explorer les 160+ pays</span> →</a>
   </div>
 </section>
 
@@ -1179,6 +1212,8 @@ window.__I18N_NOMATCH = T.noMatch;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce) return;
 
+  var isMobile = window.matchMedia('(max-width:720px)').matches;
+
   // Lightweight split: wrap each char in a span, preserving word boundaries
   function splitChars(el){
     var text = el.textContent;
@@ -1217,20 +1252,72 @@ window.__I18N_NOMATCH = T.noMatch;
   });
   gsap.from('.hero-visual', { scale: 1.06, opacity: 0, duration: 1.4, ease: 'power3.out', delay: .2 });
 
-  // ── Hero image parallax ──
+  // ── HERO pinned cinematic: text fades + image zooms + gradient darkens ──
   var heroImg = document.getElementById('heroImg');
-  if (heroImg) {
-    gsap.to(heroImg, {
-      yPercent: 12,
-      ease: 'none',
+  if (!isMobile) {
+    var heroTl = gsap.timeline({
       scrollTrigger: {
         trigger: '#hero',
         start: 'top top',
-        end: 'bottom top',
-        scrub: 0.6
+        end: '+=120%',
+        pin: true,
+        pinSpacing: true,
+        scrub: 0.8
       }
     });
+    heroTl
+      .to('.hero-copy', { y: -60, opacity: 0, ease: 'none' }, 0)
+      .to(heroImg, { scale: 1.18, yPercent: 8, ease: 'none' }, 0)
+      .to('.hero-visual', { scale: .96, ease: 'none' }, 0)
+      .to('.hero-visual::after', { opacity: 1 }, 0);
+  } else if (heroImg) {
+    gsap.to(heroImg, { yPercent: 10, ease:'none', scrollTrigger:{ trigger:'#hero', start:'top top', end:'bottom top', scrub:.6 }});
   }
+
+  // ── Word-by-word scrub reveals on all section titles ──
+  function splitWords(el){
+    var text = el.textContent;
+    el.textContent = '';
+    var words = text.split(/\s+/).filter(Boolean);
+    var spans = [];
+    words.forEach(function(w, idx){
+      var s = document.createElement('span');
+      s.className = 'word-r';
+      s.style.display = 'inline-block';
+      s.textContent = w;
+      el.appendChild(s);
+      spans.push(s);
+      if (idx < words.length - 1) el.appendChild(document.createTextNode(' '));
+    });
+    return spans;
+  }
+  document.querySelectorAll('.section-title, .stats-head h2').forEach(function(title){
+    // skip if contains HTML children already (e.g. <em>)
+    if (title.querySelector('em, span')) return;
+    var words = splitWords(title);
+    gsap.fromTo(words,
+      { opacity: 0.15, y: 18 },
+      {
+        opacity: 1, y: 0,
+        stagger: 0.08, ease: 'power2.out',
+        scrollTrigger: {
+          trigger: title,
+          start: 'top 85%',
+          end: 'top 45%',
+          scrub: 1
+        }
+      }
+    );
+  });
+
+  // For titles that contain HTML (stats-head h2 with <em>), do a simpler reveal
+  document.querySelectorAll('.stats-head h2').forEach(function(el){
+    if (!el.querySelector('em')) return;
+    gsap.fromTo(el, { opacity:.15, y:24 }, {
+      opacity:1, y:0, ease:'power2.out',
+      scrollTrigger: { trigger: el, start:'top 85%', end:'top 50%', scrub:1 }
+    });
+  });
 
   // ── Wiper overlay on sections (scrub) ──
   document.querySelectorAll('.wiper').forEach(function(w){
@@ -1299,21 +1386,128 @@ window.__I18N_NOMATCH = T.noMatch;
     gsap.set(cards, { y: 24, opacity: 0 });
   });
 
-  // ── Image parallax on scroll for country/city/chron thumbnails ──
-  document.querySelectorAll('.country-card img, .city-card img').forEach(function(img){
+  // ── Image parallax on scroll for city/chron thumbnails ──
+  document.querySelectorAll('.city-card img').forEach(function(img){
     gsap.fromTo(img,
-      { yPercent: -4 },
+      { yPercent: -6 },
       {
-        yPercent: 4,
+        yPercent: 6,
         ease: 'none',
         scrollTrigger: {
-          trigger: img.closest('.country-card, .city-card'),
+          trigger: img.closest('.city-card'),
           start: 'top bottom',
           end: 'bottom top',
           scrub: 1
         }
       }
     );
+  });
+
+  // ── HORIZONTAL SCROLL on destinations (pinned) ──
+  if (!isMobile) {
+    var destSec = document.getElementById('destSection');
+    var destVp = document.getElementById('destViewport');
+    var destTrack = document.getElementById('destTrack');
+    var destNum = destSec && destSec.querySelector('.hscroll-num');
+    if (destSec && destVp && destTrack) {
+      // Wait for dynamic content to populate
+      requestAnimationFrame(function(){
+        setTimeout(function(){
+          var totalScroll = destTrack.scrollWidth - window.innerWidth + 120;
+          if (totalScroll < 200) return;
+          var tl = gsap.to(destTrack, {
+            x: () => -(destTrack.scrollWidth - window.innerWidth + 120),
+            ease: 'none',
+            scrollTrigger: {
+              trigger: destVp,
+              start: 'top top',
+              end: () => '+=' + (destTrack.scrollWidth - window.innerWidth + 120),
+              pin: true,
+              scrub: 0.6,
+              invalidateOnRefresh: true,
+              anticipatePin: 1
+            }
+          });
+          if (destNum) {
+            gsap.fromTo(destNum, { x:'-110%' }, {
+              x:'6%',
+              ease:'none',
+              scrollTrigger: {
+                trigger: destVp, start:'top top',
+                end: () => '+=' + (destTrack.scrollWidth - window.innerWidth + 120),
+                scrub: 0.6
+              }
+            });
+          }
+          ScrollTrigger.refresh();
+        }, 100);
+      });
+    }
+  }
+
+  // ── PHILOSOPHY letter reveal (scrub) ──
+  var philoEl = document.getElementById('philoQuote');
+  if (philoEl) {
+    var text = philoEl.innerHTML; // may contain <em>
+    // wrap each character while preserving <em> tags
+    var temp = document.createElement('div');
+    temp.innerHTML = text;
+    var walker = document.createTreeWalker(temp, NodeFilter.SHOW_TEXT, null, false);
+    var textNodes = [];
+    var node;
+    while ((node = walker.nextNode())) textNodes.push(node);
+    textNodes.forEach(function(tn){
+      var frag = document.createDocumentFragment();
+      for (var i = 0; i < tn.nodeValue.length; i++){
+        var c = tn.nodeValue[i];
+        if (c === ' ' || c === '\u00a0') { frag.appendChild(document.createTextNode(c)); continue; }
+        var s = document.createElement('span');
+        s.className = 'philo-c';
+        s.style.display = 'inline-block';
+        s.textContent = c;
+        frag.appendChild(s);
+      }
+      tn.parentNode.replaceChild(frag, tn);
+    });
+    philoEl.innerHTML = temp.innerHTML;
+    var chars = philoEl.querySelectorAll('.philo-c');
+    gsap.fromTo(chars,
+      { opacity: 0.1 },
+      {
+        opacity: 1,
+        stagger: 0.015,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: philoEl,
+          start: 'top 80%',
+          end: 'bottom 40%',
+          scrub: 1
+        }
+      }
+    );
+  }
+
+  // ── Chronicles cards: slide in from right with stagger on scroll ──
+  document.querySelectorAll('.chron-grid .chron-card').forEach(function(card, i){
+    gsap.fromTo(card,
+      { x: 60, opacity: 0 },
+      {
+        x: 0, opacity: 1,
+        duration: 1, ease: 'power3.out',
+        scrollTrigger: { trigger: card, start: 'top 88%', toggleActions: 'play none none none' }
+      }
+    );
+  });
+
+  // ── Body background color transitions ──
+  ScrollTrigger.create({
+    trigger: '.stats',
+    start: 'top 50%',
+    end: 'bottom 50%',
+    onEnter: () => gsap.to('body', { backgroundColor: '#171714', duration: .6 }),
+    onLeave: () => gsap.to('body', { backgroundColor: '#f5f0e8', duration: .6 }),
+    onEnterBack: () => gsap.to('body', { backgroundColor: '#171714', duration: .6 }),
+    onLeaveBack: () => gsap.to('body', { backgroundColor: '#f5f0e8', duration: .6 })
   });
 
   // Refresh after images load
