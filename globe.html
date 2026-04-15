@@ -21,7 +21,7 @@
     *{box-sizing:border-box;margin:0;padding:0}
     html,body{
       height:100%;overflow:hidden;
-      background: radial-gradient(ellipse at 50% 40%, #faf6ec 0%, #f5f0e8 55%, #ece6d6 100%);
+      background: radial-gradient(ellipse at 50% 40%, #e8dcc3 0%, #d6c6a6 55%, #b9a882 100%);
     }
     #globe{width:100vw;height:100svh;height:100dvh}
 
@@ -53,16 +53,17 @@
     .searchWrap input{
       width:100%;padding:9px 14px;
       border-radius:10px;
-      border:1px solid rgba(255,255,255,.13);
-      background:rgba(255,255,255,.07);
-      color:#e8f0ff;outline:none;
+      border:1px solid rgba(255,253,248,.45);
+      background:rgba(255,253,248,.35);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      color:#1a1a18;outline:none;
       font-weight:700;font-size:13px;
     }
-    .searchWrap input::placeholder{color:rgba(220,235,255,.45);}
+    .searchWrap input::placeholder{color:rgba(26,26,24,.5);}
     .searchWrap input:focus{
-      border-color:rgba(46,204,113,.6);
-      box-shadow:0 0 0 3px rgba(46,204,113,.15);
-      background:rgba(255,255,255,.09);
+      border-color:rgba(26,84,48,.5);
+      box-shadow:0 0 0 3px rgba(26,84,48,.12);
+      background:rgba(255,253,248,.55);
     }
     @media(max-width:520px){
       .searchWrap{margin-left:0;width:100%;max-width:100%;flex:1 1 100%;}
@@ -113,6 +114,7 @@
       position:relative;height:120px;overflow:hidden;
       background:rgba(255,255,255,.05);
     }
+    .tt-img-wrap picture{display:block;width:100%;height:100%}
     .tt-img-wrap img{
       width:100%;height:100%;object-fit:cover;display:block;
       transition:transform .3s ease;
@@ -509,9 +511,13 @@ function tooltipHTML(displayName, slug, details, pinned){
   const wiggLabel = getWiggLabel(slug);
   const heroSrc   = getHeroSrc(slug);
 
+  const heroWebp = heroSrc ? heroSrc.replace(/\.(jpe?g|png)$/i, ".webp") : "";
   const imgBlock = heroSrc
     ? `<div class="tt-img-wrap">
-         <img src="${esc(heroSrc)}" alt="${esc(displayName)}" onerror="this.parentElement.style.display='none'" />
+         <picture>
+           <source type="image/webp" srcset="${esc(heroWebp)}" />
+           <img src="${esc(heroSrc)}" alt="${esc(displayName)}" loading="lazy" decoding="async" onerror="var p=this.closest('.tt-img-wrap');if(p)p.style.display='none'" />
+         </picture>
          <div class="tt-img-name">${esc(displayName)}</div>
        </div>`
     : `<div class="tt-body" style="padding-bottom:4px"><div style="font-size:15px;font-weight:900;margin-bottom:6px">${esc(displayName)}</div></div>`;
@@ -634,7 +640,8 @@ function setupSearch(globe){
     if(!items.length){ acList.style.display="none"; return; }
     acList.innerHTML = items.map(c => {
       const hero = getHeroSrc(c.code);
-      const imgTag = hero ? `<img src="${esc(hero)}" alt="" onerror="this.style.display='none'" />` : "";
+      const heroW = hero ? hero.replace(/\.(jpe?g|png)$/i, ".webp") : "";
+      const imgTag = hero ? `<picture><source type="image/webp" srcset="${esc(heroW)}"><img src="${esc(hero)}" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'"></picture>` : "";
       return `<div class="acItem" data-code="${esc(c.code)}">${imgTag}<div>${esc(c.name)}<small>${esc(c.code)}</small></div></div>`;
     }).join("");
     acList.style.display="block";

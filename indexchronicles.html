@@ -289,7 +289,10 @@ function cardMedia(a,idx){
   var eager=idx<2;
   var loadAttr=eager?'loading="eager" fetchpriority="high"':'loading="lazy" fetchpriority="low"';
   if(a.img){
-    return '<img class="card-img" src="'+esc(a.img)+'" alt="" '+loadAttr+' decoding="async" onerror="this.remove()"><div class="card-img-grad"></div>';
+    var imgSrc=esc(a.img);
+    var webpSrc=a.img.indexOf('/assetscity/')===0?esc(a.img.replace(/\.png$/i,'.webp')):null;
+    var pic=webpSrc?('<picture><source type="image/webp" srcset="'+webpSrc+'"><img class="card-img" src="'+imgSrc+'" alt="" '+loadAttr+' decoding="async" onerror="this.remove()"></picture>'):('<img class="card-img" src="'+imgSrc+'" alt="" '+loadAttr+' decoding="async" onerror="this.remove()">');
+    return pic+'<div class="card-img-grad"></div>';
   }
   if(a.countries&&a.countries.length>=2){
     var n=a.countries.length>=4?4:2;
