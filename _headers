@@ -1,0 +1,40 @@
+# WiggMap — Netlify response headers
+# Sprint 1 quick win — security baseline + asset caching.
+# CSP starts in Report-Only mode; flip to enforced after Search Console / DevTools shows zero violations.
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=(), interest-cohort=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://connect.facebook.net https://unpkg.com https://buttondown.email https://*.supabase.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.supabase.co wss://*.supabase.co https://buttondown.email https://connect.facebook.net; frame-src https://www.googletagmanager.com https://td.doubleclick.net; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://buttondown.email https://*.netlify.app
+
+# Long-lived asset cache (images, icons)
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/assetscity/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/imgindex/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# JSON data — short cache, tolerates updates
+/data/*.json
+  Cache-Control: public, max-age=3600, must-revalidate
+
+# Header / footer scripts — short cache, tolerates updates
+/data/header.js
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/data/footer.js
+  Cache-Control: public, max-age=3600, must-revalidate
+
+# Service worker must always revalidate
+/sw.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Manifest revalidates daily
+/manifest.webmanifest
+  Cache-Control: public, max-age=86400
