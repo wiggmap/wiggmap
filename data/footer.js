@@ -132,7 +132,7 @@
     '@keyframes wcSlide{from{transform:translateY(100%)}to{transform:translateY(0)}}' +
     '.wc-inner{max-width:960px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px}' +
     '.wc-msg{flex:1 1 300px;font-size:13px;color:rgba(255,255,255,.7);line-height:1.5;margin:0}' +
-    '.wc-link{color:#22c55e;text-decoration:underline;font-weight:600}' +
+    '.wc-link{color:#1a5430;text-decoration:underline;font-weight:600}' +
     '.wc-btns{display:flex;gap:8px;flex-wrap:wrap}' +
     '.wc-btn{padding:8px 18px;border-radius:2px;font-family:Inter,sans-serif;font-size:12px;font-weight:600;cursor:pointer;border:none;transition:opacity .15s}' +
     '.wc-accept{background:#1a5430;color:#fff}.wc-accept:hover{opacity:.85}' +
