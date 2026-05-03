@@ -206,7 +206,7 @@
         transition:background .12s;
       }
       .wmh-drop-item:hover{ background:rgba(23,23,20,.05); }
-      .wmh-drop-item.active{ background:rgba(29,127,72,.08); color:#1a5430; }
+      .wmh-drop-item.active{ background:rgba(26,84,48,.08); color:#1a5430; }
       .wmh-drop-item svg{ flex-shrink:0; }
       .wmh-search-panel{ padding:10px; min-width:320px; }
       .wmh-search-panel input{
