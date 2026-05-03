@@ -52,10 +52,12 @@ USER_AGENT = "wiggmap-monitor/1.0 (+post-merge audit)"
 
 LANGS = ["en", "fr", "es"]
 
-# 13 root pages migrated (per migrate_to_lang_dirs.py)
+# Sprint 2 — 13 root pages migrated to /en/, /fr/, /es/ (per migrate_to_lang_dirs.py).
+# Sprint D1 — wiggmatch added as EN-source (per build_wiggmatch_trilingual.py).
 EN_SOURCE = [
     "index.html", "about.html", "compare.html", "globe.html",
     "indexchronicles.html", "terms.html", "privacy.html", "confirmation.html",
+    "wiggmatch.html",  # Sprint D1
 ]
 FR_SOURCE = [
     "chronicles-villes.html", "chronicles-dest.html", "chronicles-family.html",
@@ -63,6 +65,12 @@ FR_SOURCE = [
 ]
 SOURCE_LANG = {**{p: "en" for p in EN_SOURCE}, **{p: "fr" for p in FR_SOURCE}}
 ALL_PAGES = list(SOURCE_LANG.keys())
+
+# Sprint D1 — wiggmatch is treated as EN-source per D4 (each lang variant is its
+# own source — no untranslated banner, no noindex,follow). The check_migrated_pages
+# helper uses SOURCE_LANG to decide; for wiggmatch we override that behaviour
+# because all 3 langs are real translations (WM_I18N + WM_DYN dictionaries).
+WIGGMATCH_ALL_LANGS_SOURCE = True
 
 # Legacy URLs that should 301 to their migrated targets
 LEGACY_REDIRECTS = [
@@ -149,6 +157,10 @@ def check_migrated_pages(base: str) -> list[dict]:
     rows = []
     for page in ALL_PAGES:
         src = SOURCE_LANG[page]
+        # Sprint D1 — wiggmatch is fully translated in all 3 langs (real
+        # WM_I18N + WM_DYN translations, not the "untranslated banner"
+        # fallback). Treat each lang variant as its own source.
+        all_langs_source = (page == "wiggmatch.html" and WIGGMATCH_ALL_LANGS_SOURCE)
         for lg in LANGS:
             path = f"/{lg}/" if page == "index.html" else f"/{lg}/{page}"
             status, _, body = fetch(base, path)
@@ -159,11 +171,15 @@ def check_migrated_pages(base: str) -> list[dict]:
             if html_lang != lg:
                 issues.append(f"html lang={html_lang} (expected {lg})")
             canon = (re.search(r'<link\s+rel="canonical"\s+href="([^"]+)"', body) or [None, None])[1]
-            expected_canon_lang = lg if lg == src else src
+            if all_langs_source:
+                # Each lang is its own canonical
+                expected_canon_lang = lg
+            else:
+                expected_canon_lang = lg if lg == src else src
             expected_canon = f"{DEFAULT_BASE}/{expected_canon_lang}/" if page == "index.html" else f"{DEFAULT_BASE}/{expected_canon_lang}/{page}"
             if canon != expected_canon:
                 issues.append(f"canonical={canon} (expected {expected_canon})")
-            is_translated = (lg == src)
+            is_translated = all_langs_source or (lg == src)
             has_noindex = bool(re.search(r'<meta\s+name="robots"\s+content="noindex,follow"', body))
             has_banner = "wm-untranslated-banner" in body
             if is_translated and (has_noindex or has_banner):
@@ -181,7 +197,16 @@ def check_migrated_pages(base: str) -> list[dict]:
 
 
 def check_legacy_redirects(base: str) -> list[dict]:
-    """Legacy /about.html etc. must 301 to their migrated targets."""
+    """Legacy /about.html etc. must 301 to their migrated targets,
+    AND the redirect target must itself return 200.
+
+    The "target → 200" check was missing in the initial Sprint 2 monitor;
+    its absence allowed a regression to slip through (Sprint 2 _redirects
+    pointed /wiggmatch.html → /fr/wiggmatch.html but the target file
+    didn't exist → users got 404 chained from a 301). Hotfix a0d4149
+    restored the file; this check prevents the class of bug from coming
+    back unnoticed.
+    """
     rows = []
     for src, expected_loc in LEGACY_REDIRECTS:
         status, hdrs, _ = fetch(base, src)
@@ -191,6 +216,18 @@ def check_legacy_redirects(base: str) -> list[dict]:
             issues.append(f"status={status} (expected 301)")
         if loc != expected_loc:
             issues.append(f"location={loc} (expected {expected_loc})")
+        # NEW (post-Sprint D1 hotfix lesson): verify the redirect target itself
+        # returns 200. If a 301 points to a 404, the user experience is just as
+        # broken as a missing redirect — and the 301 alone wouldn't surface it.
+        # We follow at most one hop so the check is cheap and unambiguous.
+        if status == 301 and loc:
+            # Strip query string from target for the existence probe — we just
+            # want to know the resource exists. Query-preserving redirects are
+            # tested separately in check_query_preservation.
+            target_path = loc.split("?", 1)[0].split("#", 1)[0]
+            target_status, _, _ = fetch(base, target_path, follow=False)
+            if target_status not in (200, 301, 308):
+                issues.append(f"redirect target {target_path} returned {target_status} (expected 200)")
         rows.append({
             "check": "legacy",
             "path": src,

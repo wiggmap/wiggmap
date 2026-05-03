@@ -22,6 +22,10 @@ MIGRATED_TO_LANG_DIRS = {
     "terms.html", "privacy.html", "confirmation.html",
     "chronicles-villes.html", "chronicles-dest.html", "chronicles-family.html",
     "chronicles-horizons.html", "chronicles-visas.html",
+    # Sprint D1 — wiggmatch trilingual: served from /en/, /fr/, /es/.
+    # Legacy /wiggmatch.html stays in repo as 301 source (no rollback safety net
+    # broken yet) but must NOT be sitemapped.
+    "wiggmatch.html",
 }
 
 def prio_for(url_path: str) -> tuple[str, str]:
@@ -43,8 +47,8 @@ def prio_for(url_path: str) -> tuple[str, str]:
         return "0.3", "yearly"
     if is_lang_dir and name == "confirmation.html":
         return "0.2", "yearly"
-    # wiggmatch (currently FR-only at /fr/wiggmatch.html, plus legacy /wiggmatch.html)
-    if url_path == "/wiggmatch.html" or url_path == "/fr/wiggmatch.html":
+    # Sprint D1 — wiggmatch trilingual: high-value lead-magnet quiz on all 3 langs
+    if url_path in ("/en/wiggmatch.html", "/fr/wiggmatch.html", "/es/wiggmatch.html"):
         return "0.9", "weekly"
     if url_path.startswith("/countries/"):
         return "0.8", "monthly"
@@ -72,6 +76,8 @@ def collect() -> list[str]:
             urls.append(f"/{lg}/")
 
     # Root-level HTML — exclude pages that have moved to /en/, /fr/, /es/
+    import re as _re_root
+    google_verify_re = _re_root.compile(r'^google[a-f0-9]{16,}\.html$')
     for f in sorted(os.listdir(ROOT)):
         if not f.endswith(".html"):
             continue
@@ -81,6 +87,9 @@ def collect() -> list[str]:
             # served from /en/{f}, /fr/{f}, /es/{f} — added below from those dirs
             continue
         if f.startswith("template_"):
+            continue
+        # Search Console / Bing webmaster verification files: never sitemapped
+        if google_verify_re.match(f) or f.startswith("BingSiteAuth"):
             continue
         urls.append("/" + f)
 
