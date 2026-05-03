@@ -38,9 +38,28 @@
   const isDeepPage2 = document.location.pathname.includes("/chronicles/villes/");
   const isDeepPage3 = document.location.pathname.includes("/compare/static/");
   const prefix = isDeepPage3 ? "../../../" : (isDeepPage2 ? "../../" : (isSubPage ? "../" : ""));
-  const homeLink = "/";
-  const globeLink = "/globe.html";
-  const aboutLink = "/about.html";
+
+  // Sprint 2 — Detect current lang from URL first (truth), then localStorage,
+  // then 'en' default. Synchronise localStorage and expose globally so
+  // footer.js (and other late scripts) can read window.WM_LANG.
+  function detectLang(path) {
+    var rootMatch = path.match(/^\/(en|fr|es)(\/|$)/);
+    if (rootMatch) return rootMatch[1];
+    var slugMatch = path.match(/-([a-z]{2})\.html$/);
+    if (slugMatch && ['en', 'fr', 'es'].indexOf(slugMatch[1]) !== -1) return slugMatch[1];
+    var stored = (localStorage.getItem("wigg_lang") || "").toLowerCase();
+    if (['en', 'fr', 'es'].indexOf(stored) !== -1) return stored;
+    return "en";
+  }
+  const detectedLang = detectLang(document.location.pathname);
+  try { localStorage.setItem("wigg_lang", detectedLang); } catch (e) { /* private mode */ }
+  window.WM_LANG = detectedLang;
+
+  // Lang-aware home / globe / about links: point to the user's current
+  // language root so the burger logo + nav lands users on the right variant.
+  const homeLink = "/" + detectedLang + "/";
+  const globeLink = "/" + detectedLang + "/globe.html";
+  const aboutLink = "/" + detectedLang + "/about.html";
 
   const TELEGRAM_URL = "https://t.me/wiggmap";
   const X_URL = "https://x.com/wiggmap70349";
@@ -333,7 +352,8 @@
     document.head.appendChild(st);
   }
 
-  const currentLang = localStorage.getItem("wigg_lang") || "en";
+  // Sprint 2 — currentLang derived from detectedLang (URL-first truth)
+  const currentLang = detectedLang;
   const currentLangData = LANGS[currentLang] || LANGS.en;
   const ni = NAV_I18N[currentLang] || NAV_I18N.en;
 
@@ -1101,18 +1121,58 @@
   document.querySelectorAll("[data-lang]").forEach(item => {
     item.addEventListener("click", () => {
       const newLang = item.dataset.lang;
-      localStorage.setItem("wigg_lang", newLang);
+      try { localStorage.setItem("wigg_lang", newLang); } catch (e) { /* private mode */ }
       const path = document.location.pathname;
+      const search = document.location.search;
+      const hash = document.location.hash;
+
+      // 1. Chronicles explicitly mapped (master list maintained per article)
       const mapping = CHRONICLE_LANGS[path];
       if (mapping && mapping[newLang]) {
-        window.location.href = mapping[newLang];
+        window.location.href = mapping[newLang] + search + hash;
         return;
       }
+
+      // 2. Country pages (slug-lang under /countries/)
       const dyn = dynamicCountryLangSwap(path, newLang);
       if (dyn) {
-        window.location.href = dyn;
+        window.location.href = dyn + search + hash;
         return;
       }
+
+      // 3. Other slug-lang pages (lp/, lead-magnet/, fallback for chronicles
+      //    not yet present in CHRONICLE_LANGS — better than reloading the
+      //    same lang).
+      const slugSwap = path.match(/^(.*?)-([a-z]{2})\.html$/);
+      if (slugSwap && ['en','fr','es'].indexOf(slugSwap[2]) !== -1) {
+        window.location.href = slugSwap[1] + '-' + newLang + '.html' + search + hash;
+        return;
+      }
+
+      // 4. Migrated root pages (/en/foo.html, /fr/foo.html, /es/foo.html)
+      const rootMatch = path.match(/^\/(en|fr|es)(\/.*)?$/);
+      if (rootMatch) {
+        const rest = rootMatch[2] || '/';
+        window.location.href = '/' + newLang + rest + search + hash;
+        return;
+      }
+
+      // 5. Legacy root pages still served from / (/about.html, /compare.html,
+      //    /chronicles-villes.html, /wiggmatch.html, etc.). Once Lot 12 lands
+      //    these will 301 server-side; until then this client-side jump keeps
+      //    the lang switcher useful on legacy URLs.
+      const legacyMatch = path.match(/^\/([a-z][a-z0-9-]*)\.html$/);
+      if (legacyMatch) {
+        window.location.href = '/' + newLang + '/' + legacyMatch[1] + '.html' + search + hash;
+        return;
+      }
+      if (path === '/' || path === '/index.html') {
+        window.location.href = '/' + newLang + '/' + search + hash;
+        return;
+      }
+
+      // 6. Auth / app pages (mon-compte, onboarding, forms, connect/, ggg/) —
+      //    no per-lang URL, fall back to localStorage + reload (legacy behaviour).
       location.reload();
     });
   });

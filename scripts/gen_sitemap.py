@@ -14,10 +14,37 @@ EXCLUDE_ROOT = {
     "template_chronicles.html",
 }
 
+# Sprint 2 — pages now served from /en/, /fr/, /es/ instead of root.
+# These are excluded from root listing AND drive the per-lang directory listing.
+# Source: MIGRATION_PLAN.md §1.1 (D4/D5 source-of-truth mapping).
+MIGRATED_TO_LANG_DIRS = {
+    "about.html", "compare.html", "globe.html", "indexchronicles.html",
+    "terms.html", "privacy.html", "confirmation.html",
+    "chronicles-villes.html", "chronicles-dest.html", "chronicles-family.html",
+    "chronicles-horizons.html", "chronicles-visas.html",
+}
+
 def prio_for(url_path: str) -> tuple[str, str]:
     if url_path in ("/", ""):
         return "1.0", "weekly"
-    if url_path in ("/globe.html", "/compare.html", "/wiggmatch.html", "/about.html", "/indexchronicles.html"):
+    # Sprint 2 — lang-dir homes (/en/, /fr/, /es/) are top priority
+    if url_path in ("/en/", "/fr/", "/es/"):
+        return "1.0", "weekly"
+    # Sprint 2 — high-value migrated root pages
+    name = url_path.rsplit("/", 1)[-1]
+    is_lang_dir = url_path.startswith("/en/") or url_path.startswith("/fr/") or url_path.startswith("/es/")
+    if is_lang_dir and name in {
+        "about.html", "compare.html", "globe.html", "indexchronicles.html",
+    }:
+        return "0.9", "weekly"
+    if is_lang_dir and name.startswith("chronicles-"):
+        return "0.7", "monthly"
+    if is_lang_dir and name in {"terms.html", "privacy.html"}:
+        return "0.3", "yearly"
+    if is_lang_dir and name == "confirmation.html":
+        return "0.2", "yearly"
+    # wiggmatch (currently FR-only at /fr/wiggmatch.html, plus legacy /wiggmatch.html)
+    if url_path == "/wiggmatch.html" or url_path == "/fr/wiggmatch.html":
         return "0.9", "weekly"
     if url_path.startswith("/countries/"):
         return "0.8", "monthly"
@@ -33,25 +60,39 @@ def prio_for(url_path: str) -> tuple[str, str]:
         return "0.6", "monthly"
     if url_path.startswith("/connect/"):
         return "0.5", "monthly"
-    if url_path in ("/privacy.html", "/terms.html"):
-        return "0.3", "yearly"
     return "0.5", "monthly"
 
 def collect() -> list[str]:
     urls: list[str] = []
 
-    # Root page
+    # Sprint 2 — Root canonical (/) + lang-dir roots
     urls.append("/")
+    for lg in ("en", "fr", "es"):
+        if (ROOT / lg).is_dir() and (ROOT / lg / "index.html").is_file():
+            urls.append(f"/{lg}/")
 
-    # Root-level HTML
+    # Root-level HTML — exclude pages that have moved to /en/, /fr/, /es/
     for f in sorted(os.listdir(ROOT)):
         if not f.endswith(".html"):
             continue
         if f in EXCLUDE_ROOT or f == "index.html":
             continue
+        if f in MIGRATED_TO_LANG_DIRS:
+            # served from /en/{f}, /fr/{f}, /es/{f} — added below from those dirs
+            continue
         if f.startswith("template_"):
             continue
         urls.append("/" + f)
+
+    # Sprint 2 — /en/, /fr/, /es/ subdirs (root migrated pages)
+    for lg in ("en", "fr", "es"):
+        d = ROOT / lg
+        if not d.is_dir():
+            continue
+        for f in sorted(os.listdir(d)):
+            if not f.endswith(".html") or f == "index.html":
+                continue
+            urls.append(f"/{lg}/{f}")
 
     # countries/
     d = ROOT / "countries"
@@ -117,7 +158,28 @@ def collect() -> list[str]:
     return out
 
 def build_hreflang_group(url: str, all_set: set[str]) -> list[tuple[str, str]]:
-    """Return list of (lang, url) alternates for url if it matches *-{lang}.html pattern."""
+    """Return list of (lang, url) alternates for url.
+
+    Two URL patterns supported:
+    1. slug-lang pattern: /any/path/slug-{lang}.html
+       (countries, chronicles, lp, lead-magnet)
+    2. Sprint 2 lang-dir pattern: /{lang}/page.html or /{lang}/
+       (migrated root pages)
+    """
+    # Pattern 2 — lang-dir (/en/about.html etc.). Detect first since it's
+    # more specific.
+    import re as _re
+    m = _re.match(r'^/(en|fr|es)(/.*)?$', url)
+    if m:
+        rest = m.group(2) or "/"
+        alts = []
+        for l in ("en", "fr", "es"):
+            candidate = f"/{l}{rest}"
+            if candidate in all_set:
+                alts.append((l, candidate))
+        return alts
+
+    # Pattern 1 — slug-lang (legacy, for countries/chronicles/lp/lead-magnet)
     name = url.rsplit("/", 1)[-1]
     if not name.endswith(".html"):
         return []
@@ -156,10 +218,21 @@ def main():
                 f'    <xhtml:link rel="alternate" hreflang="{lang}" href="{BASE}{alt}" />'
             )
         if alts:
-            default_en = next((a for l, a in alts if l == "en"), None)
-            if default_en:
+            # Sprint 2 — x-default points to source-of-truth lang per MIGRATION_PLAN.md D4/D5.
+            # FR-source for chronicles-* index pages, EN-source for everything else.
+            name = u.rsplit("/", 1)[-1]
+            fr_source_names = {
+                "chronicles-villes.html", "chronicles-dest.html",
+                "chronicles-family.html", "chronicles-horizons.html",
+                "chronicles-visas.html",
+            }
+            preferred = "fr" if name in fr_source_names else "en"
+            default_url = next((a for l, a in alts if l == preferred), None)
+            if not default_url:  # fallback to EN if preferred lang missing
+                default_url = next((a for l, a in alts if l == "en"), None)
+            if default_url:
                 lines.append(
-                    f'    <xhtml:link rel="alternate" hreflang="x-default" href="{BASE}{default_en}" />'
+                    f'    <xhtml:link rel="alternate" hreflang="x-default" href="{BASE}{default_url}" />'
                 )
         lines.append("  </url>")
     lines.append("</urlset>")

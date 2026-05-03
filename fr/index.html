@@ -1,0 +1,1051 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta name="robots" content="noindex,follow">
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});if(localStorage.getItem('wigg_consent')==='accepted'){gtag('consent','update',{analytics_storage:'granted'});}(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-K4MMRD4R');</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1a5430">
+<title>WiggMap — Where is the grass actually greener?</title>
+<meta name="description" content="Comparez salaires, loyers, visas et qualité de vie dans 160+ pays. WiggMap vous aide à trouver où vivre, travailler ou prendre votre retraite à l'étranger.">
+<link rel="canonical" href="https://wiggmap.com/en/">
+<link rel="alternate" hreflang="en" href="https://wiggmap.com/en/">
+<link rel="alternate" hreflang="fr" href="https://wiggmap.com/fr/">
+<link rel="alternate" hreflang="es" href="https://wiggmap.com/es/">
+<link rel="alternate" hreflang="x-default" href="https://wiggmap.com/en/">
+<link rel="icon" href="/assets/favicon.ico">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta property="og:type" content="website">
+<meta property="og:title" content="WiggMap — Where is the grass actually greener?">
+<meta property="og:description" content="Compare 160+ countries: cost of living, salaries, visas, quality of life.">
+<meta property="og:image" content="https://wiggmap.com/assets/accueilv2.png">
+<meta property="og:url" content="https://wiggmap.com/">
+<link rel="preload" as="image" href="/assets/bc.webp" type="image/webp" fetchpriority="high">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"WiggMap","alternateName":"WiggMap.com","url":"https://wiggmap.com/","description":"WiggMap compares 160+ countries on cost of living, salaries, taxes, visas and quality of life. Find where to live, work or retire abroad.","inLanguage":["en","fr","es"],"potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://wiggmap.com/countries/country.html?country={search_term_string}"},"query-input":"required name=search_term_string"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"WiggMap","url":"https://wiggmap.com/","logo":"https://wiggmap.com/assets/logo.png","sameAs":["https://t.me/wiggmap","https://x.com/wiggmap70349","https://www.instagram.com/wiggmap"],"description":"Data-driven platform comparing 160+ countries for expats, digital nomads and retirees."}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Cormorant+Garamond:ital,wght@1,400;1,600;1,700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#1a5430;
+  --green-bright:#22c55e;
+  --green-light:#d4e8d0;
+  --ink:#171714;
+  --ink-soft:#54554e;
+  --bg:#f5f0e8;
+  --paper:#fffdf8;
+  --border:#c8bfaa;
+  --muted:#8a7f6a;
+  --ghost:#b0a898;
+  --line:rgba(23,23,20,.10);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  color:var(--ink);
+  background-color:#1a1a1a;
+  background-image:url('/assets/bc.png');
+  background-image:-webkit-image-set(url('/assets/bc.webp') type('image/webp'), url('/assets/bc.png') type('image/png'));
+  background-image:image-set(url('/assets/bc.webp') type('image/webp'), url('/assets/bc.png') type('image/png'));
+  background-size:cover;
+  background-position:center top;
+  background-attachment:fixed;
+  background-repeat:no-repeat;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+/* iOS/tactile — fixed bg ne marche pas : on fige via ::before pleine vue */
+@media(hover:none) and (pointer:coarse){
+  body{background:#1a1a1a}
+  body::before{
+    content:'';position:fixed;inset:0;z-index:-1;
+    background:url('/assets/bc.png') center/cover no-repeat;
+    background-image:-webkit-image-set(url('/assets/bc.webp') type('image/webp'), url('/assets/bc.png') type('image/png'));
+    background-image:image-set(url('/assets/bc.webp') type('image/webp'), url('/assets/bc.png') type('image/png'));
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+  }
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+
+/* ─────────── HERO ─────────── */
+.hero{
+  position:relative;
+  min-height:100svh;
+  min-height:100dvh;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  z-index:0;
+  pointer-events:none;
+  background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,.15) 25%,rgba(0,0,0,.15) 55%,rgba(0,0,0,.75) 100%);
+}
+.hero-content{
+  position:relative;z-index:2;
+  flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  padding:120px 24px 100px;
+  text-align:center;
+}
+.hero-eyebrow{
+  font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(255,255,255,.7);
+  margin-bottom:18px;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.hero-eyebrow::before,.hero-eyebrow::after{
+  content:'';display:block;width:30px;height:1px;background:rgba(255,255,255,.4);
+}
+.hero-title{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-style:italic;font-weight:700;
+  font-size:clamp(36px,6vw,76px);
+  line-height:1.05;
+  color:#fff;
+  text-shadow:0 2px 30px rgba(0,0,0,.6),0 0 60px rgba(255,255,255,.1);
+  margin-bottom:16px;
+  max-width:18ch;
+}
+.hero-sub{
+  font-size:clamp(14px,1.5vw,17px);
+  color:rgba(255,255,255,.78);
+  font-weight:400;
+  max-width:48ch;
+  margin-bottom:38px;
+  text-shadow:0 1px 4px rgba(0,0,0,.5);
+  line-height:1.55;
+}
+
+/* Lift the text block upwards without moving the search bar — desktop + mobile */
+.hero-eyebrow,
+.hero-title,
+.hero-sub{
+  transform:translateY(-60px);
+}
+@media(max-width:720px){
+  .hero-eyebrow,
+  .hero-title,
+  .hero-sub{
+    transform:translateY(-40px);
+  }
+}
+
+/* Search bar */
+.search-block{width:100%;max-width:600px;position:relative}
+.search-form{
+  display:flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.96);
+  border-radius:100px;
+  padding:7px 7px 7px 22px;
+  box-shadow:0 12px 50px rgba(0,0,0,.35),0 0 0 1px rgba(255,255,255,.15);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+}
+.search-form svg{width:18px;height:18px;color:var(--muted);flex-shrink:0}
+.search-input{
+  flex:1;border:none;outline:none;background:transparent;
+  font-family:'Inter',sans-serif;font-size:15px;
+  padding:14px 0;color:var(--ink);min-width:0;
+}
+.search-input::placeholder{color:var(--muted)}
+.search-go{
+  background:var(--green);
+  color:#fff;
+  border:none;
+  font-family:'Inter',sans-serif;font-size:13px;font-weight:700;
+  padding:12px 26px;
+  border-radius:100px;
+  cursor:pointer;
+  transition:background .15s,transform .15s;
+  white-space:nowrap;
+}
+.search-go:hover{background:#145228;transform:translateY(-1px)}
+.search-sug{
+  position:absolute;top:calc(100% + 10px);left:0;right:0;
+  background:rgba(255,253,248,.98);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid var(--border);
+  border-radius:14px;
+  max-height:280px;overflow-y:auto;
+  display:none;z-index:100;
+  box-shadow:0 12px 40px rgba(0,0,0,.18);
+}
+.search-sug-item{
+  padding:11px 18px;font-size:14px;cursor:pointer;
+  display:flex;align-items:center;gap:10px;
+  color:var(--ink);
+  border-bottom:1px solid rgba(200,191,170,.4);
+  transition:background .1s;
+}
+.search-sug-item:last-child{border-bottom:none}
+.search-sug-item:hover,.search-sug-item.active{background:#f0ede4}
+.search-sug-item .ssi-icon{font-size:18px;flex-shrink:0}
+.search-sug-item .ssi-name{flex:1;font-weight:500}
+.search-sug-item .ssi-tag{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+
+/* Quick links */
+.hero-quick{
+  display:flex;gap:10px;justify-content:center;flex-wrap:wrap;
+  margin-top:24px;
+}
+.hero-quick a{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.2);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  padding:9px 18px;border-radius:100px;
+  font-size:13px;font-weight:600;color:#fff;
+  transition:background .15s,border-color .15s,transform .15s;
+}
+.hero-quick a:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.4);transform:translateY(-2px)}
+
+/* Scroll cue */
+.hero-scroll{
+  position:absolute;bottom:24px;left:50%;transform:translateX(-50%);
+  z-index:2;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  font-size:10px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(255,255,255,.55);
+  animation:bobScroll 2.5s ease-in-out infinite;
+  cursor:pointer;
+}
+.hero-scroll svg{width:14px;height:14px}
+@keyframes bobScroll{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+
+/* ─────────── PARALLAX DIVIDER (texte sur bg global fixe) ─────────── */
+.parallax{
+  position:relative;
+  min-height:52vh;
+  display:flex;align-items:center;justify-content:center;
+  padding:120px 24px;
+  overflow:hidden;
+}
+.parallax::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.3) 40%,rgba(0,0,0,.6));
+}
+.parallax-inner{
+  position:relative;z-index:2;
+  text-align:center;max-width:760px;color:#fff;
+}
+.parallax-eyebrow{
+  font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(255,255,255,.75);margin-bottom:16px;display:inline-block;
+}
+.parallax-quote{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-style:italic;font-weight:700;
+  font-size:clamp(28px,4.5vw,52px);
+  line-height:1.15;
+  text-shadow:0 2px 30px rgba(0,0,0,.55);
+}
+.parallax-sign{
+  margin-top:22px;
+  font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(255,255,255,.7);
+}
+
+/* ─────────── SECTION COMMON (voile clair par-dessus bg fixe) ─────────── */
+.section{padding:80px 24px;position:relative;background:rgba(245,240,232,.92);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
+.section-inner{max-width:1180px;margin:0 auto}
+.section-head{text-align:center;margin-bottom:48px}
+.section-eyebrow{
+  display:inline-block;
+  font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--green);margin-bottom:10px;
+}
+.section-title{
+  font-family:'Fraunces',Georgia,serif;
+  font-size:clamp(28px,4vw,42px);font-weight:700;
+  letter-spacing:-.02em;line-height:1.1;
+  color:var(--ink);
+}
+.section-sub{
+  font-size:15px;color:var(--ink-soft);
+  margin-top:12px;max-width:56ch;margin-left:auto;margin-right:auto;
+  line-height:1.6;
+}
+
+/* ─────────── COUNTRY GRID ─────────── */
+.country-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+.country-card{
+  position:relative;
+  border-radius:2px;
+  overflow:hidden;
+  aspect-ratio:4/5;
+  background:#1a1a1a;
+  box-shadow:0 6px 24px rgba(0,0,0,.08);
+  transition:transform .2s ease,box-shadow .25s;
+  cursor:pointer;
+}
+.country-card:hover{transform:scale(1.02) translateY(-4px);box-shadow:0 14px 40px rgba(0,0,0,.18)}
+.country-card img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  transition:transform .5s ease;
+}
+.country-card:hover img{transform:scale(1.06)}
+.country-card::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.2) 50%,transparent 100%);
+}
+.cc-body{
+  position:absolute;left:0;right:0;bottom:0;
+  padding:16px 18px;z-index:2;color:#fff;
+}
+.cc-flag{font-size:22px;margin-bottom:6px;display:block;line-height:1}
+.cc-name{
+  font-family:'Fraunces',Georgia,serif;
+  font-size:18px;font-weight:700;line-height:1.1;
+  margin-bottom:4px;
+}
+.cc-fact{font-size:11px;color:rgba(255,255,255,.75);font-weight:500}
+
+/* ─────────── TOOLS ─────────── */
+.tools-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+.tool-card{
+  background:var(--paper);
+  border:1px solid var(--border);
+  border-radius:2px;
+  padding:28px 22px;
+  text-align:left;
+  transition:border-color .2s,transform .2s,box-shadow .2s;
+  display:flex;flex-direction:column;gap:12px;
+  cursor:pointer;position:relative;
+  min-height:200px;
+}
+.tool-card:hover{border-color:var(--green);transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.08)}
+
+/* WiggMatch — featured card */
+.tool-card.featured{
+  border-color:#22c55e;
+  background:linear-gradient(180deg,rgba(34,197,94,.06),rgba(34,197,94,.02));
+  box-shadow:0 4px 18px rgba(34,197,94,.10);
+}
+.tool-card.featured:hover{
+  border-color:#16a34a;
+  box-shadow:0 12px 36px rgba(34,197,94,.18);
+}
+.tool-badge{
+  position:absolute;top:12px;right:12px;
+  display:inline-flex;align-items:center;gap:4px;
+  background:#22c55e;color:#fff;
+  font-family:'Inter',sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:.04em;
+  padding:4px 9px;border-radius:100px;
+  box-shadow:0 2px 8px rgba(34,197,94,.35);
+}
+.tool-icon{font-size:30px;line-height:1}
+.tool-name{
+  font-family:'Fraunces',Georgia,serif;
+  font-size:20px;font-weight:700;line-height:1.15;color:var(--ink);
+}
+.tool-desc{font-size:13px;color:var(--ink-soft);line-height:1.5;flex:1}
+.tool-arrow{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:12px;font-weight:700;color:var(--green);
+  text-transform:uppercase;letter-spacing:.1em;
+}
+.tool-arrow::after{content:'→';font-size:14px;transition:transform .2s}
+.tool-card:hover .tool-arrow::after{transform:translateX(4px)}
+
+/* ─────────── CHRONICLES ─────────── */
+.chron-section{background:rgba(255,253,248,.94);border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden}
+.chron-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+}
+.chron-card{
+  display:flex;flex-direction:column;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:2px;
+  overflow:hidden;
+  transition:border-color .2s,transform .2s ease,box-shadow .2s;
+  min-width:0;
+  cursor:pointer;
+}
+.chron-card:hover{border-color:var(--green);transform:scale(1.02) translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.08)}
+.chron-thumb{
+  position:relative;
+  aspect-ratio:16/10;
+  background:#1a1a1a;
+  overflow:hidden;
+}
+.chron-thumb-grid{
+  position:absolute;inset:0;display:grid;gap:2px;
+}
+.chron-thumb-grid.cols-2{grid-template-columns:1fr 1fr}
+.chron-thumb-grid.cols-3{grid-template-columns:1fr 1fr 1fr}
+.chron-thumb-grid div{background-size:cover;background-position:center}
+.chron-thumb::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7),rgba(0,0,0,.1) 50%,transparent)}
+.chron-body{padding:20px 22px;display:flex;flex-direction:column;gap:8px;flex:1}
+.chron-cat{
+  font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--green);
+}
+.chron-title{
+  font-family:'Fraunces',Georgia,serif;
+  font-size:18px;font-weight:700;line-height:1.25;
+  color:var(--ink);
+}
+.chron-meta{font-size:11px;color:var(--muted);margin-top:auto;padding-top:8px}
+
+/* ─────────── CITY CARDS ─────────── */
+.city-grid{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:12px;
+}
+.city-card{
+  position:relative;border-radius:2px;overflow:hidden;
+  aspect-ratio:3/4;
+  background:#1a1a1a;cursor:pointer;
+  transition:transform .2s ease,box-shadow .25s;
+}
+.city-card:hover{transform:scale(1.02) translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.15)}
+.city-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.city-card:hover img{transform:scale(1.05)}
+.city-card::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.15) 50%,transparent)}
+.city-body{position:absolute;left:0;right:0;bottom:0;padding:12px 14px;z-index:2;color:#fff}
+.city-name{font-family:'Fraunces',Georgia,serif;font-size:15px;font-weight:700;line-height:1.1;letter-spacing:-.01em}
+.city-country{font-size:10px;color:rgba(255,255,255,.7);margin-top:2px}
+
+.section-cta{text-align:center;margin-top:40px}
+.btn-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  background:transparent;
+  border:1.5px solid var(--green);
+  color:var(--green);
+  padding:11px 26px;
+  border-radius:2px;
+  font-family:'Inter',sans-serif;font-size:13px;font-weight:600;
+  cursor:pointer;
+  transition:background .15s,color .15s;
+}
+.btn-pill:hover{background:var(--green);color:#fff}
+
+/* ─────────── RESPONSIVE ─────────── */
+@media(max-width:1100px){
+  .country-grid{grid-template-columns:repeat(3,1fr)}
+  .tools-grid{grid-template-columns:repeat(2,1fr)}
+  .chron-grid{grid-template-columns:repeat(2,1fr)}
+  .city-grid{grid-template-columns:repeat(4,1fr)}
+}
+@media(max-width:720px){
+  .hero-content{padding:90px 18px 80px}
+  .hero-quick{margin-top:18px}
+  .hero-quick a{padding:8px 14px;font-size:12px}
+  .section{padding:56px 18px}
+  .section-head{margin-bottom:32px}
+  .country-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .tools-grid{grid-template-columns:1fr;gap:10px}
+  .tool-card{padding:22px 20px;min-height:0}
+  .chron-grid{grid-template-columns:1fr;gap:14px}
+  .city-grid{grid-template-columns:repeat(3,1fr);gap:8px}
+  .city-name{font-size:13px}
+  .search-form{padding:5px 5px 5px 18px}
+  .search-input{padding:11px 0;font-size:14px}
+  .search-go{padding:10px 18px;font-size:12px}
+  .hero-eyebrow{font-size:10px}
+  .hero-eyebrow::before,.hero-eyebrow::after{width:20px}
+}
+@media(max-width:420px){
+  .city-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<!-- SEO fallback (off-screen) -->
+<div id="seoFallback" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden">
+  <h2>WiggMap — Where is the grass actually greener? Compare 160+ countries</h2>
+  <p>WiggMap is the data-driven tool that helps expats, digital nomads, retirees and global citizens decide where to live, work or retire abroad. We compare more than 160 countries on 25+ data points: net average and minimum salaries, studio rent, electricity, water and mobile costs, beer and coffee prices, gasoline, VAT and income tax brackets, immigration ease, public healthcare quality, sun hours per year, crime index, purchasing power and religion snapshot.</p>
+  <h3>Most popular country profiles</h3>
+  <ul>
+    <li><a href="/countries/portugal-en.html">Portugal — cost of living, salaries, D7 visa</a></li>
+    <li><a href="/countries/spain-en.html">Spain — taxes, rent, digital nomad visa</a></li>
+    <li><a href="/countries/thailand-en.html">Thailand — Bangkok, Chiang Mai, retirement visa</a></li>
+    <li><a href="/countries/japan-en.html">Japan — Tokyo, salaries, healthcare</a></li>
+    <li><a href="/countries/france-en.html">France — Paris, taxes, social security</a></li>
+    <li><a href="/countries/germany-en.html">Germany — Berlin, salaries, work visas</a></li>
+    <li><a href="/countries/mexico-en.html">Mexico — Mexico City, cost of living</a></li>
+    <li><a href="/countries/indonesia-en.html">Indonesia — Bali, digital nomad visa</a></li>
+  </ul>
+</div>
+
+<a class="wm-skip" href="#wm-main">Skip to content</a>
+<style>.wm-skip{position:absolute;left:-9999px;top:0;background:#1a5430;color:#fff;padding:10px 18px;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:600;z-index:100000;border-radius:0 0 8px 0;text-decoration:none}.wm-skip:focus{left:0;outline:2px solid #fff;outline-offset:-4px}</style>
+<div id="siteHeader"></div>
+<script src="/data/header.js"></script>
+<a id="wm-main" tabindex="-1"></a>
+
+<!-- TODO-i18n: remove this banner + the noindex meta when this page is translated. See MIGRATION_PLAN.md §10 D4/D5. -->
+<div class="wm-untranslated-banner" role="note" style="background:#fff7e6;border-bottom:2px solid #d97706;padding:10px 18px;font-family:Inter,system-ui,sans-serif;font-size:13px;color:#7a4f10;text-align:center;"><p style="margin:0;">This page hasn’t been translated yet. <a href="https://wiggmap.com/en/" style="color:#1a5430;font-weight:700;text-decoration:underline;">View original in English →</a></p></div>
+<!-- ──────────── HERO ──────────── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow" id="heroEyebrow">160+ countries · Real data</div>
+    <h1 class="hero-title" id="heroTitle">Et si ta vie était différente ailleurs ?</h1>
+    <p class="hero-sub" id="heroSub">160+ pays. Salaires, loyers, visas, qualité de vie. Les vraies données pour choisir où vivre mieux.</p>
+
+    <div class="search-block">
+      <form class="search-form" id="searchForm" autocomplete="off">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="searchInput" class="search-input" type="text" placeholder="ex. Suisse, Japon, Bangkok…">
+        <button id="searchGo" class="search-go" type="submit">Go →</button>
+      </form>
+      <div id="searchSug" class="search-sug" role="listbox"></div>
+    </div>
+
+    <div class="hero-quick">
+      <a href="/fr/compare.html?c=thailand,indonesia,portugal"><span>🔀</span><span id="qkCompare">Comparer</span></a>
+      <a href="/fr/indexchronicles.html"><span>📖</span><span id="qkChron">Chroniques</span></a>
+      <a href="/fr/wiggmatch.html"><span>💚</span><span id="qkMatch">WiggMatch</span></a>
+    </div>
+  </div>
+
+  <div class="hero-scroll" id="heroScroll">
+    <span id="lblScroll">Découvrir</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+  </div>
+</section>
+
+<!-- ──────────── POPULAR COUNTRIES ──────────── -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="section-eyebrow" id="lblPopEyebrow">Destinations</span>
+      <h2 class="section-title" id="lblPopTitle">Les pays à explorer</h2>
+      <p class="section-sub" id="lblPopSub">Les destinations les plus explorées par notre communauté.</p>
+    </div>
+
+    <div class="country-grid" id="countryGrid"></div>
+
+    <div class="section-cta">
+      <a class="btn-pill" href="/fr/globe.html"><span id="lblBrowseAll">Explorer les 160+ pays</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────── TOOLS ──────────── -->
+<section class="section" style="padding-top:0">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="section-eyebrow" id="lblToolsEyebrow">Nos outils</span>
+      <h2 class="section-title" id="lblToolsTitle">Trouve ta destination idéale</h2>
+    </div>
+
+    <div class="tools-grid">
+      <a class="tool-card featured" href="/fr/wiggmatch.html">
+        <span class="tool-badge" id="lblTool1Badge">🔥 Nouveau</span>
+        <div class="tool-icon">💚</div>
+        <div class="tool-name" id="lblTool1">WiggMatch</div>
+        <div class="tool-desc" id="lblTool1Sub">Test personnalisé qui trouve la ville faite pour toi en 5 questions.</div>
+        <div class="tool-arrow" id="lblToolStart">Commencer</div>
+      </a>
+      <a class="tool-card" href="/fr/compare.html?c=thailand,indonesia,portugal">
+        <div class="tool-icon">⚖️</div>
+        <div class="tool-name" id="lblTool2">Comparer</div>
+        <div class="tool-desc" id="lblTool2Sub">Place 2 pays côte à côte sur 25+ critères.</div>
+        <div class="tool-arrow" id="lblToolStart2">Comparer</div>
+      </a>
+      <a class="tool-card" href="/fr/globe.html">
+        <div class="tool-icon">🌍</div>
+        <div class="tool-name" id="lblTool3">Globe 3D</div>
+        <div class="tool-desc" id="lblTool3Sub">Tourne le globe et atterris sur n'importe quel pays.</div>
+        <div class="tool-arrow" id="lblToolStart3">Explorer</div>
+      </a>
+      <a class="tool-card" href="/ggg/wigggame.html">
+        <div class="tool-icon">🎮</div>
+        <div class="tool-name" id="lblTool4">Quiz</div>
+        <div class="tool-desc" id="lblTool4Sub">Teste tes connaissances sur les pays du monde.</div>
+        <div class="tool-arrow" id="lblToolStart4">Jouer</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────── CHRONICLES ──────────── -->
+<section class="section chron-section">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="section-eyebrow" id="lblChronEyebrow">Chroniques</span>
+      <h2 class="section-title" id="lblChronTitle">Articles longue forme</h2>
+      <p class="section-sub" id="lblChronSub">Visas, fiscalité, expatriation et guides détaillés écrits par Wigg.</p>
+    </div>
+
+    <div class="chron-grid" id="chronGrid"></div>
+
+    <div class="section-cta">
+      <a class="btn-pill" href="/fr/indexchronicles.html"><span id="lblAllChron">Toutes les chroniques</span> →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────── PARALLAX DIVIDER ──────────── -->
+<section class="parallax" aria-hidden="true">
+  <div class="parallax-inner">
+    <span class="parallax-eyebrow" id="lblPxEyebrow">WiggMap</span>
+    <p class="parallax-quote" id="lblPxQuote">“L'herbe est-elle vraiment plus verte ailleurs ?”</p>
+    <div class="parallax-sign" id="lblPxSign">— 160+ pays, une seule réponse honnête</div>
+  </div>
+</section>
+
+<!-- ──────────── CITY CHRONICLES ──────────── -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="section-eyebrow" id="lblCityEyebrow">Chroniques villes</span>
+      <h2 class="section-title" id="lblCityTitle">Les villes à découvrir</h2>
+      <p class="section-sub" id="lblCitySub">Le quotidien, les coûts cachés et l'ambiance — ville par ville.</p>
+    </div>
+
+    <div class="city-grid" id="cityGrid"></div>
+
+    <div class="section-cta">
+      <a class="btn-pill" href="/fr/indexchronicles.html"><span id="lblAllCities">Toutes les villes</span> →</a>
+    </div>
+  </div>
+</section>
+
+<div id="siteFooter"></div>
+<script src="/data/footer.js"></script>
+
+<!-- ─────────── I18N ─────────── -->
+<script>
+var I18N = {
+  en: {
+    title: 'WiggMap — Where is the grass actually greener?',
+    eyebrow: '160+ countries · Real data',
+    heroTitle: 'What if your life were different somewhere else?',
+    heroSub: '',
+    placeholder: 'e.g. Switzerland, Japan, Bangkok…',
+    goBtn: 'Go →',
+    qkCompare: 'Compare', qkChron: 'Chronicles', qkMatch: 'WiggMatch',
+    scroll: 'Scroll',
+    popEyebrow: 'Destinations', popTitle: 'Countries to explore', popSub: 'The destinations most explored by our community.',
+    browseAll: 'Browse all 160+ countries',
+    toolsEyebrow: 'Our tools', toolsTitle: 'Find your perfect destination',
+    tool1: 'WiggMatch', tool1Sub: 'Personalised test that finds the city made for you in 5 questions.', toolStart: 'Start', tool1Badge: '🔥 New',
+    tool2: 'Compare', tool2Sub: 'Place 2 countries side by side on 25+ criteria.', toolStart2: 'Compare',
+    tool3: '3D Globe', tool3Sub: 'Spin the globe and land on any country.', toolStart3: 'Explore',
+    tool4: 'Quiz', tool4Sub: 'Test your knowledge of the world\u2019s countries.', toolStart4: 'Play',
+    chronEyebrow: 'Chronicles', chronTitle: 'Long-form articles', chronSub: 'Visas, taxes, expat life and in-depth guides written by Wigg.',
+    allChron: 'All chronicles',
+    pxQuote: 'Come and discover new horizons.', pxSign: '— 160+ countries to explore',
+    cityEyebrow: 'City chronicles', cityTitle: 'Cities to discover', citySub: 'Daily life, hidden costs and atmosphere — city by city.',
+    allCities: 'All cities',
+    noMatch: 'No match found.'
+  },
+  fr: {
+    title: 'WiggMap — Où l\u2019herbe est-elle vraiment plus verte ?',
+    eyebrow: '160+ pays · Données réelles',
+    heroTitle: 'Et si ta vie était différente ailleurs ?',
+    heroSub: '',
+    placeholder: 'ex. Suisse, Japon, Bangkok…',
+    goBtn: 'Go →',
+    qkCompare: 'Comparer', qkChron: 'Chroniques', qkMatch: 'WiggMatch',
+    scroll: 'Découvrir',
+    popEyebrow: 'Destinations', popTitle: 'Les pays à explorer', popSub: 'Les destinations les plus explorées par notre communauté.',
+    browseAll: 'Explorer les 160+ pays',
+    toolsEyebrow: 'Nos outils', toolsTitle: 'Trouve ta destination idéale',
+    tool1: 'WiggMatch', tool1Sub: 'Test personnalisé qui trouve la ville faite pour toi en 5 questions.', toolStart: 'Commencer', tool1Badge: '🔥 Nouveau',
+    tool2: 'Comparer', tool2Sub: 'Place 2 pays côte à côte sur 25+ critères.', toolStart2: 'Comparer',
+    tool3: 'Globe 3D', tool3Sub: 'Tourne le globe et atterris sur n\u2019importe quel pays.', toolStart3: 'Explorer',
+    tool4: 'Quiz', tool4Sub: 'Teste tes connaissances sur les pays du monde.', toolStart4: 'Jouer',
+    chronEyebrow: 'Chroniques', chronTitle: 'Articles longue forme', chronSub: 'Visas, fiscalité, expatriation et guides détaillés écrits par Wigg.',
+    allChron: 'Toutes les chroniques',
+    pxQuote: 'Viens découvrir de nouveaux horizons.', pxSign: '— 160+ pays à explorer',
+    cityEyebrow: 'Chroniques villes', cityTitle: 'Les villes à découvrir', citySub: 'Le quotidien, les coûts cachés et l\u2019ambiance — ville par ville.',
+    allCities: 'Toutes les villes',
+    noMatch: 'Aucun résultat.'
+  },
+  es: {
+    title: 'WiggMap — ¿Dónde está la hierba realmente más verde?',
+    eyebrow: '160+ países · Datos reales',
+    heroTitle: '¿Y si tu vida fuera diferente en otro lugar?',
+    heroSub: '',
+    placeholder: 'p.ej. Suiza, Japón, Bangkok…',
+    goBtn: 'Ir →',
+    qkCompare: 'Comparar', qkChron: 'Crónicas', qkMatch: 'WiggMatch',
+    scroll: 'Descubrir',
+    popEyebrow: 'Destinos', popTitle: 'Los países a explorar', popSub: 'Los destinos más explorados por nuestra comunidad.',
+    browseAll: 'Explorar los 160+ países',
+    toolsEyebrow: 'Nuestras herramientas', toolsTitle: 'Encuentra tu destino ideal',
+    tool1: 'WiggMatch', tool1Sub: 'Test personalizado que encuentra la ciudad hecha para ti en 5 preguntas.', toolStart: 'Empezar', tool1Badge: '🔥 Nuevo',
+    tool2: 'Comparar', tool2Sub: 'Coloca 2 países uno al lado del otro en 25+ criterios.', toolStart2: 'Comparar',
+    tool3: 'Globo 3D', tool3Sub: 'Gira el globo y aterriza en cualquier país.', toolStart3: 'Explorar',
+    tool4: 'Quiz', tool4Sub: 'Pon a prueba tu conocimiento de los países del mundo.', toolStart4: 'Jugar',
+    chronEyebrow: 'Crónicas', chronTitle: 'Artículos largos', chronSub: 'Visados, impuestos, expatriación y guías detalladas escritas por Wigg.',
+    allChron: 'Todas las crónicas',
+    pxQuote: 'Ven a descubrir nuevos horizontes.', pxSign: '— 160+ países por explorar',
+    cityEyebrow: 'Crónicas ciudades', cityTitle: 'Las ciudades a descubrir', citySub: 'La vida diaria, los costes ocultos y el ambiente — ciudad por ciudad.',
+    allCities: 'Todas las ciudades',
+    noMatch: 'Sin resultados.'
+  }
+};
+
+var LANG = (localStorage.getItem('wigg_lang') || 'en').toLowerCase();
+if (['en','fr','es'].indexOf(LANG) === -1) LANG = 'en';
+document.documentElement.lang = LANG;
+var T = I18N[LANG];
+
+document.title = T.title;
+function setT(id, val) { var el = document.getElementById(id); if (el) el.textContent = val; }
+setT('heroEyebrow', T.eyebrow);
+setT('heroTitle', T.heroTitle);
+setT('heroSub', T.heroSub);
+setT('qkCompare', T.qkCompare);
+setT('qkChron', T.qkChron);
+setT('qkMatch', T.qkMatch);
+setT('lblScroll', T.scroll);
+setT('lblPopEyebrow', T.popEyebrow);
+setT('lblPopTitle', T.popTitle);
+setT('lblPopSub', T.popSub);
+setT('lblBrowseAll', T.browseAll);
+setT('lblToolsEyebrow', T.toolsEyebrow);
+setT('lblToolsTitle', T.toolsTitle);
+setT('lblTool1', T.tool1); setT('lblTool1Sub', T.tool1Sub); setT('lblToolStart', T.toolStart); setT('lblTool1Badge', T.tool1Badge);
+setT('lblTool2', T.tool2); setT('lblTool2Sub', T.tool2Sub); setT('lblToolStart2', T.toolStart2);
+setT('lblTool3', T.tool3); setT('lblTool3Sub', T.tool3Sub); setT('lblToolStart3', T.toolStart3);
+setT('lblTool4', T.tool4); setT('lblTool4Sub', T.tool4Sub); setT('lblToolStart4', T.toolStart4);
+setT('lblChronEyebrow', T.chronEyebrow);
+setT('lblChronTitle', T.chronTitle);
+setT('lblChronSub', T.chronSub);
+setT('lblAllChron', T.allChron);
+setT('lblPxQuote', T.pxQuote);
+setT('lblPxSign', T.pxSign);
+setT('lblCityEyebrow', T.cityEyebrow);
+setT('lblCityTitle', T.cityTitle);
+setT('lblCitySub', T.citySub);
+setT('lblAllCities', T.allCities);
+
+var inp = document.getElementById('searchInput');
+if (inp) inp.placeholder = T.placeholder;
+var goBtn = document.getElementById('searchGo');
+if (goBtn) goBtn.textContent = T.goBtn;
+
+window.__I18N_NOMATCH = T.noMatch;
+</script>
+
+<!-- ─────────── SEARCH ─────────── -->
+<script>
+(function() {
+  var LANG = (localStorage.getItem('wigg_lang') || 'en').toLowerCase();
+  if (['en','fr','es'].indexOf(LANG) === -1) LANG = 'en';
+  var ul = LANG;
+  var cf = LANG === 'fr' ? '/data/countries.fr.json' : LANG === 'es' ? '/data/countries.es.json' : '/data/countries.json';
+  var CDATA = null;
+
+  function norm(s) { return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+
+  async function loadDB() {
+    if (CDATA) return;
+    try {
+      var r = await fetch(cf);
+      if (r.ok) CDATA = await r.json();
+      else {
+        // fallback to default
+        var r2 = await fetch('/data/countries.json');
+        if (r2.ok) CDATA = await r2.json();
+      }
+    } catch (e) {
+      console.warn('countries fetch failed', e);
+      try { var r3 = await fetch('/data/countries.json'); if (r3.ok) CDATA = await r3.json(); } catch(e2){}
+    }
+  }
+
+  // Cities + tools index (curated subset)
+  var IDX_EXTRAS = [
+    {n:"Bali",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-bali-indonesia-{L}.html"},
+    {n:"Bangkok",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-bangkok-thailand-{L}.html"},
+    {n:"Berlin",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-berlin-allemagne-{L}.html"},
+    {n:"Buenos Aires",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-buenos-aires-argentine-{L}.html"},
+    {n:"Chiang Mai",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-chiang-mai-thailand-{L}.html"},
+    {n:"Dubai",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-dubai-emirats-{L}.html"},
+    {n:"Lisbon",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-lisbonne-portugal-{L}.html"},
+    {n:"Madrid",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-madrid-espagne-{L}.html"},
+    {n:"Mexico City",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-mexico-city-mexico-{L}.html"},
+    {n:"New York",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-new-york-usa-{L}.html"},
+    {n:"Paris",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-paris-france-{L}.html"},
+    {n:"Tokyo",i:"🏙️",t:"city",u:"/chronicles/villes/chronicle-tokyo-japan-{L}.html"},
+    {n:"WiggMatch",i:"💚",t:"tool",u:"/wiggmatch.html"},
+    {n:"Compare",i:"⚖️",t:"tool",u:"/compare.html"},
+    {n:"Globe",i:"🌍",t:"tool",u:"/globe.html"}
+  ];
+
+  function search(q, max) {
+    if (!q) return [];
+    var out = [];
+    if (CDATA) {
+      var keys = Object.keys(CDATA);
+      // Starts-with match first
+      for (var i = 0; i < keys.length && out.length < max; i++) {
+        var k = keys[i], c = CDATA[k], name = c.name || k;
+        if (norm(name).indexOf(q) === 0)
+          out.push({ name: name, icon: (c.flag || '🌐'), url: '/countries/' + encodeURIComponent(k) + '-' + ul + '.html', tag: 'country' });
+      }
+      // Then contains match
+      for (var i2 = 0; i2 < keys.length && out.length < max; i2++) {
+        var k2 = keys[i2], c2 = CDATA[k2], name2 = c2.name || k2;
+        if (norm(name2).indexOf(q) > 0 && !out.find(function(x){return x.name===name2}))
+          out.push({ name: name2, icon: (c2.flag || '🌐'), url: '/countries/' + encodeURIComponent(k2) + '-' + ul + '.html', tag: 'country' });
+      }
+    }
+    for (var j = 0; j < IDX_EXTRAS.length && out.length < max; j++) {
+      var ex = IDX_EXTRAS[j];
+      if (norm(ex.n).indexOf(q) >= 0 && !out.find(function(x){return x.name===ex.n}))
+        out.push({ name: ex.n, icon: ex.i, url: ex.u.replace('{L}', ul), tag: ex.t });
+    }
+    return out;
+  }
+
+  function goUrl(url) { window.location.href = url; }
+
+  var inp = document.getElementById('searchInput');
+  var sug = document.getElementById('searchSug');
+  var form = document.getElementById('searchForm');
+  var list = [], ai = -1, debT;
+
+  function renderSug(items) {
+    list = items; ai = -1;
+    if (!items.length) { sug.style.display = 'none'; sug.innerHTML = ''; return; }
+    sug.innerHTML = items.map(function(it, i) {
+      return '<div class="search-sug-item" data-i="' + i + '">' +
+        '<span class="ssi-icon">' + it.icon + '</span>' +
+        '<span class="ssi-name">' + it.name + '</span>' +
+        (it.tag ? '<span class="ssi-tag">' + it.tag + '</span>' : '') +
+      '</div>';
+    }).join('');
+    sug.style.display = 'block';
+  }
+
+  function setActive(idx) {
+    var items = sug.querySelectorAll('.search-sug-item');
+    items.forEach(function(el, i) { el.classList.toggle('active', i === idx); });
+    ai = idx;
+  }
+
+  function showToast(msg) {
+    var existing = document.getElementById('wmToast');
+    if (existing) existing.remove();
+    var toast = document.createElement('div');
+    toast.id = 'wmToast';
+    toast.style.cssText = 'position:fixed;top:90px;left:50%;transform:translateX(-50%);background:rgba(220,38,38,.95);color:#fff;padding:10px 22px;border-radius:2px;font-family:Inter,sans-serif;font-size:13px;font-weight:600;z-index:9999;box-shadow:0 8px 28px rgba(0,0,0,.3)';
+    toast.textContent = msg;
+    document.body.appendChild(toast);
+    setTimeout(function(){ if (toast.parentNode) toast.remove(); }, 2500);
+  }
+
+  if (inp) {
+    inp.addEventListener('input', function() {
+      clearTimeout(debT);
+      debT = setTimeout(async function() {
+        await loadDB();
+        renderSug(search(norm(inp.value), 10));
+      }, 80);
+    });
+    inp.addEventListener('keydown', function(e) {
+      if (sug.style.display !== 'block') return;
+      var max = list.length - 1;
+      if (e.key === 'ArrowDown') { e.preventDefault(); setActive(ai < max ? ai + 1 : 0); }
+      if (e.key === 'ArrowUp') { e.preventDefault(); setActive(ai > 0 ? ai - 1 : max); }
+      if (e.key === 'Enter' && ai >= 0 && list[ai]) { e.preventDefault(); goUrl(list[ai].url); }
+      if (e.key === 'Escape') sug.style.display = 'none';
+    });
+  }
+
+  if (sug) sug.addEventListener('click', function(e) {
+    var it = e.target.closest('[data-i]');
+    if (it) { var i = Number(it.dataset.i); if (list[i]) goUrl(list[i].url); }
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.search-block')) sug.style.display = 'none';
+  });
+
+  if (form) form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    await loadDB();
+    var q = norm(inp.value);
+    if (!q) return;
+    if (ai >= 0 && list[ai]) return goUrl(list[ai].url);
+    var res = search(q, 1);
+    if (res.length) goUrl(res[0].url);
+    else showToast(window.__I18N_NOMATCH || 'No match.');
+  });
+
+  loadDB().catch(console.error);
+})();
+</script>
+
+<!-- ─────────── DYNAMIC CONTENT ─────────── -->
+<script>
+(function() {
+  var LANG = (localStorage.getItem('wigg_lang') || 'en').toLowerCase();
+  if (['en','fr','es'].indexOf(LANG) === -1) LANG = 'en';
+  var ul = LANG;
+
+  // ── Popular countries ──
+  var POPULAR = [
+    { slug: 'portugal',  flag: '🇵🇹', name: { en:'Portugal',    fr:'Portugal',     es:'Portugal' },     fact: { en:'Studio €560/mo · D7 visa', fr:'Studio 560€/mois · Visa D7', es:'Estudio 560€/mes · Visa D7' } },
+    { slug: 'thailand',  flag: '🇹🇭', name: { en:'Thailand',    fr:'Thaïlande',    es:'Tailandia' },    fact: { en:'Studio $480/mo · LTR visa', fr:'Studio 480$/mois · Visa LTR', es:'Estudio 480$/mes · Visa LTR' } },
+    { slug: 'spain',     flag: '🇪🇸', name: { en:'Spain',       fr:'Espagne',      es:'España' },       fact: { en:'Studio €700/mo · DN visa', fr:'Studio 700€/mois · Visa nomade', es:'Estudio 700€/mes · Visa nómada' } },
+    { slug: 'japan',     flag: '🇯🇵', name: { en:'Japan',       fr:'Japon',        es:'Japón' },        fact: { en:'Studio $620/mo · DN visa', fr:'Studio 620$/mois · Visa nomade', es:'Estudio 620$/mes · Visa nómada' } },
+    { slug: 'mexico',    flag: '🇲🇽', name: { en:'Mexico',      fr:'Mexique',      es:'México' },       fact: { en:'Studio $450/mo · DN visa', fr:'Studio 450$/mois · Visa nomade', es:'Estudio 450$/mes · Visa nómada' } },
+    { slug: 'indonesia', flag: '🇮🇩', name: { en:'Indonesia',   fr:'Indonésie',    es:'Indonesia' },    fact: { en:'Studio $380/mo · KITAS', fr:'Studio 380$/mois · KITAS', es:'Estudio 380$/mes · KITAS' } },
+    { slug: 'germany',   flag: '🇩🇪', name: { en:'Germany',     fr:'Allemagne',    es:'Alemania' },     fact: { en:'Studio €820/mo · EU Blue Card', fr:'Studio 820€/mois · Carte bleue UE', es:'Estudio 820€/mes · Tarjeta Azul UE' } },
+    { slug: 'united-arab-emirates', flag: '🇦🇪', name: { en:'UAE',  fr:'Émirats',  es:'EAU' }, fact: { en:'Studio $1100/mo · 0% tax', fr:'Studio 1100$/mois · 0% impôt', es:'Estudio 1100$/mes · 0% impuesto' } }
+  ];
+
+  var grid = document.getElementById('countryGrid');
+  if (grid) {
+    grid.innerHTML = POPULAR.map(function(c) {
+      return '<a class="country-card" href="/countries/country.html?country=' + c.slug + '">' +
+        '<img src="/assets/hero-' + c.slug + '.jpg" alt="' + c.name[ul] + '" loading="lazy" onerror="this.style.display=\'none\'">' +
+        '<div class="cc-body">' +
+          '<span class="cc-flag">' + c.flag + '</span>' +
+          '<div class="cc-name">' + c.name[ul] + '</div>' +
+          '<div class="cc-fact">' + c.fact[ul] + '</div>' +
+        '</div>' +
+      '</a>';
+    }).join('');
+  }
+
+  // ── Featured chronicles ──
+  var CHRONICLES = [
+    {
+      cat: { en:'Visas', fr:'Visas', es:'Visados' },
+      title: {
+        en: 'The 25 Best Digital Nomad Visas in 2026',
+        fr: 'Les 25 meilleurs visas digital nomad en 2026',
+        es: 'Los 25 mejores visados nómada digital en 2026'
+      },
+      url: {
+        en: '/chronicles/chronicle-digital-nomad-visas-2026-en.html',
+        fr: '/chronicles/chronicle-visas-digital-nomads-2026-fr.html',
+        es: '/chronicles/chronicle-visas-nomadas-digitales-2026-es.html'
+      },
+      images: ['portugal','spain','indonesia'],
+      time: '~25 min'
+    },
+    {
+      cat: { en:'Asia', fr:'Asie', es:'Asia' },
+      title: {
+        en: 'Asia Expat Guide 2026 — Part 1: Thailand, Vietnam, Bali',
+        fr: 'Asie 2026 — Partie 1 : Thaïlande, Vietnam, Bali',
+        es: 'Asia 2026 — Parte 1: Tailandia, Vietnam, Bali'
+      },
+      url: {
+        en: '/chronicles/chronicle-asia-expat-guide-part1-2026-en.html',
+        fr: '/chronicles/chronicle-asie-expatriation-partie1-2026-fr.html',
+        es: '/chronicles/chronicle-asia-guia-expatriados-parte1-2026-es.html'
+      },
+      images: ['thailand','vietnam','indonesia'],
+      time: '~30 min'
+    },
+    {
+      cat: { en:'Future', fr:'Futur', es:'Futuro' },
+      title: {
+        en: '2056: Where will life be best in 30 years?',
+        fr: '2056 : où vivra-t-on le mieux dans 30 ans ?',
+        es: '2056: ¿dónde se vivirá mejor en 30 años?'
+      },
+      url: {
+        en: '/chronicles/chronicle-2056-best-countries-30-years-en.html',
+        fr: '/chronicles/chronicle-2056-ou-vivra-t-on-le-mieux-fr.html',
+        es: '/chronicles/chronicle-2056-mejores-paises-30-anos-es.html'
+      },
+      images: ['norway','japan','new-zealand'],
+      time: '~25 min'
+    }
+  ];
+
+  var chronGrid = document.getElementById('chronGrid');
+  if (chronGrid) {
+    chronGrid.innerHTML = CHRONICLES.map(function(c) {
+      var n = c.images.length;
+      var panels = c.images.map(function(s) {
+        return '<div style="background-image:url(\'/assets/hero-' + s + '.jpg\')"></div>';
+      }).join('');
+      return '<a class="chron-card" href="' + c.url[ul] + '">' +
+        '<div class="chron-thumb">' +
+          '<div class="chron-thumb-grid cols-' + n + '">' + panels + '</div>' +
+        '</div>' +
+        '<div class="chron-body">' +
+          '<div class="chron-cat">' + c.cat[ul] + '</div>' +
+          '<div class="chron-title">' + c.title[ul] + '</div>' +
+          '<div class="chron-meta">📖 ' + c.time + '</div>' +
+        '</div>' +
+      '</a>';
+    }).join('');
+  }
+
+  // ── Featured cities ──
+  var CITIES = [
+    { slug:'bangkok-thailand',     img:'thailand',  name:'Bangkok',     country:{en:'Thailand',fr:'Thaïlande',es:'Tailandia'} },
+    { slug:'lisbonne-portugal',    img:'portugal',  name:'Lisbon',      country:{en:'Portugal',fr:'Portugal',es:'Portugal'} },
+    { slug:'tokyo-japan',          img:'japan',     name:'Tokyo',       country:{en:'Japan',fr:'Japon',es:'Japón'} },
+    { slug:'mexico-city-mexico',   img:'mexico',    name:'Mexico City', country:{en:'Mexico',fr:'Mexique',es:'México'} },
+    { slug:'bali-indonesia',       img:'indonesia', name:'Bali',        country:{en:'Indonesia',fr:'Indonésie',es:'Indonesia'} },
+    { slug:'dubai-emirats',        img:'uae',       name:'Dubai',       country:{en:'UAE',fr:'Émirats',es:'EAU'} },
+    { slug:'berlin-allemagne',     img:'germany',   name:'Berlin',      country:{en:'Germany',fr:'Allemagne',es:'Alemania'} },
+    { slug:'medellin-colombie',    img:'colombia',  name:'Medellín',    country:{en:'Colombia',fr:'Colombie',es:'Colombia'} },
+    { slug:'kuala-lumpur-malaisie',img:'malaysia',  name:'Kuala Lumpur',country:{en:'Malaysia',fr:'Malaisie',es:'Malasia'} },
+    { slug:'porto-portugal',       img:'portugal',  name:'Porto',       country:{en:'Portugal',fr:'Portugal',es:'Portugal'} },
+    { slug:'istanbul-turquie',     img:'turkey',    name:'Istanbul',    country:{en:'Turkey',fr:'Turquie',es:'Turquía'} },
+    { slug:'buenos-aires-argentine',img:'argentina',name:'Buenos Aires',country:{en:'Argentina',fr:'Argentine',es:'Argentina'} }
+  ];
+
+  var cityGrid = document.getElementById('cityGrid');
+  if (cityGrid) {
+    cityGrid.innerHTML = CITIES.map(function(c) {
+      return '<a class="city-card" href="/chronicles/villes/chronicle-' + c.slug + '-' + ul + '.html">' +
+        '<img src="/assets/hero-' + c.img + '.jpg" alt="' + c.name + '" loading="lazy" onerror="this.style.display=\'none\'">' +
+        '<div class="city-body">' +
+          '<div class="city-name">' + c.name + '</div>' +
+          '<div class="city-country">' + c.country[ul] + '</div>' +
+        '</div>' +
+      '</a>';
+    }).join('');
+  }
+
+  // ── Hero scroll cue ──
+  var heroScroll = document.getElementById('heroScroll');
+  if (heroScroll) {
+    heroScroll.addEventListener('click', function() {
+      var firstSection = document.querySelector('.hero + .section');
+      if (firstSection) firstSection.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+})();
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js').catch(console.error);
+  });
+}
+</script>
+</body>
+</html>

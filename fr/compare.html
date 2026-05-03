@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta name="robots" content="noindex,follow">
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});if(localStorage.getItem('wigg_consent')==='accepted'){gtag('consent','update',{analytics_storage:'granted'});}(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-K4MMRD4R');</script>
+  <meta charset="UTF-8" />
+  <meta name="theme-color" content="#1a5430">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compare Countries — WiggMap</title>
+  <meta name="description" content="Compare countries side by side on WiggMap — salaries, rent, taxes, safety, climate and 25+ data points for 160+ countries. Find where life is actually better for you." />
+  <link rel="canonical" href="https://wiggmap.com/en/compare.html">
+<link rel="alternate" hreflang="en" href="https://wiggmap.com/en/compare.html">
+<link rel="alternate" hreflang="fr" href="https://wiggmap.com/fr/compare.html">
+<link rel="alternate" hreflang="es" href="https://wiggmap.com/es/compare.html">
+<link rel="alternate" hreflang="x-default" href="https://wiggmap.com/en/compare.html">
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Compare Countries — WiggMap" />
+  <meta property="og:description" content="Compare countries side by side on WiggMap — salaries, rent, taxes, safety, climate and 25+ data points for 160+ countries. Find where life is actually better for you." />
+  <meta property="og:url" content="https://wiggmap.com/compare.html" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"WiggMap Compare","url":"https://wiggmap.com/compare.html","applicationCategory":"TravelApplication","operatingSystem":"Any","description":"Compare countries side by side on 25+ data points: salaries, rent, taxes, safety, climate.","inLanguage":["en","fr","es"],"isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"WiggMap","url":"https://wiggmap.com/","logo":"https://wiggmap.com/assets/logo.png"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://wiggmap.com/"},{"@type":"ListItem","position":2,"name":"Compare","item":"https://wiggmap.com/compare.html"}]}</script>
+
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="css/main.css">
+
+  <!-- Fonts (clean + classy title) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #f6f8f7;
+      --card: #ffffff;
+      --text: #14201a;
+      --muted: rgba(20,32,26,.62);
+      --border: rgba(0,0,0,.08);
+      --shadow: 0 10px 28px rgba(0,0,0,.08);
+
+      /* WiggMap-ish accents */
+      --accent: #2ecc71;         /* green */
+      --accent2: #18a957;        /* deeper green */
+      --ink: #0f1a14;
+
+      --radius: 16px;
+    }
+
+    *{ box-sizing: border-box; }
+    body{
+      margin:0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    /* Header (simple + clean) */
+    .hero{
+      padding: 34px 18px 22px;
+      text-align:center;
+      background:
+        radial-gradient(1200px 420px at 50% -50%, rgba(46,204,113,.25), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.85), transparent);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-title{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap: 12px;
+    }
+
+    .hero-icon{
+      width: 34px;
+      height: 34px;
+      display:inline-block;
+      opacity: .92;
+      transform: translateY(1px);
+    }
+
+    .hero h1{
+      margin:0;
+      font-size: 38px;
+      letter-spacing: -0.6px;
+      font-family: "Playfair Display", serif;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .hero p{
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .wrap{
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 18px;
+    }
+
+    /* Selector bar */
+    .selectors{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 14px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .selector-row{
+      display:flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .inputs{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(220px, 1fr));
+      gap: 12px;
+      width: 100%;
+    }
+    @media (max-width: 980px){
+      .inputs{ grid-template-columns: 1fr; }
+    }
+
+    .selector{
+      position: relative;
+    }
+    .selector input{
+      width: 100%;
+      padding: 12px 12px;
+      font-size: 15px;
+      font-weight: 800;
+      border-radius: 14px;
+      border: 1.5px solid rgba(0,0,0,.12);
+      outline: none;
+      background: rgba(246,248,247,.85);
+    }
+    .selector input:focus{
+      border-color: rgba(46,204,113,.75);
+      box-shadow: 0 0 0 4px rgba(46,204,113,.15);
+      background: #fff;
+    }
+    .hint{
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .autocomplete{
+      position:absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 14px 44px rgba(0,0,0,.12);
+      max-height: 320px;
+      overflow-y: auto;
+      display: none;
+      z-index: 50;
+    }
+    .autocomplete-item{
+      padding: 11px 12px;
+      cursor: pointer;
+      font-weight: 800;
+      border-bottom: 1px solid rgba(0,0,0,.06);
+    }
+    .autocomplete-item:hover{
+      background: rgba(46,204,113,.10);
+    }
+    .autocomplete-item:last-child{ border-bottom: none; }
+
+    .actions{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items:center;
+      justify-content: flex-end;
+      width: 100%;
+    }
+
+    .btn{
+      border: 1px solid rgba(0,0,0,.12);
+      background: #fff;
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-weight: 900;
+      cursor:pointer;
+      transition: all .15s;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(0,0,0,.03); }
+    .btn.primary{
+      background: var(--accent);
+      border-color: transparent;
+      color:#fff;
+    }
+    .btn.primary:hover{ background: var(--accent2); }
+
+    /* Table */
+    .table-card{
+      margin-top: 14px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .table-head{
+      padding: 12px 14px;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid rgba(0,0,0,.06);
+      background: linear-gradient(180deg, rgba(246,248,247,.9), #fff);
+    }
+    .table-head .title{
+      font-weight: 900;
+      letter-spacing: .2px;
+    }
+    .table-head .sub{
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .table-scroll{
+      overflow-x: auto; /* key for mobile */
+    }
+
+    table{
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      min-width: 820px; /* force real table feel; scroll on mobile */
+    }
+
+    thead th{
+      position: sticky;
+      top: 0;
+      background: #fff;
+      z-index: 2;
+      border-bottom: 1px solid rgba(0,0,0,.08);
+      padding: 12px 12px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    /* Sticky first column (metric names) */
+    th.metric-col, td.metric-col{
+      position: sticky;
+      left: 0;
+      z-index: 3;
+      background: #fff;
+      border-right: 1px solid rgba(0,0,0,.06);
+    }
+    td{
+      border-bottom: 1px solid rgba(0,0,0,.06);
+      padding: 12px 12px;
+      vertical-align: top;
+      background: #fff;
+    }
+    tbody tr:hover td{
+      background: rgba(46,204,113,.05);
+    }
+    tbody tr:hover td.metric-col{
+      background: rgba(46,204,113,.07);
+    }
+
+    .country-name{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      font-weight: 900;
+      color: var(--ink);
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 900;
+      font-size: 11px;
+      border: 1px solid rgba(0,0,0,.08);
+      background: rgba(246,248,247,.85);
+      white-space: nowrap;
+    }
+    .dot{
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      display:inline-block;
+    }
+    .dot.green{ background: #28a745; }
+    .dot.yellow{ background: #ffc107; }
+    .dot.orange{ background: #fd7e14; }
+    .dot.red{ background: #dc3545; }
+
+    .cell{
+      font-weight: 900;
+      font-size: 15px;
+      color: var(--ink);
+      line-height: 1.25;
+    }
+    .cell-sub{
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .muted{
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .remove{
+      border: 1px solid rgba(0,0,0,.10);
+      background: #fff;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 900;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .remove:hover{ background: rgba(0,0,0,.03); }
+
+    footer{
+      margin: 18px 0 6px;
+      text-align:center;
+      color: rgba(0,0,0,.50);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    footer a{ color: rgba(0,0,0,.55); text-decoration: underline; }
+
+    /* ── Popular comparisons ── */
+    .pop-cmp {
+      margin-top: 18px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px 20px 26px;
+    }
+    .pop-hd {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 14px;
+    }
+    .pop-title {
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--ink);
+      letter-spacing: -.1px;
+    }
+    .pop-sub {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: var(--muted);
+    }
+    .pop-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px 28px;
+    }
+    @media (max-width: 820px) { .pop-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .pop-grid { grid-template-columns: 1fr; } }
+    .pop-group-lbl {
+      font-size: 10.5px;
+      font-weight: 900;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 9px;
+    }
+    .pop-links {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .pop-links a {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--text);
+      text-decoration: none;
+      padding: 2px 0;
+      transition: color .12s;
+    }
+    .pop-links a:hover { color: var(--accent2); }
+
+    /* ── Second table: Culture & Lifestyle (same 3 countries) ── */
+    .table2-tag{
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 800;
+      line-height: 1.3;
+      margin: 2px 3px 2px 0;
+    }
+    .tag-dish{ background: #fef3e2; color: #92400e; }
+    .tag-money{ background: #e8f5e9; color: #1b5e20; }
+    .tag-faith{ background: #f3e5f5; color: #4a148c; }
+    .tag-person{ background: #fff3e0; color: #bf360c; }
+    .tag-sector{ background: #e0f2f1; color: #004d40; }
+
+    .cell-story{
+      margin-top: 5px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--muted);
+      line-height: 1.4;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .3s ease;
+    }
+    .cell-story.open{ max-height: 200px; }
+    .story-toggle{
+      cursor: pointer;
+      text-decoration: underline;
+      text-decoration-style: dotted;
+      text-underline-offset: 2px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <a class="wm-skip" href="#wm-main">Skip to content</a>
+<style>.wm-skip{position:absolute;left:-9999px;top:0;background:#1a5430;color:#fff;padding:10px 18px;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:600;z-index:100000;border-radius:0 0 8px 0;text-decoration:none}.wm-skip:focus{left:0;outline:2px solid #fff;outline-offset:-4px}</style>
+<div id="siteHeader"></div>
+
+  <header class="hero">
+    <div class="hero-title">
+      <span class="hero-icon" aria-hidden="true">
+        <!-- Antique scales icon (inline SVG) -->
+        <svg viewBox="0 0 64 64" width="34" height="34" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M32 8v40" stroke="rgba(15,26,20,.9)" stroke-width="3" stroke-linecap="round"/>
+          <path d="M20 16h24" stroke="rgba(15,26,20,.9)" stroke-width="3" stroke-linecap="round"/>
+          <path d="M14 18l6 0" stroke="rgba(15,26,20,.55)" stroke-width="3" stroke-linecap="round"/>
+          <path d="M44 18l6 0" stroke="rgba(15,26,20,.55)" stroke-width="3" stroke-linecap="round"/>
+
+          <!-- left chain + pan -->
+          <path d="M17 18v8" stroke="rgba(15,26,20,.7)" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M11 28h12" stroke="rgba(15,26,20,.7)" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M11 28c1.2 6 4.2 9 6 9s4.8-3 6-9" stroke="rgba(15,26,20,.7)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+          <!-- right chain + pan -->
+          <path d="M47 18v8" stroke="rgba(15,26,20,.7)" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M41 28h12" stroke="rgba(15,26,20,.7)" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M41 28c1.2 6 4.2 9 6 9s4.8-3 6-9" stroke="rgba(15,26,20,.7)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+          <!-- base -->
+          <path d="M24 52h16" stroke="rgba(15,26,20,.9)" stroke-width="3" stroke-linecap="round"/>
+          <path d="M20 56h24" stroke="rgba(15,26,20,.55)" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </span>
+
+      <h1>Compare Countries</h1>
+    </div>
+
+    <p>Pick up to 3 countries and compare key metrics side-by-side.</p>
+  </header>
+
+  <main class="wrap">
+    <section class="selectors">
+      <div class="inputs">
+        <div class="selector">
+          <input id="search1" type="text" placeholder="Search country (1)..." autocomplete="off" />
+          <div class="hint">Tip: type “Estonia” or “Eesti”.</div>
+          <div class="autocomplete" id="list1"></div>
+        </div>
+        <div class="selector">
+          <input id="search2" type="text" placeholder="Search country (2)..." autocomplete="off" />
+          <div class="hint">Compare salaries, rent, taxes, lifestyle.</div>
+          <div class="autocomplete" id="list2"></div>
+        </div>
+        <div class="selector">
+          <input id="search3" type="text" placeholder="Search country (3)..." autocomplete="off" />
+          <div class="hint">Optional third country.</div>
+          <div class="autocomplete" id="list3"></div>
+        </div>
+      </div>
+
+      <div class="selector-row">
+        <div class="muted" id="statusText">Select countries to populate the table.</div>
+        <div class="actions">
+          <button class="btn" onclick="resetComparison()">Reset</button>
+          <button class="btn primary" onclick="copyShareLink()">Copy share link</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="table-card">
+      <div class="table-head">
+        <div>
+          <div class="title">Side-by-side comparison</div>
+          <div class="sub">Mobile: scroll horizontally →</div>
+        </div>
+        <div class="sub" id="detailsNote"></div>
+      </div>
+
+      <div class="table-scroll" id="tableScroll">
+        <div id="tableMount"></div>
+      </div>
+    </section>
+
+    <!-- ══ SECOND TABLE: Culture & Lifestyle (same 3 countries) ══ -->
+    <section class="table-card" id="table2Card" style="display:none; margin-top:0; border-top:none; border-radius: 0 0 var(--radius) var(--radius); box-shadow:none; border-top: 1px dashed var(--border);">
+      <div class="table-scroll">
+        <div id="table2Mount"></div>
+      </div>
+    </section>
+
+    <!-- ══ POPULAR COMPARISONS ══════════════════════════════════════════ -->
+    <section class="pop-cmp">
+      <div class="pop-hd">
+        <span class="pop-title" id="pop-title">Popular comparisons</span>
+        <span class="pop-sub" id="pop-sub">In-depth pages — no search needed</span>
+      </div>
+      <div class="pop-grid">
+
+        <div class="pop-group">
+          <div class="pop-group-lbl" id="pop-lbl-eu">Europe</div>
+          <div class="pop-links">
+            <a href="/compare/static/portugal-vs-spain/">Portugal vs Spain</a>
+            <a href="/compare/static/portugal-vs-germany/">Portugal vs Germany</a>
+            <a href="/compare/static/portugal-vs-greece/">Portugal vs Greece</a>
+            <a href="/compare/static/portugal-vs-italy/">Portugal vs Italy</a>
+            <a href="/compare/static/france-vs-germany/">France vs Germany</a>
+            <a href="/compare/static/spain-vs-france/">Spain vs France</a>
+            <a href="/compare/static/spain-vs-italy/">Spain vs Italy</a>
+            <a href="/compare/static/germany-vs-netherlands/">Germany vs Netherlands</a>
+            <a href="/compare/static/switzerland-vs-germany/">Switzerland vs Germany</a>
+            <a href="/compare/static/switzerland-vs-netherlands/">Switzerland vs Netherlands</a>
+            <a href="/compare/static/georgia-vs-portugal/">Georgia vs Portugal</a>
+            <a href="/compare/static/malta-vs-portugal/">Malta vs Portugal</a>
+            <a href="/compare/static/france-vs-portugal/">France vs Portugal</a>
+            <a href="/compare/static/france-vs-italy/">France vs Italy</a>
+            <a href="/compare/static/france-vs-switzerland/">France vs Switzerland</a>
+            <a href="/compare/static/spain-vs-germany/">Spain vs Germany</a>
+            <a href="/compare/static/italy-vs-greece/">Italy vs Greece</a>
+          </div>
+        </div>
+
+        <div class="pop-group">
+          <div class="pop-group-lbl" id="pop-lbl-asia">Asia</div>
+          <div class="pop-links">
+            <a href="/compare/static/thailand-vs-vietnam/">Thailand vs Vietnam</a>
+            <a href="/compare/static/thailand-vs-indonesia/">Thailand vs Indonesia</a>
+            <a href="/compare/static/thailand-vs-malaysia/">Thailand vs Malaysia</a>
+            <a href="/compare/static/thailand-vs-philippines/">Thailand vs Philippines</a>
+            <a href="/compare/static/vietnam-vs-indonesia/">Vietnam vs Indonesia</a>
+            <a href="/compare/static/vietnam-vs-philippines/">Vietnam vs Philippines</a>
+            <a href="/compare/static/united-arab-emirates-vs-singapore/">UAE vs Singapore</a>
+            <a href="/compare/static/singapore-vs-thailand/">Singapore vs Thailand</a>
+            <a href="/compare/static/singapore-vs-malaysia/">Singapore vs Malaysia</a>
+            <a href="/compare/static/malaysia-vs-indonesia/">Malaysia vs Indonesia</a>
+            <a href="/compare/static/malaysia-vs-vietnam/">Malaysia vs Vietnam</a>
+            <a href="/compare/static/malaysia-vs-philippines/">Malaysia vs Philippines</a>
+            <a href="/compare/static/united-arab-emirates-vs-thailand/">UAE vs Thailand</a>
+            <a href="/compare/static/georgia-vs-thailand/">Georgia vs Thailand</a>
+          </div>
+        </div>
+
+        <div class="pop-group">
+          <div class="pop-group-lbl" id="pop-lbl-am">Americas &amp; Pacific</div>
+          <div class="pop-links">
+            <a href="/compare/static/mexico-vs-colombia/">Mexico vs Colombia</a>
+            <a href="/compare/static/mexico-vs-costa-rica/">Mexico vs Costa Rica</a>
+            <a href="/compare/static/panama-vs-colombia/">Panama vs Colombia</a>
+            <a href="/compare/static/panama-vs-mexico/">Panama vs Mexico</a>
+            <a href="/compare/static/brazil-vs-colombia/">Brazil vs Colombia</a>
+            <a href="/compare/static/colombia-vs-peru/">Colombia vs Peru</a>
+            <a href="/compare/static/australia-vs-canada/">Australia vs Canada</a>
+            <a href="/compare/static/australia-vs-new-zealand/">Australia vs New Zealand</a>
+            <a href="/compare/static/portugal-vs-colombia/">Portugal vs Colombia</a>
+            <a href="/compare/static/portugal-vs-mexico/">Portugal vs Mexico</a>
+            <a href="/compare/static/portugal-vs-costa-rica/">Portugal vs Costa Rica</a>
+            <a href="/compare/static/spain-vs-colombia/">Spain vs Colombia</a>
+            <a href="/compare/static/spain-vs-mexico/">Spain vs Mexico</a>
+            <a href="/compare/static/panama-vs-costa-rica/">Panama vs Costa Rica</a>
+            <a href="/compare/static/costa-rica-vs-colombia/">Costa Rica vs Colombia</a>
+            <a href="/compare/static/mexico-vs-brazil/">Mexico vs Brazil</a>
+            <a href="/compare/static/mexico-vs-peru/">Mexico vs Peru</a>
+            <a href="/compare/static/brazil-vs-peru/">Brazil vs Peru</a>
+            <a href="/compare/static/georgia-vs-colombia/">Georgia vs Colombia</a>
+          </div>
+        </div>
+
+        <div class="pop-group">
+          <div class="pop-group-lbl" id="pop-lbl-mix">Cross-region</div>
+          <div class="pop-links">
+            <a href="/compare/static/portugal-vs-thailand/">Portugal vs Thailand</a>
+            <a href="/compare/static/portugal-vs-vietnam/">Portugal vs Vietnam</a>
+            <a href="/compare/static/portugal-vs-panama/">Portugal vs Panama</a>
+            <a href="/compare/static/france-vs-thailand/">France vs Thailand</a>
+            <a href="/compare/static/germany-vs-thailand/">Germany vs Thailand</a>
+            <a href="/compare/static/spain-vs-thailand/">Spain vs Thailand</a>
+            <a href="/compare/static/singapore-vs-australia/">Singapore vs Australia</a>
+            <a href="/compare/static/thailand-vs-panama/">Thailand vs Panama</a>
+            <a href="/compare/static/france-vs-vietnam/">France vs Vietnam</a>
+            <a href="/compare/static/australia-vs-france/">Australia vs France</a>
+            <a href="/compare/static/canada-vs-france/">Canada vs France</a>
+            <a href="/compare/static/united-arab-emirates-vs-france/">UAE vs France</a>
+            <a href="/compare/static/united-arab-emirates-vs-germany/">UAE vs Germany</a>
+            <a href="/compare/static/united-arab-emirates-vs-australia/">UAE vs Australia</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <footer>
+      © 2026 WiggMap — Values are indicative. <a href="about.html">About</a> · <a href="privacy.html">Privacy</a>
+    </footer>
+  </main>
+
+  <script>
+    // =========================
+    // Data loading (countries + details)
+    // =========================
+    let COUNTRIES_DB = null;
+    let allCountries = [];
+    const selected = [null, null, null]; // merged objects
+
+    async function getCountriesDB(){
+      if (COUNTRIES_DB) return COUNTRIES_DB;
+      const _lang = localStorage.getItem("wigg_lang") || "en";
+      const _cf = _lang === "fr" ? "data/countries.fr.json" : _lang === "es" ? "data/countries.es.json" : "data/countries.json";
+      const r = await fetch(_cf, { cache: "no-store" });
+      if(!r.ok) throw new Error(`countries.json not found (${r.status})`);
+      COUNTRIES_DB = await r.json();
+      return COUNTRIES_DB;
+    }
+
+    async function getDetailsByCode(code){
+      try{
+        const _dlang2 = localStorage.getItem("wigg_lang") || "en";
+        const _df2 = _dlang2 === "fr" ? "details-fr" : _dlang2 === "es" ? "details-es" : "details";
+        const r = await fetch(`data/${_df2}/${code}.json`, { cache: "no-store" });
+        if(!r.ok) return null;
+        return await r.json();
+      }catch(e){
+        return null;
+      }
+    }
+
+    // Normalize YOUR details schema (example: italy.json)
+    function normalizeDetails(details){
+      if(!details) return null;
+      const gd = details.goDeeper || {};
+      const tk = gd.things_to_know || {};
+      return {
+        capital: details.snapshot?.capital ?? null,
+        population: details.snapshot?.population ?? null,
+        languages: details.snapshot?.languages ?? null,
+        driving_side: details.snapshot?.driving_side ?? null,
+        crypto_friendly: details.crypto?.friendly ?? null,
+        crypto_note: details.crypto?.note ?? null,
+        expat_score_label: details.expat_score?.label ?? details.name_note ?? null,
+        // Culture fields
+        national_dish: gd.national_dish?.name ?? null,
+        national_dish_note: gd.national_dish?.note ?? null,
+        currency_name: details.currency?.name ?? null,
+        currency_rate: details.currency?.rate ?? null,
+        personality_name: tk.personality?.name ?? null,
+        personality_era: tk.personality?.era ?? null,
+        personality_story: tk.personality?.story ?? null,
+        top_sectors: gd.top_sectors ?? [],
+      };
+    }
+
+    function mergeCountry(snapshot, details){
+      const d = normalizeDetails(details);
+
+      // Future-proof: if one day details has fields, we merge
+      const mergedFields = {
+        ...(snapshot.fields || {}),
+        ...(details?.fields || {})
+      };
+
+      return {
+        ...snapshot,
+        fields: mergedFields,
+        __details: d,
+        __hasDetails: !!details
+      };
+    }
+
+    // =========================
+    // Autocomplete
+    // =========================
+    function setupSearch(slot){
+      const input = document.getElementById(`search${slot}`);
+      const list  = document.getElementById(`list${slot}`);
+
+      input.addEventListener("input", () => {
+        const q = input.value.toLowerCase().trim();
+        if(!q){ list.style.display = "none"; return; }
+
+        const filtered = allCountries.filter(c => {
+          if(c.name.toLowerCase().includes(q)) return true;
+          // aliases
+          return (c.aliases || []).some(a => String(a).toLowerCase().includes(q));
+        }).slice(0, 14);
+
+        if(filtered.length === 0){ list.style.display="none"; return; }
+
+        list.innerHTML = filtered.map(c =>
+          `<div class="autocomplete-item" data-code="${c.code}" data-name="${escapeHtml(c.name)}">${escapeHtml(c.name)}</div>`
+        ).join("");
+        list.style.display = "block";
+
+        list.querySelectorAll(".autocomplete-item").forEach(item => {
+          item.addEventListener("click", () => {
+            selectCountry(slot, item.dataset.code, item.dataset.name);
+            list.style.display = "none";
+          });
+        });
+      });
+
+      input.addEventListener("focus", () => {
+        if(input.value.trim()) input.dispatchEvent(new Event("input"));
+      });
+
+      input.addEventListener("blur", () => {
+        setTimeout(() => list.style.display="none", 180);
+      });
+    }
+
+    function escapeHtml(s){
+      return String(s ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    async function selectCountry(slot, code, name){
+      document.getElementById(`search${slot}`).value = name;
+
+      try{
+        const db = await getCountriesDB();
+        const snapshot = db[code];
+        if(!snapshot) throw new Error(`Country not found in countries.json: ${code}`);
+
+        const details = await getDetailsByCode(code);
+        selected[slot - 1] = mergeCountry(snapshot, details);
+
+        updateURLFromSelection();
+        renderTable();
+      }catch(e){
+        console.error(e);
+      }
+    }
+
+    function removeCountry(slot){
+      selected[slot - 1] = null;
+      document.getElementById(`search${slot}`).value = "";
+      updateURLFromSelection();
+      renderTable();
+    }
+
+    function resetComparison(){
+      selected.fill(null);
+      ["search1","search2","search3"].forEach(id => (document.getElementById(id).value=""));
+      history.replaceState({}, "", location.pathname);
+      renderTable();
+    }
+
+    // =========================
+    // Share link (?c=a,b,c)
+    // =========================
+    function updateURLFromSelection(){
+      const codes = selected.filter(Boolean).map(c => findCodeByName(c.name) || null).filter(Boolean);
+      if(codes.length === 0){
+        history.replaceState({}, "", location.pathname);
+        return;
+      }
+      const params = new URLSearchParams(location.search);
+      params.set("c", codes.join(","));
+      history.replaceState({}, "", `${location.pathname}?${params.toString()}`);
+    }
+
+    function findCodeByName(name){
+      const item = allCountries.find(x => x.name === name);
+      return item ? item.code : null;
+    }
+
+    function copyShareLink(){
+      const url = location.href;
+      navigator.clipboard?.writeText(url).then(() => {
+        const el = document.getElementById("statusText");
+        el.textContent = "Share link copied ✅";
+        setTimeout(() => el.textContent = "Select countries to populate the table.", 1600);
+      }).catch(() => {
+        alert("Could not copy the link. Your browser may block clipboard access.");
+      });
+    }
+
+    // =========================
+    // Table rendering
+    // =========================
+    function wiggDotClass(level){
+      const l = String(level || "yellow").toLowerCase();
+      if(l === "green") return "green";
+      if(l === "yellow") return "yellow";
+      if(l === "orange") return "orange";
+      if(l === "red") return "red";
+      return "yellow";
+    }
+
+    function cellHTML(value, note){
+      const v = (value && String(value).trim()) ? escapeHtml(value) : "N/A";
+      const n = (note && String(note).trim()) ? `<div class="cell-sub">${escapeHtml(note)}</div>` : "";
+      return `<div class="cell">${v}</div>${n}`;
+    }
+
+    function getField(country, key){
+      return country?.fields?.[key]?.value ?? null;
+    }
+    function getHint(country, key){
+      return country?.fields?.[key]?.hint ?? null;
+    }
+
+    function row(label, getter){
+      // returns [label, {value,note} for each selected country]
+      const cols = selected.map(c => getter(c));
+      return { label, cols };
+    }
+
+    function renderTable(){
+      const mount = document.getElementById("tableMount");
+      const status = document.getElementById("statusText");
+      const note = document.getElementById("detailsNote");
+
+      const active = selected.filter(Boolean);
+      status.textContent = active.length ? `Comparing ${active.length} countr${active.length>1?"ies":"y"}.` : "Select countries to populate the table.";
+
+      const detailsCount = selected.filter(c => c && c.__hasDetails).length;
+      note.textContent = detailsCount ? `${detailsCount}/${active.length} details files loaded` : `Details are optional (data/details/slug.json).`;
+
+      // If no countries, show a small empty state
+      if(active.length === 0){
+        mount.innerHTML = `
+          <div style="padding:18px; color: rgba(0,0,0,.55); font-weight:800;">
+            Start by selecting a country above — the comparison table will appear here.
+          </div>
+        `;
+        return;
+      }
+
+      // Define table rows (clean + relevant)
+      const rows = [
+        // Facts (details)
+        row("Expat score", c => ({ value: c?.__details?.expat_score_label })),
+        row("Capital", c => ({ value: c?.__details?.capital })),
+        row("Population", c => ({ value: c?.__details?.population })),
+        row("Languages", c => ({ value: c?.__details?.languages })),
+        row("Driving side", c => ({ value: c?.__details?.driving_side })),
+        row("Crypto-friendly", c => ({ value: c?.__details?.crypto_friendly, note: c?.__details?.crypto_note })),
+
+        // Snapshot fields (countries.json)
+        row("Average salary (net / month)", c => ({ value: getField(c,"avg_salary"), note: getHint(c,"avg_salary") })),
+        row("Studio rent", c => ({ value: getField(c,"rent_studio"), note: getHint(c,"rent_studio") })),
+        row("Mobile plan", c => ({ value: getField(c,"mobile"), note: getHint(c,"mobile") })),
+        row("Gasoline", c => ({ value: getField(c,"gas"), note: getHint(c,"gas") })),
+        row("Beer (0.5L)", c => ({ value: getField(c,"beer"), note: getHint(c,"beer") })),
+        row("Coffee", c => ({ value: getField(c,"coffee"), note: getHint(c,"coffee") })),
+        row("Main dish", c => ({ value: getField(c,"dish"), note: getHint(c,"dish") })),
+
+        row("VAT", c => ({ value: getField(c,"vat"), note: getHint(c,"vat") })),
+        row("Income tax", c => ({ value: getField(c,"income_tax"), note: getHint(c,"income_tax") })),
+        row("Small business tax", c => ({ value: getField(c,"smallbiz"), note: getHint(c,"smallbiz") })),
+      ];
+
+      // Build headers (always 3 columns for consistent layout)
+      const headers = [1,2,3].map(i => {
+        const c = selected[i-1];
+        if(!c){
+          return `
+            <th>
+              <span class="muted">Country ${i}</span>
+            </th>
+          `;
+        }
+        const dot = wiggDotClass(c.wigg?.level);
+        return `
+          <th>
+            <div class="country-name">
+              <span>${escapeHtml(c.name)}</span>
+              <button class="remove" onclick="removeCountry(${i})">Remove</button>
+            </div>
+            <div class="badge" title="WIGG level">
+              <span class="dot ${dot}"></span>
+              <span>${escapeHtml(String(c.wigg?.label || "WIGG"))}</span>
+            </div>
+          </th>
+        `;
+      }).join("");
+
+      const body = rows.map(r => {
+        const tds = [1,2,3].map(i => {
+          const c = selected[i-1];
+          if(!c) return `<td>${cellHTML("", "")}</td>`;
+          const obj = r.cols[i-1] || {};
+          return `<td>${cellHTML(obj.value, obj.note)}</td>`;
+        }).join("");
+
+        return `
+          <tr>
+            <td class="metric-col">
+              <div class="cell">${escapeHtml(r.label)}</div>
+            </td>
+            ${tds}
+          </tr>
+        `;
+      }).join("");
+
+      mount.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th class="metric-col metric-col">Metric</th>
+              ${headers}
+            </tr>
+          </thead>
+          <tbody>
+            ${body}
+          </tbody>
+        </table>
+      `;
+
+      // ── Highlight best value per row ──
+      const HIGHER_BETTER = new Set([
+        "Average salary (net / month)","Happiness index","Purchasing power index",
+        "Immigration ease","Sun days / year","Expat score"
+      ]);
+      const LOWER_BETTER = new Set([
+        "Studio rent","Mobile plan","Gasoline","Beer (0.5L)","Coffee","Main dish",
+        "VAT","Income tax","Small business tax","Crime index"
+      ]);
+
+      mount.querySelectorAll("tbody tr").forEach(tr => {
+        const metricEl = tr.querySelector(".metric-col .cell");
+        if (!metricEl) return;
+        const label = metricEl.textContent.trim();
+        const isHigher = HIGHER_BETTER.has(label);
+        const isLower = LOWER_BETTER.has(label);
+        if (!isHigher && !isLower) return;
+
+        const tds = Array.from(tr.querySelectorAll("td:not(.metric-col)"));
+        const vals = tds.map(td => {
+          const txt = td.querySelector(".cell")?.textContent?.trim() || "";
+          // Parse numeric: strip $, %, commas, ~, spaces, "/ 10", "/ 100", "days", etc.
+          const clean = txt.replace(/[~$,]/g,"").replace(/\s*\/\s*\d+/,"").replace(/\s*(days|%|\/\s*year).*/i,"").trim();
+          const n = parseFloat(clean);
+          return isNaN(n) ? null : n;
+        });
+
+        // Find best value
+        const validVals = vals.filter(v => v !== null);
+        if (validVals.length < 2) return;
+        const best = isHigher ? Math.max(...validVals) : Math.min(...validVals);
+
+        tds.forEach((td, i) => {
+          if (vals[i] !== null && vals[i] === best) {
+            td.style.background = "#e6f4ea";
+            const cell = td.querySelector(".cell");
+            if (cell) { cell.style.color = "#166534"; cell.style.fontWeight = "600"; }
+          }
+        });
+      });
+
+      renderTable2();
+    }
+
+    // =========================
+    // Table 2 — Culture & Lifestyle
+    // =========================
+    function getMainReligion(country){
+      if(!country?.fields) return null;
+      const map = {
+        'Christian': country.fields.religion_christian,
+        'Muslim': country.fields.religion_muslim,
+        'Buddhist': country.fields.religion_buddhist,
+        'Jewish': country.fields.religion_jewish,
+        'Other / None': country.fields.religion_other
+      };
+      let best = null, bestPct = 0;
+      for(const [name, obj] of Object.entries(map)){
+        const pct = parseFloat(String(obj?.value || '').replace(/[~%]/g,''));
+        if(!isNaN(pct) && pct > bestPct){ bestPct = pct; best = name; }
+      }
+      return best ? `${best} (~${bestPct}%)` : null;
+    }
+
+    function tag(cls, icon, text){
+      return `<span class="table2-tag ${cls}">${icon} ${escapeHtml(text)}</span>`;
+    }
+
+    function renderTable2(){
+      const card = document.getElementById("table2Card");
+      const mount = document.getElementById("table2Mount");
+      const active = selected.filter(Boolean);
+
+      if(active.length === 0){ card.style.display = "none"; return; }
+      card.style.display = "";
+
+      const cultureRows = [
+        {
+          label: "🍽 Local dish",
+          get: c => {
+            if(!c?.__details?.national_dish) return cellHTML(null);
+            const note = c.__details.national_dish_note;
+            return `<div class="cell">${tag("tag-dish","",c.__details.national_dish)}</div>${note ? `<div class="cell-sub">${escapeHtml(note)}</div>` : ''}`;
+          }
+        },
+        {
+          label: "💱 Currency",
+          get: c => {
+            if(!c?.__details?.currency_name) return cellHTML(null);
+            return `<div class="cell">${tag("tag-money","",c.__details.currency_name)}</div>`;
+          }
+        },
+        {
+          label: "💲 Rate vs USD",
+          get: c => {
+            if(!c?.__details?.currency_rate) return cellHTML(null);
+            return `<div class="cell">${tag("tag-money","",c.__details.currency_rate)}</div>`;
+          }
+        },
+        {
+          label: "🕊 Main religion",
+          get: c => {
+            const rel = getMainReligion(c);
+            if(!rel) return cellHTML(null);
+            return `<div class="cell">${tag("tag-faith","",rel)}</div>`;
+          }
+        },
+        {
+          label: "👤 Personality",
+          get: c => {
+            if(!c?.__details?.personality_name) return cellHTML(null);
+            const era = c.__details.personality_era ? ` (${escapeHtml(c.__details.personality_era)})` : '';
+            const story = c.__details.personality_story || '';
+            const uid = 'story_' + Math.random().toString(36).slice(2,8);
+            let html = `<div class="cell">${tag("tag-person","",c.__details.personality_name + era)}</div>`;
+            if(story){
+              html += `<div class="cell-sub"><span class="story-toggle" onclick="var s=document.getElementById('${uid}');s.classList.toggle('open');">Read story ▾</span></div>`;
+              html += `<div class="cell-story" id="${uid}">${escapeHtml(story)}</div>`;
+            }
+            return html;
+          }
+        },
+        {
+          label: "💼 Top sectors",
+          get: c => {
+            const sectors = c?.__details?.top_sectors;
+            if(!sectors || !sectors.length) return cellHTML(null);
+            return `<div class="cell">${sectors.map(s => tag("tag-sector","",s)).join(' ')}</div>`;
+          }
+        }
+      ];
+
+      const body = cultureRows.map(r => {
+        const tds = [1,2,3].map(i => {
+          const c = selected[i-1];
+          if(!c) return `<td>${cellHTML("","")}</td>`;
+          return `<td>${r.get(c)}</td>`;
+        }).join("");
+        return `<tr><td class="metric-col"><div class="cell">${r.label}</div></td>${tds}</tr>`;
+      }).join("");
+
+      mount.innerHTML = `
+        <table>
+          <tbody>${body}</tbody>
+        </table>
+      `;
+    }
+
+    // =========================
+    // Init
+    // =========================
+    async function init(){
+      try{
+        const db = await getCountriesDB();
+        allCountries = Object.keys(db).map(code => ({
+          code,
+          name: db[code]?.name || code,
+          aliases: db[code]?.aliases || []
+        }));
+
+        // preselect from ?country=estonia OR ?c=estonia,spain
+        const params = new URLSearchParams(location.search);
+        const single = params.get("country");
+        const multi = params.get("c");
+
+        if(multi){
+          const codes = multi.split(",").map(s => s.trim()).filter(Boolean).slice(0,3);
+          for(let i=0;i<codes.length;i++){
+            const code = codes[i];
+            const item = allCountries.find(x => x.code === code);
+            if(item) await selectCountry(i+1, item.code, item.name);
+          }
+        } else if(single){
+          const item = allCountries.find(x => x.code === single);
+          if(item) await selectCountry(1, item.code, item.name);
+        }
+
+        setupSearch(1);
+        setupSearch(2);
+        setupSearch(3);
+        renderTable();
+      }catch(e){
+        console.error(e);
+        document.getElementById("tableMount").innerHTML =
+          `<div style="padding:18px; color:#b00020; font-weight:900;">Error loading countries.json</div>`;
+      }
+    }
+
+    init();
+  </script>
+
+  <script src="data/header.js"></script>
+<a id="wm-main" tabindex="-1"></a>
+  <!-- TODO-i18n: remove this banner + the noindex meta when this page is translated. See MIGRATION_PLAN.md §10 D4/D5. -->
+<div class="wm-untranslated-banner" role="note" style="background:#fff7e6;border-bottom:2px solid #d97706;padding:10px 18px;font-family:Inter,system-ui,sans-serif;font-size:13px;color:#7a4f10;text-align:center;"><p style="margin:0;">This page hasn’t been translated yet. <a href="https://wiggmap.com/en/compare.html" style="color:#1a5430;font-weight:700;text-decoration:underline;">View original in English →</a></p></div>
+<script>
+  (function(){
+    var L=(localStorage.getItem('wigg_lang')||'en').toLowerCase();
+    if(L!=='fr'&&L!=='es') return;
+    var T={
+      fr:{title:'Comparaisons populaires',sub:'Pages détaillées — sans recherche',eu:'Europe',asia:'Asie',am:'Amériques &amp; Pacifique',mix:'Trans-régional'},
+      es:{title:'Comparaciones populares',sub:'Páginas detalladas — sin búsqueda',eu:'Europa',asia:'Asia',am:'Américas &amp; Pacífico',mix:'Trans-regional'}
+    };
+    var t=T[L]; if(!t) return;
+    var set=function(id,v){var el=document.getElementById(id);if(el)el.innerHTML=v;};
+    set('pop-title',t.title);
+    set('pop-sub',t.sub);
+    set('pop-lbl-eu',t.eu);
+    set('pop-lbl-asia',t.asia);
+    set('pop-lbl-am',t.am);
+    set('pop-lbl-mix',t.mix);
+  })();
+  </script>
+
+</body>
+</html>
