@@ -1,5 +1,50 @@
 # Netlify redirects
 
+# ─────────────────────────────────────────────────────────────────────
+# Sprint 2 trilingual roots — staged 2026-05-03
+# ─────────────────────────────────────────────────────────────────────
+# These rules redirect legacy root URLs to their /en/ or /fr/ equivalents
+# (depending on D4/D5 source-of-truth mapping). They are STAGED, not yet
+# active: Netlify resolves existing static files before _redirects rules,
+# so as long as /about.html, /compare.html, etc. still exist at the repo
+# root, those legacy URLs continue to be served unchanged.
+#
+# The rules will become live in a later commit when the legacy root files
+# are removed (after exhaustive deploy-preview validation + header.js /
+# footer.js lang-aware updates landed).
+#
+# Query strings: preserved via :splat where useful (e.g. compare.html?c=).
+# 301! (with bang) = force redirect even if a file exists at the source.
+#
+# Source of truth: see MIGRATION_PLAN.md §3 (Redirect Plan) and §1.1 (D4/D5).
+
+# ───── ROOT (default lang = EN) ─────
+/                                /en/                              301!
+/index.html                      /en/                              301!
+
+# ───── EN-source pages → /en/ ─────
+/about.html                      /en/about.html                    301!
+/compare.html *                  /en/compare.html?:splat           301!
+/globe.html                      /en/globe.html                    301!
+/indexchronicles.html            /en/indexchronicles.html          301!
+/terms.html                      /en/terms.html                    301!
+/privacy.html                    /en/privacy.html                  301!
+/confirmation.html               /en/confirmation.html             301!
+
+# ───── FR-source pages → /fr/ ─────
+/chronicles-villes.html          /fr/chronicles-villes.html        301!
+/chronicles-dest.html            /fr/chronicles-dest.html          301!
+/chronicles-family.html          /fr/chronicles-family.html        301!
+/chronicles-horizons.html        /fr/chronicles-horizons.html      301!
+/chronicles-visas.html           /fr/chronicles-visas.html         301!
+
+# ───── wiggmatch — temporary FR-only (D1: dedicated trilingual sprint TBD) ─────
+/wiggmatch.html                  /fr/wiggmatch.html                301!
+
+# ─────────────────────────────────────────────────────────────────────
+# Pre-existing rules (kept)
+# ─────────────────────────────────────────────────────────────────────
+
 # Old dynamic country URL → new static page (default to English)
 # JS lang switcher will redirect to the user's preferred language afterwards.
 /countries/country.html  country=:slug  /countries/:slug-en.html  301!
