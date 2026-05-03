@@ -398,11 +398,29 @@ window.addEventListener('pageshow', function(e) {
     ]
   };
 
-  // Pick 3 random items not equal to current page
+  // Pick 3 items deterministically from the pool, derived from currentSlug.
+  // Pool is already pre-filtered by category (POOL_CITY for city pages,
+  // POOL_REGULAR for regular chronicles), so a slug-seeded shuffle keeps
+  // related links semantically coherent enough for V1 while stabilising the
+  // internal link graph across crawls. V2 (planned): enrich pool items with
+  // {region,tags} and prefer pool entries sharing a region/tag with currentSlug
+  // before falling back to the seeded shuffle on the rest.
   function pickThree(pool, currentSlug) {
     var p = pool.filter(function(item) { return item.slug !== currentSlug; });
+    // 32-bit djb2-ish hash of the slug, used as seed so the same page always
+    // shows the same 3 related cards (stable for SEO + user familiarity).
+    var seed = 5381;
+    for (var s = 0; s < currentSlug.length; s++) {
+      seed = ((seed << 5) + seed + currentSlug.charCodeAt(s)) | 0;
+    }
+    if (seed === 0) seed = 1; // guard against degenerate seed
+    function rng() {
+      // LCG (Numerical Recipes constants), 31-bit positive
+      seed = (Math.imul(seed, 1103515245) + 12345) & 0x7fffffff;
+      return seed / 0x7fffffff;
+    }
     for (var i = p.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
+      var j = Math.floor(rng() * (i + 1));
       var x = p[i]; p[i] = p[j]; p[j] = x;
     }
     return p.slice(0, 3);
