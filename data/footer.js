@@ -16,7 +16,7 @@
             <span class="wm-footer__sep">•</span>
             <a href="/privacy.html">Privacy</a>
             <span class="wm-footer__sep">•</span>
-            <a href="#" id="wmCookieReset">Cookies</a>
+            <button type="button" id="wmCookieReset" class="wm-footer-cookies-btn">Cookies</button>
           </nav>
         </div>
       </div>
@@ -55,13 +55,28 @@
         justify-content:center;
         font-size: 13px;
       }
-      .wm-footer a{
+      .wm-footer a,
+      .wm-footer .wm-footer-cookies-btn{
         color: rgba(0,0,0,.62);
         text-decoration: none;
         font-weight: 700;
       }
-      .wm-footer a:hover{
+      .wm-footer a:hover,
+      .wm-footer .wm-footer-cookies-btn:hover{
         text-decoration: underline;
+      }
+      .wm-footer .wm-footer-cookies-btn{
+        background: transparent;
+        border: 0;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+        line-height: inherit;
+      }
+      .wm-footer .wm-footer-cookies-btn:focus-visible{
+        outline: 2px solid #1a5430;
+        outline-offset: 2px;
+        border-radius: 2px;
       }
       .wm-footer__sep{
         opacity: .55;
@@ -72,11 +87,10 @@
 
   document.body.insertAdjacentHTML("beforeend", footerHTML);
 
-  // Cookie preferences reset link
-  var cookieLink = document.getElementById('wmCookieReset');
-  if (cookieLink) {
-    cookieLink.addEventListener('click', function(e) {
-      e.preventDefault();
+  // Cookie preferences reset trigger (now a <button>, no preventDefault needed)
+  var cookieBtn = document.getElementById('wmCookieReset');
+  if (cookieBtn) {
+    cookieBtn.addEventListener('click', function() {
       localStorage.removeItem('wigg_consent');
       window.location.reload();
     });
