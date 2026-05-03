@@ -500,9 +500,9 @@ window.addEventListener('pageshow', function(e) {
   if (['en','fr','es'].indexOf(lang) === -1) lang = 'en';
 
   var T = {
-    en: { title:'Get the best of WiggMap', sub:'1 chronicle a week. Visas, cost of living, expat life. No spam.', placeholder:'your@email.com', subscribe:'Subscribe', thanks:'✓ Thanks! Check your inbox.', error:'Please enter a valid email.' },
-    fr: { title:'Recevez le meilleur de WiggMap', sub:'1 chronique par semaine. Visas, coût de la vie, expatriation. Sans spam.', placeholder:'ton@email.com', subscribe:'S\'abonner', thanks:'✓ Merci ! Vérifie ta boîte mail.', error:'Email invalide.' },
-    es: { title:'Recibe lo mejor de WiggMap', sub:'1 crónica por semana. Visados, coste de vida, vida expat. Sin spam.', placeholder:'tu@email.com', subscribe:'Suscribirme', thanks:'✓ ¡Gracias! Revisa tu bandeja.', error:'Email no válido.' }
+    en: { title:'Get the best of WiggMap', sub:'1 chronicle a week. Visas, cost of living, expat life. No spam.', placeholder:'your@email.com', subscribe:'Subscribe', thanks:'✓ Subscribed. If you don’t see a confirmation in a few minutes, check your spam folder.', thanksTimeout:'✓ Request sent. If nothing arrives, drop us a note via the contact form.', error:'Please enter a valid email.' },
+    fr: { title:'Recevez le meilleur de WiggMap', sub:'1 chronique par semaine. Visas, coût de la vie, expatriation. Sans spam.', placeholder:'ton@email.com', subscribe:'S\'abonner', thanks:'✓ Inscription enregistrée. Si tu ne vois pas la confirmation d’ici quelques minutes, vérifie tes spams.', thanksTimeout:'✓ Demande envoyée. Si rien n’arrive, écris-nous via le formulaire de contact.', error:'Email invalide.' },
+    es: { title:'Recibe lo mejor de WiggMap', sub:'1 crónica por semana. Visados, coste de vida, vida expat. Sin spam.', placeholder:'tu@email.com', subscribe:'Suscribirme', thanks:'✓ Suscripción registrada. Si no ves la confirmación en unos minutos, revisa tu carpeta de spam.', thanksTimeout:'✓ Solicitud enviada. Si no llega nada, escríbenos por el formulario de contacto.', error:'Email no válido.' }
   };
   var t = T[lang];
 
@@ -592,12 +592,24 @@ window.addEventListener('pageshow', function(e) {
           body: bdData
         }).catch(function(){}); // best-effort
       }
-      // 3. Track Meta conversion event
+      // 3. Track Meta conversion event (fires immediately, independent of network outcome)
       if (window.wmTrackEvent) window.wmTrackEvent('Lead', { content_name: 'newsletter_signup', content_category: lang });
-      // 4. UI feedback
-      Promise.allSettled([netlifyPromise, buttondownPromise]).then(function() {
+      // 4. UI feedback — race the request against a 5s timeout so a stalled
+      //    Buttondown / Netlify Forms POST never leaves the user staring at a
+      //    submit button. We don't pretend success when the network failed:
+      //    on timeout we show a different message that hints at the contact
+      //    form fallback. Buttondown is mode:'no-cors' so we can't actually
+      //    inspect its status — the honest UX is "request sent, check spam,
+      //    write us if nothing arrives" rather than a fake green checkmark.
+      var TIMEOUT_MS = 5000;
+      var timeoutPromise = new Promise(function(resolve) {
+        setTimeout(function() { resolve('timeout'); }, TIMEOUT_MS);
+      });
+      var settledPromise = Promise.allSettled([netlifyPromise, buttondownPromise])
+        .then(function() { return 'settled'; });
+      Promise.race([settledPromise, timeoutPromise]).then(function(outcome) {
         msg.className = 'wm-nl-msg';
-        msg.textContent = t.thanks;
+        msg.textContent = outcome === 'timeout' ? t.thanksTimeout : t.thanks;
         form.style.display = 'none';
       });
     });
