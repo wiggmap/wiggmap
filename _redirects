@@ -24,6 +24,12 @@
 
 # ───── EN-source pages → /en/ ─────
 /about.html                      /en/about.html                    301!
+# /compare.html: bare-URL rule MUST come before the splat — Netlify's *
+# requires at least one char after the path, so without this line the bare
+# /compare.html falls through to the source file (200 instead of 301).
+# The splat rule below catches /compare.html?c=... query string variants
+# (Netlify preserves the query via :splat).
+/compare.html                    /en/compare.html                  301!
 /compare.html *                  /en/compare.html?:splat           301!
 /globe.html                      /en/globe.html                    301!
 /indexchronicles.html            /en/indexchronicles.html          301!
