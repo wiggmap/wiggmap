@@ -171,7 +171,13 @@
 // ── Runtime image format swap (.jpg → .webp if available) ──
 // Looks at all <img src=".jpg/.png"> and tries the .webp version first.
 // Falls back gracefully to the original on 404.
+//
+// Pages that already serve <picture><source srcset=".webp"> SSR can opt out
+// by setting `window.__WM_DISABLE_WEBP_SWAP = true;` BEFORE this script runs
+// (or before DOMContentLoaded). The flag must be set on the global object;
+// any truthy value disables the runtime swap and the MutationObserver below.
 (function() {
+  if (window.__WM_DISABLE_WEBP_SWAP) return;
   // Check WebP support once
   var webpSupported = (function() {
     try {
