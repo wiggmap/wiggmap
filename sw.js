@@ -1,8 +1,14 @@
-const CACHE_NAME = "wiggmap-v2";
+// Sprint 2 — bumped v2 → v3 to invalidate caches that hold the legacy
+// non-trilingual root structure. v3 caches a minimal core (root + the
+// three language homes + manifest); the activate handler purges every
+// older cache so users on v2 get a clean slate without stale /index.html.
+const CACHE_NAME = "wiggmap-v3";
 
 const CORE_ASSETS = [
   "/",
-  "/index.html",
+  "/en/",
+  "/fr/",
+  "/es/",
   "/manifest.webmanifest"
 ];
 
