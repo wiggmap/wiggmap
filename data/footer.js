@@ -5,6 +5,18 @@
 
   const year = new Date().getFullYear();
 
+  // Sprint 2 — lang-aware legal links. window.WM_LANG is set by header.js
+  // (URL-first detection). If footer.js loads before header.js for any
+  // reason, fall back to localStorage / 'en' so the footer is never broken.
+  function footerLang() {
+    var wm = (typeof window !== 'undefined' && window.WM_LANG) || '';
+    if (['en', 'fr', 'es'].indexOf(wm) !== -1) return wm;
+    var stored = (localStorage.getItem("wigg_lang") || "").toLowerCase();
+    if (['en', 'fr', 'es'].indexOf(stored) !== -1) return stored;
+    return "en";
+  }
+  const lg = footerLang();
+
   const footerHTML = `
     <footer id="wmSiteFooter" class="wm-footer" role="contentinfo">
       <div class="wm-footer__inner">
@@ -12,9 +24,9 @@
           <div class="wm-footer__copy">© ${year} WiggMap. All rights reserved.</div>
 
           <nav class="wm-footer__links" aria-label="Legal">
-            <a href="/terms.html">Terms</a>
+            <a href="/${lg}/terms.html">Terms</a>
             <span class="wm-footer__sep">•</span>
-            <a href="/privacy.html">Privacy</a>
+            <a href="/${lg}/privacy.html">Privacy</a>
             <span class="wm-footer__sep">•</span>
             <button type="button" id="wmCookieReset" class="wm-footer-cookies-btn">Cookies</button>
           </nav>
@@ -101,7 +113,12 @@
 (function(){
   if (localStorage.getItem('wigg_consent')) return; // already answered
 
-  var lang = (localStorage.getItem('wigg_lang') || 'en').toLowerCase();
+  // Sprint 2 — prefer URL-derived window.WM_LANG (set by header.js) over
+  // localStorage. Falls back gracefully if header.js hasn't set it yet.
+  var lang = (window.WM_LANG && ['en','fr','es'].indexOf(window.WM_LANG) !== -1)
+             ? window.WM_LANG
+             : (localStorage.getItem('wigg_lang') || 'en').toLowerCase();
+  if (['en','fr','es'].indexOf(lang) === -1) lang = 'en';
   var T = {
     en: { msg:'We use cookies for analytics to improve your experience.', accept:'Accept', reject:'Refuse', settings:'Settings', essential:'Essential (always on)', analytics:'Analytics (Google)', save:'Save preferences', privacy:'Privacy policy' },
     fr: { msg:'Nous utilisons des cookies analytiques pour améliorer votre expérience.', accept:'Accepter', reject:'Refuser', settings:'Paramétrer', essential:'Essentiels (toujours actifs)', analytics:'Analytiques (Google)', save:'Enregistrer', privacy:'Politique de confidentialité' },
@@ -113,7 +130,7 @@
   banner.id = 'wiggConsent';
   banner.innerHTML =
     '<div class="wc-inner">' +
-      '<p class="wc-msg">' + t.msg + ' <a href="/privacy.html" class="wc-link">' + t.privacy + '</a></p>' +
+      '<p class="wc-msg">' + t.msg + ' <a href="/' + lang + '/privacy.html" class="wc-link">' + t.privacy + '</a></p>' +
       '<div class="wc-btns" id="wcBtns">' +
         '<button class="wc-btn wc-accept" id="wcAccept">' + t.accept + '</button>' +
         '<button class="wc-btn wc-reject" id="wcReject">' + t.reject + '</button>' +
