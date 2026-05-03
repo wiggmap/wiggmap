@@ -11,17 +11,17 @@
   <title>WiggMatch — Trouve ta ville idéale à l'étranger · WiggMap</title>
   <meta name="description" content="8 questions, 3 minutes. Découvre quelle ville dans le monde correspond vraiment à ton profil expat."/>
   <link rel="canonical" href="https://wiggmap.com/fr/wiggmatch.html"/>
+  <link rel="alternate" hreflang="en" href="https://wiggmap.com/en/wiggmatch.html"/>
   <link rel="alternate" hreflang="fr" href="https://wiggmap.com/fr/wiggmatch.html"/>
-  <link rel="alternate" hreflang="x-default" href="https://wiggmap.com/fr/wiggmatch.html"/>
-  <!-- HOTFIX 2026-05-03: only FR variant exists. EN + ES variants + their hreflang
-       will be added in Sprint D1 (sprint-D1-wiggmatch-trilingual). -->
+  <link rel="alternate" hreflang="es" href="https://wiggmap.com/es/wiggmatch.html"/>
+  <link rel="alternate" hreflang="x-default" href="https://wiggmap.com/en/wiggmatch.html"/>
   <meta property="og:type" content="website"/>
   <meta property="og:title" content="WiggMatch — Trouve ta ville idéale à l'étranger · WiggMap"/>
   <meta property="og:description" content="8 questions, 3 minutes. Découvre quelle ville dans le monde correspond vraiment à ton profil expat."/>
   <meta property="og:url" content="https://wiggmap.com/fr/wiggmatch.html"/>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"WiggMatch","url":"https://wiggmap.com/wiggmatch.html","applicationCategory":"TravelApplication","operatingSystem":"Any","description":"Personalised quiz that finds the city made for you in 5 questions.","inLanguage":["en","fr","es"],"isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"WiggMap","url":"https://wiggmap.com/","logo":"https://wiggmap.com/assets/logo.png"}}</script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Quiz","name":"WiggMatch — Find your ideal city abroad","about":{"@type":"Thing","name":"Expat city matching"},"educationalAlignment":{"@type":"AlignmentObject","alignmentType":"educationalSubject","targetName":"Travel & Relocation"},"inLanguage":["en","fr","es"],"url":"https://wiggmap.com/wiggmatch.html"}</script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://wiggmap.com/"},{"@type":"ListItem","position":2,"name":"WiggMatch","item":"https://wiggmap.com/wiggmatch.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"WiggMatch","url":"https://wiggmap.com/fr/wiggmatch.html","applicationCategory":"TravelApplication","operatingSystem":"Any","description":"Quiz personnalisé qui trouve la ville faite pour toi en 8 questions.","inLanguage":"fr","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"publisher":{"@type":"Organization","name":"WiggMap","url":"https://wiggmap.com/","logo":"https://wiggmap.com/assets/logo.png"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Quiz","name":"WiggMatch — Trouve ta ville idéale à l'étranger","about":{"@type":"Thing","name":"Matching ville expatriation"},"educationalAlignment":{"@type":"AlignmentObject","alignmentType":"educationalSubject","targetName":"Voyage & expatriation"},"inLanguage":"fr","url":"https://wiggmap.com/fr/wiggmatch.html"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://wiggmap.com/fr/"},{"@type":"ListItem","position":2,"name":"WiggMatch","item":"https://wiggmap.com/fr/wiggmatch.html"}]}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
@@ -1581,7 +1581,11 @@ function nextStep(current){
 function updateProgress(step){
   const pct = ((step - 1) / TOTAL_STEPS) * 100;
   document.getElementById('progress-fill').style.width = pct + '%';
-  const l = (localStorage.getItem('wigg_lang') || 'fr').toLowerCase();
+  // Sprint D1 — wmDetectLang declared after this function in source order;
+  // fall back to localStorage during early calls (before IIFE init).
+  const l = (typeof wmDetectLang === 'function')
+            ? wmDetectLang()
+            : (localStorage.getItem('wigg_lang') || 'fr').toLowerCase();
   const word = l === 'es' ? 'Pregunta' : 'Question';
   const sep = l === 'fr' ? ' / ' : ' of ';
   document.getElementById('progress-label').textContent = word + ' ' + step + (l==='es'?' de ':sep) + TOTAL_STEPS;
@@ -2020,9 +2024,18 @@ const WM_I18N = {
       'cta_l3': '🌍 Explorar el globo',
     }
 };
+// Sprint D1 — URL-first lang detection. The page lives at /fr/, /en/ or /es/
+// so the URL path is the source of truth. localStorage is only a fallback for
+// the legacy /wiggmatch.html (which currently 301s anyway, but kept for safety).
+function wmDetectLang(){
+  const m = window.location.pathname.match(/^\/(en|fr|es)(\/|$)/);
+  if (m) return m[1];
+  const stored = (localStorage.getItem('wigg_lang') || '').toLowerCase();
+  if (['en','fr','es'].indexOf(stored) !== -1) return stored;
+  return 'fr';
+}
 function wmTr(){
-  const l = (localStorage.getItem('wigg_lang') || 'fr').toLowerCase();
-  return WM_I18N[l] || WM_I18N.fr;
+  return WM_I18N[wmDetectLang()] || WM_I18N.fr;
 }
 function wmApplyI18n(){
   const t = wmTr();
@@ -2042,17 +2055,25 @@ function wmApplyI18n(){
   }
 }
 
-// Lang switcher (stocke la préférence + redirige selon la page)
-function wmSetLang(l){
-  localStorage.setItem('wigg_lang', l);
-  document.querySelectorAll('.wm-langbtn').forEach(b => b.classList.remove('active'));
-  const btn = document.getElementById('wmLang' + l.toUpperCase());
-  if(btn) btn.classList.add('active');
-  document.documentElement.lang = l;
-  wmApplyI18n();
+// Sprint D1 — URL-navigating lang switcher.
+// If the user clicks a flag for a different language, navigate to that
+// language's wiggmatch URL (preserving query + hash). If they click the
+// current language flag, no-op — avoid a useless reload that would wipe
+// the in-progress quiz state.
+function wmSetLang(newLang){
+  if (['en','fr','es'].indexOf(newLang) === -1) return;
+  const current = wmDetectLang();
+  if (current === newLang) return; // already on target — preserve quiz state
+  try { localStorage.setItem('wigg_lang', newLang); } catch(e){}
+  const newUrl = '/' + newLang + '/wiggmatch.html'
+                 + window.location.search
+                 + window.location.hash;
+  window.location.href = newUrl;
 }
+// Initial load — sync UI with the URL-detected lang (no network nav).
 (function(){
-  const l = (localStorage.getItem('wigg_lang') || 'fr').toLowerCase();
+  const l = wmDetectLang();
+  try { localStorage.setItem('wigg_lang', l); } catch(e){}
   const btn = document.getElementById('wmLang' + l.toUpperCase());
   if(btn) btn.classList.add('active');
   document.documentElement.lang = l;
@@ -2102,7 +2123,7 @@ async function sendToBrevo(email) {
   }
   // 2. Buttondown (newsletter delivery) — best-effort, no-cors
   try {
-    const lang = (localStorage.getItem('wigg_lang') || 'fr').toLowerCase();
+    const lang = wmDetectLang();
     const bd = new FormData();
     bd.append('email', email);
     bd.append('tag', 'wiggmatch_' + lang);
@@ -2114,7 +2135,7 @@ async function sendToBrevo(email) {
   } catch(e) {}
   // 3. Meta Lead event
   if (window.wmTrackEvent) {
-    window.wmTrackEvent('Lead', { content_name: 'wiggmatch_unlock', content_category: (localStorage.getItem('wigg_lang') || 'fr') });
+    window.wmTrackEvent('Lead', { content_name: 'wiggmatch_unlock', content_category: wmDetectLang() });
   }
 }
 
@@ -2200,8 +2221,7 @@ const WM_DYN = {
   }
 };
 function wmDyn(){
-  const l = (localStorage.getItem('wigg_lang') || 'fr').toLowerCase();
-  return WM_DYN[l] || WM_DYN.fr;
+  return WM_DYN[wmDetectLang()] || WM_DYN.fr;
 }
 
 function showResults(){
@@ -2303,7 +2323,7 @@ function revealMysteryCards(){
 
 function buildCard(city, rank){
   const d = wmDyn();
-  const lang = (localStorage.getItem('wigg_lang') || 'fr').toLowerCase();
+  const lang = wmDetectLang();
   const pct = Math.min(Math.round((city.score / SCORE_MAX) * 100), 99);
   const isTop = rank === 0;
   const isBlurred = rank > 0;
