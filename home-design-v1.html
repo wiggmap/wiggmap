@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WiggMap — A quarterly question for the curious traveler</title>
+<meta name="description" content="A magazine of countries, considered. Salaries, rent, taxes, climate — the data that shapes a life abroad.">
+<meta name="theme-color" content="#1a5430">
+<link rel="icon" href="/assets/favicon.ico">
+<link rel="stylesheet" href="/assets/wm-tokens.css">
+
+<!-- Preload the masthead photograph for ruthless LCP -->
+<link rel="preload" as="image" href="/assets/hero-iceland.webp" type="image/webp" fetchpriority="high">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Cormorant Garamond Italic for the masthead pull-quote, Fraunces for everything serif,
+     and a real workhorse Suisse-Int'l alternative via Inter Tight (we're stuck with it
+     since charter says Instrument Sans which is barely on the page; Inter Tight is a
+     credible neutral that won't shout 'AI-generated' the way Inter does). -->
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300;9..144,500;9..144,700;9..144,900&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,600&family=Instrument+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    /* Magazine palette — deeper, more paper-like than wm-tokens cream */
+    --paper: #f0e9d6;          /* slightly warmer than #ece6d2 charter */
+    --paper-deep: #e2dac3;
+    --ink: #161613;
+    --ink-soft: #4d4a3f;
+    --rule: #2a2823;
+    --accent: #1a5430;          /* charter forest — used sparingly as a stamp */
+    --accent-warm: #8a4a23;     /* aged copper, used for the "issue" line */
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Fraunces', Georgia, serif;
+    font-feature-settings: "ss01", "ss02", "kern";
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Subtle paper grain — nothing screams "magazine" like a hint of texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.06;
+    mix-blend-mode: multiply;
+    background-image:
+      radial-gradient(circle at 20% 30%, transparent 0%, transparent 40%, rgba(60,40,20,0.4) 100%),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='.85' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
+  }
+
+  /* ──────── EDITORIAL MASTHEAD ──────── */
+  .masthead {
+    position: relative;
+    padding: 28px 48px 14px;
+    border-bottom: 0.5px solid var(--rule);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 24px;
+    z-index: 2;
+  }
+  .masthead-meta { font-family: 'Instrument Sans', system-ui, sans-serif; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); }
+  .masthead-meta:last-child { text-align: right; }
+  .nameplate {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-style: italic;
+    font-size: clamp(34px, 5vw, 52px);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    text-align: center;
+    font-variation-settings: "opsz" 144, "SOFT" 0;
+  }
+  .nameplate .map { color: var(--accent); }
+
+  /* ──────── ISSUE BANNER ──────── */
+  .issue-banner {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 8px 48px;
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+  .issue-banner em {
+    color: var(--accent-warm);
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  /* ──────── COVER ──────── */
+  .cover {
+    position: relative;
+    min-height: 92vh;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    z-index: 2;
+  }
+  .cover-text {
+    padding: 80px 48px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .cover-eyebrow {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .cover-eyebrow::before {
+    content: '';
+    width: 36px;
+    height: 1px;
+    background: var(--ink-soft);
+    display: inline-block;
+  }
+  .cover-headline {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(56px, 8.5vw, 132px);
+    line-height: 0.92;
+    letter-spacing: -0.045em;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+  }
+  .cover-headline em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--accent);
+    font-feature-settings: "ss01";
+  }
+  .cover-deck {
+    margin-top: 36px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(18px, 2.2vw, 26px);
+    line-height: 1.45;
+    color: var(--ink-soft);
+    max-width: 32ch;
+  }
+
+  .cover-byline {
+    margin-top: auto;
+    padding-top: 50px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .cover-by {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+  .cover-by strong {
+    color: var(--ink);
+    font-weight: 700;
+    display: block;
+    font-size: 13px;
+  }
+  .cover-cta {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1.5px solid var(--ink);
+    padding-bottom: 4px;
+    transition: color 0.2s, border-color 0.2s, transform 0.2s;
+  }
+  .cover-cta:hover { color: var(--accent); border-color: var(--accent); transform: translateX(4px); }
+
+  /* The masthead photograph */
+  .cover-image {
+    position: relative;
+    overflow: hidden;
+    background: var(--paper-deep);
+  }
+  .cover-image picture { display: block; width: 100%; height: 100%; }
+  .cover-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 92vh;
+    object-fit: cover;
+    object-position: center;
+    /* Subtle desaturation so it feels printed, not Instagram */
+    filter: contrast(1.05) saturate(0.85) brightness(0.97);
+  }
+  .cover-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      transparent 0%,
+      transparent 60%,
+      rgba(20, 18, 14, 0.18) 100%
+    );
+    pointer-events: none;
+  }
+  .cover-caption {
+    position: absolute;
+    bottom: 28px;
+    right: 28px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: rgba(240, 233, 214, 0.92);
+    text-align: right;
+    max-width: 24ch;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.4);
+  }
+  .cover-caption strong { display: block; font-style: normal; font-family: 'Instrument Sans', sans-serif; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(240, 233, 214, 0.65); margin-bottom: 4px; font-weight: 500; }
+
+  /* ──────── PULL-QUOTE STRIP ──────── */
+  .pullquote-strip {
+    background: var(--paper-deep);
+    padding: 90px 48px;
+    text-align: center;
+    border-top: 0.5px solid var(--rule);
+    border-bottom: 0.5px solid var(--rule);
+    position: relative;
+    z-index: 2;
+  }
+  .pullquote-strip blockquote {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(28px, 4vw, 54px);
+    line-height: 1.2;
+    color: var(--ink);
+    max-width: 22ch;
+    margin: 0 auto;
+    position: relative;
+    letter-spacing: -0.01em;
+  }
+  .pullquote-strip blockquote::before,
+  .pullquote-strip blockquote::after {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 1px;
+    background: var(--accent);
+    margin: 0 auto;
+  }
+  .pullquote-strip blockquote::before { margin-bottom: 32px; }
+  .pullquote-strip blockquote::after { margin-top: 32px; }
+  .pullquote-attr {
+    margin-top: 26px;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* ──────── FEATURE: THIS ISSUE ──────── */
+  .features {
+    padding: 100px 48px;
+    position: relative;
+    z-index: 2;
+  }
+  .features-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 18px;
+    margin-bottom: 56px;
+  }
+  .features-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-style: italic;
+    font-size: clamp(28px, 3.6vw, 44px);
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    font-variation-settings: "opsz" 144;
+  }
+  .features-title sup {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-style: normal;
+    margin-left: 14px;
+    vertical-align: super;
+    font-weight: 500;
+  }
+  .features-meta {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+  .feature {
+    border-right: 0.5px solid var(--rule);
+    padding: 0 36px;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.25s;
+  }
+  .feature:last-child { border-right: 0; }
+  .feature:first-child { padding-left: 0; }
+  .feature:last-child { padding-right: 0; }
+  .feature:hover { background: rgba(26, 84, 48, 0.04); }
+
+  .feature-no {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 96px;
+    line-height: 1;
+    color: var(--accent);
+    letter-spacing: -0.04em;
+    margin-bottom: 32px;
+    font-variation-settings: "opsz" 144;
+  }
+  .feature-cat {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--accent-warm);
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  .feature-headline {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin-bottom: 14px;
+    font-variation-settings: "opsz" 100;
+  }
+  .feature-deck {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+  }
+  .feature-meta {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    border-top: 0.5px solid var(--rule);
+    padding-top: 14px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* ──────── EDITORIAL FOOTER STAMP ──────── */
+  .colophon {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 80px 48px 60px;
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+  }
+  .colophon::before {
+    content: 'WM';
+    position: absolute;
+    right: -40px;
+    bottom: -120px;
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-style: italic;
+    font-size: 380px;
+    color: var(--accent);
+    opacity: 0.18;
+    line-height: 1;
+    letter-spacing: -0.06em;
+    pointer-events: none;
+    font-variation-settings: "opsz" 144, "SOFT" 0;
+  }
+  .colophon-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 60px;
+    align-items: end;
+    position: relative;
+  }
+  .colophon-question {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(40px, 5vw, 76px);
+    line-height: 1.05;
+    color: var(--paper);
+    letter-spacing: -0.025em;
+    font-variation-settings: "opsz" 144;
+  }
+  .colophon-question em {
+    color: var(--accent);
+    font-style: italic;
+    font-weight: 500;
+  }
+  .colophon-cta {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    align-items: flex-start;
+  }
+  .colophon-cta a {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--paper);
+    text-decoration: none;
+    border: 1px solid rgba(240, 233, 214, 0.4);
+    padding: 16px 28px;
+    transition: all 0.2s;
+    width: 100%;
+    text-align: center;
+  }
+  .colophon-cta a:hover { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+  .colophon-cta a.primary { background: var(--accent); border-color: var(--accent); }
+  .colophon-cta a.primary:hover { background: #134024; border-color: #134024; color: var(--paper); }
+
+  /* ──────── RESPONSIVE ──────── */
+  @media (max-width: 980px) {
+    .masthead { grid-template-columns: 1fr; padding: 18px 24px 12px; gap: 6px; text-align: center; }
+    .masthead-meta:last-child { text-align: center; }
+    .issue-banner { padding: 8px 24px; flex-direction: column; gap: 4px; text-align: center; }
+    .cover { grid-template-columns: 1fr; min-height: auto; }
+    .cover-text { padding: 50px 24px 40px; min-height: 70vh; }
+    .cover-image img { min-height: 60vh; }
+    .pullquote-strip { padding: 60px 24px; }
+    .features { padding: 60px 24px; }
+    .features-header { flex-direction: column; gap: 12px; align-items: flex-start; }
+    .features-grid { grid-template-columns: 1fr; gap: 0; }
+    .feature { border-right: 0; border-bottom: 0.5px solid var(--rule); padding: 36px 0; }
+    .feature:last-child { border-bottom: 0; }
+    .colophon { padding: 50px 24px 40px; }
+    .colophon-grid { grid-template-columns: 1fr; gap: 40px; align-items: stretch; }
+    .colophon::before { font-size: 220px; right: -20px; bottom: -60px; }
+  }
+
+  /* skip link */
+  .wm-skip{position:absolute;left:-9999px;top:0;background:var(--accent);color:#fff;padding:10px 18px;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:600;z-index:100000;border-radius:0 0 8px 0;text-decoration:none}
+  .wm-skip:focus{left:0;outline:2px solid #fff;outline-offset:-4px}
+</style>
+</head>
+<body>
+<a class="wm-skip" href="#wm-main">Skip to content</a>
+<div id="siteHeader"></div>
+<script src="/data/header.js"></script>
+<a id="wm-main" tabindex="-1"></a>
+
+<header class="masthead" role="banner">
+  <div class="masthead-meta">Vol. III · No. 7</div>
+  <h1 class="nameplate"><span class="w-wigg">wigg</span><span class="map">map</span></h1>
+  <div class="masthead-meta">Spring · Twenty Twenty-Six</div>
+</header>
+
+<div class="issue-banner">
+  <span>Issue 07 — The Greener-Grass Question</span>
+  <em>“On compte vraiment.”</em>
+</div>
+
+<section class="cover" id="cover">
+  <div class="cover-text">
+    <div>
+      <p class="cover-eyebrow">Inside this issue</p>
+      <h2 class="cover-headline">
+        The grass <em>isn't</em><br>
+        always greener.<br>
+        Sometimes<br>
+        <em>it is.</em>
+      </h2>
+      <p class="cover-deck">
+        A quarterly study of where life actually unfolds — across 160 countries, twenty-five
+        data points, and the chronicles of the people who left, stayed, came back.
+      </p>
+    </div>
+    <div class="cover-byline">
+      <div class="cover-by">
+        <strong>By Wigg</strong>
+        Editor &amp; data archivist
+      </div>
+      <a href="/indexchronicles.html" class="cover-cta">Read the issue →</a>
+    </div>
+  </div>
+  <div class="cover-image">
+    <picture>
+      <source srcset="/assets/hero-iceland.webp" type="image/webp">
+      <img src="/assets/hero-iceland.jpg" alt="A vast Icelandic landscape — moss, basalt, low gray sky" loading="eager" fetchpriority="high">
+    </picture>
+    <div class="cover-caption">
+      <strong>Cover photograph</strong>
+      Westfjords, Iceland.<br>
+      A country of three hundred and seventy thousand people.
+    </div>
+  </div>
+</section>
+
+<section class="pullquote-strip">
+  <blockquote>
+    “We track salaries, rent, taxes, and twenty-three other things.<br>
+    But the question this magazine asks is older than that.”
+  </blockquote>
+  <p class="pullquote-attr">— From the editor's letter</p>
+</section>
+
+<section class="features">
+  <div class="features-header">
+    <h3 class="features-title">In this issue<sup>Spring 2026</sup></h3>
+    <span class="features-meta">Three featured chronicles</span>
+  </div>
+  <div class="features-grid">
+    <a href="/chronicles/chronicle-2056-best-countries-30-years-en.html" class="feature">
+      <div class="feature-no">01</div>
+      <p class="feature-cat">Long view · Future</p>
+      <h4 class="feature-headline">2056. Where life will be best in thirty years.</h4>
+      <p class="feature-deck">
+        A speculation grounded in current data: climate, demographics, fiscal trajectories,
+        soft power. The map of the next generation is not the map of this one.
+      </p>
+      <div class="feature-meta">
+        <span>Wigg</span>
+        <span>~25 min</span>
+      </div>
+    </a>
+
+    <a href="/chronicles/chronicle-digital-nomad-visas-2026-en.html" class="feature">
+      <div class="feature-no">02</div>
+      <p class="feature-cat">Field guide · Visas</p>
+      <h4 class="feature-headline">The twenty-five best digital nomad visas of 2026.</h4>
+      <p class="feature-deck">
+        Real thresholds, real timelines, real fine print. Where Portugal redrew its hand,
+        where Indonesia got serious, where the Caucasus quietly opened.
+      </p>
+      <div class="feature-meta">
+        <span>Wigg</span>
+        <span>~30 min</span>
+      </div>
+    </a>
+
+    <a href="/chronicles/chronicle-australia-expat-guide-2026-en.html" class="feature">
+      <div class="feature-no">03</div>
+      <p class="feature-cat">Country in focus · Australia</p>
+      <h4 class="feature-headline">Australia, beyond the coast.</h4>
+      <p class="feature-deck">
+        A long answer to the short question of whether to move twenty thousand kilometres south.
+        Sectors that hire, cities that absorb, taxes that surprise.
+      </p>
+      <div class="feature-meta">
+        <span>Wigg</span>
+        <span>~22 min</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section class="colophon">
+  <div class="colophon-grid">
+    <div>
+      <p class="colophon-question">
+        So — <em>where</em><br>
+        is the grass<br>
+        actually greener?
+      </p>
+    </div>
+    <div class="colophon-cta">
+      <a href="/globe.html" class="primary">Spin the globe →</a>
+      <a href="/wiggmatch.html">Find your match in 8 questions</a>
+      <a href="/compare.html?c=portugal,thailand,mexico">Compare countries side by side</a>
+    </div>
+  </div>
+</section>
+
+<div id="siteFooter"></div>
+<script src="/data/footer.js"></script>
+</body>
+</html>
