@@ -21,9 +21,7 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"WiggMap Compare","url":"https://wiggmap.com/compare.html","applicationCategory":"TravelApplication","operatingSystem":"Any","description":"Compare countries side by side on 25+ data points: salaries, rent, taxes, safety, climate.","inLanguage":["en","fr","es"],"isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@type":"Organization","name":"WiggMap","url":"https://wiggmap.com/","logo":"https://wiggmap.com/assets/logo.png"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://wiggmap.com/"},{"@type":"ListItem","position":2,"name":"Compare","item":"https://wiggmap.com/compare.html"}]}</script>
 
-  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
-  <link rel="stylesheet" href="css/main.css">
-
+  <link rel="icon" href="/assets/favicon.ico" type="image/x-icon" />
   <!-- Fonts (clean + classy title) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -659,7 +657,7 @@
     async function getCountriesDB(){
       if (COUNTRIES_DB) return COUNTRIES_DB;
       const _lang = localStorage.getItem("wigg_lang") || "en";
-      const _cf = _lang === "fr" ? "data/countries.fr.json" : _lang === "es" ? "data/countries.es.json" : "data/countries.json";
+      const _cf = _lang === "fr" ? "/data/countries.fr.json" : _lang === "es" ? "/data/countries.es.json" : "/data/countries.json";
       const r = await fetch(_cf, { cache: "no-store" });
       if(!r.ok) throw new Error(`countries.json not found (${r.status})`);
       COUNTRIES_DB = await r.json();
@@ -1156,7 +1154,7 @@
     init();
   </script>
 
-  <script src="data/header.js"></script>
+  <script src="/data/header.js"></script>
 <a id="wm-main" tabindex="-1"></a>
   <!-- TODO-i18n: remove this banner + the noindex meta when this page is translated. See MIGRATION_PLAN.md §10 D4/D5. -->
 <div class="wm-untranslated-banner" role="note" style="background:#fff7e6;border-bottom:2px solid #d97706;padding:10px 18px;font-family:Inter,system-ui,sans-serif;font-size:13px;color:#7a4f10;text-align:center;"><p style="margin:0;">This page hasn’t been translated yet. <a href="https://wiggmap.com/en/compare.html" style="color:#1a5430;font-weight:700;text-decoration:underline;">View original in English →</a></p></div>
