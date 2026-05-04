@@ -350,6 +350,74 @@ def check_query_preservation(base: str) -> list[dict]:
     }]
 
 
+def check_sprint_y_perf(base: str) -> list[dict]:
+    """Sprint Y.5 perf gate: country pages must serve <picture> SSR with
+    a webp source, AND opt out of the runtime swap. Catches regressions
+    where someone removes the <picture> wrapper or the opt-out flag.
+
+    Spot-checks 1 country page per region (random sample would be ideal
+    but deterministic = reproducible runs).
+    """
+    rows = []
+    samples = [
+        "/countries/portugal-en.html",
+        "/countries/japan-en.html",
+        "/countries/mexico-en.html",
+    ]
+    for path in samples:
+        _, _, body = fetch(base, path)
+        issues = []
+        # 1. <picture> wrapper around hero
+        if "<picture>" not in body:
+            issues.append("<picture> SSR missing")
+        # 2. webp source declared
+        if 'type="image/webp"' not in body:
+            issues.append("WebP <source> missing")
+        # 3. opt-out flag set (otherwise footer.js runtime swap fires
+        #    redundantly and adds ~33 fetches per page)
+        if "__WM_DISABLE_WEBP_SWAP" not in body:
+            issues.append("opt-out flag missing — runtime swap will fire")
+        rows.append({
+            "check": "perf-y5",
+            "path": path,
+            "ok": len(issues) == 0,
+            "issues": issues,
+        })
+    return rows
+
+
+def check_compare_paths(base: str) -> list[dict]:
+    """Hotfix 9fdfb9b regression gate: compare.html files must use
+    absolute paths for /data/countries.json + /data/header.js + /assets/
+    (relative paths broke the page on /en/, /fr/, /es/ migrated copies)."""
+    rows = []
+    samples = [
+        "/compare.html",  # 301 → /en/compare.html
+        "/en/compare.html",
+        "/fr/compare.html",
+        "/es/compare.html",
+    ]
+    for path in samples:
+        # follow redirect for /compare.html (301 → /en/compare.html)
+        _, _, body = fetch(base, path, follow=True)
+        issues = []
+        # 1. absolute /data/countries.json fetch
+        if 'fetch("/data/countries' not in body and "fetch('/data/countries" not in body:
+            # may be templated as `_cf` constant — accept either
+            if '"/data/countries' not in body and "'/data/countries" not in body:
+                issues.append("countries.json fetch path not absolute")
+        # 2. absolute /data/header.js script
+        if 'src="/data/header.js"' not in body:
+            issues.append("/data/header.js src not absolute (header will not render)")
+        rows.append({
+            "check": "compare-paths",
+            "path": path,
+            "ok": len(issues) == 0,
+            "issues": issues,
+        })
+    return rows
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # DRIVER
 # ─────────────────────────────────────────────────────────────────────────────
@@ -369,6 +437,8 @@ def run(base: str, quiet: bool) -> tuple[int, list[dict]]:
         ("Misc resources (sitemap/robots/manifest/sw)", check_misc_resources),
         ("Query-string preservation on /compare.html?c=...", check_query_preservation),
         ("Sprint 1 non-regression on /en/", check_sprint1_no_regression),
+        ("Sprint Y.5 perf gate (<picture> SSR + opt-out flag)", check_sprint_y_perf),
+        ("Compare.html absolute-paths gate (hotfix 9fdfb9b)", check_compare_paths),
     ]
     for label, fn in sections:
         if not quiet:
