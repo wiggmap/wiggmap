@@ -1,6 +1,13 @@
 # WiggMap — Netlify response headers
-# Sprint 1 quick win — security baseline + asset caching.
-# CSP starts in Report-Only mode; flip to enforced after Search Console / DevTools shows zero violations.
+# CSP enforced (was Report-Only since Sprint 1, no significant violations
+# observed for ~weeks of production traffic). Origin allowlist below covers
+# every external script/style/font/connect target observed in:
+#   - Page <script src=...> tags (GTM, Leaflet via unpkg)
+#   - Runtime injections (GA4 via GTM, Meta Pixel, Buttondown subscribe,
+#     Supabase auth/db on connect/widget.js + mon-compte.html)
+#   - Font loading (Google Fonts gstatic + googleapis)
+#   - Form submissions (Netlify Forms newsletter)
+# If new origin needed, extend the allowlist + redeploy.
 
 /*
   X-Content-Type-Options: nosniff
@@ -8,7 +15,7 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=(), interest-cohort=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://connect.facebook.net https://unpkg.com https://buttondown.email https://*.supabase.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.supabase.co wss://*.supabase.co https://buttondown.email https://connect.facebook.net; frame-src https://www.googletagmanager.com https://td.doubleclick.net; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://buttondown.email https://*.netlify.app
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://*.google-analytics.com https://connect.facebook.net https://unpkg.com https://buttondown.email https://*.supabase.co https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.supabase.co wss://*.supabase.co https://buttondown.email https://connect.facebook.net https://api.buttondown.email; frame-src https://www.googletagmanager.com https://td.doubleclick.net; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://buttondown.email https://*.netlify.app
 
 # Long-lived asset cache (images, icons)
 /assets/*
