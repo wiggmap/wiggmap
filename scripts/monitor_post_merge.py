@@ -283,9 +283,21 @@ def check_misc_resources(base: str) -> list[dict]:
         status, _, body = fetch(base, path, follow=True)
         ok = (status == 200) or (path == "/_headers" and status in (200, 404))
         issues = [] if ok else [f"status={status}"]
-        # Spot-check sitemap content
+        # Spot-check sitemap content. /sitemap.xml became a sitemap-index in
+        # commit ae3e5ea referencing 4 sub-sitemaps. If we see <sitemapindex>,
+        # fetch each <loc> sub-sitemap and sum their URL counts. Otherwise
+        # treat as a legacy single-sitemap and count <url> directly.
         if path == "/sitemap.xml" and status == 200:
-            url_count = body.count("<url>")
+            if "<sitemapindex" in body:
+                sub_locs = re.findall(r"<loc>(https?://[^<]+/sitemap-[^<]+\.xml)</loc>", body)
+                total = 0
+                for sub in sub_locs:
+                    sub_path = re.sub(r"^https?://[^/]+", "", sub)
+                    _, _, sub_body = fetch(base, sub_path, follow=True)
+                    total += sub_body.count("<url>")
+                url_count = total
+            else:
+                url_count = body.count("<url>")
             if url_count < 900:
                 ok = False
                 issues.append(f"sitemap url count={url_count} (expected ~922)")
