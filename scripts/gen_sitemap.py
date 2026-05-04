@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Regenerate sitemap.xml including all countries, chronicles, villes, 1966, lp, lead-magnet, compare/static, connect and root pages."""
+"""Regenerate sitemap.xml + sub-sitemaps + image sitemap entries."""
 import os
+import re
 from datetime import date
 from pathlib import Path
 
@@ -206,48 +207,155 @@ def build_hreflang_group(url: str, all_set: set[str]) -> list[tuple[str, str]]:
             return alts
     return []
 
-def main():
-    urls = collect()
-    url_set = set(urls)
+def hero_image_for(url_path: str) -> tuple[str, str] | None:
+    """For URLs with an obvious hero image, return (image_url, caption).
+    Used to emit <image:image> per Google's image sitemap spec.
+    """
+    name = url_path.rsplit("/", 1)[-1]
+    # Country pages: /countries/portugal-en.html → /assets/hero-portugal.webp
+    if url_path.startswith("/countries/") and name.endswith(".html"):
+        # strip trailing -{lang}.html (3 letters: -en, -fr, -es, OR longer like -es-AR — be safe)
+        m = re.match(r"^([a-z0-9-]+)-(en|fr|es)\.html$", name)
+        if m:
+            slug = m.group(1)
+            # Note: assume webp exists (Sprint Y.5 ensured 1:1 webp/jpg)
+            return (f"{BASE}/assets/hero-{slug}.webp", f"Hero photo of {slug.replace('-', ' ').title()}")
+    # City chronicles: /chronicles/villes/chronicle-bali-indonesia-en.html → /assetscity/bali.png
+    if url_path.startswith("/chronicles/villes/") and name.startswith("chronicle-"):
+        m = re.match(r"^chronicle-([a-z0-9-]+?)-(?:[a-z]+-)*?(en|fr|es)\.html$", name)
+        if m:
+            # Heuristic: take the FIRST token before the second-to-last dash as the city slug.
+            # The chronicle slug pattern is "chronicle-{city}-{country}-{lang}.html"
+            # so we need the first token after "chronicle-".
+            inner = name[len("chronicle-"):]
+            # Drop the trailing -{lang}.html
+            inner = re.sub(r"-(en|fr|es)\.html$", "", inner)
+            # Now split by '-' and pick the first segment as city slug
+            parts = inner.split("-")
+            if parts:
+                # For "bali-indonesia" → city = "bali"
+                # For "buenos-aires-argentine" → city = "buenos-aires" (2 tokens before country)
+                # Heuristic: country is always the last token unless it's known multi-word
+                # Conservative: take everything except the last token as the city
+                if len(parts) >= 2:
+                    city = "-".join(parts[:-1])
+                else:
+                    city = parts[0]
+                return (f"{BASE}/assetscity/{city}.png", f"Hero photo of {city.replace('-', ' ').title()}")
+    return None
+
+
+def render_url_block(url: str, url_set: set[str]) -> list[str]:
+    """Render the <url> block (loc + lastmod + changefreq + priority +
+    hreflang + image:image when relevant). Returns a list of lines."""
+    prio, freq = prio_for(url)
+    alts = build_hreflang_group(url, url_set)
+    lines = ["  <url>"]
+    lines.append(f"    <loc>{BASE}{url}</loc>")
+    lines.append(f"    <lastmod>{TODAY}</lastmod>")
+    lines.append(f"    <changefreq>{freq}</changefreq>")
+    lines.append(f"    <priority>{prio}</priority>")
+    for lang, alt in alts:
+        lines.append(
+            f'    <xhtml:link rel="alternate" hreflang="{lang}" href="{BASE}{alt}" />'
+        )
+    if alts:
+        name = url.rsplit("/", 1)[-1]
+        fr_source_names = {
+            "chronicles-villes.html", "chronicles-dest.html",
+            "chronicles-family.html", "chronicles-horizons.html",
+            "chronicles-visas.html",
+        }
+        preferred = "fr" if name in fr_source_names else "en"
+        default_url = next((a for l, a in alts if l == preferred), None)
+        if not default_url:
+            default_url = next((a for l, a in alts if l == "en"), None)
+        if default_url:
+            lines.append(
+                f'    <xhtml:link rel="alternate" hreflang="x-default" href="{BASE}{default_url}" />'
+            )
+    # Image sitemap: emit <image:image> for hero photos on country + city chronicles.
+    img = hero_image_for(url)
+    if img:
+        img_url, img_caption = img
+        lines.append("    <image:image>")
+        lines.append(f"      <image:loc>{img_url}</image:loc>")
+        lines.append(f"      <image:caption>{img_caption}</image:caption>")
+        lines.append("    </image:image>")
+    lines.append("  </url>")
+    return lines
+
+
+def write_sub_sitemap(name: str, urls: list[str], url_set: set[str]) -> int:
+    """Write a single sitemap file. Returns URL count."""
     lines = [
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"',
-        '        xmlns:xhtml="http://www.w3.org/1999/xhtml">',
+        '        xmlns:xhtml="http://www.w3.org/1999/xhtml"',
+        '        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">',
     ]
     for u in urls:
-        prio, freq = prio_for(u)
-        alts = build_hreflang_group(u, url_set)
-        lines.append("  <url>")
-        lines.append(f"    <loc>{BASE}{u}</loc>")
-        lines.append(f"    <lastmod>{TODAY}</lastmod>")
-        lines.append(f"    <changefreq>{freq}</changefreq>")
-        lines.append(f"    <priority>{prio}</priority>")
-        for lang, alt in alts:
-            lines.append(
-                f'    <xhtml:link rel="alternate" hreflang="{lang}" href="{BASE}{alt}" />'
-            )
-        if alts:
-            # Sprint 2 — x-default points to source-of-truth lang per MIGRATION_PLAN.md D4/D5.
-            # FR-source for chronicles-* index pages, EN-source for everything else.
-            name = u.rsplit("/", 1)[-1]
-            fr_source_names = {
-                "chronicles-villes.html", "chronicles-dest.html",
-                "chronicles-family.html", "chronicles-horizons.html",
-                "chronicles-visas.html",
-            }
-            preferred = "fr" if name in fr_source_names else "en"
-            default_url = next((a for l, a in alts if l == preferred), None)
-            if not default_url:  # fallback to EN if preferred lang missing
-                default_url = next((a for l, a in alts if l == "en"), None)
-            if default_url:
-                lines.append(
-                    f'    <xhtml:link rel="alternate" hreflang="x-default" href="{BASE}{default_url}" />'
-                )
-        lines.append("  </url>")
-    lines.append("</urlset>")
+        lines.extend(render_url_block(u, url_set))
+    lines.append('</urlset>')
+    out = "\n".join(lines) + "\n"
+    (ROOT / name).write_text(out, encoding="utf-8")
+    return len(urls)
+
+
+def write_index(sub_sitemaps: list[str]) -> None:
+    lines = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ]
+    for name in sub_sitemaps:
+        lines.append('  <sitemap>')
+        lines.append(f'    <loc>{BASE}/{name}</loc>')
+        lines.append(f'    <lastmod>{TODAY}</lastmod>')
+        lines.append('  </sitemap>')
+    lines.append('</sitemapindex>')
     out = "\n".join(lines) + "\n"
     (ROOT / "sitemap.xml").write_text(out, encoding="utf-8")
-    print(f"Wrote sitemap.xml with {len(urls)} URLs")
+
+
+def split_urls(urls: list[str]) -> dict[str, list[str]]:
+    """Bucket URLs into named sub-sitemaps for Search Console clarity."""
+    buckets = {
+        "sitemap-roots.xml": [],     # Lang-dir homes + root pages + connect/lp/lead-magnet
+        "sitemap-countries.xml": [], # /countries/*
+        "sitemap-chronicles.xml": [],# /chronicles/* (incl /villes/, /1966/)
+        "sitemap-compare.xml": [],   # /compare/static/*
+    }
+    for u in urls:
+        if u.startswith("/countries/"):
+            buckets["sitemap-countries.xml"].append(u)
+        elif u.startswith("/chronicles/"):
+            buckets["sitemap-chronicles.xml"].append(u)
+        elif u.startswith("/compare/static/"):
+            buckets["sitemap-compare.xml"].append(u)
+        else:
+            buckets["sitemap-roots.xml"].append(u)
+    return buckets
+
+
+def main():
+    urls = collect()
+    url_set = set(urls)
+    buckets = split_urls(urls)
+
+    written = {}
+    for name, bucket_urls in buckets.items():
+        if not bucket_urls:
+            continue
+        count = write_sub_sitemap(name, bucket_urls, url_set)
+        written[name] = count
+        print(f"  Wrote {name} with {count} URLs")
+
+    # sitemap.xml at root becomes the sitemap index
+    write_index([n for n in written.keys()])
+    total = sum(written.values())
+    print(f"  Wrote sitemap.xml (index) referencing {len(written)} sub-sitemaps")
+    print(f"\nTotal URLs across all sub-sitemaps: {total}")
+
 
 if __name__ == "__main__":
     main()
