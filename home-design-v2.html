@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WiggMap — Spin the world. Pick a country. Anywhere.</title>
+<meta name="description" content="A 3D globe of 160+ countries. Hover anywhere to see what life costs, what it pays, who can stay. The data lives on the planet.">
+<meta name="theme-color" content="#0a0e0a">
+<link rel="icon" href="/assets/favicon.ico">
+<link rel="stylesheet" href="/assets/wm-tokens.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,700;9..144,900&family=JetBrains+Mono:wght@400;500;700&family=Instrument+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- Globe.gl + Three.js (already used by /globe.html, vendored from unpkg per Sprint 1 audit) -->
+<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+<script src="https://unpkg.com/globe.gl"></script>
+
+<style>
+  :root {
+    --void: #060808;
+    --void-2: #0a0e0a;
+    --void-3: #131815;
+    --paper: #ece6d2;
+    --paper-dim: rgba(236, 230, 210, 0.78);
+    --paper-ghost: rgba(236, 230, 210, 0.42);
+    --forest: #1a5430;
+    --grass: #2bb56a;          /* a more vivid green for the data points pulse */
+    --grass-glow: rgba(43, 181, 106, 0.55);
+    --amber: #d99a3f;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; overflow-x: hidden; }
+  body {
+    background: var(--void);
+    color: var(--paper);
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-y: scroll;
+  }
+
+  /* ──────── COSMIC BACKDROP ──────── */
+  .starfield {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(43, 181, 106, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 80%, rgba(217, 154, 63, 0.05) 0%, transparent 50%),
+      var(--void);
+  }
+  .starfield::before, .starfield::after {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 23% 17%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1px 1px at 47% 38%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1px 1px at 71% 22%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 88% 71%, rgba(255,255,255,0.4), transparent),
+      radial-gradient(1px 1px at 12% 81%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 35% 92%, rgba(255,255,255,0.4), transparent),
+      radial-gradient(2px 2px at 58% 11%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1px 1px at 82% 44%, rgba(255,255,255,0.5), transparent);
+    background-repeat: repeat;
+    background-size: 800px 600px;
+    animation: drift 240s linear infinite;
+  }
+  .starfield::after { background-size: 1200px 900px; opacity: 0.4; animation-duration: 360s; animation-direction: reverse; }
+  @keyframes drift { from { background-position: 0 0; } to { background-position: 800px 600px; } }
+
+  /* ──────── HERO LAYOUT ──────── */
+  .stage {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: grid;
+    grid-template-columns: minmax(420px, 38%) 1fr;
+    align-items: stretch;
+  }
+
+  /* Hero text panel */
+  .stage-text {
+    padding: 56px 56px 56px 64px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    z-index: 3;
+  }
+  .badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--grass);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 14px;
+    border: 1px solid rgba(43, 181, 106, 0.3);
+    border-radius: 999px;
+    background: rgba(43, 181, 106, 0.06);
+    align-self: flex-start;
+    margin-bottom: 36px;
+  }
+  .badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--grass);
+    border-radius: 999px;
+    animation: pulse 2s ease-in-out infinite;
+    box-shadow: 0 0 12px var(--grass-glow);
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.4); }
+  }
+
+  .hero-headline {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 300;
+    font-size: clamp(48px, 6.5vw, 96px);
+    line-height: 0.93;
+    letter-spacing: -0.04em;
+    color: var(--paper);
+    margin-bottom: 28px;
+    font-variation-settings: "opsz" 144;
+  }
+  .hero-headline em {
+    font-style: italic;
+    font-weight: 700;
+    color: var(--grass);
+    background: linear-gradient(180deg, var(--grass) 0%, #1a8c50 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-deck {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--paper-dim);
+    max-width: 38ch;
+    margin-bottom: 44px;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: flex-start;
+    margin-bottom: 56px;
+  }
+  .hero-cta {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    font-weight: 500;
+    color: var(--void);
+    background: var(--paper);
+    padding: 16px 28px;
+    text-decoration: none;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    transition: transform 0.2s, background 0.2s;
+  }
+  .hero-cta:hover { background: var(--grass); color: var(--void); transform: translateY(-2px); }
+  .hero-cta-ghost {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 13px;
+    color: var(--paper-dim);
+    text-decoration: none;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(236, 230, 210, 0.2);
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .hero-cta-ghost:hover { color: var(--grass); border-color: var(--grass); }
+
+  .hero-meta {
+    border-top: 1px solid rgba(236, 230, 210, 0.1);
+    padding-top: 24px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  .hero-stat {
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .hero-stat-num {
+    font-family: 'Fraunces', Georgia, serif;
+    font-variation-settings: "opsz" 144;
+    font-size: 36px;
+    font-weight: 300;
+    color: var(--paper);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .hero-stat-num em { font-style: italic; color: var(--grass); font-weight: 700; }
+  .hero-stat-lbl {
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--paper-ghost);
+  }
+
+  /* Globe stage */
+  .stage-globe {
+    position: relative;
+    overflow: hidden;
+  }
+  #globe-viz {
+    position: absolute;
+    inset: 0;
+    cursor: grab;
+  }
+  #globe-viz:active { cursor: grabbing; }
+
+  /* Tooltip overlay (positioned via JS) */
+  .country-tip {
+    position: fixed;
+    pointer-events: none;
+    z-index: 50;
+    opacity: 0;
+    transform: translate(-50%, calc(-100% - 14px));
+    transition: opacity 0.18s;
+    background: rgba(6, 8, 8, 0.92);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(43, 181, 106, 0.3);
+    border-radius: 12px;
+    padding: 14px 18px;
+    min-width: 220px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(43, 181, 106, 0.1);
+  }
+  .country-tip.show { opacity: 1; }
+  .country-tip-flag { font-size: 22px; line-height: 1; margin-bottom: 6px; }
+  .country-tip-name {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--paper);
+    line-height: 1.05;
+    margin-bottom: 12px;
+    font-variation-settings: "opsz" 100;
+  }
+  .country-tip-rows {
+    display: grid;
+    gap: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+  }
+  .country-tip-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .country-tip-row span:first-child { color: var(--paper-ghost); letter-spacing: 0.06em; text-transform: uppercase; font-size: 10px; }
+  .country-tip-row span:last-child { color: var(--grass); font-weight: 700; }
+  .country-tip-link {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(236, 230, 210, 0.08);
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 11px;
+    color: var(--paper-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* Globe instruction overlay */
+  .stage-hint {
+    position: absolute;
+    bottom: 28px;
+    right: 28px;
+    z-index: 4;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--paper-ghost);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 18px;
+    border: 1px solid rgba(236, 230, 210, 0.1);
+    border-radius: 999px;
+    background: rgba(6, 8, 8, 0.5);
+    backdrop-filter: blur(12px);
+  }
+  .stage-hint::before { content: '↻'; color: var(--grass); font-size: 14px; }
+
+  /* Loading state */
+  .stage-loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    color: var(--paper-ghost);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition: opacity 0.4s;
+  }
+  .stage-loading.hide { opacity: 0; pointer-events: none; }
+
+  /* ──────── BELOW THE FOLD: Featured countries ──────── */
+  .featured {
+    position: relative;
+    z-index: 2;
+    padding: 100px 64px;
+    border-top: 1px solid rgba(236, 230, 210, 0.06);
+    background: linear-gradient(180deg, var(--void) 0%, var(--void-2) 100%);
+  }
+  .featured-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 56px;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .featured-head h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(28px, 4vw, 52px);
+    color: var(--paper);
+    letter-spacing: -0.025em;
+    font-variation-settings: "opsz" 144;
+  }
+  .featured-head h2 em { color: var(--grass); font-weight: 700; font-style: italic; }
+  .featured-head p { color: var(--paper-ghost); font-size: 13px; letter-spacing: 0.06em; }
+
+  .featured-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .featured-card {
+    aspect-ratio: 3/4;
+    position: relative;
+    overflow: hidden;
+    border-radius: 14px;
+    border: 1px solid rgba(236, 230, 210, 0.08);
+    background: var(--void-3);
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .featured-card:hover { transform: translateY(-4px); border-color: rgba(43, 181, 106, 0.4); }
+  .featured-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.5; transition: opacity 0.3s, transform 0.5s; }
+  .featured-card:hover img { opacity: 0.75; transform: scale(1.05); }
+  .featured-card::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 40%, var(--void) 100%);
+  }
+  .featured-card-body {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    padding: 18px 20px;
+    z-index: 2;
+  }
+  .featured-card-flag { font-size: 22px; line-height: 1; margin-bottom: 8px; }
+  .featured-card-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--paper);
+    line-height: 1.05;
+    margin-bottom: 6px;
+    font-variation-settings: "opsz" 100;
+  }
+  .featured-card-stat {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--grass);
+    letter-spacing: 0.04em;
+  }
+
+  /* ──────── RESPONSIVE ──────── */
+  @media (max-width: 980px) {
+    .stage { grid-template-columns: 1fr; }
+    .stage-text { padding: 40px 24px 30px; }
+    .stage-globe { min-height: 60vh; }
+    .stage-hint { bottom: 14px; right: 14px; }
+    .featured { padding: 60px 24px; }
+    .featured-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* skip-link */
+  .wm-skip{position:absolute;left:-9999px;top:0;background:var(--grass);color:var(--void);padding:10px 18px;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:600;z-index:100000;border-radius:0 0 8px 0;text-decoration:none}
+  .wm-skip:focus{left:0;outline:2px solid var(--paper);outline-offset:-4px}
+</style>
+</head>
+<body>
+<a class="wm-skip" href="#wm-main">Skip to content</a>
+<div id="siteHeader"></div>
+<script src="/data/header.js"></script>
+<a id="wm-main" tabindex="-1"></a>
+
+<div class="starfield" aria-hidden="true"></div>
+
+<section class="stage" id="hero">
+  <div class="stage-text">
+    <div>
+      <span class="badge">160 countries · Live data</span>
+      <h1 class="hero-headline">
+        Pick a country.<br>
+        <em>Anywhere.</em>
+      </h1>
+      <p class="hero-deck">
+        Spin the world. Hover anywhere. Salaries, rent, taxes, healthcare, climate — the
+        whole life, on the surface of the planet.
+      </p>
+      <div class="hero-actions">
+        <a href="/globe.html" class="hero-cta">
+          Open the full globe
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="/wiggmatch.html" class="hero-cta-ghost">Or take the 8-question match →</a>
+      </div>
+    </div>
+    <div class="hero-meta">
+      <div class="hero-stat">
+        <div class="hero-stat-num"><em>160+</em></div>
+        <div class="hero-stat-lbl">Countries</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num"><em>25</em></div>
+        <div class="hero-stat-lbl">Data points each</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num"><em>76</em></div>
+        <div class="hero-stat-lbl">City chronicles</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stage-globe">
+    <div class="stage-loading" id="globe-loading">Loading the world…</div>
+    <div id="globe-viz" role="img" aria-label="Interactive 3D globe of 160+ countries"></div>
+    <div class="stage-hint">Click + drag to spin · hover to peek</div>
+  </div>
+</section>
+
+<aside class="country-tip" id="country-tip" aria-hidden="true">
+  <div class="country-tip-flag" id="tip-flag">🌍</div>
+  <div class="country-tip-name" id="tip-name">—</div>
+  <div class="country-tip-rows">
+    <div class="country-tip-row"><span>Studio rent</span><span id="tip-rent">—</span></div>
+    <div class="country-tip-row"><span>Avg salary</span><span id="tip-salary">—</span></div>
+    <div class="country-tip-row"><span>Sun days/yr</span><span id="tip-sun">—</span></div>
+  </div>
+  <div class="country-tip-link">Click for full profile →</div>
+</aside>
+
+<section class="featured">
+  <div class="featured-head">
+    <h2>Where the <em>community</em> looks first</h2>
+    <p>Most-explored profiles · this month</p>
+  </div>
+  <div class="featured-grid">
+    <a class="featured-card" href="/countries/portugal-en.html">
+      <picture><source srcset="/assets/hero-portugal.webp" type="image/webp"><img src="/assets/hero-portugal.jpg" alt="Portugal" loading="lazy"></picture>
+      <div class="featured-card-body">
+        <div class="featured-card-flag">🇵🇹</div>
+        <div class="featured-card-name">Portugal</div>
+        <div class="featured-card-stat">€560/mo · D7 visa</div>
+      </div>
+    </a>
+    <a class="featured-card" href="/countries/japan-en.html">
+      <picture><source srcset="/assets/hero-japan.webp" type="image/webp"><img src="/assets/hero-japan.jpg" alt="Japan" loading="lazy"></picture>
+      <div class="featured-card-body">
+        <div class="featured-card-flag">🇯🇵</div>
+        <div class="featured-card-name">Japan</div>
+        <div class="featured-card-stat">$620/mo · DN visa</div>
+      </div>
+    </a>
+    <a class="featured-card" href="/countries/thailand-en.html">
+      <picture><source srcset="/assets/hero-thailand.webp" type="image/webp"><img src="/assets/hero-thailand.jpg" alt="Thailand" loading="lazy"></picture>
+      <div class="featured-card-body">
+        <div class="featured-card-flag">🇹🇭</div>
+        <div class="featured-card-name">Thailand</div>
+        <div class="featured-card-stat">$480/mo · LTR visa</div>
+      </div>
+    </a>
+    <a class="featured-card" href="/countries/mexico-en.html">
+      <picture><source srcset="/assets/hero-mexico.webp" type="image/webp"><img src="/assets/hero-mexico.jpg" alt="Mexico" loading="lazy"></picture>
+      <div class="featured-card-body">
+        <div class="featured-card-flag">🇲🇽</div>
+        <div class="featured-card-name">Mexico</div>
+        <div class="featured-card-stat">$450/mo · DN visa</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<div id="siteFooter"></div>
+<script src="/data/footer.js"></script>
+
+<script>
+/* ─────────────────────────────────────────────────────────
+   Globe initialisation
+   ───────────────────────────────────────────────────────── */
+(function () {
+  const container = document.getElementById('globe-viz');
+  const loading = document.getElementById('globe-loading');
+  const tip = document.getElementById('country-tip');
+  if (!container || typeof Globe === 'undefined') return;
+
+  // Tiny country sample — for the "live data" overlay we only need to know
+  // a handful of countries with real numbers. Real /globe.html has the full
+  // 160-country dataset; this prototype uses a curated set so the file
+  // stays self-contained.
+  const COUNTRY_DATA = {
+    'Portugal':       { flag:'🇵🇹', rent:'€560/mo', salary:'€1.4k', sun:'2800h', slug:'portugal' },
+    'Japan':          { flag:'🇯🇵', rent:'$620/mo', salary:'$2.5k', sun:'2000h', slug:'japan' },
+    'Thailand':       { flag:'🇹🇭', rent:'$480/mo', salary:'$700',  sun:'2400h', slug:'thailand' },
+    'Mexico':         { flag:'🇲🇽', rent:'$450/mo', salary:'$600',  sun:'2500h', slug:'mexico' },
+    'Indonesia':      { flag:'🇮🇩', rent:'$380/mo', salary:'$420',  sun:'2200h', slug:'indonesia' },
+    'Spain':          { flag:'🇪🇸', rent:'€700/mo', salary:'€1.8k', sun:'2700h', slug:'spain' },
+    'Germany':        { flag:'🇩🇪', rent:'€820/mo', salary:'€3.2k', sun:'1700h', slug:'germany' },
+    'France':         { flag:'🇫🇷', rent:'€800/mo', salary:'€2.8k', sun:'1900h', slug:'france' },
+    'Italy':          { flag:'🇮🇹', rent:'€700/mo', salary:'€2.1k', sun:'2400h', slug:'italy' },
+    'Brazil':         { flag:'🇧🇷', rent:'$420/mo', salary:'$650',  sun:'2700h', slug:'brazil' },
+    'Argentina':      { flag:'🇦🇷', rent:'$380/mo', salary:'$700',  sun:'2500h', slug:'argentina' },
+    'Colombia':       { flag:'🇨🇴', rent:'$350/mo', salary:'$520',  sun:'2200h', slug:'colombia' },
+    'United States':  { flag:'🇺🇸', rent:'$1500/mo',salary:'$5.2k', sun:'2400h', slug:'united-states' },
+    'Canada':         { flag:'🇨🇦', rent:'$1200/mo',salary:'$4.0k', sun:'2000h', slug:'canada' },
+    'Australia':      { flag:'🇦🇺', rent:'$1300/mo',salary:'$4.5k', sun:'2700h', slug:'australia' },
+    'United Kingdom': { flag:'🇬🇧', rent:'£900/mo', salary:'£2.9k', sun:'1500h', slug:'united-kingdom' },
+    'Greece':         { flag:'🇬🇷', rent:'€500/mo', salary:'€1.1k', sun:'2900h', slug:'greece' },
+    'Vietnam':        { flag:'🇻🇳', rent:'$300/mo', salary:'$450',  sun:'2200h', slug:'vietnam' },
+    'United Arab Emirates': { flag:'🇦🇪', rent:'$1100/mo', salary:'$3.8k', sun:'3500h', slug:'united-arab-emirates' },
+    'Singapore':      { flag:'🇸🇬', rent:'$1800/mo',salary:'$4.5k', sun:'2200h', slug:'singapore' },
+  };
+
+  const world = Globe()
+    (container)
+    .backgroundColor('rgba(0,0,0,0)')
+    .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-night.jpg')
+    .bumpImageUrl('https://unpkg.com/three-globe/example/img/earth-topology.png')
+    .showAtmosphere(true)
+    .atmosphereColor('#2bb56a')
+    .atmosphereAltitude(0.18)
+    .pointOfView({ lat: 25, lng: 10, altitude: 2.2 }, 0);
+
+  // Pulse points for our curated countries
+  const points = [
+    { name:'Portugal',       lat: 39.5, lng: -8.0  },
+    { name:'Japan',          lat: 36.2, lng: 138.3 },
+    { name:'Thailand',       lat: 15.9, lng: 100.9 },
+    { name:'Mexico',         lat: 23.6, lng: -102.5 },
+    { name:'Indonesia',      lat: -0.8, lng: 113.9 },
+    { name:'Spain',          lat: 40.5, lng: -3.7  },
+    { name:'Germany',        lat: 51.2, lng: 10.5  },
+    { name:'France',         lat: 46.6, lng: 2.4   },
+    { name:'Italy',          lat: 41.9, lng: 12.5  },
+    { name:'Brazil',         lat: -14.2,lng: -51.9 },
+    { name:'Argentina',      lat: -38.4,lng: -63.6 },
+    { name:'Colombia',       lat: 4.6,  lng: -74.3 },
+    { name:'United States',  lat: 37.1, lng: -95.7 },
+    { name:'Canada',         lat: 56.1, lng: -106.3 },
+    { name:'Australia',      lat: -25.3,lng: 133.8 },
+    { name:'United Kingdom', lat: 55.4, lng: -3.4  },
+    { name:'Greece',         lat: 39.1, lng: 21.8  },
+    { name:'Vietnam',        lat: 14.1, lng: 108.3 },
+    { name:'United Arab Emirates', lat: 23.4, lng: 53.8 },
+    { name:'Singapore',      lat: 1.4,  lng: 103.8 },
+  ];
+
+  world
+    .pointsData(points)
+    .pointAltitude(0)
+    .pointColor(() => '#2bb56a')
+    .pointRadius(0.6)
+    .pointsMerge(false);
+
+  world
+    .ringsData(points)
+    .ringColor(() => 'rgba(43, 181, 106, 0.6)')
+    .ringMaxRadius(2.5)
+    .ringPropagationSpeed(2)
+    .ringRepeatPeriod(2400);
+
+  // Auto-rotate
+  world.controls().autoRotate = true;
+  world.controls().autoRotateSpeed = 0.5;
+  world.controls().enableZoom = false;
+
+  // Hover handlers
+  world.onPointHover(point => {
+    if (!point) {
+      tip.classList.remove('show');
+      tip.setAttribute('aria-hidden', 'true');
+      return;
+    }
+    const data = COUNTRY_DATA[point.name];
+    if (!data) return;
+    document.getElementById('tip-flag').textContent = data.flag;
+    document.getElementById('tip-name').textContent = point.name;
+    document.getElementById('tip-rent').textContent = data.rent;
+    document.getElementById('tip-salary').textContent = data.salary;
+    document.getElementById('tip-sun').textContent = data.sun;
+    tip.classList.add('show');
+    tip.setAttribute('aria-hidden', 'false');
+  });
+  world.onPointClick(point => {
+    if (!point) return;
+    const data = COUNTRY_DATA[point.name];
+    if (data) window.location.href = `/countries/${data.slug}-en.html`;
+  });
+
+  // Track mouse for tooltip positioning
+  container.addEventListener('mousemove', e => {
+    tip.style.left = e.clientX + 'px';
+    tip.style.top = e.clientY + 'px';
+  });
+
+  // Sizing — fit to container
+  function size() {
+    const rect = container.getBoundingClientRect();
+    world.width(rect.width).height(rect.height);
+  }
+  size();
+  window.addEventListener('resize', size);
+
+  // Hide loading once frame painted
+  requestAnimationFrame(() => {
+    setTimeout(() => loading.classList.add('hide'), 600);
+  });
+})();
+</script>
+</body>
+</html>
