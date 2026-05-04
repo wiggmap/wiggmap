@@ -92,17 +92,40 @@ LEGACY_REDIRECTS = [
     ("/wiggmatch.html", "/fr/wiggmatch.html"),
 ]
 
-# Slug-lang URLs that must continue to work flat (sample — full coverage too noisy)
+# Slug-lang URLs that must continue to work flat (sample — full coverage too noisy).
+# Sprint X — LP + lead-magnet trilingual coverage extended:
+# - 3 LP slugs × 3 langs = 9 URLs (lp/{slug}-{lang}.html)
+# - 1 lead-magnet slug × 3 langs = 3 URLs (lead-magnet/visas-2026-{lang}.html)
+# Lead-magnet noindex'd → status 200 still expected (Netlify serves the file,
+# noindex only tells search engines to skip indexing; users + monitor still
+# get a 200).
 FLAT_TRILINGUAL_SAMPLE = [
+    # countries (1 slug × 3 langs sample)
     "/countries/portugal-en.html",
     "/countries/portugal-fr.html",
     "/countries/portugal-es.html",
+    # chronicles villes (1 slug × 3 langs sample)
     "/chronicles/villes/chronicle-bali-indonesia-en.html",
     "/chronicles/villes/chronicle-bali-indonesia-fr.html",
     "/chronicles/villes/chronicle-bali-indonesia-es.html",
+    # chronicles thématiques (1 sample)
     "/chronicles/chronicle-digital-nomad-visas-2026-en.html",
-    "/lp/vivre-bali-budget-fr.html",
+    # compare/static (1 sample)
     "/compare/static/portugal-vs-spain/",
+    # LP — Sprint X full trilingual coverage (3 slugs × 3 langs)
+    "/lp/vivre-bali-budget-en.html",
+    "/lp/vivre-bali-budget-fr.html",
+    "/lp/vivre-bali-budget-es.html",
+    "/lp/visa-mm2h-malaisie-en.html",
+    "/lp/visa-mm2h-malaisie-fr.html",
+    "/lp/visa-mm2h-malaisie-es.html",
+    "/lp/erasmus-prague-budget-en.html",
+    "/lp/erasmus-prague-budget-fr.html",
+    "/lp/erasmus-prague-budget-es.html",
+    # Lead-magnet — Sprint X full trilingual coverage
+    "/lead-magnet/visas-2026-en.html",
+    "/lead-magnet/visas-2026-fr.html",
+    "/lead-magnet/visas-2026-es.html",
 ]
 
 # Misc resources
