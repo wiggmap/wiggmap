@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WiggMap — See the data come alive across 160 countries</title>
+<meta name="description" content="A live dashboard of how life actually compares — three countries side by side, rotating, in real time. Click anywhere on the map to jump in.">
+<meta name="theme-color" content="#0d1017">
+<link rel="icon" href="/assets/favicon.ico">
+<link rel="stylesheet" href="/assets/wm-tokens.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700&family=JetBrains+Mono:wght@400;500;700&family=Instrument+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- Inline world map SVG (lo-fi country outlines, 119KB) — chosen over Mapbox so the
+     prototype is self-contained and loads in under 200ms. Source: simplified Natural
+     Earth via d3-geo. The simplemaps.com style. -->
+
+<style>
+  :root {
+    /* Linear/Vercel-grade dashboard dark */
+    --bg: #0a0d12;
+    --bg-2: #11151c;
+    --bg-3: #181d27;
+    --surface: #1c2230;
+    --line: rgba(255,255,255,0.06);
+    --line-strong: rgba(255,255,255,0.12);
+    --paper: #ece6d2;          /* charter cream — used for text on dark */
+    --text: #e6e9ef;
+    --text-muted: #8a92a3;
+    --text-faint: #555c6b;
+    --green: #1a5430;
+    --green-bright: #2bb56a;
+    --green-glow: rgba(43, 181, 106, 0.5);
+    --amber: #f7b955;
+    --pink: #e95685;
+    --blue: #6c8eff;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Subtle grid backdrop, à la Linear */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, #000 0%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, #000 0%, transparent 100%);
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background:
+      radial-gradient(circle at 18% 28%, rgba(43, 181, 106, 0.10) 0%, transparent 35%),
+      radial-gradient(circle at 82% 78%, rgba(108, 142, 255, 0.06) 0%, transparent 40%);
+  }
+
+  /* ──────── HERO TOP STRIP ──────── */
+  .top {
+    position: relative;
+    z-index: 2;
+    padding: 36px 56px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+  }
+  .pre-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .pre-title::before {
+    content: ''; width: 8px; height: 8px; background: var(--green-bright);
+    border-radius: 999px; box-shadow: 0 0 12px var(--green-glow);
+    animation: blip 1.4s ease-in-out infinite;
+  }
+  @keyframes blip {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .top-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 0.06em;
+  }
+
+  /* ──────── HERO TITLE ──────── */
+  .hero {
+    position: relative;
+    z-index: 2;
+    padding: 36px 56px 28px;
+    max-width: 100%;
+  }
+  .hero h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(40px, 5.5vw, 78px);
+    line-height: 1;
+    letter-spacing: -0.035em;
+    color: var(--text);
+    max-width: 22ch;
+    font-variation-settings: "opsz" 144;
+  }
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 700;
+    color: var(--green-bright);
+    background: linear-gradient(180deg, var(--green-bright) 0%, #1ea054 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero p {
+    margin-top: 20px;
+    font-size: 16px;
+    color: var(--text-muted);
+    max-width: 56ch;
+    line-height: 1.55;
+  }
+
+  /* ──────── DASHBOARD STAGE ──────── */
+  .stage {
+    position: relative;
+    z-index: 2;
+    padding: 28px 56px 56px;
+  }
+  .stage-frame {
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    min-height: 580px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(43, 181, 106, 0.05);
+  }
+
+  /* MAP PANEL */
+  .map-panel {
+    position: relative;
+    background:
+      radial-gradient(ellipse at 30% 40%, rgba(43, 181, 106, 0.08) 0%, transparent 50%),
+      var(--bg-3);
+    border-right: 1px solid var(--line);
+    overflow: hidden;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+  }
+  .map-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .map-head .dot { width: 7px; height: 7px; background: var(--green-bright); border-radius: 999px; box-shadow: 0 0 8px var(--green-glow); }
+  .map-head h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  .map-svg-wrap {
+    flex: 1;
+    position: relative;
+    min-height: 0;
+  }
+  .map-svg-wrap svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .map-svg-wrap svg .country {
+    fill: rgba(255,255,255,0.04);
+    stroke: rgba(255,255,255,0.08);
+    stroke-width: 0.4;
+    transition: fill 0.4s, stroke 0.3s, filter 0.4s;
+    cursor: pointer;
+  }
+  .map-svg-wrap svg .country:hover {
+    fill: rgba(43, 181, 106, 0.4);
+    stroke: var(--green-bright);
+  }
+  .map-svg-wrap svg .country.active {
+    fill: var(--green-bright);
+    stroke: #fff;
+    stroke-width: 0.8;
+    filter: drop-shadow(0 0 12px var(--green-glow));
+  }
+  .map-marker {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .map-marker-dot {
+    width: 12px; height: 12px;
+    background: var(--green-bright);
+    border-radius: 999px;
+    border: 2px solid var(--bg-3);
+    box-shadow: 0 0 0 4px rgba(43, 181, 106, 0.2), 0 0 24px var(--green-glow);
+    animation: ping 1.6s ease-in-out infinite;
+  }
+  @keyframes ping {
+    0% { box-shadow: 0 0 0 0 rgba(43, 181, 106, 0.5), 0 0 24px var(--green-glow); }
+    100% { box-shadow: 0 0 0 24px transparent, 0 0 24px var(--green-glow); }
+  }
+  .map-legend {
+    position: absolute;
+    bottom: 18px; left: 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--text-faint);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .map-legend .swatch { width: 8px; height: 8px; background: var(--green-bright); border-radius: 999px; box-shadow: 0 0 8px var(--green-glow); }
+
+  /* DATA PANEL */
+  .data-panel {
+    background: var(--bg-2);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .data-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    gap: 12px;
+  }
+  .data-head h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 500;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .data-head h3 .dot { width: 7px; height: 7px; background: var(--green-bright); border-radius: 999px; box-shadow: 0 0 8px var(--green-glow); }
+  .data-pause {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--text-faint);
+    border: 1px solid var(--line-strong);
+    background: var(--surface);
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .data-pause:hover { color: var(--text); border-color: var(--green-bright); }
+
+  .data-cards {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 0;
+  }
+  .data-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 18px 20px;
+    transition: border-color 0.4s, transform 0.4s, opacity 0.4s;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 0;
+  }
+  .data-card.entering {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  .data-card.active { border-color: rgba(43, 181, 106, 0.4); box-shadow: 0 0 0 1px rgba(43, 181, 106, 0.2); }
+
+  .dc-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .dc-head-left { display: flex; align-items: baseline; gap: 10px; }
+  .dc-flag { font-size: 24px; line-height: 1; }
+  .dc-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 24px;
+    color: var(--text);
+    letter-spacing: -0.015em;
+    line-height: 1;
+    font-variation-settings: "opsz" 100;
+  }
+  .dc-rank {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--text-faint);
+    text-transform: uppercase;
+  }
+
+  .dc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .dc-stat {
+    border-left: 2px solid var(--line);
+    padding-left: 12px;
+  }
+  .dc-stat.highlight { border-left-color: var(--green-bright); }
+  .dc-stat-lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 4px;
+  }
+  .dc-stat-val {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--text);
+    line-height: 1;
+    font-variation-settings: "opsz" 100;
+  }
+  .dc-stat-val.green { color: var(--green-bright); }
+  .dc-stat-val.amber { color: var(--amber); }
+  .dc-stat-val.pink { color: var(--pink); }
+
+  .data-foot {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .data-foot-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.06em;
+  }
+  .data-foot-cta {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 12px;
+    color: var(--green-bright);
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap 0.2s;
+  }
+  .data-foot-cta:hover { gap: 10px; }
+
+  /* ──────── BELOW-DASHBOARD CTA STRIP ──────── */
+  .actions-strip {
+    position: relative;
+    z-index: 2;
+    padding: 0 56px 80px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .action-tile {
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 24px 26px;
+    text-decoration: none;
+    color: var(--text);
+    transition: border-color 0.2s, transform 0.2s, background 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .action-tile:hover { border-color: rgba(43, 181, 106, 0.4); transform: translateY(-2px); background: var(--bg-3); }
+  .action-tile-kbd {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .action-tile-kbd kbd {
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-family: inherit;
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-right: 4px;
+  }
+  .action-tile-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--text);
+    letter-spacing: -0.015em;
+    font-variation-settings: "opsz" 100;
+  }
+  .action-tile-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+  .action-tile-arrow {
+    margin-top: auto;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 12px;
+    color: var(--green-bright);
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* ──────── RESPONSIVE ──────── */
+  @media (max-width: 1100px) {
+    .stage-frame { grid-template-columns: 1fr; min-height: auto; }
+    .map-panel { min-height: 400px; border-right: 0; border-bottom: 1px solid var(--line); }
+  }
+  @media (max-width: 720px) {
+    .top { padding: 24px 20px 0; flex-direction: column; align-items: flex-start; gap: 8px; }
+    .hero { padding: 28px 20px 20px; }
+    .stage { padding: 20px 16px 32px; }
+    .actions-strip { padding: 0 16px 50px; grid-template-columns: 1fr; }
+    .dc-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* skip-link */
+  .wm-skip{position:absolute;left:-9999px;top:0;background:var(--green-bright);color:var(--bg);padding:10px 18px;font-family:'Instrument Sans',sans-serif;font-size:13px;font-weight:600;z-index:100000;border-radius:0 0 8px 0;text-decoration:none}
+  .wm-skip:focus{left:0;outline:2px solid var(--paper);outline-offset:-4px}
+</style>
+</head>
+<body>
+<a class="wm-skip" href="#wm-main">Skip to content</a>
+<div id="siteHeader"></div>
+<script src="/data/header.js"></script>
+<a id="wm-main" tabindex="-1"></a>
+
+<div class="top">
+  <span class="pre-title">Live · 160 countries · auto-refresh 5s</span>
+  <span class="top-meta">v.2026.05 · streaming public-data benchmark</span>
+</div>
+
+<section class="hero">
+  <h1>See the data <em>come alive.</em></h1>
+  <p>
+    Three countries. One dashboard. Watch how the world actually compares —
+    not in a static table, but live, rotating, every five seconds.
+    Click a marker on the map to lock the view.
+  </p>
+</section>
+
+<section class="stage">
+  <div class="stage-frame">
+    <!-- MAP PANEL -->
+    <div class="map-panel">
+      <div class="map-head"><span class="dot"></span><h3>Map · Active comparison</h3></div>
+      <div class="map-svg-wrap" id="mapWrap">
+        <!-- Lo-fi continent silhouettes via SVG path. We're not aiming for cartographic
+             accuracy in the prototype — just shapes that read as 'a world map' in the
+             dashboard frame. The marker dots are positioned absolutely on top using
+             percentage coords (computed from approx lat/lng). -->
+        <svg viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet" aria-label="World map silhouette">
+          <!-- Simplified continent blobs — gentle, abstract, dashboard-feel rather than geographic. -->
+          <g>
+            <!-- North America -->
+            <path class="country" d="M 80 80 Q 120 60 180 70 Q 240 80 280 110 Q 290 160 250 200 Q 220 230 180 220 Q 150 240 120 220 Q 90 200 80 160 Q 70 120 80 80 Z"/>
+            <!-- South America -->
+            <path class="country" d="M 240 240 Q 280 230 310 260 Q 320 320 290 380 Q 270 420 250 410 Q 230 400 230 360 Q 220 300 240 240 Z"/>
+            <!-- Europe -->
+            <path class="country" d="M 460 90 Q 510 80 550 100 Q 580 130 560 160 Q 530 175 490 165 Q 460 145 460 110 Q 455 95 460 90 Z"/>
+            <!-- Africa -->
+            <path class="country" d="M 470 200 Q 520 195 555 215 Q 580 250 575 320 Q 555 380 510 390 Q 470 380 460 320 Q 455 260 470 200 Z"/>
+            <!-- Asia -->
+            <path class="country" d="M 580 90 Q 660 75 760 95 Q 820 120 830 170 Q 820 220 770 230 Q 700 235 640 220 Q 595 195 585 150 Q 580 115 580 90 Z"/>
+            <!-- South-East Asia / Indonesia -->
+            <path class="country" d="M 760 240 Q 800 245 830 265 Q 825 285 790 290 Q 760 285 750 265 Q 750 250 760 240 Z"/>
+            <!-- Australia -->
+            <path class="country" d="M 800 320 Q 850 315 890 335 Q 905 360 880 380 Q 840 390 810 380 Q 790 365 795 345 Q 795 325 800 320 Z"/>
+          </g>
+        </svg>
+        <!-- Active markers (positioned via JS) -->
+        <div class="map-marker" id="m0" style="left:30%;top:40%;"><div class="map-marker-dot"></div></div>
+        <div class="map-marker" id="m1" style="left:55%;top:32%;"><div class="map-marker-dot"></div></div>
+        <div class="map-marker" id="m2" style="left:78%;top:38%;"><div class="map-marker-dot"></div></div>
+      </div>
+      <div class="map-legend"><span class="swatch"></span><span>Currently in view</span></div>
+    </div>
+
+    <!-- DATA PANEL -->
+    <div class="data-panel">
+      <div class="data-head">
+        <h3><span class="dot"></span>Live comparison</h3>
+        <button class="data-pause" id="pauseBtn" type="button">⏸ pause</button>
+      </div>
+      <div class="data-cards" id="dataCards"></div>
+      <div class="data-foot">
+        <span class="data-foot-meta" id="dataFootMeta">Set #1 of 4 · next in 5.0s</span>
+        <a href="/compare.html" class="data-foot-cta">Build your own comparison →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<nav class="actions-strip" aria-label="Quick navigation">
+  <a class="action-tile" href="/wiggmatch.html">
+    <span class="action-tile-kbd"><kbd>1</kbd> 8 questions</span>
+    <span class="action-tile-title">Find your match</span>
+    <span class="action-tile-desc">A short quiz that surfaces the cities most aligned with your real profile.</span>
+    <span class="action-tile-arrow">Take WiggMatch →</span>
+  </a>
+  <a class="action-tile" href="/globe.html">
+    <span class="action-tile-kbd"><kbd>2</kbd> 3D · explore</span>
+    <span class="action-tile-title">Spin the globe</span>
+    <span class="action-tile-desc">160+ countries on a planet you can rotate. Click anywhere to dive in.</span>
+    <span class="action-tile-arrow">Open the globe →</span>
+  </a>
+  <a class="action-tile" href="/indexchronicles.html">
+    <span class="action-tile-kbd"><kbd>3</kbd> 303 articles</span>
+    <span class="action-tile-title">Read the chronicles</span>
+    <span class="action-tile-desc">Long-form on visas, cost of living, the weird truths of life abroad.</span>
+    <span class="action-tile-arrow">Browse all →</span>
+  </a>
+</nav>
+
+<div id="siteFooter"></div>
+<script src="/data/footer.js"></script>
+
+<script>
+/* ─────────────────────────────────────────────────────────
+   Live comparison rotation
+   ───────────────────────────────────────────────────────── */
+(function () {
+  const SETS = [
+    {
+      name: 'Affordable + warm',
+      countries: [
+        { flag:'🇵🇹', name:'Portugal',  rent:'€560', salary:'€1.4k', sun:'2800h', visa:'D7',     marker:[48,42], slug:'portugal' },
+        { flag:'🇲🇽', name:'Mexico',    rent:'$450', salary:'$600',  sun:'2500h', visa:'DN',     marker:[20,46], slug:'mexico' },
+        { flag:'🇹🇭', name:'Thailand',  rent:'$480', salary:'$700',  sun:'2400h', visa:'LTR',    marker:[75,48], slug:'thailand' },
+      ]
+    },
+    {
+      name: 'Career hubs',
+      countries: [
+        { flag:'🇩🇪', name:'Germany',   rent:'€820', salary:'€3.2k', sun:'1700h', visa:'EU Blue',marker:[51,30], slug:'germany' },
+        { flag:'🇸🇬', name:'Singapore', rent:'$1800',salary:'$4.5k', sun:'2200h', visa:'EP',     marker:[80,52], slug:'singapore' },
+        { flag:'🇦🇪', name:'UAE',       rent:'$1100',salary:'$3.8k', sun:'3500h', visa:'Golden', marker:[64,44], slug:'united-arab-emirates' },
+      ]
+    },
+    {
+      name: 'Quiet + temperate',
+      countries: [
+        { flag:'🇳🇿', name:'New Zealand', rent:'$1100',salary:'$3.2k', sun:'2100h', visa:'Skill',  marker:[91,82], slug:'new-zealand' },
+        { flag:'🇨🇦', name:'Canada',    rent:'$1200',salary:'$4.0k', sun:'2000h', visa:'Express',marker:[18,28], slug:'canada' },
+        { flag:'🇮🇪', name:'Ireland',   rent:'€1300',salary:'€3.4k', sun:'1500h', visa:'Critical',marker:[47,28], slug:'ireland' },
+      ]
+    },
+    {
+      name: 'South-Atlantic value',
+      countries: [
+        { flag:'🇦🇷', name:'Argentina', rent:'$380', salary:'$700',  sun:'2500h', visa:'Rentista',marker:[27,76], slug:'argentina' },
+        { flag:'🇨🇴', name:'Colombia',  rent:'$350', salary:'$520',  sun:'2200h', visa:'M-visa',  marker:[24,55], slug:'colombia' },
+        { flag:'🇧🇷', name:'Brazil',    rent:'$420', salary:'$650',  sun:'2700h', visa:'VITEM',   marker:[31,65], slug:'brazil' },
+      ]
+    }
+  ];
+
+  const cardsEl = document.getElementById('dataCards');
+  const footMeta = document.getElementById('dataFootMeta');
+  const pauseBtn = document.getElementById('pauseBtn');
+  const markers = [document.getElementById('m0'), document.getElementById('m1'), document.getElementById('m2')];
+
+  let currentSetIdx = 0;
+  let paused = false;
+  const ROTATE_MS = 5000;
+
+  function buildCard(c, isActive) {
+    return `
+      <div class="data-card ${isActive ? 'active' : ''}" data-slug="${c.slug}">
+        <div class="dc-head">
+          <div class="dc-head-left">
+            <span class="dc-flag">${c.flag}</span>
+            <span class="dc-name">${c.name}</span>
+          </div>
+          <span class="dc-rank">${c.visa}</span>
+        </div>
+        <div class="dc-grid">
+          <div class="dc-stat highlight">
+            <div class="dc-stat-lbl">Studio rent</div>
+            <div class="dc-stat-val green">${c.rent}<span style="font-size:11px;color:var(--text-faint);font-weight:400;font-family:'JetBrains Mono';margin-left:3px">/mo</span></div>
+          </div>
+          <div class="dc-stat">
+            <div class="dc-stat-lbl">Avg salary</div>
+            <div class="dc-stat-val">${c.salary}<span style="font-size:11px;color:var(--text-faint);font-weight:400;font-family:'JetBrains Mono';margin-left:3px">/mo</span></div>
+          </div>
+          <div class="dc-stat">
+            <div class="dc-stat-lbl">Sun hours</div>
+            <div class="dc-stat-val amber">${c.sun}<span style="font-size:11px;color:var(--text-faint);font-weight:400;font-family:'JetBrains Mono';margin-left:3px">/yr</span></div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function render(setIdx) {
+    const set = SETS[setIdx];
+    cardsEl.innerHTML = set.countries.map((c, i) => buildCard(c, i === 0)).join('');
+    // Position markers
+    set.countries.forEach((c, i) => {
+      if (markers[i]) {
+        markers[i].style.left = c.marker[0] + '%';
+        markers[i].style.top = c.marker[1] + '%';
+      }
+    });
+    // Animate cards in
+    cardsEl.querySelectorAll('.data-card').forEach((el, i) => {
+      el.classList.add('entering');
+      setTimeout(() => el.classList.remove('entering'), 50 + i * 80);
+    });
+    // Click handler — navigate to country page
+    cardsEl.querySelectorAll('.data-card').forEach(el => {
+      el.style.cursor = 'pointer';
+      el.addEventListener('click', () => {
+        window.location.href = `/countries/${el.dataset.slug}-en.html`;
+      });
+    });
+  }
+
+  let countdown = ROTATE_MS / 1000;
+  function tickCountdown() {
+    if (paused) return;
+    countdown -= 0.1;
+    if (countdown <= 0) {
+      currentSetIdx = (currentSetIdx + 1) % SETS.length;
+      render(currentSetIdx);
+      countdown = ROTATE_MS / 1000;
+    }
+    footMeta.textContent = `Set #${currentSetIdx + 1} of ${SETS.length} · next in ${countdown.toFixed(1)}s · ${SETS[currentSetIdx].name}`;
+  }
+
+  pauseBtn.addEventListener('click', () => {
+    paused = !paused;
+    pauseBtn.textContent = paused ? '▶ resume' : '⏸ pause';
+  });
+
+  render(0);
+  setInterval(tickCountdown, 100);
+
+  // Keyboard accessibility for the action tiles (1, 2, 3 jump to wiggmatch / globe / chronicles)
+  document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === '1') window.location.href = '/wiggmatch.html';
+    if (e.key === '2') window.location.href = '/globe.html';
+    if (e.key === '3') window.location.href = '/indexchronicles.html';
+  });
+})();
+</script>
+</body>
+</html>
