@@ -1,0 +1,147 @@
+/*
+ * WiggMap — Design Tokens (Sprint Y)
+ * Source de vérité unique. Importer via:
+ *   <link rel="stylesheet" href="/assets/wm-tokens.css">
+ *
+ * Decisions arbitrated (cf. SPRINT_Y_PLAN.md §4):
+ *   D1 cream:        c — #f5f0e8 base + gradient #f9f5ed → #f3ede3
+ *   D2 font UI:      c — Inter canonical, Instrument Sans only on wiggmatch (legacy)
+ *   D3 Poppins:      a — purge → Inter
+ *   D4 CTA bright:   a — keep #22c55e (Tailwind green-500) as --cta-bright
+ *   D5 compare:      b — defer to Sprint Y' (compare/static palette stays off-charter for now)
+ *   D6 Source Serif: c — preserve as --font-chronicle-body for editorial long-form
+ *   D7 regen script: c — scripts/migrate_country_to_tokens.py (idempotent)
+ *   D8 PRs:          b — six distinct PRs (Y.1…Y.6)
+ *
+ * Chronicles villes intentionally use per-city accent palettes (memory:
+ * city-chronicles-format.md). They override --green locally via :root scoped
+ * vars — DO NOT homogenise these. data-category-color attribute on the
+ * theme-color meta tag marks the convention.
+ */
+
+:root {
+  /* ─── BRAND COLORS ──────────────────────────────────────────── */
+  --green: #1a5430;            /* Forest charter — couleur brand canonical */
+  --green-dark: #155f36;       /* Forest hover / state actif */
+  --green-light: #d4e8d0;      /* Forest tint — backgrounds doux */
+  --green-tint: rgba(26, 84, 48, 0.08);  /* Forest 8% — pseudo-décoratif */
+
+  /* CTA bright — D4 officialise #22c55e Tailwind green-500 comme couleur CTA */
+  --cta-bright: #22c55e;       /* Vert vif — CTA principaux (newsletter, quiz) */
+  --cta-bright-hover: #16a34a; /* Hover du CTA bright */
+  --ink-on-cta: #0a1f10;       /* Texte foncé sur fond CTA bright */
+
+  /* Status semantic */
+  --warn: #d97706;
+  --warn-bg: #fef9e7;
+  --warn-border: rgba(217, 119, 6, 0.25);
+  --error: #dc2626;
+  --success: #1a5430;
+
+  /* ─── SURFACES (cream / paper) ──────────────────────────────── */
+  --bg: #f5f0e8;               /* Cream body canonical (D1 décision c) */
+  --bg-grad-start: #f9f5ed;    /* Gradient start (country pages, indexchronicles) */
+  --bg-grad-end: #f3ede3;      /* Gradient end */
+  --paper: #fffdf8;            /* Cards niveau 1 (canonical, 551 occurrences) */
+  --paper-2: #fbf7ee;          /* Cards niveau 2 — accent légèrement plus chaud */
+  --rule: #c8bfaa;             /* Borders neutrals */
+  --rule-soft: rgba(23, 23, 20, 0.08);
+  --line: rgba(23, 23, 20, 0.10);
+
+  /* ─── INK (text) ────────────────────────────────────────────── */
+  --ink: #171714;              /* Primary text */
+  --ink-soft: #54554e;         /* Secondary text */
+  --ink-muted: #8a7f6a;        /* Tertiary / hints */
+  --ink-ghost: #b0a898;        /* Disabled / placeholders */
+  --ink-dark: #0f1117;         /* Surfaces sombres (chronicles hero, wiggmatch) */
+  --ink-darker: #1c1710;       /* Newsletter footer dark */
+
+  /* ─── FONTS (D2 + D3 + D6) ──────────────────────────────────── */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-ui: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  --font-brand-italic: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  --font-chronicle-body: 'Source Serif 4', 'Source Serif Pro', Georgia, serif;
+  /* Note D2: Wiggmatch uses Instrument Sans as a documented exception.
+     City chronicles can override --font-display locally per-city (memory:
+     city-chronicles-format.md). Do not enforce homogeneity there. */
+
+  /* ─── SPACING (T-shirt) ─────────────────────────────────────── */
+  --space-1: 4px;   --space-2: 8px;   --space-3: 12px;  --space-4: 16px;
+  --space-5: 20px;  --space-6: 24px;  --space-8: 32px;  --space-10: 40px;
+  --space-12: 48px; --space-16: 64px;
+
+  /* ─── RADII ─────────────────────────────────────────────────── */
+  --radius-xs: 2px;            /* Style Sprint 1 boutons + cards */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  /* ─── SHADOWS ───────────────────────────────────────────────── */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 6px 24px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 34px rgba(25, 20, 12, 0.06);
+  --shadow-cta: 0 2px 8px rgba(34, 197, 94, 0.35);
+
+  /* ─── Z-INDEX ───────────────────────────────────────────────── */
+  --z-skip-link: 100000;
+  --z-header: 9999;
+  --z-modal: 10001;
+  --z-toast: 11000;
+}
+
+/* ─── Category-color convention (Sprint 1 a749c8e + Sprint Y) ────
+ *  Pages déclarent leur couleur catégorielle via:
+ *    <meta name="theme-color" content="#X" data-category-color="Y">
+ *
+ *  Catégories officielles:
+ *    family    → #d7731d (orange chaleureux, Sprint 1 a749c8e)
+ *    horizons  → #7d55d8 (violet exploration, Sprint 1 a749c8e)
+ *    villes    → #1a5430 (charter forest, index général)
+ *    dest      → #1a5430
+ *    visas     → #1a5430
+ *    city-*    → palette per-city (memory:city-chronicles-format.md)
+ *
+ *  Aucune variable CSS n'est générée auto pour les couleurs catégorielles.
+ *  Les pages catégorielles declarent leurs propres :root scoped vars si besoin. */
+
+/* ─── Skip-link (Sprint 1 Lot 5 + Sprint Y formalisation) ────── */
+.wm-skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--green);
+  color: #fff;
+  padding: 10px 18px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 600;
+  z-index: var(--z-skip-link);
+  border-radius: 0 0 var(--radius-sm) 0;
+  text-decoration: none;
+}
+.wm-skip:focus {
+  left: 0;
+  outline: 2px solid #fff;
+  outline-offset: -4px;
+}
+
+/* ─── Untranslated banner (Sprint 2 D4/D5) ───────────────────── */
+.wm-untranslated-banner {
+  background: #fff7e6;
+  border-bottom: 2px solid var(--warn);
+  padding: 10px 18px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: #7a4f10;
+  text-align: center;
+}
+.wm-untranslated-banner p { margin: 0; }
+.wm-untranslated-banner a {
+  color: var(--green);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* ─── Print: tokens.css est chargé inline en cas de fallback offline.
+ *  Aucune règle d'override print ici — les pages individuelles gèrent. */
