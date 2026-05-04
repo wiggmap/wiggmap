@@ -45,11 +45,12 @@ def transform(src: str) -> str:
     """Apply all transforms. Idempotent."""
     out = src
 
-    # 1. Inject <link rel=stylesheet> after <meta charset> (idempotent guard)
+    # 1. Inject <link rel=stylesheet> after <meta charset> (idempotent guard).
+    # Pattern works with both newline-separated and same-line meta tags.
     if "wm-tokens.css" not in out:
         out = re.sub(
-            r'(<meta\s+charset[^>]*/?>\s*\n)',
-            r'\1' + TOKENS_LINK + '\n',
+            r'(<meta\s+charset[^>]*/?>)',
+            r'\1\n' + TOKENS_LINK,
             out,
             count=1,
         )
