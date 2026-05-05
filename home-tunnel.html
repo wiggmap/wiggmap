@@ -121,6 +121,54 @@
   }
 
   /* ════════════════════════════════════════════════════════════
+     INTRO HERO — appears once the loader fades, presents the full
+     question "Where is the grass actually greener?" in cascade,
+     then dissolves into the tunnel.
+     ════════════════════════════════════════════════════════════ */
+  .intro-hero {
+    position: fixed;
+    inset: 0;
+    z-index: 9500;
+    background: var(--void);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 8vw;
+    pointer-events: none;
+    transition: opacity 0.9s var(--ease-power);
+  }
+  .intro-hero.gone { opacity: 0; }
+  .intro-hero h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(72px, 13vw, 220px);
+    line-height: 0.92;
+    letter-spacing: -0.045em;
+    color: var(--cream);
+    text-transform: uppercase;
+    text-align: left;
+    font-variation-settings: "opsz" 144;
+    max-width: 100%;
+  }
+  .intro-hero .line {
+    display: block;
+    overflow: hidden;
+    padding: 0 0 0.06em;
+  }
+  .intro-hero .word {
+    display: inline-block;
+    transform: translateY(110%);
+    transition: transform 0.85s var(--ease-power);
+    will-change: transform;
+  }
+  .intro-hero .word.in { transform: translateY(0); }
+  .intro-hero .word.brick { color: var(--brick); }
+  .intro-hero .row-2 { padding-left: 6vw; }
+  .intro-hero .row-3 { padding-left: 12vw; }
+  .intro-hero .row-4 { padding-left: 4vw; }
+
+  /* ════════════════════════════════════════════════════════════
      HEADER — transparent then black after 50vh
      ════════════════════════════════════════════════════════════ */
   #siteHeader {
@@ -155,12 +203,18 @@
     will-change: transform;
     transform: translateZ(0);
   }
+  /* All layers share the same base transform.
+     --z is set in JS from data-z (single source of truth — avoids any
+     CSS cascade ambiguity between .layer and .layer-* modifiers).
+     --shift-x / --shift-y let individual layers nudge in screen space. */
   .layer {
     position: absolute;
     top: 50%;
     left: 50%;
     width: 100vw;
-    transform: translate(-50%, -50%) translateZ(var(--z, 0));
+    transform:
+      translate(-50%, -50%)
+      translate3d(var(--shift-x, 0px), var(--shift-y, 0px), var(--z, 0px));
     will-change: opacity, transform;
     backface-visibility: hidden;
     opacity: 0;
@@ -170,7 +224,6 @@
 
   /* Layer 1 — intro */
   .layer-intro {
-    --z: 0px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -228,10 +281,12 @@
   }
   .layer-text.brick { color: var(--brick); }
 
-  .layer-where  { --z: -800px;  font-size: clamp(120px, 18vw, 280px); }
-  .layer-grass  { --z: -1600px; font-size: clamp(160px, 26vw, 400px); transform: translate(-50%, -50%) translateZ(var(--z)) translateX(-6vw); }
-  .layer-actually { --z: -3200px; font-size: clamp(160px, 22vw, 360px); }
-  .layer-greener  { --z: -4800px; font-size: clamp(180px, 28vw, 480px); }
+  /* Title-layer sizes only. Z values come from data-z (set on each
+     <div class="layer"> in HTML, applied via JS into --z). */
+  .layer-where    { font-size: clamp(120px, 18vw, 280px); }
+  .layer-grass    { font-size: clamp(160px, 26vw, 400px); --shift-x: -6vw; }
+  .layer-actually { font-size: clamp(160px, 22vw, 360px); }
+  .layer-greener  { font-size: clamp(180px, 28vw, 480px); }
   .layer-greener .qmark {
     display: inline-block;
     font-size: 1.35em;
@@ -239,22 +294,23 @@
     color: var(--brick);
   }
 
-  /* Photo layers */
+  /* Photo layers — preserve-3d so each polaroid keeps its own Z depth
+     within the set, giving intra-layer parallax instead of a flat group. */
   .layer-photos {
-    width: 100vw; height: 100vh;
+    width: 100vw;
+    height: 100vh;
     pointer-events: none;
-  }
-  .layer-photos.set-1 { --z: -2400px; }
-  .layer-photos.set-2 { --z: -4000px; }
-  .layer-photos {
-    transform: translate(-50%, -50%) translateZ(var(--z));
+    transform-style: preserve-3d;
   }
   .polaroid {
     position: absolute;
-    width: 360px;
-    height: 460px;
+    top: 50%;
+    left: 50%;
+    width: 320px;
+    height: 410px;
+    margin: -205px 0 0 -160px; /* center anchor */
     background: var(--cream);
-    padding: 14px 14px 64px;
+    padding: 14px 14px 60px;
     box-shadow: 0 30px 80px rgba(0,0,0,0.55), 0 4px 12px rgba(0,0,0,0.4);
     backface-visibility: hidden;
   }
@@ -266,7 +322,7 @@
   }
   .polaroid .caption {
     position: absolute;
-    left: 0; right: 0; bottom: 18px;
+    left: 0; right: 0; bottom: 16px;
     text-align: center;
     font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
@@ -274,18 +330,18 @@
     text-transform: uppercase;
     color: rgba(20,20,20,0.7);
   }
-  /* Set 1 placement */
-  .polaroid.lisbonne  { top: calc(50% - 200px - 230px); left: calc(50% - 300px - 180px); transform: rotate(-3deg); }
-  .polaroid.tokyo     { top: calc(50% + 100px - 230px); left: calc(50% + 400px - 180px); transform: rotate(5deg); }
-  .polaroid.reykjavik { top: calc(50% + 300px - 230px); left: calc(50% - 200px - 180px); transform: rotate(-2deg); }
-  /* Set 2 placement */
-  .polaroid.bali        { top: calc(50% - 240px - 230px); left: calc(50% + 280px - 180px); transform: rotate(4deg); }
-  .polaroid.mexicocity  { top: calc(50% + 60px - 230px);  left: calc(50% - 380px - 180px); transform: rotate(-5deg); }
-  .polaroid.stockholm   { top: calc(50% + 280px - 230px); left: calc(50% + 200px - 180px); transform: rotate(2deg); }
+  /* Set 1 — translate3d(X, Y, Z) rotate. Z varies for intra-set depth.
+     Top-row photos sit closer (+Z), bottom-back deeper (-Z). */
+  .polaroid.lisbonne  { transform: translate3d(-440px, -160px,  220px) rotate(-3deg); }
+  .polaroid.tokyo     { transform: translate3d( 380px,  -10px,    0px) rotate( 5deg); }
+  .polaroid.reykjavik { transform: translate3d( -60px,  280px, -340px) rotate(-2deg); }
+  /* Set 2 — mirror the composition for variety */
+  .polaroid.bali        { transform: translate3d( 400px, -200px,  180px) rotate( 4deg); }
+  .polaroid.mexicocity  { transform: translate3d(-380px,   30px,    0px) rotate(-5deg); }
+  .polaroid.stockholm   { transform: translate3d(  80px,  290px, -360px) rotate( 2deg); }
 
   /* Final layer — "FIND YOURS." + CTA */
   .layer-final {
-    --z: -5600px;
     width: min(100vw, 1100px);
     display: flex;
     flex-direction: column;
@@ -385,7 +441,7 @@
      MOBILE FALLBACK — < 768px : stacked vertical, NO 3D
      ════════════════════════════════════════════════════════════ */
   @media (max-width: 768px) {
-    .stage, .progress { display: none; }
+    .stage, .progress, .intro-hero { display: none; }
     .scroll-spacer { display: none; }
     body { overflow-x: hidden; }
     .mobile-only { display: block; }
@@ -486,7 +542,7 @@
      PREFERS-REDUCED-MOTION — flatten everything to mobile stack
      ════════════════════════════════════════════════════════════ */
   @media (prefers-reduced-motion: reduce) {
-    .stage, .progress, .scroll-spacer { display: none !important; }
+    .stage, .progress, .scroll-spacer, .intro-hero { display: none !important; }
     .mobile-only { display: block !important; }
     .layer-intro .arrow { animation: none; }
     .loader { display: none !important; }
@@ -509,6 +565,16 @@
   </div>
 </div>
 
+<!-- Intro hero — full sentence, cascade reveal, then dissolves to tunnel -->
+<div class="intro-hero" id="introHero" aria-hidden="true">
+  <h1>
+    <span class="line row-1"><span class="word">Where</span> <span class="word">is</span> <span class="word">the</span></span>
+    <span class="line row-2"><span class="word brick">Grass</span></span>
+    <span class="line row-3"><span class="word">Actually</span></span>
+    <span class="line row-4"><span class="word brick">Greener?</span></span>
+  </h1>
+</div>
+
 <div id="siteHeader"></div>
 <script src="data/header.js"></script>
 <a id="wm-main" tabindex="-1"></a>
@@ -525,17 +591,17 @@
     </div>
 
     <!-- Layer 2 — WHERE IS THE -->
-    <div class="layer layer-text layer-where" data-z="-800">
+    <div class="layer layer-text layer-where" data-z="-700">
       Where is the
     </div>
 
     <!-- Layer 3 — GRASS (brick accent, off-center) -->
-    <div class="layer layer-text brick layer-grass" data-z="-1600">
+    <div class="layer layer-text brick layer-grass" data-z="-1500">
       Grass
     </div>
 
-    <!-- Layer 4 — Photos set 1 -->
-    <div class="layer layer-photos set-1" data-z="-2400">
+    <!-- Layer 4 — Photos set 1 (after GRASS — green/diverse cities) -->
+    <div class="layer layer-photos set-1" data-z="-2300">
       <figure class="polaroid lisbonne">
         <picture><source srcset="assetscity/lisbonne.webp" type="image/webp"><img src="assetscity/lisbonne.png" alt="Lisbonne" loading="lazy"></picture>
         <figcaption class="caption">Lisbonne · 38.7°N</figcaption>
@@ -550,13 +616,13 @@
       </figure>
     </div>
 
-    <!-- Layer 5 — ACTUALLY -->
-    <div class="layer layer-text layer-actually" data-z="-3200">
+    <!-- Layer 5 — ACTUALLY (long Z gap from prev for breathing room) -->
+    <div class="layer layer-text layer-actually" data-z="-3400">
       Actually
     </div>
 
-    <!-- Layer 6 — Photos set 2 -->
-    <div class="layer layer-photos set-2" data-z="-4000">
+    <!-- Layer 6 — Photos set 2 (geographic contrast: tropical / urban / nordic) -->
+    <div class="layer layer-photos set-2" data-z="-4200">
       <figure class="polaroid bali">
         <picture><source srcset="assetscity/bali.webp" type="image/webp"><img src="assetscity/bali.png" alt="Bali" loading="lazy"></picture>
         <figcaption class="caption">Bali · 8.4°S</figcaption>
@@ -572,12 +638,12 @@
     </div>
 
     <!-- Layer 7 — GREENER? -->
-    <div class="layer layer-text brick layer-greener" data-z="-4800">
+    <div class="layer layer-text brick layer-greener" data-z="-5000">
       Greener<span class="qmark">?</span>
     </div>
 
-    <!-- Layer 8 — Final / CTA -->
-    <div class="layer layer-final" data-z="-5600">
+    <!-- Layer 8 — Final / CTA (long final stretch — sense of arrival) -->
+    <div class="layer layer-final" data-z="-6000">
       <h2>Find <em>Yours.</em></h2>
       <a href="wiggmatch.html" class="cta">
         <span class="arr">→</span>Take the quiz
@@ -631,13 +697,18 @@ const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const IS_MOBILE = window.matchMedia('(max-width: 768px)').matches;
 
 /* ═══════════════════════════════════════════════════════════════
-   HARD FALLBACK — guarantees the loader is gone after 2.5s no matter
-   what else fails. Set up before anything else runs.
+   HARD FALLBACKS — guarantees the loader and intro-hero never trap
+   the user, no matter what else fails. Set up before anything else.
    ═══════════════════════════════════════════════════════════════ */
 setTimeout(() => {
   const l = document.getElementById('loader');
   if (l && !l.classList.contains('gone')) l.classList.add('gone');
 }, 2500);
+setTimeout(() => {
+  const h = document.getElementById('introHero');
+  if (h && !h.classList.contains('gone')) h.classList.add('gone');
+  document.documentElement.style.overflow = '';
+}, 8000);
 
 /* ═══════════════════════════════════════════════════════════════
    1. LOADER — split-flap "WIGGMAP", 1.5s then 0.6s fade
@@ -698,7 +769,7 @@ function initHeader() {
    3. THE TUNNEL — vanilla, no external deps.
       sceneZ is lerped toward target each frame for an inertial feel.
    ═══════════════════════════════════════════════════════════════ */
-const SCENE_TRAVEL = 5600;
+const SCENE_TRAVEL = 6000;
 const FADE_IN_FAR = -1500, FADE_IN_NEAR = -500;
 const FADE_OUT_NEAR = 100, FADE_OUT_FAR = 400;
 
@@ -729,6 +800,10 @@ function initTunnel(headerCheck) {
   const layers = [...scene.querySelectorAll('.layer')].map(el => ({
     el, z: parseFloat(el.dataset.z) || 0
   }));
+  // Apply each layer's Z directly via CSS custom property — single source
+  // of truth (data-z attribute), no cascade games with .layer-* modifiers.
+  layers.forEach(l => l.el.style.setProperty('--z', l.z + 'px'));
+
   const fillEl = document.getElementById('progressFill');
   const labelEl = document.getElementById('progressLabel');
 
@@ -773,9 +848,35 @@ function initTunnel(headerCheck) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
+   4. INTRO HERO — cascade reveal of the full sentence after the
+      loader fades, hold ~1.5s, then dissolve into the tunnel.
+   ═══════════════════════════════════════════════════════════════ */
+function runIntroHero() {
+  const hero = document.getElementById('introHero');
+  if (!hero) return;
+  if (REDUCED || IS_MOBILE) { hero.classList.add('gone'); return; }
+
+  const words = [...hero.querySelectorAll('.word')];
+  const REVEAL_DELAY = 2100;     // start once the loader is gone
+  const STEP = 150;              // stagger between words
+  const HOLD = 1500;             // hold the fully-revealed title
+  const TRANSITION_TAIL = 850;   // last word's transform duration
+
+  words.forEach((w, i) => {
+    setTimeout(() => w.classList.add('in'), REVEAL_DELAY + i * STEP);
+  });
+  const cascadeEnd = REVEAL_DELAY + words.length * STEP + TRANSITION_TAIL;
+  setTimeout(() => hero.classList.add('gone'), cascadeEnd + HOLD);
+  // Lock scrolling during the intro so the tunnel doesn't desync.
+  document.documentElement.style.overflow = 'hidden';
+  setTimeout(() => { document.documentElement.style.overflow = ''; }, cascadeEnd + HOLD + 900);
+}
+
+/* ═══════════════════════════════════════════════════════════════
    Boot
    ═══════════════════════════════════════════════════════════════ */
 runLoader();
+runIntroHero();
 const headerCheck = initHeader();
 window.addEventListener('scroll', () => { if (headerCheck) headerCheck(window.scrollY); }, { passive: true });
 initTunnel(headerCheck);
