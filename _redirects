@@ -19,7 +19,25 @@
 # Source of truth: see MIGRATION_PLAN.md §3 (Redirect Plan) and §1.1 (D4/D5).
 
 # ───── ROOT (default lang = EN) ─────
+# ───── Language-aware root redirect ─────
+# Detects the visitor's Accept-Language header and routes to /fr/, /es/ or /en/.
+# Order matters: Netlify takes the first matching rule. The 301 fallback at the
+# bottom handles every browser whose primary language isn't fr or es (English,
+# Italian, German, Japanese, etc. → /en/).
+#
+# These are 302 (not 301) for the language-conditional redirects: response
+# varies per request, so caching the redirect would route subsequent EN
+# visitors to /fr/ if a single FR visitor cached the redirect upstream.
+# The default fallback to /en/ stays 301 since it's deterministic.
+#
+# Googlebot crawls with Accept-Language: en-US by default → falls through to
+# /en/ (correct for the canonical). Hreflang on each lang-dir page tells Google
+# about the alternates (already in place since Sprint 2 #1).
+/                                /fr/                              302!  Language=fr
+/                                /es/                              302!  Language=es
 /                                /en/                              301!
+/index.html                      /fr/                              302!  Language=fr
+/index.html                      /es/                              302!  Language=es
 /index.html                      /en/                              301!
 
 # ───── EN-source pages → /en/ ─────
