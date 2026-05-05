@@ -1,0 +1,1630 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WiggMap — Where is the grass actually greener?</title>
+<meta name="description" content="A field guide to 160+ countries — salaries, rent, taxes, climate. The data, the chronicles, the question every restless mind eventually asks.">
+<meta name="theme-color" content="#1a5430">
+<link rel="icon" href="assets/favicon.ico">
+<link rel="stylesheet" href="assets/wm-tokens.css">
+
+<!-- LCP candidate: the cream paper texture is rendered via CSS, no critical image. -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,200;9..144,300;9..144,500;9..144,700;9..144,900;9..144,900,100&family=Instrument+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Lenis smooth scroll + GSAP + ScrollTrigger + SplitText (jsdelivr — already in CSP since Sprint Y) -->
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+<style>
+  /* ────────────────────────────────────────────────────────────
+     LOCAL TOKENS (extend wm-tokens.css with motion-specific vars)
+     ──────────────────────────────────────────────────────────── */
+  :root {
+    --cream: #ece6d2;
+    --cream-deep: #ddd2b6;
+    --cream-warm: #e8dec5;
+    --ink: #0a1410;
+    --ink-2: #1c2820;
+    --ink-soft: #424c43;
+    --paper: #fffdf8;
+
+    --green: #1a5430;
+    --green-bright: #2bb56a;
+    --green-glow: rgba(43, 181, 106, 0.35);
+
+    /* Country accent colors for the morphing word "greener" */
+    --c-portugal: #c83737;     /* Portuguese flag red, but punchier */
+    --c-japan:    #d04848;
+    --c-iceland:  #4a7fae;     /* glacier blue */
+    --c-mexico:   #d68a2c;     /* sunbaked terracotta */
+    --c-norway:   #1e5db8;
+    --c-greece:   #2b8db5;     /* aegean */
+    --c-vietnam:  #d99a3f;
+    --c-italy:    #b94a3b;
+
+    --easing: cubic-bezier(0.65, 0, 0.35, 1);
+    --easing-out: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: auto; }
+  html, body { overflow-x: hidden; background: var(--cream); }
+
+  /* Custom cursor on capable devices only */
+  @media (hover: hover) and (pointer: fine) {
+    body { cursor: none; }
+    a, button, .interactive { cursor: none; }
+  }
+
+  body {
+    color: var(--ink);
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+    /* Subtle paper grain on the body (CSS only, ~1KB) */
+    background-image:
+      radial-gradient(circle at 25% 30%, rgba(180, 150, 100, 0.05) 0%, transparent 60%),
+      radial-gradient(circle at 75% 70%, rgba(120, 80, 40, 0.04) 0%, transparent 50%),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='4'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.04 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  ::selection { background: var(--green); color: var(--cream); }
+
+  /* ───── Custom cursor ───── */
+  .cursor {
+    position: fixed;
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background: rgba(26, 84, 48, 0);
+    border: 1.5px solid var(--ink);
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s var(--easing-out), height 0.3s var(--easing-out),
+                background 0.3s var(--easing-out), border-color 0.3s var(--easing-out),
+                opacity 0.2s;
+    mix-blend-mode: difference;
+    will-change: transform;
+  }
+  .cursor.hover {
+    width: 60px;
+    height: 60px;
+    background: rgba(43, 181, 106, 0.5);
+    border-color: transparent;
+  }
+  .cursor.hover.has-label::after {
+    content: attr(data-label);
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--cream);
+    mix-blend-mode: normal;
+  }
+  .cursor.hidden { opacity: 0; }
+  @media (hover: none) { .cursor, .grass-trail { display: none; } }
+
+  /* Grass trail particles (canvas overlay) */
+  .grass-trail {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 9998;
+  }
+
+  /* ───── Skip-link ───── */
+  .wm-skip {
+    position: absolute; left: -9999px; top: 0;
+    background: var(--green); color: var(--paper);
+    padding: 10px 18px;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 13px; font-weight: 600;
+    z-index: 100000;
+    border-radius: 0 0 8px 0;
+    text-decoration: none;
+  }
+  .wm-skip:focus { left: 0; outline: 2px solid var(--paper); outline-offset: -4px; }
+
+  /* ────────────────────────────────────────────────────────────
+     LOAD SCREEN — fades on first paint, the page assembles itself
+     ──────────────────────────────────────────────────────────── */
+  .loader {
+    position: fixed; inset: 0;
+    background: var(--cream);
+    z-index: 10000;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 24px;
+    transition: opacity 1s var(--easing) 0.1s;
+  }
+  .loader.hide { opacity: 0; pointer-events: none; }
+  .loader-mark {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 900;
+    font-size: 60px;
+    color: var(--ink);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    font-variation-settings: "opsz" 144;
+  }
+  .loader-mark .map { color: var(--green); }
+  .loader-bar {
+    width: 200px; height: 1px;
+    background: rgba(10, 20, 16, 0.15);
+    overflow: hidden;
+    position: relative;
+  }
+  .loader-bar::after {
+    content: '';
+    position: absolute; top: 0; bottom: 0; left: 0;
+    width: 0%;
+    background: var(--green);
+    animation: load 1.5s var(--easing-out) forwards;
+  }
+  @keyframes load { to { width: 100%; } }
+
+  /* ────────────────────────────────────────────────────────────
+     PROGRESS BAR + chapter dots
+     ──────────────────────────────────────────────────────────── */
+  .progress {
+    position: fixed; top: 0; left: 0;
+    height: 2px; width: 0%;
+    background: var(--green);
+    z-index: 9000;
+    transform-origin: left;
+    will-change: transform;
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     SECTION 1 — HERO
+     ──────────────────────────────────────────────────────────── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 32px 160px;
+    overflow: hidden;
+    background: var(--cream);
+  }
+
+  /* Stratified horizon — pure SVG, no images */
+  .hero-bg {
+    position: absolute; inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .hero-bg svg {
+    width: 100%; height: 100%;
+    display: block;
+  }
+
+  /* Animated grass blades silhouette at the bottom of the hero */
+  .hero-grass {
+    position: absolute;
+    bottom: -2px; left: 0; right: 0;
+    height: 80px;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.55;
+  }
+  .hero-grass svg { width: 100%; height: 100%; display: block; }
+  @keyframes sway {
+    0%, 100% { transform: rotate(0deg); }
+    50%      { transform: rotate(2deg); }
+  }
+  .hero-grass .blade {
+    transform-origin: bottom;
+    animation: sway 5s var(--easing) infinite;
+  }
+  .hero-grass .blade:nth-child(odd)  { animation-duration: 6s; animation-delay: 0.3s; }
+  .hero-grass .blade:nth-child(3n)   { animation-duration: 4.5s; animation-delay: 0.7s; }
+  .hero-grass .blade:nth-child(5n)   { animation-duration: 5.5s; animation-delay: 1.2s; }
+
+  .hero-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 1480px;
+    width: 100%;
+    text-align: center;
+  }
+  .hero-eyebrow {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 36px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    opacity: 0;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after {
+    content: ''; width: 24px; height: 1px;
+    background: var(--ink-soft);
+  }
+
+  .hero-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 200;
+    font-size: clamp(64px, 13vw, 240px);
+    line-height: 0.86;
+    letter-spacing: -0.05em;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+  }
+  .hero-title .row {
+    display: block;
+    overflow: hidden;
+    padding: 0.05em 0;
+  }
+  .hero-title .row span {
+    display: inline-block;
+    transform: translateY(110%);
+    will-change: transform;
+  }
+  .hero-title em {
+    font-style: italic;
+    font-weight: 700;
+    color: var(--green);
+    font-variation-settings: "opsz" 144;
+    transition: color 0.8s var(--easing-out);
+  }
+  .hero-title em.morph[data-color="portugal"] { color: var(--c-portugal); }
+  .hero-title em.morph[data-color="japan"]    { color: var(--c-japan); }
+  .hero-title em.morph[data-color="iceland"]  { color: var(--c-iceland); }
+  .hero-title em.morph[data-color="mexico"]   { color: var(--c-mexico); }
+  .hero-title em.morph[data-color="norway"]   { color: var(--c-norway); }
+  .hero-title em.morph[data-color="greece"]   { color: var(--c-greece); }
+  .hero-title em.morph[data-color="green"]    { color: var(--green); }
+
+  .hero-deck {
+    margin-top: 44px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(18px, 1.8vw, 24px);
+    line-height: 1.45;
+    color: var(--ink-soft);
+    max-width: 50ch;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0;
+    font-variation-settings: "opsz" 144;
+  }
+
+  .hero-meta {
+    margin-top: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 48px;
+    flex-wrap: wrap;
+    opacity: 0;
+  }
+  .hero-meta-item {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .hero-meta-item::before {
+    content: ''; width: 6px; height: 6px;
+    background: var(--green); border-radius: 999px;
+  }
+  .hero-meta-item.live::before { animation: pulse 1.6s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  /* Scroll cue */
+  .hero-scroll {
+    position: absolute;
+    bottom: 32px; left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    opacity: 0;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+  }
+  .hero-scroll-line {
+    width: 1px; height: 36px;
+    background: linear-gradient(180deg, var(--ink-soft), transparent);
+    animation: drop 2s var(--easing) infinite;
+  }
+  @keyframes drop {
+    0%   { transform: scaleY(0); transform-origin: top; }
+    50%  { transform: scaleY(1); transform-origin: top; }
+    51%  { transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     SECTION 2 — THE NUMBER
+     ──────────────────────────────────────────────────────────── */
+  .number {
+    position: relative;
+    background: var(--ink);
+    color: var(--cream);
+    padding: 200px 32px;
+    overflow: hidden;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .number-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 1320px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    align-items: center;
+    gap: 80px;
+  }
+  .number-text h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(36px, 5vw, 80px);
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+    color: var(--cream);
+    font-variation-settings: "opsz" 144;
+    margin-bottom: 36px;
+  }
+  .number-text h2 em {
+    font-style: italic; font-weight: 700;
+    color: var(--green-bright);
+    font-variation-settings: "opsz" 144;
+  }
+  .number-text p {
+    font-size: 17px;
+    line-height: 1.6;
+    color: rgba(236, 230, 210, 0.7);
+    max-width: 44ch;
+    margin-bottom: 36px;
+  }
+  .number-text-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .nts {
+    border-left: 1px solid rgba(236, 230, 210, 0.15);
+    padding-left: 16px;
+  }
+  .nts-val {
+    font-family: 'Fraunces', serif;
+    font-weight: 200;
+    font-size: clamp(36px, 4vw, 56px);
+    line-height: 1;
+    color: var(--cream);
+    margin-bottom: 6px;
+    font-variation-settings: "opsz" 144;
+  }
+  .nts-val em { font-style: italic; font-weight: 700; color: var(--green-bright); }
+  .nts-lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(236, 230, 210, 0.5);
+  }
+
+  /* The constellation field */
+  .constellation {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    max-width: 540px;
+    margin-left: auto;
+  }
+  .constellation-svg { width: 100%; height: 100%; display: block; }
+  .constellation-svg .dot {
+    fill: var(--green-bright);
+    opacity: 0;
+    transform-origin: center;
+    transform-box: fill-box;
+  }
+  .constellation-svg .dot.bright { fill: var(--cream); filter: drop-shadow(0 0 6px var(--green-glow)); }
+  .constellation-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Fraunces', serif;
+    font-weight: 200;
+    font-size: clamp(120px, 16vw, 220px);
+    line-height: 0.85;
+    color: var(--cream);
+    letter-spacing: -0.06em;
+    pointer-events: none;
+    font-variation-settings: "opsz" 144;
+    text-align: center;
+  }
+  .constellation-center em {
+    font-style: italic; font-weight: 700; color: var(--green-bright);
+    font-variation-settings: "opsz" 144;
+  }
+  .constellation-center small {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(236, 230, 210, 0.5);
+    margin-top: 14px;
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     SECTION 3 — LIVE TICKER (Compare anywhere)
+     ──────────────────────────────────────────────────────────── */
+  .ticker {
+    position: relative;
+    background: var(--cream);
+    padding: 200px 0;
+    overflow: hidden;
+  }
+  .ticker-head {
+    text-align: center;
+    margin-bottom: 80px;
+    padding: 0 32px;
+  }
+  .ticker-head h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(40px, 6vw, 92px);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+    max-width: 16ch;
+    margin: 0 auto;
+  }
+  .ticker-head h2 em { font-style: italic; font-weight: 700; color: var(--green); }
+  .ticker-head p {
+    margin-top: 20px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: clamp(16px, 1.6vw, 20px);
+    color: var(--ink-soft);
+    max-width: 50ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .ticker-strip {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 24px;
+    border-top: 1px solid rgba(10, 20, 16, 0.1);
+    border-bottom: 1px solid rgba(10, 20, 16, 0.1);
+    padding: 28px 0;
+    background: rgba(255, 253, 248, 0.4);
+  }
+  .ticker-strip-inner {
+    display: flex;
+    gap: 56px;
+    width: max-content;
+    will-change: transform;
+    align-items: center;
+  }
+  .ticker-strip:nth-child(odd) .ticker-strip-inner { animation: scroll-left 80s linear infinite; }
+  .ticker-strip:nth-child(even) .ticker-strip-inner { animation: scroll-right 100s linear infinite; }
+  @keyframes scroll-left  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes scroll-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+
+  .tk-item {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 14px;
+    white-space: nowrap;
+    padding: 0 8px;
+  }
+  .tk-flag { font-size: 22px; line-height: 1; }
+  .tk-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+    font-variation-settings: "opsz" 100;
+  }
+  .tk-stat {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--green);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .tk-stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-left: -6px;
+  }
+  .tk-sep {
+    width: 4px; height: 4px;
+    border-radius: 999px;
+    background: var(--ink-soft);
+    opacity: 0.3;
+  }
+
+  .ticker-foot {
+    text-align: center;
+    margin-top: 60px;
+    padding: 0 32px;
+  }
+  .ticker-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    border: 1.5px solid var(--ink);
+    padding: 18px 32px;
+    border-radius: 999px;
+    transition: all 0.3s var(--easing-out);
+    font-weight: 600;
+  }
+  .ticker-cta:hover { background: var(--ink); color: var(--cream); transform: translateY(-2px); }
+
+  /* ────────────────────────────────────────────────────────────
+     SECTION 4 — CHRONICLES
+     ──────────────────────────────────────────────────────────── */
+  .chrons {
+    position: relative;
+    background: var(--cream-warm);
+    padding: 200px 32px;
+    overflow: hidden;
+  }
+  .chrons-head {
+    max-width: 1320px;
+    margin: 0 auto 100px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 24px;
+    border-bottom: 1px solid rgba(10, 20, 16, 0.15);
+    padding-bottom: 24px;
+  }
+  .chrons-head h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-style: italic;
+    font-size: clamp(32px, 4.5vw, 64px);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144;
+  }
+  .chrons-head .chrons-meta {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .chrons-grid {
+    max-width: 1320px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .chron-card {
+    position: relative;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    border-radius: 4px;
+    background: var(--ink);
+    text-decoration: none;
+    color: var(--cream);
+    transition: transform 0.6s var(--easing-out);
+    will-change: transform;
+    transform-origin: center bottom;
+  }
+  .chron-card:nth-child(1) { transform: rotate(-1.2deg); }
+  .chron-card:nth-child(2) { transform: rotate(0.6deg) translateY(-12px); }
+  .chron-card:nth-child(3) { transform: rotate(-0.4deg) translateY(8px); }
+  .chron-card:hover { transform: rotate(0deg) translateY(-12px); }
+  .chron-card img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0.65;
+    transition: opacity 0.6s, transform 0.8s var(--easing-out);
+    filter: grayscale(0.15) contrast(1.05);
+  }
+  .chron-card:hover img { opacity: 0.85; transform: scale(1.06); }
+  .chron-card::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 30%, rgba(10,20,16,0.85) 100%);
+  }
+  .chron-card-body {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    padding: 30px 28px;
+    z-index: 2;
+  }
+  .chron-card-cat {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--green-bright);
+    margin-bottom: 12px;
+    font-weight: 600;
+    display: inline-block;
+  }
+  .chron-card-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--cream);
+    font-variation-settings: "opsz" 100;
+  }
+  .chron-card-time {
+    margin-top: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(236, 230, 210, 0.6);
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     SECTION 5 — FINAL CTA — country morph
+     ──────────────────────────────────────────────────────────── */
+  .final {
+    position: relative;
+    padding: 240px 32px 200px;
+    overflow: hidden;
+    text-align: center;
+    background: var(--cream);
+    transition: background 1.5s var(--easing);
+  }
+  .final.tinted-portugal { background: #f4e9d6; }
+  .final.tinted-japan    { background: #f5e2dc; }
+  .final.tinted-iceland  { background: #e0e8ef; }
+  .final.tinted-mexico   { background: #f5e7d0; }
+  .final.tinted-norway   { background: #dde8f3; }
+  .final.tinted-greece   { background: #d8e8ee; }
+
+  .final-eyebrow {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 56px;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .final-eyebrow::before, .final-eyebrow::after {
+    content: ''; width: 36px; height: 1px;
+    background: var(--ink-soft);
+  }
+
+  .final-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 200;
+    font-size: clamp(80px, 16vw, 280px);
+    line-height: 0.86;
+    letter-spacing: -0.05em;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+  }
+  .final-title em {
+    font-style: italic;
+    font-weight: 700;
+    color: var(--green);
+    transition: color 0.8s var(--easing-out);
+    font-variation-settings: "opsz" 144;
+  }
+  .final-title em.morph[data-place="portugal"] { color: var(--c-portugal); }
+  .final-title em.morph[data-place="japan"]    { color: var(--c-japan); }
+  .final-title em.morph[data-place="iceland"]  { color: var(--c-iceland); }
+  .final-title em.morph[data-place="mexico"]   { color: var(--c-mexico); }
+  .final-title em.morph[data-place="norway"]   { color: var(--c-norway); }
+  .final-title em.morph[data-place="greece"]   { color: var(--c-greece); }
+  .final-title .word {
+    display: inline-block;
+    position: relative;
+    transition: transform 0.5s var(--easing-out);
+  }
+  .final-title .word.morphing {
+    transform: translateY(-6px);
+  }
+
+  .final-cycler {
+    margin-top: 28px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    height: 16px;
+  }
+
+  .final-paths {
+    margin-top: 100px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    max-width: 880px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .final-path {
+    background: rgba(255, 253, 248, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(10, 20, 16, 0.08);
+    padding: 32px 26px;
+    text-decoration: none;
+    color: var(--ink);
+    border-radius: 6px;
+    text-align: left;
+    transition: transform 0.3s var(--easing-out), border-color 0.3s, box-shadow 0.3s;
+  }
+  .final-path:hover {
+    transform: translateY(-6px);
+    border-color: var(--green);
+    box-shadow: 0 14px 36px rgba(26, 84, 48, 0.12);
+  }
+  .final-path-num {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 56px;
+    line-height: 1;
+    color: var(--green);
+    margin-bottom: 16px;
+    font-variation-settings: "opsz" 144;
+  }
+  .final-path-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--ink);
+    margin-bottom: 6px;
+    line-height: 1.05;
+  }
+  .final-path-desc {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    margin-bottom: 18px;
+  }
+  .final-path-cta {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--green);
+    font-weight: 600;
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     EASTER EGG — type "wigg"
+     ──────────────────────────────────────────────────────────── */
+  .easter {
+    position: fixed; inset: 0;
+    background: var(--ink);
+    z-index: 99000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    animation: fadeIn 0.4s var(--easing-out);
+  }
+  .easter.show { display: flex; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .easter-inner { text-align: center; max-width: 600px; }
+  .easter-mark {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 200;
+    font-size: clamp(40px, 6vw, 88px);
+    color: var(--cream);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    margin-bottom: 24px;
+    font-variation-settings: "opsz" 144;
+  }
+  .easter-mark em { color: var(--green-bright); font-weight: 700; }
+  .easter-sub {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: rgba(236, 230, 210, 0.6);
+    margin-bottom: 40px;
+  }
+  .easter-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 6px;
+    margin-bottom: 32px;
+  }
+  .easter-pixel {
+    aspect-ratio: 1;
+    background: rgba(43, 181, 106, 0.15);
+    border-radius: 2px;
+    opacity: 0;
+  }
+  .easter-pixel.lit { background: var(--green-bright); opacity: 1; box-shadow: 0 0 8px var(--green-glow); }
+  .easter-close {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(236, 230, 210, 0.5);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .easter-close kbd {
+    background: rgba(236, 230, 210, 0.1);
+    border: 1px solid rgba(236, 230, 210, 0.2);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-family: inherit;
+    color: var(--cream);
+  }
+
+  /* ────────────────────────────────────────────────────────────
+     RESPONSIVE
+     ──────────────────────────────────────────────────────────── */
+  @media (max-width: 980px) {
+    .number-inner { grid-template-columns: 1fr; gap: 50px; }
+    .number-text-stats { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .nts-val { font-size: 32px; }
+    .constellation { max-width: 380px; margin: 0 auto; }
+    .chrons { padding: 100px 20px; }
+    .chrons-head { flex-direction: column; gap: 12px; align-items: flex-start; margin-bottom: 50px; }
+    .chrons-grid { grid-template-columns: 1fr; gap: 30px; }
+    .chron-card { transform: rotate(0) !important; }
+    .final { padding: 140px 24px 100px; }
+    .final-paths { grid-template-columns: 1fr; margin-top: 60px; }
+    .ticker { padding: 120px 0; }
+    .ticker-head { padding: 0 24px; margin-bottom: 50px; }
+  }
+  @media (hover: none) {
+    .chron-card:nth-child(1), .chron-card:nth-child(2), .chron-card:nth-child(3) { transform: rotate(0) translateY(0); }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-title .row span { transform: none !important; }
+    .hero-eyebrow, .hero-deck, .hero-meta, .hero-scroll { opacity: 1 !important; }
+    .hero-grass .blade { animation: none; }
+    .ticker-strip-inner { animation: none !important; }
+    .hero-scroll-line { animation: none; }
+    body { cursor: auto; }
+    .cursor, .grass-trail { display: none; }
+  }
+</style>
+</head>
+<body>
+<a class="wm-skip" href="#wm-main">Skip to content</a>
+
+<div class="loader" id="loader">
+  <div class="loader-mark"><span class="w-wigg">wigg</span><span class="map">map</span></div>
+  <div class="loader-bar"></div>
+</div>
+
+<div class="cursor" id="cursor"></div>
+<canvas class="grass-trail" id="grassTrail"></canvas>
+<div class="progress" id="progress"></div>
+
+<div id="siteHeader"></div>
+<script src="data/header.js"></script>
+<a id="wm-main" tabindex="-1"></a>
+
+<!-- ════════════════════════════════ HERO ════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-bg" aria-hidden="true">
+    <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+      <!-- Stratified horizon — abstract mountain layers in cream/sage gradient -->
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#ece6d2"/>
+          <stop offset="100%" stop-color="#e0d8be"/>
+        </linearGradient>
+        <linearGradient id="layer1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#c4d2ba" stop-opacity="0.5"/>
+          <stop offset="100%" stop-color="#c4d2ba" stop-opacity="0.7"/>
+        </linearGradient>
+        <linearGradient id="layer2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#9ab59a" stop-opacity="0.45"/>
+          <stop offset="100%" stop-color="#9ab59a" stop-opacity="0.7"/>
+        </linearGradient>
+        <linearGradient id="layer3" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#5e8867" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="#5e8867" stop-opacity="0.85"/>
+        </linearGradient>
+      </defs>
+      <rect width="1600" height="900" fill="url(#sky)"/>
+      <!-- Sun disc -->
+      <circle cx="1180" cy="280" r="70" fill="#e8d8b8" opacity="0.5"/>
+      <!-- Far layer -->
+      <path d="M0 600 Q 200 540, 400 580 T 800 560 T 1200 590 T 1600 570 L 1600 900 L 0 900 Z" fill="url(#layer1)"/>
+      <!-- Mid layer -->
+      <path d="M0 680 Q 240 620, 480 660 T 920 650 T 1340 670 T 1600 660 L 1600 900 L 0 900 Z" fill="url(#layer2)"/>
+      <!-- Near layer -->
+      <path d="M0 760 Q 200 720, 420 750 T 840 740 T 1280 760 T 1600 750 L 1600 900 L 0 900 Z" fill="url(#layer3)"/>
+    </svg>
+  </div>
+
+  <div class="hero-grass" aria-hidden="true">
+    <svg viewBox="0 0 1600 80" preserveAspectRatio="none">
+      <!-- Generated procedurally — 80 grass blades across the strip -->
+      <g fill="#1a5430">
+        <!-- We generate the blades inline; each <path> is a thin vertical leaf shape. -->
+        <!-- (Hand-rolled — keeps the file standalone.) -->
+        <g class="blade" style="transform-origin:20px 80px"><path d="M16 80 Q 20 40, 22 30 Q 24 40, 24 80 Z"/></g>
+        <g class="blade" style="transform-origin:60px 80px"><path d="M56 80 Q 60 35, 62 26 Q 64 36, 64 80 Z"/></g>
+        <g class="blade" style="transform-origin:100px 80px"><path d="M96 80 Q 100 45, 102 35 Q 104 47, 104 80 Z"/></g>
+        <g class="blade" style="transform-origin:140px 80px"><path d="M136 80 Q 140 30, 142 22 Q 144 32, 144 80 Z"/></g>
+        <g class="blade" style="transform-origin:180px 80px"><path d="M176 80 Q 180 50, 182 40 Q 184 50, 184 80 Z"/></g>
+        <g class="blade" style="transform-origin:220px 80px"><path d="M216 80 Q 220 38, 222 28 Q 224 40, 224 80 Z"/></g>
+        <g class="blade" style="transform-origin:260px 80px"><path d="M256 80 Q 260 42, 262 30 Q 264 42, 264 80 Z"/></g>
+        <g class="blade" style="transform-origin:300px 80px"><path d="M296 80 Q 300 35, 302 25 Q 304 35, 304 80 Z"/></g>
+        <g class="blade" style="transform-origin:340px 80px"><path d="M336 80 Q 340 48, 342 36 Q 344 48, 344 80 Z"/></g>
+        <g class="blade" style="transform-origin:380px 80px"><path d="M376 80 Q 380 28, 382 18 Q 384 28, 384 80 Z"/></g>
+        <g class="blade" style="transform-origin:420px 80px"><path d="M416 80 Q 420 42, 422 32 Q 424 44, 424 80 Z"/></g>
+        <g class="blade" style="transform-origin:460px 80px"><path d="M456 80 Q 460 36, 462 26 Q 464 38, 464 80 Z"/></g>
+        <g class="blade" style="transform-origin:500px 80px"><path d="M496 80 Q 500 50, 502 40 Q 504 50, 504 80 Z"/></g>
+        <g class="blade" style="transform-origin:540px 80px"><path d="M536 80 Q 540 32, 542 22 Q 544 32, 544 80 Z"/></g>
+        <g class="blade" style="transform-origin:580px 80px"><path d="M576 80 Q 580 44, 582 32 Q 584 44, 584 80 Z"/></g>
+        <g class="blade" style="transform-origin:620px 80px"><path d="M616 80 Q 620 30, 622 20 Q 624 30, 624 80 Z"/></g>
+        <g class="blade" style="transform-origin:660px 80px"><path d="M656 80 Q 660 46, 662 34 Q 664 46, 664 80 Z"/></g>
+        <g class="blade" style="transform-origin:700px 80px"><path d="M696 80 Q 700 36, 702 26 Q 704 38, 704 80 Z"/></g>
+        <g class="blade" style="transform-origin:740px 80px"><path d="M736 80 Q 740 42, 742 30 Q 744 42, 744 80 Z"/></g>
+        <g class="blade" style="transform-origin:780px 80px"><path d="M776 80 Q 780 28, 782 18 Q 784 28, 784 80 Z"/></g>
+        <g class="blade" style="transform-origin:820px 80px"><path d="M816 80 Q 820 50, 822 40 Q 824 50, 824 80 Z"/></g>
+        <g class="blade" style="transform-origin:860px 80px"><path d="M856 80 Q 860 35, 862 24 Q 864 35, 864 80 Z"/></g>
+        <g class="blade" style="transform-origin:900px 80px"><path d="M896 80 Q 900 44, 902 32 Q 904 44, 904 80 Z"/></g>
+        <g class="blade" style="transform-origin:940px 80px"><path d="M936 80 Q 940 30, 942 20 Q 944 30, 944 80 Z"/></g>
+        <g class="blade" style="transform-origin:980px 80px"><path d="M976 80 Q 980 48, 982 36 Q 984 48, 984 80 Z"/></g>
+        <g class="blade" style="transform-origin:1020px 80px"><path d="M1016 80 Q 1020 38, 1022 28 Q 1024 40, 1024 80 Z"/></g>
+        <g class="blade" style="transform-origin:1060px 80px"><path d="M1056 80 Q 1060 42, 1062 30 Q 1064 42, 1064 80 Z"/></g>
+        <g class="blade" style="transform-origin:1100px 80px"><path d="M1096 80 Q 1100 28, 1102 18 Q 1104 28, 1104 80 Z"/></g>
+        <g class="blade" style="transform-origin:1140px 80px"><path d="M1136 80 Q 1140 50, 1142 40 Q 1144 50, 1144 80 Z"/></g>
+        <g class="blade" style="transform-origin:1180px 80px"><path d="M1176 80 Q 1180 35, 1182 24 Q 1184 35, 1184 80 Z"/></g>
+        <g class="blade" style="transform-origin:1220px 80px"><path d="M1216 80 Q 1220 44, 1222 32 Q 1224 44, 1224 80 Z"/></g>
+        <g class="blade" style="transform-origin:1260px 80px"><path d="M1256 80 Q 1260 30, 1262 20 Q 1264 30, 1264 80 Z"/></g>
+        <g class="blade" style="transform-origin:1300px 80px"><path d="M1296 80 Q 1300 48, 1302 36 Q 1304 48, 1304 80 Z"/></g>
+        <g class="blade" style="transform-origin:1340px 80px"><path d="M1336 80 Q 1340 38, 1342 28 Q 1344 40, 1344 80 Z"/></g>
+        <g class="blade" style="transform-origin:1380px 80px"><path d="M1376 80 Q 1380 42, 1382 30 Q 1384 42, 1384 80 Z"/></g>
+        <g class="blade" style="transform-origin:1420px 80px"><path d="M1416 80 Q 1420 28, 1422 18 Q 1424 28, 1424 80 Z"/></g>
+        <g class="blade" style="transform-origin:1460px 80px"><path d="M1456 80 Q 1460 50, 1462 40 Q 1464 50, 1464 80 Z"/></g>
+        <g class="blade" style="transform-origin:1500px 80px"><path d="M1496 80 Q 1500 35, 1502 24 Q 1504 35, 1504 80 Z"/></g>
+        <g class="blade" style="transform-origin:1540px 80px"><path d="M1536 80 Q 1540 44, 1542 32 Q 1544 44, 1544 80 Z"/></g>
+        <g class="blade" style="transform-origin:1580px 80px"><path d="M1576 80 Q 1580 30, 1582 20 Q 1584 30, 1584 80 Z"/></g>
+      </g>
+    </svg>
+  </div>
+
+  <div class="hero-inner">
+    <p class="hero-eyebrow" id="heroEyebrow">A field guide · 160+ countries · since 2024</p>
+    <h1 class="hero-title">
+      <span class="row"><span>Where is the grass</span></span>
+      <span class="row"><span>actually</span></span>
+      <span class="row"><span><em class="morph" id="morphWord" data-color="green">greener</em>?</span></span>
+    </h1>
+    <p class="hero-deck" id="heroDeck">
+      A magazine of countries, considered. Salaries, rent, taxes, climate —
+      the data, and the chronicles of the people who actually went.
+    </p>
+    <div class="hero-meta" id="heroMeta">
+      <span class="hero-meta-item live">Updated weekly</span>
+      <span class="hero-meta-item">25 data points per country</span>
+      <span class="hero-meta-item">303 long-form pieces</span>
+    </div>
+  </div>
+
+  <div class="hero-scroll" id="heroScroll">
+    <span>Scroll</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════ NUMBER ════════════════════════════════ -->
+<section class="number" id="number-section">
+  <div class="number-inner">
+    <div class="number-text">
+      <h2>It's a question of <em>data,</em> first.</h2>
+      <p>
+        We measure every country the same way — the same salary brackets, the same rent
+        baskets, the same fiscal lens. No vibes. No travel-blog hand-waving. Just the
+        numbers, repeatable, comparable, and refreshed when the ground shifts.
+      </p>
+      <div class="number-text-stats">
+        <div class="nts">
+          <div class="nts-val" data-target="25"><em>0</em></div>
+          <div class="nts-lbl">Data points<br>per country</div>
+        </div>
+        <div class="nts">
+          <div class="nts-val" data-target="76"><em>0</em></div>
+          <div class="nts-lbl">City<br>chronicles</div>
+        </div>
+        <div class="nts">
+          <div class="nts-val" data-target="303"><em>0</em></div>
+          <div class="nts-lbl">Long-form<br>articles</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="constellation">
+      <svg class="constellation-svg" viewBox="0 0 540 540" id="constellationSvg" aria-hidden="true">
+        <!-- 160 dots will be generated here in JS, scattered with seedable random -->
+      </svg>
+      <div class="constellation-center">
+        <em data-target="160" id="bigCount">0</em><sup style="font-style:normal;color:var(--green-bright);font-size:0.4em;font-weight:700;vertical-align:super;margin-left:6px">+</sup>
+        <small>Countries on the map</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════ TICKER ════════════════════════════════ -->
+<section class="ticker">
+  <div class="ticker-head">
+    <h2>Compare <em>anywhere.</em><br>The data, live.</h2>
+    <p>
+      Every country, every month, the same metrics. A live read of the world the way
+      it actually is — not the way Instagram filters it.
+    </p>
+  </div>
+
+  <div class="ticker-strip">
+    <div class="ticker-strip-inner" id="tickerA"></div>
+  </div>
+  <div class="ticker-strip">
+    <div class="ticker-strip-inner" id="tickerB"></div>
+  </div>
+
+  <div class="ticker-foot">
+    <a class="ticker-cta interactive" href="compare.html?c=portugal,thailand,mexico" data-cursor="Compare →">
+      Build your own comparison
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ════════════════════════════════ CHRONICLES ════════════════════════════════ -->
+<section class="chrons">
+  <div class="chrons-head">
+    <h2>Stories<br>from the road.</h2>
+    <span class="chrons-meta">This issue · Spring 2026</span>
+  </div>
+  <div class="chrons-grid">
+    <a class="chron-card interactive" href="chronicles/chronicle-2056-best-countries-30-years-en.html" data-cursor="Read →">
+      <picture><source srcset="assets/hero-norway.webp" type="image/webp"><img src="assets/hero-norway.jpg" alt="2056" loading="lazy"></picture>
+      <div class="chron-card-body">
+        <span class="chron-card-cat">Long view · Future</span>
+        <h3 class="chron-card-title">2056. Where life will be best in thirty years.</h3>
+        <p class="chron-card-time">~25 min · By Wigg</p>
+      </div>
+    </a>
+    <a class="chron-card interactive" href="chronicles/chronicle-digital-nomad-visas-2026-en.html" data-cursor="Read →">
+      <picture><source srcset="assets/hero-portugal.webp" type="image/webp"><img src="assets/hero-portugal.jpg" alt="Visas 2026" loading="lazy"></picture>
+      <div class="chron-card-body">
+        <span class="chron-card-cat">Field guide · Visas</span>
+        <h3 class="chron-card-title">The 25 best digital nomad visas of 2026.</h3>
+        <p class="chron-card-time">~30 min · By Wigg</p>
+      </div>
+    </a>
+    <a class="chron-card interactive" href="chronicles/chronicle-australia-expat-guide-2026-en.html" data-cursor="Read →">
+      <picture><source srcset="assets/hero-new-zealand.webp" type="image/webp"><img src="assets/hero-new-zealand.jpg" alt="Australia 2026" loading="lazy"></picture>
+      <div class="chron-card-body">
+        <span class="chron-card-cat">Country in focus · Australia</span>
+        <h3 class="chron-card-title">Australia, beyond the coast.</h3>
+        <p class="chron-card-time">~22 min · By Wigg</p>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ════════════════════════════════ FINAL CTA — country morph ════════════════════════════════ -->
+<section class="final" id="finalSection">
+  <p class="final-eyebrow">Three ways in</p>
+  <h2 class="final-title">
+    Find your<br>
+    <span class="word"><em class="morph" id="morphCountry" data-place="green">country.</em></span>
+  </h2>
+  <p class="final-cycler" id="finalCycler">Currently considering · <strong id="cyclerName" style="color:var(--ink);font-weight:700;letter-spacing:0">Portugal</strong></p>
+
+  <div class="final-paths">
+    <a class="final-path interactive" href="wiggmatch.html" data-cursor="Take match →">
+      <div class="final-path-num">01</div>
+      <div class="final-path-title">Take the match</div>
+      <div class="final-path-desc">8 questions, 3 minutes. The cities aligned with your real profile.</div>
+      <span class="final-path-cta">WiggMatch →</span>
+    </a>
+    <a class="final-path interactive" href="globe.html" data-cursor="Spin →">
+      <div class="final-path-num">02</div>
+      <div class="final-path-title">Spin the globe</div>
+      <div class="final-path-desc">160+ countries on a planet you can rotate. Click to dive in.</div>
+      <span class="final-path-cta">Open globe →</span>
+    </a>
+    <a class="final-path interactive" href="indexchronicles.html" data-cursor="Read all →">
+      <div class="final-path-num">03</div>
+      <div class="final-path-title">Read the chronicles</div>
+      <div class="final-path-desc">303 long-form pieces on visas, cities, taxes, the truths nobody tells.</div>
+      <span class="final-path-cta">Browse all →</span>
+    </a>
+  </div>
+</section>
+
+<!-- ════════════════════════════════ EASTER EGG ════════════════════════════════ -->
+<div class="easter" id="easter" role="dialog" aria-modal="true" aria-labelledby="easterTitle">
+  <div class="easter-inner">
+    <h3 class="easter-mark" id="easterTitle">You typed <em>wigg.</em></h3>
+    <p class="easter-sub">160 countries, lighting up one by one. There's no prize. Just a wink.</p>
+    <div class="easter-grid" id="easterGrid"></div>
+    <p class="easter-close">Press <kbd>Esc</kbd> to close · Or just keep going</p>
+  </div>
+</div>
+
+<div id="siteFooter"></div>
+<script src="data/footer.js"></script>
+
+<script>
+/* ════════════════════════════════════════════════════════════════════════
+   1. Loader → fade out once everything (fonts + scripts) settles
+   ════════════════════════════════════════════════════════════════════════ */
+window.addEventListener('load', () => {
+  // Wait one more beat so fonts paint cleanly
+  setTimeout(() => {
+    const loader = document.getElementById('loader');
+    if (loader) loader.classList.add('hide');
+    initEverything();
+  }, 1100); /* matches loader-bar animation duration */
+});
+
+/* ════════════════════════════════════════════════════════════════════════
+   2. Custom cursor + grass trail
+   ════════════════════════════════════════════════════════════════════════ */
+function initCursor() {
+  const cursor = document.getElementById('cursor');
+  if (!cursor || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+  let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+  let cx = mx, cy = my;
+
+  document.addEventListener('mousemove', (e) => {
+    mx = e.clientX; my = e.clientY;
+  });
+
+  function loop() {
+    cx += (mx - cx) * 0.18;
+    cy += (my - cy) * 0.18;
+    cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+    requestAnimationFrame(loop);
+  }
+  loop();
+
+  // Hover affordance on interactive elements
+  document.querySelectorAll('a, button, .interactive').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.classList.add('hover');
+      const lbl = el.getAttribute('data-cursor');
+      if (lbl) {
+        cursor.setAttribute('data-label', lbl);
+        cursor.classList.add('has-label');
+      }
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.classList.remove('hover', 'has-label');
+      cursor.removeAttribute('data-label');
+    });
+  });
+
+  // Hide on touch
+  document.addEventListener('touchstart', () => cursor.classList.add('hidden'), { once: true });
+}
+
+/* Grass trail particles — small green specs that fall as the cursor moves */
+function initGrassTrail() {
+  const canvas = document.getElementById('grassTrail');
+  if (!canvas || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  const ctx = canvas.getContext('2d');
+
+  function size() {
+    canvas.width = window.innerWidth * window.devicePixelRatio;
+    canvas.height = window.innerHeight * window.devicePixelRatio;
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+  }
+  size();
+  window.addEventListener('resize', () => { ctx.setTransform(1,0,0,1,0,0); size(); });
+
+  const particles = [];
+  let lastEmit = 0;
+  document.addEventListener('mousemove', (e) => {
+    const now = performance.now();
+    if (now - lastEmit < 35) return; /* throttle */
+    lastEmit = now;
+    /* Emit one tiny grass blade */
+    particles.push({
+      x: e.clientX + (Math.random() - 0.5) * 8,
+      y: e.clientY + (Math.random() - 0.5) * 8,
+      vy: 0.4 + Math.random() * 0.8,
+      vx: (Math.random() - 0.5) * 0.4,
+      life: 1,
+      decay: 0.012 + Math.random() * 0.01,
+      h: 6 + Math.random() * 4,
+      w: 1.2 + Math.random() * 0.8,
+      hue: 140 + (Math.random() * 30 - 15),
+    });
+    if (particles.length > 80) particles.shift();
+  });
+
+  function draw() {
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.life -= p.decay;
+      if (p.life <= 0) { particles.splice(i, 1); continue; }
+      ctx.fillStyle = `hsla(${p.hue}, 60%, 28%, ${p.life * 0.7})`;
+      ctx.fillRect(p.x, p.y, p.w, p.h);
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   3. Hero load animation + word morphing
+   ════════════════════════════════════════════════════════════════════════ */
+function initHeroLoad() {
+  if (typeof gsap === 'undefined') return;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (reduced) return;
+
+  const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+  tl.to('.hero-title .row span', {
+    y: '0%',
+    duration: 1.1,
+    stagger: 0.15,
+  });
+  tl.to('#heroEyebrow', { opacity: 1, duration: 0.7 }, '-=1.4');
+  tl.to('#heroDeck', { opacity: 1, duration: 0.7 }, '-=0.5');
+  tl.to('#heroMeta', { opacity: 1, duration: 0.7 }, '-=0.4');
+  tl.to('#heroScroll', { opacity: 1, duration: 0.7 }, '-=0.3');
+
+  /* Word morphing — "greener" cycles colors every 3s */
+  const morphWord = document.getElementById('morphWord');
+  const colors = ['green', 'portugal', 'mexico', 'iceland', 'norway', 'greece', 'japan'];
+  let i = 0;
+  setInterval(() => {
+    i = (i + 1) % colors.length;
+    morphWord.setAttribute('data-color', colors[i]);
+  }, 2600);
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   4. Number section — count up + constellation
+   ════════════════════════════════════════════════════════════════════════ */
+function initConstellation() {
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  const svg = document.getElementById('constellationSvg');
+  if (!svg) return;
+
+  /* Generate 160 dots scattered in a circular field, avoiding center text */
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  const cx = 270, cy = 270;
+  const dots = [];
+  let placed = 0;
+  const seed = (n) => (Math.sin(n * 12345.6789) + 1) / 2; /* deterministic pseudo-random */
+  for (let n = 0; placed < 160 && n < 1000; n++) {
+    const angle = seed(n) * Math.PI * 2;
+    const r = 90 + seed(n + 5000) * 170;
+    const x = cx + Math.cos(angle) * r;
+    const y = cy + Math.sin(angle) * r;
+    /* Skip points that fall inside the central text disc */
+    const dist = Math.hypot(x - cx, y - cy);
+    if (dist < 90) continue;
+    if (dist > 260) continue;
+    const dot = document.createElementNS(SVGNS, 'circle');
+    dot.setAttribute('cx', x);
+    dot.setAttribute('cy', y);
+    dot.setAttribute('r', 1.5 + seed(n + 9999) * 1.5);
+    dot.setAttribute('class', 'dot');
+    if (placed < 12) dot.classList.add('bright'); /* a dozen featured */
+    svg.appendChild(dot);
+    dots.push(dot);
+    placed++;
+  }
+
+  ScrollTrigger.create({
+    trigger: '.number',
+    start: 'top 70%',
+    once: true,
+    onEnter: () => {
+      /* count-up the central number */
+      const big = document.getElementById('bigCount');
+      const obj = { val: 0 };
+      gsap.to(obj, {
+        val: 160,
+        duration: 2.4,
+        ease: 'power2.out',
+        onUpdate: () => { big.textContent = Math.round(obj.val); }
+      });
+      /* Stagger fade-in the dots */
+      gsap.to(dots, {
+        opacity: 1,
+        duration: 0.6,
+        stagger: { each: 0.012, from: 'random' },
+        ease: 'power2.out',
+      });
+      /* Mini-stats also count up */
+      document.querySelectorAll('.nts-val[data-target]').forEach((el, idx) => {
+        const target = parseInt(el.dataset.target, 10);
+        const inner = el.querySelector('em');
+        const o = { v: 0 };
+        gsap.to(o, {
+          v: target,
+          duration: 1.8,
+          delay: 0.2 + idx * 0.15,
+          ease: 'power2.out',
+          onUpdate: () => { inner.textContent = Math.round(o.v); }
+        });
+      });
+    }
+  });
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   5. Live ticker — populate with curated country data
+   ════════════════════════════════════════════════════════════════════════ */
+function initTicker() {
+  const A = document.getElementById('tickerA');
+  const B = document.getElementById('tickerB');
+  if (!A || !B) return;
+
+  const stripA = [
+    ['🇵🇹','Portugal','€560/mo','rent'],['🇯🇵','Japan','$620/mo','rent'],['🇹🇭','Thailand','$480/mo','rent'],
+    ['🇲🇽','Mexico','$450/mo','rent'],['🇮🇩','Indonesia','$380/mo','rent'],['🇪🇸','Spain','€700/mo','rent'],
+    ['🇩🇪','Germany','€820/mo','rent'],['🇫🇷','France','€800/mo','rent'],['🇮🇹','Italy','€700/mo','rent'],
+    ['🇧🇷','Brazil','$420/mo','rent'],['🇦🇷','Argentina','$380/mo','rent'],['🇨🇴','Colombia','$350/mo','rent'],
+    ['🇨🇦','Canada','$1200/mo','rent'],['🇦🇺','Australia','$1300/mo','rent'],['🇬🇷','Greece','€500/mo','rent'],
+    ['🇻🇳','Vietnam','$300/mo','rent'],['🇦🇪','UAE','$1100/mo','rent'],['🇸🇬','Singapore','$1800/mo','rent'],
+  ];
+  const stripB = [
+    ['🇵🇹','Portugal','D7','visa'],['🇯🇵','Japan','DN','visa'],['🇹🇭','Thailand','LTR','visa'],
+    ['🇲🇽','Mexico','Temp','visa'],['🇮🇩','Indonesia','KITAS','visa'],['🇪🇸','Spain','DN','visa'],
+    ['🇩🇪','Germany','EU Blue','visa'],['🇲🇾','Malaysia','MM2H','visa'],['🇬🇪','Georgia','VFR','visa'],
+    ['🇲🇹','Malta','MRVP','visa'],['🇨🇷','Costa Rica','Rentista','visa'],['🇪🇨','Ecuador','Pension','visa'],
+    ['🇲🇦','Morocco','Stay','visa'],['🇹🇷','Türkiye','Touristic','visa'],['🇧🇸','Bahamas','Stamp','visa'],
+    ['🇨🇿','Czechia','Zivno','visa'],['🇮🇸','Iceland','Remote','visa'],['🇪🇪','Estonia','Digital','visa'],
+  ];
+
+  const renderItem = ([flag, name, stat, label]) => `
+    <div class="tk-item">
+      <span class="tk-flag">${flag}</span>
+      <span class="tk-name">${name}</span>
+      <span class="tk-stat">${stat}</span>
+      <span class="tk-stat-label">${label}</span>
+      <span class="tk-sep"></span>
+    </div>`;
+
+  /* Duplicate the strips so the loop wraps seamlessly */
+  A.innerHTML = (stripA.concat(stripA)).map(renderItem).join('');
+  B.innerHTML = (stripB.concat(stripB)).map(renderItem).join('');
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   6. Final CTA — country morphing word
+   ════════════════════════════════════════════════════════════════════════ */
+function initFinalMorph() {
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  const morphCountry = document.getElementById('morphCountry');
+  const cyclerName = document.getElementById('cyclerName');
+  const finalSection = document.getElementById('finalSection');
+  if (!morphCountry || !cyclerName) return;
+
+  const places = [
+    { word: 'country.',   place: 'green',    name: 'Portugal' },
+    { word: 'Portugal.',  place: 'portugal', name: 'Portugal' },
+    { word: 'Japan.',     place: 'japan',    name: 'Japan' },
+    { word: 'Iceland.',   place: 'iceland',  name: 'Iceland' },
+    { word: 'Mexico.',    place: 'mexico',   name: 'Mexico' },
+    { word: 'Norway.',    place: 'norway',   name: 'Norway' },
+    { word: 'Greece.',    place: 'greece',   name: 'Greece' },
+  ];
+
+  let idx = 0;
+  let scrollLocked = false;
+
+  const morph = (i) => {
+    const cfg = places[i % places.length];
+    const wordEl = morphCountry.parentElement;
+    wordEl.classList.add('morphing');
+    setTimeout(() => {
+      morphCountry.textContent = cfg.word;
+      morphCountry.setAttribute('data-place', cfg.place);
+      cyclerName.textContent = cfg.name;
+      /* Tinted background */
+      finalSection.classList.remove(...['green','portugal','japan','iceland','mexico','norway','greece'].map(p => 'tinted-' + p));
+      if (cfg.place !== 'green') finalSection.classList.add('tinted-' + cfg.place);
+      wordEl.classList.remove('morphing');
+    }, 280);
+  };
+
+  /* Trigger morphs on scroll progress through the section */
+  ScrollTrigger.create({
+    trigger: finalSection,
+    start: 'top 70%',
+    end: 'bottom top',
+    onUpdate: (self) => {
+      if (scrollLocked) return;
+      const targetIdx = Math.min(places.length - 1, Math.floor(self.progress * places.length * 1.5));
+      if (targetIdx !== idx) {
+        idx = targetIdx;
+        morph(idx);
+      }
+    }
+  });
+
+  /* Auto-rotate when section is fully visible (slower than scroll) */
+  let autoTimer;
+  ScrollTrigger.create({
+    trigger: finalSection,
+    start: 'top 30%',
+    end: 'bottom 60%',
+    onEnter: () => {
+      autoTimer = setInterval(() => {
+        scrollLocked = true;
+        idx = (idx + 1) % places.length;
+        morph(idx);
+        setTimeout(() => { scrollLocked = false; }, 500);
+      }, 3000);
+    },
+    onLeave: () => clearInterval(autoTimer),
+    onLeaveBack: () => clearInterval(autoTimer),
+    onEnterBack: () => {
+      autoTimer = setInterval(() => {
+        scrollLocked = true;
+        idx = (idx + 1) % places.length;
+        morph(idx);
+        setTimeout(() => { scrollLocked = false; }, 500);
+      }, 3000);
+    }
+  });
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   7. Lenis smooth scroll
+   ════════════════════════════════════════════════════════════════════════ */
+function initLenis() {
+  if (typeof Lenis === 'undefined') return;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) return;
+
+  const lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true,
+  });
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+  requestAnimationFrame(raf);
+
+  if (typeof ScrollTrigger !== 'undefined') {
+    lenis.on('scroll', ScrollTrigger.update);
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   8. Progress bar
+   ════════════════════════════════════════════════════════════════════════ */
+function initProgress() {
+  const bar = document.getElementById('progress');
+  if (!bar) return;
+  const update = () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = Math.min(1, Math.max(0, window.scrollY / max));
+    bar.style.width = (pct * 100) + '%';
+  };
+  document.addEventListener('scroll', update, { passive: true });
+  update();
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   9. Easter egg — type "wigg"
+   ════════════════════════════════════════════════════════════════════════ */
+function initEasterEgg() {
+  const easter = document.getElementById('easter');
+  const grid = document.getElementById('easterGrid');
+  if (!easter || !grid) return;
+
+  /* Render 160 pixels (8x20 grid) */
+  for (let i = 0; i < 160; i++) {
+    const px = document.createElement('div');
+    px.className = 'easter-pixel';
+    grid.appendChild(px);
+  }
+  /* Fix grid to 8 columns × 20 rows */
+  grid.style.gridTemplateColumns = 'repeat(8, 1fr)';
+
+  let buf = '';
+  document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 'Escape' && easter.classList.contains('show')) {
+      easter.classList.remove('show');
+      grid.querySelectorAll('.lit').forEach(el => el.classList.remove('lit'));
+      buf = '';
+      return;
+    }
+    if (e.key && e.key.length === 1) {
+      buf = (buf + e.key.toLowerCase()).slice(-4);
+      if (buf === 'wigg') {
+        easter.classList.add('show');
+        /* Light up 160 pixels staggered */
+        const pixels = grid.querySelectorAll('.easter-pixel');
+        pixels.forEach((px, i) => {
+          setTimeout(() => px.classList.add('lit'), i * 18);
+        });
+        buf = '';
+      }
+    }
+  });
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   Bootstrap
+   ════════════════════════════════════════════════════════════════════════ */
+function initEverything() {
+  initLenis();
+  initCursor();
+  initGrassTrail();
+  initProgress();
+  initHeroLoad();
+  initConstellation();
+  initTicker();
+  initFinalMorph();
+  initEasterEgg();
+}
+
+/* In case load event already fired before script ran */
+if (document.readyState === 'complete') {
+  setTimeout(() => {
+    document.getElementById('loader')?.classList.add('hide');
+    initEverything();
+  }, 1100);
+}
+</script>
+</body>
+</html>
