@@ -13,9 +13,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400;9..144,700;9..144,900;9..144,900,100&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<!-- Tunnel is fully vanilla. Lenis/GSAP/ScrollTrigger removed: any CDN
+     hiccup or content blocker would have left the tunnel uninitialized
+     and the loader hanging on a black screen. -->
+
 
 <style>
   :root {
@@ -630,115 +631,81 @@ const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const IS_MOBILE = window.matchMedia('(max-width: 768px)').matches;
 
 /* ═══════════════════════════════════════════════════════════════
-   1. LOADER — split-flap "WIGGMAP" on black, 1.5s total
+   HARD FALLBACK — guarantees the loader is gone after 2.5s no matter
+   what else fails. Set up before anything else runs.
    ═══════════════════════════════════════════════════════════════ */
-function runLoader(onDone) {
+setTimeout(() => {
+  const l = document.getElementById('loader');
+  if (l && !l.classList.contains('gone')) l.classList.add('gone');
+}, 2500);
+
+/* ═══════════════════════════════════════════════════════════════
+   1. LOADER — split-flap "WIGGMAP", 1.5s then 0.6s fade
+   ═══════════════════════════════════════════════════════════════ */
+function runLoader() {
   const loader = document.getElementById('loader');
   const brand = document.getElementById('loaderBrand');
-  if (!loader || !brand) { onDone(); return; }
-  if (REDUCED) {
-    loader.classList.add('gone');
-    setTimeout(onDone, 80);
-    return;
-  }
+  if (!loader || !brand) return;
+  if (REDUCED) { loader.classList.add('gone'); return; }
 
   const cells = [...brand.querySelectorAll('span')];
   const finals = cells.map(c => c.dataset.final);
   const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#%&@/*';
-
-  // Each cell rolls through random chars for a duration, then locks.
-  const ROLL_TIME = 900; // ms total for the rolling phase
-  const STAGGER = 80;    // each cell starts/locks slightly later
+  const ROLL_TIME = 900;
+  const STAGGER = 80;
 
   cells.forEach((cell, i) => {
     const startDelay = i * 30;
     const lockTime = ROLL_TIME + i * STAGGER;
-    let raf;
     let lastSwap = 0;
     const t0 = performance.now();
     function tick(now) {
       const elapsed = now - t0;
-      if (elapsed < startDelay) {
-        raf = requestAnimationFrame(tick);
-        return;
-      }
+      if (elapsed < startDelay) { requestAnimationFrame(tick); return; }
       if (elapsed < lockTime) {
         if (now - lastSwap > 50) {
           cell.textContent = charset[Math.floor(Math.random() * charset.length)];
           lastSwap = now;
         }
-        raf = requestAnimationFrame(tick);
+        requestAnimationFrame(tick);
       } else {
         cell.textContent = finals[i];
-        cancelAnimationFrame(raf);
       }
     }
-    raf = requestAnimationFrame(tick);
+    requestAnimationFrame(tick);
   });
 
-  setTimeout(() => {
-    loader.classList.add('gone');
-    setTimeout(onDone, 600);
-  }, 1500);
+  setTimeout(() => loader.classList.add('gone'), 1500);
 }
 
 /* ═══════════════════════════════════════════════════════════════
    2. HEADER — go solid after 50vh
    ═══════════════════════════════════════════════════════════════ */
-function initHeaderScrollState() {
+function initHeader() {
   const hdr = document.getElementById('siteHeader');
-  if (!hdr) return;
-  const trigger = window.innerHeight * 0.5;
-  function check(y) {
-    hdr.classList.toggle('solid', y > trigger);
-  }
-  check(window.scrollY);
-  return check;
+  if (!hdr) return null;
+  let solid = false;
+  return function check(y) {
+    const wantSolid = y > window.innerHeight * 0.5;
+    if (wantSolid !== solid) {
+      hdr.classList.toggle('solid', wantSolid);
+      solid = wantSolid;
+    }
+  };
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   3. LENIS smooth scroll (lerp 0.05 — slow & cinematic)
+   3. THE TUNNEL — vanilla, no external deps.
+      sceneZ is lerped toward target each frame for an inertial feel.
    ═══════════════════════════════════════════════════════════════ */
-function initLenis() {
-  if (REDUCED || typeof Lenis === 'undefined') return null;
-  const lenis = new Lenis({
-    duration: 1.2,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    smoothWheel: true,
-    lerp: 0.05,
-    wheelMultiplier: 1.0,
-    touchMultiplier: 1.6,
-  });
-  function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-  requestAnimationFrame(raf);
-  if (typeof ScrollTrigger !== 'undefined') {
-    lenis.on('scroll', ScrollTrigger.update);
-    ScrollTrigger.scrollerProxy(document.documentElement, {
-      scrollTop(value) {
-        if (arguments.length) lenis.scrollTo(value, { immediate: true });
-        return window.scrollY;
-      },
-      getBoundingClientRect() {
-        return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
-      }
-    });
-  }
-  return lenis;
+const SCENE_TRAVEL = 5600;
+const FADE_IN_FAR = -1500, FADE_IN_NEAR = -500;
+const FADE_OUT_NEAR = 100, FADE_OUT_FAR = 400;
+
+function map(v, a, b, c, d) {
+  const t = Math.max(0, Math.min(1, (v - a) / (b - a)));
+  return c + t * (d - c);
 }
-
-/* ═══════════════════════════════════════════════════════════════
-   4. THE TUNNEL — drive scene.translateZ from scroll progress.
-      Per-layer opacity computed each frame from camera distance.
-   ═══════════════════════════════════════════════════════════════ */
-const SCENE_TRAVEL = 5600;   // total Z distance the scene travels (px)
-const FADE_IN_FAR  = -1500;  // effZ at which a layer starts fading in
-const FADE_IN_NEAR = -500;   // effZ at which a layer reaches full opacity
-const FADE_OUT_NEAR = 100;   // effZ at which a layer starts fading out (just past camera)
-const FADE_OUT_FAR  = 400;   // effZ at which a layer is fully invisible
-
-function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
-function map(v, a, b, c, d) { return c + (clamp(v, a, b) - a) * (d - c) / (b - a); }
-
 function computeOpacity(effZ) {
   if (effZ <= FADE_IN_FAR) return 0;
   if (effZ <= FADE_IN_NEAR) return map(effZ, FADE_IN_FAR, FADE_IN_NEAR, 0, 1);
@@ -747,88 +714,71 @@ function computeOpacity(effZ) {
   return 0;
 }
 
-function initTunnel(lenis, headerCheck) {
-  if (IS_MOBILE || REDUCED) return;
-  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-
+function initTunnel(headerCheck) {
+  const stage = document.getElementById('stage');
   const scene = document.getElementById('scene');
-  const layers = [...document.querySelectorAll('.layer')].map(el => ({
-    el,
-    z: parseFloat(el.dataset.z) || 0,
-    transform: el.style.transform || '',
-  }));
+  const spacer = document.getElementById('scrollSpacer');
+  if (!stage || !scene || !spacer) return;
 
+  if (IS_MOBILE || REDUCED) {
+    stage.style.display = 'none';
+    spacer.style.display = 'none';
+    return;
+  }
+
+  const layers = [...scene.querySelectorAll('.layer')].map(el => ({
+    el, z: parseFloat(el.dataset.z) || 0
+  }));
   const fillEl = document.getElementById('progressFill');
   const labelEl = document.getElementById('progressLabel');
 
-  function paint(sceneZ) {
-    scene.style.transform = `translateZ(${sceneZ}px)`;
+  let targetZ = 0;
+  let sceneZ = 0;
+
+  function getProgress() {
+    const max = spacer.offsetHeight - window.innerHeight;
+    if (max <= 0) return 0;
+    return Math.max(0, Math.min(1, window.scrollY / max));
+  }
+
+  function paint() {
+    scene.style.transform = `translate3d(0,0,${sceneZ}px)`;
     let activeIdx = 0, bestDist = Infinity;
-    layers.forEach((l, i) => {
+    for (let i = 0; i < layers.length; i++) {
+      const l = layers[i];
       const effZ = l.z + sceneZ;
       const op = computeOpacity(effZ);
       l.el.style.opacity = op;
-      // Fully suppress invisible layers from interaction & paint.
       l.el.style.visibility = op > 0.02 ? 'visible' : 'hidden';
       const d = Math.abs(effZ);
       if (d < bestDist) { bestDist = d; activeIdx = i; }
-    });
+    }
     if (fillEl) fillEl.style.height = (sceneZ / SCENE_TRAVEL * 100).toFixed(2) + '%';
     if (labelEl) labelEl.textContent =
-      String(activeIdx + 1).padStart(2,'0') + ' / ' + String(layers.length).padStart(2,'0');
+      String(activeIdx + 1).padStart(2, '0') + ' / ' + String(layers.length).padStart(2, '0');
   }
 
-  // Initial paint immediately so layers are correct beneath the loader.
-  paint(0);
+  function frame() {
+    targetZ = getProgress() * SCENE_TRAVEL;
+    // Inertial lerp gives a slight "scrub" feel without Lenis.
+    sceneZ += (targetZ - sceneZ) * 0.18;
+    if (Math.abs(targetZ - sceneZ) < 0.4) sceneZ = targetZ;
+    paint();
+    if (headerCheck) headerCheck(window.scrollY);
+    requestAnimationFrame(frame);
+  }
 
-  ScrollTrigger.create({
-    trigger: '#scrollSpacer',
-    start: 'top top',
-    end: 'bottom bottom',
-    scrub: 0.4,
-    onUpdate: (self) => paint(self.progress * SCENE_TRAVEL),
-  });
+  paint();
+  requestAnimationFrame(frame);
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   5. MOBILE / REDUCED — make all layers visible as plain stack via CSS.
-      Nothing JS-side needed; the .mobile-only block is shown by media query.
+   Boot
    ═══════════════════════════════════════════════════════════════ */
-
-/* ═══════════════════════════════════════════════════════════════
-   Boot — loader runs in parallel with tunnel init so by the time
-   the black overlay fades out, the tunnel is already painted.
-   ═══════════════════════════════════════════════════════════════ */
-runLoader(() => { /* loader fully gone — nothing more to do */ });
-
-const headerCheck = initHeaderScrollState();
-let lastY = 0;
-window.addEventListener('scroll', () => {
-  const y = window.scrollY;
-  if (Math.abs(y - lastY) > 4) {
-    if (headerCheck) headerCheck(y);
-    lastY = y;
-  }
-}, { passive: true });
-
-if (IS_MOBILE || REDUCED) {
-  const stage = document.getElementById('stage');
-  if (stage) stage.style.display = 'none';
-  const spacer = document.getElementById('scrollSpacer');
-  if (spacer) spacer.style.display = 'none';
-} else {
-  const lenis = initLenis();
-  // requestAnimationFrame so layout settles after font swap
-  requestAnimationFrame(() => initTunnel(lenis, headerCheck));
-  // Re-init on window resize (re-measure ScrollTrigger boundaries)
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
-    }, 200);
-  });
-}
+runLoader();
+const headerCheck = initHeader();
+window.addEventListener('scroll', () => { if (headerCheck) headerCheck(window.scrollY); }, { passive: true });
+initTunnel(headerCheck);
 </script>
 </body>
 </html>
