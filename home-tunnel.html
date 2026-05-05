@@ -1,0 +1,834 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WiggMap — Where is the grass actually greener?</title>
+<meta name="description" content="160 countries. Real data. Zero bullshit. A 3D field guide for the restless, the curious, the ones already half-packed.">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" href="assets/favicon.ico">
+<link rel="stylesheet" href="assets/wm-tokens.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400;9..144,700;9..144,900;9..144,900,100&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+<style>
+  :root {
+    --void: #0a0a0a;
+    --cream: #ece6d2;
+    --brick: #b8442b;
+    --muted: rgba(236, 230, 210, 0.55);
+    --muted-2: rgba(236, 230, 210, 0.32);
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-power: cubic-bezier(0.77, 0, 0.175, 1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--void);
+    color: var(--cream);
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.4;
+    overflow-x: hidden;
+  }
+  ::selection { background: var(--brick); color: var(--cream); }
+
+  /* Subtle grain — fixed, not animated */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    z-index: 9000;
+    pointer-events: none;
+    opacity: 0.03;
+    mix-blend-mode: overlay;
+    background-image:
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='3'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  /* Vignette — fixed radial overlay to enhance the tunnel feel */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    z-index: 8000;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center,
+                                rgba(10,10,10,0) 0%,
+                                rgba(10,10,10,0) 38%,
+                                rgba(10,10,10,0.35) 75%,
+                                rgba(10,10,10,0.85) 100%);
+  }
+
+  /* Skip-link */
+  .wm-skip {
+    position: absolute; left: -9999px; top: 0;
+    background: var(--brick); color: var(--cream);
+    padding: 10px 18px;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 13px; font-weight: 600;
+    z-index: 100000;
+    text-decoration: none;
+  }
+  .wm-skip:focus { left: 0; outline: 2px solid var(--cream); outline-offset: -4px; }
+
+  /* ════════════════════════════════════════════════════════════
+     LOADER — black with split-flap "WIGGMAP"
+     ════════════════════════════════════════════════════════════ */
+  .loader {
+    position: fixed; inset: 0;
+    background: var(--void);
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 28px;
+    transition: opacity 0.6s var(--ease-power);
+  }
+  .loader.gone { opacity: 0; pointer-events: none; }
+  .loader-line {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .loader-line em {
+    font-style: normal;
+    color: var(--brick);
+    margin-left: 4px;
+  }
+  .loader-brand {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 700;
+    color: var(--cream);
+    letter-spacing: 0.18em;
+    line-height: 1;
+    display: flex;
+    gap: 0.04em;
+  }
+  .loader-brand span {
+    display: inline-block;
+    min-width: 0.7em;
+    text-align: center;
+  }
+
+  /* ════════════════════════════════════════════════════════════
+     HEADER — transparent then black after 50vh
+     ════════════════════════════════════════════════════════════ */
+  #siteHeader {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 5000;
+    transition: background 0.4s var(--ease-out), backdrop-filter 0.4s;
+  }
+  #siteHeader.solid {
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: saturate(1.2) blur(8px);
+    -webkit-backdrop-filter: saturate(1.2) blur(8px);
+  }
+  /* Force the header bar (header.js) to fit the dark theme */
+  #siteHeader .wmh-bar { background: transparent !important; }
+
+  /* ════════════════════════════════════════════════════════════
+     TUNNEL STAGE — fixed perspective container
+     ════════════════════════════════════════════════════════════ */
+  .stage {
+    position: fixed;
+    inset: 0;
+    perspective: 1500px;
+    perspective-origin: 50% 50%;
+    overflow: hidden;
+    z-index: 1;
+  }
+  .scene {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    will-change: transform;
+    transform: translateZ(0);
+  }
+  .layer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    transform: translate(-50%, -50%) translateZ(var(--z, 0));
+    will-change: opacity, transform;
+    backface-visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    text-align: center;
+  }
+
+  /* Layer 1 — intro */
+  .layer-intro {
+    --z: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+  .layer-intro .lead {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--cream);
+  }
+  .layer-intro .arrow {
+    width: 1px;
+    height: 64px;
+    background: linear-gradient(180deg, transparent, var(--brick) 40%, var(--cream));
+    position: relative;
+  }
+  .layer-intro .arrow::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 50%;
+    width: 10px; height: 10px;
+    border-right: 1px solid var(--cream);
+    border-bottom: 1px solid var(--cream);
+    transform: translateX(-50%) rotate(45deg);
+  }
+  .layer-intro .arrow {
+    animation: bob 1.6s ease-in-out infinite;
+  }
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50% { transform: translateY(8px); opacity: 1; }
+  }
+  .layer-intro .meta {
+    margin-top: 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--muted-2);
+  }
+
+  /* Big Fraunces title layers */
+  .layer-text {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.045em;
+    line-height: 0.9;
+    color: var(--cream);
+    font-variation-settings: "opsz" 144;
+    white-space: nowrap;
+  }
+  .layer-text.brick { color: var(--brick); }
+
+  .layer-where  { --z: -800px;  font-size: clamp(120px, 18vw, 280px); }
+  .layer-grass  { --z: -1600px; font-size: clamp(160px, 26vw, 400px); transform: translate(-50%, -50%) translateZ(var(--z)) translateX(-6vw); }
+  .layer-actually { --z: -3200px; font-size: clamp(160px, 22vw, 360px); }
+  .layer-greener  { --z: -4800px; font-size: clamp(180px, 28vw, 480px); }
+  .layer-greener .qmark {
+    display: inline-block;
+    font-size: 1.35em;
+    transform: translateY(0.07em);
+    color: var(--brick);
+  }
+
+  /* Photo layers */
+  .layer-photos {
+    width: 100vw; height: 100vh;
+    pointer-events: none;
+  }
+  .layer-photos.set-1 { --z: -2400px; }
+  .layer-photos.set-2 { --z: -4000px; }
+  .layer-photos {
+    transform: translate(-50%, -50%) translateZ(var(--z));
+  }
+  .polaroid {
+    position: absolute;
+    width: 360px;
+    height: 460px;
+    background: var(--cream);
+    padding: 14px 14px 64px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.55), 0 4px 12px rgba(0,0,0,0.4);
+    backface-visibility: hidden;
+  }
+  .polaroid img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    background: #1a1a1a;
+  }
+  .polaroid .caption {
+    position: absolute;
+    left: 0; right: 0; bottom: 18px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(20,20,20,0.7);
+  }
+  /* Set 1 placement */
+  .polaroid.lisbonne  { top: calc(50% - 200px - 230px); left: calc(50% - 300px - 180px); transform: rotate(-3deg); }
+  .polaroid.tokyo     { top: calc(50% + 100px - 230px); left: calc(50% + 400px - 180px); transform: rotate(5deg); }
+  .polaroid.reykjavik { top: calc(50% + 300px - 230px); left: calc(50% - 200px - 180px); transform: rotate(-2deg); }
+  /* Set 2 placement */
+  .polaroid.bali        { top: calc(50% - 240px - 230px); left: calc(50% + 280px - 180px); transform: rotate(4deg); }
+  .polaroid.mexicocity  { top: calc(50% + 60px - 230px);  left: calc(50% - 380px - 180px); transform: rotate(-5deg); }
+  .polaroid.stockholm   { top: calc(50% + 280px - 230px); left: calc(50% + 200px - 180px); transform: rotate(2deg); }
+
+  /* Final layer — "FIND YOURS." + CTA */
+  .layer-final {
+    --z: -5600px;
+    width: min(100vw, 1100px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 56px;
+  }
+  .layer-final h2 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(80px, 14vw, 200px);
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    color: var(--cream);
+    text-transform: uppercase;
+    font-variation-settings: "opsz" 144;
+  }
+  .layer-final h2 em {
+    font-style: italic;
+    color: var(--brick);
+  }
+  .layer-final .cta {
+    pointer-events: auto;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: clamp(13px, 1.2vw, 16px);
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--cream);
+    text-decoration: none;
+    padding: 0 0 4px;
+    position: relative;
+    display: inline-block;
+  }
+  .layer-final .cta::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 1px;
+    background: var(--cream);
+    transform: scaleX(1);
+    transform-origin: left;
+    transition: transform 0.6s var(--ease-power);
+  }
+  .layer-final .cta:hover::after {
+    transform: scaleX(0);
+    transform-origin: right;
+  }
+  .layer-final .cta .arr {
+    display: inline-block;
+    margin-right: 10px;
+    transition: transform 0.4s var(--ease-out);
+  }
+  .layer-final .cta:hover .arr { transform: translateX(8px); }
+
+  /* Scroll spacer — gives the page its 700vh height so scroll feels long */
+  .scroll-spacer {
+    position: relative;
+    height: 700vh;
+    width: 100%;
+    pointer-events: none;
+  }
+
+  /* Progress micro-indicator (top-right) */
+  .progress {
+    position: fixed;
+    top: 50%;
+    right: 24px;
+    transform: translateY(-50%);
+    z-index: 5500;
+    width: 1px;
+    height: 220px;
+    background: rgba(236,230,210,0.12);
+    pointer-events: none;
+  }
+  .progress-fill {
+    position: absolute;
+    top: 0; left: 0;
+    width: 1px;
+    height: 0%;
+    background: var(--brick);
+    transition: height 0.1s linear;
+  }
+  .progress-label {
+    position: absolute;
+    bottom: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--muted-2);
+    white-space: nowrap;
+  }
+
+  /* ════════════════════════════════════════════════════════════
+     MOBILE FALLBACK — < 768px : stacked vertical, NO 3D
+     ════════════════════════════════════════════════════════════ */
+  @media (max-width: 768px) {
+    .stage, .progress { display: none; }
+    .scroll-spacer { display: none; }
+    body { overflow-x: hidden; }
+    .mobile-only { display: block; }
+  }
+  .mobile-only { display: none; }
+
+  .mob-section {
+    min-height: 90vh;
+    min-height: 90dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 24px;
+    position: relative;
+  }
+  .mob-section.hero h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(56px, 16vw, 110px);
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    color: var(--cream);
+    text-transform: uppercase;
+  }
+  .mob-section.hero h1 em {
+    font-style: italic;
+    color: var(--brick);
+  }
+  .mob-section.hero .lead {
+    margin-top: 20px;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .mob-photos {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin: 24px 0;
+  }
+  .mob-photo {
+    background: var(--cream);
+    padding: 12px 12px 44px;
+    box-shadow: 0 14px 36px rgba(0,0,0,0.4);
+    position: relative;
+  }
+  .mob-photo img {
+    width: 100%;
+    aspect-ratio: 4/5;
+    object-fit: cover;
+    display: block;
+  }
+  .mob-photo .cap {
+    position: absolute;
+    left: 0; right: 0; bottom: 14px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: rgba(20,20,20,0.7);
+    text-transform: uppercase;
+  }
+  .mob-section.cta {
+    text-align: center;
+  }
+  .mob-section.cta h2 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-weight: 900;
+    font-size: clamp(64px, 16vw, 120px);
+    line-height: 0.92;
+    color: var(--cream);
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+  }
+  .mob-section.cta h2 em {
+    color: var(--brick);
+    font-style: italic;
+  }
+  .mob-section.cta a.cta {
+    margin-top: 40px;
+    display: inline-block;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--cream);
+    text-decoration: none;
+    border-bottom: 1px solid var(--cream);
+    padding-bottom: 4px;
+  }
+
+  /* ════════════════════════════════════════════════════════════
+     PREFERS-REDUCED-MOTION — flatten everything to mobile stack
+     ════════════════════════════════════════════════════════════ */
+  @media (prefers-reduced-motion: reduce) {
+    .stage, .progress, .scroll-spacer { display: none !important; }
+    .mobile-only { display: block !important; }
+    .layer-intro .arrow { animation: none; }
+    .loader { display: none !important; }
+  }
+</style>
+</head>
+<body>
+<a class="wm-skip" href="#wm-main">Skip to content</a>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-line">Entering<em>//</em></div>
+  <div class="loader-brand" id="loaderBrand">
+    <span data-final="W">·</span>
+    <span data-final="I">·</span>
+    <span data-final="G">·</span>
+    <span data-final="G">·</span>
+    <span data-final="M">·</span>
+    <span data-final="A">·</span>
+    <span data-final="P">·</span>
+  </div>
+</div>
+
+<div id="siteHeader"></div>
+<script src="data/header.js"></script>
+<a id="wm-main" tabindex="-1"></a>
+
+<!-- ════════════════════════ DESKTOP TUNNEL ════════════════════════ -->
+<div class="stage" id="stage" aria-hidden="false">
+  <div class="scene" id="scene">
+
+    <!-- Layer 1 — Intro -->
+    <div class="layer layer-intro" data-z="0">
+      <div class="lead">Scroll to enter</div>
+      <div class="arrow" aria-hidden="true"></div>
+      <div class="meta">160 countries · real data · zero bullshit</div>
+    </div>
+
+    <!-- Layer 2 — WHERE IS THE -->
+    <div class="layer layer-text layer-where" data-z="-800">
+      Where is the
+    </div>
+
+    <!-- Layer 3 — GRASS (brick accent, off-center) -->
+    <div class="layer layer-text brick layer-grass" data-z="-1600">
+      Grass
+    </div>
+
+    <!-- Layer 4 — Photos set 1 -->
+    <div class="layer layer-photos set-1" data-z="-2400">
+      <figure class="polaroid lisbonne">
+        <picture><source srcset="assetscity/lisbonne.webp" type="image/webp"><img src="assetscity/lisbonne.png" alt="Lisbonne" loading="lazy"></picture>
+        <figcaption class="caption">Lisbonne · 38.7°N</figcaption>
+      </figure>
+      <figure class="polaroid tokyo">
+        <picture><source srcset="assetscity/tokyo.webp" type="image/webp"><img src="assetscity/tokyo.png" alt="Tokyo" loading="lazy"></picture>
+        <figcaption class="caption">Tokyo · 35.6°N</figcaption>
+      </figure>
+      <figure class="polaroid reykjavik">
+        <picture><source srcset="assets/hero-iceland.webp" type="image/webp"><img src="assets/hero-iceland.jpg" alt="Reykjavík" loading="lazy"></picture>
+        <figcaption class="caption">Reykjavík · 64.1°N</figcaption>
+      </figure>
+    </div>
+
+    <!-- Layer 5 — ACTUALLY -->
+    <div class="layer layer-text layer-actually" data-z="-3200">
+      Actually
+    </div>
+
+    <!-- Layer 6 — Photos set 2 -->
+    <div class="layer layer-photos set-2" data-z="-4000">
+      <figure class="polaroid bali">
+        <picture><source srcset="assetscity/bali.webp" type="image/webp"><img src="assetscity/bali.png" alt="Bali" loading="lazy"></picture>
+        <figcaption class="caption">Bali · 8.4°S</figcaption>
+      </figure>
+      <figure class="polaroid mexicocity">
+        <picture><source srcset="assetscity/mexico-city.webp" type="image/webp"><img src="assetscity/mexico-city.png" alt="Mexico City" loading="lazy"></picture>
+        <figcaption class="caption">Mexico City · 19.4°N</figcaption>
+      </figure>
+      <figure class="polaroid stockholm">
+        <picture><source srcset="assets/hero-sweden.webp" type="image/webp"><img src="assets/hero-sweden.jpg" alt="Stockholm" loading="lazy"></picture>
+        <figcaption class="caption">Stockholm · 59.3°N</figcaption>
+      </figure>
+    </div>
+
+    <!-- Layer 7 — GREENER? -->
+    <div class="layer layer-text brick layer-greener" data-z="-4800">
+      Greener<span class="qmark">?</span>
+    </div>
+
+    <!-- Layer 8 — Final / CTA -->
+    <div class="layer layer-final" data-z="-5600">
+      <h2>Find <em>Yours.</em></h2>
+      <a href="wiggmatch.html" class="cta">
+        <span class="arr">→</span>Take the quiz
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<div class="progress" aria-hidden="true">
+  <div class="progress-fill" id="progressFill"></div>
+  <div class="progress-label" id="progressLabel">00 / 08</div>
+</div>
+
+<!-- The scroll-spacer gives the page its tall scrollable height -->
+<div class="scroll-spacer" id="scrollSpacer"></div>
+
+<!-- ════════════════════════ MOBILE FALLBACK ════════════════════════ -->
+<div class="mobile-only">
+  <section class="mob-section hero">
+    <h1>Where<br>is the<br><em>grass</em><br>actually<br><em>greener?</em></h1>
+    <p class="lead">160 countries · real data · zero bullshit</p>
+  </section>
+  <section class="mob-section">
+    <div class="mob-photos">
+      <figure class="mob-photo"><picture><source srcset="assetscity/lisbonne.webp" type="image/webp"><img src="assetscity/lisbonne.png" alt="Lisbonne" loading="lazy"></picture><figcaption class="cap">Lisbonne</figcaption></figure>
+      <figure class="mob-photo"><picture><source srcset="assetscity/tokyo.webp" type="image/webp"><img src="assetscity/tokyo.png" alt="Tokyo" loading="lazy"></picture><figcaption class="cap">Tokyo</figcaption></figure>
+      <figure class="mob-photo"><picture><source srcset="assets/hero-iceland.webp" type="image/webp"><img src="assets/hero-iceland.jpg" alt="Reykjavík" loading="lazy"></picture><figcaption class="cap">Reykjavík</figcaption></figure>
+    </div>
+  </section>
+  <section class="mob-section">
+    <div class="mob-photos">
+      <figure class="mob-photo"><picture><source srcset="assetscity/bali.webp" type="image/webp"><img src="assetscity/bali.png" alt="Bali" loading="lazy"></picture><figcaption class="cap">Bali</figcaption></figure>
+      <figure class="mob-photo"><picture><source srcset="assetscity/mexico-city.webp" type="image/webp"><img src="assetscity/mexico-city.png" alt="Mexico City" loading="lazy"></picture><figcaption class="cap">Mexico City</figcaption></figure>
+      <figure class="mob-photo"><picture><source srcset="assets/hero-sweden.webp" type="image/webp"><img src="assets/hero-sweden.jpg" alt="Stockholm" loading="lazy"></picture><figcaption class="cap">Stockholm</figcaption></figure>
+    </div>
+  </section>
+  <section class="mob-section cta">
+    <h2>Find<br><em>Yours.</em></h2>
+    <a href="wiggmatch.html" class="cta">→ Take the quiz</a>
+  </section>
+</div>
+
+<div id="siteFooter"></div>
+<script src="data/footer.js"></script>
+
+<script>
+'use strict';
+
+const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const IS_MOBILE = window.matchMedia('(max-width: 768px)').matches;
+
+/* ═══════════════════════════════════════════════════════════════
+   1. LOADER — split-flap "WIGGMAP" on black, 1.5s total
+   ═══════════════════════════════════════════════════════════════ */
+function runLoader(onDone) {
+  const loader = document.getElementById('loader');
+  const brand = document.getElementById('loaderBrand');
+  if (!loader || !brand) { onDone(); return; }
+  if (REDUCED) {
+    loader.classList.add('gone');
+    setTimeout(onDone, 80);
+    return;
+  }
+
+  const cells = [...brand.querySelectorAll('span')];
+  const finals = cells.map(c => c.dataset.final);
+  const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#%&@/*';
+
+  // Each cell rolls through random chars for a duration, then locks.
+  const ROLL_TIME = 900; // ms total for the rolling phase
+  const STAGGER = 80;    // each cell starts/locks slightly later
+
+  cells.forEach((cell, i) => {
+    const startDelay = i * 30;
+    const lockTime = ROLL_TIME + i * STAGGER;
+    let raf;
+    let lastSwap = 0;
+    const t0 = performance.now();
+    function tick(now) {
+      const elapsed = now - t0;
+      if (elapsed < startDelay) {
+        raf = requestAnimationFrame(tick);
+        return;
+      }
+      if (elapsed < lockTime) {
+        if (now - lastSwap > 50) {
+          cell.textContent = charset[Math.floor(Math.random() * charset.length)];
+          lastSwap = now;
+        }
+        raf = requestAnimationFrame(tick);
+      } else {
+        cell.textContent = finals[i];
+        cancelAnimationFrame(raf);
+      }
+    }
+    raf = requestAnimationFrame(tick);
+  });
+
+  setTimeout(() => {
+    loader.classList.add('gone');
+    setTimeout(onDone, 600);
+  }, 1500);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   2. HEADER — go solid after 50vh
+   ═══════════════════════════════════════════════════════════════ */
+function initHeaderScrollState() {
+  const hdr = document.getElementById('siteHeader');
+  if (!hdr) return;
+  const trigger = window.innerHeight * 0.5;
+  function check(y) {
+    hdr.classList.toggle('solid', y > trigger);
+  }
+  check(window.scrollY);
+  return check;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   3. LENIS smooth scroll (lerp 0.05 — slow & cinematic)
+   ═══════════════════════════════════════════════════════════════ */
+function initLenis() {
+  if (REDUCED || typeof Lenis === 'undefined') return null;
+  const lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true,
+    lerp: 0.05,
+    wheelMultiplier: 1.0,
+    touchMultiplier: 1.6,
+  });
+  function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+  if (typeof ScrollTrigger !== 'undefined') {
+    lenis.on('scroll', ScrollTrigger.update);
+    ScrollTrigger.scrollerProxy(document.documentElement, {
+      scrollTop(value) {
+        if (arguments.length) lenis.scrollTo(value, { immediate: true });
+        return window.scrollY;
+      },
+      getBoundingClientRect() {
+        return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
+      }
+    });
+  }
+  return lenis;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   4. THE TUNNEL — drive scene.translateZ from scroll progress.
+      Per-layer opacity computed each frame from camera distance.
+   ═══════════════════════════════════════════════════════════════ */
+const SCENE_TRAVEL = 5600;   // total Z distance the scene travels (px)
+const FADE_IN_FAR  = -1500;  // effZ at which a layer starts fading in
+const FADE_IN_NEAR = -500;   // effZ at which a layer reaches full opacity
+const FADE_OUT_NEAR = 100;   // effZ at which a layer starts fading out (just past camera)
+const FADE_OUT_FAR  = 400;   // effZ at which a layer is fully invisible
+
+function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+function map(v, a, b, c, d) { return c + (clamp(v, a, b) - a) * (d - c) / (b - a); }
+
+function computeOpacity(effZ) {
+  if (effZ <= FADE_IN_FAR) return 0;
+  if (effZ <= FADE_IN_NEAR) return map(effZ, FADE_IN_FAR, FADE_IN_NEAR, 0, 1);
+  if (effZ <= FADE_OUT_NEAR) return 1;
+  if (effZ <= FADE_OUT_FAR) return map(effZ, FADE_OUT_NEAR, FADE_OUT_FAR, 1, 0);
+  return 0;
+}
+
+function initTunnel(lenis, headerCheck) {
+  if (IS_MOBILE || REDUCED) return;
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+  const scene = document.getElementById('scene');
+  const layers = [...document.querySelectorAll('.layer')].map(el => ({
+    el,
+    z: parseFloat(el.dataset.z) || 0,
+    transform: el.style.transform || '',
+  }));
+
+  const fillEl = document.getElementById('progressFill');
+  const labelEl = document.getElementById('progressLabel');
+
+  function paint(sceneZ) {
+    scene.style.transform = `translateZ(${sceneZ}px)`;
+    let activeIdx = 0, bestDist = Infinity;
+    layers.forEach((l, i) => {
+      const effZ = l.z + sceneZ;
+      const op = computeOpacity(effZ);
+      l.el.style.opacity = op;
+      // Fully suppress invisible layers from interaction & paint.
+      l.el.style.visibility = op > 0.02 ? 'visible' : 'hidden';
+      const d = Math.abs(effZ);
+      if (d < bestDist) { bestDist = d; activeIdx = i; }
+    });
+    if (fillEl) fillEl.style.height = (sceneZ / SCENE_TRAVEL * 100).toFixed(2) + '%';
+    if (labelEl) labelEl.textContent =
+      String(activeIdx + 1).padStart(2,'0') + ' / ' + String(layers.length).padStart(2,'0');
+  }
+
+  // Initial paint immediately so layers are correct beneath the loader.
+  paint(0);
+
+  ScrollTrigger.create({
+    trigger: '#scrollSpacer',
+    start: 'top top',
+    end: 'bottom bottom',
+    scrub: 0.4,
+    onUpdate: (self) => paint(self.progress * SCENE_TRAVEL),
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   5. MOBILE / REDUCED — make all layers visible as plain stack via CSS.
+      Nothing JS-side needed; the .mobile-only block is shown by media query.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════════════
+   Boot — loader runs in parallel with tunnel init so by the time
+   the black overlay fades out, the tunnel is already painted.
+   ═══════════════════════════════════════════════════════════════ */
+runLoader(() => { /* loader fully gone — nothing more to do */ });
+
+const headerCheck = initHeaderScrollState();
+let lastY = 0;
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  if (Math.abs(y - lastY) > 4) {
+    if (headerCheck) headerCheck(y);
+    lastY = y;
+  }
+}, { passive: true });
+
+if (IS_MOBILE || REDUCED) {
+  const stage = document.getElementById('stage');
+  if (stage) stage.style.display = 'none';
+  const spacer = document.getElementById('scrollSpacer');
+  if (spacer) spacer.style.display = 'none';
+} else {
+  const lenis = initLenis();
+  // requestAnimationFrame so layout settles after font swap
+  requestAnimationFrame(() => initTunnel(lenis, headerCheck));
+  // Re-init on window resize (re-measure ScrollTrigger boundaries)
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+    }, 200);
+  });
+}
+</script>
+</body>
+</html>
