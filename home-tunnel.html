@@ -134,15 +134,18 @@
     align-items: center;
     justify-content: flex-start;
     padding: 0 8vw;
-    pointer-events: none;
-    transition: opacity 0.9s var(--ease-power);
+    pointer-events: auto;        /* catches click-to-skip */
+    cursor: pointer;
+    transition: opacity 0.7s var(--ease-power);
   }
-  .intro-hero.gone { opacity: 0; }
+  .intro-hero.gone { opacity: 0; pointer-events: none; }
   .intro-hero h1 {
     font-family: 'Fraunces', Georgia, serif;
     font-style: italic;
     font-weight: 900;
-    font-size: clamp(72px, 13vw, 220px);
+    /* Cap by viewport HEIGHT too, so the 4 lines never overflow short
+       laptop screens. 13vh × 4 lines × 0.92 line-height ≈ 48vh. */
+    font-size: clamp(56px, min(13vw, 13vh), 200px);
     line-height: 0.92;
     letter-spacing: -0.045em;
     color: var(--cream);
@@ -167,6 +170,31 @@
   .intro-hero .row-2 { padding-left: 6vw; }
   .intro-hero .row-3 { padding-left: 12vw; }
   .intro-hero .row-4 { padding-left: 4vw; }
+
+  /* Skip hint — appears mid-cascade, fades with the hero */
+  .intro-hint {
+    position: absolute;
+    bottom: 36px; left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+    opacity: 0;
+    transition: opacity 0.6s var(--ease-power);
+    pointer-events: none;
+  }
+  .intro-hint.in { opacity: 1; }
+  .intro-hint .pulse {
+    display: inline-block;
+    margin-left: 8px;
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: translateY(0); opacity: 0.7; }
+    50% { transform: translateY(3px); opacity: 1; }
+  }
 
   /* ════════════════════════════════════════════════════════════
      HEADER — transparent then black after 50vh
@@ -565,7 +593,8 @@
   </div>
 </div>
 
-<!-- Intro hero — full sentence, cascade reveal, then dissolves to tunnel -->
+<!-- Intro hero — full sentence, cascade reveal, then dissolves to tunnel.
+     Click / scroll / keypress dismisses early. -->
 <div class="intro-hero" id="introHero" aria-hidden="true">
   <h1>
     <span class="line row-1"><span class="word">Where</span> <span class="word">is</span> <span class="word">the</span></span>
@@ -573,6 +602,7 @@
     <span class="line row-3"><span class="word">Actually</span></span>
     <span class="line row-4"><span class="word brick">Greener?</span></span>
   </h1>
+  <div class="intro-hint" id="introHint">scroll, click or press any key<span class="pulse">↓</span></div>
 </div>
 
 <div id="siteHeader"></div>
@@ -583,11 +613,12 @@
 <div class="stage" id="stage" aria-hidden="false">
   <div class="scene" id="scene">
 
-    <!-- Layer 1 — Intro -->
+    <!-- Layer 1 — Intro chamber. The intro-hero already prompted to scroll;
+         layer 1 is the first quiet beat of the tunnel itself. -->
     <div class="layer layer-intro" data-z="0">
-      <div class="lead">Scroll to enter</div>
+      <div class="meta">Field issue 07 · May 2026</div>
       <div class="arrow" aria-hidden="true"></div>
-      <div class="meta">160 countries · real data · zero bullshit</div>
+      <div class="meta">160 countries · 25 metrics · zero bullshit</div>
     </div>
 
     <!-- Layer 2 — WHERE IS THE -->
@@ -707,8 +738,13 @@ setTimeout(() => {
 setTimeout(() => {
   const h = document.getElementById('introHero');
   if (h && !h.classList.contains('gone')) h.classList.add('gone');
-  document.documentElement.style.overflow = '';
-}, 8000);
+}, 6000);
+
+/* Force the tunnel to start at scrollY=0. Without this, a refresh
+   mid-page would land the user at an arbitrary tunnel depth while
+   the intro-hero is still covering the screen — total desync. */
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+window.scrollTo(0, 0);
 
 /* ═══════════════════════════════════════════════════════════════
    1. LOADER — split-flap "WIGGMAP", 1.5s then 0.6s fade
@@ -756,8 +792,11 @@ function initHeader() {
   const hdr = document.getElementById('siteHeader');
   if (!hdr) return null;
   let solid = false;
+  // Stay transparent through almost the whole tunnel — the dark bg already
+  // gives the header enough contrast. Solid only kicks in near the final
+  // layer so it doesn't compete for attention mid-scroll.
   return function check(y) {
-    const wantSolid = y > window.innerHeight * 0.5;
+    const wantSolid = y > window.innerHeight * 4.5;
     if (wantSolid !== solid) {
       hdr.classList.toggle('solid', wantSolid);
       solid = wantSolid;
@@ -848,28 +887,57 @@ function initTunnel(headerCheck) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   4. INTRO HERO — cascade reveal of the full sentence after the
-      loader fades, hold ~1.5s, then dissolve into the tunnel.
+   4. INTRO HERO — cascade reveal of the full sentence as the loader
+      fades out, then auto-dissolves into the tunnel. Dismissable on
+      scroll / click / keypress / touch — never traps the user.
    ═══════════════════════════════════════════════════════════════ */
 function runIntroHero() {
   const hero = document.getElementById('introHero');
   if (!hero) return;
   if (REDUCED || IS_MOBILE) { hero.classList.add('gone'); return; }
 
+  const hint = document.getElementById('introHint');
   const words = [...hero.querySelectorAll('.word')];
-  const REVEAL_DELAY = 2100;     // start once the loader is gone
-  const STEP = 150;              // stagger between words
-  const HOLD = 1500;             // hold the fully-revealed title
-  const TRANSITION_TAIL = 850;   // last word's transform duration
+
+  // Tighter timing — feels like a clean entrance, not a long loader.
+  const REVEAL_DELAY = 1700;     // overlap with loader fade-out
+  const STEP = 110;              // faster cascade
+  const HOLD = 700;              // shorter beat
+  const TRANSITION_TAIL = 700;
 
   words.forEach((w, i) => {
     setTimeout(() => w.classList.add('in'), REVEAL_DELAY + i * STEP);
   });
   const cascadeEnd = REVEAL_DELAY + words.length * STEP + TRANSITION_TAIL;
-  setTimeout(() => hero.classList.add('gone'), cascadeEnd + HOLD);
-  // Lock scrolling during the intro so the tunnel doesn't desync.
-  document.documentElement.style.overflow = 'hidden';
-  setTimeout(() => { document.documentElement.style.overflow = ''; }, cascadeEnd + HOLD + 900);
+  // Hint appears once the cascade is well underway (~midpoint).
+  if (hint) setTimeout(() => hint.classList.add('in'), REVEAL_DELAY + words.length * STEP * 0.6);
+  // Auto-dismiss after the hold.
+  const autoDismissAt = cascadeEnd + HOLD;
+  let timerId = setTimeout(() => dismiss(), autoDismissAt);
+
+  let dismissed = false;
+  function dismiss() {
+    if (dismissed) return;
+    dismissed = true;
+    clearTimeout(timerId);
+    hero.classList.add('gone');
+    cleanup();
+  }
+  function onKey(e) {
+    // Any non-modifier key dismisses. Also Tab so keyboard users escape immediately.
+    if (e.key === 'Shift' || e.key === 'Control' || e.key === 'Alt' || e.key === 'Meta') return;
+    dismiss();
+  }
+  function cleanup() {
+    window.removeEventListener('wheel', dismiss);
+    window.removeEventListener('touchstart', dismiss);
+    window.removeEventListener('keydown', onKey);
+    hero.removeEventListener('click', dismiss);
+  }
+  window.addEventListener('wheel', dismiss, { once: true, passive: true });
+  window.addEventListener('touchstart', dismiss, { once: true, passive: true });
+  window.addEventListener('keydown', onKey);
+  hero.addEventListener('click', dismiss);
 }
 
 /* ═══════════════════════════════════════════════════════════════
