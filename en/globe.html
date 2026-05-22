@@ -50,6 +50,16 @@
       font-weight:700;font-size:12px;color:rgba(200,215,255,.65);
       white-space:nowrap;flex:0 0 auto;
     }
+    .langSwitch{
+      display:flex;align-items:center;gap:4px;
+      padding:3px;border-radius:999px;background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.10);flex-shrink:0;
+    }
+    .langSwitch a{
+      color:rgba(232,240,255,.75);text-decoration:none;font-weight:900;font-size:11px;
+      line-height:1;padding:6px 7px;border-radius:999px;
+    }
+    .langSwitch a.active{background:rgba(46,204,113,.22);color:#fff;}
 
     /* Search bar */
     .searchWrap{
@@ -191,9 +201,10 @@
 
   <div class="hud">
     <div class="hud-logo">Wigg<span>Map</span></div>
-    <div class="status" id="status">Loading…</div>
+    <div class="status" id="status">Loading...</div>
+    <nav class="langSwitch" aria-label="Language"><a href="/en/globe.html" data-lang-link="en">EN</a><a href="/fr/globe.html" data-lang-link="fr">FR</a><a href="/es/globe.html" data-lang-link="es">ES</a></nav>
     <div class="searchWrap">
-      <input id="countrySearch" type="text" placeholder="Search a country…" autocomplete="off" />
+      <input id="countrySearch" type="text" placeholder="Search a country..." autocomplete="off" />
       <div class="acList" id="acList"></div>
     </div>
   </div>
@@ -206,6 +217,42 @@ const setStatus = (t) => document.getElementById("status").textContent = t;
 const tooltip = document.getElementById("tooltip");
 const searchInput = document.getElementById("countrySearch");
 const acList = document.getElementById("acList");
+const PAGE_LANG = (document.documentElement.lang || "en").slice(0,2).toLowerCase();
+const UI_LANG = ["en","fr","es"].includes(PAGE_LANG) ? PAGE_LANG : "en";
+const UI_TEXT = {
+  en: {
+    loading: "Loading...", searchPlaceholder: "Search a country...", ready: n => `Ready — ${n} countries clickable`,
+    expatScore: "Expat score", avgSalary: "Avg salary", icon: "Icon", sunnyDays: "Sunny days / yr", wiggLevel: "WIGG level",
+    openPage: "Open page", close: "Close", clickToOpen: "Click to open", tapAgain: name => `${name} — tap again to open`,
+    clickCountry: name => `${name} — click to open`, noData: "No data yet", notMapped: slug => `Not mapped on globe: ${slug}`, error: msg => `Error: ${msg}`
+  },
+  fr: {
+    loading: "Chargement...", searchPlaceholder: "Rechercher un pays...", ready: n => `Prêt — ${n} pays cliquables`,
+    expatScore: "Score expat", avgSalary: "Salaire moyen", icon: "Profil", sunnyDays: "Jours de soleil / an", wiggLevel: "Niveau WIGG",
+    openPage: "Ouvrir la page", close: "Fermer", clickToOpen: "Cliquez pour ouvrir", tapAgain: name => `${name} — touchez encore pour ouvrir`,
+    clickCountry: name => `${name} — cliquez pour ouvrir`, noData: "Pas encore de données", notMapped: slug => `Non affiché sur le globe : ${slug}`, error: msg => `Erreur : ${msg}`
+  },
+  es: {
+    loading: "Cargando...", searchPlaceholder: "Buscar un país...", ready: n => `Listo — ${n} países clicables`,
+    expatScore: "Puntuación expat", avgSalary: "Salario medio", icon: "Perfil", sunnyDays: "Días de sol / año", wiggLevel: "Nivel WIGG",
+    openPage: "Abrir página", close: "Cerrar", clickToOpen: "Haz clic para abrir", tapAgain: name => `${name} — toca de nuevo para abrir`,
+    clickCountry: name => `${name} — haz clic para abrir`, noData: "Sin datos todavía", notMapped: slug => `No aparece en el globo: ${slug}`, error: msg => `Error: ${msg}`
+  }
+};
+const t = (key, ...args) => {
+  const value = (UI_TEXT[UI_LANG] || UI_TEXT.en)[key] ?? UI_TEXT.en[key];
+  return typeof value === "function" ? value(...args) : value;
+};
+localStorage.setItem("wigg_lang", UI_LANG);
+searchInput.placeholder = t("searchPlaceholder");
+setStatus(t("loading"));
+document.querySelectorAll("[data-lang-link]").forEach(link => {
+  const lang = link.getAttribute("data-lang-link");
+  if(lang === UI_LANG) link.classList.add("active");
+  link.addEventListener("click", () => localStorage.setItem("wigg_lang", lang));
+});
+const countryUrl = (slug) => `/countries/${slug}-${UI_LANG}.html`;
+
 
 // ✅ Better desktop detection (Chromebook touch screen != touch UI)
 const HAS_HOVER_POINTER = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
@@ -458,7 +505,7 @@ const detailsCache = {};
 
 async function loadCountriesDB(){
   if(COUNTRIES_DB) return COUNTRIES_DB;
-  const _lang = localStorage.getItem("wigg_lang") || "en";
+  const _lang = UI_LANG;
   const _cf = _lang === "fr" ? "/data/countries.fr.json" : _lang === "es" ? "/data/countries.es.json" : "/data/countries.json";
   const r = await fetch(_cf, { cache: "no-store" });
   if(!r.ok) throw new Error("countries.json not found");
@@ -474,7 +521,7 @@ async function loadCountriesDB(){
 async function loadDetails(slug){
   if(slug in detailsCache) return detailsCache[slug];
   try{
-    const _dlang = localStorage.getItem("wigg_lang") || "en";
+    const _dlang = UI_LANG;
     const _df = _dlang === "fr" ? "details-fr" : _dlang === "es" ? "details-es" : "details";
     const r = await fetch(`/data/${_df}/${slug}.json`, { cache: "no-store" });
     if(!r.ok){ detailsCache[slug] = null; return null; }
@@ -533,15 +580,15 @@ function tooltipHTML(displayName, slug, details, pinned){
     : `<div class="tt-body" style="padding-bottom:4px"><div style="font-size:15px;font-weight:900;margin-bottom:6px">${esc(displayName)}</div></div>`;
 
   const rows = [];
-  rows.push(`<div class="tt-row"><span>Expat score</span><b>${esc(expat || "—")}</b></div>`);
-  rows.push(`<div class="tt-row"><span>Avg salary</span><b>${esc(salary)}</b></div>`);
-  if(persona) rows.push(`<div class="tt-row"><span>Icon</span><b>${esc(persona)}</b></div>`);
-  rows.push(`<div class="tt-row"><span>Sunny days / yr</span><b>${esc(sun)}</b></div>`);
-  rows.push(`<div class="tt-row"><span>WIGG level</span><b><span class="tt-wigg ${esc(wiggColor)}">${esc(wiggLabel)}</span></b></div>`);
+  rows.push(`<div class="tt-row"><span>${esc(t("expatScore"))}</span><b>${esc(expat || "—")}</b></div>`);
+  rows.push(`<div class="tt-row"><span>${esc(t("avgSalary"))}</span><b>${esc(salary)}</b></div>`);
+  if(persona) rows.push(`<div class="tt-row"><span>${esc(t("icon"))}</span><b>${esc(persona)}</b></div>`);
+  rows.push(`<div class="tt-row"><span>${esc(t("sunnyDays"))}</span><b>${esc(sun)}</b></div>`);
+  rows.push(`<div class="tt-row"><span>${esc(t("wiggLevel"))}</span><b><span class="tt-wigg ${esc(wiggColor)}">${esc(wiggLabel)}</span></b></div>`);
 
   const footAction = pinned
-    ? `<span class="pill btn green-pill" data-action="open" data-slug="${esc(slug)}">↗ Open page</span><span class="pill btn" data-action="close">✕ Close</span>`
-    : `<span class="pill">Click to open</span>`;
+    ? `<span class="pill btn green-pill" data-action="open" data-slug="${esc(slug)}">↗ ${esc(t("openPage"))}</span><span class="pill btn" data-action="close">✕ ${esc(t("close"))}</span>`
+    : `<span class="pill">${esc(t("clickToOpen"))}</span>`;
 
   return `${imgBlock}
     <div class="tt-body">
@@ -584,7 +631,7 @@ tooltip.addEventListener("click", (e) => {
     hideTooltip();
   } else if(action === "open"){
     const slug = btn.getAttribute("data-slug");
-    if(slug){const lg=(localStorage.getItem("wigg_lang")||"en").toLowerCase();const ul=["en","fr","es"].includes(lg)?lg:"en";window.location.href=`/countries/${slug}-${ul}.html`;}
+    if(slug){ window.location.href = countryUrl(slug); }
   }
 });
 
@@ -620,7 +667,7 @@ function centroidOfFeature(feature){
 
 async function focusCountryOnGlobe(globe, slug){
   const feature = featureBySlug[slug];
-  if(!feature){ setStatus(`Not mapped on globe: ${slug}`); return; }
+  if(!feature){ setStatus(t("notMapped", slug)); return; }
 
   hoveredFeature = feature;
   globe.polygonCapColor(globe.polygonCapColor());
@@ -630,17 +677,17 @@ async function focusCountryOnGlobe(globe, slug){
     globe.pointOfView({ lat: c.lat, lng: c.lng, altitude: 1.65 }, 750);
   }
 
-  const displayName = feature.properties?.name || COUNTRIES_DB?.[slug]?.name || slug;
+  const displayName = COUNTRIES_DB?.[slug]?.name || feature.properties?.name || slug;
   const d = await loadDetails(slug);
 
   if(TOUCH_UI){
     pinnedSlug = slug;
     lastTapAt = Date.now();
     pinTooltip(tooltipHTML(displayName, slug, d, true));
-    setStatus(`${displayName} — tap again to open`);
+    setStatus(t("tapAgain", displayName));
   } else {
     showTooltip(tooltipHTML(displayName, slug, d, false));
-    setStatus(`${displayName} — click to open`);
+    setStatus(t("clickCountry", displayName));
     placeTooltipNearCursor();
   }
 }
@@ -697,7 +744,7 @@ function setupSearch(globe){
 }
 
 async function init(){
-  setStatus("Loading...");
+  setStatus(t("loading"));
 
   await loadCountriesDB();
 
@@ -717,7 +764,7 @@ async function init(){
     }
   });
 
-  setStatus(`Ready — ${matchCount} countries clickable`);
+  setStatus(t("ready", matchCount));
 
   let hoverTimer = null;
   let lastHoverSlug = null;
@@ -749,27 +796,28 @@ async function init(){
       if(tooltipPinned) return;
 
       if(f){
-        const dispName = f.properties?.name || "Unknown";
-        const key = normName(dispName);
+        const geoName = f.properties?.name || "Unknown";
+        const key = normName(geoName);
         const data = COUNTRY_MAP[key];
+        const displayName = data?.slug ? (COUNTRIES_DB?.[data.slug]?.name || geoName) : geoName;
 
         if(!data){
-          setStatus(dispName);
-          showTooltip(`<div class="tt-body"><div style="font-size:15px;font-weight:900;margin-bottom:4px">${esc(dispName)}</div></div><div class="tt-foot"><span class="pill">No data yet</span></div>`);
+          setStatus(displayName);
+          showTooltip(`<div class="tt-body"><div style="font-size:15px;font-weight:900;margin-bottom:4px">${esc(displayName)}</div></div><div class="tt-foot"><span class="pill">${esc(t("noData"))}</span></div>`);
           return;
         }
 
         const slug = data.slug;
-        setStatus(`${dispName} — click to open`);
+        setStatus(t("clickCountry", displayName));
 
-        showTooltip(tooltipHTML(dispName, slug, detailsCache[slug] || null, false));
+        showTooltip(tooltipHTML(displayName, slug, detailsCache[slug] || null, false));
 
         clearTimeout(hoverTimer);
         lastHoverSlug = slug;
         hoverTimer = setTimeout(async () => {
           const d = await loadDetails(slug);
           if(lastHoverSlug === slug && !tooltipPinned){
-            showTooltip(tooltipHTML(dispName, slug, d, false));
+            showTooltip(tooltipHTML(displayName, slug, d, false));
           }
         }, 160);
 
@@ -780,12 +828,13 @@ async function init(){
     .onPolygonClick(async f => {
       if(!f) return;
 
-      const dispName = f.properties?.name || "Unknown";
-      const key = normName(dispName);
+      const geoName = f.properties?.name || "Unknown";
+      const key = normName(geoName);
       const data = COUNTRY_MAP[key];
       if(!data) return;
 
       const slug = data.slug;
+      const displayName = COUNTRIES_DB?.[slug]?.name || geoName;
 
       // MOBILE: 1st tap pin, 2nd tap open
       if(TOUCH_UI){
@@ -796,17 +845,17 @@ async function init(){
           pinnedSlug = slug;
           lastTapAt = now;
           const d = await loadDetails(slug);
-          pinTooltip(tooltipHTML(dispName, slug, d, true));
-          setStatus(`${dispName} — tap again to open`);
+          pinTooltip(tooltipHTML(displayName, slug, d, true));
+          setStatus(t("tapAgain", displayName));
           return;
         }
 
-        {const lg=(localStorage.getItem("wigg_lang")||"en").toLowerCase();const ul=["en","fr","es"].includes(lg)?lg:"en";window.location.href=`/countries/${slug}-${ul}.html`;}
+        { window.location.href = countryUrl(slug); }
         return;
       }
 
       // DESKTOP: single click opens
-      {const lg=(localStorage.getItem("wigg_lang")||"en").toLowerCase();const ul=["en","fr","es"].includes(lg)?lg:"en";window.location.href=`/countries/${slug}-${ul}.html`;}
+      { window.location.href = countryUrl(slug); }
     });
 
   // Search focuses globe (no navigation)
@@ -833,7 +882,7 @@ async function init(){
 
 init().catch(err => {
   console.error(err);
-  setStatus("Error: " + err.message);
+  setStatus(t("error", err.message));
 });
 </script>
 </body>
