@@ -701,7 +701,7 @@ async function init(){
 
   await loadCountriesDB();
 
-  const world = await fetch("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
+  const world = await fetch("/data/map/world.geojson", { cache: "no-store" })
     .then(r => r.json());
 
   // build slug->feature index + match count
