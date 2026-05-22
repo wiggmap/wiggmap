@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#1a5430">
 <title>WiggMap — Where is the grass actually greener?</title>
-<meta name="description" content="Comparez salaires, loyers, visas et qualité de vie dans 160+ pays. WiggMap vous aide à trouver où vivre, travailler ou prendre votre retraite à l'étranger.">
+<meta name="description" content="Compare 160+ countries by cost of living, salaries, taxes, visas and quality of life. WiggMap helps expats, nomads and retirees decide where to live abroad.">
 <link rel="canonical" href="https://wiggmap.com/">
 <link rel="alternate" hreflang="en" href="https://wiggmap.com/">
 <link rel="alternate" hreflang="fr" href="https://wiggmap.com/">
@@ -467,6 +467,1411 @@ a{color:inherit;text-decoration:none}
 @media(max-width:420px){
   .city-grid{grid-template-columns:repeat(2,1fr)}
 }
+
+/* ─────────── DESIGN REFRESH 2026 ─────────── */
+:root{
+  --green-deep:#0d2c1c;
+  --lime:#d6f26b;
+  --sky:#9ed8ff;
+  --coral:#ff9a76;
+  --ink:#111612;
+  --ink-soft:#536057;
+  --bg:#f4f1e8;
+  --paper:#fffdf7;
+  --paper-2:#edf4ea;
+  --border:rgba(26,84,48,.18);
+  --line:rgba(17,22,18,.10);
+  --shadow:0 22px 70px rgba(18,33,24,.16);
+  --radius:8px;
+}
+body{background-color:#122218}
+.hero{min-height:94svh;min-height:94dvh;isolation:isolate}
+.hero-bg{
+  background:
+    linear-gradient(90deg,rgba(6,18,10,.88) 0%,rgba(6,18,10,.58) 44%,rgba(6,18,10,.18) 100%),
+    linear-gradient(180deg,rgba(0,0,0,.44) 0%,rgba(0,0,0,.10) 44%,rgba(0,0,0,.74) 100%);
+}
+.hero::before{
+  content:'';
+  position:absolute;
+  inset:auto -8vw 0 -8vw;
+  height:34vh;
+  z-index:1;
+  pointer-events:none;
+  background:linear-gradient(180deg,rgba(244,241,232,0),var(--bg) 72%);
+}
+.hero::after{
+  content:'';
+  position:absolute;
+  right:max(20px,7vw);
+  top:18%;
+  width:min(38vw,520px);
+  aspect-ratio:1;
+  z-index:1;
+  pointer-events:none;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 50% 50%,rgba(214,242,107,.16) 0 2px,transparent 3px),
+    repeating-linear-gradient(0deg,transparent 0 34px,rgba(255,255,255,.10) 35px 36px),
+    repeating-linear-gradient(90deg,transparent 0 34px,rgba(255,255,255,.10) 35px 36px);
+  mask-image:radial-gradient(circle,#000 62%,transparent 63%);
+  opacity:.72;
+}
+.hero-content{
+  align-items:flex-start;
+  width:min(1180px,calc(100% - 48px));
+  margin:0 auto;
+  padding:118px 0 130px;
+  text-align:left;
+}
+.hero-eyebrow,.hero-title,.hero-sub{transform:none}
+.hero-eyebrow{
+  color:#122218;
+  background:rgba(214,242,107,.92);
+  border-radius:999px;
+  padding:8px 12px;
+  font-size:12px;
+  letter-spacing:.18em;
+  box-shadow:0 10px 30px rgba(0,0,0,.18);
+}
+.hero-eyebrow::before{width:8px;height:8px;border-radius:50%;background:var(--green)}
+.hero-eyebrow::after{display:none}
+.hero-title{
+  font-family:'Fraunces',Georgia,serif;
+  font-style:normal;
+  font-weight:800;
+  font-size:clamp(44px,7.8vw,104px);
+  line-height:.94;
+  max-width:11ch;
+  margin-bottom:22px;
+  letter-spacing:0;
+  text-shadow:0 20px 60px rgba(0,0,0,.45);
+}
+.hero-sub{
+  max-width:50ch;
+  margin-bottom:28px;
+  color:rgba(255,255,255,.84);
+  font-size:clamp(16px,1.6vw,20px);
+  font-weight:500;
+  line-height:1.65;
+}
+.hero-proof{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  width:min(640px,100%);
+  margin:0 0 28px;
+}
+.hero-proof span{
+  min-width:0;
+  color:rgba(255,255,255,.92);
+  background:rgba(255,255,255,.11);
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:var(--radius);
+  padding:11px 13px;
+  font-size:12px;
+  font-weight:750;
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  box-shadow:0 10px 30px rgba(0,0,0,.16);
+}
+.search-block{max-width:640px}
+.search-form{
+  background:rgba(255,253,247,.98);
+  border:1px solid rgba(255,255,255,.44);
+  border-radius:var(--radius);
+  padding:8px 8px 8px 20px;
+  box-shadow:0 18px 60px rgba(0,0,0,.38),0 0 0 8px rgba(255,255,255,.08);
+}
+.search-go{border-radius:6px;padding:14px 26px}
+.search-go:hover{background:#123f25}
+.search-sug{border-radius:var(--radius);border-color:var(--border)}
+.search-sug-item:hover,.search-sug-item.active{background:#eef4ea}
+.hero-quick{justify-content:flex-start;margin-top:22px}
+.hero-quick a{border-radius:var(--radius);background:rgba(255,255,255,.12);padding:10px 16px}
+.hero-scroll{bottom:28px;color:rgba(255,255,255,.68)}
+.section{
+  padding:88px 24px;
+  background:var(--bg);
+  overflow:hidden;
+}
+.section::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(90deg,rgba(26,84,48,.045) 1px,transparent 1px),
+    linear-gradient(0deg,rgba(26,84,48,.045) 1px,transparent 1px);
+  background-size:42px 42px;
+  mask-image:linear-gradient(180deg,transparent,#000 18%,#000 82%,transparent);
+}
+.section:nth-of-type(3){background:var(--paper-2)}
+.section-inner{position:relative;z-index:1}
+.section-eyebrow{
+  color:var(--green);
+  margin-bottom:12px;
+  padding:6px 10px;
+  border:1px solid var(--border);
+  border-radius:999px;
+  background:rgba(255,253,247,.62);
+}
+.section-title{
+  font-size:clamp(30px,4.5vw,54px);
+  font-weight:800;
+  letter-spacing:0;
+  line-height:1;
+}
+.country-grid,.tools-grid{gap:16px}
+.country-card,.tool-card,.chron-card,.city-card{border-radius:var(--radius)}
+.country-card{box-shadow:0 12px 38px rgba(30,42,34,.10)}
+.country-card:hover,.tool-card:hover,.chron-card:hover,.city-card:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
+.cc-name,.tool-name,.chron-title{font-weight:800}
+.cc-name{font-size:20px;line-height:1.05}
+.tool-card{
+  min-height:210px;
+  box-shadow:0 12px 34px rgba(30,42,34,.06);
+}
+.tool-card.featured{
+  border-color:rgba(33,184,107,.45);
+  background:
+    linear-gradient(135deg,rgba(214,242,107,.26),rgba(255,253,247,.94) 52%),
+    var(--paper);
+  box-shadow:0 16px 46px rgba(33,184,107,.14);
+}
+.tool-badge{background:var(--green);border-radius:999px;padding:5px 9px}
+.tool-icon{
+  width:48px;
+  height:48px;
+  display:grid;
+  place-items:center;
+  border-radius:var(--radius);
+  background:#edf5e9;
+  font-size:25px;
+}
+.tool-name{font-size:22px;line-height:1.1}
+.chron-section{background:var(--paper)}
+.chron-card:hover{transform:translateY(-5px)}
+.chron-title{font-size:20px;line-height:1.18}
+.parallax{min-height:50vh}
+.parallax::before{
+  background:
+    linear-gradient(180deg,rgba(8,24,13,.72),rgba(8,24,13,.36) 40%,rgba(8,24,13,.76)),
+    radial-gradient(circle at 20% 0%,rgba(214,242,107,.25),transparent 34%);
+}
+.parallax-quote{
+  font-family:'Fraunces',Georgia,serif;
+  font-style:normal;
+  font-weight:800;
+}
+.btn-pill{
+  color:#fff;
+  background:var(--green);
+  border-color:var(--green);
+  border-radius:var(--radius);
+  padding:13px 24px;
+}
+.btn-pill:hover{background:#123f25}
+@media(max-width:720px){
+  .hero{min-height:100svh;min-height:100dvh}
+  .hero::after{display:none}
+  .hero-content{width:calc(100% - 36px);padding:96px 0 92px}
+  .hero-title{font-size:clamp(42px,14vw,62px);max-width:9ch}
+  .hero-sub{font-size:15px;max-width:36ch}
+  .hero-proof{grid-template-columns:1fr;gap:8px;margin-bottom:22px}
+  .hero-proof span{padding:9px 11px}
+  .hero-quick{justify-content:flex-start}
+  .section{padding:56px 18px}
+  .search-form{padding:6px 6px 6px 16px}
+  .search-go{padding:11px 16px}
+  .hero-eyebrow::before{width:8px}
+}
+@media(max-width:420px){
+  .search-form{align-items:stretch}
+  .search-form svg{margin-top:12px}
+  .search-go{padding-left:13px;padding-right:13px}
+}
+
+/* ─────────── WIGGMAP HOME PREMIUM FINAL ─────────── */
+:root{
+  --wm-bg:#07120c;
+  --wm-bg-2:#0d2015;
+  --wm-ink:#f5f7ee;
+  --wm-muted:rgba(245,247,238,.68);
+  --wm-faint:rgba(245,247,238,.11);
+  --wm-glass:rgba(255,255,255,.08);
+  --wm-glass-strong:rgba(255,255,255,.13);
+  --wm-card:#f8f4ea;
+  --wm-card-2:#eaf1e7;
+  --wm-green:#1a5430;
+  --wm-green-hot:#38d47b;
+  --wm-lime:#d6f26b;
+  --wm-border:rgba(255,255,255,.16);
+  --wm-dark-border:rgba(26,84,48,.18);
+  --wm-shadow:0 28px 90px rgba(0,0,0,.28);
+  --wm-radius:8px;
+}
+body{
+  color:var(--wm-ink);
+  background-color:var(--wm-bg);
+  background-position:center top;
+}
+.wm-home{
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 78% 8%,rgba(56,212,123,.17),transparent 30vw),
+    radial-gradient(circle at 4% 34%,rgba(214,242,107,.10),transparent 28vw),
+    linear-gradient(180deg,var(--wm-bg) 0%,#102217 42%,#f3efe5 42%,#f3efe5 100%);
+}
+.hero{
+  min-height:100svh;
+  min-height:100dvh;
+  background:#07120c;
+}
+.hero-bg{
+  background:
+    linear-gradient(90deg,rgba(7,18,12,.94) 0%,rgba(7,18,12,.70) 45%,rgba(7,18,12,.28) 100%),
+    linear-gradient(180deg,rgba(7,18,12,.28),rgba(7,18,12,.82)),
+    image-set(url('/assets/bc.webp') type('image/webp'), url('/assets/bc.png') type('image/png'));
+  background-size:cover;
+  background-position:center;
+}
+.hero::before{
+  height:28vh;
+  background:linear-gradient(180deg,rgba(7,18,12,0),#102217 82%);
+}
+.hero::after{
+  right:min(7vw,90px);
+  top:16%;
+  width:min(42vw,560px);
+  border-color:rgba(214,242,107,.18);
+  background:
+    radial-gradient(circle at 50% 50%,rgba(214,242,107,.18) 0 2px,transparent 3px),
+    repeating-linear-gradient(0deg,transparent 0 36px,rgba(255,255,255,.10) 37px 38px),
+    repeating-linear-gradient(90deg,transparent 0 36px,rgba(255,255,255,.10) 37px 38px);
+}
+.hero-content{
+  display:grid;
+  grid-template-columns:minmax(0,1.05fr) minmax(320px,.72fr);
+  gap:clamp(28px,5vw,76px);
+  align-items:center;
+  width:min(1180px,calc(100% - 48px));
+  min-height:100svh;
+  min-height:100dvh;
+  padding:118px 0 96px;
+}
+.hero-copy{position:relative;z-index:2}
+.hero-eyebrow{
+  color:#07120c;
+  background:var(--wm-lime);
+  box-shadow:0 14px 40px rgba(214,242,107,.16);
+}
+.hero-title{
+  max-width:10ch;
+  color:#fff;
+  font-size:clamp(54px,8.5vw,118px);
+  line-height:.88;
+  text-wrap:balance;
+}
+.hero-sub{
+  max-width:52ch;
+  color:var(--wm-muted);
+  font-size:clamp(16px,1.6vw,20px);
+  text-shadow:none;
+}
+.hero-proof{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  max-width:680px;
+}
+.hero-proof span,
+.hero-mini a,
+.hero-panel{
+  border:1px solid var(--wm-border);
+  background:var(--wm-glass);
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
+}
+.hero-proof span{color:#fff}
+.hero-panel{
+  position:relative;
+  z-index:3;
+  padding:16px;
+  border-radius:12px;
+  box-shadow:var(--wm-shadow);
+}
+.search-block{max-width:none}
+.search-form{
+  border-radius:8px;
+  border-color:rgba(255,255,255,.32);
+  box-shadow:none;
+}
+.search-input{font-size:15px}
+.search-go{
+  background:var(--wm-green);
+  border-radius:6px;
+  min-width:96px;
+}
+.search-sug{color:#111612}
+.hero-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:14px;
+}
+.hero-actions.center{justify-content:center}
+.btn-primary,.btn-secondary{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:46px;
+  padding:0 18px;
+  border-radius:8px;
+  font-size:13px;
+  font-weight:800;
+  transition:transform .18s ease,background .18s ease,border-color .18s ease;
+}
+.btn-primary{
+  color:#07120c;
+  background:var(--wm-lime);
+  border:1px solid var(--wm-lime);
+}
+.btn-secondary{
+  color:#fff;
+  background:rgba(255,255,255,.08);
+  border:1px solid var(--wm-border);
+}
+.btn-primary:hover,.btn-secondary:hover{transform:translateY(-2px)}
+.hero-mini{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin-top:14px;
+}
+.hero-mini a{
+  min-width:0;
+  border-radius:8px;
+  padding:14px;
+}
+.hero-mini strong{
+  display:block;
+  color:#fff;
+  font-size:13px;
+  margin-bottom:4px;
+}
+.hero-mini span{
+  display:block;
+  color:var(--wm-muted);
+  font-size:11px;
+}
+.hero-scroll{z-index:4}
+.section{
+  color:#111612;
+  background:#f3efe5;
+  padding:clamp(64px,8vw,118px) 24px;
+}
+.section::before{
+  opacity:.75;
+  background:
+    linear-gradient(90deg,rgba(26,84,48,.035) 1px,transparent 1px),
+    linear-gradient(0deg,rgba(26,84,48,.035) 1px,transparent 1px);
+}
+.section:nth-of-type(3),
+.country-section,
+.city-section{background:#f3efe5}
+.compare-section,
+.play-section,
+.proof-section{background:#eaf1e7}
+.section-inner{max-width:1180px}
+.section-layout,.magazine-layout,.split-cards,.proof-grid{
+  display:grid;
+  gap:clamp(22px,4vw,48px);
+}
+.section-layout{grid-template-columns:.72fr 1.28fr;align-items:end}
+.magazine-layout{grid-template-columns:.55fr 1fr;align-items:start}
+.split-cards{grid-template-columns:1fr 1fr}
+.proof-grid{grid-template-columns:.85fr 1.15fr;align-items:center}
+.section-head.left{text-align:left;margin-bottom:0}
+.section-head.left .section-sub{margin-left:0}
+.section-eyebrow{
+  background:rgba(26,84,48,.08);
+  color:var(--wm-green);
+  border-color:var(--wm-dark-border);
+}
+.section-title{
+  max-width:13ch;
+  color:#111612;
+  font-size:clamp(34px,5vw,64px);
+  line-height:.98;
+  text-wrap:balance;
+}
+.section-head:not(.left) .section-title{margin-left:auto;margin-right:auto;max-width:16ch}
+.section-sub{
+  color:#4b5750;
+  font-size:16px;
+}
+.compare-strip{
+  display:grid;
+  grid-template-columns:1.15fr 1fr 1fr;
+  gap:14px;
+}
+.metric-card,
+.feature-card{
+  border:1px solid var(--wm-dark-border);
+  border-radius:12px;
+  background:rgba(255,253,247,.72);
+  box-shadow:0 18px 60px rgba(18,33,24,.10);
+}
+.metric-card{
+  padding:22px;
+  min-height:260px;
+}
+.featured-metric{
+  background:
+    linear-gradient(140deg,rgba(214,242,107,.38),rgba(255,253,247,.82) 58%),
+    #fffdf7;
+}
+.metric-flag{font-size:30px}
+.metric-card h3{
+  margin-top:14px;
+  font-family:'Fraunces',Georgia,serif;
+  font-size:28px;
+  line-height:1;
+}
+.metric-card p{margin-top:10px;color:#526059;font-size:14px;line-height:1.55}
+.metric-card dl{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:8px 14px;
+  margin-top:22px;
+  padding-top:18px;
+  border-top:1px solid rgba(26,84,48,.14);
+  font-size:12px;
+}
+.metric-card dt{color:#66726b}
+.metric-card dd{font-weight:800}
+.country-grid{gap:16px}
+.country-card{
+  border-radius:12px;
+  box-shadow:0 18px 60px rgba(18,33,24,.14);
+}
+.country-card::after,.city-card::after{
+  background:linear-gradient(to top,rgba(4,13,8,.88) 0%,rgba(4,13,8,.20) 58%,rgba(4,13,8,.08));
+}
+.cc-body{padding:20px}
+.cc-name{font-size:23px}
+.tools-grid{display:none}
+.chron-section{
+  color:#fff;
+  background:
+    linear-gradient(180deg,#102217,#07120c);
+}
+.chron-section .section-title{color:#fff}
+.chron-section .section-sub{color:var(--wm-muted)}
+.chron-section .section-eyebrow{
+  color:var(--wm-lime);
+  border-color:rgba(214,242,107,.28);
+  background:rgba(214,242,107,.08);
+}
+.chron-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.chron-card{
+  border-radius:12px;
+  border-color:rgba(255,255,255,.13);
+  background:rgba(255,255,255,.08);
+  color:#fff;
+  box-shadow:none;
+}
+.chron-title{color:#fff;font-size:22px}
+.chron-meta{color:var(--wm-muted)}
+.feature-card{
+  position:relative;
+  overflow:hidden;
+  min-height:380px;
+  padding:clamp(24px,4vw,42px);
+}
+.feature-card::after{
+  content:'';
+  position:absolute;
+  inset:auto -10% -36% auto;
+  width:280px;
+  aspect-ratio:1;
+  border-radius:50%;
+  background:rgba(26,84,48,.12);
+}
+.game-card{
+  background:
+    linear-gradient(140deg,rgba(26,84,48,.10),rgba(255,253,247,.85)),
+    image-set(url('/assets/wigggame.webp') type('image/webp'),url('/assets/wigggame.jpg') type('image/jpeg'));
+  background-size:cover;
+  background-position:center;
+  color:#fff;
+}
+.game-card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg,rgba(7,18,12,.86),rgba(7,18,12,.28));
+}
+.game-card > *{position:relative;z-index:1}
+.game-card .section-title,.game-card .section-sub{color:#fff}
+.game-card .section-eyebrow{color:#07120c;background:var(--wm-lime);border-color:var(--wm-lime)}
+.random-card{background:#fffdf7}
+.city-grid{gap:12px}
+.city-card{border-radius:12px;box-shadow:0 18px 60px rgba(18,33,24,.12)}
+.proof-stats{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+}
+.proof-stats div{
+  min-height:150px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  padding:18px;
+  border:1px solid var(--wm-dark-border);
+  border-radius:12px;
+  background:rgba(255,253,247,.72);
+}
+.proof-stats strong{
+  font-family:'Fraunces',Georgia,serif;
+  font-size:clamp(34px,5vw,58px);
+  line-height:1;
+}
+.proof-stats span{color:#526059;font-size:13px;font-weight:700}
+.final-cta{
+  padding:clamp(72px,10vw,130px) 24px;
+  color:#fff;
+  text-align:center;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(56,212,123,.22),transparent 34vw),
+    linear-gradient(180deg,#102217,#07120c);
+}
+.final-inner{max-width:860px;margin:0 auto}
+.final-cta .section-eyebrow{
+  color:var(--wm-lime);
+  border-color:rgba(214,242,107,.28);
+  background:rgba(214,242,107,.08);
+}
+.final-cta h2{
+  margin:18px auto 0;
+  max-width:12ch;
+  font-family:'Fraunces',Georgia,serif;
+  font-size:clamp(40px,7vw,82px);
+  line-height:.95;
+  text-wrap:balance;
+}
+.final-cta p{
+  max-width:56ch;
+  margin:18px auto 0;
+  color:var(--wm-muted);
+  line-height:1.65;
+}
+.btn-pill{
+  border-radius:8px;
+  background:var(--wm-green);
+  border-color:var(--wm-green);
+  color:#fff;
+}
+.btn-pill:hover{background:#123f25}
+.align-left{text-align:left}
+@media(prefers-reduced-motion:no-preference){
+  .country-card,.chron-card,.city-card,.metric-card,.feature-card,.proof-stats div{
+    transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease;
+  }
+  .metric-card:hover,.feature-card:hover,.proof-stats div:hover{transform:translateY(-4px);box-shadow:var(--wm-shadow)}
+}
+@media(max-width:960px){
+  .hero-content,.section-layout,.magazine-layout,.split-cards,.proof-grid{grid-template-columns:1fr}
+  .hero-content{gap:24px;align-content:center}
+  .compare-strip{grid-template-columns:1fr}
+  .chron-grid{grid-template-columns:1fr}
+  .proof-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:720px){
+  .wm-home{background:linear-gradient(180deg,var(--wm-bg) 0%,#102217 35%,#f3efe5 35%)}
+  .hero-content{
+    width:calc(100% - 32px);
+    min-height:100svh;
+    padding:92px 0 76px;
+  }
+  .hero-title{font-size:clamp(48px,18vw,74px);max-width:9ch}
+  .hero-sub{font-size:15px}
+  .hero-proof,.hero-mini{grid-template-columns:1fr}
+  .hero-panel{padding:12px}
+  .hero-actions{display:grid;grid-template-columns:1fr}
+  .btn-primary,.btn-secondary,.btn-pill{width:100%}
+  .search-form{display:grid;grid-template-columns:auto 1fr;gap:8px;padding:12px}
+  .search-go{grid-column:1 / -1;width:100%}
+  .search-form svg{margin-top:13px}
+  .section{padding:62px 18px}
+  .section-head{text-align:left}
+  .section-head:not(.left) .section-title{margin-left:0;margin-right:0}
+  .section-sub{margin-left:0}
+  .country-grid{grid-template-columns:1fr 1fr}
+  .country-card{aspect-ratio:3/4}
+  .city-grid{grid-template-columns:1fr 1fr}
+  .proof-stats{grid-template-columns:1fr 1fr}
+  .proof-stats div{min-height:120px}
+}
+@media(max-width:440px){
+  .country-grid,.city-grid,.proof-stats{grid-template-columns:1fr}
+  .metric-card,.feature-card{padding:20px}
+}
+
+/* ─────────── PREMIUM IMMERSIVE PASS ─────────── */
+.wm-home::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  opacity:.20;
+  background-image:
+    radial-gradient(circle at 1px 1px,rgba(255,255,255,.32) 1px,transparent 0);
+  background-size:4px 4px;
+  mix-blend-mode:overlay;
+}
+.wm-home::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background:
+    linear-gradient(180deg,transparent 0 19%,rgba(214,242,107,.10) 19.2%,transparent 19.5%),
+    linear-gradient(180deg,transparent 0 48%,rgba(26,84,48,.12) 48.2%,transparent 48.5%);
+}
+.wm-home > *{position:relative;z-index:1}
+.hero{
+  background:#030906;
+  perspective:1200px;
+}
+.hero-bg{
+  transform:scale(1.04);
+  filter:saturate(1.08) contrast(1.06);
+  background:
+    linear-gradient(102deg,rgba(3,9,6,.96) 0%,rgba(3,9,6,.78) 38%,rgba(3,9,6,.24) 100%),
+    radial-gradient(circle at 68% 42%,rgba(214,242,107,.22),transparent 26vw),
+    radial-gradient(circle at 82% 16%,rgba(56,212,123,.20),transparent 20vw),
+    image-set(url('/assets/bc.webp') type('image/webp'), url('/assets/bc.png') type('image/png'));
+}
+.hero-content{position:relative}
+.hero-copy::before{
+  content:'';
+  display:block;
+  width:72px;
+  height:1px;
+  margin-bottom:22px;
+  background:linear-gradient(90deg,var(--wm-lime),transparent);
+}
+.hero-title{
+  max-width:9.4ch;
+  font-size:clamp(60px,9.6vw,132px);
+  letter-spacing:0;
+}
+.hero-title::after{
+  content:'';
+  display:block;
+  width:min(240px,44vw);
+  height:10px;
+  margin-top:18px;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--wm-lime),rgba(56,212,123,.10));
+  box-shadow:0 0 34px rgba(214,242,107,.32);
+}
+.hero-panel{
+  transform:rotateY(-5deg) rotateX(2deg);
+  transform-origin:left center;
+  background:
+    linear-gradient(150deg,rgba(255,255,255,.16),rgba(255,255,255,.055)),
+    rgba(7,18,12,.56);
+  border-color:rgba(214,242,107,.22);
+}
+.panel-kicker{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  color:rgba(245,247,238,.72);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  margin:0 0 12px;
+}
+.panel-kicker::after{
+  content:'live';
+  color:#07120c;
+  background:var(--wm-lime);
+  border-radius:999px;
+  padding:4px 8px;
+  letter-spacing:.08em;
+}
+.hero-orbit{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+}
+.float-card{
+  position:absolute;
+  width:min(245px,42vw);
+  padding:15px 16px;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:12px;
+  color:#fff;
+  background:linear-gradient(145deg,rgba(255,255,255,.16),rgba(255,255,255,.055));
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  box-shadow:0 18px 60px rgba(0,0,0,.24);
+}
+.float-card span{
+  display:block;
+  color:var(--wm-lime);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.float-card strong{
+  display:block;
+  margin-top:8px;
+  font-family:'Fraunces',Georgia,serif;
+  font-size:19px;
+  line-height:1.04;
+}
+.float-card small{
+  display:block;
+  margin-top:8px;
+  color:rgba(245,247,238,.62);
+  font-size:12px;
+}
+.fc-a{right:8vw;top:18%;animation:floatA 7s ease-in-out infinite}
+.fc-b{right:34vw;bottom:16%;animation:floatB 8s ease-in-out infinite}
+.fc-c{right:4vw;bottom:27%;animation:floatC 9s ease-in-out infinite}
+@keyframes floatA{0%,100%{transform:translate3d(0,0,0) rotate(2deg)}50%{transform:translate3d(0,-14px,0) rotate(-1deg)}}
+@keyframes floatB{0%,100%{transform:translate3d(0,0,0) rotate(-3deg)}50%{transform:translate3d(10px,12px,0) rotate(1deg)}}
+@keyframes floatC{0%,100%{transform:translate3d(0,0,0) rotate(3deg)}50%{transform:translate3d(-8px,-10px,0) rotate(-2deg)}}
+.compare-section{
+  background:
+    radial-gradient(circle at 90% 4%,rgba(26,84,48,.16),transparent 30vw),
+    linear-gradient(180deg,#eaf1e7,#f7f2e8);
+}
+.compare-strip{
+  padding:12px;
+  border:1px solid rgba(26,84,48,.16);
+  border-radius:16px;
+  background:rgba(255,253,247,.54);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.74),0 24px 80px rgba(18,33,24,.12);
+}
+.metric-card{
+  position:relative;
+  overflow:hidden;
+  min-height:320px;
+}
+.metric-card::before{
+  content:'';
+  position:absolute;
+  inset:0 0 auto;
+  height:5px;
+  background:linear-gradient(90deg,var(--wm-green),var(--wm-lime));
+  opacity:.88;
+}
+.metric-card::after{
+  content:'';
+  position:absolute;
+  right:-42px;
+  bottom:-42px;
+  width:150px;
+  aspect-ratio:1;
+  border-radius:50%;
+  background:rgba(26,84,48,.08);
+}
+.metric-badge{
+  display:inline-flex;
+  color:#07120c;
+  background:rgba(214,242,107,.70);
+  border:1px solid rgba(26,84,48,.14);
+  border-radius:999px;
+  padding:6px 9px;
+  font-size:10px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.10em;
+}
+.metric-flag{display:block;margin-top:28px}
+.metric-card dl{grid-template-columns:1fr}
+.metric-card dt{
+  margin-top:8px;
+  font-size:10px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+}
+.metric-card dd{
+  padding-bottom:9px;
+  border-bottom:1px solid rgba(26,84,48,.10);
+}
+.chron-section{
+  padding-top:clamp(78px,10vw,140px);
+  padding-bottom:clamp(78px,10vw,140px);
+}
+.chron-section::after{
+  content:'';
+  position:absolute;
+  left:50%;
+  top:8%;
+  width:min(760px,90vw);
+  aspect-ratio:1/.42;
+  transform:translateX(-50%);
+  border-radius:50%;
+  background:rgba(214,242,107,.08);
+  filter:blur(50px);
+  pointer-events:none;
+}
+.chron-card{
+  position:relative;
+  min-height:430px;
+}
+.chron-card:first-child{transform:translateY(28px)}
+.chron-thumb{aspect-ratio:16/11}
+.chron-body{
+  padding:24px;
+  gap:12px;
+}
+.chron-cat{
+  color:var(--wm-lime);
+  font-size:11px;
+}
+.chron-title{
+  max-width:16ch;
+  font-size:clamp(25px,3vw,36px);
+}
+.chron-card:hover .chron-thumb-grid div{transform:scale(1.06)}
+.chron-thumb-grid div{transition:transform .45s ease}
+.quiz-preview{
+  position:relative;
+  z-index:1;
+  margin:26px 0;
+  padding:16px;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:12px;
+  background:rgba(255,255,255,.10);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+}
+.quiz-top{
+  display:flex;
+  justify-content:space-between;
+  color:rgba(255,255,255,.68);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.quiz-question{
+  margin-top:18px;
+  color:#fff;
+  font-family:'Fraunces',Georgia,serif;
+  font-size:28px;
+  line-height:1.05;
+}
+.quiz-options{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:16px;
+}
+.quiz-options span{
+  color:#07120c;
+  background:rgba(214,242,107,.86);
+  border-radius:999px;
+  padding:7px 10px;
+  font-size:11px;
+  font-weight:900;
+}
+.random-card{
+  background:
+    radial-gradient(circle at 72% 22%,rgba(214,242,107,.34),transparent 19vw),
+    linear-gradient(145deg,#fffdf7,#e9f1e6);
+}
+.discovery-machine{
+  position:relative;
+  display:grid;
+  gap:8px;
+  margin:28px 0;
+  padding:14px;
+  border:1px solid rgba(26,84,48,.14);
+  border-radius:14px;
+  background:rgba(255,255,255,.58);
+  overflow:hidden;
+}
+.discovery-machine::before{
+  content:'';
+  position:absolute;
+  inset:50% 10px auto;
+  height:42px;
+  transform:translateY(-50%);
+  border:1px solid rgba(26,84,48,.20);
+  border-radius:10px;
+  box-shadow:0 0 30px rgba(214,242,107,.30);
+}
+.discovery-machine span{
+  position:relative;
+  z-index:1;
+  display:flex;
+  align-items:center;
+  min-height:42px;
+  padding:0 14px;
+  color:#172017;
+  border-radius:10px;
+  font-family:'Fraunces',Georgia,serif;
+  font-size:22px;
+  background:rgba(255,253,247,.70);
+}
+.proof-section{
+  background:
+    linear-gradient(180deg,#eaf1e7,#f3efe5);
+}
+.proof-stats div{
+  position:relative;
+  overflow:hidden;
+}
+.proof-stats div::after{
+  content:'';
+  position:absolute;
+  inset:auto -20% -45% auto;
+  width:130px;
+  aspect-ratio:1;
+  border-radius:50%;
+  background:rgba(214,242,107,.22);
+}
+.final-cta{
+  position:relative;
+  overflow:hidden;
+}
+.final-cta::before{
+  content:'';
+  position:absolute;
+  left:50%;
+  top:0;
+  width:min(860px,96vw);
+  aspect-ratio:1;
+  transform:translate(-50%,-66%);
+  border-radius:50%;
+  border:1px solid rgba(214,242,107,.16);
+  background:
+    repeating-radial-gradient(circle,rgba(214,242,107,.10) 0 1px,transparent 1px 38px);
+}
+.reveal,.reveal-card{
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity .75s ease,transform .75s cubic-bezier(.2,.8,.2,1);
+}
+.reveal-card{transition-delay:var(--reveal-delay,0ms)}
+.is-visible{
+  opacity:1;
+  transform:translateY(0);
+}
+.compare-strip .reveal-card:nth-child(2){--reveal-delay:90ms}
+.compare-strip .reveal-card:nth-child(3){--reveal-delay:180ms}
+@media(max-width:960px){
+  .hero-panel{transform:none}
+  .hero-orbit{display:none}
+  .chron-card:first-child{transform:none}
+}
+@media(max-width:720px){
+  .hero{
+    min-height:100svh;
+    overflow:hidden;
+  }
+  .hero-bg{
+    background:
+      linear-gradient(180deg,rgba(3,9,6,.82) 0%,rgba(3,9,6,.96) 72%),
+      radial-gradient(circle at 72% 16%,rgba(214,242,107,.24),transparent 42vw),
+      image-set(url('/assets/bc.webp') type('image/webp'), url('/assets/bc.png') type('image/png'));
+    background-size:cover;
+    background-position:center top;
+  }
+  .hero-copy::before{margin-bottom:16px}
+  .hero-title{
+    font-size:clamp(54px,20vw,86px);
+    line-height:.86;
+  }
+  .hero-title::after{height:7px;margin-top:14px}
+  .hero-panel{
+    margin-top:2px;
+    background:linear-gradient(145deg,rgba(255,255,255,.18),rgba(255,255,255,.08));
+  }
+  .panel-kicker{font-size:10px}
+  .compare-strip{padding:8px}
+  .metric-card{min-height:auto}
+  .chron-card{min-height:auto}
+  .chron-title{font-size:28px}
+  .quiz-question{font-size:24px}
+}
+@media(prefers-reduced-motion:reduce){
+  .float-card{animation:none}
+  .reveal,.reveal-card{opacity:1;transform:none;transition:none}
+  .chron-thumb-grid div,.btn-primary,.btn-secondary,.country-card,.chron-card,.city-card,.metric-card,.feature-card{transition:none}
+}
+
+/* ─────────── WONDERLAND-INSPIRED TUNNEL ─────────── */
+:root{
+  --tunnel-void:#050906;
+  --tunnel-cream:#f1ead8;
+  --tunnel-green:#38d47b;
+  --tunnel-deep:#1a5430;
+  --tunnel-muted:rgba(241,234,216,.58);
+  --tunnel-faint:rgba(241,234,216,.20);
+  --tunnel-ease:cubic-bezier(.16,1,.3,1);
+  --tunnel-power:cubic-bezier(.77,0,.175,1);
+}
+.wm-loader{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:10000;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:26px;
+  color:var(--tunnel-cream);
+  background:var(--tunnel-void);
+  transition:opacity .65s var(--tunnel-power),visibility .65s var(--tunnel-power);
+}
+.js .wm-loader{display:flex}
+.wm-loader.gone{opacity:0;visibility:hidden;pointer-events:none}
+.wm-loader-meta{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  color:var(--tunnel-muted);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.34em;
+  text-transform:uppercase;
+}
+.wm-loader-brand{
+  display:flex;
+  gap:.06em;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:clamp(30px,5vw,58px);
+  font-weight:900;
+  letter-spacing:.18em;
+}
+.wm-loader-brand span{display:inline-block;min-width:.72em;text-align:center}
+.wm-tunnel{
+  position:relative;
+  min-height:620vh;
+  color:var(--tunnel-cream);
+  background:
+    radial-gradient(circle at 70% 10%,rgba(56,212,123,.18),transparent 28vw),
+    radial-gradient(circle at 24% 44%,rgba(26,84,48,.30),transparent 34vw),
+    var(--tunnel-void);
+  overflow:hidden;
+}
+.wm-home{position:relative;z-index:2}
+.wm-tunnel::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  opacity:.045;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' seed='7'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+.wm-tunnel::after{
+  content:'';
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background:radial-gradient(ellipse at center,transparent 0 38%,rgba(5,9,6,.42) 76%,rgba(5,9,6,.92));
+}
+.wm-tunnel-stage{
+  position:fixed;
+  inset:0;
+  z-index:1;
+  perspective:1500px;
+  perspective-origin:50% 50%;
+  overflow:hidden;
+}
+.wm-tunnel-scene{
+  position:absolute;
+  inset:0;
+  transform-style:preserve-3d;
+  will-change:transform;
+}
+.wm-tunnel-layer{
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:100vw;
+  text-align:center;
+  transform:translate(-50%,-50%) translate3d(var(--shift-x,0),var(--shift-y,0),var(--z,0));
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  will-change:opacity,transform;
+  backface-visibility:hidden;
+}
+.wm-scene-no{
+  display:block;
+  margin-bottom:18px;
+  color:var(--tunnel-green);
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.28em;
+}
+.wm-tunnel-intro{
+  display:flex;
+  align-items:center;
+  flex-direction:column;
+  gap:18px;
+}
+.wm-tunnel-intro p{
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:.38em;
+  text-transform:uppercase;
+}
+.wm-tunnel-intro small{
+  color:var(--tunnel-muted);
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:11px;
+  letter-spacing:.18em;
+}
+.wm-tunnel-arrow{
+  width:1px;
+  height:68px;
+  background:linear-gradient(180deg,transparent,var(--tunnel-green),var(--tunnel-cream));
+  animation:wmBob 1.7s ease-in-out infinite;
+}
+@keyframes wmBob{0%,100%{transform:translateY(0);opacity:.62}50%{transform:translateY(9px);opacity:1}}
+.wm-tunnel-word{
+  font-family:'Fraunces',Georgia,serif;
+  font-weight:900;
+  font-size:clamp(130px,20vw,340px);
+  line-height:.86;
+  letter-spacing:0;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.wm-tunnel-word .wm-scene-no{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.word-b,.word-d{
+  color:var(--tunnel-green);
+  text-shadow:0 0 60px rgba(56,212,123,.18);
+}
+.word-b{--shift-x:-5vw;font-size:clamp(170px,28vw,470px)}
+.word-c{font-size:clamp(150px,22vw,360px)}
+.word-d{font-size:clamp(170px,27vw,460px)}
+.wm-tunnel-photos{
+  width:100vw;
+  height:100vh;
+  transform-style:preserve-3d;
+}
+.wm-polaroid{
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:320px;
+  height:420px;
+  margin:-210px 0 0 -160px;
+  padding:14px 14px 58px;
+  color:#142016;
+  background:var(--tunnel-cream);
+  box-shadow:0 34px 90px rgba(0,0,0,.58),0 6px 16px rgba(0,0,0,.40);
+}
+.wm-polaroid img{width:100%;height:100%;object-fit:cover}
+.wm-polaroid figcaption{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:17px;
+  text-align:center;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+.p-lisbon{transform:translate3d(-450px,-150px,220px) rotate(-4deg)}
+.p-tokyo{transform:translate3d(380px,-20px,0) rotate(5deg)}
+.p-bali{transform:translate3d(-40px,280px,-340px) rotate(-2deg)}
+.wm-tunnel-compare{
+  width:min(980px,90vw);
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+}
+.wm-tunnel-compare .wm-scene-no{
+  grid-column:1/-1;
+  margin-bottom:10px;
+}
+.wm-orbit-card{
+  min-height:210px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  padding:18px;
+  border:1px solid rgba(241,234,216,.16);
+  border-radius:12px;
+  background:linear-gradient(145deg,rgba(255,255,255,.13),rgba(255,255,255,.045));
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  box-shadow:0 24px 70px rgba(0,0,0,.24);
+}
+.wm-orbit-card b{
+  font-family:'Fraunces',Georgia,serif;
+  font-size:28px;
+  line-height:1;
+}
+.wm-orbit-card span{
+  color:var(--tunnel-muted);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.wm-tunnel-final{
+  width:min(960px,92vw);
+}
+.wm-tunnel-final h2{
+  font-family:'Fraunces',Georgia,serif;
+  font-size:clamp(82px,15vw,220px);
+  line-height:.88;
+  text-transform:uppercase;
+}
+.wm-tunnel-final p{
+  max-width:48ch;
+  margin:22px auto 0;
+  color:var(--tunnel-muted);
+  font-size:16px;
+  line-height:1.7;
+}
+.wm-tunnel-cta{
+  pointer-events:auto;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin-top:34px;
+  min-height:48px;
+  padding:0 22px;
+  color:#061009;
+  background:var(--tunnel-green);
+  border:1px solid var(--tunnel-green);
+  border-radius:999px;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+.wm-tunnel-progress{
+  position:fixed;
+  top:50%;
+  right:24px;
+  z-index:4;
+  width:1px;
+  height:230px;
+  transform:translateY(-50%);
+  background:rgba(241,234,216,.13);
+  pointer-events:none;
+}
+.wm-progress-fill{
+  width:1px;
+  height:0%;
+  background:var(--tunnel-green);
+  box-shadow:0 0 24px rgba(56,212,123,.60);
+}
+.wm-tunnel-progress span{
+  position:absolute;
+  bottom:-30px;
+  left:50%;
+  transform:translateX(-50%);
+  color:var(--tunnel-muted);
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:10px;
+  letter-spacing:.18em;
+  white-space:nowrap;
+}
+.wm-tunnel-spacer{height:620vh}
+.wm-mobile-tunnel{display:none}
+@media(max-width:900px){
+  .wm-tunnel{
+    min-height:auto;
+    background:
+      radial-gradient(circle at 76% 10%,rgba(56,212,123,.22),transparent 58vw),
+      var(--tunnel-void);
+  }
+  .wm-tunnel-stage,.wm-tunnel-progress,.wm-tunnel-spacer{display:none}
+  .wm-mobile-tunnel{
+    min-height:100svh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:96px 18px 58px;
+  }
+  .wm-mobile-tunnel h1{
+    max-width:8ch;
+    font-family:'Fraunces',Georgia,serif;
+    font-size:clamp(58px,19vw,92px);
+    line-height:.86;
+    text-transform:uppercase;
+  }
+  .wm-mobile-tunnel h1 em{color:var(--tunnel-green);font-style:normal}
+  .wm-mobile-tunnel p{
+    max-width:34ch;
+    margin-top:22px;
+    color:var(--tunnel-muted);
+    line-height:1.65;
+  }
+  .wm-mobile-polaroids{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-top:28px;
+  }
+  .wm-mobile-polaroids figure{
+    position:relative;
+    padding:8px 8px 34px;
+    background:var(--tunnel-cream);
+    transform:rotate(-2deg);
+  }
+  .wm-mobile-polaroids figure:nth-child(2){transform:rotate(3deg) translateY(18px)}
+  .wm-mobile-polaroids img{width:100%;aspect-ratio:3/4;object-fit:cover}
+  .wm-mobile-polaroids figcaption{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:10px;
+    color:#142016;
+    text-align:center;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    font-size:10px;
+    font-weight:900;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+  }
+  .wm-mobile-tunnel .wm-tunnel-cta{align-self:flex-start}
+}
+@media(prefers-reduced-motion:reduce){
+  .wm-loader{display:none!important}
+  .wm-tunnel-stage,.wm-tunnel-progress,.wm-tunnel-spacer{display:none!important}
+  .wm-mobile-tunnel{display:flex!important}
+  .wm-tunnel-arrow{animation:none}
+}
+html:not(.js) .wm-tunnel{min-height:auto}
+html:not(.js) .wm-tunnel-stage,
+html:not(.js) .wm-tunnel-progress,
+html:not(.js) .wm-tunnel-spacer{display:none}
+html:not(.js) .wm-mobile-tunnel{display:flex}
+@media(min-width:901px){
+  .js .wm-tunnel-stage{display:block}
+  .js .wm-tunnel-progress{display:block}
+  .js .wm-tunnel-spacer{display:block}
+  .js .wm-mobile-tunnel{display:none}
+}
 </style>
 </head>
 <body>
@@ -495,133 +1900,308 @@ a{color:inherit;text-decoration:none}
 <script src="/data/header.js"></script>
 <a id="wm-main" tabindex="-1"></a>
 
-<!-- ──────────── HERO ──────────── -->
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-content">
-    <div class="hero-eyebrow" id="heroEyebrow">160+ countries · Real data</div>
-    <h1 class="hero-title" id="heroTitle">Et si ta vie était différente ailleurs ?</h1>
-    <p class="hero-sub" id="heroSub">160+ pays. Salaires, loyers, visas, qualité de vie. Les vraies données pour choisir où vivre mieux.</p>
+<script>document.documentElement.classList.add('js');</script>
+<div class="wm-loader" id="wmLoader" aria-hidden="true">
+  <div class="wm-loader-meta">0% / ready to explore</div>
+  <div class="wm-loader-brand" id="wmLoaderBrand">
+    <span data-final="W">·</span><span data-final="I">·</span><span data-final="G">·</span><span data-final="G">·</span><span data-final="M">·</span><span data-final="A">·</span><span data-final="P">·</span>
+  </div>
+</div>
 
-    <div class="search-block">
-      <form class="search-form" id="searchForm" autocomplete="off">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-        <input id="searchInput" class="search-input" type="text" placeholder="ex. Suisse, Japon, Bangkok…">
-        <button id="searchGo" class="search-go" type="submit">Go →</button>
-      </form>
-      <div id="searchSug" class="search-sug" role="listbox"></div>
-    </div>
-
-    <div class="hero-quick">
-      <a href="/compare.html?c=thailand,indonesia,portugal"><span>🔀</span><span id="qkCompare">Comparer</span></a>
-      <a href="/indexchronicles.html"><span>📖</span><span id="qkChron">Chroniques</span></a>
-      <a href="/wiggmatch.html"><span>💚</span><span id="qkMatch">WiggMatch</span></a>
+<!-- ──────────── IMMERSIVE TUNNEL ──────────── -->
+<section class="wm-tunnel" id="wmTunnel" aria-label="WiggMap immersive introduction">
+  <div class="wm-tunnel-stage" id="wmTunnelStage" aria-hidden="true">
+    <div class="wm-tunnel-scene" id="wmTunnelScene">
+      <div class="wm-tunnel-layer wm-tunnel-intro" data-z="0">
+        <span class="wm-scene-no">01</span>
+        <p>Scroll to discover</p>
+        <div class="wm-tunnel-arrow"></div>
+        <small>160+ countries · FR / EN / ES</small>
+      </div>
+      <div class="wm-tunnel-layer wm-tunnel-word word-a" data-z="-760">
+        <span class="wm-scene-no">02</span>
+        Where is the
+      </div>
+      <div class="wm-tunnel-layer wm-tunnel-word word-b" data-z="-1540">
+        <span class="wm-scene-no">03</span>
+        Grass
+      </div>
+      <div class="wm-tunnel-layer wm-tunnel-photos" data-z="-2380">
+        <figure class="wm-polaroid p-lisbon">
+          <picture><source srcset="/assetscity/lisbonne.webp" type="image/webp"><img src="/assetscity/lisbonne.png" alt="Lisbon" loading="lazy"></picture>
+          <figcaption>Lisbon · Portugal</figcaption>
+        </figure>
+        <figure class="wm-polaroid p-tokyo">
+          <picture><source srcset="/assetscity/tokyo.webp" type="image/webp"><img src="/assetscity/tokyo.png" alt="Tokyo" loading="lazy"></picture>
+          <figcaption>Tokyo · Japan</figcaption>
+        </figure>
+        <figure class="wm-polaroid p-bali">
+          <picture><source srcset="/assetscity/bali.webp" type="image/webp"><img src="/assetscity/bali.png" alt="Bali" loading="lazy"></picture>
+          <figcaption>Bali · Indonesia</figcaption>
+        </figure>
+      </div>
+      <div class="wm-tunnel-layer wm-tunnel-word word-c" data-z="-3420">
+        <span class="wm-scene-no">04</span>
+        Actually
+      </div>
+      <div class="wm-tunnel-layer wm-tunnel-compare" data-z="-4320">
+        <span class="wm-scene-no">05</span>
+        <div class="wm-orbit-card"><b>cost of living</b><span>rents · daily costs</span></div>
+        <div class="wm-orbit-card"><b>salaries</b><span>work signals</span></div>
+        <div class="wm-orbit-card"><b>visas</b><span>mobility rules</span></div>
+        <div class="wm-orbit-card"><b>taxes</b><span>decision context</span></div>
+      </div>
+      <div class="wm-tunnel-layer wm-tunnel-word word-d" data-z="-5260">
+        <span class="wm-scene-no">06</span>
+        Greener?
+      </div>
+      <div class="wm-tunnel-layer wm-tunnel-final" data-z="-6300">
+        <span class="wm-scene-no">07</span>
+        <h2>Find yours.</h2>
+        <p>Search a country, compare your shortlist, or let WiggMap surprise you.</p>
+        <a href="#homeSearch" class="wm-tunnel-cta">Enter WiggMap</a>
+      </div>
     </div>
   </div>
-
-  <div class="hero-scroll" id="heroScroll">
-    <span id="lblScroll">Découvrir</span>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+  <div class="wm-tunnel-progress" aria-hidden="true">
+    <div class="wm-progress-fill" id="wmTunnelProgress"></div>
+    <span id="wmTunnelProgressLabel">01 / 07</span>
   </div>
-</section>
-
-<!-- ──────────── POPULAR COUNTRIES ──────────── -->
-<section class="section">
-  <div class="section-inner">
-    <div class="section-head">
-      <span class="section-eyebrow" id="lblPopEyebrow">Destinations</span>
-      <h2 class="section-title" id="lblPopTitle">Les pays à explorer</h2>
-      <p class="section-sub" id="lblPopSub">Les destinations les plus explorées par notre communauté.</p>
+  <div class="wm-tunnel-spacer" id="wmTunnelSpacer"></div>
+  <div class="wm-mobile-tunnel">
+    <span class="wm-scene-no">01</span>
+    <h1>Where is the <em>grass</em> greener?</h1>
+    <p>Compare cost of living, salaries, visas, taxes and quality of life across 160+ countries.</p>
+    <div class="wm-mobile-polaroids">
+      <figure><picture><source srcset="/assetscity/lisbonne.webp" type="image/webp"><img src="/assetscity/lisbonne.png" alt="Lisbon" loading="lazy"></picture><figcaption>Lisbon</figcaption></figure>
+      <figure><picture><source srcset="/assetscity/tokyo.webp" type="image/webp"><img src="/assetscity/tokyo.png" alt="Tokyo" loading="lazy"></picture><figcaption>Tokyo</figcaption></figure>
     </div>
-
-    <div class="country-grid" id="countryGrid"></div>
-
-    <div class="section-cta">
-      <a class="btn-pill" href="/globe.html"><span id="lblBrowseAll">Explorer les 160+ pays</span> →</a>
-    </div>
-  </div>
-</section>
-
-<!-- ──────────── TOOLS ──────────── -->
-<section class="section" style="padding-top:0">
-  <div class="section-inner">
-    <div class="section-head">
-      <span class="section-eyebrow" id="lblToolsEyebrow">Nos outils</span>
-      <h2 class="section-title" id="lblToolsTitle">Trouve ta destination idéale</h2>
-    </div>
-
-    <div class="tools-grid">
-      <a class="tool-card featured" href="/wiggmatch.html">
-        <span class="tool-badge" id="lblTool1Badge">🔥 Nouveau</span>
-        <div class="tool-icon">💚</div>
-        <div class="tool-name" id="lblTool1">WiggMatch</div>
-        <div class="tool-desc" id="lblTool1Sub">Test personnalisé qui trouve la ville faite pour toi en 5 questions.</div>
-        <div class="tool-arrow" id="lblToolStart">Commencer</div>
-      </a>
-      <a class="tool-card" href="/compare.html?c=thailand,indonesia,portugal">
-        <div class="tool-icon">⚖️</div>
-        <div class="tool-name" id="lblTool2">Comparer</div>
-        <div class="tool-desc" id="lblTool2Sub">Place 2 pays côte à côte sur 25+ critères.</div>
-        <div class="tool-arrow" id="lblToolStart2">Comparer</div>
-      </a>
-      <a class="tool-card" href="/globe.html">
-        <div class="tool-icon">🌍</div>
-        <div class="tool-name" id="lblTool3">Globe 3D</div>
-        <div class="tool-desc" id="lblTool3Sub">Tourne le globe et atterris sur n'importe quel pays.</div>
-        <div class="tool-arrow" id="lblToolStart3">Explorer</div>
-      </a>
-      <a class="tool-card" href="/ggg/wigggame.html">
-        <div class="tool-icon">🎮</div>
-        <div class="tool-name" id="lblTool4">Quiz</div>
-        <div class="tool-desc" id="lblTool4Sub">Teste tes connaissances sur les pays du monde.</div>
-        <div class="tool-arrow" id="lblToolStart4">Jouer</div>
-      </a>
-    </div>
+    <a href="#homeSearch" class="wm-tunnel-cta">Enter WiggMap</a>
   </div>
 </section>
 
-<!-- ──────────── CHRONICLES ──────────── -->
-<section class="section chron-section">
-  <div class="section-inner">
-    <div class="section-head">
-      <span class="section-eyebrow" id="lblChronEyebrow">Chroniques</span>
-      <h2 class="section-title" id="lblChronTitle">Articles longue forme</h2>
-      <p class="section-sub" id="lblChronSub">Visas, fiscalité, expatriation et guides détaillés écrits par Wigg.</p>
+<main class="wm-home">
+  <!-- ──────────── HERO ──────────── -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-orbit" aria-hidden="true">
+      <div class="float-card fc-a">
+        <span>Compare</span>
+        <strong>cost of living</strong>
+        <small>salaries · rents · taxes</small>
+      </div>
+      <div class="float-card fc-b">
+        <span>Coverage</span>
+        <strong>160+ countries</strong>
+        <small>FR / EN / ES</small>
+      </div>
+      <div class="float-card fc-c">
+        <span>Decision layer</span>
+        <strong>visas & quality of life</strong>
+        <small>country profiles + chronicles</small>
+      </div>
     </div>
+    <div class="hero-content">
+      <div class="hero-copy reveal">
+        <div class="hero-eyebrow" id="heroEyebrow">160+ countries · Real data · EN / FR / ES</div>
+        <h1 class="hero-title" id="heroTitle">Where is the grass greener?</h1>
+        <p class="hero-sub" id="heroSub">Compare cost of living, salaries, visas, taxes and quality of life before choosing where to live, work or retire abroad.</p>
+        <div class="hero-proof" aria-label="WiggMap highlights">
+          <span id="heroProof1">160+ country profiles</span>
+          <span id="heroProof2">25+ decision criteria</span>
+          <span id="heroProof3">Cities, visas, costs</span>
+        </div>
+      </div>
 
-    <div class="chron-grid" id="chronGrid"></div>
+      <div class="hero-panel reveal" aria-label="Search and explore WiggMap">
+        <div class="panel-kicker">WiggMap Navigator</div>
+        <div class="search-block" id="homeSearch">
+          <form class="search-form" id="searchForm" autocomplete="off">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+            <input id="searchInput" class="search-input" type="text" placeholder="e.g. Switzerland, Japan, Bangkok…">
+            <button id="searchGo" class="search-go" type="submit">Search</button>
+          </form>
+          <div id="searchSug" class="search-sug" role="listbox"></div>
+        </div>
 
-    <div class="section-cta">
-      <a class="btn-pill" href="/indexchronicles.html"><span id="lblAllChron">Toutes les chroniques</span> →</a>
+        <div class="hero-actions">
+          <a class="btn-primary" href="/globe.html"><span id="qkExplore">Explore countries</span></a>
+          <a class="btn-secondary" href="/compare.html?c=thailand,indonesia,portugal"><span id="qkCompare">Compare</span></a>
+          <a class="btn-secondary js-random-country" href="/globe.html"><span id="qkRandom">Random country</span></a>
+        </div>
+
+        <div class="hero-mini">
+          <a href="/indexchronicles.html"><strong id="qkChron">Chronicles</strong><span id="qkChronSub">Long-form guides</span></a>
+          <a href="/ggg/wigggame.html"><strong id="qkGame">WiggGame</strong><span id="qkGameSub">World quiz</span></a>
+          <a href="/wiggmatch.html"><strong id="qkMatch">WiggMatch</strong><span id="qkMatchSub">City match</span></a>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
-
-<!-- ──────────── PARALLAX DIVIDER ──────────── -->
-<section class="parallax" aria-hidden="true">
-  <div class="parallax-inner">
-    <span class="parallax-eyebrow" id="lblPxEyebrow">WiggMap</span>
-    <p class="parallax-quote" id="lblPxQuote">“L'herbe est-elle vraiment plus verte ailleurs ?”</p>
-    <div class="parallax-sign" id="lblPxSign">— 160+ pays, une seule réponse honnête</div>
-  </div>
-</section>
-
-<!-- ──────────── CITY CHRONICLES ──────────── -->
-<section class="section">
-  <div class="section-inner">
-    <div class="section-head">
-      <span class="section-eyebrow" id="lblCityEyebrow">Chroniques villes</span>
-      <h2 class="section-title" id="lblCityTitle">Les villes à découvrir</h2>
-      <p class="section-sub" id="lblCitySub">Le quotidien, les coûts cachés et l'ambiance — ville par ville.</p>
+    <div class="hero-scroll" id="heroScroll">
+      <span id="lblScroll">Discover</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
     </div>
+  </section>
 
-    <div class="city-grid" id="cityGrid"></div>
-
-    <div class="section-cta">
-      <a class="btn-pill" href="/indexchronicles.html"><span id="lblAllCities">Toutes les villes</span> →</a>
+  <!-- ──────────── COMPARE COUNTRIES ──────────── -->
+  <section class="section compare-section">
+    <div class="section-inner">
+      <div class="section-layout reveal">
+        <div class="section-head left">
+          <span class="section-eyebrow" id="lblCompareEyebrow">Compare countries</span>
+          <h2 class="section-title" id="lblCompareTitle">Put destinations side by side before you move.</h2>
+          <p class="section-sub" id="lblCompareSub">Rent, salaries, taxes, visas, healthcare, safety and lifestyle signals in one readable view.</p>
+        </div>
+        <div class="compare-strip" aria-label="Country comparison preview">
+          <article class="metric-card featured-metric reveal-card">
+            <div class="metric-badge">EU option</div>
+            <span class="metric-flag">🇵🇹</span>
+            <h3>Portugal</h3>
+            <p id="metricPortugal">D7 visa · EU access · strong expat base</p>
+            <dl><dt>Cost layer</dt><dd>rent + daily life</dd><dt>Decision layer</dt><dd>visa + taxes</dd><dt>Best for</dt><dd>Balanced Europe</dd></dl>
+          </article>
+          <article class="metric-card reveal-card">
+            <div class="metric-badge">Asia option</div>
+            <span class="metric-flag">🇹🇭</span>
+            <h3>Thailand</h3>
+            <p id="metricThailand">Low daily costs · strong city choice</p>
+            <dl><dt>Cost layer</dt><dd>rent + daily life</dd><dt>Decision layer</dt><dd>visa + lifestyle</dd><dt>Best for</dt><dd>Asia lifestyle</dd></dl>
+          </article>
+          <article class="metric-card reveal-card">
+            <div class="metric-badge">High-trust option</div>
+            <span class="metric-flag">🇯🇵</span>
+            <h3>Japan</h3>
+            <p id="metricJapan">Safety, healthcare and deep culture</p>
+            <dl><dt>Cost layer</dt><dd>rent + salaries</dd><dt>Decision layer</dt><dd>safety + healthcare</dd><dt>Best for</dt><dd>High-trust life</dd></dl>
+          </article>
+        </div>
+      </div>
+      <div class="section-cta align-left">
+        <a class="btn-pill" href="/compare.html?c=portugal,thailand,japan"><span id="lblCompareCta">Open the country comparator</span> →</a>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+
+  <!-- ──────────── POPULAR COUNTRIES ──────────── -->
+  <section class="section country-section">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <span class="section-eyebrow" id="lblPopEyebrow">Destinations</span>
+        <h2 class="section-title" id="lblPopTitle">Start with countries people actually compare.</h2>
+        <p class="section-sub" id="lblPopSub">Popular profiles with practical cost, work and quality-of-life signals.</p>
+      </div>
+
+      <div class="country-grid" id="countryGrid">
+        <a class="country-card" href="/countries/country.html?country=portugal"><img src="/assets/hero-portugal.jpg" alt="Portugal" loading="lazy"><div class="cc-body"><span class="cc-flag">🇵🇹</span><div class="cc-name">Portugal</div><div class="cc-fact">D7 visa · EU lifestyle</div></div></a>
+        <a class="country-card" href="/countries/country.html?country=thailand"><img src="/assets/hero-thailand.jpg" alt="Thailand" loading="lazy"><div class="cc-body"><span class="cc-flag">🇹🇭</span><div class="cc-name">Thailand</div><div class="cc-fact">Bangkok · Chiang Mai</div></div></a>
+        <a class="country-card" href="/countries/country.html?country=japan"><img src="/assets/hero-japan.jpg" alt="Japan" loading="lazy"><div class="cc-body"><span class="cc-flag">🇯🇵</span><div class="cc-name">Japan</div><div class="cc-fact">Safety · healthcare</div></div></a>
+        <a class="country-card" href="/countries/country.html?country=mexico"><img src="/assets/hero-mexico.jpg" alt="Mexico" loading="lazy"><div class="cc-body"><span class="cc-flag">🇲🇽</span><div class="cc-name">Mexico</div><div class="cc-fact">Cities · culture</div></div></a>
+      </div>
+
+      <div class="section-cta">
+        <a class="btn-pill" href="/globe.html"><span id="lblBrowseAll">Explore all 160+ countries</span> →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────── CHRONICLES ──────────── -->
+  <section class="section chron-section">
+    <div class="section-inner magazine-layout reveal">
+      <div class="section-head left">
+        <span class="section-eyebrow" id="lblChronEyebrow">Chronicles</span>
+        <h2 class="section-title" id="lblChronTitle">A magazine layer for decisions that need context.</h2>
+        <p class="section-sub" id="lblChronSub">Visas, taxes, relocation, family life and city guides written for people who need more than a ranking.</p>
+        <div class="section-cta align-left">
+          <a class="btn-pill" href="/indexchronicles.html"><span id="lblAllChron">Read all chronicles</span> →</a>
+        </div>
+      </div>
+
+      <div class="chron-grid" id="chronGrid">
+        <a class="chron-card" href="/chronicles/chronicle-digital-nomad-visas-2026-en.html"><div class="chron-thumb"><div class="chron-thumb-grid cols-3"><div style="background-image:url('/assets/hero-portugal.jpg')"></div><div style="background-image:url('/assets/hero-spain.jpg')"></div><div style="background-image:url('/assets/hero-indonesia.jpg')"></div></div></div><div class="chron-body"><div class="chron-cat">Visas</div><div class="chron-title">The best digital nomad visas in 2026</div><div class="chron-meta">Long-form guide</div></div></a>
+        <a class="chron-card" href="/chronicles/chronicle-asia-expat-guide-part1-2026-en.html"><div class="chron-thumb"><div class="chron-thumb-grid cols-3"><div style="background-image:url('/assets/hero-thailand.jpg')"></div><div style="background-image:url('/assets/hero-vietnam.jpg')"></div><div style="background-image:url('/assets/hero-indonesia.jpg')"></div></div></div><div class="chron-body"><div class="chron-cat">Asia</div><div class="chron-title">Thailand, Vietnam, Bali: Asia expat guide</div><div class="chron-meta">Deep comparison</div></div></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────── WIGGGAME + RANDOM ──────────── -->
+  <section class="section play-section">
+    <div class="section-inner split-cards">
+      <article class="feature-card game-card reveal-card">
+        <span class="section-eyebrow" id="lblGameEyebrow">WiggGame</span>
+        <h2 class="section-title" id="lblGameTitle">A sharper way to test your world instinct.</h2>
+        <p class="section-sub" id="lblGameSub">Guess, compare and learn country facts without leaving the WiggMap universe.</p>
+        <div class="quiz-preview" aria-hidden="true">
+          <div class="quiz-top"><span>Round 04</span><strong>Score 3/5</strong></div>
+          <div class="quiz-question">Which country fits this profile?</div>
+          <div class="quiz-options"><span>cost of living</span><span>visa</span><span>quality of life</span></div>
+        </div>
+        <a class="btn-pill" href="/ggg/wigggame.html"><span id="lblGameCta">Play WiggGame</span> →</a>
+      </article>
+      <article class="feature-card random-card reveal-card">
+        <span class="section-eyebrow" id="lblRandomEyebrow">Discovery</span>
+        <h2 class="section-title" id="lblRandomTitle">Let the map pick your next rabbit hole.</h2>
+        <p class="section-sub" id="lblRandomSub">Open a random country profile and discover a place you would never have searched for.</p>
+        <div class="discovery-machine" aria-hidden="true">
+          <span>Portugal</span><span>Japan</span><span>Mexico</span><span>Thailand</span>
+        </div>
+        <a class="btn-pill js-random-country" href="/globe.html"><span id="lblRandomCta">Open random country</span> →</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- ──────────── CITIES ──────────── -->
+  <section class="section city-section">
+    <div class="section-inner">
+      <div class="section-head reveal">
+        <span class="section-eyebrow" id="lblCityEyebrow">City chronicles</span>
+        <h2 class="section-title" id="lblCityTitle">Zoom into the cities behind the country score.</h2>
+        <p class="section-sub" id="lblCitySub">Daily life, hidden costs and atmosphere, city by city.</p>
+      </div>
+
+      <div class="city-grid" id="cityGrid">
+        <a class="city-card" href="/chronicles/villes/chronicle-bangkok-thailand-en.html"><img src="/assets/hero-thailand.jpg" alt="Bangkok" loading="lazy"><div class="city-body"><div class="city-name">Bangkok</div><div class="city-country">Thailand</div></div></a>
+        <a class="city-card" href="/chronicles/villes/chronicle-tokyo-japan-en.html"><img src="/assets/hero-japan.jpg" alt="Tokyo" loading="lazy"><div class="city-body"><div class="city-name">Tokyo</div><div class="city-country">Japan</div></div></a>
+        <a class="city-card" href="/chronicles/villes/chronicle-lisbonne-portugal-en.html"><img src="/assets/hero-portugal.jpg" alt="Lisbon" loading="lazy"><div class="city-body"><div class="city-name">Lisbon</div><div class="city-country">Portugal</div></div></a>
+      </div>
+
+      <div class="section-cta">
+        <a class="btn-pill" href="/indexchronicles.html"><span id="lblAllCities">Browse city chronicles</span> →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────── CREDIBILITY ──────────── -->
+  <section class="section proof-section">
+    <div class="section-inner">
+      <div class="proof-grid reveal">
+        <div class="proof-copy">
+          <span class="section-eyebrow" id="lblProofEyebrow">Built for decisions</span>
+          <h2 class="section-title" id="lblProofTitle">Readable data, international context, transparent corrections.</h2>
+          <p class="section-sub" id="lblProofSub">WiggMap combines country data, city guides and community corrections to help expats, nomads and retirees compare destinations with more confidence.</p>
+        </div>
+        <div class="proof-stats">
+          <div><strong>160+</strong><span id="lblStatCountries">countries</span></div>
+          <div><strong>25+</strong><span id="lblStatCriteria">criteria</span></div>
+          <div><strong>3</strong><span id="lblStatLangs">languages</span></div>
+          <div><strong>1</strong><span id="lblStatMission">clear decision</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ──────────── FINAL CTA ──────────── -->
+  <section class="final-cta">
+    <div class="final-inner reveal">
+      <span class="section-eyebrow" id="lblFinalEyebrow">Start exploring</span>
+      <h2 id="lblFinalTitle">Find the place that makes sense for your next chapter.</h2>
+      <p id="lblFinalSub">Search a country, compare your shortlist, or let WiggMap surprise you.</p>
+      <div class="hero-actions center">
+        <a class="btn-primary" href="/globe.html"><span id="lblFinalExplore">Explore the map</span></a>
+        <a class="btn-secondary" href="/compare.html?c=thailand,indonesia,portugal"><span id="lblFinalCompare">Compare countries</span></a>
+      </div>
+    </div>
+  </section>
+</main>
 
 <div id="siteFooter"></div>
 <script src="/data/footer.js"></script>
@@ -631,71 +2211,98 @@ a{color:inherit;text-decoration:none}
 var I18N = {
   en: {
     title: 'WiggMap — Where is the grass actually greener?',
-    eyebrow: '160+ countries · Real data',
-    heroTitle: 'What if your life were different somewhere else?',
-    heroSub: '',
+    eyebrow: '160+ countries · Real data · EN / FR / ES',
+    heroTitle: 'Where is the grass greener?',
+    heroSub: 'Compare cost of living, salaries, visas, taxes and quality of life before choosing where to live, work or retire abroad.',
+    proof1: '160+ country profiles', proof2: '25+ decision criteria', proof3: 'Cities, visas, costs',
     placeholder: 'e.g. Switzerland, Japan, Bangkok…',
-    goBtn: 'Go →',
-    qkCompare: 'Compare', qkChron: 'Chronicles', qkMatch: 'WiggMatch',
-    scroll: 'Scroll',
-    popEyebrow: 'Destinations', popTitle: 'Countries to explore', popSub: 'The destinations most explored by our community.',
-    browseAll: 'Browse all 160+ countries',
+    goBtn: 'Search',
+    qkExplore: 'Explore countries', qkCompare: 'Compare', qkRandom: 'Random country',
+    qkChron: 'Chronicles', qkChronSub: 'Long-form guides', qkGame: 'WiggGame', qkGameSub: 'World quiz', qkMatch: 'WiggMatch', qkMatchSub: 'City match',
+    scroll: 'Discover',
+    compareEyebrow: 'Compare countries', compareTitle: 'Put destinations side by side before you move.', compareSub: 'Rent, salaries, taxes, visas, healthcare, safety and lifestyle signals in one readable view.', compareCta: 'Open the country comparator',
+    metricPortugal: 'D7 visa · EU access · strong expat base', metricThailand: 'Low daily costs · strong city choice', metricJapan: 'Safety, healthcare and deep culture',
+    popEyebrow: 'Destinations', popTitle: 'Start with countries people actually compare.', popSub: 'Popular profiles with practical cost, work and quality-of-life signals.',
+    browseAll: 'Explore all 160+ countries',
     toolsEyebrow: 'Our tools', toolsTitle: 'Find your perfect destination',
     tool1: 'WiggMatch', tool1Sub: 'Personalised test that finds the city made for you in 5 questions.', toolStart: 'Start', tool1Badge: '🔥 New',
     tool2: 'Compare', tool2Sub: 'Place 2 countries side by side on 25+ criteria.', toolStart2: 'Compare',
     tool3: '3D Globe', tool3Sub: 'Spin the globe and land on any country.', toolStart3: 'Explore',
     tool4: 'Quiz', tool4Sub: 'Test your knowledge of the world\u2019s countries.', toolStart4: 'Play',
-    chronEyebrow: 'Chronicles', chronTitle: 'Long-form articles', chronSub: 'Visas, taxes, expat life and in-depth guides written by Wigg.',
-    allChron: 'All chronicles',
+    chronEyebrow: 'Chronicles', chronTitle: 'A magazine layer for decisions that need context.', chronSub: 'Visas, taxes, relocation, family life and city guides written for people who need more than a ranking.',
+    allChron: 'Read all chronicles',
+    gameEyebrow: 'WiggGame', gameTitle: 'A sharper way to test your world instinct.', gameSub: 'Guess, compare and learn country facts without leaving the WiggMap universe.', gameCta: 'Play WiggGame',
+    randomEyebrow: 'Discovery', randomTitle: 'Let the map pick your next rabbit hole.', randomSub: 'Open a random country profile and discover a place you would never have searched for.', randomCta: 'Open random country',
     pxQuote: 'Come and discover new horizons.', pxSign: '— 160+ countries to explore',
-    cityEyebrow: 'City chronicles', cityTitle: 'Cities to discover', citySub: 'Daily life, hidden costs and atmosphere — city by city.',
-    allCities: 'All cities',
+    cityEyebrow: 'City chronicles', cityTitle: 'Zoom into the cities behind the country score.', citySub: 'Daily life, hidden costs and atmosphere, city by city.',
+    allCities: 'Browse city chronicles',
+    proofEyebrow: 'Built for decisions', proofTitle: 'Readable data, international context, transparent corrections.', proofSub: 'WiggMap combines country data, city guides and community corrections to help expats, nomads and retirees compare destinations with more confidence.',
+    statCountries: 'countries', statCriteria: 'criteria', statLangs: 'languages', statMission: 'clear decision',
+    finalEyebrow: 'Start exploring', finalTitle: 'Find the place that makes sense for your next chapter.', finalSub: 'Search a country, compare your shortlist, or let WiggMap surprise you.', finalExplore: 'Explore the map', finalCompare: 'Compare countries',
     noMatch: 'No match found.'
   },
   fr: {
     title: 'WiggMap — Où l\u2019herbe est-elle vraiment plus verte ?',
-    eyebrow: '160+ pays · Données réelles',
-    heroTitle: 'Et si ta vie était différente ailleurs ?',
-    heroSub: '',
+    eyebrow: '160+ pays · Données réelles · FR / EN / ES',
+    heroTitle: 'Where is the grass greener?',
+    heroSub: 'Compare le coût de la vie, les salaires, les visas, les impôts et la qualité de vie avant de choisir où vivre, travailler ou prendre ta retraite.',
+    proof1: '160+ profils pays', proof2: '25+ critères de décision', proof3: 'Villes, visas, coûts',
     placeholder: 'ex. Suisse, Japon, Bangkok…',
-    goBtn: 'Go →',
-    qkCompare: 'Comparer', qkChron: 'Chroniques', qkMatch: 'WiggMatch',
+    goBtn: 'Chercher',
+    qkExplore: 'Explorer les pays', qkCompare: 'Comparer', qkRandom: 'Pays au hasard',
+    qkChron: 'Chroniques', qkChronSub: 'Guides longs', qkGame: 'WiggGame', qkGameSub: 'Quiz monde', qkMatch: 'WiggMatch', qkMatchSub: 'Ville idéale',
     scroll: 'Découvrir',
-    popEyebrow: 'Destinations', popTitle: 'Les pays à explorer', popSub: 'Les destinations les plus explorées par notre communauté.',
+    compareEyebrow: 'Comparer les pays', compareTitle: 'Mets les destinations côte à côte avant de partir.', compareSub: 'Loyers, salaires, impôts, visas, santé, sécurité et style de vie dans une vue lisible.', compareCta: 'Ouvrir le comparateur',
+    metricPortugal: 'Visa D7 · accès UE · forte base expat', metricThailand: 'Coûts quotidiens bas · choix de villes', metricJapan: 'Sécurité, santé et culture profonde',
+    popEyebrow: 'Destinations', popTitle: 'Commence par les pays que les gens comparent vraiment.', popSub: 'Des profils populaires avec des signaux pratiques sur le coût, le travail et la qualité de vie.',
     browseAll: 'Explorer les 160+ pays',
     toolsEyebrow: 'Nos outils', toolsTitle: 'Trouve ta destination idéale',
     tool1: 'WiggMatch', tool1Sub: 'Test personnalisé qui trouve la ville faite pour toi en 5 questions.', toolStart: 'Commencer', tool1Badge: '🔥 Nouveau',
     tool2: 'Comparer', tool2Sub: 'Place 2 pays côte à côte sur 25+ critères.', toolStart2: 'Comparer',
     tool3: 'Globe 3D', tool3Sub: 'Tourne le globe et atterris sur n\u2019importe quel pays.', toolStart3: 'Explorer',
     tool4: 'Quiz', tool4Sub: 'Teste tes connaissances sur les pays du monde.', toolStart4: 'Jouer',
-    chronEyebrow: 'Chroniques', chronTitle: 'Articles longue forme', chronSub: 'Visas, fiscalité, expatriation et guides détaillés écrits par Wigg.',
-    allChron: 'Toutes les chroniques',
+    chronEyebrow: 'Chroniques', chronTitle: 'Une couche magazine pour les décisions qui demandent du contexte.', chronSub: 'Visas, fiscalité, expatriation, famille et guides de villes pour aller plus loin qu’un simple classement.',
+    allChron: 'Lire les chroniques',
+    gameEyebrow: 'WiggGame', gameTitle: 'Une façon plus vive de tester ton instinct du monde.', gameSub: 'Devine, compare et apprends des faits pays sans quitter l’univers WiggMap.', gameCta: 'Jouer à WiggGame',
+    randomEyebrow: 'Découverte', randomTitle: 'Laisse la carte choisir ta prochaine piste.', randomSub: 'Ouvre un profil pays au hasard et découvre un endroit que tu n’aurais jamais cherché.', randomCta: 'Ouvrir un pays au hasard',
     pxQuote: 'Viens découvrir de nouveaux horizons.', pxSign: '— 160+ pays à explorer',
-    cityEyebrow: 'Chroniques villes', cityTitle: 'Les villes à découvrir', citySub: 'Le quotidien, les coûts cachés et l\u2019ambiance — ville par ville.',
-    allCities: 'Toutes les villes',
+    cityEyebrow: 'Chroniques villes', cityTitle: 'Zoome sur les villes derrière le score pays.', citySub: 'Le quotidien, les coûts cachés et l’ambiance, ville par ville.',
+    allCities: 'Voir les chroniques villes',
+    proofEyebrow: 'Pensé pour décider', proofTitle: 'Données lisibles, contexte international, corrections transparentes.', proofSub: 'WiggMap combine données pays, guides de villes et corrections de la communauté pour aider expats, nomades et retraités à comparer avec plus de confiance.',
+    statCountries: 'pays', statCriteria: 'critères', statLangs: 'langues', statMission: 'décision claire',
+    finalEyebrow: 'Commencer', finalTitle: 'Trouve l’endroit qui a du sens pour ton prochain chapitre.', finalSub: 'Cherche un pays, compare ta shortlist ou laisse WiggMap te surprendre.', finalExplore: 'Explorer la carte', finalCompare: 'Comparer les pays',
     noMatch: 'Aucun résultat.'
   },
   es: {
     title: 'WiggMap — ¿Dónde está la hierba realmente más verde?',
-    eyebrow: '160+ países · Datos reales',
-    heroTitle: '¿Y si tu vida fuera diferente en otro lugar?',
-    heroSub: '',
+    eyebrow: '160+ países · Datos reales · ES / EN / FR',
+    heroTitle: 'Where is the grass greener?',
+    heroSub: 'Compara coste de vida, salarios, visados, impuestos y calidad de vida antes de elegir dónde vivir, trabajar o jubilarte.',
+    proof1: '160+ perfiles de países', proof2: '25+ criterios de decisión', proof3: 'Ciudades, visados, costes',
     placeholder: 'p.ej. Suiza, Japón, Bangkok…',
-    goBtn: 'Ir →',
-    qkCompare: 'Comparar', qkChron: 'Crónicas', qkMatch: 'WiggMatch',
+    goBtn: 'Buscar',
+    qkExplore: 'Explorar países', qkCompare: 'Comparar', qkRandom: 'País aleatorio',
+    qkChron: 'Crónicas', qkChronSub: 'Guías largas', qkGame: 'WiggGame', qkGameSub: 'Quiz mundial', qkMatch: 'WiggMatch', qkMatchSub: 'Ciudad ideal',
     scroll: 'Descubrir',
-    popEyebrow: 'Destinos', popTitle: 'Los países a explorar', popSub: 'Los destinos más explorados por nuestra comunidad.',
+    compareEyebrow: 'Comparar países', compareTitle: 'Pon destinos lado a lado antes de mudarte.', compareSub: 'Alquiler, salarios, impuestos, visados, salud, seguridad y estilo de vida en una vista legible.', compareCta: 'Abrir el comparador',
+    metricPortugal: 'Visa D7 · acceso UE · base expat fuerte', metricThailand: 'Costes diarios bajos · gran variedad de ciudades', metricJapan: 'Seguridad, salud y cultura profunda',
+    popEyebrow: 'Destinos', popTitle: 'Empieza por los países que la gente compara de verdad.', popSub: 'Perfiles populares con señales prácticas de coste, trabajo y calidad de vida.',
     browseAll: 'Explorar los 160+ países',
     toolsEyebrow: 'Nuestras herramientas', toolsTitle: 'Encuentra tu destino ideal',
     tool1: 'WiggMatch', tool1Sub: 'Test personalizado que encuentra la ciudad hecha para ti en 5 preguntas.', toolStart: 'Empezar', tool1Badge: '🔥 Nuevo',
     tool2: 'Comparar', tool2Sub: 'Coloca 2 países uno al lado del otro en 25+ criterios.', toolStart2: 'Comparar',
     tool3: 'Globo 3D', tool3Sub: 'Gira el globo y aterriza en cualquier país.', toolStart3: 'Explorar',
     tool4: 'Quiz', tool4Sub: 'Pon a prueba tu conocimiento de los países del mundo.', toolStart4: 'Jugar',
-    chronEyebrow: 'Crónicas', chronTitle: 'Artículos largos', chronSub: 'Visados, impuestos, expatriación y guías detalladas escritas por Wigg.',
-    allChron: 'Todas las crónicas',
+    chronEyebrow: 'Crónicas', chronTitle: 'Una capa editorial para decisiones que necesitan contexto.', chronSub: 'Visados, impuestos, reubicación, familia y guías de ciudades para ir más allá de un ranking.',
+    allChron: 'Leer las crónicas',
+    gameEyebrow: 'WiggGame', gameTitle: 'Una forma más fina de probar tu instinto global.', gameSub: 'Adivina, compara y aprende datos de países sin salir del universo WiggMap.', gameCta: 'Jugar a WiggGame',
+    randomEyebrow: 'Descubrimiento', randomTitle: 'Deja que el mapa elija tu próxima pista.', randomSub: 'Abre un perfil de país aleatorio y descubre un lugar que nunca habrías buscado.', randomCta: 'Abrir país aleatorio',
     pxQuote: 'Ven a descubrir nuevos horizontes.', pxSign: '— 160+ países por explorar',
-    cityEyebrow: 'Crónicas ciudades', cityTitle: 'Las ciudades a descubrir', citySub: 'La vida diaria, los costes ocultos y el ambiente — ciudad por ciudad.',
-    allCities: 'Todas las ciudades',
+    cityEyebrow: 'Crónicas ciudades', cityTitle: 'Acércate a las ciudades detrás de la puntuación del país.', citySub: 'Vida diaria, costes ocultos y ambiente, ciudad por ciudad.',
+    allCities: 'Ver crónicas de ciudades',
+    proofEyebrow: 'Hecho para decidir', proofTitle: 'Datos legibles, contexto internacional, correcciones transparentes.', proofSub: 'WiggMap combina datos de países, guías de ciudades y correcciones de la comunidad para ayudar a expats, nómadas y jubilados a comparar con más confianza.',
+    statCountries: 'países', statCriteria: 'criterios', statLangs: 'idiomas', statMission: 'decisión clara',
+    finalEyebrow: 'Empieza', finalTitle: 'Encuentra el lugar que tenga sentido para tu próximo capítulo.', finalSub: 'Busca un país, compara tu lista o deja que WiggMap te sorprenda.', finalExplore: 'Explorar el mapa', finalCompare: 'Comparar países',
     noMatch: 'Sin resultados.'
   }
 };
@@ -710,10 +2317,26 @@ function setT(id, val) { var el = document.getElementById(id); if (el) el.textCo
 setT('heroEyebrow', T.eyebrow);
 setT('heroTitle', T.heroTitle);
 setT('heroSub', T.heroSub);
+setT('heroProof1', T.proof1);
+setT('heroProof2', T.proof2);
+setT('heroProof3', T.proof3);
+setT('qkExplore', T.qkExplore);
 setT('qkCompare', T.qkCompare);
+setT('qkRandom', T.qkRandom);
 setT('qkChron', T.qkChron);
+setT('qkChronSub', T.qkChronSub);
+setT('qkGame', T.qkGame);
+setT('qkGameSub', T.qkGameSub);
 setT('qkMatch', T.qkMatch);
+setT('qkMatchSub', T.qkMatchSub);
 setT('lblScroll', T.scroll);
+setT('lblCompareEyebrow', T.compareEyebrow);
+setT('lblCompareTitle', T.compareTitle);
+setT('lblCompareSub', T.compareSub);
+setT('lblCompareCta', T.compareCta);
+setT('metricPortugal', T.metricPortugal);
+setT('metricThailand', T.metricThailand);
+setT('metricJapan', T.metricJapan);
 setT('lblPopEyebrow', T.popEyebrow);
 setT('lblPopTitle', T.popTitle);
 setT('lblPopSub', T.popSub);
@@ -728,12 +2351,32 @@ setT('lblChronEyebrow', T.chronEyebrow);
 setT('lblChronTitle', T.chronTitle);
 setT('lblChronSub', T.chronSub);
 setT('lblAllChron', T.allChron);
+setT('lblGameEyebrow', T.gameEyebrow);
+setT('lblGameTitle', T.gameTitle);
+setT('lblGameSub', T.gameSub);
+setT('lblGameCta', T.gameCta);
+setT('lblRandomEyebrow', T.randomEyebrow);
+setT('lblRandomTitle', T.randomTitle);
+setT('lblRandomSub', T.randomSub);
+setT('lblRandomCta', T.randomCta);
 setT('lblPxQuote', T.pxQuote);
 setT('lblPxSign', T.pxSign);
 setT('lblCityEyebrow', T.cityEyebrow);
 setT('lblCityTitle', T.cityTitle);
 setT('lblCitySub', T.citySub);
 setT('lblAllCities', T.allCities);
+setT('lblProofEyebrow', T.proofEyebrow);
+setT('lblProofTitle', T.proofTitle);
+setT('lblProofSub', T.proofSub);
+setT('lblStatCountries', T.statCountries);
+setT('lblStatCriteria', T.statCriteria);
+setT('lblStatLangs', T.statLangs);
+setT('lblStatMission', T.statMission);
+setT('lblFinalEyebrow', T.finalEyebrow);
+setT('lblFinalTitle', T.finalTitle);
+setT('lblFinalSub', T.finalSub);
+setT('lblFinalExplore', T.finalExplore);
+setT('lblFinalCompare', T.finalCompare);
 
 var inp = document.getElementById('searchInput');
 if (inp) inp.placeholder = T.placeholder;
@@ -741,6 +2384,33 @@ var goBtn = document.getElementById('searchGo');
 if (goBtn) goBtn.textContent = T.goBtn;
 
 window.__I18N_NOMATCH = T.noMatch;
+</script>
+
+<script>
+(function(){
+  async function goRandomCountry(){
+    try{
+      var lang = (localStorage.getItem('wigg_lang') || 'en').toLowerCase();
+      var ul = ['en','fr','es'].indexOf(lang) >= 0 ? lang : 'en';
+      var res = await fetch('/data/countries.json?nocache=' + Date.now(), { cache:'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      var data = await res.json();
+      var keys = Object.keys(data || {});
+      if (!keys.length) throw new Error('No countries');
+      var slug = keys[Math.floor(Math.random() * keys.length)];
+      window.location.href = '/countries/' + encodeURIComponent(slug) + '-' + ul + '.html';
+    } catch(e) {
+      console.error('Random country failed', e);
+      window.location.href = '/globe.html';
+    }
+  }
+  document.querySelectorAll('.js-random-country').forEach(function(el){
+    el.addEventListener('click', function(e){
+      e.preventDefault();
+      goRandomCountry();
+    });
+  });
+})();
 </script>
 
 <!-- ─────────── SEARCH ─────────── -->
@@ -1033,6 +2703,148 @@ window.__I18N_NOMATCH = T.noMatch;
       if (firstSection) firstSection.scrollIntoView({ behavior: 'smooth' });
     });
   }
+})();
+</script>
+
+<script>
+(function(){
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isMobileTunnel = window.matchMedia && window.matchMedia('(max-width: 900px)').matches;
+
+  function runTunnelLoader(){
+    var loader = document.getElementById('wmLoader');
+    var brand = document.getElementById('wmLoaderBrand');
+    if (!loader || !brand || reduceMotion) {
+      if (loader) loader.classList.add('gone');
+      return;
+    }
+    var cells = Array.prototype.slice.call(brand.querySelectorAll('span'));
+    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#%&@/*';
+    cells.forEach(function(cell, index){
+      var finalChar = cell.getAttribute('data-final') || '';
+      var start = performance.now();
+      var duration = 620 + index * 80;
+      function tick(now){
+        if (now - start < duration) {
+          cell.textContent = chars[Math.floor(Math.random() * chars.length)];
+          requestAnimationFrame(tick);
+        } else {
+          cell.textContent = finalChar;
+        }
+      }
+      requestAnimationFrame(tick);
+    });
+    setTimeout(function(){ loader.classList.add('gone'); }, 1250);
+    setTimeout(function(){ loader.classList.add('gone'); }, 2400);
+  }
+
+  function initTunnel(){
+    var stage = document.getElementById('wmTunnelStage');
+    var scene = document.getElementById('wmTunnelScene');
+    var spacer = document.getElementById('wmTunnelSpacer');
+    var fill = document.getElementById('wmTunnelProgress');
+    var label = document.getElementById('wmTunnelProgressLabel');
+    if (!stage || !scene || !spacer || reduceMotion || isMobileTunnel) return;
+
+    var layers = Array.prototype.slice.call(scene.querySelectorAll('.wm-tunnel-layer')).map(function(el){
+      var z = parseFloat(el.getAttribute('data-z')) || 0;
+      el.style.setProperty('--z', z + 'px');
+      return { el: el, z: z };
+    });
+    var travel = 6300;
+    var targetZ = 0;
+    var currentZ = 0;
+
+    function clamp(n,min,max){ return Math.max(min, Math.min(max, n)); }
+    function range(v,a,b,c,d){
+      var t = clamp((v - a) / (b - a), 0, 1);
+      return c + t * (d - c);
+    }
+    function opacityFor(z){
+      if (z <= -1500) return 0;
+      if (z <= -520) return range(z, -1500, -520, 0, 1);
+      if (z <= 120) return 1;
+      if (z <= 460) return range(z, 120, 460, 1, 0);
+      return 0;
+    }
+    function progress(){
+      var max = spacer.offsetHeight - window.innerHeight;
+      if (max <= 0) return 0;
+      return clamp(window.scrollY / max, 0, 1);
+    }
+    function paint(){
+      scene.style.transform = 'translate3d(0,0,' + currentZ + 'px)';
+      var active = 0;
+      var best = Infinity;
+      layers.forEach(function(layer, index){
+        var effectiveZ = layer.z + currentZ;
+        var op = opacityFor(effectiveZ);
+        layer.el.style.opacity = op.toFixed(3);
+        layer.el.style.visibility = op > .025 ? 'visible' : 'hidden';
+        var distance = Math.abs(effectiveZ);
+        if (distance < best) {
+          best = distance;
+          active = index;
+        }
+      });
+      if (fill) fill.style.height = ((currentZ / travel) * 100).toFixed(2) + '%';
+      if (label) label.textContent = String(active + 1).padStart(2,'0') + ' / ' + String(layers.length).padStart(2,'0');
+    }
+    function frame(){
+      targetZ = progress() * travel;
+      currentZ += (targetZ - currentZ) * .16;
+      if (Math.abs(targetZ - currentZ) < .35) currentZ = targetZ;
+      paint();
+      requestAnimationFrame(frame);
+    }
+    paint();
+    requestAnimationFrame(frame);
+  }
+
+  var revealItems = [];
+
+  function collectRevealItems(){
+    var selectors = [
+      '.reveal',
+      '.reveal-card',
+      '.country-card',
+      '.chron-card',
+      '.city-card',
+      '.proof-stats div'
+    ];
+    revealItems = Array.prototype.slice.call(document.querySelectorAll(selectors.join(',')));
+    revealItems.forEach(function(el, i){
+      if (!el.classList.contains('reveal') && !el.classList.contains('reveal-card')) el.classList.add('reveal-card');
+      if (!el.style.getPropertyValue('--reveal-delay')) el.style.setProperty('--reveal-delay', Math.min((i % 4) * 70, 210) + 'ms');
+      if (reduceMotion) el.classList.add('is-visible');
+    });
+  }
+
+  function initReveals(){
+    collectRevealItems();
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      revealItems.forEach(function(el){ el.classList.add('is-visible'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { rootMargin:'0px 0px -12% 0px', threshold:.12 });
+    revealItems.forEach(function(el){ io.observe(el); });
+  }
+
+  function boot(){
+    runTunnelLoader();
+    initTunnel();
+    initReveals();
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
 })();
 </script>
 

@@ -21,7 +21,7 @@
   <meta property="og:image" content="https://wiggmap.com/assets/og-globe.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="/assets/favicon.ico" type="image/x-icon" />
-  <link rel="preload" as="image" href="./assets/earth-grass.webp" fetchpriority="high" />
+  <link rel="preload" as="image" href="/assets/earth-grass.webp" fetchpriority="high" />
   <link rel="preconnect" href="https://unpkg.com" crossorigin />
   <script src="https://unpkg.com/globe.gl"></script>
   <style>
@@ -462,7 +462,7 @@ const detailsCache = {};
 async function loadCountriesDB(){
   if(COUNTRIES_DB) return COUNTRIES_DB;
   const _lang = localStorage.getItem("wigg_lang") || "en";
-  const _cf = _lang === "fr" ? "data/countries.fr.json" : _lang === "es" ? "data/countries.es.json" : "data/countries.json";
+  const _cf = _lang === "fr" ? "/data/countries.fr.json" : _lang === "es" ? "/data/countries.es.json" : "/data/countries.json";
   const r = await fetch(_cf, { cache: "no-store" });
   if(!r.ok) throw new Error("countries.json not found");
   COUNTRIES_DB = await r.json();
@@ -479,7 +479,7 @@ async function loadDetails(slug){
   try{
     const _dlang = localStorage.getItem("wigg_lang") || "en";
     const _df = _dlang === "fr" ? "details-fr" : _dlang === "es" ? "details-es" : "details";
-    const r = await fetch(`data/${_df}/${slug}.json`, { cache: "no-store" });
+    const r = await fetch(`/data/${_df}/${slug}.json`, { cache: "no-store" });
     if(!r.ok){ detailsCache[slug] = null; return null; }
     const j = await r.json();
     detailsCache[slug] = j;
@@ -507,7 +507,8 @@ function getHeroSrc(slug){
   // countries.json stores paths as "../assets/hero-xxx.jpg" (relative to /countries/)
   // globe.html is at root, so we strip the leading ../
   const raw = COUNTRIES_DB?.[slug]?.hero?.src || "";
-  return raw.replace(/^\.\.\//,"");
+  const src = raw.replace(/^\.\.\//,"");
+  return src ? `/${src.replace(/^\/+/,"")}` : "";
 }
 
 let tooltipPinned = false;
@@ -726,7 +727,7 @@ async function init(){
 
   const globe = Globe()(document.getElementById("globe"))
     .backgroundColor("rgba(0,0,0,0)")
-    .globeImageUrl("./assets/earth-grass.webp")
+    .globeImageUrl("/assets/earth-grass.webp")
     .bumpImageUrl("https://unpkg.com/three-globe/example/img/earth-topology.png")
     .showAtmosphere(true)
     .atmosphereColor("rgba(60,120,255,0.7)")
