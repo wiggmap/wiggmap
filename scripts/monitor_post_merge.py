@@ -66,11 +66,24 @@ FR_SOURCE = [
 SOURCE_LANG = {**{p: "en" for p in EN_SOURCE}, **{p: "fr" for p in FR_SOURCE}}
 ALL_PAGES = list(SOURCE_LANG.keys())
 
-# Sprint D1 — wiggmatch is treated as EN-source per D4 (each lang variant is its
-# own source — no untranslated banner, no noindex,follow). The check_migrated_pages
-# helper uses SOURCE_LANG to decide; for wiggmatch we override that behaviour
-# because all 3 langs are real translations (WM_I18N + WM_DYN dictionaries).
-WIGGMATCH_ALL_LANGS_SOURCE = True
+# Pages where every lang variant is a real translation (no untranslated banner,
+# no noindex,follow, canonical self-references the page's own lang).
+#
+# Historical note: only wiggmatch.html started this way (Sprint D1). The other
+# entries here were promoted by sprint-seo-hygiene (PR #16):
+#   - index.html: /fr/, /es/ homes are translated content. Noindex+banner had
+#     already been dropped (commit 60f98ef + sprint-seo-hygiene 98b49f8),
+#     canonical was aligned to self-ref in the same sprint.
+#   - compare.html: title/description/og translated in /fr/ + /es/, residual
+#     banner dropped, canonical now self-ref.
+#   - globe.html: /fr/ + /es/ already had self-ref canonicals and no banner
+#     before this sprint; promoted here for monitor consistency.
+ALL_LANGS_SOURCE_PAGES = {
+    "index.html",
+    "compare.html",
+    "globe.html",
+    "wiggmatch.html",
+}
 
 # Legacy URLs that should 301 to their migrated targets
 LEGACY_REDIRECTS = [
@@ -180,10 +193,10 @@ def check_migrated_pages(base: str) -> list[dict]:
     rows = []
     for page in ALL_PAGES:
         src = SOURCE_LANG[page]
-        # Sprint D1 — wiggmatch is fully translated in all 3 langs (real
-        # WM_I18N + WM_DYN translations, not the "untranslated banner"
-        # fallback). Treat each lang variant as its own source.
-        all_langs_source = (page == "wiggmatch.html" and WIGGMATCH_ALL_LANGS_SOURCE)
+        # Pages in ALL_LANGS_SOURCE_PAGES are fully translated in every lang
+        # variant (no untranslated banner, no noindex). Each variant is its
+        # own canonical.
+        all_langs_source = page in ALL_LANGS_SOURCE_PAGES
         for lg in LANGS:
             path = f"/{lg}/" if page == "index.html" else f"/{lg}/{page}"
             status, _, body = fetch(base, path)
