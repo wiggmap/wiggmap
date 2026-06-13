@@ -2,6 +2,18 @@
 <html lang="en">
 <head>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});if(localStorage.getItem('wigg_consent')==='accepted'){gtag('consent','update',{analytics_storage:'granted'});}(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-K4MMRD4R');</script>
+  <script>
+  // Anti-indexation: shell sans param ?c= ne doit pas être indexé.
+  (function() {
+      var params = new URLSearchParams(window.location.search);
+      if (!params.has('c') && !params.has('country')) {
+          var meta = document.createElement('meta');
+          meta.name = "robots";
+          meta.content = "noindex,nofollow";
+          document.head.appendChild(meta);
+      }
+  })();
+  </script>
   <meta charset="UTF-8" />
 <link rel="stylesheet" href="/assets/wm-tokens.css">
   <meta name="theme-color" content="#1a5430">
