@@ -661,6 +661,138 @@ a{color:inherit;text-decoration:none}
   </div>
 </section>
 
+<!-- ──────────── DESTINATIONS DU MOIS (3 LP) ──────────── -->
+<style>
+/* ─────────── DESTINATIONS DU MOIS (3 LP cards) ─────────── */
+.dest-month{
+  position:relative;
+  background:rgba(245,240,232,.94);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+  padding:clamp(80px,11vw,128px) 24px;
+  overflow:hidden;
+}
+.dest-inner{max-width:1180px;margin:0 auto;}
+.dest-head{text-align:center;margin-bottom:clamp(40px,6vw,64px);}
+.dest-eyebrow{
+  font-family:'Inter',sans-serif;
+  font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  color:#8a7f6a;display:block;margin-bottom:14px;
+}
+.dest-title{
+  font-family:'Fraunces',Georgia,serif;
+  font-weight:600;font-size:clamp(28px,4.5vw,46px);
+  line-height:1.1;letter-spacing:-.01em;color:#171714;margin:0;
+}
+.dest-title em{font-style:italic;color:#1a5430;font-weight:700;}
+.dest-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:28px;
+}
+@media(max-width:880px){.dest-grid{grid-template-columns:1fr;gap:22px;}}
+.dest-card{
+  display:flex;flex-direction:column;
+  background:#fffdf8;
+  border-radius:4px;overflow:hidden;
+  box-shadow:0 4px 18px rgba(0,0,0,.05),0 1px 2px rgba(0,0,0,.04);
+  transition:transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s ease;
+  position:relative;
+  text-decoration:none;color:inherit;
+}
+.dest-card:hover{transform:translateY(-5px);box-shadow:0 18px 38px rgba(0,0,0,.10),0 2px 4px rgba(0,0,0,.05);}
+.dest-card-img{
+  aspect-ratio:4/3;overflow:hidden;background:#1a1a1a;
+  position:relative;
+}
+.dest-card-img img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .5s cubic-bezier(.2,.7,.2,1);
+}
+.dest-card:hover .dest-card-img img{transform:scale(1.04);}
+.dest-card-body{
+  padding:22px 22px 26px;
+  display:flex;flex-direction:column;gap:8px;flex:1;
+}
+.dest-card-loc{
+  font-family:'Inter',sans-serif;
+  font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:#1a5430;margin:0;
+}
+.dest-card-title{
+  font-family:'Fraunces',Georgia,serif;
+  font-style:italic;font-weight:700;
+  font-size:22px;line-height:1.18;color:#171714;
+  letter-spacing:-.005em;margin:4px 0 0;
+}
+.dest-card-deck{
+  font-family:'Inter',sans-serif;
+  font-size:14px;font-weight:400;
+  color:#54554e;line-height:1.55;margin:0;flex:1;
+}
+.dest-card-cta{
+  margin-top:10px;
+  font-family:'Inter',sans-serif;
+  font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+  color:#1a5430;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:gap .25s ease;
+}
+.dest-card:hover .dest-card-cta{gap:14px;}
+.dest-card-cta-arrow{
+  font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:16px;
+  display:inline-block;
+}
+</style>
+<section class="dest-month" aria-label="Destinos leídos esta semana">
+  <div class="dest-inner">
+    <div class="dest-head">
+      <span class="dest-eyebrow">Ahora mismo</span>
+      <h2 class="dest-title">Tres <em>destinos</em>, leídos esta semana.</h2>
+    </div>
+    <div class="dest-grid">
+      <a class="dest-card" href="/lp/vivre-bali-budget-es.html">
+        <div class="dest-card-img">
+          <picture>
+            <source srcset="/assets/hero-indonesia.webp" type="image/webp">
+            <img src="/assets/hero-indonesia.jpg" alt="Bali · Indonesia" loading="lazy" decoding="async">
+          </picture>
+        </div>
+        <div class="dest-card-body">
+          <p class="dest-card-loc">Bali · Indonesia</p>
+          <h3 class="dest-card-title">Vivir en Bali, de verdad</h3>
+          <p class="dest-card-deck">El coste real por perfil. Alquiler, scooter, KITAS — sin el filtro de Instagram.</p>
+          <span class="dest-card-cta">Leer la guía <span class="dest-card-cta-arrow" aria-hidden="true">→</span></span>
+        </div>
+      </a>
+      <a class="dest-card" href="/lp/erasmus-prague-budget-es.html">
+        <div class="dest-card-img">
+          <picture>
+            <source srcset="/assets/hero-czech-republic.webp" type="image/webp">
+            <img src="/assets/hero-czech-republic.jpg" alt="Praga · Chequia" loading="lazy" decoding="async">
+          </picture>
+        </div>
+        <div class="dest-card-body">
+          <p class="dest-card-loc">Praga · Chequia</p>
+          <h3 class="dest-card-title">Erasmus en Praga con poco</h3>
+          <p class="dest-card-deck">Alquiler, cerveza, metro, vida social. El manual de una de las capitales más asequibles de Europa.</p>
+          <span class="dest-card-cta">Leer la guía <span class="dest-card-cta-arrow" aria-hidden="true">→</span></span>
+        </div>
+      </a>
+      <a class="dest-card" href="/lp/visa-mm2h-malaisie-es.html">
+        <div class="dest-card-img">
+          <picture>
+            <source srcset="/assets/hero-malaysia.webp" type="image/webp">
+            <img src="/assets/hero-malaysia.jpg" alt="Kuala Lumpur · Malasia" loading="lazy" decoding="async">
+          </picture>
+        </div>
+        <div class="dest-card-body">
+          <p class="dest-card-loc">Kuala Lumpur · Malasia</p>
+          <h3 class="dest-card-title">El visado MM2H, al detalle</h3>
+          <p class="dest-card-deck">La residencia de larga estancia de Malasia para jubilados y nómadas. Condiciones, costes, comentarios reales.</p>
+          <span class="dest-card-cta">Leer la guía <span class="dest-card-cta-arrow" aria-hidden="true">→</span></span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- ──────────── CHRONICLES ──────────── -->
 <section class="section chron-section">
   <div class="section-inner">
