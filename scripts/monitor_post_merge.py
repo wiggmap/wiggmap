@@ -329,13 +329,19 @@ def check_misc_resources(base: str) -> list[dict]:
 
 
 def check_sprint1_no_regression(base: str) -> list[dict]:
-    """On /en/, confirm Sprint 1 wins (bc.webp preload, skip-link, theme-color)."""
+    """On /en/, confirm Sprint 1 wins (hero preload, skip-link, theme-color).
+
+    The hero asset was bc.webp originally; replaced by haccueil.webp in
+    sprint-home-hero-swap. Both names are accepted here so the monitor
+    doesn't break on a future hero swap as long as a webp hero is
+    actually preloaded.
+    """
     status, _, body = fetch(base, "/en/")
     issues = []
     if status != 200:
         issues.append(f"/en/ status={status}")
-    if not re.search(r'<link\s+rel="preload"\s+as="image"\s+href="/assets/bc\.webp"', body):
-        issues.append("bc.webp preload missing")
+    if not re.search(r'<link\s+rel="preload"\s+as="image"\s+href="/assets/(bc|haccueil)\.webp"', body):
+        issues.append("hero webp preload missing")
     if 'fetchpriority="high"' not in body:
         issues.append("fetchpriority=high missing on preload")
     if 'class="wm-skip"' not in body:
