@@ -3,16 +3,16 @@
 <head>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});if(localStorage.getItem('wigg_consent')==='accepted'){gtag('consent','update',{analytics_storage:'granted'});}(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-K4MMRD4R');</script>
   <meta charset="utf-8" />
-<link rel="stylesheet" href="/assets/wm-tokens.css">
-  <meta name="theme-color" content="#1a5430">
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="/assets/wm-tokens.css">
+  <meta name="theme-color" content="#050714">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>Globe 3D interactif — Explorer 160+ pays | WiggMap</title>
   <meta name="description" content="Faites tourner le globe 3D interactif pour comparer salaires, coût de la vie, fiscalité et qualité de vie dans plus de 160 pays." />
   <link rel="canonical" href="https://wiggmap.com/fr/globe.html">
-<link rel="alternate" hreflang="en" href="https://wiggmap.com/en/globe.html">
-<link rel="alternate" hreflang="fr" href="https://wiggmap.com/fr/globe.html">
-<link rel="alternate" hreflang="es" href="https://wiggmap.com/es/globe.html">
-<link rel="alternate" hreflang="x-default" href="https://wiggmap.com/en/globe.html">
+  <link rel="alternate" hreflang="en" href="https://wiggmap.com/en/globe.html">
+  <link rel="alternate" hreflang="fr" href="https://wiggmap.com/fr/globe.html">
+  <link rel="alternate" hreflang="es" href="https://wiggmap.com/es/globe.html">
+  <link rel="alternate" hreflang="x-default" href="https://wiggmap.com/en/globe.html">
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Globe 3D interactif — Explorer 160+ pays | WiggMap" />
   <meta property="og:description" content="Explorez le globe 3D WiggMap et comparez salaires, coût de la vie, fiscalité et qualité de vie dans plus de 160 pays." />
@@ -21,114 +21,350 @@
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="/assets/favicon.ico" type="image/x-icon" />
   <link rel="preload" as="image" href="/assets/earth-grass.webp" fetchpriority="high" />
+  <link rel="preload" as="image" href="/assets/earth-topology.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;1,9..144,500;1,9..144,700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
   <link rel="preconnect" href="https://unpkg.com" crossorigin />
-  <script src="https://unpkg.com/globe.gl"></script>
+  <script src="https://unpkg.com/globe.gl@2.46.1"></script>
+
   <style>
-    *{box-sizing:border-box;margin:0;padding:0}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
     html,body{
       height:100%;overflow:hidden;
-      background: radial-gradient(ellipse at 50% 40%, #e8dcc3 0%, #d6c6a6 55%, #b9a882 100%);
+      background:#02030a;
+      color:#e8f0ff;
+      font-family:'Inter',system-ui,-apple-system,sans-serif;
     }
-    #globe{width:100vw;height:100svh;height:100dvh}
 
+    /* ─────── Cosmic backdrop + starfield ─────── */
+    .space-bg{
+      position:fixed;inset:0;z-index:0;pointer-events:none;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 35%, rgba(10,30,72,.55) 0%, rgba(5,8,28,.85) 45%, rgba(2,3,10,1) 100%),
+        radial-gradient(circle at 20% 80%, rgba(34,197,94,.06) 0%, transparent 40%),
+        radial-gradient(circle at 80% 25%, rgba(80,140,255,.07) 0%, transparent 45%);
+    }
+    .stars,.stars::after{
+      position:fixed;inset:0;z-index:1;pointer-events:none;
+      background-repeat:repeat;
+    }
+    /* Tiny + small stars, two layers, drifting slowly */
+    .stars{
+      background-image:
+        radial-gradient(1px 1px at 13% 17%, rgba(255,255,255,.9), transparent 60%),
+        radial-gradient(1px 1px at 28% 62%, rgba(255,255,255,.75), transparent 60%),
+        radial-gradient(1px 1px at 41% 8%,  rgba(255,255,255,.85), transparent 60%),
+        radial-gradient(1px 1px at 47% 91%, rgba(255,255,255,.65), transparent 60%),
+        radial-gradient(1px 1px at 62% 33%, rgba(255,255,255,.85), transparent 60%),
+        radial-gradient(1px 1px at 71% 72%, rgba(255,255,255,.7),  transparent 60%),
+        radial-gradient(1px 1px at 84% 18%, rgba(255,255,255,.9),  transparent 60%),
+        radial-gradient(1px 1px at 9% 84%,  rgba(255,255,255,.75), transparent 60%),
+        radial-gradient(1.4px 1.4px at 55% 56%, rgba(255,255,255,.95), transparent 60%),
+        radial-gradient(1.4px 1.4px at 33% 38%, rgba(255,255,255,.95), transparent 60%);
+      animation:starDrift 120s linear infinite;
+    }
+    .stars::after{
+      content:"";
+      background-image:
+        radial-gradient(1px 1px at 6% 41%,  rgba(255,255,255,.6),  transparent 60%),
+        radial-gradient(1px 1px at 22% 9%,  rgba(255,255,255,.55), transparent 60%),
+        radial-gradient(1px 1px at 38% 47%, rgba(255,255,255,.7),  transparent 60%),
+        radial-gradient(1px 1px at 56% 22%, rgba(255,255,255,.55), transparent 60%),
+        radial-gradient(1px 1px at 65% 88%, rgba(255,255,255,.65), transparent 60%),
+        radial-gradient(1px 1px at 78% 51%, rgba(255,255,255,.6),  transparent 60%),
+        radial-gradient(1px 1px at 92% 73%, rgba(255,255,255,.7),  transparent 60%),
+        radial-gradient(1px 1px at 17% 67%, rgba(255,255,255,.5),  transparent 60%);
+      animation:starDrift 220s linear infinite reverse;
+      opacity:.8;
+    }
+    @keyframes starDrift{
+      0%{transform:translate3d(0,0,0)}
+      100%{transform:translate3d(-80px,40px,0)}
+    }
+    @media (prefers-reduced-motion: reduce){
+      .stars,.stars::after{animation:none}
+    }
+
+    #globe{position:fixed;inset:0;z-index:2;width:100vw;height:100svh;height:100dvh;
+           opacity:0;transition:opacity 1s ease}
+    #globe.ready{opacity:1}
+
+    /* ─────── Skeleton loader ─────── */
+    .splash{
+      position:fixed;inset:0;z-index:50;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:18px;
+      background:radial-gradient(ellipse at center, rgba(5,8,28,.65) 0%, rgba(2,3,10,.95) 70%);
+      transition:opacity .6s ease;
+      pointer-events:none;
+    }
+    .splash.gone{opacity:0}
+    .splash-ring{
+      width:64px;height:64px;border-radius:50%;
+      border:2px solid rgba(255,255,255,.08);
+      border-top-color:#22c55e;
+      border-right-color:rgba(34,197,94,.4);
+      animation:spin 1.1s linear infinite;
+    }
+    .splash-label{
+      font-family:'Fraunces',Georgia,serif;
+      font-style:italic;font-weight:500;font-size:18px;
+      color:rgba(232,240,255,.85);
+      letter-spacing:.01em;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @media (prefers-reduced-motion: reduce){
+      .splash-ring{animation:none;border-top-color:#22c55e}
+    }
+
+    /* ─────── HUD top-left ─────── */
     .hud{
-      position:fixed;top:14px;left:14px;z-index:10;
-      background:rgba(8,14,28,.70);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-      border:1px solid rgba(255,255,255,.10);
-      border-radius:16px;padding:10px 14px;color:#e8f0ff;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;font-size:13px;
+      position:fixed;top:14px;left:14px;z-index:20;
+      background:rgba(10,16,30,.62);backdrop-filter:blur(18px) saturate(1.1);
+      -webkit-backdrop-filter:blur(18px) saturate(1.1);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:18px;padding:11px 14px;
       display:flex;align-items:center;gap:12px;
-      max-width: calc(100vw - 28px);
-      flex-wrap: wrap;
+      max-width:calc(100vw - 28px);
+      flex-wrap:wrap;
+      transform:translateY(-8px);opacity:0;
+      transition:opacity .6s ease .3s, transform .6s ease .3s;
+      box-shadow:0 18px 50px rgba(0,0,0,.45);
     }
+    .hud.in{transform:translateY(0);opacity:1}
     .hud-logo{
-      font-weight:900;font-size:14px;letter-spacing:-.3px;color:#fff;
-      white-space:nowrap;flex-shrink:0;
+      font-family:'Fraunces',Georgia,serif;
+      font-weight:800;font-style:italic;
+      font-size:18px;letter-spacing:-.01em;
+      color:#fff;line-height:1;flex-shrink:0;
     }
-    .hud-logo span{color:rgba(46,204,113,.9);}
+    .hud-logo .accent{color:#4ade80;font-style:italic;}
     .hud .status{
-      font-weight:700;font-size:12px;color:rgba(200,215,255,.65);
+      font-family:'Inter',sans-serif;
+      font-weight:600;font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;
+      color:rgba(200,215,255,.55);
       white-space:nowrap;flex:0 0 auto;
     }
     .langSwitch{
-      display:flex;align-items:center;gap:4px;
-      padding:3px;border-radius:999px;background:rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.10);flex-shrink:0;
+      display:flex;align-items:center;gap:2px;
+      padding:3px;border-radius:999px;background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.08);flex-shrink:0;
     }
     .langSwitch a{
-      color:rgba(232,240,255,.75);text-decoration:none;font-weight:900;font-size:11px;
-      line-height:1;padding:6px 7px;border-radius:999px;
+      font-family:'Inter',sans-serif;
+      color:rgba(232,240,255,.7);text-decoration:none;font-weight:800;font-size:11px;
+      line-height:1;padding:5px 8px;border-radius:999px;
+      transition:background .2s, color .2s;
     }
-    .langSwitch a.active{background:rgba(46,204,113,.22);color:#fff;}
+    .langSwitch a:hover{color:#fff}
+    .langSwitch a.active{
+      background:linear-gradient(135deg, rgba(34,197,94,.28), rgba(26,84,48,.4));
+      color:#fff;
+      box-shadow:inset 0 0 0 1px rgba(34,197,94,.35);
+    }
 
-    /* Search bar */
     .searchWrap{
       position:relative;margin-left:auto;
-      flex: 1 1 240px;min-width:180px;max-width:320px;
+      flex:1 1 220px;min-width:170px;max-width:300px;
     }
     .searchWrap input{
       width:100%;padding:9px 14px;
-      border-radius:10px;
-      border:1px solid rgba(255,253,248,.45);
-      background:rgba(255,253,248,.35);
+      font-family:'Inter',sans-serif;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(255,255,255,.06);
       backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-      color:#1a1a18;outline:none;
-      font-weight:700;font-size:13px;
+      color:#fff;outline:none;
+      font-weight:600;font-size:13px;
+      transition:border-color .2s, background .2s, box-shadow .2s;
     }
-    .searchWrap input::placeholder{color:rgba(26,26,24,.5);}
+    .searchWrap input::placeholder{color:rgba(200,215,255,.45);font-weight:500;}
     .searchWrap input:focus{
-      border-color:rgba(26,84,48,.5);
-      box-shadow:0 0 0 3px rgba(26,84,48,.12);
-      background:rgba(255,253,248,.55);
+      border-color:rgba(34,197,94,.45);
+      box-shadow:0 0 0 3px rgba(34,197,94,.15);
+      background:rgba(255,255,255,.10);
     }
-    @media(max-width:520px){
+    @media(max-width:560px){
       .searchWrap{margin-left:0;width:100%;max-width:100%;flex:1 1 100%;}
     }
 
     .acList{
       position:absolute;top:calc(100% + 6px);left:0;right:0;
-      background:rgba(8,14,28,.97);
+      background:rgba(10,16,30,.97);
       border:1px solid rgba(255,255,255,.10);
-      border-radius:12px;overflow:hidden;
+      border-radius:14px;overflow:hidden;
       box-shadow:0 16px 48px rgba(0,0,0,.65);
-      max-height:300px;overflow-y:auto;display:none;z-index:999;
+      max-height:320px;overflow-y:auto;display:none;z-index:999;
     }
     .acItem{
       display:flex;align-items:center;gap:10px;
-      padding:9px 12px;cursor:pointer;
-      border-bottom:1px solid rgba(255,255,255,.06);
-      font-weight:800;color:#e8f0ff;font-size:13px;
+      padding:10px 12px;cursor:pointer;
+      border-bottom:1px solid rgba(255,255,255,.05);
+      font-family:'Inter',sans-serif;
+      font-weight:700;color:#e8f0ff;font-size:13px;
     }
-    .acItem img{width:36px;height:24px;object-fit:cover;border-radius:4px;flex-shrink:0;opacity:.85;}
-    .acItem:hover{background:rgba(46,204,113,.12);}
-    .acItem small{display:block;margin-top:2px;font-weight:700;font-size:11px;color:rgba(200,215,255,.55);}
+    .acItem img{width:38px;height:26px;object-fit:cover;border-radius:5px;flex-shrink:0;opacity:.92;}
+    .acItem:hover, .acItem.kbd-focus{
+      background:rgba(34,197,94,.12);
+      color:#fff;
+    }
+    .acItem small{display:block;margin-top:2px;font-weight:600;font-size:11px;color:rgba(200,215,255,.5);}
     .acItem:last-child{border-bottom:none;}
 
-    /* ── Tooltip ─────────────────────────────────────────────── */
+    /* ─────── Control panel top-right ─────── */
+    .ctrls{
+      position:fixed;top:14px;right:14px;z-index:20;
+      display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;
+      transform:translateY(-8px);opacity:0;
+      transition:opacity .6s ease .5s, transform .6s ease .5s;
+      max-width:calc(100vw - 28px);
+    }
+    .ctrls.in{transform:translateY(0);opacity:1}
+    .ctrl-group{
+      display:inline-flex;align-items:center;gap:8px;
+      background:rgba(10,16,30,.62);backdrop-filter:blur(18px) saturate(1.1);
+      -webkit-backdrop-filter:blur(18px) saturate(1.1);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:14px;padding:7px 10px;
+      font-family:'Inter',sans-serif;font-size:12px;
+      box-shadow:0 14px 38px rgba(0,0,0,.45);
+    }
+    .ctrl-label{color:rgba(200,215,255,.55);font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:10.5px;}
+    .ctrl-select{
+      appearance:none;-webkit-appearance:none;
+      background:rgba(255,255,255,.06);
+      color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:12px;
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:9px;padding:5px 26px 5px 10px;
+      cursor:pointer;outline:none;
+      background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path d='M2 3l3 4 3-4' stroke='%23e8f0ff' stroke-width='1.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+      background-repeat:no-repeat;background-position:right 8px center;
+      transition:background .2s, border-color .2s;
+    }
+    .ctrl-select:hover{background-color:rgba(255,255,255,.10);}
+    .ctrl-select:focus{border-color:rgba(34,197,94,.5);box-shadow:0 0 0 3px rgba(34,197,94,.15);}
+    .ctrl-select option{background:#0a1020;color:#fff;}
+    .ctrl-btn{
+      appearance:none;border:none;cursor:pointer;
+      background:linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+      color:#0a1f10;
+      font-family:'Inter',sans-serif;font-weight:800;font-size:12px;letter-spacing:.01em;
+      padding:7px 13px;border-radius:9px;
+      box-shadow:0 2px 10px rgba(34,197,94,.3);
+      transition:transform .15s, box-shadow .2s, filter .2s;
+    }
+    .ctrl-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(34,197,94,.45);filter:brightness(1.05);}
+    .ctrl-btn:active{transform:translateY(0);}
+    .ctrl-btn.ghost{
+      background:rgba(255,255,255,.05);
+      color:#e8f0ff;
+      box-shadow:inset 0 0 0 1px rgba(255,255,255,.1);
+    }
+    .ctrl-btn.ghost:hover{background:rgba(255,255,255,.1);box-shadow:inset 0 0 0 1px rgba(34,197,94,.35);}
+
+    /* ─────── Legend ─────── */
+    .legend{
+      position:fixed;bottom:18px;left:18px;z-index:20;
+      background:rgba(10,16,30,.78);backdrop-filter:blur(18px) saturate(1.1);
+      -webkit-backdrop-filter:blur(18px) saturate(1.1);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:16px;padding:13px 16px 14px;
+      max-width:300px;
+      font-family:'Inter',sans-serif;
+      box-shadow:0 18px 50px rgba(0,0,0,.5);
+      opacity:0;transform:translateY(8px);pointer-events:none;
+      transition:opacity .35s ease, transform .35s ease;
+    }
+    .legend.visible{opacity:1;transform:translateY(0);pointer-events:auto;}
+    .legend-title{
+      font-family:'Fraunces',Georgia,serif;
+      font-style:italic;font-weight:600;font-size:14.5px;
+      color:#fff;margin-bottom:8px;letter-spacing:.01em;
+    }
+    .legend-bar{
+      height:9px;border-radius:999px;
+      background:linear-gradient(90deg, #ef4444 0%, #f59e0b 35%, #fcd34d 55%, #4ade80 100%);
+      margin-bottom:6px;
+    }
+    .legend-bar.reverse{
+      background:linear-gradient(90deg, #4ade80 0%, #fcd34d 45%, #f59e0b 65%, #ef4444 100%);
+    }
+    .legend-scale{
+      display:flex;justify-content:space-between;
+      font-size:10.5px;font-weight:700;color:rgba(200,215,255,.6);letter-spacing:.02em;
+    }
+
+    /* ─────── Caption (tour) ─────── */
+    .caption{
+      position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);
+      z-index:30;
+      max-width:min(540px, calc(100vw - 36px));
+      background:rgba(10,16,30,.85);backdrop-filter:blur(20px) saturate(1.2);
+      -webkit-backdrop-filter:blur(20px) saturate(1.2);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:18px;padding:18px 22px 16px;
+      text-align:center;
+      box-shadow:0 22px 64px rgba(0,0,0,.55);
+      opacity:0;pointer-events:none;
+      transition:opacity .45s ease, transform .45s ease;
+    }
+    .caption.visible{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto;}
+    .caption-step{
+      font-family:'Inter',sans-serif;
+      font-size:10.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+      color:rgba(34,197,94,.85);margin-bottom:6px;
+    }
+    .caption-country{
+      font-family:'Fraunces',Georgia,serif;
+      font-weight:800;font-style:italic;font-size:24px;
+      color:#fff;letter-spacing:-.01em;margin-bottom:6px;
+    }
+    .caption-text{
+      font-family:'Inter',sans-serif;
+      font-size:13.5px;font-weight:500;line-height:1.55;
+      color:rgba(220,235,255,.85);margin-bottom:12px;
+    }
+    .caption-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+    .cap-btn{
+      appearance:none;border:none;cursor:pointer;
+      font-family:'Inter',sans-serif;font-weight:800;font-size:12px;
+      padding:7px 14px;border-radius:999px;
+      transition:transform .15s, background .2s;
+    }
+    .cap-btn.primary{
+      background:linear-gradient(135deg, #22c55e, #16a34a);color:#0a1f10;
+      box-shadow:0 2px 10px rgba(34,197,94,.3);
+    }
+    .cap-btn.ghost{background:rgba(255,255,255,.08);color:#e8f0ff;}
+    .cap-btn:hover{transform:translateY(-1px);}
+
+    /* ─────── Tooltip ─────── */
     #tooltip{
       position:fixed;
-      background:rgba(8,14,28,.97);
-      backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-      border:1px solid rgba(255,255,255,.11);
-      border-radius:14px;
+      background:rgba(8,14,28,.96);
+      backdrop-filter:blur(18px) saturate(1.15);
+      -webkit-backdrop-filter:blur(18px) saturate(1.15);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:16px;
       color:#fff;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
       opacity:0;
-      transition:opacity 0.18s ease, transform 0.18s ease;
+      transition:opacity .2s ease, transform .2s ease;
       z-index:1000;
-      box-shadow:0 12px 40px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.04) inset;
-      letter-spacing:0.15px;
+      box-shadow:0 16px 48px rgba(0,0,0,.65), 0 0 0 1px rgba(255,255,255,.03) inset;
       transform:translateY(6px);
-      max-width:min(300px, calc(100vw - 24px));
+      max-width:min(320px, calc(100vw - 24px));
       pointer-events:none;
       overflow:hidden;
     }
     #tooltip.visible{opacity:1;transform:translateY(0);}
 
-    /* Hero image */
     .tt-img-wrap{
-      position:relative;height:120px;overflow:hidden;
-      background:rgba(255,255,255,.05);
+      position:relative;height:128px;overflow:hidden;
+      background:rgba(255,255,255,.04);
     }
     .tt-img-wrap picture{display:block;width:100%;height:100%}
     .tt-img-wrap img{
@@ -137,61 +373,89 @@
     }
     .tt-img-wrap::after{
       content:"";position:absolute;inset:0;
-      background:linear-gradient(to bottom, rgba(8,14,28,0) 40%, rgba(8,14,28,.85) 100%);
+      background:linear-gradient(to bottom, rgba(8,14,28,0) 35%, rgba(8,14,28,.92) 100%);
     }
     .tt-img-name{
-      position:absolute;bottom:8px;left:10px;right:10px;
-      font-size:16px;font-weight:900;color:#fff;
-      text-shadow:0 1px 6px rgba(0,0,0,.7);
-      z-index:1;letter-spacing:-.2px;
+      position:absolute;bottom:9px;left:12px;right:12px;
+      font-family:'Fraunces',Georgia,serif;
+      font-weight:800;font-style:italic;font-size:18px;
+      color:#fff;
+      text-shadow:0 2px 8px rgba(0,0,0,.8);
+      z-index:1;letter-spacing:-.01em;
     }
-    .tt-no-img{ display:none; }
 
-    /* Body */
-    .tt-body{padding:10px 12px 10px;}
-    .tt-grid{display:grid;grid-template-columns:1fr;gap:5px;font-size:12px;font-weight:800;color:rgba(220,235,255,.9);}
+    .tt-body{padding:11px 14px 10px;}
+    .tt-grid{
+      display:grid;grid-template-columns:1fr;gap:6px;
+      font-family:'Inter',sans-serif;
+      font-size:12.5px;font-weight:700;color:rgba(220,235,255,.9);
+    }
     .tt-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
-    .tt-row span{color:rgba(200,215,255,.55);font-weight:700;font-size:11px;}
-    .tt-row b{font-weight:900;color:#fff;text-align:right;}
+    .tt-row span{color:rgba(200,215,255,.55);font-weight:600;font-size:11px;}
+    .tt-row b{font-weight:800;color:#fff;text-align:right;}
     .tt-wigg{
       display:inline-flex;align-items:center;gap:5px;
-      padding:2px 8px;border-radius:999px;font-size:11px;font-weight:800;
-      border:1px solid rgba(255,255,255,.12);
+      padding:2px 9px;border-radius:999px;font-size:11px;font-weight:800;
+      border:1px solid rgba(255,255,255,.10);
+      letter-spacing:.02em;
     }
-    .tt-wigg.green{background:rgba(34,197,94,.18);color:#4ade80;border-color:rgba(34,197,94,.25);}
-    .tt-wigg.yellow{background:rgba(245,200,76,.15);color:#fcd34d;border-color:rgba(245,200,76,.25);}
-    .tt-wigg.red{background:rgba(239,68,68,.15);color:#f87171;border-color:rgba(239,68,68,.25);}
+    .tt-wigg.green{background:rgba(34,197,94,.18);color:#4ade80;border-color:rgba(34,197,94,.3);}
+    .tt-wigg.yellow{background:rgba(245,200,76,.15);color:#fcd34d;border-color:rgba(245,200,76,.3);}
+    .tt-wigg.red{background:rgba(239,68,68,.15);color:#f87171;border-color:rgba(239,68,68,.3);}
     .tt-foot{
-      padding:8px 12px 10px;
-      font-size:11px;color:rgba(200,215,255,.5);font-weight:800;
-      display:flex;gap:7px;flex-wrap:wrap;
-      border-top:1px solid rgba(255,255,255,.07);
+      padding:9px 12px 11px;
+      font-family:'Inter',sans-serif;
+      font-size:11px;color:rgba(200,215,255,.55);font-weight:800;
+      display:flex;gap:6px;flex-wrap:wrap;align-items:center;
+      border-top:1px solid rgba(255,255,255,.06);
     }
     .pill{
       display:inline-flex;align-items:center;gap:5px;
-      padding:4px 10px;border-radius:999px;
+      padding:5px 11px;border-radius:999px;
       border:1px solid rgba(255,255,255,.10);
       background:rgba(255,255,255,.05);
       font-size:11px;font-weight:800;color:rgba(220,235,255,.7);
+      letter-spacing:.02em;
     }
-    .pill.green-pill{
-      background:rgba(34,197,94,.15);border-color:rgba(34,197,94,.3);color:#4ade80;
+    .pill.btn{cursor:pointer;pointer-events:auto;user-select:none;transition:background .15s, transform .15s;}
+    .pill.btn:hover{background:rgba(255,255,255,.10);transform:translateY(-1px);}
+    .pill.primary{
+      background:linear-gradient(135deg, #22c55e, #16a34a);color:#0a1f10;
+      border-color:transparent;
+      box-shadow:0 2px 8px rgba(34,197,94,.35);
     }
-    .pill.btn{
-      cursor:pointer;pointer-events:auto;user-select:none;
+    .pill.primary:hover{filter:brightness(1.05);}
+    .pill.compare{background:rgba(80,140,255,.12);color:#93c5fd;border-color:rgba(80,140,255,.25);}
+    .pill.compare:hover{background:rgba(80,140,255,.2);}
+
+    /* ─────── Mobile tweaks ─────── */
+    @media(max-width:560px){
+      .ctrls{top:auto;bottom:14px;right:14px;left:14px;justify-content:stretch;}
+      .ctrl-group{flex:1 1 100%;justify-content:space-between;}
+      .legend{bottom:auto;top:78px;left:14px;right:14px;max-width:none;}
     }
-    .pill.btn:hover{background:rgba(255,255,255,.10);}
+
+    /* ─────── Accessibility ─────── */
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;}
+
+    /* skip link */
+    .wm-skip{
+      position:absolute;left:-9999px;top:0;
+      background:#22c55e;color:#0a1f10;
+      padding:10px 18px;
+      font-family:'Inter',system-ui,sans-serif;
+      font-size:13px;font-weight:800;
+      z-index:100000;border-radius:0 0 8px 0;text-decoration:none;
+    }
+    .wm-skip:focus{left:0;outline:2px solid #fff;outline-offset:-4px;}
   </style>
 </head>
 <body>
-<a class="wm-skip" href="#wm-main">Skip to content</a>
-<style>.wm-skip{position:absolute;left:-9999px;top:0;background:#1a5430;color:#fff;padding:10px 18px;font-family:'Inter',system-ui,sans-serif;font-size:13px;font-weight:600;z-index:100000;border-radius:0 0 8px 0;text-decoration:none}.wm-skip:focus{left:0;outline:2px solid #fff;outline-offset:-4px}</style>
-<a id="wm-main" tabindex="-1"></a>
-<!-- Google Tag Manager (noscript) -->
+  <a class="wm-skip" href="#wm-main">Skip to content</a>
+  <a id="wm-main" tabindex="-1"></a>
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4MMRD4R" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
 
-  <!-- SEO fallback content (hidden when JS is enabled) -->
+  <!-- SEO fallback content (off-screen, present for crawlers) -->
   <div id="seoFallback" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
     <h1>Interactive 3D World Globe — Explore 160+ Countries</h1>
     <p>Spin the WiggMap globe to discover salaries, cost of living, taxes, immigration policies and quality of life across more than 160 countries. Click any country to open its full data sheet — minimum wage, average net salary, studio rent, electricity, water, mobile plan, food prices, fuel, VAT, income tax, healthcare, sun hours, crime index and purchasing power.</p>
@@ -199,97 +463,274 @@
     <p>Looking for a specific country? <a href="/countries/portugal-en.html">Portugal</a>, <a href="/countries/japan-en.html">Japan</a>, <a href="/countries/thailand-en.html">Thailand</a>, <a href="/countries/spain-en.html">Spain</a>, <a href="/countries/germany-en.html">Germany</a>, <a href="/countries/mexico-en.html">Mexico</a>, <a href="/countries/indonesia-en.html">Indonesia</a>, <a href="/countries/united-arab-emirates-en.html">United Arab Emirates</a>, <a href="/countries/greece-en.html">Greece</a>, <a href="/countries/brazil-en.html">Brazil</a>.</p>
   </div>
 
-  <div class="hud">
-    <div class="hud-logo">Wigg<span>Map</span></div>
-    <div class="status" id="status">Loading...</div>
-    <nav class="langSwitch" aria-label="Language"><a href="/en/globe.html" data-lang-link="en">EN</a><a href="/fr/globe.html" data-lang-link="fr">FR</a><a href="/es/globe.html" data-lang-link="es">ES</a></nav>
-    <div class="searchWrap">
-      <input id="countrySearch" type="text" placeholder="Search a country..." autocomplete="off" />
-      <div class="acList" id="acList"></div>
+  <div class="space-bg" aria-hidden="true"></div>
+  <div class="stars" aria-hidden="true"></div>
+
+  <!-- Skeleton loader -->
+  <div class="splash" id="splash" role="status" aria-live="polite">
+    <div class="splash-ring" aria-hidden="true"></div>
+    <div class="splash-label" id="splashLabel">Spinning up the globe…</div>
+  </div>
+
+  <!-- HUD top-left -->
+  <div class="hud" id="hud">
+    <div class="hud-logo">Wigg<span class="accent">Map</span></div>
+    <div class="status" id="status" aria-live="polite">Loading…</div>
+    <nav class="langSwitch" aria-label="Language">
+      <a href="/en/globe.html" data-lang-link="en">EN</a>
+      <a href="/fr/globe.html" data-lang-link="fr">FR</a>
+      <a href="/es/globe.html" data-lang-link="es">ES</a>
+    </nav>
+    <div class="searchWrap" role="combobox" aria-expanded="false" aria-owns="acList" aria-haspopup="listbox">
+      <label for="countrySearch" class="sr-only">Search a country</label>
+      <input id="countrySearch" type="text" placeholder="Search a country…" autocomplete="off"
+             aria-autocomplete="list" aria-controls="acList" />
+      <div class="acList" id="acList" role="listbox"></div>
     </div>
   </div>
 
-  <div id="tooltip"></div>
-  <div id="globe"></div>
+  <!-- Controls top-right -->
+  <div class="ctrls" id="ctrls">
+    <div class="ctrl-group">
+      <span class="ctrl-label" id="colorByLabel">Color by</span>
+      <select class="ctrl-select" id="colorBy" aria-labelledby="colorByLabel">
+        <option value="wigg">WIGG default</option>
+        <option value="avg_salary">Avg salary</option>
+        <option value="rent_studio">Studio rent</option>
+        <option value="sun">Sunny days</option>
+        <option value="happiness">Happiness</option>
+        <option value="income_tax">Income tax</option>
+      </select>
+    </div>
+    <button type="button" class="ctrl-btn" id="tourBtn">Take the tour</button>
+  </div>
+
+  <!-- Legend bottom-left (visible only when a metric is selected) -->
+  <div class="legend" id="legend" aria-live="polite">
+    <div class="legend-title" id="legendTitle"></div>
+    <div class="legend-bar" id="legendBar"></div>
+    <div class="legend-scale">
+      <span id="legendMin"></span>
+      <span id="legendMax"></span>
+    </div>
+  </div>
+
+  <!-- Caption (tour storytelling) -->
+  <div class="caption" id="caption" role="dialog" aria-live="polite">
+    <div class="caption-step" id="captionStep"></div>
+    <div class="caption-country" id="captionCountry"></div>
+    <div class="caption-text" id="captionText"></div>
+    <div class="caption-actions">
+      <button type="button" class="cap-btn ghost" id="capPrev">‹ Prev</button>
+      <button type="button" class="cap-btn primary" id="capNext">Next ›</button>
+      <button type="button" class="cap-btn ghost" id="capStop">Stop</button>
+    </div>
+  </div>
+
+  <div id="tooltip" role="tooltip"></div>
+  <div id="globe" aria-hidden="true"></div>
 
 <script>
 const setStatus = (t) => document.getElementById("status").textContent = t;
 const tooltip = document.getElementById("tooltip");
 const searchInput = document.getElementById("countrySearch");
 const acList = document.getElementById("acList");
+const splash = document.getElementById("splash");
+const splashLabel = document.getElementById("splashLabel");
+const hud = document.getElementById("hud");
+const ctrls = document.getElementById("ctrls");
+const legend = document.getElementById("legend");
+const legendTitle = document.getElementById("legendTitle");
+const legendBar = document.getElementById("legendBar");
+const legendMin = document.getElementById("legendMin");
+const legendMax = document.getElementById("legendMax");
+const colorBySel = document.getElementById("colorBy");
+const tourBtn = document.getElementById("tourBtn");
+const caption = document.getElementById("caption");
+const captionStep = document.getElementById("captionStep");
+const captionCountry = document.getElementById("captionCountry");
+const captionText = document.getElementById("captionText");
+const capPrev = document.getElementById("capPrev");
+const capNext = document.getElementById("capNext");
+const capStop = document.getElementById("capStop");
+
 const PAGE_LANG = (document.documentElement.lang || "en").slice(0,2).toLowerCase();
 const UI_LANG = ["en","fr","es"].includes(PAGE_LANG) ? PAGE_LANG : "en";
+
 const UI_TEXT = {
   en: {
-    loading: "Loading...", searchPlaceholder: "Search a country...", ready: n => `Ready — ${n} countries clickable`,
-    expatScore: "Expat score", avgSalary: "Avg salary", icon: "Icon", sunnyDays: "Sunny days / yr", wiggLevel: "WIGG level",
-    openPage: "Open page", close: "Close", clickToOpen: "Click to open", tapAgain: name => `${name} — tap again to open`,
-    clickCountry: name => `${name} — click to open`, noData: "No data yet", notMapped: slug => `Not mapped on globe: ${slug}`, error: msg => `Error: ${msg}`
+    loading: "Loading…", splashLabel: "Spinning up the globe…",
+    searchPlaceholder: "Search a country…",
+    ready: n => `Ready — ${n} countries clickable`,
+    expatScore: "Expat score", avgSalary: "Avg salary", icon: "Icon",
+    sunnyDays: "Sunny days / yr", wiggLevel: "WIGG level",
+    openPage: "Open page", compareWith: "Compare", close: "Close",
+    clickToOpen: "Click to open", tapAgain: name => `${name} — tap again to open`,
+    clickCountry: name => `${name} — click to open`,
+    noData: "No data yet",
+    notMapped: slug => `Not mapped on globe: ${slug}`,
+    error: msg => `Error: ${msg}`,
+    colorBy: "Color by",
+    metric: { wigg: "WIGG default", avg_salary: "Avg salary", rent_studio: "Studio rent", sun: "Sunny days", happiness: "Happiness", income_tax: "Income tax" },
+    legendLow: "lower",
+    legendHigh: "higher",
+    tourBtn: "Take the tour",
+    tourStop: "Stop tour",
+    capPrev: "‹ Prev", capNext: "Next ›", capStop: "Stop",
+    capStep: (i,n) => `Stop ${i} of ${n}`,
   },
   fr: {
-    loading: "Chargement...", searchPlaceholder: "Rechercher un pays...", ready: n => `Prêt — ${n} pays cliquables`,
-    expatScore: "Score expat", avgSalary: "Salaire moyen", icon: "Profil", sunnyDays: "Jours de soleil / an", wiggLevel: "Niveau WIGG",
-    openPage: "Ouvrir la page", close: "Fermer", clickToOpen: "Cliquez pour ouvrir", tapAgain: name => `${name} — touchez encore pour ouvrir`,
-    clickCountry: name => `${name} — cliquez pour ouvrir`, noData: "Pas encore de données", notMapped: slug => `Non affiché sur le globe : ${slug}`, error: msg => `Erreur : ${msg}`
+    loading: "Chargement…", splashLabel: "Le globe se met en orbite…",
+    searchPlaceholder: "Rechercher un pays…",
+    ready: n => `Prêt — ${n} pays cliquables`,
+    expatScore: "Score expat", avgSalary: "Salaire moyen", icon: "Profil",
+    sunnyDays: "Jours de soleil / an", wiggLevel: "Niveau WIGG",
+    openPage: "Ouvrir la page", compareWith: "Comparer", close: "Fermer",
+    clickToOpen: "Cliquez pour ouvrir", tapAgain: name => `${name} — touchez encore pour ouvrir`,
+    clickCountry: name => `${name} — cliquez pour ouvrir`,
+    noData: "Pas encore de données",
+    notMapped: slug => `Non affiché sur le globe : ${slug}`,
+    error: msg => `Erreur : ${msg}`,
+    colorBy: "Colorer par",
+    metric: { wigg: "WIGG par défaut", avg_salary: "Salaire moyen", rent_studio: "Loyer studio", sun: "Jours de soleil", happiness: "Bonheur", income_tax: "Impôt sur revenu" },
+    legendLow: "bas",
+    legendHigh: "haut",
+    tourBtn: "Lancer le tour",
+    tourStop: "Arrêter",
+    capPrev: "‹ Préc", capNext: "Suiv ›", capStop: "Arrêter",
+    capStep: (i,n) => `Étape ${i} sur ${n}`,
   },
   es: {
-    loading: "Cargando...", searchPlaceholder: "Buscar un país...", ready: n => `Listo — ${n} países clicables`,
-    expatScore: "Puntuación expat", avgSalary: "Salario medio", icon: "Perfil", sunnyDays: "Días de sol / año", wiggLevel: "Nivel WIGG",
-    openPage: "Abrir página", close: "Cerrar", clickToOpen: "Haz clic para abrir", tapAgain: name => `${name} — toca de nuevo para abrir`,
-    clickCountry: name => `${name} — haz clic para abrir`, noData: "Sin datos todavía", notMapped: slug => `No aparece en el globo: ${slug}`, error: msg => `Error: ${msg}`
+    loading: "Cargando…", splashLabel: "El globo está despegando…",
+    searchPlaceholder: "Buscar un país…",
+    ready: n => `Listo — ${n} países clicables`,
+    expatScore: "Puntuación expat", avgSalary: "Salario medio", icon: "Perfil",
+    sunnyDays: "Días de sol / año", wiggLevel: "Nivel WIGG",
+    openPage: "Abrir página", compareWith: "Comparar", close: "Cerrar",
+    clickToOpen: "Haz clic para abrir", tapAgain: name => `${name} — toca de nuevo para abrir`,
+    clickCountry: name => `${name} — haz clic para abrir`,
+    noData: "Sin datos todavía",
+    notMapped: slug => `No aparece en el globo: ${slug}`,
+    error: msg => `Error: ${msg}`,
+    colorBy: "Colorear por",
+    metric: { wigg: "WIGG por defecto", avg_salary: "Salario medio", rent_studio: "Alquiler estudio", sun: "Días de sol", happiness: "Felicidad", income_tax: "Impuesto sobre renta" },
+    legendLow: "bajo",
+    legendHigh: "alto",
+    tourBtn: "Lanzar el tour",
+    tourStop: "Detener",
+    capPrev: "‹ Ant", capNext: "Sig ›", capStop: "Detener",
+    capStep: (i,n) => `Paso ${i} de ${n}`,
   }
 };
+
+const TOUR_STOPS = {
+  en: [
+    { slug: "portugal",              text: "Atlantic light, low costs, fast-track tax program. The classic European soft landing." },
+    { slug: "thailand",              text: "Warm seas, low rents, vibrant nomad scene — Bangkok or the islands, pick your tempo." },
+    { slug: "mexico",                text: "Near-American salaries with a Latin pace. Vast geography, strong creative cities." },
+    { slug: "georgia",               text: "One year visa-free for most passports, mountain wines, crypto-friendly banking." },
+    { slug: "japan",                 text: "World-class infrastructure, unique culture, demanding language. Order under chaos." },
+    { slug: "united-arab-emirates",  text: "Zero income tax, ultra-modern hubs, intense summers. A high-energy bet." },
+    { slug: "spain",                 text: "Sunshine, food, clear EU residence pathways. Nomad visa now live." }
+  ],
+  fr: [
+    { slug: "portugal",              text: "Lumière atlantique, vie peu chère, fiscalité avantageuse. L'atterrissage doux européen par excellence." },
+    { slug: "thailand",              text: "Mers chaudes, loyers bas, scène nomade vivace — Bangkok ou les îles, à toi le tempo." },
+    { slug: "mexico",                text: "Salaires presque US et tempo latin. Géographie immense, villes créatives fortes." },
+    { slug: "georgia",               text: "Un an sans visa pour la plupart des passeports, vins de montagne, banques crypto-friendly." },
+    { slug: "japan",                 text: "Infrastructure de classe mondiale, culture unique, langue exigeante. L'ordre dans le chaos." },
+    { slug: "united-arab-emirates",  text: "Zéro impôt sur le revenu, hubs ultra-modernes, étés brutaux. Un pari à haute énergie." },
+    { slug: "spain",                 text: "Soleil, gastronomie, parcours de résidence UE clairs. Visa nomade désormais actif." }
+  ],
+  es: [
+    { slug: "portugal",              text: "Luz atlántica, vida asequible, fiscalidad ventajosa. El aterrizaje suave europeo por excelencia." },
+    { slug: "thailand",              text: "Mares cálidos, alquileres bajos, escena nómada vibrante — Bangkok o las islas, tú eliges el ritmo." },
+    { slug: "mexico",                text: "Salarios casi de EE.UU. con ritmo latino. Geografía vasta, ciudades creativas fuertes." },
+    { slug: "georgia",               text: "Un año sin visado para la mayoría, vinos de montaña, banca cripto-amigable." },
+    { slug: "japan",                 text: "Infraestructura de primer nivel, cultura única, idioma exigente. El orden bajo el caos." },
+    { slug: "united-arab-emirates",  text: "Cero impuesto sobre la renta, hubs ultramodernos, veranos intensos. Una apuesta de alta energía." },
+    { slug: "spain",                 text: "Sol, gastronomía, vías claras de residencia UE. Visado nómada ya activo." }
+  ]
+};
+
 const t = (key, ...args) => {
   const value = (UI_TEXT[UI_LANG] || UI_TEXT.en)[key] ?? UI_TEXT.en[key];
   return typeof value === "function" ? value(...args) : value;
 };
+const metricLabel = (m) => (UI_TEXT[UI_LANG]?.metric?.[m]) ?? (UI_TEXT.en.metric?.[m]) ?? m;
+
 localStorage.setItem("wigg_lang", UI_LANG);
 searchInput.placeholder = t("searchPlaceholder");
+splashLabel.textContent = t("splashLabel");
 setStatus(t("loading"));
+capPrev.textContent = t("capPrev");
+capNext.textContent = t("capNext");
+capStop.textContent = t("capStop");
+tourBtn.textContent = t("tourBtn");
+document.getElementById("colorByLabel").textContent = t("colorBy");
+// localise the <select> options
+Array.from(colorBySel.options).forEach(opt => {
+  opt.textContent = metricLabel(opt.value);
+});
+
+// ── URL state helpers (deep-link ?focus= and ?color=) ─────────────
+const params = new URLSearchParams(location.search);
+let initialFocusSlug = (params.get("focus") || "").trim().toLowerCase() || null;
+let initialColor = (params.get("color") || "").trim().toLowerCase() || "wigg";
+if (!["wigg","avg_salary","rent_studio","sun","happiness","income_tax"].includes(initialColor)) initialColor = "wigg";
+
+function updateUrl(){
+  const q = new URLSearchParams();
+  if (currentFocusSlug) q.set("focus", currentFocusSlug);
+  if (currentColorBy && currentColorBy !== "wigg") q.set("color", currentColorBy);
+  const qs = q.toString();
+  const newUrl = location.pathname + (qs ? `?${qs}` : "") + location.hash;
+  history.replaceState(null, "", newUrl);
+}
+
+// Lang switch links preserve focus + color params
 document.querySelectorAll("[data-lang-link]").forEach(link => {
   const lang = link.getAttribute("data-lang-link");
-  if(lang === UI_LANG) link.classList.add("active");
-  link.addEventListener("click", () => localStorage.setItem("wigg_lang", lang));
+  if (lang === UI_LANG) link.classList.add("active");
+  link.addEventListener("click", (e) => {
+    e.preventDefault();
+    const q = new URLSearchParams();
+    if (currentFocusSlug) q.set("focus", currentFocusSlug);
+    if (currentColorBy && currentColorBy !== "wigg") q.set("color", currentColorBy);
+    localStorage.setItem("wigg_lang", lang);
+    location.href = `/${lang}/globe.html` + (q.toString() ? `?${q}` : "");
+  });
 });
+
 const countryUrl = (slug) => `/countries/${slug}-${UI_LANG}.html`;
+const compareUrl = (slug) => `/${UI_LANG}/compare.html?c=${encodeURIComponent(slug)}`;
 
-
-// ✅ Better desktop detection (Chromebook touch screen != touch UI)
 const HAS_HOVER_POINTER = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 const TOUCH_UI = !HAS_HOVER_POINTER;
 
 function normName(s){
-  return String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();
+  return String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").trim();
 }
 function esc(s){
   return String(s ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+    .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;").replaceAll("'","&#039;");
 }
 
-// Mouse tracking for tooltip on desktop
 let mouseX = 20, mouseY = 20;
-
 function placeTooltipNearCursor() {
   const pad = 12;
-  const w = tooltip.offsetWidth || 260;
-  const h = tooltip.offsetHeight || 140;
-
+  const w = tooltip.offsetWidth || 280;
+  const h = tooltip.offsetHeight || 160;
   let x = mouseX + 18;
   let y = mouseY + 18;
-
   if (x + w + pad > window.innerWidth) x = window.innerWidth - w - pad;
   if (y + h + pad > window.innerHeight) y = window.innerHeight - h - pad;
   if (x < pad) x = pad;
   if (y < pad) y = pad;
-
   tooltip.style.left = x + "px";
   tooltip.style.top  = y + "px";
 }
-
 document.addEventListener("mousemove", (e) => {
   mouseX = e.clientX;
   mouseY = e.clientY;
@@ -299,14 +740,14 @@ document.addEventListener("mousemove", (e) => {
 });
 
 const HOVER_COLORS = {
-  green:  "rgba(0,200,83,0.55)",
-  yellow: "rgba(255,214,0,0.55)",
-  red:    "rgba(255,61,0,0.55)"
+  green:  "rgba(0,200,83,0.62)",
+  yellow: "rgba(255,214,0,0.6)",
+  red:    "rgba(255,61,0,0.6)"
 };
 
-// =========================
-// COUNTRY_MAP (TON BLOC, inchangé)
-// =========================
+// COUNTRY_MAP: world.geojson feature name → { slug, color }
+// (preserved verbatim — keeps existing coverage; a future build script
+//  could regenerate this from world.geojson + countries.json by iso code)
 const COUNTRY_MAP = {
   "united states of america": {slug: "united-states", color: "yellow"},
   "united states": {slug: "united-states", color: "yellow"},
@@ -498,15 +939,25 @@ const COUNTRY_MAP = {
   "new zealand": {slug: "new-zealand", color: "green"}
 };
 
-// ==== Tooltip data ====
+// ── State ─────
 let COUNTRIES_DB = null;
 let ALL = [];
 const detailsCache = {};
+let featureBySlug = {};
+let hoveredFeature = null;
+let currentColorBy = initialColor;            // "wigg" | "avg_salary" | …
+let metricStats = null;                       // {min, max, byFeature: Map(feature, normalized 0..1)}
+let currentFocusSlug = null;                  // for deep-link
+let tooltipPinned = false;
+let pinnedSlug = null;
+let lastTapAt = 0;
 
+// ── Data loaders ─────
 async function loadCountriesDB(){
   if(COUNTRIES_DB) return COUNTRIES_DB;
-  const _lang = UI_LANG;
-  const _cf = _lang === "fr" ? "/data/countries.fr.json" : _lang === "es" ? "/data/countries.es.json" : "/data/countries.json";
+  const _cf = UI_LANG === "fr" ? "/data/countries.fr.json"
+            : UI_LANG === "es" ? "/data/countries.es.json"
+            : "/data/countries.json";
   const r = await fetch(_cf, { cache: "no-store" });
   if(!r.ok) throw new Error("countries.json not found");
   COUNTRIES_DB = await r.json();
@@ -521,8 +972,7 @@ async function loadCountriesDB(){
 async function loadDetails(slug){
   if(slug in detailsCache) return detailsCache[slug];
   try{
-    const _dlang = UI_LANG;
-    const _df = _dlang === "fr" ? "details-fr" : _dlang === "es" ? "details-es" : "details";
+    const _df = UI_LANG === "fr" ? "details-fr" : UI_LANG === "es" ? "details-es" : "details";
     const r = await fetch(`/data/${_df}/${slug}.json`, { cache: "no-store" });
     if(!r.ok){ detailsCache[slug] = null; return null; }
     const j = await r.json();
@@ -543,22 +993,109 @@ function getPersonalityName(details){
   return (
     details?.goDeeper?.things_to_know?.personality?.name ||
     details?.things_to_know?.personality?.name ||
-    details?.goDeeper?.personality?.name ||
-    null
+    details?.goDeeper?.personality?.name || null
   );
 }
 function getHeroSrc(slug){
-  // countries.json stores paths as "../assets/hero-xxx.jpg" (relative to /countries/)
-  // globe.html is at root, so we strip the leading ../
   const raw = COUNTRIES_DB?.[slug]?.hero?.src || "";
   const src = raw.replace(/^\.\.\//,"");
   return src ? `/${src.replace(/^\/+/,"")}` : "";
 }
+function getCountryName(slug){ return COUNTRIES_DB?.[slug]?.name || slug; }
 
-let tooltipPinned = false;
-let pinnedSlug = null;
-let lastTapAt = 0;
+// ── Numeric parsing for choropleth ─────
+function parseNumeric(raw){
+  if (raw == null) return null;
+  const s = String(raw).replace(/[,]/g, "");
+  const m = s.match(/-?[\d]+(?:\.\d+)?/);
+  if (!m) return null;
+  const n = parseFloat(m[0]);
+  return isFinite(n) ? n : null;
+}
+const METRIC_FIELD = {
+  avg_salary:  { field: "avg_salary",  higherIsBetter: true  },
+  rent_studio: { field: "rent_studio", higherIsBetter: false },
+  sun:         { field: "sun",         higherIsBetter: true  },
+  happiness:   { field: "happiness",   higherIsBetter: true  },
+  income_tax:  { field: "income_tax",  higherIsBetter: false },
+};
 
+// HSL interpolation: red → amber → green (or reversed)
+function colorForNormalized(t01, reverse){
+  // t01 ∈ [0,1]
+  const v = reverse ? (1 - t01) : t01;
+  // Hue: 0=red, 50=amber, 130=green
+  let hue;
+  if (v < 0.5) hue = 0 + (v / 0.5) * 50;     // 0 → 50 (red → amber)
+  else hue = 50 + ((v - 0.5) / 0.5) * 80;    // 50 → 130 (amber → green)
+  const sat = 72;
+  const lum = 48;
+  return `hsla(${hue.toFixed(0)},${sat}%,${lum}%,0.62)`;
+}
+
+// Build metric stats: byFeature map + min/max
+function buildMetricStats(metric, features){
+  if (metric === "wigg") return null;
+  const cfg = METRIC_FIELD[metric];
+  if (!cfg) return null;
+  const byFeature = new Map();
+  const values = [];
+  for (const f of features){
+    const key = normName(f.properties?.name || "");
+    const slug = COUNTRY_MAP[key]?.slug;
+    if (!slug) continue;
+    const raw = COUNTRIES_DB?.[slug]?.fields?.[cfg.field]?.value;
+    const n = parseNumeric(raw);
+    if (n == null) continue;
+    byFeature.set(f, n);
+    values.push(n);
+  }
+  if (!values.length) return null;
+  values.sort((a,b) => a - b);
+  // Clamp 5th/95th percentile to avoid outliers smashing the scale
+  const p5  = values[Math.floor(values.length * 0.05)];
+  const p95 = values[Math.floor(values.length * 0.95)];
+  const min = p5;
+  const max = p95;
+  const range = max - min || 1;
+  // Normalize each
+  const normByFeature = new Map();
+  for (const [f, n] of byFeature){
+    const t01 = Math.max(0, Math.min(1, (n - min) / range));
+    normByFeature.set(f, t01);
+  }
+  return { min, max, normByFeature, reverse: !cfg.higherIsBetter, displayMin: values[0], displayMax: values[values.length-1] };
+}
+
+function formatMetricValue(metric, v){
+  if (v == null) return "—";
+  switch(metric){
+    case "avg_salary":  return "$" + Math.round(v).toLocaleString();
+    case "rent_studio": return "$" + Math.round(v).toLocaleString();
+    case "sun":         return Math.round(v) + " d";
+    case "happiness":   return v.toFixed(1);
+    case "income_tax":  return Math.round(v) + "%";
+    default:            return String(v);
+  }
+}
+
+function applyChoropleth(globe){
+  if (currentColorBy === "wigg" || !metricStats){
+    legend.classList.remove("visible");
+    // Refresh — defaults will paint only the hovered cap
+    globe.polygonCapColor(globe.polygonCapColor());
+    return;
+  }
+  // Show legend
+  legendTitle.textContent = metricLabel(currentColorBy);
+  legendBar.classList.toggle("reverse", !!metricStats.reverse);
+  legendMin.textContent = formatMetricValue(currentColorBy, metricStats.displayMin);
+  legendMax.textContent = formatMetricValue(currentColorBy, metricStats.displayMax);
+  legend.classList.add("visible");
+  globe.polygonCapColor(globe.polygonCapColor());
+}
+
+// ── Tooltip ─────
 function tooltipHTML(displayName, slug, details, pinned){
   const expat   = getExpatScoreLabel(details);
   const salary  = getAvgSalary(slug);
@@ -567,8 +1104,8 @@ function tooltipHTML(displayName, slug, details, pinned){
   const wiggColor = getWiggColor(slug);
   const wiggLabel = getWiggLabel(slug);
   const heroSrc   = getHeroSrc(slug);
-
   const heroWebp = heroSrc ? heroSrc.replace(/\.(jpe?g|png)$/i, ".webp") : "";
+
   const imgBlock = heroSrc
     ? `<div class="tt-img-wrap">
          <picture>
@@ -577,7 +1114,7 @@ function tooltipHTML(displayName, slug, details, pinned){
          </picture>
          <div class="tt-img-name">${esc(displayName)}</div>
        </div>`
-    : `<div class="tt-body" style="padding-bottom:4px"><div style="font-size:15px;font-weight:900;margin-bottom:6px">${esc(displayName)}</div></div>`;
+    : `<div class="tt-body" style="padding-bottom:4px"><div style="font-family:'Fraunces',serif;font-style:italic;font-size:18px;font-weight:800;margin-bottom:6px">${esc(displayName)}</div></div>`;
 
   const rows = [];
   rows.push(`<div class="tt-row"><span>${esc(t("expatScore"))}</span><b>${esc(expat || "—")}</b></div>`);
@@ -586,9 +1123,13 @@ function tooltipHTML(displayName, slug, details, pinned){
   rows.push(`<div class="tt-row"><span>${esc(t("sunnyDays"))}</span><b>${esc(sun)}</b></div>`);
   rows.push(`<div class="tt-row"><span>${esc(t("wiggLevel"))}</span><b><span class="tt-wigg ${esc(wiggColor)}">${esc(wiggLabel)}</span></b></div>`);
 
+  // Footer: open + compare; if pinned, close
   const footAction = pinned
-    ? `<span class="pill btn green-pill" data-action="open" data-slug="${esc(slug)}">↗ ${esc(t("openPage"))}</span><span class="pill btn" data-action="close">✕ ${esc(t("close"))}</span>`
-    : `<span class="pill">${esc(t("clickToOpen"))}</span>`;
+    ? `<span class="pill primary btn" data-action="open" data-slug="${esc(slug)}">↗ ${esc(t("openPage"))}</span>
+       <span class="pill compare btn" data-action="compare" data-slug="${esc(slug)}">⇄ ${esc(t("compareWith"))}</span>
+       <span class="pill btn" data-action="close">✕ ${esc(t("close"))}</span>`
+    : `<span class="pill">${esc(t("clickToOpen"))}</span>
+       <span class="pill compare btn" data-action="compare" data-slug="${esc(slug)}">⇄ ${esc(t("compareWith"))}</span>`;
 
   return `${imgBlock}
     <div class="tt-body">
@@ -610,10 +1151,9 @@ function pinTooltip(html){
   tooltipPinned = true;
   tooltip.innerHTML = html;
   tooltip.classList.add("visible");
-  // pin top-left (readable)
   tooltip.style.left = "14px";
-  tooltip.style.top  = "68px";
-  tooltip.style.pointerEvents = "auto"; // allow Close click
+  tooltip.style.top  = "84px";
+  tooltip.style.pointerEvents = "auto";
 }
 function unpinTooltip(){
   tooltipPinned = false;
@@ -621,24 +1161,29 @@ function unpinTooltip(){
   tooltip.style.pointerEvents = "none";
 }
 
-// Buttons in tooltip (mobile)
+// Tooltip action handlers (compare button works even when not pinned)
 tooltip.addEventListener("click", (e) => {
   const btn = e.target && e.target.closest("[data-action]");
   if(!btn) return;
   const action = btn.getAttribute("data-action");
-  if(action === "close"){
-    unpinTooltip();
-    hideTooltip();
-  } else if(action === "open"){
+  if(action === "close"){ unpinTooltip(); hideTooltip(); }
+  else if(action === "open"){
     const slug = btn.getAttribute("data-slug");
-    if(slug){ window.location.href = countryUrl(slug); }
+    if(slug) window.location.href = countryUrl(slug);
+  } else if(action === "compare"){
+    const slug = btn.getAttribute("data-slug");
+    if(slug) window.location.href = compareUrl(slug);
   }
 });
+// Allow pointer events on the compare pill even when tooltip not pinned (hover mode)
+tooltip.addEventListener("mouseenter", () => {
+  if (!TOUCH_UI) tooltip.style.pointerEvents = "auto";
+});
+tooltip.addEventListener("mouseleave", () => {
+  if (!tooltipPinned) tooltip.style.pointerEvents = "none";
+});
 
-// ==== Search focuses globe (no navigation) ====
-let featureBySlug = {};
-let hoveredFeature = null;
-
+// ── Geometry helpers ─────
 function centroidOfFeature(feature){
   const geom = feature?.geometry;
   if(!geom) return null;
@@ -665,7 +1210,7 @@ function centroidOfFeature(feature){
   return { lng: sumLng/points.length, lat: sumLat/points.length };
 }
 
-async function focusCountryOnGlobe(globe, slug){
+async function focusCountryOnGlobe(globe, slug, opts){
   const feature = featureBySlug[slug];
   if(!feature){ setStatus(t("notMapped", slug)); return; }
 
@@ -674,10 +1219,14 @@ async function focusCountryOnGlobe(globe, slug){
 
   const c = centroidOfFeature(feature);
   if(c){
-    globe.pointOfView({ lat: c.lat, lng: c.lng, altitude: 1.65 }, 750);
+    const altitude = opts?.altitude ?? 1.65;
+    const duration = opts?.duration ?? 850;
+    globe.pointOfView({ lat: c.lat, lng: c.lng, altitude }, duration);
   }
+  currentFocusSlug = slug;
+  updateUrl();
 
-  const displayName = COUNTRIES_DB?.[slug]?.name || feature.properties?.name || slug;
+  const displayName = getCountryName(slug);
   const d = await loadDetails(slug);
 
   if(TOUCH_UI){
@@ -692,66 +1241,160 @@ async function focusCountryOnGlobe(globe, slug){
   }
 }
 
+// ── Search with autocomplete + keyboard nav ─────
 function setupSearch(globe){
+  let kbdIndex = -1;
+  let currentItems = [];
+
   function renderList(items){
+    currentItems = items;
+    kbdIndex = -1;
     if(!items.length){ acList.style.display="none"; return; }
-    acList.innerHTML = items.map(c => {
+    acList.innerHTML = items.map((c, i) => {
       const hero = getHeroSrc(c.code);
       const heroW = hero ? hero.replace(/\.(jpe?g|png)$/i, ".webp") : "";
       const imgTag = hero ? `<picture><source type="image/webp" srcset="${esc(heroW)}"><img src="${esc(hero)}" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'"></picture>` : "";
-      return `<div class="acItem" data-code="${esc(c.code)}">${imgTag}<div>${esc(c.name)}<small>${esc(c.code)}</small></div></div>`;
+      return `<div class="acItem" role="option" data-code="${esc(c.code)}" data-i="${i}">${imgTag}<div>${esc(c.name)}<small>${esc(c.code)}</small></div></div>`;
     }).join("");
     acList.style.display="block";
-
+    acList.parentElement.setAttribute("aria-expanded","true");
     acList.querySelectorAll(".acItem").forEach(el => {
       el.addEventListener("click", async () => {
         const code = el.getAttribute("data-code");
-        searchInput.value = (COUNTRIES_DB?.[code]?.name) || code;
+        searchInput.value = getCountryName(code);
         acList.style.display="none";
+        acList.parentElement.setAttribute("aria-expanded","false");
         await focusCountryOnGlobe(globe, code);
       });
     });
   }
 
+  function updateKbdFocus(){
+    acList.querySelectorAll(".acItem").forEach((el, i) => {
+      el.classList.toggle("kbd-focus", i === kbdIndex);
+    });
+    if (kbdIndex >= 0){
+      const el = acList.querySelector(`[data-i="${kbdIndex}"]`);
+      if (el) el.scrollIntoView({ block: "nearest" });
+    }
+  }
+
   searchInput.addEventListener("input", () => {
     const q = searchInput.value.toLowerCase().trim();
-    if(!q){ acList.style.display="none"; return; }
-
+    if(!q){ acList.style.display="none"; acList.parentElement.setAttribute("aria-expanded","false"); return; }
     const res = ALL.filter(c => {
       if(c.name.toLowerCase().includes(q)) return true;
       return (c.aliases||[]).some(a => String(a).toLowerCase().includes(q));
     }).slice(0, 12);
-
     renderList(res);
   });
 
-  searchInput.addEventListener("blur", () => setTimeout(() => acList.style.display="none", 160));
+  searchInput.addEventListener("blur", () => setTimeout(() => {
+    acList.style.display="none";
+    acList.parentElement.setAttribute("aria-expanded","false");
+  }, 160));
 
   searchInput.addEventListener("keydown", async (e) => {
-    if(e.key === "Enter"){
+    if(e.key === "ArrowDown"){
+      e.preventDefault();
+      if (currentItems.length){
+        kbdIndex = (kbdIndex + 1) % currentItems.length;
+        updateKbdFocus();
+      }
+    } else if(e.key === "ArrowUp"){
+      e.preventDefault();
+      if (currentItems.length){
+        kbdIndex = kbdIndex <= 0 ? currentItems.length - 1 : kbdIndex - 1;
+        updateKbdFocus();
+      }
+    } else if(e.key === "Enter"){
+      e.preventDefault();
+      if (kbdIndex >= 0 && currentItems[kbdIndex]){
+        const c = currentItems[kbdIndex];
+        searchInput.value = c.name;
+        acList.style.display="none";
+        await focusCountryOnGlobe(globe, c.code);
+        return;
+      }
       const q = searchInput.value.toLowerCase().trim();
       if(!q) return;
       const hit = ALL.find(c => c.code === q)
         || ALL.find(c => c.name.toLowerCase() === q)
-        || ALL.find(c => (c.aliases||[]).some(a => String(a).toLowerCase() === q));
+        || ALL.find(c => (c.aliases||[]).some(a => String(a).toLowerCase() === q))
+        || ALL.find(c => c.name.toLowerCase().startsWith(q));
       if(hit){
         acList.style.display="none";
         await focusCountryOnGlobe(globe, hit.code);
       }
+    } else if(e.key === "Escape"){
+      acList.style.display="none";
+      searchInput.blur();
     }
-    if(e.key === "Escape"){ acList.style.display="none"; searchInput.blur(); }
   });
 }
 
-async function init(){
-  setStatus(t("loading"));
+// ── Tour (storytelling) ─────
+let tourActive = false;
+let tourIndex = 0;
 
+function setCaption(stop, i, n){
+  captionStep.textContent = t("capStep", i+1, n);
+  captionCountry.textContent = getCountryName(stop.slug);
+  captionText.textContent = stop.text;
+  caption.classList.add("visible");
+}
+
+async function playTourStep(globe, i){
+  const stops = TOUR_STOPS[UI_LANG] || TOUR_STOPS.en;
+  if (i < 0 || i >= stops.length) return;
+  tourIndex = i;
+  const stop = stops[i];
+  setCaption(stop, i, stops.length);
+  await focusCountryOnGlobe(globe, stop.slug, { altitude: 1.85, duration: 1100 });
+}
+
+function startTour(globe){
+  tourActive = true;
+  tourBtn.textContent = t("tourStop");
+  tourBtn.classList.add("ghost");
+  playTourStep(globe, 0);
+}
+function stopTour(){
+  tourActive = false;
+  tourBtn.textContent = t("tourBtn");
+  tourBtn.classList.remove("ghost");
+  caption.classList.remove("visible");
+}
+
+tourBtn.addEventListener("click", () => {
+  if (tourActive) stopTour();
+});
+capPrev.addEventListener("click", () => {
+  if (!tourActive) return;
+  if (tourIndex > 0) playTourStep(window.__globe, tourIndex - 1);
+});
+capNext.addEventListener("click", () => {
+  if (!tourActive) return;
+  const stops = TOUR_STOPS[UI_LANG] || TOUR_STOPS.en;
+  if (tourIndex < stops.length - 1) playTourStep(window.__globe, tourIndex + 1);
+  else stopTour();
+});
+capStop.addEventListener("click", () => stopTour());
+
+// ── colorBy change ─────
+colorBySel.addEventListener("change", () => {
+  currentColorBy = colorBySel.value;
+  metricStats = buildMetricStats(currentColorBy, window.__features || []);
+  updateUrl();
+  applyChoropleth(window.__globe);
+});
+
+// ── Main init ─────
+async function init(){
   await loadCountriesDB();
 
-  const world = await fetch("/data/map/world.geojson", { cache: "no-store" })
-    .then(r => r.json());
+  const world = await fetch("/data/map/world.geojson", { cache: "no-store" }).then(r => r.json());
 
-  // build slug->feature index + match count
   featureBySlug = {};
   let matchCount = 0;
   world.features.forEach(f => {
@@ -763,24 +1406,48 @@ async function init(){
       if(!featureBySlug[data.slug]) featureBySlug[data.slug] = f;
     }
   });
+  window.__features = world.features;
 
   setStatus(t("ready", matchCount));
 
+  // Pre-compute initial metric stats if user came in with ?color=
+  metricStats = buildMetricStats(currentColorBy, world.features);
+  if (currentColorBy !== "wigg") colorBySel.value = currentColorBy;
+
   let hoverTimer = null;
   let lastHoverSlug = null;
+  const REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Initial camera altitude — start far for the entrance zoom
+  const initialAltitude = REDUCED ? 1.95 : 2.6;
+  const settleAltitude  = 1.95;
 
   const globe = Globe()(document.getElementById("globe"))
     .backgroundColor("rgba(0,0,0,0)")
     .globeImageUrl("/assets/earth-grass.webp")
-    .bumpImageUrl("https://unpkg.com/three-globe/example/img/earth-topology.png")
+    .bumpImageUrl("/assets/earth-topology.png")
     .showAtmosphere(true)
-    .atmosphereColor("rgba(60,120,255,0.7)")
-    .atmosphereAltitude(0.22)
+    .atmosphereColor("rgba(100,180,255,0.55)")
+    .atmosphereAltitude(0.20)
     .polygonsData(world.features)
-    .polygonAltitude(f => f === hoveredFeature ? 0.025 : 0.012)
-    .polygonStrokeColor(() => "rgba(255,255,255,0.18)")
-    .polygonSideColor(() => "rgba(60,120,255,0.08)")
+    .polygonAltitude(f => f === hoveredFeature ? 0.026 : 0.011)
+    .polygonStrokeColor(() => "rgba(255,255,255,0.16)")
+    .polygonSideColor(() => "rgba(80,140,255,0.08)")
     .polygonCapColor(f => {
+      // 1) Metric mode: every mapped country is colored by metric value.
+      if (currentColorBy !== "wigg" && metricStats){
+        const t01 = metricStats.normByFeature.get(f);
+        if (t01 != null){
+          // Hovered: brighten
+          if (f === hoveredFeature){
+            return colorForNormalized(Math.min(1, t01 + 0.15), metricStats.reverse).replace("0.62)","0.85)");
+          }
+          return colorForNormalized(t01, metricStats.reverse);
+        }
+        // Unmapped countries stay translucent
+        return "rgba(255,255,255,0.04)";
+      }
+      // 2) WIGG default mode: only paint the hovered polygon's cap.
       if (f !== hoveredFeature) return "rgba(0,0,0,0)";
       const name = normName(f.properties?.name || "");
       const data = COUNTRY_MAP[name];
@@ -791,7 +1458,6 @@ async function init(){
       globe.polygonCapColor(globe.polygonCapColor());
       globe.polygonAltitude(globe.polygonAltitude());
 
-      // On mobile pinned mode: ignore hover behavior
       if(TOUCH_UI) return;
       if(tooltipPinned) return;
 
@@ -799,17 +1465,16 @@ async function init(){
         const geoName = f.properties?.name || "Unknown";
         const key = normName(geoName);
         const data = COUNTRY_MAP[key];
-        const displayName = data?.slug ? (COUNTRIES_DB?.[data.slug]?.name || geoName) : geoName;
+        const displayName = data?.slug ? (getCountryName(data.slug)) : geoName;
 
         if(!data){
           setStatus(displayName);
-          showTooltip(`<div class="tt-body"><div style="font-size:15px;font-weight:900;margin-bottom:4px">${esc(displayName)}</div></div><div class="tt-foot"><span class="pill">${esc(t("noData"))}</span></div>`);
+          showTooltip(`<div class="tt-body"><div style="font-family:'Fraunces',serif;font-style:italic;font-size:18px;font-weight:800;margin-bottom:4px">${esc(displayName)}</div></div><div class="tt-foot"><span class="pill">${esc(t("noData"))}</span></div>`);
           return;
         }
 
         const slug = data.slug;
         setStatus(t("clickCountry", displayName));
-
         showTooltip(tooltipHTML(displayName, slug, detailsCache[slug] || null, false));
 
         clearTimeout(hoverTimer);
@@ -820,27 +1485,24 @@ async function init(){
             showTooltip(tooltipHTML(displayName, slug, d, false));
           }
         }, 160);
-
       } else {
         hideTooltip();
       }
     })
     .onPolygonClick(async f => {
       if(!f) return;
-
       const geoName = f.properties?.name || "Unknown";
       const key = normName(geoName);
       const data = COUNTRY_MAP[key];
       if(!data) return;
-
       const slug = data.slug;
-      const displayName = COUNTRIES_DB?.[slug]?.name || geoName;
+      const displayName = getCountryName(slug);
+      currentFocusSlug = slug;
+      updateUrl();
 
-      // MOBILE: 1st tap pin, 2nd tap open
       if(TOUCH_UI){
         const now = Date.now();
         const same = (pinnedSlug === slug) && (now - lastTapAt < 1500);
-
         if(!tooltipPinned || !same){
           pinnedSlug = slug;
           lastTapAt = now;
@@ -849,40 +1511,81 @@ async function init(){
           setStatus(t("tapAgain", displayName));
           return;
         }
-
-        { window.location.href = countryUrl(slug); }
+        window.location.href = countryUrl(slug);
         return;
       }
-
       // DESKTOP: single click opens
-      { window.location.href = countryUrl(slug); }
+      window.location.href = countryUrl(slug);
     });
 
-  // Search focuses globe (no navigation)
-  setupSearch(globe);
+  window.__globe = globe;
 
-  // Slower rotation
+  // Slow autorotate (paused when tour is on, since tour drives camera)
   globe.controls().autoRotate = true;
-  globe.controls().autoRotateSpeed = 0.25;
+  globe.controls().autoRotateSpeed = 0.22;
 
-  // Bump animation (unchanged)
+  // Set initial camera far, then settle in
+  globe.pointOfView({ lat: 24, lng: 14, altitude: initialAltitude }, 0);
+
+  // Bump animation (subtle)
   const scene = globe.scene();
-  const g = scene.children.find(o => o.type === 'Mesh' && o.geometry?.type === 'SphereGeometry');
-  if (g?.material) {
-    g.material.bumpScale = 0.18;
-    let t = 0;
+  const sphereMesh = scene.children.find(o => o.type === 'Mesh' && o.geometry?.type === 'SphereGeometry');
+  if (sphereMesh?.material && !REDUCED) {
+    sphereMesh.material.bumpScale = 0.18;
+    let phase = 0;
     function animate(){
-      t += 0.015;
-      if (g?.material) g.material.bumpScale = 0.16 + Math.sin(t) * 0.03;
+      phase += 0.014;
+      if (sphereMesh?.material) sphereMesh.material.bumpScale = 0.16 + Math.sin(phase) * 0.03;
       requestAnimationFrame(animate);
     }
     animate();
   }
+
+  // Apply choropleth if initial color set
+  applyChoropleth(globe);
+
+  setupSearch(globe);
+
+  // ── Reveal sequence: fade globe in, settle camera, then bring HUD ─────
+  requestAnimationFrame(() => {
+    splash.classList.add("gone");
+    document.getElementById("globe").classList.add("ready");
+    hud.classList.add("in");
+    ctrls.classList.add("in");
+
+    // Camera settle
+    if (!REDUCED){
+      globe.pointOfView({ lat: 24, lng: 14, altitude: settleAltitude }, 1400);
+    }
+  });
+
+  setTimeout(() => splash.remove(), 800);
+
+  // Disable autorotate as soon as the user interacts
+  const stopAutoRotate = () => {
+    if (globe.controls()) globe.controls().autoRotate = false;
+  };
+  document.getElementById("globe").addEventListener("pointerdown", stopAutoRotate, { once: true });
+  document.getElementById("globe").addEventListener("wheel", stopAutoRotate, { once: true, passive: true });
+  tourBtn.addEventListener("click", stopAutoRotate, { once: true });
+
+  // ── Honour ?focus=<slug> from URL ─────
+  if (initialFocusSlug && featureBySlug[initialFocusSlug]){
+    // Wait a beat so the entrance lands first
+    setTimeout(() => focusCountryOnGlobe(globe, initialFocusSlug, { altitude: 1.7, duration: 1500 }), 700);
+  }
+
+  // ── Tour start ─────
+  tourBtn.addEventListener("click", () => {
+    if (tourActive) { stopTour(); return; }
+    startTour(globe);
+  });
 }
 
 init().catch(err => {
   console.error(err);
   setStatus(t("error", err.message));
+  splashLabel.textContent = t("error", err.message);
 });
 </script>
 </body>
