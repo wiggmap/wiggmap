@@ -497,131 +497,884 @@ a{color:inherit;text-decoration:none}
 <script src="/data/header.js"></script>
 <a id="wm-main" tabindex="-1"></a>
 
-<!-- ──────────── HERO ──────────── -->
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-content">
-    <div class="hero-eyebrow" id="heroEyebrow">160+ countries · Real data</div>
-    <h1 class="hero-title" id="heroTitle">Et si ta vie était différente ailleurs ?</h1>
-    <p class="hero-sub" id="heroSub">160+ pays. Salaires, loyers, visas, qualité de vie. Les vraies données pour choisir où vivre mieux.</p>
+<style>
+/* ═════════════════════════════════════════════════════════════
+   EDITORIAL HOME — sprint-home-funnel
+   ═════════════════════════════════════════════════════════════ */
 
-    <div class="search-block">
-      <form class="search-form" id="searchForm" autocomplete="off">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-        <input id="searchInput" class="search-input" type="text" placeholder="ex. Suisse, Japon, Bangkok…">
-        <button id="searchGo" class="search-go" type="submit">Go →</button>
-      </form>
-      <div id="searchSug" class="search-sug" role="listbox"></div>
-    </div>
+/* HERO — massive typographic */
+.ed-hero{
+  position:relative;
+  min-height:100svh;min-height:100dvh;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  padding:120px 32px 80px;
+  text-align:center;
+  overflow:hidden;
+}
+.ed-hero-bg{
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.32) 35%, rgba(0,0,0,.55) 100%);
+}
+.ed-hero-grain{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  opacity:.10;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='5'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+.ed-hero-inner{position:relative;z-index:2;max-width:1180px;width:100%;}
+.ed-hero-eyebrow{
+  font-family:'Inter',sans-serif;
+  font-size:11.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(255,253,248,.65);
+  margin:0 0 28px;display:inline-flex;align-items:center;gap:14px;
+}
+.ed-hero-eyebrow::before,.ed-hero-eyebrow::after{
+  content:"";width:32px;height:1px;background:rgba(255,253,248,.4);
+}
+.ed-hero-h1{
+  font-family:'Fraunces',Georgia,serif;
+  font-weight:600;font-style:normal;
+  font-size:clamp(48px,10vw,148px);
+  line-height:.92;letter-spacing:-.025em;
+  color:#fffdf8;margin:0;
+  text-shadow:0 2px 28px rgba(0,0,0,.4);
+}
+.ed-hero-h1 .l{display:block;}
+.ed-hero-h1 em{
+  font-style:italic;font-weight:700;
+  color:#4ade80;
+  font-feature-settings:"ss01" on;
+}
+.ed-hero-deck{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-style:italic;font-weight:400;
+  font-size:clamp(18px,2.2vw,24px);
+  line-height:1.45;color:rgba(255,253,248,.82);
+  max-width:46ch;margin:36px auto 0;
+  letter-spacing:.005em;
+}
+.ed-hero-scroll{
+  position:absolute;bottom:28px;left:50%;transform:translateX(-50%);
+  font-family:'Inter',sans-serif;
+  font-size:10.5px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;
+  color:rgba(255,253,248,.5);
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  z-index:2;cursor:pointer;
+  transition:color .25s;
+}
+.ed-hero-scroll:hover{color:rgba(255,253,248,.9);}
+.ed-hero-scroll-line{
+  width:1px;height:42px;background:rgba(255,253,248,.45);
+  animation:ed-pulse 2.2s ease-in-out infinite;transform-origin:top;
+}
+@keyframes ed-pulse{
+  0%,100%{transform:scaleY(.4);opacity:.4;}
+  50%{transform:scaleY(1);opacity:1;}
+}
+@media (prefers-reduced-motion: reduce){
+  .ed-hero-scroll-line{animation:none;}
+}
 
-    <div class="hero-quick">
-      <a href="/fr/compare.html?c=thailand,indonesia,portugal"><span>🔀</span><span id="qkCompare">Comparer</span></a>
-      <a href="/fr/indexchronicles.html"><span>📖</span><span id="qkChron">Chroniques</span></a>
-      <a href="/fr/wiggmatch.html"><span>💚</span><span id="qkMatch">WiggMatch</span></a>
-    </div>
+/* SPOTLIGHT — asymmetric magazine spread */
+.ed-spot{
+  position:relative;background:#fffdf8;
+  padding:clamp(80px,11vw,140px) 0;
+  overflow:hidden;
+}
+.ed-spot-inner{
+  max-width:1280px;margin:0 auto;
+  display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(40px,7vw,96px);
+  align-items:center;padding:0 32px;
+}
+@media(max-width:880px){.ed-spot-inner{grid-template-columns:1fr;gap:40px;}}
+.ed-spot-img{
+  position:relative;aspect-ratio:4/5;overflow:hidden;
+  border-radius:2px;
+  box-shadow:0 24px 64px rgba(0,0,0,.18);
+}
+.ed-spot-img img{width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform 6s ease-out;}
+.ed-spot:hover .ed-spot-img img{transform:scale(1.04);}
+.ed-spot-text{display:flex;flex-direction:column;gap:24px;}
+.ed-spot-eyebrow{
+  font-family:'Inter',sans-serif;
+  font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  color:#1a5430;margin:0;
+}
+.ed-spot-country{
+  font-family:'Fraunces',Georgia,serif;
+  font-style:italic;font-weight:800;
+  font-size:clamp(56px,9vw,108px);
+  line-height:.96;letter-spacing:-.03em;
+  color:#171714;margin:0;
+}
+.ed-spot-deck{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-style:italic;font-weight:400;
+  font-size:clamp(19px,1.9vw,23px);
+  line-height:1.55;color:#54554e;margin:0;
+  max-width:42ch;
+}
+.ed-spot-cta{
+  display:inline-flex;align-items:center;gap:14px;
+  margin-top:8px;align-self:flex-start;
+  font-family:'Inter',sans-serif;
+  font-size:13px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  color:#171714;
+  border-bottom:2px solid #1a5430;
+  padding-bottom:10px;
+  transition:color .2s,border-color .2s,gap .2s;
+}
+.ed-spot-cta:hover{color:#1a5430;gap:20px;border-bottom-color:#22c55e;}
+.ed-spot-cta-arrow{
+  font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:18px;
+}
+
+/* THREE DOORS — brutalist editorial nav */
+.ed-doors{
+  position:relative;background:#0f0f0e;color:#f5f0e8;
+  padding:clamp(80px,11vw,140px) 24px 0;
+  overflow:hidden;
+}
+.ed-doors-grain{
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+  opacity:.04;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' seed='9'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+.ed-doors-inner{position:relative;z-index:1;max-width:1280px;margin:0 auto;}
+.ed-doors-head{
+  display:flex;align-items:baseline;justify-content:space-between;gap:24px;
+  padding-bottom:32px;
+  border-bottom:1px solid rgba(245,240,232,.14);
+  margin-bottom:0;flex-wrap:wrap;
+}
+.ed-doors-eyebrow{
+  font-family:'Inter',sans-serif;
+  font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(245,240,232,.5);margin:0;
+}
+.ed-doors-title{
+  font-family:'Fraunces',Georgia,serif;
+  font-style:italic;font-weight:700;
+  font-size:clamp(28px,4.5vw,46px);
+  letter-spacing:-.015em;line-height:1;
+  color:#fffdf8;margin:0;
+}
+.ed-door{
+  display:grid;grid-template-columns:80px 1fr auto;align-items:baseline;
+  gap:clamp(20px,3vw,48px);
+  padding:clamp(36px,5vw,56px) 0;
+  border-bottom:1px solid rgba(245,240,232,.14);
+  color:#f5f0e8;
+  text-decoration:none;
+  transition:background .3s, padding-left .3s;
+  position:relative;
+}
+.ed-door::before{
+  content:"";position:absolute;left:-24px;right:-24px;top:0;bottom:0;z-index:-1;
+  background:linear-gradient(90deg, rgba(34,197,94,.07) 0%, transparent 70%);
+  opacity:0;transition:opacity .35s;
+}
+.ed-door:hover::before{opacity:1;}
+.ed-door:hover{padding-left:12px;}
+.ed-door-num{
+  font-family:'Fraunces',Georgia,serif;
+  font-style:italic;font-weight:400;
+  font-size:clamp(40px,6vw,68px);
+  line-height:.9;color:rgba(245,240,232,.35);
+  letter-spacing:-.02em;
+  transition:color .3s;
+}
+.ed-door:hover .ed-door-num{color:#4ade80;}
+.ed-door-body{display:flex;flex-direction:column;gap:8px;min-width:0;}
+.ed-door-name{
+  font-family:'Fraunces',Georgia,serif;
+  font-weight:600;
+  font-size:clamp(28px,4.2vw,48px);
+  letter-spacing:-.015em;line-height:1.04;
+  color:#fffdf8;margin:0;
+}
+.ed-door-line{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-style:italic;font-weight:400;
+  font-size:clamp(17px,1.9vw,21px);
+  line-height:1.45;color:rgba(245,240,232,.65);margin:0;
+  max-width:48ch;
+}
+.ed-door-cta{
+  font-family:'Inter',sans-serif;
+  font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  color:#22c55e;
+  display:inline-flex;align-items:center;gap:8px;
+  white-space:nowrap;flex-shrink:0;
+  transition:gap .25s;
+}
+.ed-door:hover .ed-door-cta{gap:14px;}
+.ed-door-cta-arrow{
+  font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:18px;
+}
+@media(max-width:720px){
+  .ed-door{grid-template-columns:50px 1fr;}
+  .ed-door-cta{grid-column:2;margin-top:6px;}
+}
+
+/* FEATURED CHRONICLE — full-bleed editorial */
+.ed-feat{
+  position:relative;min-height:62vh;
+  display:flex;align-items:flex-end;
+  overflow:hidden;background:#0a0a0a;
+  margin-top:0;
+}
+.ed-feat-bg{
+  position:absolute;inset:0;z-index:0;
+  background-image:
+    linear-gradient(180deg, rgba(10,10,10,0) 0%, rgba(10,10,10,.2) 35%, rgba(10,10,10,.92) 100%),
+    url('/assets/hero-iceland.jpg');
+  background-size:cover;background-position:center;
+}
+.ed-feat-bg picture{position:absolute;inset:0;}
+.ed-feat-bg picture img{width:100%;height:100%;object-fit:cover;}
+.ed-feat-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(180deg, rgba(10,10,10,0) 0%, rgba(10,10,10,.2) 35%, rgba(10,10,10,.92) 100%);
+}
+.ed-feat-inner{
+  position:relative;z-index:2;width:100%;
+  max-width:1280px;margin:0 auto;
+  padding:clamp(80px,11vw,140px) 32px clamp(60px,8vw,100px);
+}
+.ed-feat-eyebrow{
+  font-family:'Inter',sans-serif;
+  font-size:11px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;
+  color:rgba(74,222,128,.85);margin:0 0 18px;
+}
+.ed-feat-title{
+  font-family:'Fraunces',Georgia,serif;
+  font-style:italic;font-weight:700;
+  font-size:clamp(36px,6.4vw,84px);
+  line-height:1.02;letter-spacing:-.022em;
+  color:#fffdf8;margin:0;max-width:24ch;
+}
+.ed-feat-deck{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-style:italic;font-weight:400;
+  font-size:clamp(18px,2vw,22px);
+  line-height:1.5;color:rgba(255,253,248,.75);
+  max-width:54ch;margin:24px 0 0;
+}
+.ed-feat-cta{
+  display:inline-flex;align-items:center;gap:14px;
+  margin-top:32px;
+  font-family:'Inter',sans-serif;
+  font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:#fffdf8;
+  padding:16px 26px;
+  background:rgba(255,253,248,.08);
+  border:1px solid rgba(255,253,248,.18);
+  border-radius:2px;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  transition:background .25s,border-color .25s,gap .25s;
+}
+.ed-feat-cta:hover{background:#22c55e;color:#0a1f10;border-color:#22c55e;gap:20px;}
+
+/* CITY MARQUEE — horizontal scrolling type */
+.ed-marq{
+  position:relative;background:#f5f0e8;
+  padding:clamp(80px,11vw,140px) 0 clamp(60px,8vw,100px);
+  overflow:hidden;
+}
+.ed-marq-head{
+  text-align:center;padding:0 24px;margin-bottom:clamp(40px,6vw,72px);
+}
+.ed-marq-eyebrow{
+  font-family:'Inter',sans-serif;
+  font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  color:#8a7f6a;display:block;margin-bottom:14px;
+}
+.ed-marq-title{
+  font-family:'Fraunces',Georgia,serif;
+  font-style:italic;font-weight:600;
+  font-size:clamp(30px,4.6vw,52px);
+  line-height:1.05;letter-spacing:-.015em;color:#171714;margin:0;
+}
+.ed-marq-rail{
+  position:relative;
+  display:flex;gap:0;
+  overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+          mask-image:linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+}
+.ed-marq-track{
+  display:flex;align-items:center;gap:0;
+  animation:ed-marq-scroll 60s linear infinite;
+  white-space:nowrap;flex-shrink:0;
+  will-change:transform;
+}
+.ed-marq-rail.reverse .ed-marq-track{
+  animation-direction:reverse;
+  animation-duration:75s;
+}
+.ed-marq-rail:hover .ed-marq-track{animation-play-state:paused;}
+.ed-marq-rail + .ed-marq-rail{margin-top:18px;}
+@keyframes ed-marq-scroll{
+  from{transform:translateX(0);}
+  to{transform:translateX(-50%);}
+}
+@media (prefers-reduced-motion: reduce){
+  .ed-marq-track{animation:none;transform:translateX(0);}
+}
+.ed-marq-item{
+  font-family:'Fraunces',Georgia,serif;
+  font-style:italic;font-weight:500;
+  font-size:clamp(40px,7vw,92px);
+  line-height:1;letter-spacing:-.02em;color:#171714;
+  padding:0 .5em;
+  flex-shrink:0;
+}
+.ed-marq-dot{
+  display:inline-block;width:8px;height:8px;border-radius:50%;
+  background:#1a5430;flex-shrink:0;align-self:center;margin:0 .15em;
+}
+.ed-marq-cta-wrap{text-align:center;margin-top:clamp(40px,6vw,64px);padding:0 24px;}
+.ed-marq-cta{
+  display:inline-flex;align-items:center;gap:12px;
+  font-family:'Inter',sans-serif;
+  font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  color:#171714;border-bottom:2px solid #1a5430;padding-bottom:8px;
+  transition:gap .2s,color .2s,border-color .2s;
+}
+.ed-marq-cta:hover{gap:18px;color:#1a5430;border-bottom-color:#22c55e;}
+
+/* MANIFESTO (replaces parallax quote) */
+.ed-mani{
+  position:relative;background:#0a0a0a;color:#f5f0e8;
+  min-height:80vh;
+  display:flex;align-items:center;justify-content:center;
+  padding:120px 32px;
+  text-align:center;overflow:hidden;
+}
+.ed-mani-grain{
+  position:absolute;inset:0;pointer-events:none;
+  opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='11'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+.ed-mani-bg{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 50%, rgba(26,84,48,.12) 0%, transparent 65%);
+}
+.ed-mani-inner{position:relative;z-index:1;max-width:1100px;}
+.ed-mani-eyebrow{
+  font-family:'Inter',sans-serif;
+  font-size:11.5px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(245,240,232,.55);margin:0 0 32px;
+}
+.ed-mani-h{
+  font-family:'Fraunces',Georgia,serif;
+  font-weight:500;
+  font-size:clamp(40px,8.5vw,128px);
+  line-height:.96;letter-spacing:-.025em;
+  color:#fffdf8;margin:0;
+}
+.ed-mani-h .l{display:block;}
+.ed-mani-h em{font-style:italic;font-weight:700;color:#4ade80;}
+.ed-mani-cta{
+  display:inline-flex;align-items:center;gap:14px;
+  margin-top:48px;
+  font-family:'Inter',sans-serif;
+  font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:#0a1f10;background:#22c55e;
+  padding:18px 32px;border-radius:2px;
+  transition:background .2s,transform .2s,box-shadow .2s,gap .2s;
+  box-shadow:0 4px 20px rgba(34,197,94,.28);
+}
+.ed-mani-cta:hover{background:#16a34a;transform:translateY(-2px);gap:22px;box-shadow:0 8px 28px rgba(34,197,94,.45);}
+
+</style>
+<!-- ──────────── HERO (editorial massive type) ──────────── -->
+<section class="ed-hero">
+  <div class="ed-hero-bg" aria-hidden="true"></div>
+  <div class="ed-hero-grain" aria-hidden="true"></div>
+  <div class="ed-hero-inner">
+    <p class="ed-hero-eyebrow">Le guide de terrain · 160+ pays · depuis 2024</p>
+    <h1 class="ed-hero-h1">
+      <span class="l">What if</span>
+      <span class="l">your life</span>
+      <span class="l">were <em>different</em></span>
+      <span class="l">somewhere else?</span>
+    </h1>
+    <p class="ed-hero-deck">Salaires, loyers, visas, climat, données vraies. La question, prise au sérieux. La réponse, pays par pays.</p>
   </div>
+  <a class="ed-hero-scroll" href="#after-hero" aria-label="Descendre">
+    <span>Descendre</span>
+    <span class="ed-hero-scroll-line" aria-hidden="true"></span>
+  </a>
+</section>
+<a id="after-hero" tabindex="-1" aria-hidden="true"></a>
 
-  <div class="hero-scroll" id="heroScroll">
-    <span id="lblScroll">Découvrir</span>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+
+<!-- ──────────── LEAD MAGNET ──────────── -->
+<style>
+/* ─────────── LEAD MAGNET BAND ─────────── */
+.lead-magnet{
+  position:relative;
+  background:linear-gradient(180deg,rgba(255,253,248,.96) 0%,rgba(245,240,232,.96) 100%);
+  backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+  padding:clamp(72px,11vw,128px) 24px;
+  overflow:hidden;
+}
+.lm-inner{
+  max-width:680px;margin:0 auto;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  gap:18px;
+}
+.lm-rule{width:48px;height:1px;background:rgba(26,84,48,.4);}
+.lm-eyebrow{
+  font-family:'Inter',sans-serif;
+  font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  color:#8a7f6a;margin:0;
+}
+.lm-title{
+  font-family:'Fraunces',Georgia,serif;
+  font-size:clamp(34px,6vw,58px);font-weight:600;
+  line-height:1.04;letter-spacing:-.01em;
+  color:#171714;margin:0;
+}
+.lm-title em{font-style:italic;color:#1a5430;font-weight:700;}
+.lm-deck{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-style:italic;font-weight:400;
+  font-size:clamp(19px,2.4vw,24px);
+  color:#54554e;line-height:1.45;
+  max-width:36ch;margin:0;letter-spacing:.005em;
+}
+.lm-cta{
+  display:inline-flex;align-items:center;gap:14px;
+  margin-top:14px;
+  padding:18px 34px;
+  background:#1a5430;color:#fffdf8;
+  border-radius:2px;
+  font-family:'Inter',sans-serif;
+  font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  transition:background .2s,transform .2s,box-shadow .2s;
+  box-shadow:0 2px 18px rgba(26,84,48,.20);
+}
+.lm-cta:hover{background:#0f3a20;transform:translateY(-2px);box-shadow:0 8px 28px rgba(26,84,48,.30);}
+.lm-cta-arrow{
+  font-family:'Fraunces',Georgia,serif;font-size:18px;font-weight:400;
+  transition:transform .25s;display:inline-block;
+}
+.lm-cta:hover .lm-cta-arrow{transform:translateX(6px);}
+.lm-meta{
+  font-family:'Inter',sans-serif;
+  font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:#8a7f6a;margin:0;
+}
+.lm-meta .lm-meta-free{color:#1a5430;font-weight:800;}
+.lm-meta-dot{opacity:.4;margin:0 6px;}
+@media(max-width:560px){
+  .lead-magnet{padding:64px 18px;}
+  .lm-cta{padding:14px 26px;font-size:12px;}
+}
+</style>
+<section class="lead-magnet" aria-label="Guide visas 2026 — téléchargement gratuit">
+  <div class="lm-inner">
+    <div class="lm-rule" aria-hidden="true"></div>
+    <p class="lm-eyebrow">Édition spéciale · 2026</p>
+    <h2 class="lm-title">Le guide <em>visas 2026</em></h2>
+    <p class="lm-deck">25 visas. 12 pays. Une feuille de route.</p>
+    <a class="lm-cta" href="/lead-magnet/visas-2026-fr.html">
+      <span>Télécharger le guide</span>
+      <span class="lm-cta-arrow" aria-hidden="true">→</span>
+    </a>
+    <p class="lm-meta"><span class="lm-meta-free">Gratuit</span> <span class="lm-meta-dot">·</span> PDF <span class="lm-meta-dot">·</span> 2026</p>
+    <div class="lm-rule" aria-hidden="true"></div>
   </div>
 </section>
 
-<!-- ──────────── POPULAR COUNTRIES ──────────── -->
-<section class="section">
-  <div class="section-inner">
-    <div class="section-head">
-      <span class="section-eyebrow" id="lblPopEyebrow">Destinations</span>
-      <h2 class="section-title" id="lblPopTitle">Les pays à explorer</h2>
-      <p class="section-sub" id="lblPopSub">Les destinations les plus explorées par notre communauté.</p>
+<!-- ──────────── COUNTRY SPOTLIGHT ──────────── -->
+<section class="ed-spot" aria-label="Spotlight country">
+  <div class="ed-spot-inner">
+    <div class="ed-spot-img">
+      <picture>
+        <source srcset="/assets/hero-portugal.webp" type="image/webp">
+        <img src="/assets/hero-portugal.jpg" alt="Portugal" loading="lazy" decoding="async">
+      </picture>
     </div>
-
-    <div class="country-grid" id="countryGrid"></div>
-
-    <div class="section-cta">
-      <a class="btn-pill" href="/fr/globe.html"><span id="lblBrowseAll">Explorer les 160+ pays</span> →</a>
-    </div>
-  </div>
-</section>
-
-<!-- ──────────── TOOLS ──────────── -->
-<section class="section" style="padding-top:0">
-  <div class="section-inner">
-    <div class="section-head">
-      <span class="section-eyebrow" id="lblToolsEyebrow">Nos outils</span>
-      <h2 class="section-title" id="lblToolsTitle">Trouve ta destination idéale</h2>
-    </div>
-
-    <div class="tools-grid">
-      <a class="tool-card featured" href="/fr/wiggmatch.html">
-        <span class="tool-badge" id="lblTool1Badge">🔥 Nouveau</span>
-        <div class="tool-icon">💚</div>
-        <div class="tool-name" id="lblTool1">WiggMatch</div>
-        <div class="tool-desc" id="lblTool1Sub">Test personnalisé qui trouve la ville faite pour toi en 5 questions.</div>
-        <div class="tool-arrow" id="lblToolStart">Commencer</div>
+    <div class="ed-spot-text">
+      <p class="ed-spot-eyebrow">À la une · avril 2026</p>
+      <h2 class="ed-spot-country">Portugal.</h2>
+      <p class="ed-spot-deck">La lumière atlantique. Un régime fiscal accéléré. Deux villes — Lisbonne, Porto — devenues silencieusement les deux destinations d'expatriation les plus cherchées d'Europe.</p>
+      <p class="ed-spot-deck">Ce que ça coûte vraiment d'y vivre en 2026, qui a été chassé par les loyers, et les changements de visa dont personne ne t'a parlé.</p>
+      <a class="ed-spot-cta" href="/countries/portugal-fr.html">
+        <span>Lire Portugal en entier</span>
+        <span class="ed-spot-cta-arrow" aria-hidden="true">→</span>
       </a>
-      <a class="tool-card" href="/fr/compare.html?c=thailand,indonesia,portugal">
-        <div class="tool-icon">⚖️</div>
-        <div class="tool-name" id="lblTool2">Comparer</div>
-        <div class="tool-desc" id="lblTool2Sub">Place 2 pays côte à côte sur 25+ critères.</div>
-        <div class="tool-arrow" id="lblToolStart2">Comparer</div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────── THREE DOORS ──────────── -->
+<section class="ed-doors" aria-label="Three entry points">
+  <div class="ed-doors-grain" aria-hidden="true"></div>
+  <div class="ed-doors-inner">
+    <div class="ed-doors-head">
+      <p class="ed-doors-eyebrow">Trois portes d'entrée</p>
+      <h2 class="ed-doors-title">Trois portes.</h2>
+    </div>
+    <a class="ed-door" href="/fr/globe.html">
+      <span class="ed-door-num">01</span>
+      <div class="ed-door-body">
+        <h3 class="ed-door-name">Le Globe</h3>
+        <p class="ed-door-line">Fais-le tourner. Atterris partout. 161 pays, colorés par métrique.</p>
+      </div>
+      <span class="ed-door-cta">Ouvrir le globe <span class="ed-door-cta-arrow" aria-hidden="true">→</span></span>
+    </a>
+    <a class="ed-door" href="/fr/compare.html?c=portugal,thailand">
+      <span class="ed-door-num">02</span>
+      <div class="ed-door-body">
+        <h3 class="ed-door-name">Le Comparateur</h3>
+        <p class="ed-door-line">Deux pays, côte à côte. 25+ critères. Pas d'impressions.</p>
+      </div>
+      <span class="ed-door-cta">Comparer deux pays <span class="ed-door-cta-arrow" aria-hidden="true">→</span></span>
+    </a>
+    <a class="ed-door" href="/fr/wiggmatch.html">
+      <span class="ed-door-num">03</span>
+      <div class="ed-door-body">
+        <h3 class="ed-door-name">WiggMatch</h3>
+        <p class="ed-door-line">Cinq questions. Un pays qui colle vraiment à ta vie.</p>
+      </div>
+      <span class="ed-door-cta">Lancer le quiz <span class="ed-door-cta-arrow" aria-hidden="true">→</span></span>
+    </a>
+  </div>
+</section>
+
+<!-- ──────────── DESTINATIONS DU MOIS (3 LP) ──────────── -->
+<style>
+/* ─────────── DESTINATIONS DU MOIS (3 LP cards) ─────────── */
+.dest-month{
+  position:relative;
+  background:rgba(245,240,232,.94);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+  padding:clamp(80px,11vw,128px) 24px;
+  overflow:hidden;
+}
+.dest-inner{max-width:1180px;margin:0 auto;}
+.dest-head{text-align:center;margin-bottom:clamp(40px,6vw,64px);}
+.dest-eyebrow{
+  font-family:'Inter',sans-serif;
+  font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  color:#8a7f6a;display:block;margin-bottom:14px;
+}
+.dest-title{
+  font-family:'Fraunces',Georgia,serif;
+  font-weight:600;font-size:clamp(28px,4.5vw,46px);
+  line-height:1.1;letter-spacing:-.01em;color:#171714;margin:0;
+}
+.dest-title em{font-style:italic;color:#1a5430;font-weight:700;}
+.dest-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:28px;
+}
+@media(max-width:880px){.dest-grid{grid-template-columns:1fr;gap:22px;}}
+.dest-card{
+  display:flex;flex-direction:column;
+  background:#fffdf8;
+  border-radius:4px;overflow:hidden;
+  box-shadow:0 4px 18px rgba(0,0,0,.05),0 1px 2px rgba(0,0,0,.04);
+  transition:transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s ease;
+  position:relative;
+  text-decoration:none;color:inherit;
+}
+.dest-card:hover{transform:translateY(-5px);box-shadow:0 18px 38px rgba(0,0,0,.10),0 2px 4px rgba(0,0,0,.05);}
+.dest-card-img{
+  aspect-ratio:4/3;overflow:hidden;background:#1a1a1a;
+  position:relative;
+}
+.dest-card-img img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .5s cubic-bezier(.2,.7,.2,1);
+}
+.dest-card:hover .dest-card-img img{transform:scale(1.04);}
+.dest-card-body{
+  padding:22px 22px 26px;
+  display:flex;flex-direction:column;gap:8px;flex:1;
+}
+.dest-card-loc{
+  font-family:'Inter',sans-serif;
+  font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:#1a5430;margin:0;
+}
+.dest-card-title{
+  font-family:'Fraunces',Georgia,serif;
+  font-style:italic;font-weight:700;
+  font-size:22px;line-height:1.18;color:#171714;
+  letter-spacing:-.005em;margin:4px 0 0;
+}
+.dest-card-deck{
+  font-family:'Inter',sans-serif;
+  font-size:14px;font-weight:400;
+  color:#54554e;line-height:1.55;margin:0;flex:1;
+}
+.dest-card-cta{
+  margin-top:10px;
+  font-family:'Inter',sans-serif;
+  font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+  color:#1a5430;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:gap .25s ease;
+}
+.dest-card:hover .dest-card-cta{gap:14px;}
+.dest-card-cta-arrow{
+  font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:16px;
+  display:inline-block;
+}
+</style>
+<section class="dest-month" aria-label="Destinations lues cette semaine">
+  <div class="dest-inner">
+    <div class="dest-head">
+      <span class="dest-eyebrow">En ce moment</span>
+      <h2 class="dest-title">Trois <em>destinations</em>, lues cette semaine.</h2>
+    </div>
+    <div class="dest-grid">
+      <a class="dest-card" href="/lp/vivre-bali-budget-fr.html">
+        <div class="dest-card-img">
+          <picture>
+            <source srcset="/assets/hero-indonesia.webp" type="image/webp">
+            <img src="/assets/hero-indonesia.jpg" alt="Bali · Indonésie" loading="lazy" decoding="async">
+          </picture>
+        </div>
+        <div class="dest-card-body">
+          <p class="dest-card-loc">Bali · Indonésie</p>
+          <h3 class="dest-card-title">Vivre à Bali, vraiment</h3>
+          <p class="dest-card-deck">Le coût réel par profil. Loyer, scooter, KITAS — sans le filtre Instagram.</p>
+          <span class="dest-card-cta">Lire le guide <span class="dest-card-cta-arrow" aria-hidden="true">→</span></span>
+        </div>
       </a>
-      <a class="tool-card" href="/fr/globe.html">
-        <div class="tool-icon">🌍</div>
-        <div class="tool-name" id="lblTool3">Globe 3D</div>
-        <div class="tool-desc" id="lblTool3Sub">Tourne le globe et atterris sur n'importe quel pays.</div>
-        <div class="tool-arrow" id="lblToolStart3">Explorer</div>
+      <a class="dest-card" href="/lp/erasmus-prague-budget-fr.html">
+        <div class="dest-card-img">
+          <picture>
+            <source srcset="/assets/hero-czech-republic.webp" type="image/webp">
+            <img src="/assets/hero-czech-republic.jpg" alt="Prague · République tchèque" loading="lazy" decoding="async">
+          </picture>
+        </div>
+        <div class="dest-card-body">
+          <p class="dest-card-loc">Prague · République tchèque</p>
+          <h3 class="dest-card-title">Erasmus à Prague avec peu</h3>
+          <p class="dest-card-deck">Loyer, bière, métro, vie sociale. Le mode d'emploi d'une des capitales les plus accessibles d'Europe.</p>
+          <span class="dest-card-cta">Lire le guide <span class="dest-card-cta-arrow" aria-hidden="true">→</span></span>
+        </div>
       </a>
-      <a class="tool-card" href="/ggg/wigggame.html">
-        <div class="tool-icon">🎮</div>
-        <div class="tool-name" id="lblTool4">Quiz</div>
-        <div class="tool-desc" id="lblTool4Sub">Teste tes connaissances sur les pays du monde.</div>
-        <div class="tool-arrow" id="lblToolStart4">Jouer</div>
+      <a class="dest-card" href="/lp/visa-mm2h-malaisie-fr.html">
+        <div class="dest-card-img">
+          <picture>
+            <source srcset="/assets/hero-malaysia.webp" type="image/webp">
+            <img src="/assets/hero-malaysia.jpg" alt="Kuala Lumpur · Malaisie" loading="lazy" decoding="async">
+          </picture>
+        </div>
+        <div class="dest-card-body">
+          <p class="dest-card-loc">Kuala Lumpur · Malaisie</p>
+          <h3 class="dest-card-title">Le visa MM2H, décodé</h3>
+          <p class="dest-card-deck">La résidence longue durée de la Malaisie pour retraités et nomades. Conditions, coûts, retours du terrain.</p>
+          <span class="dest-card-cta">Lire le guide <span class="dest-card-cta-arrow" aria-hidden="true">→</span></span>
+        </div>
       </a>
     </div>
   </div>
 </section>
 
-<!-- ──────────── CHRONICLES ──────────── -->
-<section class="section chron-section">
-  <div class="section-inner">
-    <div class="section-head">
-      <span class="section-eyebrow" id="lblChronEyebrow">Chroniques</span>
-      <h2 class="section-title" id="lblChronTitle">Articles longue forme</h2>
-      <p class="section-sub" id="lblChronSub">Visas, fiscalité, expatriation et guides détaillés écrits par Wigg.</p>
-    </div>
-
-    <div class="chron-grid" id="chronGrid"></div>
-
-    <div class="section-cta">
-      <a class="btn-pill" href="/fr/indexchronicles.html"><span id="lblAllChron">Toutes les chroniques</span> →</a>
-    </div>
+<!-- ──────────── FEATURED CHRONICLE ──────────── -->
+<section class="ed-feat" aria-label="Featured chronicle">
+  <div class="ed-feat-bg" aria-hidden="true">
+    <picture>
+      <source srcset="/assets/hero-iceland.webp" type="image/webp">
+      <img src="/assets/hero-iceland.jpg" alt="" loading="lazy" decoding="async">
+    </picture>
+  </div>
+  <div class="ed-feat-overlay" aria-hidden="true"></div>
+  <div class="ed-feat-inner">
+    <p class="ed-feat-eyebrow">Le long-form · n°07</p>
+    <h2 class="ed-feat-title">2056 : où vivra-t-on le mieux dans 30 ans ?</h2>
+    <p class="ed-feat-deck">Une prospective à 30 ans sur 30 pays — climat, démographie, pression fiscale, courants politiques. La pièce la plus lue de nos archives.</p>
+    <a class="ed-feat-cta" href="/chronicles/chronicle-2056-ou-vivra-t-on-le-mieux-fr.html">
+      <span>Lire la longue forme</span>
+      <span class="ed-feat-cta-arrow" aria-hidden="true">→</span>
+    </a>
   </div>
 </section>
 
-<!-- ──────────── PARALLAX DIVIDER ──────────── -->
-<section class="parallax" aria-hidden="true">
-  <div class="parallax-inner">
-    <span class="parallax-eyebrow" id="lblPxEyebrow">WiggMap</span>
-    <p class="parallax-quote" id="lblPxQuote">“L'herbe est-elle vraiment plus verte ailleurs ?”</p>
-    <div class="parallax-sign" id="lblPxSign">— 160+ pays, une seule réponse honnête</div>
+<!-- ──────────── NEWSLETTER ──────────── -->
+<style>
+/* ─────────── NEWSLETTER (inline; id wmNewsletter pre-empts footer.js) ─────────── */
+.newsletter{
+  position:relative;
+  background:#171714;
+  color:#f5f0e8;
+  padding:clamp(80px,11vw,128px) 24px;
+  overflow:hidden;
+}
+.newsletter::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 50% at 18% 22%, rgba(26,84,48,.22) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 82% 78%, rgba(216,179,67,.05) 0%, transparent 55%);
+}
+.newsletter::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:repeating-linear-gradient(0deg,transparent 0 1px,rgba(255,253,248,.02) 1px 2px);
+  mix-blend-mode:overlay;opacity:.6;
+}
+.nl-inner{
+  position:relative;z-index:1;
+  max-width:600px;margin:0 auto;
+  display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px;
+}
+.nl-rule{width:48px;height:1px;background:rgba(255,253,248,.25);}
+.nl-eyebrow{
+  font-family:'Inter',sans-serif;
+  font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(255,253,248,.55);margin:0;
+}
+.nl-title{
+  font-family:'Fraunces',Georgia,serif;
+  font-size:clamp(30px,5vw,48px);font-weight:600;
+  line-height:1.1;letter-spacing:-.01em;
+  color:#fffdf8;margin:0;
+}
+.nl-title em{font-style:italic;color:#4ade80;font-weight:700;}
+.nl-deck{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-style:italic;font-weight:400;
+  font-size:clamp(17px,2.1vw,21px);
+  line-height:1.5;color:rgba(255,253,248,.75);
+  max-width:38ch;margin:0;letter-spacing:.005em;
+}
+.nl-form{
+  display:flex;gap:8px;width:100%;max-width:460px;margin-top:12px;
+}
+.nl-input{
+  flex:1;min-width:0;
+  padding:14px 18px;
+  font-family:'Inter',sans-serif;
+  font-size:14px;font-weight:500;
+  border:1px solid rgba(255,253,248,.18);
+  border-radius:2px;
+  background:rgba(255,253,248,.06);
+  color:#fffdf8;outline:none;
+  transition:border-color .2s, background .2s, box-shadow .2s;
+}
+.nl-input::placeholder{color:rgba(255,253,248,.4);}
+.nl-input:focus{
+  border-color:rgba(34,197,94,.55);
+  background:rgba(255,253,248,.1);
+  box-shadow:0 0 0 3px rgba(34,197,94,.13);
+}
+.nl-btn{
+  padding:14px 28px;
+  background:#22c55e;color:#0a1f10;
+  border:none;border-radius:2px;
+  font-family:'Inter',sans-serif;
+  font-size:13px;font-weight:800;letter-spacing:.04em;
+  cursor:pointer;
+  transition:background .2s, transform .2s, box-shadow .2s;
+}
+.nl-btn:hover{background:#16a34a;transform:translateY(-1px);box-shadow:0 4px 16px rgba(34,197,94,.3);}
+.nl-msg{
+  font-family:'Inter',sans-serif;
+  font-size:13px;font-weight:600;min-height:18px;
+  color:#4ade80;letter-spacing:.005em;
+}
+.nl-msg.err{color:#f87171;}
+.nl-fineprint{
+  font-family:'Inter',sans-serif;
+  font-size:11px;font-weight:500;
+  color:rgba(255,253,248,.4);letter-spacing:.02em;margin:0;
+}
+@media(max-width:560px){
+  .newsletter{padding:64px 18px;}
+  .nl-form{flex-direction:column;}
+  .nl-btn{width:100%;}
+}
+</style>
+<section id="wmNewsletter" class="newsletter" aria-label="Inscription à la newsletter">
+  <div class="nl-inner">
+    <div class="nl-rule" aria-hidden="true"></div>
+    <p class="nl-eyebrow">La lettre WiggMap</p>
+    <h2 class="nl-title">Une chronique <em>par semaine</em>. Sans bruit.</h2>
+    <p class="nl-deck">Visas, fiscalité, vies d'expat. Lue par celles et ceux qui ont franchi le pas. Désabonnement en un clic.</p>
+    <form class="nl-form" id="wmNlForm" name="newsletter" method="POST" data-netlify="true" novalidate>
+      <input type="hidden" name="form-name" value="newsletter">
+      <input class="nl-input" id="wmNlEmail" type="email" name="email" placeholder="ton@email.com" required aria-label="Votre adresse email">
+      <button class="nl-btn" type="submit">S'abonner</button>
+    </form>
+    <div class="nl-msg" id="wmNlMsg" role="status" aria-live="polite"></div>
+    <p class="nl-fineprint">Aucun spam. Désabonnement par lien dans chaque lettre.</p>
+  </div>
+</section>
+<script>
+(function(){
+  var BUTTONDOWN_USERNAME='wiggmap';
+  var lang=(document.documentElement.lang||'en').slice(0,2).toLowerCase();
+  if(['en','fr','es'].indexOf(lang)===-1) lang='en';
+  var COPY={
+    en:{ok:"✓ Subscribed. Check your inbox (spam folder too).",err:"Please enter a valid email."},
+    fr:{ok:"✓ Inscription enregistrée. Vérifie ta boîte (et les spams).",err:"Email invalide."},
+    es:{ok:"✓ Suscripción registrada. Revisa tu bandeja (también spam).",err:"Correo no válido."}
+  }[lang];
+  var form=document.getElementById('wmNlForm');
+  var msg=document.getElementById('wmNlMsg');
+  if(!form||!msg) return;
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var email=document.getElementById('wmNlEmail').value.trim();
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+      msg.className='nl-msg err';msg.textContent=COPY.err;return;
+    }
+    var fd=new FormData(form);
+    fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(fd).toString()}).catch(function(){});
+    if(BUTTONDOWN_USERNAME){
+      var bd=new FormData();bd.append('email',email);bd.append('tag','wiggmap_newsletter_'+lang);
+      fetch('https://buttondown.email/api/emails/embed-subscribe/'+BUTTONDOWN_USERNAME,{method:'POST',mode:'no-cors',body:bd}).catch(function(){});
+    }
+    if(window.wmTrackEvent) window.wmTrackEvent('Lead',{content_name:'newsletter_signup_inline',content_category:lang});
+    msg.className='nl-msg';msg.textContent=COPY.ok;
+    form.reset();
+  });
+})();
+</script>
+
+<!-- ──────────── MANIFESTO ──────────── -->
+<section class="ed-mani" aria-label="Closing manifesto">
+  <div class="ed-mani-bg" aria-hidden="true"></div>
+  <div class="ed-mani-grain" aria-hidden="true"></div>
+  <div class="ed-mani-inner">
+    <p class="ed-mani-eyebrow">Alors —</p>
+    <h2 class="ed-mani-h">
+      <span class="l">Where is the grass</span>
+      <span class="l"><em>actually</em> greener?</span>
+    </h2>
+    <a class="ed-mani-cta" href="/fr/globe.html">
+      <span>Ouvrir le globe</span>
+      <span aria-hidden="true">→</span>
+    </a>
   </div>
 </section>
 
-<!-- ──────────── CITY CHRONICLES ──────────── -->
-<section class="section">
-  <div class="section-inner">
-    <div class="section-head">
-      <span class="section-eyebrow" id="lblCityEyebrow">Chroniques villes</span>
-      <h2 class="section-title" id="lblCityTitle">Les villes à découvrir</h2>
-      <p class="section-sub" id="lblCitySub">Le quotidien, les coûts cachés et l'ambiance — ville par ville.</p>
-    </div>
-
-    <div class="city-grid" id="cityGrid"></div>
-
-    <div class="section-cta">
-      <a class="btn-pill" href="/fr/indexchronicles.html"><span id="lblAllCities">Toutes les villes</span> →</a>
-    </div>
+<!-- ──────────── CITY MARQUEE ──────────── -->
+<section class="ed-marq" aria-label="City chronicles">
+  <div class="ed-marq-head">
+    <span class="ed-marq-eyebrow">76 villes, chroniquées</span>
+    <h2 class="ed-marq-title">Les villes, dans leurs propres mots.</h2>
+  </div>
+  <div class="ed-marq-rail" aria-hidden="true">
+    <div class="ed-marq-track"><span class="ed-marq-item">Lisbon</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Tokyo</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Mexico City</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Bali</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Reykjavík</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Bangkok</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Berlin</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Kuala Lumpur</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Medellín</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Porto</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Istanbul</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Buenos Aires</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Tbilisi</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Athens</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Dubai</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Ho Chi Minh</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Stockholm</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Marrakech</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Lisbon</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Tokyo</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Mexico City</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Bali</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Reykjavík</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Bangkok</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Berlin</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Kuala Lumpur</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Medellín</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Porto</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Istanbul</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Buenos Aires</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Tbilisi</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Athens</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Dubai</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Ho Chi Minh</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Stockholm</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Marrakech</span><span class="ed-marq-dot" aria-hidden="true"></span></div>
+  </div>
+  <div class="ed-marq-rail reverse" aria-hidden="true">
+    <div class="ed-marq-track"><span class="ed-marq-item">Lisbon</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Tokyo</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Mexico City</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Bali</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Reykjavík</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Bangkok</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Berlin</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Kuala Lumpur</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Medellín</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Porto</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Istanbul</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Buenos Aires</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Tbilisi</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Athens</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Dubai</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Ho Chi Minh</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Stockholm</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Marrakech</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Lisbon</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Tokyo</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Mexico City</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Bali</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Reykjavík</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Bangkok</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Berlin</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Kuala Lumpur</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Medellín</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Porto</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Istanbul</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Buenos Aires</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Tbilisi</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Athens</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Dubai</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Ho Chi Minh</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Stockholm</span><span class="ed-marq-dot" aria-hidden="true"></span><span class="ed-marq-item">Marrakech</span><span class="ed-marq-dot" aria-hidden="true"></span></div>
+  </div>
+  <div class="ed-marq-cta-wrap">
+    <a class="ed-marq-cta" href="/fr/indexchronicles.html">
+      <span>Toutes les chroniques villes</span>
+      <span aria-hidden="true">→</span>
+    </a>
   </div>
 </section>
 
@@ -635,7 +1388,7 @@ var I18N = {
     title: 'WiggMap — Where is the grass actually greener?',
     eyebrow: '160+ countries · Real data',
     heroTitle: 'What if your life were different somewhere else?',
-    heroSub: '',
+    heroSub: '160+ countries. Salaries, rents, visas, quality of life. The real data to choose where to live better.',
     placeholder: 'e.g. Switzerland, Japan, Bangkok…',
     goBtn: 'Go →',
     qkCompare: 'Compare', qkChron: 'Chronicles', qkMatch: 'WiggMatch',
@@ -658,7 +1411,7 @@ var I18N = {
     title: 'WiggMap — Où l\u2019herbe est-elle vraiment plus verte ?',
     eyebrow: '160+ pays · Données réelles',
     heroTitle: 'Et si ta vie était différente ailleurs ?',
-    heroSub: '',
+    heroSub: '160+ pays. Salaires, loyers, visas, qualité de vie. Les vraies données pour choisir où vivre mieux.',
     placeholder: 'ex. Suisse, Japon, Bangkok…',
     goBtn: 'Go →',
     qkCompare: 'Comparer', qkChron: 'Chroniques', qkMatch: 'WiggMatch',
@@ -681,7 +1434,7 @@ var I18N = {
     title: 'WiggMap — ¿Dónde está la hierba realmente más verde?',
     eyebrow: '160+ países · Datos reales',
     heroTitle: '¿Y si tu vida fuera diferente en otro lugar?',
-    heroSub: '',
+    heroSub: '160+ países. Salarios, alquileres, visados, calidad de vida. Los datos reales para elegir dónde vivir mejor.',
     placeholder: 'p.ej. Suiza, Japón, Bangkok…',
     goBtn: 'Ir →',
     qkCompare: 'Comparar', qkChron: 'Crónicas', qkMatch: 'WiggMatch',
